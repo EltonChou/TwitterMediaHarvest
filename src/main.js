@@ -1,41 +1,45 @@
 require ('./assets/css/style.sass')
 
-// Set button to first group of stream-item
-
-doFirst()
-
 const body = document.querySelector('body')
 const stream = document.querySelectorAll("#stream-items-id")[0]
 const galleryTweet = document.querySelector('.GalleryTweet')
-let insertedNodes = []
+const permalink = document.querySelector('.PermalinkOverlay-body')
+const title = document.querySelector('title')
 
 // TODO: When saving image from right-click menu, change the target link to *:orig
 // TODO: onDetermineFilename change filename
-// TODO: When route change need to start observer again
 // TODO: Export observer setting
 // TODO: Permalink mutation-observe
-observeElement( galleryTweet, mutations => {
+// TODO: When route change need to start observer again
+observeElement( title, mutations => {
+    for ( const mutation of mutations ) {
+    }
+}, {childList: true})
+
+observeElement( permalink, mutations => {
     for (const mutation of mutations) {
-        if (mutation.addedNodes.length){
-            appendOrigClickTo(mutation.target.parentElement)
+        console.log(mutation)
+        if (mutation.addedNodes.length) {
+            for( const inner of mutation.target.parentElement.querySelectorAll('.permalink-inner') ) {
+                appendOrigClickTo(inner)
+            }
         }
     }
 }, {childList: true})
 
-// FIXME: Should only use one loop.
-observeElement( stream, mutations => {
-    // console.log(mutations)
-    for (const mutation of mutations){
-        insertedNodes = mutation.addedNodes
+observeElement( galleryTweet, mutations => {
+    for (const mutation of mutations) {
+        if (mutation.addedNodes.length) {
+            insertOrigClickBeforeMore(mutation.target.parentElement)
+        }
     }
+}, {childList: true})
 
-    for (const insertedNode of insertedNodes) {
-        if (insertedNode.getElementsByClassName("AdaptiveMedia-singlePhoto").length) {
-            try {
-                appendOrigClickTo(insertedNode)
-            } catch(err) {
-                console.log(insertedNode)
-                console.log(err)
+observeElement( stream, mutations => {
+    for (const mutation of mutations) {
+        for (const addedNode of mutation.addedNodes) {
+            if (addedNode.querySelector(".AdaptiveMedia-singlePhoto")) {
+                appendOrigClickTo(addedNode)
             }
         }
     }
@@ -49,6 +53,9 @@ observeElement( stream, mutations => {
  * @param {Object} options MutationsObserver options
  */
 function observeElement( element, callback, options = {childList: true} ) {
+    if (!element){
+        return false
+    }
     const observer = new MutationObserver( callback )
     try {
         observer.observe( element, options )
@@ -63,18 +70,23 @@ function observeElement( element, callback, options = {childList: true} ) {
  * Create appended button
  * @param {Object} DOMElement element
  */
-function appendOrigClickTo(element) {
-    const imageUrl = 
-    element.getElementsByClassName("AdaptiveMedia-photoContainer js-adaptive-photo")[0] ?
-    element.getElementsByClassName("AdaptiveMedia-photoContainer js-adaptive-photo")[0].getAttribute("data-image-url")
-    : element.getElementsByClassName("media-image")[0].getAttribute("src")
-
-    const el = element.getElementsByClassName("ProfileTweet-actionList js-actions")[0]
-    el.appendChild(origClick(imageUrl))
+function appendOrigClickTo(element) { 
+    element.getElementsByClassName("ProfileTweet-actionList js-actions")[0].appendChild(origClickFor(element))
 }
 
-function origClick(url) {
-    const imageUrl = url.split(':')
+function getImageUrl (element) {
+    return element.getElementsByClassName("AdaptiveMedia-photoContainer js-adaptive-photo")[0] 
+        ? element.getElementsByClassName("AdaptiveMedia-photoContainer js-adaptive-photo")[0].getAttribute("data-image-url")
+        : element.getElementsByClassName("media-image")[0].getAttribute("src")
+}
+
+function insertOrigClickBeforeMore(element) {
+    const el = element.getElementsByClassName("ProfileTweet-actionList js-actions")[0]
+    el.insertBefore(origClickFor(element), el.childNodes[9])
+}
+
+function origClickFor(element) {
+    const imageUrl = getImageUrl(element).split(':')
     const div = document.createElement('div')
     const button = document.createElement('div')
     const a = document.createElement('a')
@@ -82,6 +94,7 @@ function origClick(url) {
     const dataName = imageUrl[1].split("/")[4]
     a.innerText = "Kappa"
     a.setAttribute("id", "lazyOrigDownload")
+    a.setAttribute('class', "IconContainer")
     div.classList.add('lazyDownContainer')
     button.classList.add('ProfileTweet-actionButton')
     button.setAttribute("data-url", dataUrl)
@@ -97,7 +110,7 @@ function origClick(url) {
 /**
  * Append button to status of first-group
  */
-function doFirst(){
+function init(){
     const streamItems = document.getElementsByClassName("js-stream-item stream-item stream-item")
     for ( const streamItem of streamItems) {
         if( streamItem.getElementsByClassName("AdaptiveMedia-singlePhoto").length ){
@@ -122,3 +135,5 @@ function downloadImage(url, filename) {
         filename: filename
     });
 }
+
+init()
