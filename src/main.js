@@ -9,6 +9,16 @@ import select from 'select-dom'
 // TODO: onDetermineFilename change filename
 // TODO: Export observer setting (??)
 
+//TODO: Permalink
+function piorneer() {
+    const streamItems = select("js-stream-item stream-item stream-item")
+    for ( const streamItem of streamItems) {
+        if( select("AdaptiveMedia-singlePhoto", streamItem).length && !streamItem.getAttribute('hasBeenAppended') ){
+            appendOrigClickTo(streamItem)
+        }
+    }
+}
+
 function observeTitle() {
     observeElement( "title", mutations => {
         if( select('body').classList.contains("overlay-enabled")) {
@@ -89,10 +99,6 @@ function appendOrigClickTo(element) {
     }
 }
 
-function validateElementBeforeInsert(element) {
-    return element && !element.getAttribute('hasBeenAppended')
-}
-
 function insertOrigClickBeforeMore(element) {
     if (validateElementBeforeInsert(element)) {
         return false
@@ -106,6 +112,10 @@ function getImageUrl (element) {
     return select("AdaptiveMedia-photoContainer js-adaptive-photo", element)
         ? select("AdaptiveMedia-photoContainer js-adaptive-photo", element).getAttribute("data-image-url")
         : select("media-image", element).getAttribute("src")
+}
+
+function validateElementBeforeInsert(element) {
+    return element && !element.getAttribute('hasBeenAppended')
 }
 
 /**
@@ -135,16 +145,6 @@ function origClickFor(element) {
         downloadImage(this.getAttribute("data-url"), this.getAttribute("data-name"))
     })
     return div
-}
-
-//TODO: Permalink
-function piorneer() {
-    const streamItems = select("js-stream-item stream-item stream-item")
-    for ( const streamItem of streamItems) {
-        if( select("AdaptiveMedia-singlePhoto", streamItem).length && !streamItem.getAttribute('hasBeenAppended') ){
-            appendOrigClickTo(streamItem)
-        }
-    }
 }
 
 /**
