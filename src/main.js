@@ -35,8 +35,9 @@ function observePermalink() {
 function observeGallery() {    
     observeElement( '.GalleryTweet', mutations => {
         for (const mutation of mutations) {
+            console.log(mutation)
             if (mutation.addedNodes.length) {
-                insertOrigClickBeforeMore(mutation.target.parentElement)
+                insertOrigClickBeforeMore(mutation.target)
             }
         }
     }, {childList: true})   
@@ -79,9 +80,8 @@ function appendOrigClickTo(element) {
     }
 }
 
-function insertOrigClickBeforeMore(element) {
+function insertOrigClickBeforeMore(element, bool) {
     if (validateElementBeforeInsert(element)) {
-        element.setAttribute('hasBeenAppended', true)
         const el = select(".ProfileTweet-actionList.js-actions", element)
         el.insertBefore(origClickFor(element), el.childNodes[9])
     }
