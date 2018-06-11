@@ -1,24 +1,14 @@
 import './assets/css/style.sass'
 import select from 'select-dom'
 import domready from 'dom-loaded'
-// const galleryTweet = document.querySelector('.GalleryTweet')
-// const permalink = document.querySelector('.PermalinkOverlay-body')
-/*
- * Append button to status of first-group
- */
 
 // TODO: When saving image from right-click menu, change the target link to *:orig
 // TODO: onDetermineFilename change filename
 // TODO: Export observer setting (??)
 
 function observeTitle() {
-    // const title = document.querySelector('title')
     const body = select('body')
-    // const title = document.querySelector('#sr-event-log')
     observeElement( 'title', mutations => {
-        // for ( const mutation of mutations ) {
-        //     console.log(mutation)
-        // }
         if( !body.classList.contains("overlay-enabled")) {
             refresh()
         } else return false
@@ -28,7 +18,6 @@ function observeTitle() {
 function observePermalink() {
     observeElement( '.PermalinkOverlay-body', mutations => {
         for (const mutation of mutations) {
-            // console.log(mutation)
             if (mutation.addedNodes.length) {
                 const inners = select.all('.permalink-inner', mutation.target.parentElement)
                 for( const inner of inners ) {
@@ -54,7 +43,6 @@ function observeGallery() {
 }
 
 function observeStream() {
-    // const stream = document.querySelectorAll("#stream-items-id")[0]   
     observeElement( '#stream-items-id', mutations => {
         for (const mutation of mutations) {
             for (const addedNode of mutation.addedNodes) {
@@ -75,12 +63,7 @@ function observeStream() {
 function observeElement( element, callback, options = {childList: true} ) {
     if (element){
         const observer = new MutationObserver( callback )
-        // try {
         observer.observe( select(element), options )
-        // } catch (err) {
-        //     console.log(err)
-        //     console.log(element)
-        // } 
         return observer
     } else return false
 }
@@ -90,18 +73,14 @@ function observeElement( element, callback, options = {childList: true} ) {
  * @param {Object} DOMElement element
  */
 function appendOrigClickTo(element) {
-    if (validateElement(element)) {
-        // try {
+    if (validateElementBeforeInsert(element)) {
         element.setAttribute('hasBeenAppended', true)
         select(".ProfileTweet-actionList.js-actions", element).appendChild(origClickFor(element))
-        // } catch(err){
-        //     console.error(err)
-        // }
     }
 }
 
 function insertOrigClickBeforeMore(element) {
-    if (validateElement(element)) {
+    if (validateElementBeforeInsert(element)) {
         element.setAttribute('hasBeenAppended', true)
         const el = select(".ProfileTweet-actionList.js-actions", element)
         el.insertBefore(origClickFor(element), el.childNodes[9])
@@ -145,11 +124,19 @@ function origClickFor(element) {
 
 function piorneer() {
     const streamItems = select.all('.js-stream-item')
-    for ( const streamItem of streamItems) {
-        if( select.exists(".AdaptiveMedia-singlePhoto", streamItem) ){
+    const permalink = select('.PermalinkOverlay-body')
+    for (const streamItem of streamItems) {
+        if(select.exists(".AdaptiveMedia-singlePhoto", streamItem)) {
             appendOrigClickTo(streamItem)
         }
     }
+    if(select.exists(".AdaptiveMedia-singlePhoto", permalink)) {
+        appendOrigClickTo(permalink)
+    }
+}
+
+function validateElementBeforeInsert(element) {
+    return element && !element.getAttribute('hasBeenAppended')
 }
 
 /**
@@ -158,7 +145,6 @@ function piorneer() {
  * @param {string} filename filename of image
  */
 function downloadImage(url, filename) {
-    //Construct & send message
     chrome.runtime.sendMessage({
         url: url,
         filename: filename
