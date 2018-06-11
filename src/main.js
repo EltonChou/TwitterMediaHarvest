@@ -1,6 +1,8 @@
 import './assets/css/style.sass'
 import select from 'select-dom'
-
+import domready from 'dom-loaded'
+// const galleryTweet = document.querySelector('.GalleryTweet')
+// const permalink = document.querySelector('.PermalinkOverlay-body')
 /*
  * Append button to status of first-group
  */
@@ -9,40 +11,40 @@ import select from 'select-dom'
 // TODO: onDetermineFilename change filename
 // TODO: Export observer setting (??)
 
-//TODO: Permalink
-function piorneer() {
-    const streamItems = select("js-stream-item stream-item stream-item")
-    for ( const streamItem of streamItems) {
-        if( select("AdaptiveMedia-singlePhoto", streamItem).length && !streamItem.getAttribute('hasBeenAppended') ){
-            appendOrigClickTo(streamItem)
-        }
-    }
-}
-
 function observeTitle() {
-    observeElement( "title", mutations => {
-        if( select('body').classList.contains("overlay-enabled")) {
-            return false
-        } else {
-            reload()
-        }
+    // const title = document.querySelector('title')
+    const body = select('body')
+    // const title = document.querySelector('#sr-event-log')
+    observeElement( 'title', mutations => {
+        // for ( const mutation of mutations ) {
+        //     console.log(mutation)
+        // }
+        if( !body.classList.contains("overlay-enabled")) {
+            refresh()
+        } else return false
     }, { childList: true, subtree: true })
 }
 
-function observePermalink() {    
-    observeElement( ".PermalinkOverlay-body", mutations => {
+function observePermalink() {
+    observeElement( '.PermalinkOverlay-body', mutations => {
         for (const mutation of mutations) {
+            // console.log(mutation)
             if (mutation.addedNodes.length) {
-                for( const inner of select.all(".permalink-inner", mutation.target.parentElement)) {
-                    appendOrigClickTo(inner)
+                const inners = select.all('.permalink-inner', mutation.target.parentElement)
+                for( const inner of inners ) {
+                    try {
+                        appendOrigClickTo(inner)
+                    } catch(err) {
+                        console.log('fuck')
+                    }
                 }
             }
         }
     }, {childList: true})
 }
 
-function observeGallery() {
-    observeElement( ".GalleryTweet", mutations => {
+function observeGallery() {    
+    observeElement( '.GalleryTweet', mutations => {
         for (const mutation of mutations) {
             if (mutation.addedNodes.length) {
                 insertOrigClickBeforeMore(mutation.target.parentElement)
@@ -52,7 +54,8 @@ function observeGallery() {
 }
 
 function observeStream() {
-    observeElement( "#stream-items-id", mutations => {
+    // const stream = document.querySelectorAll("#stream-items-id")[0]   
+    observeElement( '#stream-items-id', mutations => {
         for (const mutation of mutations) {
             for (const addedNode of mutation.addedNodes) {
                 if (select.exists(".AdaptiveMedia-singlePhoto", addedNode)) {
@@ -60,26 +63,26 @@ function observeStream() {
                 }
             }
         }
-    }, {childList: true})    
+    }, {childList: true})
 }
 
 /**
  * MutationObserver
- * @param {String} selector DOMElement
+ * @param {String} element DOMSelector
  * @callback 
  * @param {Object} options MutationsObserver options
  */
-function observeElement( selector, callback, options = {childList: true} ) {
-    if (!select.exists(selector)){
-        return false
-    }
-    const observer = new MutationObserver( callback )
-    try {
-        observer.observe( select(selector), options )
-    } catch (err) {
-        console.log(err)
-    } 
-    return observer
+function observeElement( element, callback, options = {childList: true} ) {
+    if (element){
+        const observer = new MutationObserver( callback )
+        // try {
+        observer.observe( select(element), options )
+        // } catch (err) {
+        //     console.log(err)
+        //     console.log(element)
+        // } 
+        return observer
+    } else return false
 }
 
 /**
@@ -87,35 +90,28 @@ function observeElement( selector, callback, options = {childList: true} ) {
  * @param {Object} DOMElement element
  */
 function appendOrigClickTo(element) {
-    if (validateElementBeforeInsert(element)) {
-        return false
-    } else {
-        try {
-            element.setAttribute('hasBeenAppended', true)
-            select("ProfileTweet-actionList js-actions", element).appendChild(origClickFor(element))
-        } catch(err){
-            console.error(err)
-        }
+    if (validateElement(element)) {
+        // try {
+        element.setAttribute('hasBeenAppended', true)
+        select(".ProfileTweet-actionList.js-actions", element).appendChild(origClickFor(element))
+        // } catch(err){
+        //     console.error(err)
+        // }
     }
 }
 
 function insertOrigClickBeforeMore(element) {
-    if (validateElementBeforeInsert(element)) {
-        return false
-    } else {
+    if (validateElement(element)) {
         element.setAttribute('hasBeenAppended', true)
-        select("ProfileTweet-actionList js-actions", element).insertBefore(origClickFor(element), el.childNodes[9])
+        const el = select(".ProfileTweet-actionList.js-actions", element)
+        el.insertBefore(origClickFor(element), el.childNodes[9])
     }
 }
 
 function getImageUrl (element) {
-    return select("AdaptiveMedia-photoContainer js-adaptive-photo", element)
-        ? select("AdaptiveMedia-photoContainer js-adaptive-photo", element).getAttribute("data-image-url")
-        : select("media-image", element).getAttribute("src")
-}
-
-function validateElementBeforeInsert(element) {
-    return element && !element.getAttribute('hasBeenAppended')
+    return select.exists(".AdaptiveMedia-photoContainer.js-adaptive-photo", element)
+    ? select(".AdaptiveMedia-photoContainer.js-adaptive-photo", element).getAttribute("data-image-url")
+    : select(".media-image", element).getAttribute("src")
 }
 
 /**
@@ -147,6 +143,15 @@ function origClickFor(element) {
     return div
 }
 
+function piorneer() {
+    const streamItems = select.all('.js-stream-item')
+    for ( const streamItem of streamItems) {
+        if( select.exists(".AdaptiveMedia-singlePhoto", streamItem) ){
+            appendOrigClickTo(streamItem)
+        }
+    }
+}
+
 /**
  * Send download request message to background
  * @param {string} url url of image(orig)
@@ -168,9 +173,11 @@ function init() {
     observePermalink()
 }
 
-function reload() {
-    piorneer()
-    observeStream()
+function refresh() {
+    domready.then(()=>{
+        piorneer()
+        observeStream()
+    })
 }
 
 init()
