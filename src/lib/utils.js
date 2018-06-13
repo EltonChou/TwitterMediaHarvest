@@ -26,7 +26,8 @@ export const insertOrigClickBeforeMore = (element)=>{
 
 /**
  * Should accept JSON
- * @param {HTMLElement} element 
+ * @param {HTMLElement} element
+ * @returns {HTMLDivElement}
  */
 function origClickFor(element){
     const dataJSON = JSON.stringify(createDataJSON(element))
@@ -45,7 +46,6 @@ function origClickFor(element){
     button.appendChild(iconContainer)
     div.appendChild(button)
     button.addEventListener("click", function(){
-        console.log(this.getAttribute('data-json'))
         downloadImage(this.getAttribute('data-json'))
     })
     return div
@@ -68,7 +68,7 @@ function createDataJSON(element){
 /**
  * 
  * @param {String} url 
- * @returns {Object} JSON
+ * @returns {JSON} JSON
  */
 function createOrigUrlObject(url){
     const imageUrl = url.split(':')
@@ -80,16 +80,8 @@ function createOrigUrlObject(url){
 /**
  * 
  * @param {HTMLElement} element 
- * @returns {String} url of image
+ * @returns {Boolean} Is element has been appended?
  */
-function getImageUrl(element){
-    if (select.exists(".AdaptiveMedia-photoContainer.js-adaptive-photo", element)){
-        console.log("Wut")
-        // return select(".AdaptiveMedia-photoContainer.js-adaptive-photo", element).getAttribute("data-image-url")
-    } else console.log("fUF")
-    // else return select(".media-image", element).getAttribute("src")
-}
-
 function validateElementBeforeInsert(element){
     return element && !element.getAttribute('hasBeenAppended')
 }

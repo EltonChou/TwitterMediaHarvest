@@ -7,13 +7,6 @@ import {appendOrigClickTo, insertOrigClickBeforeMore} from './lib/utils'
 
 // TODO: When saving image from right-click menu, change the target link to *:orig
 // TODO: onDetermineFilename change filename
-// TODO: Export observer setting (??)
-
-/**
- * TODO:data-url, data-name => JSON
- * [{'data-url':'https://pbs.twimg.com/medias/THENAME1.EXT:orig','data-name':'THENAME1.EXT'},
- * {'data-url':'https://pbs.twimg.com/medias/THENAME2.EXT:orig','data-name':'THENAME2.EXT'}]
- */
 
 function piorneer() {
     const streamItems = select.all('.js-stream-item')
@@ -22,10 +15,6 @@ function piorneer() {
         if (select.exists(".AdaptiveMedia-photoContainer", streamItem)) {
             appendOrigClickTo(streamItem)
         }
-        // const photoContainers = select.all(".AdaptiveMedia-photoContainer.js-adaptive-photo", streamItem)
-        // for (const photoContainer of photoContainers) {
-            
-        // }
     }
     if (select.exists(".AdaptiveMedia-singlePhoto", permalink)) {
         appendOrigClickTo(permalink)
