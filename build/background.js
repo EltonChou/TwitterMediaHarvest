@@ -7,9 +7,8 @@ chrome.runtime.onMessage.addListener(
     }
 );
 
-function downloadImage(dataJSON) {
-    for (const image of dataJSON) {
-        console.log(image)
+function downloadImage(images) {
+    for (const image of images) {
         chrome.downloads.download({
             url: image.url,
             filename: image.name
