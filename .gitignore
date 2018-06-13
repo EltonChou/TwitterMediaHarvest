@@ -2,6 +2,8 @@
 .DS_Store
 .vscode/
 build/main.js
+*.crx
+*.pem
 
 # Logs
 logs
