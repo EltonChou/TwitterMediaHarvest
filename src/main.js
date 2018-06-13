@@ -73,7 +73,7 @@ function observeStream() {
     observeElement( '#stream-items-id', mutations => {
         for (const mutation of mutations) {
             for (const addedNode of mutation.addedNodes) {
-                if (select.exists(".AdaptiveMedia-singlePhoto", addedNode)) {
+                if (select.exists(".AdaptiveMedia-photoContainer", addedNode)) {
                     appendOrigClickTo(addedNode)
                 }
             }

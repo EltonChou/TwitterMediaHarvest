@@ -45,6 +45,7 @@ function origClickFor(element){
     button.appendChild(iconContainer)
     div.appendChild(button)
     button.addEventListener("click", function(){
+        console.log(this.getAttribute('data-json'))
         downloadImage(this.getAttribute('data-json'))
     })
     return div
