@@ -6,7 +6,7 @@ import select from 'select-dom'
  * @param {JSON} options MutationsObserver options
  */
 export const observeElement = (element, callback, options = {childList: true})=>{
-    if (element){
+    if (select(element)){
         const observer = new MutationObserver( callback )
         observer.observe( select(element), options )
         return observer

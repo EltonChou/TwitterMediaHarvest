@@ -50,7 +50,7 @@ function observePermalink() {
 function observeGallery() {    
     observeElement( '.GalleryTweet', mutations => {
         for (const mutation of mutations) {
-            console.log(mutation)
+            // console.log(mutation)
             if (mutation.addedNodes.length) {
                 insertOrigClickBeforeMore(mutation.target)
             }

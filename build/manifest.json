@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "LazyOrig",
   "description": "Get original size picture from twitter timeline.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "browser_action": {
     "default_title": "LazyOrig"
   },
@@ -18,7 +18,7 @@
       ],
       
       "js": [
-        "bundle.js"
+        "main.js"
       ],
       "all_frames": true,
       "run_at": "document_end"
