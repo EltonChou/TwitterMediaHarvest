@@ -1,6 +1,6 @@
 // TODO: loop for dealing json
 chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
+    function (request, sender, sendResponse) {
         downloadImage(JSON.parse(request.dataJSON))
     }
 );

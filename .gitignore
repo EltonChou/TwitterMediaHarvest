@@ -1,7 +1,9 @@
 .sass-cache/
 .DS_Store
 .vscode/
-build/main.js
+build/
+*.crx
+*.pem
 
 # Logs
 logs
