@@ -5,7 +5,8 @@ Clone to local and run:
 ```npm run build```
 
 
-## Fearture
-1. One click to download original-size image.
+## Features
+1. Single image one-click download.
+2. Multi images one-click download.
 
 
