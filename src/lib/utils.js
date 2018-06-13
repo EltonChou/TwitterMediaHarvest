@@ -1,11 +1,11 @@
-import {downloadImage} from './core'
+import { downloadImage } from './core'
 import select from 'select-dom'
 
 /**
  * element is addedNode
  * @param {HTMLElement} element 
  */
-export const appendOrigClickTo = (element)=>{
+export const appendOrigClickTo = element => {
     if (validateElementBeforeInsert(element)) {
         element.setAttribute('hasBeenAppended', true)
         select(".ProfileTweet-actionList.js-actions", element).appendChild(origClickFor(element))
@@ -17,7 +17,7 @@ export const appendOrigClickTo = (element)=>{
  * only used in Gallery
  * @param {HTMLElement} element 
  */
-export const insertOrigClickBeforeMore = (element)=>{
+export const insertOrigClickBeforeMore = element => {
     if (validateElementBeforeInsert(element)) {
         const el = select(".ProfileTweet-actionList.js-actions", element)
         el.insertBefore(origClickFor(element), el.childNodes[9])
@@ -29,7 +29,7 @@ export const insertOrigClickBeforeMore = (element)=>{
  * @param {HTMLElement} element
  * @returns {HTMLDivElement}
  */
-function origClickFor(element){
+function origClickFor(element) {
     const dataJSON = JSON.stringify(createDataJSON(element))
     const div = document.createElement('div')
     const button = document.createElement('button')
@@ -45,7 +45,7 @@ function origClickFor(element){
     iconContainer.appendChild(span)
     button.appendChild(iconContainer)
     div.appendChild(button)
-    button.addEventListener("click", function(){
+    button.addEventListener("click", function () {
         downloadImage(this.getAttribute('data-json'))
     })
     return div
@@ -56,10 +56,10 @@ function origClickFor(element){
  * @param {HTMLElement} element
  * @returns {String} json of images(in String)
  */
-function createDataJSON(element){
+function createDataJSON(element) {
     const photoContainers = select.all(".AdaptiveMedia-photoContainer", element)
     const preJSON = []
-    for (const photoContainer of photoContainers){
+    for (const photoContainer of photoContainers) {
         preJSON.push(createOrigUrlObject(photoContainer.getAttribute('data-image-url')))
     }
     return preJSON
@@ -70,7 +70,7 @@ function createDataJSON(element){
  * @param {String} url 
  * @returns {JSON} JSON
  */
-function createOrigUrlObject(url){
+function createOrigUrlObject(url) {
     const imageUrl = url.split(':')
     const dataUrl = imageUrl[0] + ":" + imageUrl[1] + ":orig"
     const dataName = imageUrl[1].split("/")[4]
@@ -82,6 +82,6 @@ function createOrigUrlObject(url){
  * @param {HTMLElement} element 
  * @returns {Boolean} Is element has been appended?
  */
-function validateElementBeforeInsert(element){
+function validateElementBeforeInsert(element) {
     return element && !element.getAttribute('hasBeenAppended')
 }
