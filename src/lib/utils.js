@@ -35,14 +35,19 @@ function origClickFor(element) {
     const button = document.createElement('button')
     const iconContainer = document.createElement('div')
     const span = document.createElement('span')
+    const bubble = document.createElement('span')
     iconContainer.setAttribute("id", "lazyOrigDownload")
     iconContainer.setAttribute('class', "IconContainer")
-    span.setAttribute('class', "Icon")
-    span.innerText = "Kappa"
-    div.classList.add('lazyDownContainer')
-    button.classList.add('ProfileTweet-actionButton')
+    span.setAttribute('class', "Icon Icon--medium lazy-download")
+    span.setAttribute('id', "lazyIcon")
+    bubble.setAttribute('class', 'u-hiddenVisually')
+    bubble.innerText = "OrigClick"
+    div.setAttribute('class', 'lazyDownContainer js-tooltip')
+    div.setAttribute('data-original-title', 'OrigClick')
+    button.setAttribute('class', 'ProfileTweet-actionButton u-textUserColorHover js-actionButton')
     button.setAttribute('data-json', dataJSON)
     iconContainer.appendChild(span)
+    iconContainer.appendChild(bubble)
     button.appendChild(iconContainer)
     div.appendChild(button)
     button.addEventListener("click", function () {

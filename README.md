@@ -1,12 +1,15 @@
-# Orig Click (WIP)
+
+![OrigClick](./src/assets/icons/icon128.png)
+# OrigClick (WIP)
 
 Clone to local and run:
 
 ```npm run build```
 
 
-## Features
-1. Single image one-click download.
-2. Multi images one-click download.
+## Fearture
+- [x] One-click to get original-size image.
+- [ ] One-click to get video.
+- [ ] One-click to get GIF.
 
 
