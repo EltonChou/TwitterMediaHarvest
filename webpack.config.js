@@ -59,7 +59,7 @@ module.exports = {
 			context: 'src',
 			ignore: '*.js'
         },{
-            from: 'assets/icons',
+            from: 'assets/icons/*.png',
             context: 'src',
             to: 'icons/[name].[ext]'
         }])
