@@ -1,4 +1,5 @@
 import select from 'select-dom'
+
 /**
  * MutationObserver
  * @param {String} element DOMSelector

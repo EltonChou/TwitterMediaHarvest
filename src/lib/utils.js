@@ -57,7 +57,7 @@ function origClickFor(element) {
 }
 
 /**
- * https://pbs.twimg.com/media/DfOnhOzV4AAyvLE.png
+ * inputUrl: https://pbs.twimg.com/media/DfOnhOzV4AAyvLE.png
  * @param {HTMLElement} element
  * @returns {String} json of images(in String)
  */
@@ -71,7 +71,7 @@ function createDataJSON(element) {
 }
 
 /**
- * 
+ * Make image-data JSON
  * @param {String} url 
  * @returns {JSON} JSON
  */
@@ -83,7 +83,7 @@ function createOrigUrlObject(url) {
 }
 
 /**
- * 
+ * check element has been appended.
  * @param {HTMLElement} element 
  * @returns {Boolean} Is element has been appended?
  */
