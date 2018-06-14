@@ -1,10 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "LazyOrig",
-  "description": "Get original size picture from twitter timeline.",
-  "version": "0.1.0",
+  "name": "OrigClick",
+  "description": "Easy way to get original size picture from twitter timeline.",
+  "version": "0.2.0",
   "browser_action": {
-    "default_title": "LazyOrig"
+    "default_title": "OrigClick"
   },
   "background": {
     "scripts": ["background.js"],
