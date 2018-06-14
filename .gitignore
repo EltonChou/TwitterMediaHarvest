@@ -1,7 +1,8 @@
 .sass-cache/
 .DS_Store
 .vscode/
-build/
+build/*
+build/manifest.json
 *.crx
 *.pem
 
