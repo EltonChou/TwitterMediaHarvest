@@ -1,13 +1,16 @@
 import './assets/css/style.sass'
+// import './assets/css/fontawesome.css'
+// import './assets/webfonts/fa-regular-400.eot'
+// import './assets/webfonts/fa-regular-400.ttf'
+// import './assets/webfonts/fa-regular-400.woff'
+// import './assets/webfonts/fa-regular-400.woff2'
 import select from 'select-dom'
 import domready from 'dom-loaded'
 import { observeElement } from './lib/core'
 import { appendOrigClickTo, insertOrigClickBeforeMore } from './lib/utils'
 
-
 // TODO: When saving image from right-click menu, change the target link to *:orig
 // TODO: onDetermineFilename change filename
-
 function piorneer() {
     const streamItems = select.all('.js-stream-item')
     const permalink = select('.PermalinkOverlay-body')

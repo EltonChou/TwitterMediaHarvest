@@ -8,7 +8,7 @@ module.exports = {
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'build')
+        path: path.join(__dirname, 'build')
     },
     module: {
         rules: [
@@ -29,14 +29,35 @@ module.exports = {
                         presets: ['@babel/preset-env']
                     }
                 }
+            },
+            {
+                test: /\.svg$/,
+                loader: 'svg-inline-loader'
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            },
+            {
+                test: /\.(ttf|eot|woff|woff2)$/,
+                use: {
+                  loader: "file-loader",
+                  options: {
+                    name: "fonts/[name].[ext]",
+                  },
+                },
             }
         ]
+        
     },
     plugins: [
 		new CopyWebpackPlugin([{
 			from: '*',
 			context: 'src',
 			ignore: '*.js'
-		}])
+        }])
 	]
 };
