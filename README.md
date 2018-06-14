@@ -1,4 +1,7 @@
-# Orig Click (WIP)
+
+# OrigClick (WIP)
+
+![OrigClick](./src/assets/icons/icon128.png)
 
 Clone to local and run:
 
@@ -6,6 +9,8 @@ Clone to local and run:
 
 
 ## Fearture
-1. One click to download original-size image.
+- [x] One-click to get original-size image.
+- [ ] One-click to get video.
+- [ ] One-click to get GIF.
 
 
