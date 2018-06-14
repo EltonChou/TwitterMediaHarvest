@@ -44,7 +44,7 @@ function origClickFor(element) {
     bubble.innerText = "OrigClick"
     div.setAttribute('class', 'lazyDownContainer js-tooltip')
     div.setAttribute('data-original-title', 'OrigClick')
-    button.setAttribute('class', 'ProfileTweet-actionButton u-textUserColorHover js-actionButton js-actionShareViaDM')
+    button.setAttribute('class', 'ProfileTweet-actionButton u-textUserColorHover js-actionButton')
     button.setAttribute('data-json', dataJSON)
     iconContainer.appendChild(span)
     iconContainer.appendChild(bubble)
