@@ -19,6 +19,7 @@ function piorneer() {
                     observeVideo('div[role=button]', mutation.target, mutations => {
                         for (const mutation of mutations) {
                             console.log(select('video', mutation.addedNodes[0]).getAttribute('src'))
+                            appendOrigClickTo(streamItem)
                         }
                     }, { childList: true })
                 }
