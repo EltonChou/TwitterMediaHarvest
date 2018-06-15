@@ -5,6 +5,7 @@ build/*
 build/manifest.json
 *.crx
 *.pem
+*.zip
 
 # Logs
 logs
