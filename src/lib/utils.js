@@ -25,6 +25,15 @@ export const insertOrigClickBeforeMore = element => {
 }
 
 /**
+ * 
+ * @param {HTMLElement} element 
+ * @returns {Boolean} Is element has been appended?
+ */
+function validateElementBeforeInsert(element) {
+    return element && !element.getAttribute('hasBeenAppended')
+}
+
+/**
  * Should accept JSON
  * @param {HTMLElement} element
  * @returns {HTMLDivElement}
@@ -62,20 +71,27 @@ function origClickFor(element) {
  * @returns {String} json of images(in String)
  */
 function createDataJSON(element) {
-    const photoContainers = select.all(".AdaptiveMedia-photoContainer", element)
     const preJSON = []
-    for (const photoContainer of photoContainers) {
-        preJSON.push(createOrigUrlObject(photoContainer.getAttribute('data-image-url')))
+    if (select.exists(".AdaptiveMedia-videoContainer", element)) {
+        const media = select(("video"), element)
+        if (media){
+            preJSON.push(createVideoUrlObject(media.getAttribute('src')))
+        } else preJSON.push(false)
+    } else {
+        const media = select.all(".AdaptiveMedia-photoContainer", element)
+        for (const image of media) {
+            preJSON.push(createImageUrlObject(image.getAttribute('data-image-url')))
+        }
     }
     return preJSON
 }
 
 /**
- * 
+ * When media is 
  * @param {String} url 
  * @returns {JSON} JSON
  */
-function createOrigUrlObject(url) {
+function createImageUrlObject(url) {
     const imageUrl = url.split(':')
     const dataUrl = imageUrl[0] + ":" + imageUrl[1] + ":orig"
     const dataName = imageUrl[1].split("/")[4]
@@ -83,10 +99,17 @@ function createOrigUrlObject(url) {
 }
 
 /**
- * 
- * @param {HTMLElement} element 
- * @returns {Boolean} Is element has been appended?
+ * When media is  https://video.twimg.com/tweet_video/DflXwcXVMAERICE.mp4
+ * @param {String} url 
+ * @returns {JSON} JSON
  */
-function validateElementBeforeInsert(element) {
-    return element && !element.getAttribute('hasBeenAppended')
+function createVideoUrlObject(url) {
+    const videoUrl = url.split(':')
+    let dataUrl = videoUrl[0] + ":" + videoUrl[1]
+    let dataName = videoUrl[1].split("/")[5]
+    if (videoUrl[0] === 'blob'){
+        dataUrl = url
+        dataName = url.split('/')[3]
+    }
+    return { "url": dataUrl, "name": dataName }
 }
