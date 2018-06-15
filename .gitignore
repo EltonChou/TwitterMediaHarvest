@@ -1,14 +1,10 @@
 .sass-cache/
 .DS_Store
 .vscode/
-<<<<<<< HEAD
 build/
-=======
-build/*
-build/manifest.json
->>>>>>> develope
 *.crx
 *.pem
+*.zip
 
 # Logs
 logs
