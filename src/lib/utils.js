@@ -75,25 +75,41 @@ function createDataJSON(element) {
     if (select.exists(".AdaptiveMedia-videoContainer", element)) {
         const media = select(("video"), element)
         if (media){
-            preJSON.push(media.getAttribute('src'))
+            preJSON.push(createVideoUrlObject(media.getAttribute('src')))
         } else preJSON.push(false)
     } else {
         const media = select.all(".AdaptiveMedia-photoContainer", element)
         for (const image of media) {
-            preJSON.push(createOrigUrlObject(image.getAttribute('data-image-url')))
+            preJSON.push(createImageUrlObject(image.getAttribute('data-image-url')))
         }
     }
-    console.log(preJSON)
     return preJSON
 }
+
 /**
  * When media is 
  * @param {String} url 
  * @returns {JSON} JSON
  */
-function createOrigUrlObject(url) {
+function createImageUrlObject(url) {
     const imageUrl = url.split(':')
     const dataUrl = imageUrl[0] + ":" + imageUrl[1] + ":orig"
     const dataName = imageUrl[1].split("/")[4]
+    return { "url": dataUrl, "name": dataName }
+}
+
+/**
+ * When media is  https://video.twimg.com/tweet_video/DflXwcXVMAERICE.mp4
+ * @param {String} url 
+ * @returns {JSON} JSON
+ */
+function createVideoUrlObject(url) {
+    const videoUrl = url.split(':')
+    let dataUrl = videoUrl[0] + ":" + videoUrl[1]
+    let dataName = videoUrl[1].split("/")[5]
+    if (videoUrl[0] === 'blob'){
+        dataUrl = url
+        dataName = url.split('/')[3]
+    }
     return { "url": dataUrl, "name": dataName }
 }

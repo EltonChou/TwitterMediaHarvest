@@ -7,23 +7,25 @@ import { appendOrigClickTo, insertOrigClickBeforeMore } from './lib/utils'
 // TODO: When saving image from right-click menu, change the target link to *:orig
 // TODO: onDetermineFilename change filename
 
-// FIXME: need to observe video-container
+function obVideo(videoContain) {
+    observeVideo('.PlayableMedia-player', videoContain, mutations => {
+        for (const mutation of mutations) {
+            observeVideo('div[role=button]', mutation.target, mutations => {
+                for (const mutation of mutations) {
+                    appendOrigClickTo(videoContain)
+                }
+            }, { childList: true })
+        }
+    }, { childList: true })
+}
+
 function piorneer() {
     const streamItems = select.all('.js-stream-item')
     const permalink = select('.PermalinkOverlay-body')
 
     for (const streamItem of streamItems) {
         if (select.exists('.PlayableMedia-player', streamItem)) {
-            observeVideo('.PlayableMedia-player', streamItem, mutations => {
-                for (const mutation of mutations) {
-                    observeVideo('div[role=button]', mutation.target, mutations => {
-                        for (const mutation of mutations) {
-                            console.log(select('video', mutation.addedNodes[0]).getAttribute('src'))
-                            appendOrigClickTo(streamItem)
-                        }
-                    }, { childList: true })
-                }
-            }, { childList: true })
+            obVideo(streamItem)
         }
         if (select.exists(".AdaptiveMedia-photoContainer", streamItem)) {
             appendOrigClickTo(streamItem)
@@ -63,7 +65,6 @@ function observePermalink() {
 function observeGallery() {
     observeElement('.GalleryTweet', mutations => {
         for (const mutation of mutations) {
-            // console.log(mutation)
             if (mutation.addedNodes.length) {
                 insertOrigClickBeforeMore(mutation.target)
             }
@@ -75,9 +76,12 @@ function observeStream() {
     observeElement('#stream-items-id', mutations => {
         for (const mutation of mutations) {
             for (const addedNode of mutation.addedNodes) {
-                if (select.exists(".AdaptiveMedia-Container", addedNode)) {
+                if (select.exists('.PlayableMedia-player', addedNode)) {
+                    obVideo(addedNode)
+                } else { (select.exists(".AdaptiveMedia-Container", addedNode))
                     appendOrigClickTo(addedNode)
                 }
+
             }
         }
     }, { childList: true })

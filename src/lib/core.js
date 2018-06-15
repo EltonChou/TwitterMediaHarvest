@@ -14,9 +14,11 @@ export const observeElement = (element, callback, options = { childList: true })
 }
 
 export const observeVideo = (element, parent, callback, options = { childList: true }) => {
-    const observer = new MutationObserver(callback)
-    observer.observe(select(element, parent), options)
-    return observer
+    if (select.exists(element, parent)){
+        const observer = new MutationObserver(callback)
+        observer.observe(select(element, parent), options)
+        return observer
+    } else return false
 }
 
 /**
