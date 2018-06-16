@@ -76,8 +76,8 @@ function createDataJSON(element) {
         const media = select(("video"), element)
         if (media){
             preJSON.push(createVideoUrlObject(media.getAttribute('src')))
-        } else preJSON.push(false)
-    } else {
+        }
+    } if (select.exists(".AdaptiveMedia-photoContainer", element)) {
         const media = select.all(".AdaptiveMedia-photoContainer", element)
         for (const image of media) {
             preJSON.push(createImageUrlObject(image.getAttribute('data-image-url')))

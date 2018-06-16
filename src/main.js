@@ -21,7 +21,7 @@ function obVideo(videoContain) {
 
 function piorneer() {
     const streamItems = select.all('.js-stream-item')
-    const permalink = select('.PermalinkOverlay-body')
+    const permalink = select('.permalink-tweet-container')
 
     for (const streamItem of streamItems) {
         if (select.exists('.PlayableMedia-player', streamItem)) {
@@ -31,9 +31,32 @@ function piorneer() {
             appendOrigClickTo(streamItem)
         }
     }
+
+    if (select.exists('.PlayableMedia-player', permalink)) {
+        obVideo(permalink)
+    }
     if (select.exists(".AdaptiveMedia-photoContainer", permalink)) {
         appendOrigClickTo(permalink)
     }
+}
+
+function observePermalink() {
+    observeElement('.PermalinkOverlay-body', mutations => {
+        for (const mutation of mutations) {
+            if (mutation.addedNodes.length) {
+                const container = select('.permalink-tweet-container', mutation.target.parentElement)
+                if (select.exists('.PlayableMedia-player', container)) {
+                    obVideo(container)
+                } else {
+                    try {
+                        appendOrigClickTo(container)
+                    } catch (err) {
+                        console.log(err)
+                    }
+                }
+            }
+        }
+    }, { childList: true })
 }
 
 function observeTitle() {
@@ -43,23 +66,6 @@ function observeTitle() {
             refresh()
         } else return false
     }, { childList: true, subtree: true })
-}
-
-function observePermalink() {
-    observeElement('.PermalinkOverlay-body', mutations => {
-        for (const mutation of mutations) {
-            if (mutation.addedNodes.length) {
-                const inners = select.all('.permalink-inner', mutation.target.parentElement)
-                for (const inner of inners) {
-                    try {
-                        appendOrigClickTo(inner)
-                    } catch (err) {
-                        console.log(err)
-                    }
-                }
-            }
-        }
-    }, { childList: true })
 }
 
 function observeGallery() {
