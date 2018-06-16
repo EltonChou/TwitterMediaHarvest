@@ -10,6 +10,6 @@ Clone to local and run:
 ## Fearture
 - [x] One-click to get original-size image.
 - [ ] One-click to get video.
-- [ ] One-click to get GIF.
+- [x] One-click to get GIF.
 
 
