@@ -3,7 +3,6 @@
   "name": "OrigClick",
   "short_name": "OrigClick",
   "description": "Easy way to get original size picture from twitter timeline.",
-  "default_locale": "en",
   "version": "0.3.0",
   "icons": { 
     "16": "./icons/icon16.png",
