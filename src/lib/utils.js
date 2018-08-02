@@ -74,7 +74,7 @@ function createDataJSON(element) {
     const preJSON = []
     if (select.exists(".AdaptiveMedia-videoContainer", element)) {
         const media = select(("video"), element)
-        if (media){
+        if (media) {
             preJSON.push(createVideoUrlObject(media.getAttribute('src')))
         }
     } if (select.exists(".AdaptiveMedia-photoContainer", element)) {
@@ -107,7 +107,7 @@ function createVideoUrlObject(url) {
     const videoUrl = url.split(':')
     let dataUrl = videoUrl[0] + ":" + videoUrl[1]
     let dataName = videoUrl[1].split("/")[5]
-    if (videoUrl[0] === 'blob'){
+    if (videoUrl[0] === 'blob') {
         dataUrl = url
         dataName = url.split('/')[3]
     }
