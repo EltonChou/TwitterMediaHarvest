@@ -1,11 +1,12 @@
 import select from 'select-dom'
+
 /**
  * MutationObserver
  * @param {String} element DOMSelector
  * @callback 
  * @param {JSON} options MutationsObserver options
  */
-export const observeElement = (element, callback, options = { childList: true }) => {
+export const observeElement = ({element, callback, options = { childList: true }}) => {
     if (select.exists(element)) {
         const observer = new MutationObserver(callback)
         observer.observe(select(element), options)
@@ -13,7 +14,7 @@ export const observeElement = (element, callback, options = { childList: true })
     } else return false
 }
 
-export const observeVideo = (element, parent, callback, options = { childList: true }) => {
+export const observeVideo = ({element, parent, callback, options = { childList: true }}) => {
     if (select.exists(element, parent)){
         const observer = new MutationObserver(callback)
         observer.observe(select(element, parent), options)
@@ -25,7 +26,7 @@ export const observeVideo = (element, parent, callback, options = { childList: t
  * Send download request message to background
  * @param {String} dataJSON
  */
-export const downloadImage = (dataJSON) => {
+export const downloadImage = dataJSON => {
     chrome.runtime.sendMessage({
         dataJSON: dataJSON
     });

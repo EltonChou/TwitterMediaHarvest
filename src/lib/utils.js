@@ -3,7 +3,7 @@ import select from 'select-dom'
 
 /**
  * element is addedNode
- * @param {HTMLElement} element 
+ * @param {HTMLElement} element
  */
 export const appendOrigClickTo = element => {
     if (validateElementBeforeInsert(element)) {
@@ -15,7 +15,7 @@ export const appendOrigClickTo = element => {
 
 /**
  * only used in Gallery
- * @param {HTMLElement} element 
+ * @param {HTMLElement} element
  */
 export const insertOrigClickBeforeMore = element => {
     if (validateElementBeforeInsert(element)) {
@@ -66,18 +66,25 @@ function origClickFor(element) {
 }
 
 /**
- * https://pbs.twimg.com/media/DfOnhOzV4AAyvLE.png
+ * inputUrl: https://pbs.twimg.com/media/DfOnhOzV4AAyvLE.png
  * @param {HTMLElement} element
  * @returns {String} json of images(in String)
  */
 function createDataJSON(element) {
     const preJSON = []
+    const info = element.querySelector(".tweet")
+    const authorInfo = {
+        "user-id": info.getAttribute("data-user-id"),
+        "screen-name": info.getAttribute("data-screen-name"),
+        "tweet-id": info.getAttribute("data-tweet-id")
+    }
     if (select.exists(".AdaptiveMedia-videoContainer", element)) {
-        const media = select(("video"), element)
-        if (media){
+        const media = select("video", element)
+        if (media) {
             preJSON.push(createVideoUrlObject(media.getAttribute('src')))
         }
     } if (select.exists(".AdaptiveMedia-photoContainer", element)) {
+        // const authorInfo = select(".tweet", element)
         const media = select.all(".AdaptiveMedia-photoContainer", element)
         for (const image of media) {
             preJSON.push(createImageUrlObject(image.getAttribute('data-image-url')))
@@ -107,7 +114,7 @@ function createVideoUrlObject(url) {
     const videoUrl = url.split(':')
     let dataUrl = videoUrl[0] + ":" + videoUrl[1]
     let dataName = videoUrl[1].split("/")[5]
-    if (videoUrl[0] === 'blob'){
+    if (videoUrl[0] === 'blob') {
         dataUrl = url
         dataName = url.split('/')[3]
     }
