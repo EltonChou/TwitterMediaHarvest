@@ -1,6 +1,6 @@
 
 ![OrigClick](./src/assets/icons/icon128.png)
-# OrigClick (WIP)
+# OrigClick
 
 Clone to local and run:
 
