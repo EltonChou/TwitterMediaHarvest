@@ -61,7 +61,7 @@ module.exports = {
         },{
             from: 'assets/icons/*.png',
             context: 'src',
-            to: 'icons/[name].[ext]'
+            to: 'assets/icons/[name].[ext]'
         }])
 	]
 };
