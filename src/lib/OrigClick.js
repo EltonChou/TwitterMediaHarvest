@@ -1,26 +1,60 @@
-const header = new Headers()
+import select from 'select-dom'
 
-const url =
-  'https://api.twitter.com/2/timeline/conversation/1109811284424290310.json'
+function makeImageJson(target) {
+  const preJSON = []
+  const medias = select.all('.AdaptiveMedia-photoContainer', target)
+  for (const media of medias) {
+    preJSON.push(createImageUrlObject(media.dataset.imageUrl))
+  }
+  return preJSON
+}
 
-header.append(
-  'Authorization',
-  'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
-)
-header.append(
-  'User-Agent',
-  'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1'
-)
-header.append('x-guest-token', '1114970439367843840')
+function makeTweetInfo(element) {
+  const info = select('.tweet', element)
+  return {
+    userId: info.dataset.userId,
+    screenName: info.dataset.screenName,
+    tweetId: info.dataset.tweetId,
+    conversationId: info.dataset.conversationId,
+  }
+}
 
-let response = await fetch(url, {
-  credentials: 'same-origin',
-  headers: header,
-  method: 'GET',
-})
+function createImageUrlObject(url) {
+  const imageUrl = url.split(':')
+  const dataUrl = imageUrl[0] + ':' + imageUrl[1] + ':orig'
+  const dataName = imageUrl[1].split('/')[4]
+  return { url: dataUrl, name: dataName }
+}
 
-let data = await response.json()
+export function OrigClick(target) {
+  this.info = makeTweetInfo(target)
+  if (select.exists('.AdaptiveMedia-photoContainer', target))
+    this.medias = makeImageJson(target)
+}
 
-let media_src =
-  data.globalObjects.tweets['1109811284424290310'].extended_entities.media[0]
-    .video_info.variants[0].url
+OrigClick.prototype.makebutton = function() {
+  // eslint-disable-next-line no-undef
+  const buttonWrapper = document.createElement('div')
+  buttonWrapper.setAttribute('class', 'OrigClickWrapper js-tooltip')
+  buttonWrapper.dataset['originalTitle'] = 'OrigClick'
+  // eslint-disable-next-line no-undef
+  const button = document.createElement('button')
+  button.setAttribute(
+    'class',
+    'ProfileTweet-actionButton u-textUserColorHover js-actionButton'
+  )
+  button.innerHTML = `
+    <div id="OricgClick" class="IconContainer">
+    <span class="Icon Icon--medium OrigClick" id="lazyIcon"></span>
+    <span class="u-hiddenVisually">OrigClick</span>
+    </div>
+  `
+  button.dataset.info = JSON.stringify(this.info)
+  if (this.medias) button.dataset.medias = JSON.stringify(this.medias)
+  button.addEventListener('click', function() {
+    // eslint-disable-next-line no-undef
+    chrome.runtime.sendMessage(this.dataset)
+  })
+  buttonWrapper.append(button)
+  return buttonWrapper
+}

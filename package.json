@@ -20,6 +20,7 @@
     "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.11",
     "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-prettier": "^3.0.1",
     "file-loader": "^1.1.11",
     "node-sass": "^4.11.0",
@@ -27,12 +28,13 @@
     "sass-loader": "^7.0.1",
     "style-loader": "^0.21.0",
     "svg-inline-loader": "^0.8.0",
+    "uglifyjs-webpack-plugin": "^2.1.2",
     "url-loader": "^1.0.1",
     "webpack": "^4.10.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --display-error-details --colors"
+    "build": "webpack --watch --display-error-details --colors"
   },
   "repository": {
     "type": "git",

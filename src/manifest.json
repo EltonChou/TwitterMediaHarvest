@@ -7,13 +7,13 @@
   "icons": { 
     "16": "assets/icons/icon16.png",
     "48": "assets/icons/icon48.png",
-   "128": ".assetsicons/icon128.png" },
+   "128": "assets/icons/icon128.png" },
   "browser_action": {
     "default_title": "OrigClick"
   },
   "background": {
     "scripts": ["background.js"],
-    "persistent": false
+    "persistent": true
   },
   "content_scripts": [
     {
@@ -30,10 +30,13 @@
     }
   ],
   "permissions": [
+    "*://*.twitter.com/*",
+    "*://twitter.com/*",
     "http://twitter.com/*",
     "https://twitter.com/*",
     "activeTab",
     "tabs",
-    "downloads"
+    "downloads",
+    "cookies"
   ]
 }

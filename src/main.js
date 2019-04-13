@@ -1,128 +1,86 @@
 import './assets/css/style.sass'
 import select from 'select-dom'
 import domready from 'dom-loaded'
-import { observeElement, observeVideo } from './lib/core'
-import { appendOrigClickTo, insertOrigClickBeforeMore } from './lib/utils'
+import { observeElement } from './lib/core'
+import { makeOrigClick } from './lib/utils'
 
 // TODO: When saving image from right-click menu, change the target link to *:orig
 // TODO: onDetermineFilename change filename
 
+const titleOptions = {
+  childList: true,
+  subtree: true,
+}
 
-function obVideo(videoContain) {
-  observeVideo(
-    '.PlayableMedia-player',
-    videoContain,
-    mutations => {
-      for (const mutation of mutations) {
-        observeVideo(
-          'div[role=button]',
-          mutation.target,
-          mutations => {
-            for (const mutation of mutations) {
-              appendOrigClickTo(videoContain)
-            }
-          },
-          { childList: true }
-        )
-      }
-    },
-    { childList: true }
+const hasMedia = ele => {
+  return (
+    select.exists('.PlayableMedia-player', ele) ||
+    select.exists('.AdaptiveMedia-photoContainer', ele)
   )
 }
 
-function piorneer() {
+const piorneer = () => {
   const streamItems = select.all('.js-stream-item')
   const permalink = select('.permalink-tweet-container')
-
   // Observe tweet stream
   for (const streamItem of streamItems) {
-    if (select.exists('.PlayableMedia-player', streamItem)) {
-      obVideo(streamItem)
-    }
-    if (select.exists('.AdaptiveMedia-photoContainer', streamItem)) {
-      appendOrigClickTo(streamItem)
-    }
+    if (hasMedia(streamItem)) makeOrigClick(streamItem)
   }
-
   // if is permalink page append origclick
-  if (select.exists('.PlayableMedia-player', permalink)) {
-    obVideo(permalink)
-  }
-  if (select.exists('.AdaptiveMedia-photoContainer', permalink)) {
-    appendOrigClickTo(permalink)
-  }
+  if (hasMedia(permalink)) makeOrigClick(permalink)
 }
 
 function observePermalink() {
-  observeElement(
-    '.PermalinkOverlay-body',
-    mutations => {
-      for (const mutation of mutations) {
-        if (mutation.addedNodes.length) {
-          const container = select(
-            '.permalink-tweet-container',
-            mutation.target.parentElement
-          )
-          if (select.exists('.PlayableMedia-player', container)) {
-            obVideo(container)
-          } else {
-            try {
-              appendOrigClickTo(container)
-            } catch (err) {
-              console.log(err)
-            }
-          }
+  observeElement('.PermalinkOverlay-body', mutations => {
+    for (const mutation of mutations) {
+      if (mutation.addedNodes.length) {
+        const containers = select.all(
+          // '.permalink-tweet-container',
+          '.permalink-tweet-container',
+          mutation.target.parentElement
+        )
+        for (const container of containers) {
+          if (hasMedia(container)) makeOrigClick(container)
         }
+        observeElement('.stream > #stream-items-id', mutations => {
+          for (const mutation of mutations) {
+            console.log(mutation)
+          }
+        })
       }
-    },
-    { childList: true }
-  )
+    }
+  })
 }
 
 function observeTitle() {
   const body = select('body')
   observeElement(
     'title',
-    mutations => {
-      if (!body.classList.contains('overlay-enabled')) {
-        refresh()
-      } else return false
+    () => {
+      if (!body.classList.contains('overlay-enabled')) refresh()
     },
-    { childList: true, subtree: true }
+    titleOptions
   )
 }
 
 function observeGallery() {
-  observeElement(
-    '.GalleryTweet',
-    mutations => {
-      for (const mutation of mutations) {
-        if (mutation.addedNodes.length) {
-          insertOrigClickBeforeMore(mutation.target)
-        }
+  observeElement('.GalleryTweet', mutations => {
+    for (const mutation of mutations) {
+      if (mutation.addedNodes.length) {
+        makeOrigClick(mutation.target, 'insert')
       }
-    },
-    { childList: true }
-  )
+    }
+  })
 }
 
 function observeStream() {
-  observeElement(
-    '#stream-items-id',
-    mutations => {
-      for (const mutation of mutations) {
-        for (const addedNode of mutation.addedNodes) {
-          if (select.exists('.PlayableMedia-player', addedNode)) {
-            obVideo(addedNode)
-          } else {
-            select.exists('.AdaptiveMedia-Container', addedNode)
-            appendOrigClickTo(addedNode)
-          }
-        }
+  observeElement('#stream-items-id', mutations => {
+    for (const mutation of mutations) {
+      for (const addedNode of mutation.addedNodes) {
+        if (hasMedia(addedNode)) makeOrigClick(addedNode)
       }
-    },
-    { childList: true }
-  )
+    }
+  })
 }
 
 const init = () => {
@@ -140,4 +98,4 @@ const refresh = () => {
   })
 }
 
-domready.then(()=>init())
+domready.then(() => init())
