@@ -34,11 +34,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-<<<<<<< HEAD
-    "build": "webpack --display-error-details --colors --mode=production"
-=======
     "build": "webpack --watch --display-error-details --colors"
->>>>>>> dev
   },
   "repository": {
     "type": "git",
