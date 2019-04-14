@@ -1,11 +1,7 @@
 import './assets/css/style.sass'
 import select from 'select-dom'
-import domready from 'dom-loaded'
 import { observeElement } from './lib/core'
 import { makeOrigClick } from './lib/utils'
-
-// TODO: When saving image from right-click menu, change the target link to *:orig
-// TODO: onDetermineFilename change filename
 
 const titleOptions = {
   childList: true,
@@ -34,19 +30,18 @@ function observePermalink() {
   observeElement('.PermalinkOverlay-body', mutations => {
     for (const mutation of mutations) {
       if (mutation.addedNodes.length) {
-        const containers = select.all(
-          // '.permalink-tweet-container',
-          '.permalink-tweet-container',
-          mutation.target.parentElement
-        )
-        for (const container of containers) {
-          if (hasMedia(container)) makeOrigClick(container)
-        }
-        observeElement('.stream > #stream-items-id', mutations => {
-          for (const mutation of mutations) {
-            console.log(mutation)
-          }
-        })
+        piorneer()
+        observeThread()
+      }
+    }
+  })
+}
+
+function observeThread() {
+  observeElement('#descendants #stream-items-id', mutations => {
+    for (const mutation of mutations) {
+      for (const addedNode of mutation.addedNodes) {
+        if (hasMedia(addedNode)) makeOrigClick(addedNode)
       }
     }
   })
@@ -57,7 +52,7 @@ function observeTitle() {
   observeElement(
     'title',
     () => {
-      if (!body.classList.contains('overlay-enabled')) refresh()
+      if (!body.classList.contains('overlay-enabled')) init()
     },
     titleOptions
   )
@@ -87,15 +82,17 @@ const init = () => {
   piorneer()
   observeTitle()
   observeStream()
+  observeThread()
   observeGallery()
   observePermalink()
 }
 
-const refresh = () => {
-  domready.then(() => {
-    piorneer()
-    observeStream()
-  })
-}
+// const refresh = () => {
+//   domready.then(() => {
+//     init()
+//     // piorneer()
+//     // observeStream()
+//   })
+// }
 
-domready.then(() => init())
+init()

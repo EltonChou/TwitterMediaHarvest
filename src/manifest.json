@@ -2,8 +2,8 @@
   "manifest_version": 2,
   "name": "OrigClick",
   "short_name": "OrigClick",
-  "description": "Easy way to get original size picture from twitter timeline.",
-  "version": "0.3.0",
+  "description": "The easiest way to get media from twitter timeline.",
+  "version": "1.0.0",
   "icons": { 
     "16": "assets/icons/icon16.png",
     "48": "assets/icons/icon48.png",

@@ -20,11 +20,12 @@ function downloadImage(info, medias) {
       filename: `${info.screenName}-${info.userId}-${info.tweetId}-${
         media.name
       }`,
+      conflictAction: 'overwrite',
     })
   }
 }
 
-async function downloadVideo(info) {
+function downloadVideo(info) {
   let regex = new RegExp('\\w+\\.mp4')
   fetchMedia(info, url => {
     const name = url.match(regex)
@@ -32,15 +33,16 @@ async function downloadVideo(info) {
     chrome.downloads.download({
       url: url,
       filename: `${info.screenName}-${info.userId}-${info.tweetId}-${name}`,
+      conflictAction: 'overwrite',
     })
   })
 }
 
-async function fetchMedia(info, fn) {
+function fetchMedia(info, fn) {
   // eslint-disable-next-line no-undef
   const header = new Headers()
   const url = `https://api.twitter.com/2/timeline/conversation/${
-    info.conversationId
+    info.tweetId
   }.json`
   const activateUrl = 'https://api.twitter.com/1.1/guest/activate.json'
 

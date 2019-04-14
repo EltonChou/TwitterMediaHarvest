@@ -10,12 +10,12 @@ function makeImageJson(target) {
 }
 
 function makeTweetInfo(element) {
-  const info = select('.tweet', element)
+  // const info = select('.tweet', element)
   return {
-    userId: info.dataset.userId,
-    screenName: info.dataset.screenName,
-    tweetId: info.dataset.tweetId,
-    conversationId: info.dataset.conversationId,
+    userId: element.dataset.userId,
+    screenName: element.dataset.screenName,
+    tweetId: element.dataset.tweetId,
+    conversationId: element.dataset.conversationId,
   }
 }
 
@@ -45,8 +45,8 @@ OrigClick.prototype.makebutton = function() {
   )
   button.innerHTML = `
     <div id="OricgClick" class="IconContainer">
-    <span class="Icon Icon--medium OrigClick" id="lazyIcon"></span>
-    <span class="u-hiddenVisually">OrigClick</span>
+      <span class="Icon Icon--medium OrigClick" id="lazyIcon"></span>
+      <span class="u-hiddenVisually">OrigClick</span>
     </div>
   `
   button.dataset.info = JSON.stringify(this.info)
