@@ -3,31 +3,15 @@ import select from 'select-dom'
 /**
  * MutationObserver
  * @param {String} element DOMSelector
- * @callback 
+ * @callback
  * @param {JSON} options MutationsObserver options
  */
-export const observeElement = (element, callback, options = { childList: true }) => {
-    if (select.exists(element)) {
-        const observer = new MutationObserver(callback)
-        observer.observe(select(element), options)
-        return observer
-    } else return false
+const observeElement = (element, callback, options = { childList: true }) => {
+  if (select.exists(element)) {
+    // eslint-disable-next-line no-undef
+    const observer = new MutationObserver(callback)
+    observer.observe(select(element), options)
+  }
 }
 
-export const observeVideo = (element, parent, callback, options = { childList: true }) => {
-    if (select.exists(element, parent)){
-        const observer = new MutationObserver(callback)
-        observer.observe(select(element, parent), options)
-        return observer
-    } else return false
-}
-
-/**
- * Send download request message to background
- * @param {String} dataJSON
- */
-export const downloadImage = (dataJSON) => {
-    chrome.runtime.sendMessage({
-        dataJSON: dataJSON
-    });
-}
+export { observeElement }

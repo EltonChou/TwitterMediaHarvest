@@ -1,19 +1,22 @@
 {
   "manifest_version": 2,
-  "name": "OrigClick",
+  "name": "Twitter Original Media Click",
   "short_name": "OrigClick",
-  "description": "Easy way to get original size picture from twitter timeline.",
-  "version": "0.3.0",
-  "icons": { 
-    "16": "./icons/icon16.png",
-    "48": "./icons/icon48.png",
-   "128": "./icons/icon128.png" },
+  "description": "The easiest way to get media from twitter timeline.",
+  "version": "1.0.0",
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
   "browser_action": {
     "default_title": "OrigClick"
   },
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
   },
   "content_scripts": [
     {
@@ -21,7 +24,6 @@
         "http://twitter.com/*",
         "https://twitter.com/*"
       ],
-      
       "js": [
         "main.js"
       ],
@@ -30,10 +32,13 @@
     }
   ],
   "permissions": [
+    "*://*.twitter.com/*",
+    "*://twitter.com/*",
     "http://twitter.com/*",
     "https://twitter.com/*",
     "activeTab",
     "tabs",
-    "downloads"
+    "downloads",
+    "cookies"
   ]
 }
