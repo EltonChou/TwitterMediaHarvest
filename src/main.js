@@ -1,9 +1,9 @@
 import './assets/css/style.sass'
 import select from 'select-dom'
-import domready from 'dom-loaded'
-import { observeElement, observeVideo } from './lib/core'
-import { appendOrigClickTo, insertOrigClickBeforeMore } from './lib/utils'
+import { observeElement } from './lib/core'
+import { makeOrigClick } from './lib/utils'
 
+<<<<<<< HEAD
 // TODO: When saving image from right-click menu, change the target link to *:orig
 // TODO: onDetermineFilename change filename
 
@@ -30,24 +30,43 @@ function obVideo(videoContain) {
 function piorneer() {
     const streamItems = select.all('.tweet')
     const permalink = select('.permalink-tweet-container')
-
-    for (const streamItem of streamItems) {
-        if (select.exists('.PlayableMedia-player', streamItem)) {
-            obVideo(streamItem)
-        }
-        if (select.exists(".AdaptiveMedia-photoContainer", streamItem)) {
-            appendOrigClickTo(streamItem)
-        }
-    }
-
-    if (select.exists('.PlayableMedia-player', permalink)) {
-        obVideo(permalink)
-    }
-    if (select.exists(".AdaptiveMedia-photoContainer", permalink)) {
-        appendOrigClickTo(permalink)
-    }
+=======
+const titleOptions = {
+  childList: true,
+  subtree: true,
 }
 
+const hasMedia = ele => {
+  return (
+    select.exists('.PlayableMedia-player', ele) ||
+    select.exists('.AdaptiveMedia-photoContainer', ele)
+  )
+}
+>>>>>>> dev
+
+const piorneer = () => {
+  const streamItems = select.all('.js-stream-item')
+  const permalink = select('.permalink-tweet-container')
+  // Observe tweet stream
+  for (const streamItem of streamItems) {
+    if (hasMedia(streamItem)) makeOrigClick(streamItem)
+  }
+  // if is permalink page append origclick
+  if (hasMedia(permalink)) makeOrigClick(permalink)
+}
+
+function observePermalink() {
+  observeElement('.PermalinkOverlay-body', mutations => {
+    for (const mutation of mutations) {
+      if (mutation.addedNodes.length) {
+        piorneer()
+        observeThread()
+      }
+    }
+  })
+}
+
+<<<<<<< HEAD
 function observePermalink() {
     observeElement({
         element: '.PermalinkOverlay-body',
@@ -132,3 +151,56 @@ const main = {
 }
 
 main.init()
+=======
+function observeThread() {
+  observeElement('#descendants #stream-items-id', mutations => {
+    for (const mutation of mutations) {
+      for (const addedNode of mutation.addedNodes) {
+        if (hasMedia(addedNode)) makeOrigClick(addedNode)
+      }
+    }
+  })
+}
+
+function observeTitle() {
+  const body = select('body')
+  observeElement(
+    'title',
+    () => {
+      if (!body.classList.contains('overlay-enabled')) init()
+    },
+    titleOptions
+  )
+}
+
+function observeGallery() {
+  observeElement('.GalleryTweet', mutations => {
+    for (const mutation of mutations) {
+      if (mutation.addedNodes.length) {
+        makeOrigClick(mutation.target, 'insert')
+      }
+    }
+  })
+}
+
+function observeStream() {
+  observeElement('#stream-items-id', mutations => {
+    for (const mutation of mutations) {
+      for (const addedNode of mutation.addedNodes) {
+        if (hasMedia(addedNode)) makeOrigClick(addedNode)
+      }
+    }
+  })
+}
+
+const init = () => {
+  piorneer()
+  observeTitle()
+  observeStream()
+  observeThread()
+  observeGallery()
+  observePermalink()
+}
+
+init()
+>>>>>>> dev
