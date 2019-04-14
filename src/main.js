@@ -87,12 +87,4 @@ const init = () => {
   observePermalink()
 }
 
-// const refresh = () => {
-//   domready.then(() => {
-//     init()
-//     // piorneer()
-//     // observeStream()
-//   })
-// }
-
 init()
