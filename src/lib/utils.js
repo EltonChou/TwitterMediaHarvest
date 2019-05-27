@@ -7,16 +7,13 @@ export const makeOrigClick = (addedNode, mode = 'append') => {
     const origClick = new OrigClick(tweet)
     const origButton = origClick.makebutton()
     if (isElementCanBeAppend(tweet)) {
+      const theTweet = select('.ProfileTweet-actionList.js-actions', tweet)
+      tweet.dataset.appended = true
       if (mode === 'append') {
-        tweet.dataset.appended = true
-        select('.ProfileTweet-actionList.js-actions', tweet).appendChild(
-          origButton
-        )
+        theTweet.appendChild(origButton)
       }
       if (mode === 'insert') {
-        tweet.dataset.appended = true
-        const ele = select('.ProfileTweet-actionList.js-actions', tweet)
-        ele.insertBefore(origButton, ele.childNodes[9])
+        theTweet.insertBefore(origButton, theTweet.childNodes[9])
       }
     }
   }
