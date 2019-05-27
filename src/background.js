@@ -43,7 +43,7 @@ function fetchMedia(info, fn) {
   const header = new Headers()
   const url = `https://api.twitter.com/2/timeline/conversation/${
     info.tweetId
-  }.json`
+  }.json?tweet_mode=extended`
   const activateUrl = 'https://api.twitter.com/1.1/guest/activate.json'
 
   header.append(
