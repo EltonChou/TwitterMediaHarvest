@@ -1,6 +1,12 @@
 import select from 'select-dom'
 import { OrigClick } from './OrigClick'
 
+/**
+ * Generate OrigClick.
+ *
+ * @param {Node} addedNode
+ * @param {string} mode `append` or `insert`
+ */
 export const makeOrigClick = (addedNode, mode = 'append') => {
   const tweets = select.all('.tweet', addedNode)
   for (const tweet of tweets) {
@@ -20,8 +26,9 @@ export const makeOrigClick = (addedNode, mode = 'append') => {
 }
 
 /**
+ * Check the tweet has been appended or not.
  *
- * @param {HTMLElement} element
+ * @param {HTMLElement} element A valid tweet element
  * @returns {Boolean} Is element has been appended?
  */
 function isElementCanBeAppend(element) {
