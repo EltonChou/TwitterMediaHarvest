@@ -9,8 +9,11 @@ chrome.runtime.onMessage.addListener(async request => {
 })
 
 /**
- * trigger browser-download
- * @param {JSON} images images-data
+ * Trigger image browser-download
+ *
+ * @function downloadImage
+ * @param {JSON} info twitter information
+ * @param {Array} medias medias array
  */
 function downloadImage(info, medias) {
   for (const media of medias) {
@@ -25,9 +28,15 @@ function downloadImage(info, medias) {
   }
 }
 
+/**
+ * Trigger video browser-download
+ *
+ * @function downloadVideo
+ * @param {JSON} info twitter information
+ */
 function downloadVideo(info) {
-  let regex = new RegExp('\\w+\\.mp4')
-  fetchMedia(info, url => {
+  let regex = new RegExp('(?:[^/])+(?<=(?:.mp4))')
+  fetchMedia(info.tweetId, url => {
     const name = url.match(regex)
     // eslint-disable-next-line no-undef
     chrome.downloads.download({
@@ -38,12 +47,17 @@ function downloadVideo(info) {
   })
 }
 
-function fetchMedia(info, fn) {
+/**
+ * Fetch video from twitter.
+ *
+ * @function fetchMedia
+ * @param {String} tweetId  The ID of tweet
+ * @param {function(String)} callback  A callback trigger browser-download
+ */
+function fetchMedia(tweetId, callback) {
   // eslint-disable-next-line no-undef
   const header = new Headers()
-  const url = `https://api.twitter.com/2/timeline/conversation/${
-    info.tweetId
-  }.json?tweet_mode=extended`
+  const url = `https://api.twitter.com/2/timeline/conversation/${tweetId}.json?tweet_mode=extended`
   const activateUrl = 'https://api.twitter.com/1.1/guest/activate.json'
 
   header.append(
@@ -82,11 +96,9 @@ function fetchMedia(info, fn) {
       })
 
       let conversation = await mediaRes.json()
-      // console.log(mediaUrl)
       let variants =
-        conversation.globalObjects.tweets[info.tweetId].extended_entities.media[
-          '0'
-        ].video_info.variants
+        conversation.globalObjects.tweets[tweetId].extended_entities.media['0']
+          .video_info.variants
 
       let hd = 1
       let targetId = 0
@@ -98,7 +110,7 @@ function fetchMedia(info, fn) {
           }
         }
       }
-      fn(variants[targetId].url)
+      callback(variants[targetId].url)
     }
   )
 }
