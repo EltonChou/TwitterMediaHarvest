@@ -4,7 +4,7 @@
 
 Clone to local and run:
 
-```npm run build```
+```yarn build```
 
 
 ## Fearture
