@@ -1,6 +1,3 @@
-/**
- * listen to message from content script.
- */
 // eslint-disable-next-line no-undef
 chrome.runtime.onMessage.addListener(async request => {
   !request.medias
@@ -19,9 +16,9 @@ function downloadImage(info, medias) {
   for (const media of medias) {
     // eslint-disable-next-line no-undef
     chrome.downloads.download({
-      url: media.url,
+      url: media.fileUrl,
       filename: `${info.screenName}-${info.userId}-${info.tweetId}-${
-        media.name
+        media.filename
       }`,
       conflictAction: 'overwrite',
     })
