@@ -1,6 +1,6 @@
 {
   "name": "origclick",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The easiest way to get media from twitter-timeline.",
   "main": "./src/main.js",
   "dependencies": {
@@ -35,7 +35,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --watch --display-error-details --colors"
+    "build": "webpack --display-error-details --colors",
+    "watch": "webpack --watch --display-error-details --colors"
   },
   "repository": {
     "type": "git",
