@@ -16,7 +16,7 @@ function downloadImage(info, medias) {
   for (const media of medias) {
     // eslint-disable-next-line no-undef
     chrome.downloads.download({
-      url: media.fileUrl,
+      url: media.url,
       filename: `${info.screenName}-${info.userId}-${info.tweetId}-${
         media.filename
       }`,
