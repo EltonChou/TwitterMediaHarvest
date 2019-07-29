@@ -1,7 +1,7 @@
 import './assets/css/style.sass'
 import select from 'select-dom'
 import { observeElement } from './lib/core'
-import { makeOrigClick } from './lib/utils'
+import { makeOrigClick, hasMedia } from './lib/utils'
 
 /**
  * Options of MutationObserve
@@ -14,46 +14,26 @@ const titleOptions = {
 }
 
 /**
- * Check media is exist in tweet or not.
- *
- * @param {HTMLelement} ele A valid tweet element.
- * @returns {Boolean} Media is exist in tweet or not.
- */
-const hasMedia = ele => {
-  return (
-    select.exists('.PlayableMedia-player', ele) ||
-    select.exists('.AdaptiveMedia-photoContainer', ele)
-  )
-}
-
-/**
  * Initialize OrigClick
  *
  * @function piorneer
  */
 const piorneer = () => {
-  const streamItems = select.all('.js-stream-item')
-  const permalink = select('.permalink-tweet-container')
-  for (const streamItem of streamItems) {
-    if (hasMedia(streamItem)) makeOrigClick(streamItem)
+  const articles = select.all('article')
+  const modal = select('[aria-labelledby = modal-header]')
+  for (const article of articles) {
+    if (hasMedia(article)) makeOrigClick(article)
   }
-  if (hasMedia(permalink)) makeOrigClick(permalink)
+  if (hasMedia(modal)) makeOrigClick(modal)
 }
 
 /**
- * Observe title of page to refresh initializer.
+ * When page changed refresh the initializer.
  *
  * @function observeTitle
  */
 function observeTitle() {
-  const body = select('body')
-  observeElement(
-    'title',
-    () => {
-      if (!body.classList.contains('overlay-enabled')) init()
-    },
-    titleOptions
-  )
+  observeElement('title', () => init(), titleOptions)
 }
 
 /**
@@ -62,26 +42,10 @@ function observeTitle() {
  * @function observeStream
  */
 function observeStream() {
-  observeElement('#stream-items-id', mutations => {
+  observeElement('section > div > div > div', mutations => {
     for (const mutation of mutations) {
       for (const addedNode of mutation.addedNodes) {
         if (hasMedia(addedNode)) makeOrigClick(addedNode)
-      }
-    }
-  })
-}
-
-/**
- * Observe Permalink
- *
- * @function observePermalink
- */
-function observePermalink() {
-  observeElement('.PermalinkOverlay-body', mutations => {
-    for (const mutation of mutations) {
-      if (mutation.addedNodes.length) {
-        piorneer()
-        observeThread()
       }
     }
   })
@@ -93,7 +57,7 @@ function observePermalink() {
  * @function observeGallery
  */
 function observeGallery() {
-  observeElement('.GalleryTweet', mutations => {
+  observeElement('#react-root > div > div', mutations => {
     for (const mutation of mutations) {
       if (mutation.addedNodes.length) {
         makeOrigClick(mutation.target, 'insert')
@@ -128,7 +92,6 @@ const init = () => {
   observeStream()
   observeThread()
   observeGallery()
-  observePermalink()
 }
 
 init()

@@ -59,7 +59,7 @@ export class OrigClick {
    * @method makeButton
    * @returns {HTMLElement} OrigClick-Button
    */
-  makeButton() {
+  static makeButton() {
     // eslint-disable-next-line no-undef
     const buttonWrapper = createElementFromHTML(`
     <div class="OrigClickWrapper js-tooltip" data-original-title="OrigClick"><div>
