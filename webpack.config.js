@@ -3,18 +3,16 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   mode: 'production',
+  optimization: {
+    minimize: false,
+  },
   entry: {
     main: path.resolve('./src/main.js'),
-    // background: path.resolve('./src/background.js'),
   },
-  // devtool: 'source-map',
   output: {
     filename: '[name].js',
     path: path.join(__dirname, 'build'),
   },
-  // optimization: {
-  //   minimizer: [new UglifyJsPlugin()],
-  // },
   module: {
     rules: [
       {

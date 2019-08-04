@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-undef
 chrome.runtime.onMessage.addListener(async request => {
+  console.log('received')
   !request.medias
     ? await downloadVideo(JSON.parse(request.info))
     : downloadImage(JSON.parse(request.info), JSON.parse(request.medias))
@@ -17,9 +18,7 @@ function downloadImage(info, medias) {
     // eslint-disable-next-line no-undef
     chrome.downloads.download({
       url: media.url,
-      filename: `${info.screenName}-${info.userId}-${info.tweetId}-${
-        media.filename
-      }`,
+      filename: `${info.screenName}-${info.tweetId}-${media.filename}`,
       conflictAction: 'overwrite',
     })
   }
@@ -38,7 +37,7 @@ function downloadVideo(info) {
     // eslint-disable-next-line no-undef
     chrome.downloads.download({
       url: url,
-      filename: `${info.screenName}-${info.userId}-${info.tweetId}-${name}`,
+      filename: `${info.screenName}-${info.tweetId}-${name}`,
       conflictAction: 'overwrite',
     })
   })
