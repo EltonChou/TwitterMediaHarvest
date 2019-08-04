@@ -10,6 +10,7 @@ import downloadButtonSVG from '../assets/icons/download-solid.svg'
 function makeImageJson(target) {
   const imageArray = []
   const medias = select.all('img', target)
+  console.log(target)
   for (const media of medias) {
     const imageUrl = media.src.split(':')
     const fileUrl = imageUrl[0] + ':' + imageUrl[1] + ':orig'

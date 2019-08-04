@@ -28,6 +28,7 @@ const hasMedia = ele => {
  * @param {string} mode `append` or `insert`
  */
 const makeOrigClick = article => {
+  console.log(article)
   const origClick = new OrigClick(article)
   const origButton = origClick.makeButton()
   if (isArticleCanBeAppend(article)) {

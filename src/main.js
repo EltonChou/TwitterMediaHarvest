@@ -1,7 +1,7 @@
 import './assets/css/style.sass'
 import select from 'select-dom'
 // import { observeElement } from './lib/core'
-// import { makeOrigClick, hasMedia } from './lib/utils'
+import { makeOrigClick, hasMedia } from './lib/utils'
 
 /**
  * Options of MutationObserve
@@ -114,14 +114,14 @@ const initialize = () => {
 }
 
 const observeStream = () => {
-  observeElement(
-    '#react-root > div > div > div > main > div > div.css-1dbjc4n.r-aqfbo4.r-1niwhzg.r-16y2uox > div > div > div > div > div:nth-child(2) > div > div > div:nth-child(3) > section > div > div > div',
-    function(mutations) {
-      for (let mutation of mutations) {
-        console.log(mutation)
+  console.log('stream')
+  observeElement('section > div > div > div', function(mutations) {
+    for (let mutation of mutations) {
+      for (let addedNode of mutation.addedNodes) {
+        if (hasMedia(addedNode)) makeOrigClick(addedNode)
       }
     }
-  )
+  })
 }
 
 const observeSetion = () => {
@@ -130,7 +130,7 @@ const observeSetion = () => {
     function(mutations) {
       if (mutations) {
         if (select.exists('article')) {
-          observeStream
+          observeStream()
           this.disconnect()
         }
       }
