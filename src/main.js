@@ -111,14 +111,17 @@ const observeElement = (element, callback, options = { childList: true }) => {
 
 const initialize = () => {
   const articles = select.all('article')
+  for (let article of articles) {
+    if (hasMedia(article)) makeOrigClick(article, 'insert')
+  }
 }
 
 const observeStream = () => {
-  console.log('stream')
   observeElement('section > div > div > div', function(mutations) {
     for (let mutation of mutations) {
       for (let addedNode of mutation.addedNodes) {
-        if (hasMedia(addedNode)) makeOrigClick(addedNode)
+        const article = select('article', addedNode)
+        if (hasMedia(addedNode)) makeOrigClick(article, 'insert')
       }
     }
   })
@@ -130,6 +133,7 @@ const observeSetion = () => {
     function(mutations) {
       if (mutations) {
         if (select.exists('article')) {
+          initialize()
           observeStream()
           this.disconnect()
         }

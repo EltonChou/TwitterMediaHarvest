@@ -8,13 +8,21 @@ import downloadButtonSVG from '../assets/icons/download-solid.svg'
  * @returns {Array[{url: String, filename: String}]} Array of images-url and filename.
  */
 function makeImageJson(target) {
-  const imageArray = []
-  const medias = select.all('img', target)
   console.log(target)
+  const imageArray = []
+  const mediaContainer = select(
+    'div.css-1dbjc4n.r-18u37iz.r-thb0q2 > div.css-1dbjc4n.r-1iusvr4.r-46vdb2.r-5f2r5o.r-bcqeeo > div.css-1dbjc4n.r-19i43ro > div.css-1dbjc4n.r-156q2ks',
+    target
+  )
+  debugger
+  const medias = select.all('img', mediaContainer)
   for (const media of medias) {
-    const imageUrl = media.src.split(':')
-    const fileUrl = imageUrl[0] + ':' + imageUrl[1] + ':orig'
-    const fileName = imageUrl[1].split('/')[4]
+    const imageUrl = new URL(media.src)
+    imageUrl.searchParams.set('name', 'orig')
+    const fileUrl = imageUrl.href
+    const fileName = `${
+      imageUrl.pathname.split('/')[2]
+    }.${imageUrl.searchParams.get('format')}`
     imageArray.push({ url: fileUrl, filename: fileName })
   }
   return imageArray
@@ -26,7 +34,7 @@ function makeImageJson(target) {
  * @param {HTMLelement} article A valid tweet element.
  * @returns {JSON} tweetInfo
  */
-function parseTweetID(article) {
+function parseTweetInfo(article) {
   const magicLink = select('time', article).parentNode.getAttribute('href')
   const info = magicLink.split('/')
   return {
@@ -52,7 +60,7 @@ export class OrigClick {
    * @param {Node} article
    */
   constructor(article) {
-    this.info = parseTweetID(article)
+    this.info = parseTweetInfo(article)
     if (select.exists('img', article)) {
       this.medias = makeImageJson(article)
     }
