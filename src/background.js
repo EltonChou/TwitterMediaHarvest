@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-undef
 chrome.runtime.onMessage.addListener(async request => {
-  console.log('received')
   !request.medias
     ? await downloadVideo(JSON.parse(request.info))
     : downloadImage(JSON.parse(request.info), JSON.parse(request.medias))

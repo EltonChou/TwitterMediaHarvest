@@ -117,7 +117,7 @@ const initialize = () => {
 }
 
 const observeStream = () => {
-  observeElement('section > div > div > div', function(mutations) {
+  observeElement('section > div > div > div', mutations => {
     for (let mutation of mutations) {
       for (let addedNode of mutation.addedNodes) {
         const article = select('article', addedNode)
@@ -130,12 +130,12 @@ const observeStream = () => {
 const observeSetion = () => {
   observeElement(
     'section',
-    function(mutations) {
+    mutations => {
       if (mutations) {
         if (select.exists('article')) {
           initialize()
-          observeStream()
-          this.disconnect()
+          // observeStream()
+          // this.disconnect()
         }
       }
     },
@@ -149,7 +149,7 @@ observeElement(
     if (mutations) {
       if (select.exists('section')) {
         observeSetion()
-        this.disconnect()
+        // this.disconnect()
       }
     }
   },

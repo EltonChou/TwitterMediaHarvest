@@ -18,8 +18,8 @@ const isArticleCanBeAppend = element => {
  * @returns {Boolean} Media is exist in tweet or not.
  */
 const hasMedia = ele => {
-  return select(
-    'div.css-1dbjc4n.r-18u37iz.r-thb0q2 > div.css-1dbjc4n.r-1iusvr4.r-46vdb2.r-5f2r5o.r-bcqeeo > div.css-1dbjc4n.r-19i43ro > div.css-1dbjc4n.r-156q2ks',
+  return select.exists(
+    'div.css-1dbjc4n.r-1iusvr4.r-46vdb2.r-1777fci.r-5f2r5o.r-bcqeeo.r-wgs6xk > div:nth-child(3)',
     ele
   )
 }
@@ -37,11 +37,11 @@ const makeOrigClick = (article, mode = 'append') => {
     article.dataset.appended = true
 
     const actionBar = select(
-      'div.css-1dbjc4n.r-18u37iz.r-1wtj0ep.r-156q2ks.r-1mdbhws',
+      'div > div.css-1dbjc4n.r-18u37iz.r-thb0q2 > div.css-1dbjc4n.r-1iusvr4.r-46vdb2.r-1777fci.r-5f2r5o.r-bcqeeo.r-wgs6xk > div.css-1dbjc4n.r-18u37iz.r-1wtj0ep.r-psjefw.r-1mdbhws',
       article
     )
     const lastAction = select(
-      'div.css-1dbjc4n.r-1mlwlqe.r-18kxxzh.r-199wky7',
+      'div > div.css-1dbjc4n.r-18u37iz.r-thb0q2 > div.css-1dbjc4n.r-1iusvr4.r-46vdb2.r-1777fci.r-5f2r5o.r-bcqeeo.r-wgs6xk > div.css-1dbjc4n.r-18u37iz.r-1wtj0ep.r-psjefw.r-1mdbhws > div:nth-child(5)',
       actionBar
     )
 
