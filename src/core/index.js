@@ -1,29 +1,27 @@
 import select from 'select-dom'
 import downloadButtonSVG from '../assets/icons/download-solid.svg'
+import { createElementFromHTML, isArticleCanBeAppend } from '../utils'
 
 /**
- * Generate array of images contains `url` and `filename`.
+ * Generate OrigClick.
  *
- * @param {HTMLElement} target A valid tweet element.
- * @returns {Array[{url: String, filename: String}]} Array of images-url and filename.
+ * @param {Node} addedNode
+ * @param {string} mode `append` or `insert`
  */
-function makeImageJson(target) {
-  const imageArray = []
-  const mediaContainer = select(
-    'div.css-1dbjc4n.r-18u37iz.r-thb0q2 > div.css-1dbjc4n.r-1iusvr4.r-46vdb2.r-5f2r5o.r-bcqeeo > div.css-1dbjc4n.r-19i43ro > div.css-1dbjc4n.r-156q2ks',
-    target
-  )
-  const medias = select.all('img', mediaContainer)
-  for (const media of medias) {
-    const imageUrl = new URL(media.src)
-    imageUrl.searchParams.set('name', 'orig')
-    const fileUrl = imageUrl.href
-    const fileName = `${
-      imageUrl.pathname.split('/')[2]
-    }.${imageUrl.searchParams.get('format')}`
-    imageArray.push({ url: fileUrl, filename: fileName })
+export const makeOrigClick = (article, mode = 'append') => {
+  const origClick = new OrigClick(article)
+  const origButton = origClick.makeButton()
+  if (isArticleCanBeAppend(article)) {
+    article.dataset.appended = true
+
+    const tweet = select('[data-testid="tweet"]', article)
+    const actionBar = select('[role="group"]', tweet)
+    const lastAction = select('div:nth-child(5)', actionBar)
+
+    if (!lastAction || !actionBar) return false
+    if (mode === 'append') actionBar.appendChild(origButton)
+    if (mode === 'insert') actionBar.insertBefore(origButton, lastAction)
   }
-  return imageArray
 }
 
 /**
@@ -41,27 +39,12 @@ function parseTweetInfo(article) {
   }
 }
 
-/**
- * @function createElementFromHTML
- * @param {String} htmlString A valid html.
- * @returns {HTMLElement} A valid HTML element
- */
-function createElementFromHTML(htmlString) {
-  // eslint-disable-next-line no-undef
-  const wrapper = document.createElement('div')
-  wrapper.innerHTML = htmlString.trim()
-  return wrapper.firstChild
-}
-
 export class OrigClick {
   /**
    * @param {Node} article
    */
   constructor(article) {
     this.info = parseTweetInfo(article)
-    if (select.exists('img', article)) {
-      this.medias = makeImageJson(article)
-    }
   }
 
   /**

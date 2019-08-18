@@ -1,7 +1,7 @@
 import './assets/css/style.sass'
 import select from 'select-dom'
-// import { observeElement } from './lib/core'
-import { makeOrigClick, hasMedia } from './lib/utils'
+import { hasMedia, observeElement } from './utils'
+import { makeOrigClick } from './core'
 
 /**
  * Options of MutationObserve
@@ -101,14 +101,6 @@ const titleOptions = {
 //   )
 // }
 
-const observeElement = (element, callback, options = { childList: true }) => {
-  if (select.exists(element)) {
-    // eslint-disable-next-line no-undef
-    const observer = new MutationObserver(callback)
-    observer.observe(select(element), options)
-  }
-}
-
 const initialize = () => {
   const articles = select.all('article')
   for (let article of articles) {
@@ -134,7 +126,7 @@ const observeSetion = () => {
       if (mutations) {
         if (select.exists('article')) {
           initialize()
-          // observeStream()
+          observeStream()
           // this.disconnect()
         }
       }
