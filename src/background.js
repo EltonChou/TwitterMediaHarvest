@@ -10,12 +10,11 @@ chrome.runtime.onMessage.addListener(async request => {
  * @param {JSON} info twitter information
  */
 async function downloadVideo(info) {
-  let twitterMedia = new TwitterMedia(info.screenName, info.tweetId)
   // eslint-disable-next-line no-undef
   chrome.cookies.get(
     { url: 'https://twitter.com', name: 'ct0' },
     async cookie => {
-      twitterMedia.setCsrfToken(cookie.value)
+      let twitterMedia = new TwitterMedia(info, cookie.value)
       let detail = await twitterMedia.getTweetDetail()
       twitterMedia.parseMedia(detail)
       for (let media of twitterMedia.medias) {
@@ -26,7 +25,7 @@ async function downloadVideo(info) {
   )
 }
 
-const initHeader = () => {
+const initHeader = token => {
   let header = new Headers()
   header.append(
     'Authorization',
@@ -37,37 +36,27 @@ const initHeader = () => {
     'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1'
   )
   header.append('cache-control', 'no-cache')
+  header.append('x-twitter-active-user', 'yegits')
+  header.append('x-twitter-auth-type', 'OAuth2Session')
+  header.append('x-csrf-token', token)
   return header
 }
 
 class TwitterMedia {
-  constructor(screenName, tweetId) {
-    this.screenName = screenName
-    this.tweetId = tweetId
-    this.header = initHeader()
-    this.tweetAPIurl = `https://api.twitter.com/2/timeline/conversation/${tweetId}.json?tweet_mode=extended`
+  constructor(info, token) {
+    this.screenName = info.screenName
+    this.tweetId = info.tweetId
+    this.header = initHeader(token)
+    this.tweetAPIurl = `https://api.twitter.com/2/timeline/conversation/${info.tweetId}.json?tweet_mode=extended`
     this.activateUrl = 'https://api.twitter.com/1.1/guest/activate.json'
     this.medias = []
   }
 
-  setCsrfToken(token) {
-    this.header.append('x-csrf-token', token)
-  }
-
   async getTweetDetail() {
-    let actRes = await fetch(this.activateUrl, {
-      method: 'POST',
-      mode: 'cors',
-      credentials: 'same-origin',
-      headers: this.header,
-    })
-    let data = await actRes.json()
-    this.header.append('x-guest-token', data['guest_token'])
-
     let mediaRes = await fetch(this.tweetAPIurl, {
       method: 'GET',
       mode: 'cors',
-      credentials: 'same-origin',
+      credentials: 'include',
       headers: this.header,
     })
 

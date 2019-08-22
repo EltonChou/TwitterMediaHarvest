@@ -1,6 +1,10 @@
 import select from 'select-dom'
 import downloadButtonSVG from '../assets/icons/download-solid.svg'
-import { createElementFromHTML, isArticleCanBeAppend } from '../utils'
+import {
+  createElementFromHTML,
+  isArticleCanBeAppend,
+  parseTweetInfo,
+} from '../utils'
 
 /**
  * Generate OrigClick.
@@ -21,21 +25,6 @@ export const makeOrigClick = (article, mode = 'append') => {
     if (!lastAction || !actionBar) return false
     if (mode === 'append') actionBar.appendChild(origButton)
     if (mode === 'insert') actionBar.insertBefore(origButton, lastAction)
-  }
-}
-
-/**
- * Generate tweet information.
- *
- * @param {HTMLelement} article A valid tweet element.
- * @returns {JSON} tweetInfo
- */
-function parseTweetInfo(article) {
-  const magicLink = select('time', article).parentNode.getAttribute('href')
-  const info = magicLink.split('/')
-  return {
-    screenName: info[1],
-    tweetId: info[3],
   }
 }
 

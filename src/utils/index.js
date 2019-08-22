@@ -34,6 +34,21 @@ const hasMedia = ele => {
 }
 
 /**
+ * Generate tweet information.
+ *
+ * @param {HTMLelement} article A valid tweet element.
+ * @returns {JSON} tweetInfo
+ */
+const parseTweetInfo = article => {
+  const magicLink = select('time', article).parentNode.getAttribute('href')
+  const info = magicLink.split('/')
+  return {
+    screenName: info[1],
+    tweetId: info[3],
+  }
+}
+
+/**
  * MutationObserver
  * @param {String} element DOMSelector
  * @callback
@@ -53,4 +68,10 @@ const observeElement = (element, callback, options = { childList: true }) => {
   }
 }
 
-export { isArticleCanBeAppend, hasMedia, createElementFromHTML, observeElement }
+export {
+  isArticleCanBeAppend,
+  hasMedia,
+  createElementFromHTML,
+  observeElement,
+  parseTweetInfo,
+}
