@@ -24,13 +24,22 @@ const createElementFromHTML = htmlString => {
 
 /**
  * Check media is exist in tweet or not.
- *
+ * FIXME: check location is permalink or not.
  * @param {HTMLelement} ele This should be article.
  * @returns {Boolean} Media is exist in tweet or not.
  */
 const hasMedia = ele => {
-  const result = select.exists('div > div > div > div:nth-child(3)', ele)
-  return result
+  if (!ele) return false
+  if (ele.classList.length === 2) {
+    return select.exists('.css-1dbjc4n.r-117bsoe', ele)
+  } else {
+    const tweet = select('[data-testid="tweet"]', ele)
+    const tweetEles = tweet.childNodes[1].childNodes
+    for (let tweetEle of tweetEles) {
+      if (tweetEle.classList.length === 2) return true
+    }
+    return false
+  }
 }
 
 /**
@@ -40,7 +49,7 @@ const hasMedia = ele => {
  * @param {JSON} options MutationsObserver options
  */
 const observeElement = (element, callback, options = { childList: true }) => {
-  if (typeof element === 'object') {
+  if (element instanceof HTMLElement) {
     const observer = new MutationObserver(callback)
     observer.observe(element, options)
   }

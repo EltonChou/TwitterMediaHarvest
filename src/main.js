@@ -104,18 +104,20 @@ const titleOptions = {
 const initialize = () => {
   const articles = select.all('article')
   for (let article of articles) {
-    if (hasMedia(article)) makeOrigClick(article, 'insert')
+    const checkHref = new RegExp('/status/')
+    const mode = checkHref.test(window.location.pathname) ? 'append' : 'insert'
+    if (hasMedia(article)) makeOrigClick(article, mode)
   }
 }
 
 const observeStream = () => {
   observeElement('section > div > div > div', mutations => {
-    for (let mutation of mutations) {
-      for (let addedNode of mutation.addedNodes) {
+    mutations.forEach(mutation => {
+      mutation.addedNodes.forEach(addedNode => {
         const article = select('article', addedNode)
-        if (hasMedia(addedNode)) makeOrigClick(article, 'insert')
-      }
-    }
+        if (hasMedia(article)) makeOrigClick(article, 'insert')
+      })
+    })
   })
 }
 
@@ -127,7 +129,6 @@ const observeSetion = () => {
         if (select.exists('article')) {
           initialize()
           observeStream()
-          // this.disconnect()
         }
       }
     },
@@ -135,13 +136,13 @@ const observeSetion = () => {
   )
 }
 
+// The entry point
 observeElement(
   '#react-root > div > div',
   function(mutations) {
     if (mutations) {
       if (select.exists('section')) {
         observeSetion()
-        // this.disconnect()
       }
     }
   },

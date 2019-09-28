@@ -14,12 +14,13 @@ export const makeOrigClick = (article, mode = 'append') => {
   if (isArticleCanBeAppend(article)) {
     article.dataset.appended = true
 
-    const tweet = select('[data-testid="tweet"]', article)
-    const actionBar = select('[role="group"]', tweet)
+    // const tweet = select('[data-testid="tweet"]', article)
+    const actionBar = select('[role="group"]', article)
     const lastAction = select('div:nth-child(5)', actionBar)
-
-    if (!lastAction || !actionBar) return false
-    if (mode === 'append') actionBar.appendChild(origButton)
+    // if (!lastAction || !actionBar) return false
+    if (mode === 'append') {
+      actionBar.appendChild(origButton)
+    }
     if (mode === 'insert') actionBar.insertBefore(origButton, lastAction)
   }
 }
@@ -31,11 +32,20 @@ export const makeOrigClick = (article, mode = 'append') => {
  * @returns {JSON} tweetInfo
  */
 function parseTweetInfo(article) {
-  const magicLink = select('time', article).parentNode.getAttribute('href')
-  const info = magicLink.split('/')
-  return {
-    screenName: info[1],
-    tweetId: info[3],
+  try {
+    const magicLink = select('time', article).parentNode.getAttribute('href')
+    const info = magicLink.split('/')
+    return {
+      screenName: info[1],
+      tweetId: info[3],
+    }
+  } catch (error) {
+    const magicLink = window.location.href
+    const info = magicLink.split('/')
+    return {
+      screenName: info[3],
+      tweetId: info[5],
+    }
   }
 }
 
