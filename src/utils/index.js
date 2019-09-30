@@ -24,7 +24,7 @@ const createElementFromHTML = htmlString => {
 
 /**
  * Check media is exist in tweet or not.
- * FIXME: check location is permalink or not.
+ *
  * @param {HTMLelement} ele This should be article.
  * @returns {Boolean} Media is exist in tweet or not.
  */
@@ -34,11 +34,11 @@ const hasMedia = ele => {
     return select.exists('.css-1dbjc4n.r-117bsoe', ele)
   } else {
     const tweet = select('[data-testid="tweet"]', ele)
-    const tweetEles = tweet.childNodes[1].childNodes
-    for (let tweetEle of tweetEles) {
-      if (tweetEle.classList.length === 2) return true
-    }
-    return false
+    const tweetContents = [...tweet.childNodes[1].childNodes]
+    return tweetContents.some(
+      content =>
+        content.classList.length === 2 && content.childNodes.length === 2
+    )
   }
 }
 
@@ -48,21 +48,15 @@ const hasMedia = ele => {
  * @param {HTMLelement} article A valid tweet element.
  * @returns {JSON} tweetInfo
  */
-function parseTweetInfo(article) {
-  try {
-    const magicLink = select('time', article).parentNode.getAttribute('href')
-    const info = magicLink.split('/')
-    return {
-      screenName: info[1],
-      tweetId: info[3],
-    }
-  } catch (error) {
-    const magicLink = window.location.href
-    const info = magicLink.split('/')
-    return {
-      screenName: info[3],
-      tweetId: info[5],
-    }
+const parseTweetInfo = article => {
+  const time = select('time', article)
+  const magicLink = time
+    ? time.parentNode.getAttribute('href')
+    : window.location.pathname
+  const info = magicLink.split('/')
+  return {
+    screenName: info[1],
+    tweetId: info[3],
   }
 }
 
@@ -73,17 +67,14 @@ function parseTweetInfo(article) {
  * @param {JSON} options MutationsObserver options
  */
 const observeElement = (element, callback, options = { childList: true }) => {
+  const observer = new MutationObserver(callback)
   if (element instanceof HTMLElement) {
-    const observer = new MutationObserver(callback)
     observer.observe(element, options)
   }
-  if (typeof element === 'string') {
-    if (select.exists(element)) {
-      // eslint-disable-next-line no-undef
-      const observer = new MutationObserver(callback)
-      observer.observe(select(element), options)
-    }
+  if (typeof element === 'string' && select.exists(element)) {
+    observer.observe(select(element), options)
   }
+  return observer
 }
 
 export {

@@ -9,22 +9,19 @@ import {
 /**
  * Generate OrigClick.
  *
- * @param {Node} addedNode
+ * @param {HTMLNode} addedNode
  * @param {string} mode `append` or `insert`
  */
 export const makeOrigClick = (article, mode = 'append') => {
-  const origClick = new OrigClick(article)
-  const origButton = origClick.makeButton()
   if (isArticleCanBeAppend(article)) {
+    const origClick = new OrigClick(article)
+    const origButton = origClick.makeButton()
     article.dataset.appended = true
 
-    // const tweet = select('[data-testid="tweet"]', article)
     const actionBar = select('[role="group"]', article)
     const lastAction = select('div:nth-child(5)', actionBar)
-    // if (!lastAction || !actionBar) return false
-    if (mode === 'append') {
-      actionBar.appendChild(origButton)
-    }
+
+    if (mode === 'append') actionBar.appendChild(origButton)
     if (mode === 'insert') actionBar.insertBefore(origButton, lastAction)
   }
 }
