@@ -53,9 +53,9 @@ class TwitterMedia {
   async getMedias() {
     let mediaRes = await fetch(this.tweetAPIurl, {
       method: 'GET',
-      mode: 'cors',
-      credentials: 'include',
       headers: this.header,
+      mode: 'cors',
+      cache: 'no-cache',
     })
 
     let detail = await mediaRes.json()

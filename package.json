@@ -4,6 +4,7 @@
   "description": "The easiest way to get media from twitter-timeline.",
   "main": "./src/main.js",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "select-dom": "^4.1.3"
   },
   "devDependencies": {

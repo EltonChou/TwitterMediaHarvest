@@ -2,54 +2,63 @@ import select from 'select-dom'
 import { hasMedia, observeElement } from './utils'
 import { makeOrigClick } from './core'
 
-/**
- * Options of MutationObserve
- *
- * @type {JSON}
- */
-const titleOptions = {
-  childList: true,
-  subtree: true,
+// The entry point
+function observeRoot() {
+  observeElement(
+    '#react-root > div > div',
+    function() {
+      if (select.exists('article')) {
+        observeTitle()
+        initialize()
+        observeStream()
+        this.disconnect()
+      }
+    },
+    {
+      childList: true,
+      subtree: true,
+    }
+  )
 }
 
-const initialize = () => {
+function initialize() {
+  let modalQuery = '[aria-labelledby="modal-header"]'
+  if (select.exists(modalQuery)) {
+    makeOrigClick(select(modalQuery), 'photo')
+    return
+  }
+
   const articles = select.all('article')
   for (let article of articles) {
     const checkHref = new RegExp('/status/')
-    const mode = checkHref.test(window.location.pathname) ? 'append' : 'insert'
+    const mode = checkHref.test(window.location.pathname) ? 'status' : 'stream'
     if (hasMedia(article)) makeOrigClick(article, mode)
   }
 }
 
-const observeStream = () => {
+function observeStream() {
   observeElement('section > div > div > div', mutations => {
     for (let mutation of mutations) {
       for (let addedNode of mutation.addedNodes) {
         const article = select('article', addedNode)
-        if (hasMedia(article)) makeOrigClick(article, 'insert')
+        if (hasMedia(article)) makeOrigClick(article, 'stream')
       }
     }
   })
 }
 
-const observeSetion = () => {
+function observeTitle() {
   observeElement(
-    'section',
-    () => {
-      if (select.exists('article')) {
-        initialize()
-        observeStream()
-      }
+    'title',
+    function() {
+      observeRoot()
+      this.disconnect()
     },
-    titleOptions
+    {
+      childList: true,
+      characterData: true,
+    }
   )
 }
 
-// The entry point
-observeElement(
-  '#react-root > div > div',
-  () => {
-    if (select.exists('section')) observeSetion()
-  },
-  titleOptions
-)
+observeRoot()
