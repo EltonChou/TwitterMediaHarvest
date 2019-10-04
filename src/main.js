@@ -7,9 +7,9 @@ function observeRoot() {
   observeElement(
     '#react-root > div > div',
     function() {
-      if (select.exists('article')) {
-        observeTitle()
+      if (select.exists('[role="region"]') && select.exists('article')) {
         initialize()
+        observeTitle()
         observeStream()
         this.disconnect()
       }
@@ -37,7 +37,7 @@ function initialize() {
 }
 
 function observeStream() {
-  observeElement('section > div > div > div', mutations => {
+  observeElement('[role="region"] > div > div > div', mutations => {
     for (let mutation of mutations) {
       for (let addedNode of mutation.addedNodes) {
         const article = select('article', addedNode)
