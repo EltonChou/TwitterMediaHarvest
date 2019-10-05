@@ -9,6 +9,7 @@
     "48": "assets/icons/icon48.png",
     "128": "assets/icons/icon128.png"
   },
+  "homepage_url": "https://github.com/EltonChou/TwitterMediaHarvest",
   "options_page": "options.html",
   "background": {
     "scripts": [
