@@ -9,9 +9,7 @@
     "48": "assets/icons/icon48.png",
     "128": "assets/icons/icon128.png"
   },
-  "browser_action": {
-    "default_title": "OrigClick"
-  },
+  "options_page": "options.html",
   "background": {
     "scripts": [
       "background.js"
