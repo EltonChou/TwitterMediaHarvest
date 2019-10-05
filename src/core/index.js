@@ -87,15 +87,26 @@ const OrigClick = {
       </div>
     `)
 
-    const toggleBG = function() {
+    const toggleBG = function(e) {
       const origBG = select('.origBG', this)
       const ltr = select('[dir="ltr"]', this)
       origBG.classList.toggle(`${mode}BG`)
       ltr.classList.toggle(`${mode}Color`)
+      e.stopPropagation()
     }
 
-    buttonWrapper.addEventListener('mouseover', toggleBG)
-    buttonWrapper.addEventListener('mouseout', toggleBG)
+    const clickBG = function(e) {
+      const origBG = select('.origBG', this)
+      const ltr = select('[dir="ltr"]', this)
+      origBG.classList.toggle('click')
+      ltr.classList.toggle('click')
+      e.stopPropagation()
+    }
+
+    buttonWrapper.addEventListener('mouseenter', toggleBG)
+    buttonWrapper.addEventListener('mouseleave', toggleBG)
+    buttonWrapper.addEventListener('mousedown', clickBG)
+    buttonWrapper.addEventListener('mouseup', clickBG)
 
     return buttonWrapper
   },
