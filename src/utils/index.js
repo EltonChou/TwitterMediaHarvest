@@ -25,15 +25,15 @@ const createElementFromHTML = htmlString => {
 /**
  * Check media is exist in tweet or not.
  *
- * @param {HTMLelement} ele This should be article.
+ * @param {HTMLelement} article This should be article.
  * @returns {Boolean} Media is exist in tweet or not.
  */
-const hasMedia = ele => {
-  if (!ele) return false
-  if (ele.classList.length === 2) {
-    return select.exists('.css-1dbjc4n.r-117bsoe', ele)
+const hasMedia = article => {
+  if (!article) return false
+  if (article.classList.length === 2) {
+    return select.exists('.css-1dbjc4n.r-117bsoe', article)
   } else {
-    const tweet = select('[data-testid="tweet"]', ele)
+    const tweet = select('[data-testid="tweet"]', article)
     const tweetContents = [...tweet.childNodes[1].childNodes]
     return tweetContents.some(
       content =>
@@ -65,6 +65,7 @@ const parseTweetInfo = article => {
  * @param {String} element DOMSelector
  * @callback
  * @param {JSON} options MutationsObserver options
+ * @returns {MutationObserver}
  */
 const observeElement = (element, callback, options = { childList: true }) => {
   const observer = new MutationObserver(callback)

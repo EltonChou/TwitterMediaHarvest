@@ -103,6 +103,7 @@ class TwitterMedia {
     return mediaList
   }
 
+  // TODO: Let user choose the location.
   makeChromeDownloadConf(mediaUrl, isImage) {
     const regex = new RegExp('(?:[^/])+(?<=(?:.jpg|mp4|png|gif))')
     mediaUrl = new URL(mediaUrl)
@@ -110,7 +111,7 @@ class TwitterMedia {
     const name = mediaUrl.pathname.match(regex)
     return {
       url: mediaUrl.href,
-      filename: `${this.screenName}_${this.tweetId}_${name}`,
+      filename: `twitter_media_harvest/${this.screenName}_${this.tweetId}_${name}`,
       conflictAction: 'overwrite',
     }
   }
