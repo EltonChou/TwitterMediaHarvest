@@ -1,15 +1,15 @@
 // eslint-disable-next-line no-undef
 chrome.runtime.onMessage.addListener(async request => {
-  await downloadVideo(request)
+  await downloadMedias(request)
 })
 
 /**
- * Trigger video browser-download
+ * Trigger browser-download
  *
  * @function downloadVideo
  * @param {JSON} info twitter information
  */
-async function downloadVideo(info) {
+async function downloadMedias(info) {
   // eslint-disable-next-line no-undef
   let { value } = await fetchCookie({ url: 'https://twitter.com', name: 'ct0' })
 
