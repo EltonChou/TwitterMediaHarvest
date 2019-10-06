@@ -1,6 +1,18 @@
 import select from 'select-dom'
 
 /**
+ * Fetch data from chrome storage.
+ *
+ * @param {string} keys
+ * @returns {Promise}
+ */
+const fetchFromStorage = keys =>
+  new Promise(resolve => {
+    // eslint-disable-next-line no-undef
+    chrome.storage.sync.get(keys, result => resolve(result))
+  })
+
+/**
  * Check the tweet has been appended or not.
  *
  * @param {HTMLElement} element A valid tweet element
@@ -11,7 +23,8 @@ const isArticleCanBeAppend = element => {
 }
 
 /**
- * @function createElementFromHTML
+ * Create HTMLElement from html string.
+ *
  * @param {String} htmlString A valid html.
  * @returns {HTMLElement} A valid HTML element
  */
@@ -46,7 +59,7 @@ const hasMedia = article => {
  * Generate tweet information.
  *
  * @param {HTMLelement} article A valid tweet element.
- * @returns {JSON} tweetInfo
+ * @returns {JSON} {screenName, tweetId}
  */
 const parseTweetInfo = article => {
   const time = select('time', article)
@@ -84,4 +97,5 @@ export {
   createElementFromHTML,
   observeElement,
   parseTweetInfo,
+  fetchFromStorage,
 }
