@@ -5,7 +5,7 @@ build/
 *.crx
 *.pem
 *.zip
-*.html
+/*.html
 
 # Logs
 logs
