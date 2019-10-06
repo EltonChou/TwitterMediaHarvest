@@ -10,7 +10,10 @@
     "128": "assets/icons/icon128.png"
   },
   "homepage_url": "https://github.com/EltonChou/TwitterMediaHarvest",
-  "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
   "background": {
     "scripts": [
       "background.js"
@@ -21,7 +24,9 @@
     {
       "matches": [
         "http://twitter.com/*",
-        "https://twitter.com/*"
+        "https://twitter.com/*",
+        "http://mobile.twitter.com/*",
+        "https://mobile.twitter.com/*"
       ],
       "js": [
         "main.js"
@@ -40,6 +45,7 @@
     "activeTab",
     "tabs",
     "downloads",
-    "cookies"
+    "cookies",
+    "storage"
   ]
 }
