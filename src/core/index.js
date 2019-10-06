@@ -51,7 +51,10 @@ const OrigClick = {
   integrateArticleWithButton: (article, button) => {
     const info = parseTweetInfo(article)
 
-    button.dataset.info = JSON.stringify(info)
+    for (let key in info) {
+      button.dataset[key] = info[key]
+    }
+
     button.addEventListener('click', function() {
       // eslint-disable-next-line no-undef
       chrome.runtime.sendMessage(this.dataset)
@@ -87,17 +90,16 @@ const OrigClick = {
       </div>
     `)
 
+    const origBG = select('.origBG', buttonWrapper)
+    const ltr = select('[dir="ltr"]', buttonWrapper)
+
     const toggleBG = function(e) {
-      const origBG = select('.origBG', this)
-      const ltr = select('[dir="ltr"]', this)
       origBG.classList.toggle(`${mode}BG`)
       ltr.classList.toggle(`${mode}Color`)
       e.stopPropagation()
     }
 
     const clickBG = function(e) {
-      const origBG = select('.origBG', this)
-      const ltr = select('[dir="ltr"]', this)
       origBG.classList.toggle('click')
       ltr.classList.toggle('click')
       e.stopPropagation()
@@ -105,8 +107,8 @@ const OrigClick = {
 
     buttonWrapper.addEventListener('mouseenter', toggleBG)
     buttonWrapper.addEventListener('mouseleave', toggleBG)
-    buttonWrapper.addEventListener('mousedown', clickBG)
     buttonWrapper.addEventListener('mouseup', clickBG)
+    buttonWrapper.addEventListener('mousedown', clickBG)
 
     return buttonWrapper
   },
