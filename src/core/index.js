@@ -21,7 +21,7 @@ export const makeOrigClick = (article, mode = 'stream') => {
 
     const actionBar = select('[role="group"]', article)
     const lastAction = select('div:nth-child(5)', actionBar)
-
+    if (!actionBar) return false
     if (mode === 'status' || mode === 'photo') actionBar.appendChild(origButton)
     if (mode === 'stream') actionBar.insertBefore(origButton, lastAction)
   }
@@ -82,7 +82,7 @@ const OrigClick = {
           <div dir="ltr"
             class="${ltrStyle}">
             <div class="css-1dbjc4n r-xoduu5">
-              <div class="css-1dbjc4n r-sdzlij r-1p0dtai r-xoduu5 r-1d2f490 r-xf4iuw r-u8s1d r-zchlnj r-ipm5af r-o7ynqc r-6416eg origBG"></div>
+              <div class="css-1dbjc4n r-sdzlij r-1p0dtai r-xoduu5 r-1d2f490 r-xf4iuw r-u8s1d r-zchlnj r-ipm5af r-o7ynqc r-6416eg ${mode}BG"></div>
               ${icon.outerHTML}
             </div>
           </div>
@@ -90,23 +90,23 @@ const OrigClick = {
       </div>
     `)
 
-    const origBG = select('.origBG', buttonWrapper)
+    const bg = select(`.${mode}BG`, buttonWrapper)
     const ltr = select('[dir="ltr"]', buttonWrapper)
 
-    const toggleBG = function(e) {
-      origBG.classList.toggle(`${mode}BG`)
+    const toggleBG = function() {
+      bg.classList.toggle('hover')
       ltr.classList.toggle(`${mode}Color`)
-      e.stopPropagation()
+      bg.classList.remove('click')
     }
 
     const clickBG = function(e) {
-      origBG.classList.toggle('click')
+      bg.classList.toggle('click')
       ltr.classList.toggle('click')
       e.stopPropagation()
     }
 
-    buttonWrapper.addEventListener('mouseenter', toggleBG)
-    buttonWrapper.addEventListener('mouseleave', toggleBG)
+    buttonWrapper.addEventListener('mouseover', toggleBG)
+    buttonWrapper.addEventListener('mouseout', toggleBG)
     buttonWrapper.addEventListener('mouseup', clickBG)
     buttonWrapper.addEventListener('mousedown', clickBG)
 
