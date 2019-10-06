@@ -65,6 +65,11 @@ module.exports = {
         context: 'src',
         to: 'assets/icons/[name].[ext]',
       },
+      {
+        from: 'public/*',
+        context: 'src',
+        to: '[name].[ext]',
+      },
     ]),
   ],
 }
