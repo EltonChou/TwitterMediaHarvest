@@ -36,6 +36,17 @@ const createElementFromHTML = htmlString => {
 }
 
 /**
+ * check url is in status or not.
+ *
+ * @param {String} url
+ * @returns {Boolean}
+ */
+const isStatus = url => {
+  const checkHref = new RegExp('/status/')
+  return checkHref.test(url)
+}
+
+/**
  * Check media is exist in tweet or not.
  *
  * @param {HTMLelement} article This should be article.
@@ -44,8 +55,13 @@ const createElementFromHTML = htmlString => {
 const hasMedia = article => {
   if (!article) return false
   if (article.classList.length === 2) {
-    return select.exists('.css-1dbjc4n.r-117bsoe', article)
+    // status
+    const mediaContent = select('.css-1dbjc4n.r-117bsoe', article)
+    return [...mediaContent.childNodes].some(
+      content => content.classList.length === 2
+    )
   } else {
+    // stream
     const tweet = select('[data-testid="tweet"]', article)
     const tweetContents = [...tweet.childNodes[1].childNodes]
     return tweetContents.some(
@@ -66,6 +82,7 @@ const parseTweetInfo = article => {
   const magicLink = time
     ? time.parentNode.getAttribute('href')
     : window.location.pathname
+
   const info = magicLink.split('/')
   return {
     screenName: info[1],
@@ -98,4 +115,5 @@ export {
   observeElement,
   parseTweetInfo,
   fetchFromStorage,
+  isStatus,
 }

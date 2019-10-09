@@ -2,10 +2,13 @@
 .DS_Store
 .vscode/
 build/
+temp/
 *.crx
 *.pem
 *.zip
 /*.html
+*.psd
+*.clip
 
 # Logs
 logs

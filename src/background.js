@@ -61,8 +61,8 @@ class TwitterMedia {
       let { bitrate, url } = variant
       // bitrate will be 0 if video is made from gif.
       // variants contains m3u8 info.
-      let isHigher = bitrate > hiRes || bitrate === 0
-      if (typeof bitrate !== 'undefined' && isHigher) {
+      let isHigherBitrate = bitrate > hiRes || bitrate === 0
+      if (typeof bitrate !== 'undefined' && isHigherBitrate) {
         hiRes = bitrate
         targetUrl = url
       }
@@ -117,6 +117,11 @@ function initHeader(token) {
   return header
 }
 
+/**
+ *
+ * @param {string[]} keys
+ * @returns {Promise<object>}
+ */
 function fetchStorage(keys) {
   return new Promise(resolve => {
     // eslint-disable-next-line no-undef
@@ -124,6 +129,14 @@ function fetchStorage(keys) {
   })
 }
 
+/**
+ * @typedef target
+ * @type {Object}
+ * @property {string} url
+ * @property {string} name
+ * @param {Object.<target>} target
+ * @returns {Promise<String>}
+ */
 function fetchCookie(target) {
   return new Promise(resolve => {
     // eslint-disable-next-line no-undef
