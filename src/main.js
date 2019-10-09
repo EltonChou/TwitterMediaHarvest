@@ -1,5 +1,5 @@
 import select from 'select-dom'
-import { hasMedia, observeElement } from './utils'
+import { hasMedia, observeElement, isStatus } from './utils'
 import { makeOrigClick } from './core'
 
 // The entry point
@@ -30,8 +30,7 @@ function initialize() {
 
   const articles = select.all('article')
   for (let article of articles) {
-    const checkHref = new RegExp('/status/')
-    const mode = checkHref.test(window.location.pathname) ? 'status' : 'stream'
+    const mode = isStatus(window.location.pathname) ? 'status' : 'stream'
     if (hasMedia(article)) makeOrigClick(article, mode)
   }
 }

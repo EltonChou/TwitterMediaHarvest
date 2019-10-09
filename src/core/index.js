@@ -20,10 +20,15 @@ export const makeOrigClick = (article, mode = 'stream') => {
     article.dataset.appended = true
 
     const actionBar = select('[role="group"]', article)
+    if (!actionBar) {
+      // eslint-disable-next-line no-console
+      console.log(article)
+      return false
+    }
+
     const lastAction = select('div:nth-child(5)', actionBar)
-    if (!actionBar) return false
-    if (mode === 'status' || mode === 'photo') actionBar.appendChild(origButton)
     if (mode === 'stream') actionBar.insertBefore(origButton, lastAction)
+    if (mode === 'status' || mode === 'photo') actionBar.appendChild(origButton)
   }
 }
 
