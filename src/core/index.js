@@ -20,15 +20,10 @@ export const makeOrigClick = (article, mode = 'stream') => {
     article.dataset.appended = true
 
     const actionBar = select('[role="group"]', article)
-    if (!actionBar) {
-      // eslint-disable-next-line no-console
-      console.log(article)
-      return false
-    }
+    if (!actionBar) return false
 
-    const lastAction = select('div:nth-child(5)', actionBar)
-    if (mode === 'stream') actionBar.insertBefore(origButton, lastAction)
-    if (mode === 'status' || mode === 'photo') actionBar.appendChild(origButton)
+    // const lastAction = select('div:nth-child(5)', actionBar)
+    actionBar.appendChild(origButton)
   }
 }
 
@@ -107,7 +102,7 @@ const OrigClick = {
     const clickBG = function(e) {
       bg.classList.toggle('click')
       ltr.classList.toggle('click')
-      e.stopPropagation()
+      e.stopImmediatePropagation()
     }
 
     buttonWrapper.addEventListener('mouseover', toggleBG)

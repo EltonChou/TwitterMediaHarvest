@@ -1,15 +1,15 @@
 {
   "manifest_version": 2,
-  "name": "Twitter Original Media Harvest",
+  "name": "Media Harvest : Twitter Media Downloader",
   "short_name": "Twitter Media Harvest",
   "description": "The easiest way to get media from twitter timeline.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "icons": {
     "16": "assets/icons/icon16.png",
+    "32": "assets/icons/icon32.png",
     "48": "assets/icons/icon48.png",
     "128": "assets/icons/icon128.png"
   },
-  "homepage_url": "https://github.com/EltonChou/TwitterMediaHarvest",
   "options_ui": {
     "page": "options.html",
     "open_in_tab": false
