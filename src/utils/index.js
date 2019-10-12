@@ -36,14 +36,12 @@ const createElementFromHTML = htmlString => {
 }
 
 /**
- * check url is in status or not.
  *
- * @param {String} url
- * @returns {Boolean}
+ * @param {HTMLElement} article
+ * @returns {string} mode
  */
-const isStatus = url => {
-  const checkHref = new RegExp('/status/')
-  return checkHref.test(url)
+const checkMode = article => {
+  return article.classList.length === 2 ? 'status' : 'stream'
 }
 
 /**
@@ -115,5 +113,5 @@ export {
   observeElement,
   parseTweetInfo,
   fetchFromStorage,
-  isStatus,
+  checkMode,
 }
