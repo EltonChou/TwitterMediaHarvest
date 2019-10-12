@@ -41,7 +41,9 @@ const createElementFromHTML = htmlString => {
  * @returns {string} mode
  */
 const checkMode = article => {
-  return article.classList.length === 2 ? 'status' : 'stream'
+  if (article instanceof HTMLDivElement) return 'photo'
+  if (article.classList.length === 2) return 'status'
+  return 'stream'
 }
 
 /**

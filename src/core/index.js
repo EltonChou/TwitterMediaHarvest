@@ -5,6 +5,7 @@ import {
   isArticleCanBeAppend,
   parseTweetInfo,
   createElementFromHTML,
+  checkMode,
 } from '../utils'
 
 /**
@@ -13,7 +14,8 @@ import {
  * @param {HTMLElement} article `tweet` element
  * @param {string} mode `stream`, `status`, `photo`
  */
-export const makeOrigClick = (article, mode = 'stream') => {
+export const makeOrigClick = article => {
+  const mode = checkMode(article)
   if (isArticleCanBeAppend(article)) {
     const button = OrigClick.createButtonByMode(mode)
     const origButton = OrigClick.integrateArticleWithButton(article, button)

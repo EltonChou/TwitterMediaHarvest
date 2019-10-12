@@ -1,6 +1,6 @@
 {
   "name": "twitter-media-harvest",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "The easiest way to get media from twitter-timeline.",
   "main": "./src/main.js",
   "dependencies": {
@@ -34,12 +34,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EltonChou/origclick.git"
+    "url": "git+https://github.com/EltonChou/TwitterMediaHarvest.git"
   },
   "author": "Elton H.Y. Chou",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/EltonChou/origclick/issues"
+    "url": "https://github.com/EltonChou/TwitterMediaHarvest/issues"
   },
-  "homepage": "https://github.com/EltonChou/origclick#readme"
+  "homepage": "https://github.com/EltonChou/TwitterMediaHarvest#readme"
 }
