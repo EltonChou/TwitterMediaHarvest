@@ -1,6 +1,31 @@
 import select from 'select-dom'
 
 /**
+ * @param {HTMLElement} article `tweet` element
+ * @param {string} mode `stream`, `status`, `photo`
+ *
+ * @returns {HTMLElement}
+ */
+const integrateArticleWithButton = (article, button) => {
+  const info = parseTweetInfo(article)
+
+  button = integrateDataWithButton(info, button)
+
+  button.addEventListener('click', function() {
+    // eslint-disable-next-line no-undef
+    chrome.runtime.sendMessage(this.dataset)
+  })
+  return button
+}
+
+const integrateDataWithButton = (obj, button) => {
+  for (let key in obj) {
+    button.dataset[key] = obj[key]
+  }
+  return button
+}
+
+/**
  * Fetch data from chrome storage.
  *
  * @param {string} keys
@@ -116,4 +141,6 @@ export {
   parseTweetInfo,
   fetchFromStorage,
   checkMode,
+  integrateDataWithButton,
+  integrateArticleWithButton,
 }

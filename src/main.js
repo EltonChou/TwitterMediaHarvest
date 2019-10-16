@@ -1,6 +1,6 @@
 import select from 'select-dom'
 import { hasMedia, observeElement } from './utils'
-import { makeOrigClick } from './core'
+import { makeHarvester } from './core'
 
 // The entry point
 function observeRoot() {
@@ -24,13 +24,13 @@ function observeRoot() {
 function initialize() {
   let modalQuery = '[aria-labelledby="modal-header"]'
   if (select.exists(modalQuery)) {
-    makeOrigClick(select(modalQuery))
+    makeHarvester(select(modalQuery))
     return void 0
   }
 
   const articles = select.all('article')
   for (let article of articles) {
-    if (hasMedia(article)) makeOrigClick(article)
+    if (hasMedia(article)) makeHarvester(article)
   }
 }
 
@@ -39,7 +39,7 @@ function observeStream() {
     for (let mutation of mutations) {
       for (let addedNode of mutation.addedNodes) {
         const article = select('article', addedNode)
-        if (hasMedia(article)) makeOrigClick(article)
+        if (hasMedia(article)) makeHarvester(article)
       }
     }
   })

@@ -3,7 +3,7 @@
   "name": "Media Harvest : Twitter Media Downloader",
   "short_name": "Twitter Media Harvest",
   "description": "The easiest way to get media from twitter timeline.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "icons": {
     "16": "assets/icons/icon16.png",
     "32": "assets/icons/icon32.png",
