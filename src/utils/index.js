@@ -22,6 +22,20 @@ const integrateArticleWithButton = (article, button) => {
 }
 
 /**
+ *
+ * @param {Object} data
+ * @param {Element} button
+ *
+ * @returns {Element}
+ */
+const integrateDataWithButton = (data, button) => {
+  for (let key in data) {
+    button.dataset[key] = data[key]
+  }
+  return button
+}
+
+/**
  * Fetch data from chrome storage.
  *
  * @param {string} keys
@@ -144,4 +158,5 @@ export {
   fetchFromStorage,
   checkMode,
   integrateArticleWithButton,
+  integrateDataWithButton,
 }
