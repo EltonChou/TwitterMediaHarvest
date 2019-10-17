@@ -20,7 +20,7 @@ const Harvester = {
   /**
    *
    * @param {string} mode
-   * @returns {HTMLElement} OricClick ButtonWrapper
+   * @returns {HTMLElement} Harvester
    */
   createButtonByMode: function(mode) {
     const icon = createElementFromHTML(downloadButtonSVG)

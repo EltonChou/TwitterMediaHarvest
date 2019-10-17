@@ -1,15 +1,18 @@
 import select from 'select-dom'
 
 /**
- * @param {HTMLElement} article `tweet` element
- * @param {string} mode `stream`, `status`, `photo`
  *
- * @returns {HTMLElement}
+ * @param {Element} article `tweet` element
+ * @param {Element} button harvestButton
+ *
+ * @returns {Element} button
  */
 const integrateArticleWithButton = (article, button) => {
   const info = parseTweetInfo(article)
 
-  button = integrateDataWithButton(info, button)
+  for (let key in info) {
+    button.dataset[key] = info[key]
+  }
 
   button.addEventListener('click', function() {
     // eslint-disable-next-line no-undef
@@ -18,18 +21,11 @@ const integrateArticleWithButton = (article, button) => {
   return button
 }
 
-const integrateDataWithButton = (obj, button) => {
-  for (let key in obj) {
-    button.dataset[key] = obj[key]
-  }
-  return button
-}
-
 /**
  * Fetch data from chrome storage.
  *
  * @param {string} keys
- * @returns {Promise}
+ * @returns {promise}
  */
 const fetchFromStorage = keys =>
   new Promise(resolve => {
@@ -40,8 +36,8 @@ const fetchFromStorage = keys =>
 /**
  * Check the tweet has been appended or not.
  *
- * @param {HTMLElement} element A valid tweet element
- * @returns {Boolean} Is element has been appended?
+ * @param {Element} element A valid tweet element
+ * @returns {boolean} Is element has been appended?
  */
 const isArticleCanBeAppend = element => {
   return element && !element.dataset.appended
@@ -50,8 +46,8 @@ const isArticleCanBeAppend = element => {
 /**
  * Create HTMLElement from html string.
  *
- * @param {String} htmlString A valid html.
- * @returns {HTMLElement} A valid HTML element
+ * @param {InnerHTML} htmlString A valid html.
+ * @returns {Element} A valid HTML element
  */
 const createElementFromHTML = htmlString => {
   // eslint-disable-next-line no-undef
@@ -62,7 +58,7 @@ const createElementFromHTML = htmlString => {
 
 /**
  *
- * @param {HTMLElement} article
+ * @param {Element} article
  * @returns {string} mode
  */
 const checkMode = article => {
@@ -74,8 +70,8 @@ const checkMode = article => {
 /**
  * Check media is exist in tweet or not.
  *
- * @param {HTMLelement} article This should be article.
- * @returns {Boolean} Media is exist in tweet or not.
+ * @param {Element} article This should be article.
+ * @returns {boolean} Media is exist in tweet or not.
  */
 const hasMedia = article => {
   if (!article) return false
@@ -97,10 +93,16 @@ const hasMedia = article => {
 }
 
 /**
+ * @typedef tweetInfo
+ * @type {Object}
+ * @property {string} screenName
+ * @property {string} tweetId
+ */
+/**
  * Generate tweet information.
  *
- * @param {HTMLelement} article A valid tweet element.
- * @returns {JSON} {screenName, tweetId}
+ * @param {Element} article A valid tweet element.
+ * @returns {tweetInfo}
  */
 const parseTweetInfo = article => {
   const time = select('time', article)
@@ -118,8 +120,8 @@ const parseTweetInfo = article => {
 /**
  * MutationObserver
  * @param {String} element DOMSelector
- * @callback
- * @param {JSON} options MutationsObserver options
+ * @param {MutationCallback} callback
+ * @param {Object} options MutationsObserver options
  * @returns {MutationObserver}
  */
 const observeElement = (element, callback, options = { childList: true }) => {
@@ -141,6 +143,5 @@ export {
   parseTweetInfo,
   fetchFromStorage,
   checkMode,
-  integrateDataWithButton,
   integrateArticleWithButton,
 }

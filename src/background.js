@@ -94,7 +94,7 @@ class TwitterMedia {
 
     return {
       url: mediaUrl.href,
-      filename: `${downloadsDirectory}/${this.screenName}_${this.tweetId}_${name}`,
+      filename: `${downloadsDirectory}/${this.screenName}-${this.tweetId}-${name}`,
       conflictAction: 'overwrite',
     }
   }
@@ -117,11 +117,6 @@ function initHeader(token) {
   return header
 }
 
-/**
- *
- * @param {string[]} keys
- * @returns {Promise<object>}
- */
 function fetchStorage(keys) {
   return new Promise(resolve => {
     // eslint-disable-next-line no-undef
@@ -129,14 +124,6 @@ function fetchStorage(keys) {
   })
 }
 
-/**
- * @typedef target
- * @type {Object}
- * @property {string} url
- * @property {string} name
- * @param {Object.<target>} target
- * @returns {Promise<String>}
- */
 function fetchCookie(target) {
   return new Promise(resolve => {
     // eslint-disable-next-line no-undef
