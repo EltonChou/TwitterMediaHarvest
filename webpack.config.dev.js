@@ -4,7 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 module.exports = {
   mode: 'production',
   optimization: {
-    minimize: true,
+    minimize: false,
   },
   entry: {
     main: path.resolve('./src/main.js'),
