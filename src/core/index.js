@@ -7,7 +7,7 @@ import {
   integrateDataWithButton,
   integrateArticleWithButton,
 } from '../utils'
-import { Harvester } from '../lib'
+import Harvester from '../lib/Harvester'
 
 /**
  * Create Harvester and append to action-bar.

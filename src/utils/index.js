@@ -36,18 +36,6 @@ const integrateDataWithButton = (data, button) => {
 }
 
 /**
- * Fetch data from chrome storage.
- *
- * @param {string} keys
- * @returns {promise}
- */
-const fetchFromStorage = keys =>
-  new Promise(resolve => {
-    // eslint-disable-next-line no-undef
-    chrome.storage.sync.get(keys, result => resolve(result))
-  })
-
-/**
  * Check the tweet has been appended or not.
  *
  * @param {Element} element A valid tweet element
@@ -155,7 +143,6 @@ export {
   createElementFromHTML,
   observeElement,
   parseTweetInfo,
-  fetchFromStorage,
   checkMode,
   integrateArticleWithButton,
   integrateDataWithButton,
