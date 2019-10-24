@@ -1,3 +1,4 @@
+import path from 'path'
 import select from 'select-dom'
 
 /**
@@ -54,6 +55,26 @@ const createElementFromHTML = htmlString => {
   const wrapper = document.createElement('div')
   wrapper.innerHTML = htmlString.trim()
   return wrapper.firstChild
+}
+
+/**
+ * Parse file information from url
+ *
+ * @param {string} url
+ * @returns {object}
+ */
+const parseFileFromUrl = url => {
+  const src = new URL(url)
+  const srcPathname = src.pathname
+
+  if (path.extname(srcPathname) !== '.mp4')
+    src.searchParams.append('name', 'orig')
+  const srcBasename = path.basename(srcPathname)
+
+  return {
+    src: src.href,
+    basename: srcBasename,
+  }
 }
 
 /**
@@ -144,4 +165,5 @@ export {
   checkMode,
   integrateArticleWithButton,
   integrateDataWithButton,
+  parseFileFromUrl,
 }

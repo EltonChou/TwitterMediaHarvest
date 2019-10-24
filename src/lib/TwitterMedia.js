@@ -1,4 +1,4 @@
-import path from 'path'
+import { parseFileFromUrl } from '../utils'
 import { fetchStorage } from './chromeApi'
 import { DEFAULT_DIRECTORY } from '../constants'
 
@@ -64,14 +64,10 @@ class TwitterMedia {
   }
 
   async makeChromeDownloadConf(mediaUrl) {
-    const src = new URL(mediaUrl)
-    const srcPathName = src.pathname
-    const isImage = path.extname(srcPathName) !== '.mp4'
-    if (isImage) src.searchParams.append('name', 'orig')
-    const srcBaseName = path.basename(srcPathName)
-    const filename = await this.makeFileName(srcBaseName)
+    const fileInfo = parseFileFromUrl(mediaUrl)
+    const filename = await this.makeFileName(fileInfo.basename)
     return {
-      url: src.href,
+      url: fileInfo.src,
       filename: filename,
       conflictAction: 'overwrite',
     }
