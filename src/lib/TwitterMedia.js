@@ -67,7 +67,7 @@ class TwitterMedia {
     const src = new URL(mediaUrl)
     const srcPathName = src.pathname
     const isImage = path.extname(srcPathName) === '.mp4'
-    if (isImage) mediaUrl.searchParams.append('name', 'orig')
+    if (isImage) src.searchParams.append('name', 'orig')
     const srcBaseName = path.basename(srcPathName)
     const filename = await this.makeFileName(srcBaseName)
     return {

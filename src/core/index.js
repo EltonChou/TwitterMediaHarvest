@@ -25,7 +25,6 @@ export const makeHarvester = article => {
     const actionBar = select('[role="group"]', article)
     if (!actionBar) return false
 
-    // const lastAction = select('div:nth-child(5)', actionBar)
     actionBar.appendChild(harvestButton)
   } else {
     const info = parseTweetInfo(article)
