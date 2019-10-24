@@ -1,3 +1,4 @@
+import path from 'path'
 import { fetchStorage } from './chromeApi'
 import { DEFAULT_DIRECTORY } from '../constants'
 
@@ -7,7 +8,6 @@ class TwitterMedia {
     this.tweetId = tweetId
     this.header = initHeader(token)
     this.tweetAPIurl = `https://api.twitter.com/2/timeline/conversation/${tweetId}.json?tweet_mode=extended`
-    this.activateUrl = 'https://api.twitter.com/1.1/guest/activate.json'
   }
 
   async getMedias() {
@@ -57,41 +57,36 @@ class TwitterMedia {
     let mediaList = []
     for (let media of medias) {
       let url = media.media_url_https
-      const conf = await this.makeChromeDownloadConf(url, true)
+      const conf = await this.makeChromeDownloadConf(url)
       mediaList.push(conf)
     }
     return mediaList
   }
 
-  async makeChromeDownloadConf(mediaUrl, isImage = false) {
-    const regex = new RegExp('(?:[^/])+(?<=(?:.jpg|mp4|png|gif))')
-    mediaUrl = new URL(mediaUrl)
+  async makeChromeDownloadConf(mediaUrl) {
+    const src = new URL(mediaUrl)
+    const srcPathName = src.pathname
+    const isImage = path.extname(srcPathName) === '.mp4'
     if (isImage) mediaUrl.searchParams.append('name', 'orig')
-    const basename = mediaUrl.pathname.match(regex)
-    const filename = await this.makeFileName(basename)
+    const srcBaseName = path.basename(srcPathName)
+    const filename = await this.makeFileName(srcBaseName)
     return {
-      url: mediaUrl.href,
+      url: src.href,
       filename: filename,
       conflictAction: 'overwrite',
     }
   }
 
   async makeFileName(basename) {
-    const { directory } = await fetchStorage({
+    const { directory, needAccount, needTweetId } = await fetchStorage({
       directory: DEFAULT_DIRECTORY,
-    })
-    const { needAccount } = await fetchStorage({
       needAccount: true,
-    })
-    const { needTweetId } = await fetchStorage({
       needTweetId: true,
     })
-    return directory.concat(
-      '/',
-      needAccount ? `${this.screenName}-` : '',
-      needTweetId ? `${this.tweetId}-` : '',
-      basename
-    )
+    const screenName = needAccount ? `${this.screenName}-` : ''
+    const tweetId = needTweetId ? `${this.tweetId}-` : ''
+
+    return directory.concat('/', screenName, tweetId, basename)
   }
 }
 

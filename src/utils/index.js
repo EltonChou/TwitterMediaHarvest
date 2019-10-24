@@ -10,9 +10,7 @@ import select from 'select-dom'
 const integrateArticleWithButton = (article, button) => {
   const info = parseTweetInfo(article)
 
-  for (let key in info) {
-    button.dataset[key] = info[key]
-  }
+  button = integrateDataWithButton(info, button)
 
   button.addEventListener('click', function() {
     // eslint-disable-next-line no-undef

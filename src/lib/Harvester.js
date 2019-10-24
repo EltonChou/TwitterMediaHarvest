@@ -2,21 +2,22 @@ import select from 'select-dom'
 import downloadButtonSVG from '../assets/icons/twitter-download.svg'
 import { createElementFromHTML } from '../utils'
 
-const Harvester = {
-  style: {
-    stream: {
-      svg:
-        'r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi',
-      ltr:
-        'css-901oao r-1awozwy r-111h2gw r-6koalj r-1qd0xha r-a023e6 r-16dba41 r-1h0z5md r-ad9z0x r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0',
-    },
-    photo: {
-      svg:
-        'r-4qtqp9 r-yyyyoo r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1srniue',
-      ltr:
-        'css-901oao r-1awozwy r-jwli3a r-6koalj r-1qd0xha r-a023e6 r-16dba41 r-1h0z5md r-ad9z0x r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0',
-    },
+const style = {
+  stream: {
+    svg:
+      'r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi',
+    ltr:
+      'css-901oao r-1awozwy r-111h2gw r-6koalj r-1qd0xha r-a023e6 r-16dba41 r-1h0z5md r-ad9z0x r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0',
   },
+  photo: {
+    svg:
+      'r-4qtqp9 r-yyyyoo r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1srniue',
+    ltr:
+      'css-901oao r-1awozwy r-jwli3a r-6koalj r-1qd0xha r-a023e6 r-16dba41 r-1h0z5md r-ad9z0x r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0',
+  },
+}
+
+const Harvester = {
   /**
    *
    * @param {string} mode
@@ -24,12 +25,10 @@ const Harvester = {
    */
   createButtonByMode: function(mode) {
     const icon = createElementFromHTML(downloadButtonSVG)
-    const iconStyle = (mode === 'stream' ? this.style.stream : this.style.photo)
-      .svg
+    const iconStyle = (mode === 'stream' ? style.stream : style.photo).svg
     icon.setAttribute('class', iconStyle)
 
-    const ltrStyle = (mode === 'photo' ? this.style.photo : this.style.stream)
-      .ltr
+    const ltrStyle = (mode === 'photo' ? style.photo : style.stream).ltr
 
     const buttonWrapper = createElementFromHTML(`
       <div class="css-1dbjc4n harvester ${mode}">
