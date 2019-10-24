@@ -66,7 +66,7 @@ class TwitterMedia {
   async makeChromeDownloadConf(mediaUrl) {
     const src = new URL(mediaUrl)
     const srcPathName = src.pathname
-    const isImage = path.extname(srcPathName) === '.mp4'
+    const isImage = path.extname(srcPathName) !== '.mp4'
     if (isImage) src.searchParams.append('name', 'orig')
     const srcBaseName = path.basename(srcPathName)
     const filename = await this.makeFileName(srcBaseName)
