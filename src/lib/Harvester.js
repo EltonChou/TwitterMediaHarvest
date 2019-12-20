@@ -1,6 +1,12 @@
 import select from 'select-dom'
 import downloadButtonSVG from '../assets/icons/twitter-download.svg'
-import { createElementFromHTML } from '../utils'
+import { checkMode } from '../utils/checker'
+import {
+  createElementFromHTML,
+  mixDataWithButton,
+  mixListenerWithButton,
+} from '../utils/mixer'
+import { parseTweetInfo } from '../utils/parser'
 
 const style = {
   stream: {
@@ -17,27 +23,38 @@ const style = {
   },
 }
 
-const Harvester = {
+class Harvester {
+  constructor(article) {
+    this.mode = checkMode(article)
+    this.info = parseTweetInfo(article)
+    this.button = this.makeButton()
+  }
+
+  makeButton() {
+    let button = this.createButtonByMode(this.mode)
+    button = mixDataWithButton(this.info, button)
+    button = mixListenerWithButton(button)
+    return button
+  }
   /**
    *
-   * @param {string} mode
    * @returns {HTMLElement} Harvester
    */
-  createButtonByMode: function(mode) {
+  createButtonByMode() {
     const icon = createElementFromHTML(downloadButtonSVG)
-    const iconStyle = (mode === 'stream' ? style.stream : style.photo).svg
+    const iconStyle = (this.mode === 'stream' ? style.stream : style.photo).svg
     icon.setAttribute('class', iconStyle)
 
-    const ltrStyle = (mode === 'photo' ? style.photo : style.stream).ltr
+    const ltrStyle = (this.mode === 'photo' ? style.photo : style.stream).ltr
 
     const buttonWrapper = createElementFromHTML(`
-      <div class="css-1dbjc4n harvester ${mode}">
+      <div class="css-1dbjc4n harvester ${this.mode}">
         <div aria-haspopup="true" aria-label="Media Harvest" role="button" data-focusable="true" tabindex="0"
           class="css-18t94o4 css-1dbjc4n r-1777fci r-11cpok1 r-1ny4l3l r-bztko3 r-lrvibr">
           <div dir="ltr"
             class="${ltrStyle}">
             <div class="css-1dbjc4n r-xoduu5">
-              <div class="css-1dbjc4n r-sdzlij r-1p0dtai r-xoduu5 r-1d2f490 r-xf4iuw r-u8s1d r-zchlnj r-ipm5af r-o7ynqc r-6416eg ${mode}BG"></div>
+              <div class="css-1dbjc4n r-sdzlij r-1p0dtai r-xoduu5 r-1d2f490 r-xf4iuw r-u8s1d r-zchlnj r-ipm5af r-o7ynqc r-6416eg ${this.mode}BG"></div>
               ${icon.outerHTML}
             </div>
           </div>
@@ -45,12 +62,12 @@ const Harvester = {
       </div>
     `)
 
-    const bg = select(`.${mode}BG`, buttonWrapper)
+    const bg = select(`.${this.mode}BG`, buttonWrapper)
     const ltr = select('[dir="ltr"]', buttonWrapper)
 
     const toggleBG = function() {
       bg.classList.toggle('hover')
-      ltr.classList.toggle(`${mode}Color`)
+      ltr.classList.toggle(`${this.mode}Color`)
       bg.classList.remove('click')
     }
 
@@ -66,7 +83,7 @@ const Harvester = {
     buttonWrapper.addEventListener('mousedown', clickBG)
 
     return buttonWrapper
-  },
+  }
 }
 
 export default Harvester

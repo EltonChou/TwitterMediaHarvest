@@ -43,19 +43,18 @@ for (let checkbox of checkboxs) {
 }
 
 directoryInput.addEventListener('input', function() {
-  allowSubmit()
   const filenameReg = new RegExp('^[\\w-_]+$')
   const sanitizedValue = sanitize(this.value)
   const isFileNameAllowed =
     filenameReg.test(this.value) && sanitizedValue === this.value
 
   if (isFileNameAllowed) {
-    submitButton.disabled = false
+    allowSubmit()
     directoryInputHelp.classList.add('is-hidden')
     this.classList.remove('is-danger')
     this.classList.add('is-success')
   } else {
-    submitButton.disabled = true
+    disableSubmit()
     directoryInputHelp.classList.remove('is-hidden')
     this.classList.add('is-danger')
     this.classList.remove('is-success')
