@@ -1,6 +1,6 @@
-import { parseFileFromUrl } from '../utils'
-import { fetchStorage } from './chromeApi'
 import { DEFAULT_DIRECTORY } from '../constants'
+import { parseFileFromUrl } from '../utils/parser'
+import { fetchStorage } from './chromeApi'
 
 class TwitterMedia {
   constructor({ screenName, tweetId }, token) {

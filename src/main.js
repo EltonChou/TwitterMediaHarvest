@@ -1,13 +1,14 @@
 import select from 'select-dom'
-import { hasMedia, observeElement } from './utils'
-import { makeHarvester } from './core'
+import makeHarvester from './core'
+import { hasMedia, isStreamLoaded } from './utils/checker'
+import observeElement from './utils/observer'
 
 // The entry point
 function observeRoot() {
   observeElement(
     '#react-root > div > div',
     function() {
-      if (select.exists('[role="region"]') && select.exists('article')) {
+      if (isStreamLoaded()) {
         initialize()
         observeTitle()
         observeStream()
@@ -22,9 +23,10 @@ function observeRoot() {
 }
 
 function initialize() {
-  let modalQuery = '[aria-labelledby="modal-header"]'
+  const modalQuery = '[aria-labelledby="modal-header"]'
   if (select.exists(modalQuery)) {
-    makeHarvester(select(modalQuery))
+    const modal = select(modalQuery)
+    makeHarvester(modal)
     return void 0
   }
 
