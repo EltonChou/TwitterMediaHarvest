@@ -31,7 +31,7 @@ class Harvester {
   }
 
   makeButton() {
-    let button = this.createButtonByMode(this.mode)
+    let button = this.createButtonByMode()
     button = mixDataWithButton(this.info, button)
     button = mixListenerWithButton(button)
     return button
@@ -41,20 +41,21 @@ class Harvester {
    * @returns {HTMLElement} Harvester
    */
   createButtonByMode() {
+    const mode = this.mode
     const icon = createElementFromHTML(downloadButtonSVG)
-    const iconStyle = (this.mode === 'stream' ? style.stream : style.photo).svg
+    const iconStyle = (mode === 'stream' ? style.stream : style.photo).svg
     icon.setAttribute('class', iconStyle)
 
-    const ltrStyle = (this.mode === 'photo' ? style.photo : style.stream).ltr
+    const ltrStyle = (mode === 'photo' ? style.photo : style.stream).ltr
 
     const buttonWrapper = createElementFromHTML(`
-      <div class="css-1dbjc4n harvester ${this.mode}">
+      <div class="css-1dbjc4n harvester ${mode}">
         <div aria-haspopup="true" aria-label="Media Harvest" role="button" data-focusable="true" tabindex="0"
           class="css-18t94o4 css-1dbjc4n r-1777fci r-11cpok1 r-1ny4l3l r-bztko3 r-lrvibr">
           <div dir="ltr"
             class="${ltrStyle}">
             <div class="css-1dbjc4n r-xoduu5">
-              <div class="css-1dbjc4n r-sdzlij r-1p0dtai r-xoduu5 r-1d2f490 r-xf4iuw r-u8s1d r-zchlnj r-ipm5af r-o7ynqc r-6416eg ${this.mode}BG"></div>
+              <div class="css-1dbjc4n r-sdzlij r-1p0dtai r-xoduu5 r-1d2f490 r-xf4iuw r-u8s1d r-zchlnj r-ipm5af r-o7ynqc r-6416eg ${mode}BG"></div>
               ${icon.outerHTML}
             </div>
           </div>
@@ -62,12 +63,12 @@ class Harvester {
       </div>
     `)
 
-    const bg = select(`.${this.mode}BG`, buttonWrapper)
+    const bg = select(`.${mode}BG`, buttonWrapper)
     const ltr = select('[dir="ltr"]', buttonWrapper)
 
     const toggleBG = function() {
       bg.classList.toggle('hover')
-      ltr.classList.toggle(`${this.mode}Color`)
+      ltr.classList.toggle(`${mode}Color`)
       bg.classList.remove('click')
     }
 
