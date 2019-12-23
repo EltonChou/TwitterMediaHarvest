@@ -1,7 +1,7 @@
 import select from 'select-dom'
 
-export const isArticleStatusMode = article => article.classList.length === 3
-export const isArticlePhotoMode = article => article instanceof HTMLDivElement
+const isArticleStatusMode = article => article.classList.length === 3
+const isArticlePhotoMode = article => article instanceof HTMLDivElement
 
 /**
  *
