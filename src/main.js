@@ -10,6 +10,7 @@ function observeRoot() {
     function() {
       if (isStreamLoaded()) {
         initialize()
+        observeModal()
         observeTitle()
         observeStream()
         this.disconnect()
@@ -57,6 +58,19 @@ function observeTitle() {
     {
       childList: true,
       characterData: true,
+    }
+  )
+}
+
+function observeModal() {
+  observeElement(
+    '[aria-hidden="false"]',
+    mutations => {
+      if (mutations[0].oldValue === 'false') initialize()
+    },
+    {
+      attributes: true,
+      attributeOldValue: true,
     }
   )
 }
