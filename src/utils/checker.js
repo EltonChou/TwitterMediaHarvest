@@ -33,7 +33,7 @@ export const hasMedia = article => {
     const tweetContents = [...tweet.childNodes[1].childNodes]
     return tweetContents.some(
       content =>
-        content.classList.length === 2 && content.childNodes.length === 2
+        content.classList.length === 2 && content.childNodes.length === 1
     )
   }
 }
