@@ -10,8 +10,8 @@ function observeRoot() {
     function() {
       if (isStreamLoaded()) {
         initialize()
-        observeModal()
         observeTitle()
+        observeModal()
         observeStream()
         this.disconnect()
       }
