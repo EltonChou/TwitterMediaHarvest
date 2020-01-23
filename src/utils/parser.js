@@ -37,7 +37,7 @@ export const parseTweetInfo = article => {
   const time = select('time', article)
   const magicLink = time
     ? time.parentNode.getAttribute('href')
-    : window.location.pathname
+    : select('link[rel="canonical"]').href
 
   const info = magicLink.split('/')
   return {
