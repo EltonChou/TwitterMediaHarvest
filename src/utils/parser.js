@@ -34,14 +34,21 @@ export const parseFileFromUrl = url => {
  * @returns {tweetInfo}
  */
 export const parseTweetInfo = article => {
+  const screenNameFeature = /(?<=@)\S+/
+  const idFeature = /(?:status\/)(\d+)/
+
+  const userAccount = select('[dir="ltr"]', article).childNodes[0].textContent
   const time = select('time', article)
+
   const magicLink = time
     ? time.parentNode.getAttribute('href')
     : window.location.pathname
 
-  const info = magicLink.split('/')
+  const tweetId = magicLink.match(idFeature)[1]
+  const screenName = userAccount.match(screenNameFeature)
+
   return {
-    screenName: info[1],
-    tweetId: info[3],
+    screenName: screenName,
+    tweetId: tweetId,
   }
 }
