@@ -1,5 +1,6 @@
 import path from 'path'
 import select from 'select-dom'
+import { isArticlePhotoMode } from './checker'
 
 /**
  * Parse file information from url
@@ -36,16 +37,23 @@ export const parseFileFromUrl = url => {
 export const parseTweetInfo = article => {
   const screenNameFeature = /(?<=@)\S+/
   const idFeature = /(?:status\/)(\d+)/
+  const urlScreenNameFeature = /(?<=\/)\S+(?=\/status)/
 
-  const userAccount = select('[dir="ltr"]', article).childNodes[0].textContent
   const time = select('time', article)
-
   const magicLink = time
     ? time.parentNode.getAttribute('href')
     : window.location.pathname
 
+  let screenName
+  if (isArticlePhotoMode(article)) {
+    screenName = magicLink.match(urlScreenNameFeature)[0]
+  } else {
+    const userAccount = select('[data-testid="tweet"] [dir="ltr"]', article)
+      .childNodes[0].textContent
+    screenName = userAccount.match(screenNameFeature)[0]
+  }
+
   const tweetId = magicLink.match(idFeature)[1]
-  const screenName = userAccount.match(screenNameFeature)
 
   return {
     screenName: screenName,
