@@ -1,6 +1,6 @@
 import select from 'select-dom'
 
-export const isArticleStatusMode = article => article.classList.length === 3
+export const isArticleStatusMode = article => article.classList.length === 2
 export const isArticlePhotoMode = article => article instanceof HTMLDivElement
 
 /**
@@ -22,19 +22,29 @@ export const checkMode = article => {
  */
 export const hasMedia = article => {
   if (!article) return false
-  if (isArticleStatusMode(article)) {
-    const mediaContents = [
-      ...select('.css-1dbjc4n.r-117bsoe', article).childNodes,
-    ]
-    return mediaContents.some(content => content.classList.length === 2)
-  } else {
-    // stream
-    const tweet = select('[data-testid="tweet"]', article)
-    const tweetContents = [...tweet.childNodes[1].childNodes]
-    return tweetContents.some(
-      content =>
-        content.classList.length === 2 && content.childNodes.length === 2
-    )
+  try {
+    if (isArticleStatusMode(article)) {
+      const mediaContents = [
+        ...select('.css-1dbjc4n.r-117bsoe', article).childNodes,
+      ]
+      return mediaContents.some(content => {
+        if (content.classList.length === 2)
+          return content.childNodes[0].classList.length === 6
+      })
+    } else {
+      // stream
+      const tweet = select('[data-testid="tweet"]', article)
+      const tweetContents = [...tweet.childNodes[1].childNodes]
+      return tweetContents.some(content => {
+        if (content.classList.length === 2)
+          return (
+            content.childNodes[0].classList.length === 2 ||
+            content.childNodes[0].classList.length === 3
+          )
+      })
+    }
+  } catch (error) {
+    return false
   }
 }
 

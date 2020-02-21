@@ -1,5 +1,6 @@
 import path from 'path'
 import select from 'select-dom'
+import { isArticlePhotoMode, isArticleStatusMode } from './checker'
 
 /**
  * Parse file information from url
@@ -21,6 +22,16 @@ export const parseFileFromUrl = url => {
   }
 }
 
+const parseScreeNameFromUserAccount = article => {
+  const screenNameFeature = /(?<=@)\S+/
+
+  const userAccount = select('[data-testid="tweet"] [dir="ltr"]', article)
+    .childNodes[0].textContent
+  const screenName = userAccount.match(screenNameFeature)[0]
+
+  return screenName
+}
+
 /**
  * @typedef tweetInfo
  * @type {Object}
@@ -34,14 +45,23 @@ export const parseFileFromUrl = url => {
  * @returns {tweetInfo}
  */
 export const parseTweetInfo = article => {
-  const time = select('time', article)
-  const magicLink = time
-    ? time.parentNode.getAttribute('href')
-    : window.location.pathname
+  const idFeature = /(?:status\/)(\d+)/
+  const urlScreenNameFeature = /(?<=\/)\S+(?=\/status)/
 
-  const info = magicLink.split('/')
+  const time = select('time', article)
+  const magicLink =
+    isArticlePhotoMode(article) || isArticleStatusMode(article)
+      ? window.location.pathname
+      : time.parentNode.getAttribute('href')
+
+  const tweetId = magicLink.match(idFeature)[1]
+
+  const screenName = isArticlePhotoMode(article)
+    ? magicLink.match(urlScreenNameFeature)[0]
+    : parseScreeNameFromUserAccount(article)
+
   return {
-    screenName: info[1],
-    tweetId: info[3],
+    screenName: screenName,
+    tweetId: tweetId,
   }
 }
