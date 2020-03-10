@@ -64,13 +64,21 @@ function observeTitle() {
 
 function observeModal() {
   observeElement(
-    '[aria-hidden="false"]',
-    mutations => {
-      if (mutations[0].oldValue === 'false') initialize()
+    '#react-root > div > div > div.r-1d2f490.r-u8s1d.r-zchlnj.r-ipm5af.r-184en5c',
+    function() {
+      const modalThread = select(
+        '[aria-labelledby="modal-header"] [aria-expanded="true"]'
+      )
+      if (modalThread) {
+        observeElement(modalThread, function() {
+          initialize()
+          this.disconnect()
+        })
+      }
     },
     {
-      attributes: true,
-      attributeOldValue: true,
+      childList: true,
+      subtree: true,
     }
   )
 }

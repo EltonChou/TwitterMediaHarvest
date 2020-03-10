@@ -34,7 +34,9 @@ export const hasMedia = article => {
     } else {
       // stream
       const tweet = select('[data-testid="tweet"]', article)
-      const tweetContents = [...tweet.childNodes[1].childNodes]
+      const tweetContents = [
+        ...tweet.childNodes[1].childNodes[1].childNodes[1].childNodes,
+      ]
       return tweetContents.some(content => {
         if (content.classList.length === 2)
           return (
