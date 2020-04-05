@@ -2,6 +2,10 @@ import path from 'path'
 import select from 'select-dom'
 import { isArticlePhotoMode, isArticleStatusMode } from './checker'
 
+const idFeature = /(?:status\/)(\d+)/
+const screenNameFeature = /(?<=@)\S+/
+const urlScreenNameFeature = /(?<=\/)\S+(?=\/status)/
+
 /**
  * Parse file information from url
  *
@@ -23,8 +27,6 @@ export const parseFileFromUrl = url => {
 }
 
 const parseScreeNameFromUserAccount = article => {
-  const screenNameFeature = /(?<=@)\S+/
-
   const userAccount = select('[data-testid="tweet"] [dir="ltr"]', article)
     .childNodes[0].textContent
   const screenName = userAccount.match(screenNameFeature)[0]
@@ -45,9 +47,6 @@ const parseScreeNameFromUserAccount = article => {
  * @returns {tweetInfo}
  */
 export const parseTweetInfo = article => {
-  const idFeature = /(?:status\/)(\d+)/
-  const urlScreenNameFeature = /(?<=\/)\S+(?=\/status)/
-
   const time = select('time', article)
   const magicLink =
     isArticlePhotoMode(article) || isArticleStatusMode(article)
