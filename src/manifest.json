@@ -3,7 +3,7 @@
   "name": "Media Harvest : Twitter Media Downloader",
   "short_name": "Twitter Media Harvest",
   "description": "The easiest way to get media from twitter timeline.",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "minimum_chrome_version": "73",
   "icons": {
     "16": "assets/icons/icon16.png",
@@ -44,7 +44,6 @@
     "http://mobile.twitter.com/*",
     "https://mobile.twitter.com/*",
     "activeTab",
-    "tabs",
     "downloads",
     "cookies",
     "storage"
