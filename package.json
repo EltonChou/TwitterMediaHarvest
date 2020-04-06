@@ -32,7 +32,6 @@
     "webpack-cli": "^3.3.9"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --display-error-details --colors --config webpack.config.js",
     "build-windows": "webpack --display-error-details --colors --config webpack.config.js && powershell Compress-Archive -Update build/ build.zip",
     "watch": "webpack --watch --display-error-details --colors --config webpack.config.dev.js"

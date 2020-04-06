@@ -1,4 +1,4 @@
-import { DEFAULT_DIRECTORY } from '../constants'
+import { DEFAULT_DIRECTORY, TWITTER_AUTH_TOKEN, USER_AGENT } from '../constants'
 import { parseFileFromUrl } from '../utils/parser'
 import { fetchStorage } from './chromeApi'
 
@@ -88,14 +88,8 @@ class TwitterMedia {
 
 function initHeader(token) {
   let header = new Headers()
-  header.append(
-    'Authorization',
-    'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
-  )
-  header.append(
-    'User-Agent',
-    'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1'
-  )
+  header.append('Authorization', TWITTER_AUTH_TOKEN)
+  header.append('User-Agent', USER_AGENT)
   header.append('cache-control', 'no-cache')
   header.append('x-twitter-active-user', 'yes')
   header.append('x-twitter-auth-type', 'OAuth2Session')
