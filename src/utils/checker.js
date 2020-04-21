@@ -1,6 +1,7 @@
 import select from 'select-dom'
 
-export const isArticleStatusMode = article => article.classList.length === 2
+export const isArticleStatusMode = article => article.classList.length === 5
+export const isArticleInStream = article => article.classList.length === 8
 export const isArticlePhotoMode = article => article instanceof HTMLDivElement
 
 /**
@@ -44,15 +45,21 @@ const checkMediaInStreamArticle = article => {
 /**
  * Check media is exist in tweet or not.
  *
+ * FIXME: 4 types of article
+ * 1. Stream
+ * 2. Status 19s
+ * 3. Status
+ * 4. Modal
+ *
  * @param {Element} article This should be article.
  * @returns {boolean} Media is exist in tweet or not.
  */
 export const hasMedia = article => {
   if (!article) return false
   try {
-    return isArticleStatusMode(article)
-      ? checkMediaInStatusAritcle(article)
-      : checkMediaInStreamArticle(article)
+    if (isArticleInStream(article)) return checkMediaInStreamArticle(article)
+    if (isArticleStatusMode(article)) return checkMediaInStatusAritcle(article)
+    if (!isArticleStatusMode(article)) return checkMediaInStreamArticle(article)
   } catch (error) {
     return false
   }

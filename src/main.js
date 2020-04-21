@@ -6,7 +6,7 @@ import observeElement from './utils/observer'
 //FIXME: Need more efficient way to manage selector
 
 const ROOT_QUERY = '#react-root > div > div'
-const STREAM_QUERY = 'section[role="region"] > div > div > div'
+const STREAM_QUERY = 'section[role="region"] > div > div'
 const MODAL_QUERY = '[aria-labelledby="modal-header"]'
 const MODAL_WRAPPER_QUERY =
   '#react-root > div > div > div.r-1d2f490.r-u8s1d.r-zchlnj.r-ipm5af.r-184en5c'
