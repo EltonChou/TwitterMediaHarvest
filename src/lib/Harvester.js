@@ -3,9 +3,9 @@ import downloadButtonSVG from '../assets/icons/twitter-download.svg'
 import { checkMode } from '../utils/checker'
 import {
   createElementFromHTML,
-  mixDataWithButton,
-  mixListenerWithButton,
-} from '../utils/mixer'
+  makeButtonWithData,
+  makeButtonListener,
+} from '../utils/maker'
 import { parseTweetInfo } from '../utils/parser'
 
 const style = {
@@ -32,8 +32,8 @@ class Harvester {
 
   makeButton() {
     let button = this.createButtonByMode()
-    button = mixDataWithButton(this.info, button)
-    button = mixListenerWithButton(button)
+    button = makeButtonWithData(button, this.info)
+    button = makeButtonListener(button)
     return button
   }
   /**

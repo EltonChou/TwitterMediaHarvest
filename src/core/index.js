@@ -2,13 +2,13 @@ import select from 'select-dom'
 import '../assets/styles/main.sass'
 import Harvester from '../lib/Harvester'
 import { isArticleCanBeAppend } from '../utils/checker'
-import { mixDataWithButton } from '../utils/mixer'
+import { makeButtonWithData } from '../utils/maker'
 import { parseTweetInfo } from '../utils/parser'
 
 const swapButton = article => {
   const info = parseTweetInfo(article)
   const previousButton = select('.harvester', article)
-  const newButton = mixDataWithButton(info, previousButton)
+  const newButton = makeButtonWithData(previousButton, info)
   previousButton.replaceWith(newButton)
 }
 
