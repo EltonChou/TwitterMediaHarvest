@@ -67,7 +67,7 @@ describe('Test filename pattern', () => {
     }
   })
 
-  it('Default pattern', async () => {
+  it('account with order (default)', async () => {
     const defaultSetting = makeSetting(true, 'order')
 
     fetchFileNameSetting.mockReturnValue(Promise.resolve(defaultSetting))
@@ -76,6 +76,22 @@ describe('Test filename pattern', () => {
     const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
 
     expect(fileName).toBe(expectFileName)
+  })
+
+  it('account with basename', async () => {
+    const thisName = path.format({
+      root: `${defaultDirectory}/`,
+      name: `${tweetInfo.screenName}-${tweetInfo.tweetID}-${expectFileInfo.name}`,
+      ext: fileExt,
+    })
+    const defaultSetting = makeSetting(true, 'file_name')
+
+    fetchFileNameSetting.mockReturnValue(Promise.resolve(defaultSetting))
+    const patternSetting = await fetchFileNameSetting()
+
+    const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
+
+    expect(fileName).toBe(thisName)
   })
 
   it('account-less with order', async () => {
@@ -101,22 +117,6 @@ describe('Test filename pattern', () => {
       ext: fileExt,
     })
     const defaultSetting = makeSetting(false, 'file_name')
-
-    fetchFileNameSetting.mockReturnValue(Promise.resolve(defaultSetting))
-    const patternSetting = await fetchFileNameSetting()
-
-    const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
-
-    expect(fileName).toBe(thisName)
-  })
-
-  it('account with basename', async () => {
-    const thisName = path.format({
-      root: `${defaultDirectory}/`,
-      name: `${tweetInfo.screenName}-${tweetInfo.tweetID}-${expectFileInfo.name}`,
-      ext: fileExt,
-    })
-    const defaultSetting = makeSetting(true, 'file_name')
 
     fetchFileNameSetting.mockReturnValue(Promise.resolve(defaultSetting))
     const patternSetting = await fetchFileNameSetting()
