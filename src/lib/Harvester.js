@@ -37,7 +37,9 @@ class Harvester {
     return button
   }
   /**
+   * FIXME: WTF is this shit.
    *
+   * FIXME: Need to use different style in `stream`, `status`, `photo`
    * @returns {HTMLElement} Harvester
    */
   createButtonByMode() {
