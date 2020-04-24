@@ -57,18 +57,72 @@ describe('Elementary test', () => {
 })
 
 describe('Test filename pattern', () => {
-  it('Processing filename with default pattern', async () => {
-    const defaultSetting = {
+  const makeSetting = jest.fn((needAccount, serial) => {
+    return {
       directory: DEFAULT_DIRECTORY,
       filename_pattern: {
-        account: true,
-        serial: 'order',
+        account: needAccount,
+        serial: serial,
       },
     }
+  })
+
+  it('Default pattern', async () => {
+    const defaultSetting = makeSetting(true, 'order')
+
     fetchFileNameSetting.mockReturnValue(Promise.resolve(defaultSetting))
     const patternSetting = await fetchFileNameSetting()
+
     const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
 
     expect(fileName).toBe(expectFileName)
+  })
+
+  it('account-less with order', async () => {
+    const thisName = path.format({
+      root: `${defaultDirectory}/`,
+      name: `${tweetInfo.tweetID}-0${expectFileInfo.order}`,
+      ext: fileExt,
+    })
+    const defaultSetting = makeSetting(false, 'order')
+
+    fetchFileNameSetting.mockReturnValue(Promise.resolve(defaultSetting))
+    const patternSetting = await fetchFileNameSetting()
+
+    const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
+
+    expect(fileName).toBe(thisName)
+  })
+
+  it('account-less with basename', async () => {
+    const thisName = path.format({
+      root: `${defaultDirectory}/`,
+      name: `${tweetInfo.tweetID}-${expectFileInfo.name}`,
+      ext: fileExt,
+    })
+    const defaultSetting = makeSetting(false, 'file_name')
+
+    fetchFileNameSetting.mockReturnValue(Promise.resolve(defaultSetting))
+    const patternSetting = await fetchFileNameSetting()
+
+    const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
+
+    expect(fileName).toBe(thisName)
+  })
+
+  it('account with basename', async () => {
+    const thisName = path.format({
+      root: `${defaultDirectory}/`,
+      name: `${tweetInfo.screenName}-${tweetInfo.tweetID}-${expectFileInfo.name}`,
+      ext: fileExt,
+    })
+    const defaultSetting = makeSetting(true, 'file_name')
+
+    fetchFileNameSetting.mockReturnValue(Promise.resolve(defaultSetting))
+    const patternSetting = await fetchFileNameSetting()
+
+    const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
+
+    expect(fileName).toBe(thisName)
   })
 })
