@@ -5,7 +5,7 @@ import path from 'path'
  * @typedef tweetInfo
  * @type {Object}
  * @property {String} screenName
- * @property {String} tweetID
+ * @property {String} tweetId
  */
 /**
  * @class TwitterMediaFile
@@ -19,7 +19,7 @@ export default class TwitterMediaFile {
    */
   constructor(tweetInfo, url, index = 0) {
     this.screenName = tweetInfo.screenName
-    this.tweetID = tweetInfo.tweetID
+    this.tweetId = tweetInfo.tweetId
     this.src = makeOrigSrc(url)
     this.ext = path.extname(url)
     this.name = path.basename(url, this.ext)
@@ -52,7 +52,7 @@ export default class TwitterMediaFile {
         serialPart = this.order.padStart(2, '0')
     }
 
-    const basename = accountPart.concat(this.tweetID, '-', serialPart)
+    const basename = accountPart.concat(this.tweetId, '-', serialPart)
     const fullPath = root.concat('/', basename, this.ext)
 
     return fullPath

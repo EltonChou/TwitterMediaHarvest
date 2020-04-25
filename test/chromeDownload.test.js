@@ -16,7 +16,7 @@ const fileIndex = 2
 const fileUrl = `${someHost}${fileName}${fileExt}`
 const tweetInfo = {
   screenName: 'twitter_user',
-  tweetID: 'tweetID',
+  tweetId: 'tweetId',
 }
 const expectFileInfo = {
   ...tweetInfo,
@@ -27,7 +27,7 @@ const expectFileInfo = {
 }
 const expectFileName = path.format({
   root: `${defaultDirectory}/`,
-  name: `${tweetInfo.screenName}-${tweetInfo.tweetID}-0${expectFileInfo.order}`,
+  name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-0${expectFileInfo.order}`,
   ext: fileExt,
 })
 const twitterMediaFile = new TwitterMediaFile(tweetInfo, fileUrl, fileIndex)
@@ -81,7 +81,7 @@ describe('Test filename pattern', () => {
   it('account with basename', async () => {
     const thisName = path.format({
       root: `${defaultDirectory}/`,
-      name: `${tweetInfo.screenName}-${tweetInfo.tweetID}-${expectFileInfo.name}`,
+      name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-${expectFileInfo.name}`,
       ext: fileExt,
     })
     const defaultSetting = makeSetting(true, 'file_name')
@@ -97,7 +97,7 @@ describe('Test filename pattern', () => {
   it('account-less with order', async () => {
     const thisName = path.format({
       root: `${defaultDirectory}/`,
-      name: `${tweetInfo.tweetID}-0${expectFileInfo.order}`,
+      name: `${tweetInfo.tweetId}-0${expectFileInfo.order}`,
       ext: fileExt,
     })
     const defaultSetting = makeSetting(false, 'order')
@@ -113,7 +113,7 @@ describe('Test filename pattern', () => {
   it('account-less with basename', async () => {
     const thisName = path.format({
       root: `${defaultDirectory}/`,
-      name: `${tweetInfo.tweetID}-${expectFileInfo.name}`,
+      name: `${tweetInfo.tweetId}-${expectFileInfo.name}`,
       ext: fileExt,
     })
     const defaultSetting = makeSetting(false, 'file_name')

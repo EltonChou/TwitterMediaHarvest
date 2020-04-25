@@ -35,9 +35,9 @@ export const parseTweetInfo = article => {
   const time = select('time', article)
   if (time) {
     magicLink = time.parentNode.getAttribute('href')
-  } else return void 0
+  }
 
-  const tweetID = magicLink.match(idFeature)[1]
+  const tweetId = magicLink.match(idFeature)[1]
 
   const screenName = isArticlePhotoMode(article)
     ? magicLink.match(urlScreenNameFeature)[0]
@@ -45,6 +45,6 @@ export const parseTweetInfo = article => {
 
   return {
     screenName: screenName,
-    tweetID: tweetID,
+    tweetId: tweetId,
   }
 }

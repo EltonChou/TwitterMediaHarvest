@@ -47,7 +47,7 @@ async function downloadMedias(info) {
   // eslint-disable-next-line no-undef
   let { value } = await fetchCookie({ url: 'https://twitter.com', name: 'ct0' })
 
-  const twitterMedia = new MediaTweet(info.tweetID, value)
+  const twitterMedia = new MediaTweet(info.tweetId, value)
   const mediaList = await twitterMedia.fetchMediaList()
   const setting = await fetchFileNameSetting()
   for (const [i, value] of mediaList.entries()) {
@@ -62,7 +62,7 @@ async function downloadMedias(info) {
 
 /* eslint-disable no-console */
 async function migrateStorage() {
-  console.group()
+  console.groupCollapsed('Migration')
   console.info('Fetching old data...')
   const { directory, needAccount } = await fetchStorage([
     'directory',
@@ -71,7 +71,7 @@ async function migrateStorage() {
 
   console.info('Migrating...')
   const filename_pattern = {
-    account: needAccount,
+    account: typeof needAccount === Boolean ? needAccount : true,
     serial: 'file_name',
   }
 
@@ -85,10 +85,13 @@ async function migrateStorage() {
   console.info('Done.')
   console.table({ ...dirResult, ...fpResult })
   console.groupEnd()
+  console.warn(
+    'The default serial of filename would be changed into order of the file in next version.'
+  )
 }
 
 async function initStorage() {
-  console.group()
+  console.groupCollapsed('Initialization')
   console.info('Initializing storage...')
   const result = await setStorage({
     directory: DEFAULT_DIRECTORY,

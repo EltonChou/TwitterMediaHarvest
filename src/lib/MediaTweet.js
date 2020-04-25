@@ -1,10 +1,10 @@
 import { TWITTER_AUTH_TOKEN, USER_AGENT } from '../constants'
 
 export default class MediaTweet {
-  constructor(tweetID, token) {
-    this.tweetID = tweetID
+  constructor(tweetId, token) {
+    this.tweetId = tweetId
     this.header = initHeader(token)
-    this.tweetAPIurl = `https://api.twitter.com/2/timeline/conversation/${tweetID}.json?tweet_mode=extended`
+    this.tweetAPIurl = `https://api.twitter.com/2/timeline/conversation/${tweetId}.json?tweet_mode=extended`
   }
 
   async fetchMediaList() {
@@ -21,7 +21,7 @@ export default class MediaTweet {
 
   parseMedias(detail) {
     const medias =
-      detail.globalObjects.tweets[this.tweetID].extended_entities.media
+      detail.globalObjects.tweets[this.tweetId].extended_entities.media
 
     let [{ video_info }] = medias
     return video_info ? this.parseVideo(video_info) : this.parseImage(medias)
