@@ -1,33 +1,40 @@
 import select from 'select-dom'
 import sanitize from 'sanitize-filename'
-import { fetchStorage, setStorage } from './lib/chromeApi'
-import { DEFAULT_DIRECTORY } from './constants'
+import { setStorage, fetchFileNameSetting } from './lib/chromeApi'
 
-let inputs = select.all('input')
-let directoryInput = select('#directory')
-let settingsForm = select('#settings')
+const accountCheckBox = select('#account')
+const directoryInput = select('#directory')
+const settingsForm = select('#settings')
 const submitButton = select('#submit')
 const directoryInputHelp = select('#directory-help')
-const checkboxs = select.all('input[type="checkbox"]')
+const preview = select('#preview')
+const example = {
+  account: 'twitterUser001-',
+  tweetId: '1253677247493337088',
+  serial_order: '03',
+  serial_name: 'E9123klnWE90JHU',
+  ext: '.jpg',
+}
 
 const initializeInput = async () => {
   // eslint-disable-next-line no-undef
-  fetchStorage({ directory: DEFAULT_DIRECTORY }).then(value => {
-    directoryInput.value = value.directory
-  })
-  for (let input of inputs) {
-    if (input.type === 'checkbox') {
-      const result = await fetchStorage(input.name)
-      input.checked =
-        result[input.name] === undefined ? true : result[input.name]
+  fetchFileNameSetting().then(setting => {
+    directoryInput.value = setting.directory
+    accountCheckBox.checked = setting.filename_pattern.account
+    const options = select.all('option')
+    for (const option of options) {
+      if (option.value === setting.filename_pattern.serial)
+        option.selected = true
     }
-  }
+    updatePreview()
+  })
 }
 
 const disableSubmit = () => {
   submitButton.disabled = true
 }
 const allowSubmit = () => {
+  updatePreview()
   submitButton.disabled = false
   submitButton.classList.remove('is-success')
   submitButton.innerText = 'Save'
@@ -38,9 +45,9 @@ const submitSuccess = () => {
   disableSubmit()
 }
 
-for (let checkbox of checkboxs) {
-  checkbox.addEventListener('change', allowSubmit)
-}
+const serialSelect = select('select')
+serialSelect.addEventListener('change', allowSubmit)
+accountCheckBox.addEventListener('change', allowSubmit)
 
 directoryInput.addEventListener('input', function() {
   const filenameReg = new RegExp('^[\\w-_]+$')
@@ -61,24 +68,38 @@ directoryInput.addEventListener('input', function() {
   }
 })
 
+/* eslint-disable no-console */
 settingsForm.addEventListener('submit', async function(e) {
   e.preventDefault()
-  for (let input of inputs) {
-    let result
-    if (input.type === 'text') {
-      result = await setStorage(Object.fromEntries([[input.name, input.value]]))
-    }
-    if (input.type === 'checkbox') {
-      result = await setStorage(
-        Object.fromEntries([[input.name, input.checked]])
-      )
-    }
-    for (let key in result) {
-      // eslint-disable-next-line no-console
-      console.log(`${key} set to ${result[key]}`)
-    }
+  const dirResult = await setStorage(
+    Object.fromEntries([[directoryInput.name, directoryInput.value]])
+  )
+  const filename_pattern = {
+    account: accountCheckBox.checked,
+    serial: serialSelect.value,
   }
+  const fpResult = await setStorage({
+    filename_pattern: JSON.stringify(filename_pattern),
+  })
+
+  console.info('Save settings.')
+  console.table({ ...dirResult, ...fpResult })
   submitSuccess()
 })
+/* eslint-enable no-console */
+
+function updatePreview() {
+  let serial
+  if (serialSelect.value === 'order') serial = example.serial_order
+  if (serialSelect.value === 'file_name') serial = example.serial_name
+  const theFilename = ''.concat(
+    accountCheckBox.checked ? example.account : '',
+    example.tweetId,
+    '-',
+    serial,
+    example.ext
+  )
+  preview.value = theFilename
+}
 
 initializeInput()

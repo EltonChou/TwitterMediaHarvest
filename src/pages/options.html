@@ -21,7 +21,7 @@
         <div class="field">
           <label for="directory" class="label">Downloads directory</label>
           <div class="control">
-            <input class="input" type="text" name="directory" id="directory" placeholder="twitter_media_harvest">
+            <input class="input is-rounded" type="text" name="directory" id="directory" placeholder="twitter_media_harvest">
           </div>
           <p id="directory-help" class="help is-danger is-hidden">This directory is invalid</p>
         </div>
@@ -31,9 +31,22 @@
             <input type="checkbox" name="needAccount" id="account">
             <span>Account</span>
           </div>
+        </div>
+        <div class="field">
+          <label for="serial" class="label">Serial style</label>
           <div class="control">
-            <input type="checkbox" name="needTweetId" id="tweetId">
-            <span>Tweet ID</span>
+            <div class="select is-info">
+              <select name="serial" id="serial">
+                <option value="order">file order</option>
+                <option value="file_name">file name</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="preview" class="label">Preview</label>
+          <div class="control">
+            <input type="text" name="preview" class="input is-static" id="preview" readonly>
           </div>
         </div>
         <div class="field is-grouped">

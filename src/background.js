@@ -25,9 +25,13 @@ chrome.runtime.onInstalled.addListener(async details => {
     console.info('Current version:', currentVersion)
     await migrateStorage()
     console.info('The extension has been updated.')
+    // eslint-disable-next-line no-undef
+    chrome.runtime.openOptionsPage()
   }
   if (reason === 'install') {
     await initStorage()
+    // eslint-disable-next-line no-undef
+    chrome.runtime.openOptionsPage()
   }
 })
 /* eslint-enable no-console */
