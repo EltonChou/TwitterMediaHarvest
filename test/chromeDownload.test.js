@@ -20,6 +20,7 @@ const tweetInfo = {
 }
 const expectFileInfo = {
   ...tweetInfo,
+  url: `${someHost}${fileName}${fileExt}`,
   src: `${someHost}${fileName}${fileExt}:orig`,
   name: fileName,
   ext: fileExt,

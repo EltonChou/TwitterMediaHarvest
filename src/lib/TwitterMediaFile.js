@@ -20,9 +20,10 @@ export default class TwitterMediaFile {
   constructor(tweetInfo, url, index = 0) {
     this.screenName = tweetInfo.screenName
     this.tweetId = tweetInfo.tweetId
-    this.src = makeOrigSrc(url)
-    this.ext = path.extname(url)
-    this.name = path.basename(url, this.ext)
+    this.url = cleanUrl(url)
+    this.src = makeOrigSrc(this.url)
+    this.ext = path.extname(this.url)
+    this.name = path.basename(this.url, this.ext)
     this.order = String(index + 1)
   }
 
@@ -72,13 +73,24 @@ export default class TwitterMediaFile {
 function makeOrigSrc(url) {
   if (path.extname(url) === '.mp4') return url
 
-  // const baseUrl = new URL(url.slice(0, -4))
-  const baseUrl = new URL(url)
   // const ext = path.extname(url).split('.')[1]
   // baseUrl.searchParams.append('format', ext)
   // baseUrl.searchParams.append('name', 'orig')
 
-  return `${baseUrl.href}:orig`
+  return `${url}:orig`
+}
+
+/**
+ * Clean all searchParams
+ *
+ * @param {String} url
+ * @returns {String}
+ */
+function cleanUrl(url) {
+  const theUrl = new URL(url)
+  theUrl.searchParams.delete('tag')
+
+  return theUrl.href
 }
 
 export { TwitterMediaFile, makeOrigSrc }
