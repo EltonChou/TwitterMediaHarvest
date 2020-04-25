@@ -53,11 +53,7 @@ export default class TwitterMediaFile {
     }
 
     const basename = accountPart.concat(this.tweetID, '-', serialPart)
-    const fullPath = path.format({
-      root: `${root}/`,
-      name: basename,
-      ext: this.ext,
-    })
+    const fullPath = root.concat('/', basename, this.ext)
 
     return fullPath
   }
@@ -76,12 +72,13 @@ export default class TwitterMediaFile {
 function makeOrigSrc(url) {
   if (path.extname(url) === '.mp4') return url
 
-  const baseUrl = new URL(url.slice(0, -4))
-  const ext = path.extname(url).split('.')[1]
-  baseUrl.searchParams.append('format', ext)
-  baseUrl.searchParams.append('name', 'orig')
+  // const baseUrl = new URL(url.slice(0, -4))
+  const baseUrl = new URL(url)
+  // const ext = path.extname(url).split('.')[1]
+  // baseUrl.searchParams.append('format', ext)
+  // baseUrl.searchParams.append('name', 'orig')
 
-  return baseUrl.href
+  return `${baseUrl.href}:orig`
 }
 
 export { TwitterMediaFile, makeOrigSrc }
