@@ -25,13 +25,11 @@ chrome.runtime.onInstalled.addListener(async details => {
     console.info('Current version:', currentVersion)
     await migrateStorage()
     console.info('The extension has been updated.')
-    // eslint-disable-next-line no-undef
-    chrome.runtime.openOptionsPage()
+    openOptionsPage()
   }
   if (reason === 'install') {
     await initStorage()
-    // eslint-disable-next-line no-undef
-    chrome.runtime.openOptionsPage()
+    openOptionsPage()
   }
 })
 /* eslint-enable no-console */
@@ -40,6 +38,9 @@ chrome.runtime.onInstalled.addListener(async details => {
 chrome.runtime.onMessage.addListener(async request => {
   await downloadMedias(request)
 })
+
+// eslint-disable-next-line no-undef
+chrome.browserAction.onClicked.addListener(openOptionsPage)
 
 /**
  * Trigger browser-download
@@ -62,6 +63,11 @@ async function downloadMedias(info) {
     // eslint-disable-next-line no-undef
     chrome.downloads.download(downloadConfig)
   }
+}
+
+function openOptionsPage() {
+  // eslint-disable-next-line no-undef
+  chrome.runtime.openOptionsPage()
 }
 
 /* eslint-disable no-console */
