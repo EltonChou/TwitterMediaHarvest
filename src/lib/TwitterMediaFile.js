@@ -40,7 +40,7 @@ export default class TwitterMediaFile {
 
     let serialPart
     switch (setting.filename_pattern.serial) {
-      case 'serial':
+      case 'order':
         serialPart = this.order.padStart(2, '0')
         break
 

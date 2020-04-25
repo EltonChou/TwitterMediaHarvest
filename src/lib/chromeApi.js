@@ -29,6 +29,12 @@ export const setStorage = obj =>
     chrome.storage.sync.set(obj, () => resolve(obj))
   })
 
+export const clearStorage = () =>
+  new Promise(resolve => {
+    // eslint-disable-next-line no-undef
+    chrome.storage.sync.clear(() => resolve())
+  })
+
 /**
  * Fetch chrome cookie
  *
