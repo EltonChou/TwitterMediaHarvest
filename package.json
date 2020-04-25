@@ -5,7 +5,6 @@
   "main": "./src/main.js",
   "dependencies": {
     "@babel/runtime": "^7.6.3",
-    "axios": "^0.19.2",
     "sanitize-filename": "^1.6.3",
     "select-dom": "^4.1.3"
   },
