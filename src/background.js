@@ -1,17 +1,12 @@
 import MediaTweet from './lib/MediaTweet'
 import TwitterMediaFile from './lib/TwitterMediaFile'
+import { fetchCookie } from './lib/chromeApi'
 import {
-  fetchCookie,
+  migrateStorage,
+  initStorage,
   fetchFileNameSetting,
-  setStorage,
-  fetchStorage,
-  clearStorage,
-} from './lib/chromeApi'
+} from './utils/storageHelper'
 import { makeChromeDownloadConfig } from './utils/maker'
-import {
-  CHROME_STORAGE_DEFAULT_FILENAME_PATTERN_OBJECT_STRING,
-  DEFAULT_DIRECTORY,
-} from './constants'
 
 /* eslint-disable no-console */
 // eslint-disable-next-line no-undef
@@ -69,46 +64,3 @@ function openOptionsPage() {
   // eslint-disable-next-line no-undef
   chrome.runtime.openOptionsPage()
 }
-
-/* eslint-disable no-console */
-async function migrateStorage() {
-  console.groupCollapsed('Migration')
-  console.info('Fetching old data...')
-  const { directory, needAccount } = await fetchStorage([
-    'directory',
-    'needAccount',
-  ])
-
-  console.info('Migrating...')
-  const filename_pattern = {
-    account: typeof needAccount === Boolean ? needAccount : true,
-    serial: 'file_name',
-  }
-
-  console.info('Clear old data.')
-  await clearStorage()
-
-  const dirResult = await setStorage({ directory: directory })
-  const fpResult = await setStorage({
-    filename_pattern: JSON.stringify(filename_pattern),
-  })
-  console.info('Done.')
-  console.table({ ...dirResult, ...fpResult })
-  console.groupEnd()
-  console.warn(
-    'The default serial of filename would be changed into order of the file in next version.'
-  )
-}
-
-async function initStorage() {
-  console.groupCollapsed('Initialization')
-  console.info('Initializing storage...')
-  const result = await setStorage({
-    directory: DEFAULT_DIRECTORY,
-    filename_pattern: CHROME_STORAGE_DEFAULT_FILENAME_PATTERN_OBJECT_STRING,
-  })
-  console.info('Done.')
-  console.table(result)
-  console.groupEnd()
-}
-/* eslint-enable no-console */

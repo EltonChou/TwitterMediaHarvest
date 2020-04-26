@@ -1,12 +1,12 @@
 import path from 'path'
 
-import { fetchFileNameSetting } from '../src/lib/chromeApi'
+import { fetchFileNameSetting } from '../src/utils/storageHelper'
 import { makeChromeDownloadConfig } from '../src/utils/maker'
 import { TwitterMediaFile, makeOrigSrc } from '../src/lib/TwitterMediaFile'
 import { DEFAULT_DIRECTORY } from '../src/constants'
 
 // mocking field
-jest.mock('../src/lib/chromeApi')
+jest.mock('../src/utils/storageHelper')
 
 const someHost = 'https://pbs.twimg.com/media/'
 const defaultDirectory = 'twitter_media_harvest'
