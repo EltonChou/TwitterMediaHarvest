@@ -1,134 +1,92 @@
-import './assets/css/style.sass'
 import select from 'select-dom'
-import { observeElement } from './lib/core'
-import { makeOrigClick } from './lib/utils'
+import makeHarvester from './core'
+import { hasMedia, isStreamLoaded } from './utils/checker'
+import observeElement from './utils/observer'
 
-/**
- * Options of MutationObserve
- *
- * @type {JSON}
- */
-const titleOptions = {
-  childList: true,
-  subtree: true,
-}
+//FIXME: Need more efficient way to manage selector
 
-/**
- * Check media is exist in tweet or not.
- *
- * @param {HTMLelement} ele A valid tweet element.
- * @returns {Boolean} Media is exist in tweet or not.
- */
-const hasMedia = ele => {
-  return (
-    select.exists('.PlayableMedia-player', ele) ||
-    select.exists('.AdaptiveMedia-photoContainer', ele)
+const ROOT_QUERY = '#react-root > div > div'
+const STREAM_QUERY = 'section[role="region"] > div > div'
+const MODAL_QUERY = '[aria-labelledby="modal-header"]'
+const MODAL_WRAPPER_QUERY =
+  '#react-root > div > div > div.r-1d2f490.r-u8s1d.r-zchlnj.r-ipm5af.r-184en5c'
+const MODAL_THREAD_QUERY =
+  '[aria-labelledby="modal-header"] [aria-expanded="true"]'
+
+// The entry point
+function observeRoot() {
+  observeElement(
+    ROOT_QUERY,
+    function() {
+      if (isStreamLoaded()) {
+        initialize()
+        observeTitle()
+        observeModal()
+        observeStream()
+        this.disconnect()
+      }
+    },
+    {
+      childList: true,
+      subtree: true,
+    }
   )
 }
 
-/**
- * Initialize OrigClick
- *
- * @function piorneer
- */
-const piorneer = () => {
-  const streamItems = select.all('.js-stream-item')
-  const permalink = select('.permalink-tweet-container')
-  for (const streamItem of streamItems) {
-    if (hasMedia(streamItem)) makeOrigClick(streamItem)
+function initialize() {
+  if (select.exists(MODAL_QUERY)) {
+    const modal = select(MODAL_QUERY)
+    makeHarvester(modal)
   }
-  if (hasMedia(permalink)) makeOrigClick(permalink)
+
+  const articles = select.all('article')
+  for (let article of articles) {
+    if (hasMedia(article)) makeHarvester(article)
+  }
 }
 
-/**
- * Observe title of page to refresh initializer.
- *
- * @function observeTitle
- */
+function observeStream() {
+  observeElement(STREAM_QUERY, mutations => {
+    for (let mutation of mutations) {
+      for (let addedNode of mutation.addedNodes) {
+        const article = select('article', addedNode)
+        if (hasMedia(article)) makeHarvester(article)
+      }
+    }
+  })
+}
+
 function observeTitle() {
-  const body = select('body')
   observeElement(
     'title',
-    () => {
-      if (!body.classList.contains('overlay-enabled')) init()
+    function() {
+      observeRoot()
+      this.disconnect()
     },
-    titleOptions
+    {
+      childList: true,
+      characterData: true,
+    }
   )
 }
 
-/**
- * Observe twitter stream.
- *
- * @function observeStream
- */
-function observeStream() {
-  observeElement('#stream-items-id', mutations => {
-    for (const mutation of mutations) {
-      for (const addedNode of mutation.addedNodes) {
-        if (hasMedia(addedNode)) makeOrigClick(addedNode)
+function observeModal() {
+  observeElement(
+    MODAL_WRAPPER_QUERY,
+    function() {
+      const modalThread = select(MODAL_THREAD_QUERY)
+      if (modalThread) {
+        observeElement(modalThread, function() {
+          initialize()
+          this.disconnect()
+        })
       }
+    },
+    {
+      childList: true,
+      subtree: true,
     }
-  })
+  )
 }
 
-/**
- * Observe Permalink
- *
- * @function observePermalink
- */
-function observePermalink() {
-  observeElement('.PermalinkOverlay-body', mutations => {
-    for (const mutation of mutations) {
-      if (mutation.addedNodes.length) {
-        piorneer()
-        observeThread()
-      }
-    }
-  })
-}
-
-/**
- * Observe media gallery.
- *
- * @function observeGallery
- */
-function observeGallery() {
-  observeElement('.GalleryTweet', mutations => {
-    for (const mutation of mutations) {
-      if (mutation.addedNodes.length) {
-        makeOrigClick(mutation.target, 'insert')
-      }
-    }
-  })
-}
-
-/**
- * Observe thread below the tweet in Permalink or Gallerey
- *
- * @function observeThread
- */
-function observeThread() {
-  observeElement('#descendants #stream-items-id', mutations => {
-    for (const mutation of mutations) {
-      for (const addedNode of mutation.addedNodes) {
-        if (hasMedia(addedNode)) makeOrigClick(addedNode)
-      }
-    }
-  })
-}
-
-/**
- * Initialize the observer.
- *
- * @function init
- */
-const init = () => {
-  piorneer()
-  observeTitle()
-  observeStream()
-  observeThread()
-  observeGallery()
-  observePermalink()
-}
-
-init()
+observeRoot()

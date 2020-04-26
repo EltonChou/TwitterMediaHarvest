@@ -1,16 +1,27 @@
 {
   "manifest_version": 2,
-  "name": "Twitter Original Media Click",
-  "short_name": "OrigClick",
+  "name": "Media Harvest : Twitter Media Downloader",
+  "short_name": "Twitter Media Harvest",
   "description": "The easiest way to get media from twitter timeline.",
-  "version": "1.0.2",
+  "version": "1.1.9",
+  "minimum_chrome_version": "73",
   "icons": {
     "16": "assets/icons/icon16.png",
+    "32": "assets/icons/icon32.png",
     "48": "assets/icons/icon48.png",
     "128": "assets/icons/icon128.png"
   },
   "browser_action": {
-    "default_title": "OrigClick"
+    "default_icon": {
+      "16": "assets/icons/icon16.png",
+      "32": "assets/icons/icon32.png",
+      "48": "assets/icons/icon48.png",
+      "128": "assets/icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
   },
   "background": {
     "scripts": [
@@ -22,13 +33,15 @@
     {
       "matches": [
         "http://twitter.com/*",
-        "https://twitter.com/*"
+        "https://twitter.com/*",
+        "http://mobile.twitter.com/*",
+        "https://mobile.twitter.com/*"
       ],
       "js": [
         "main.js"
       ],
       "all_frames": true,
-      "run_at": "document_end"
+      "run_at": "document_idle"
     }
   ],
   "permissions": [
@@ -36,9 +49,11 @@
     "*://twitter.com/*",
     "http://twitter.com/*",
     "https://twitter.com/*",
+    "http://mobile.twitter.com/*",
+    "https://mobile.twitter.com/*",
     "activeTab",
-    "tabs",
     "downloads",
-    "cookies"
+    "cookies",
+    "storage"
   ]
 }

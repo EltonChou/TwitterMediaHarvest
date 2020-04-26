@@ -1,0 +1,43 @@
+.harvester
+  cursor: pointer
+  -webkit-box-pack: start
+  justify-content: flex-start
+  -webkit-box-direction: normal
+  -webkit-box-orient: horizontal
+  flex-direction: row
+  &.status
+    min-height: 1.875rem
+    padding-left: 0.85rem
+    padding-right: 0.85rem
+    padding-bottom: 0px
+    padding-top: 0px
+  &.stream
+    -webkit-box-flex: 1
+    flex-grow: 0
+    flex-basis: auto
+    margin-left: 4em
+  &.photo
+    justify-content: flex-end
+    flex-grow: 0.4
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+
+.photoColor
+  color: rgb(255, 255, 255)
+  // color: rgb(241, 185, 26)
+
+.statusColor, .streamColor
+  // color: rgb(29, 161, 242)
+  color: rgb(241, 185, 26)
+
+.photoBG
+  &.hover
+    background: rgba(255, 255, 255, 0.1)
+  &.click
+    background: rgba(255, 255, 255, 0.2)
+
+.statusBG, .streamBG
+  &.hover
+    background: rgba(241, 185, 26, 0.1)
+  &.click
+    background: rgba(241, 185, 26, 0.2)
