@@ -24,7 +24,7 @@ const updatePreview = () => {
   if (serialSelect.value === 'file_name') serial = example.serial_name
   const filenameHead = accountCheckBox.checked ? example.account : ''
   const filenameQueue = [example.tweetId, '-', serial, example.ext]
-  const theFilename = filenameHead.concat(filenameQueue)
+  const theFilename = filenameHead.concat(...filenameQueue)
   preview.value = theFilename
 }
 
