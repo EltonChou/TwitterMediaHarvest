@@ -73,6 +73,11 @@ module.exports = {
         context: 'src',
         to: '[name].[ext]',
       },
+      {
+        from: '_locales',
+        context: 'src',
+        to: '_locales',
+      },
     ]),
   ],
 }
