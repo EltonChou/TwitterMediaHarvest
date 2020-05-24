@@ -16,7 +16,7 @@ chrome.runtime.onInstalled.addListener(async details => {
   const prevVersion = details.previousVersion
   // eslint-disable-next-line no-undef
   const currentVersion = chrome.runtime.getManifest().version
-  if (reason === 'update' && prevVersion !== currentVersion) {
+  if (reason === 'update' && prevVersion === '1.1.6') {
     console.info('Previous version:', prevVersion)
     console.info('Current version:', currentVersion)
     await migrateStorage()
