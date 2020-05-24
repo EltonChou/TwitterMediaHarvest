@@ -6,3 +6,4 @@ export const USER_AGENT =
 export const CHROME_STORAGE_DEFAULT_FILENAME_PATTERN_OBJECT_STRING =
   '{"account": true, "serial": "order"}'
 export const LOCAL_STORAGE_KEY_ARIA2 = 'enableAria2'
+export const ARIA2_ID = 'mpkodccbngfoacfalldjimigbofkhgjn'
