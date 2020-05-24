@@ -2,7 +2,7 @@
   "appName": {
     "message": "Media Harvest : twitter Media Downloader"
   },
-  "appDescription": {
+  "appDesc": {
     "message": "The easiest way to get medias from twitter timeline."
   },
   "downloadsDirectoryLabel": {
