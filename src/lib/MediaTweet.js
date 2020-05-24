@@ -50,11 +50,7 @@ export default class MediaTweet {
   }
 
   async parseImage(medias) {
-    let mediaList = []
-    for (let media of medias) {
-      let url = media.media_url_https
-      mediaList.push(url)
-    }
+    const mediaList = medias.map(media => media.media_url_https)
     return mediaList
   }
 }

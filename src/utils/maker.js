@@ -19,9 +19,7 @@ export const createElementFromHTML = htmlString => {
  * @returns {Element}
  */
 export const makeButtonWithData = (button, data) => {
-  for (let key in data) {
-    button.dataset[key] = data[key]
-  }
+  Object.assign(button.dataset, data)
   return button
 }
 
@@ -37,7 +35,6 @@ export const makeButtonListener = button => {
     // eslint-disable-next-line no-undef
     chrome.runtime.sendMessage(this.dataset)
   })
-  return button
 }
 
 /**

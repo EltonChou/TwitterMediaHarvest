@@ -88,10 +88,10 @@ settingsForm.addEventListener('submit', async function(e) {
       serial: serialSelect.value,
     }),
   }
-  const fpResult = await setStorage(filename_pattern)
+  const filenamePatternResult = await setStorage(filename_pattern)
 
   console.info('Save settings.')
-  console.table({ ...dirResult, ...fpResult })
+  console.table({ ...dirResult, ...filenamePatternResult })
   submitSuccess()
 })
 /* eslint-enable no-console */

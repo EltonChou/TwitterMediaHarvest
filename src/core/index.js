@@ -5,11 +5,10 @@ import { isArticleCanBeAppend } from '../utils/checker'
 import { makeButtonWithData } from '../utils/maker'
 import { parseTweetInfo } from '../utils/parser'
 
-const swapButton = article => {
+const swapData = article => {
   const info = parseTweetInfo(article)
-  const previousButton = select('.harvester', article)
-  const newButton = makeButtonWithData(previousButton, info)
-  previousButton.replaceWith(newButton)
+  const havestButton = select('.harvester', article)
+  makeButtonWithData(havestButton, info)
 }
 
 /**
@@ -27,7 +26,7 @@ const makeHarvester = article => {
       article.dataset.appended = true
       actionBar.appendChild(harvester.button)
     }
-  } else swapButton(article)
+  } else swapData(article)
 }
 
 export default makeHarvester

@@ -20,12 +20,11 @@ chrome.runtime.onInstalled.addListener(async details => {
     console.info('Current version:', currentVersion)
     await migrateStorage()
     console.info('The extension has been updated.')
-    openOptionsPage()
   }
   if (reason === 'install') {
     await initStorage()
-    openOptionsPage()
   }
+  openOptionsPage()
 })
 /* eslint-enable no-console */
 
@@ -50,8 +49,8 @@ async function downloadMedias(info) {
   const twitterMedia = new MediaTweet(info.tweetId, value)
   const mediaList = await twitterMedia.fetchMediaList()
   const setting = await fetchFileNameSetting()
-  for (const [i, value] of mediaList.entries()) {
-    const mediaFile = new TwitterMediaFile(info, value, i)
+  for (const [index, value] of mediaList.entries()) {
+    const mediaFile = new TwitterMediaFile(info, value, index)
     const fileName = mediaFile.makeFileNameBySetting(setting)
     const fileSrc = mediaFile.getSrc()
     const downloadConfig = makeChromeDownloadConfig(fileSrc, fileName)
