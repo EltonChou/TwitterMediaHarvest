@@ -7,6 +7,7 @@ import {
   fetchFileNameSetting,
 } from './utils/storageHelper'
 import { makeChromeDownloadConfig } from './utils/maker'
+import { LOCAL_STORAGE_KEY_ARIA2, ARIA2_ID } from './constants'
 
 /* eslint-disable no-console */
 // eslint-disable-next-line no-undef
@@ -53,9 +54,22 @@ async function downloadMedias(info) {
     const mediaFile = new TwitterMediaFile(info, value, index)
     const fileName = mediaFile.makeFileNameBySetting(setting)
     const fileSrc = mediaFile.getSrc()
-    const downloadConfig = makeChromeDownloadConfig(fileSrc, fileName)
-    // eslint-disable-next-line no-undef
-    chrome.downloads.download(downloadConfig)
+
+    if (JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_ARIA2))) {
+      // eslint-disable-next-line no-undef
+      const referrer = chrome.runtime.getURL('options.html')
+      const downloadItem = {
+        url: fileSrc,
+        filename: fileName,
+        referrer: referrer,
+      }
+      // eslint-disable-next-line no-undef
+      chrome.runtime.sendMessage(ARIA2_ID, downloadItem)
+    } else {
+      const downloadConfig = makeChromeDownloadConfig(fileSrc, fileName)
+      // eslint-disable-next-line no-undef
+      chrome.downloads.download(downloadConfig)
+    }
   }
 }
 
