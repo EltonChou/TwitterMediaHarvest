@@ -1,4 +1,4 @@
-import { TWITTER_AUTH_TOKEN, USER_AGENT } from '../constants'
+import { TWITTER_AUTH_TOKEN } from '../constants'
 
 export default class MediaTweet {
   constructor(tweetId, token) {
@@ -23,13 +23,19 @@ export default class MediaTweet {
     const medias =
       detail.globalObjects.tweets[this.tweetId].extended_entities.media
 
-    let [{ video_info }] = medias
-    return video_info ? this.parseVideo(video_info) : this.parseImage(medias)
+    const [media] = medias
+
+    const VIDEO_INFO = 'video_info'
+    const mediaList = media.hasOwnProperty(VIDEO_INFO)
+      ? this.parseVideo(media[VIDEO_INFO])
+      : this.parseImage(medias)
+
+    return mediaList
   }
 
   async parseVideo(video_info) {
-    let mediaList = []
-    let { variants } = video_info
+    const mediaList = []
+    const { variants } = video_info
 
     let hiRes = 0
     let targetUrl
@@ -50,19 +56,14 @@ export default class MediaTweet {
   }
 
   async parseImage(medias) {
-    let mediaList = []
-    for (let media of medias) {
-      let url = media.media_url_https
-      mediaList.push(url)
-    }
-    return mediaList
+    return medias.map(media => media.media_url_https)
   }
 }
 
 function initHeader(token) {
   const header = new Headers([
     ['Authorization', TWITTER_AUTH_TOKEN],
-    ['User-Agent', USER_AGENT],
+    ['User-Agent', navigator.userAgent],
     ['cache-control', 'no-cache'],
     ['x-twitter-active-user', 'yes'],
     ['x-twitter-auth-type', 'OAuth2Session'],

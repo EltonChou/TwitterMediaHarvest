@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
-  <title>Media Harvest : Twitter Media Downloader</title>
+  <title data-action="localize">__MSG_appName__</title>
 </head>
 
 <body>
@@ -19,39 +19,46 @@
       </div>
       <form class="form" id="settings">
         <div class="field">
-          <label for="directory" class="label">Downloads directory</label>
+          <label for="directory" class="label" data-action="localize">__MSG_downloadsDirectoryLabel__</label>
           <div class="control">
             <input class="input is-rounded" type="text" name="directory" id="directory" placeholder="twitter_media_harvest">
           </div>
-          <p id="directory-help" class="help is-danger is-hidden">This directory is invalid</p>
+          <p id="directory-help" class="help is-danger is-hidden" data-action="localize">__MSG_downloadsDirectoryHelp__</p>
         </div>
         <div class="field">
-          <label class="label">Filename pattern</label>
+          <label class="label" data-action="localize">__MSG_filenamePatternLabel__</label>
           <div class="control">
             <input type="checkbox" name="needAccount" id="account">
-            <span>Account</span>
+            <span data-action="localize">__MSG_filenamePatternAccount__</span>
           </div>
         </div>
         <div class="field">
-          <label for="serial" class="label">Serial style</label>
+          <label for="serial" class="label" data-action="localize">__MSG_filenameSerialStyleLabel__</label>
           <div class="control">
             <div class="select is-info">
               <select name="serial" id="serial">
-                <option value="order">file order</option>
-                <option value="file_name">file name</option>
+                <option value="order" data-action="localize">__MSG_filenameSerialStyleFileOrder__</option>
+                <option value="file_name" data-action="localize">__MSG_filenameSerialStyleFileName__</option>
               </select>
             </div>
           </div>
         </div>
         <div class="field">
-          <label for="preview" class="label">Preview</label>
+          <label for="preview" class="label" data-action="localize">__MSG_filenamePreviewLabel__</label>
           <div class="control">
             <input type="text" name="preview" class="input is-static" id="preview" readonly>
           </div>
         </div>
+        <div class="field">
+          <label for="aria2" class="label">Intergration<sup>BETA</sup></label>
+          <div class="control">
+            <input type="checkbox" name="aria2" id="aria2">
+            <span>Enable <a href="https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn">Aria2 for Chrome</a> capturing</span>
+          </div>
+        </div>
         <div class="field is-grouped">
           <div class="control">
-            <button type="submit" id="submit" class="button is-info" disabled>Save</button>
+            <button type="submit" id="submit" class="button is-info" data-action="localize" disabled>__MSG_submitButtonText__</button>
           </div>
         </div>
       </form>

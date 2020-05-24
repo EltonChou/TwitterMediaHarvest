@@ -31,9 +31,9 @@ class Harvester {
   }
 
   makeButton() {
-    let button = this.createButtonByMode()
-    button = makeButtonWithData(button, this.info)
-    button = makeButtonListener(button)
+    const button = this.createButtonByMode()
+    makeButtonWithData(button, this.info)
+    makeButtonListener(button)
     return button
   }
   /**

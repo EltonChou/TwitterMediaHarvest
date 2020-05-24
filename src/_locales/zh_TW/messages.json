@@ -1,0 +1,38 @@
+{
+  "appName": {
+    "message": "Media Harvest : twitter 多媒體下載器"
+  },
+  "appDesc": {
+    "message": "輕鬆取得推特上的影片以及圖片"
+  },
+  "downloadsDirectoryLabel": {
+    "message": "下載資料夾"
+  },
+  "downloadsDirectoryHelp": {
+    "message": "無效的資料夾名稱"
+  },
+  "filenamePatternLabel": {
+    "message": "檔案名稱樣式"
+  },
+  "filenamePatternAccount": {
+    "message": "帳號"
+  },
+  "filenameSerialStyleLabel": {
+    "message": "檔案序號樣式"
+  },
+  "filenameSerialStyleFileOrder": {
+    "message": "檔案順序"
+  },
+  "filenameSerialStyleFileName": {
+    "message": "檔案原始名"
+  },
+  "filenamePreviewLabel": {
+    "message": "預覽"
+  },
+  "submitButtonText": {
+    "message": "保存"
+  },
+  "submitButtonSuccessText": {
+    "message": "保存成功"
+  }
+}

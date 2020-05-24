@@ -6,7 +6,7 @@ import observeElement from './utils/observer'
 //FIXME: Need more efficient way to manage selector
 
 const ROOT_QUERY = '#react-root > div > div'
-const STREAM_QUERY = 'section[role="region"] > div > div'
+const STREAM_QUERY = 'section[role="region"] > div > div > div'
 const MODAL_QUERY = '[aria-labelledby="modal-header"]'
 const MODAL_WRAPPER_QUERY =
   '#react-root > div > div > div.r-1d2f490.r-u8s1d.r-zchlnj.r-ipm5af.r-184en5c'
@@ -40,15 +40,15 @@ function initialize() {
   }
 
   const articles = select.all('article')
-  for (let article of articles) {
+  for (const article of articles) {
     if (hasMedia(article)) makeHarvester(article)
   }
 }
 
 function observeStream() {
   observeElement(STREAM_QUERY, mutations => {
-    for (let mutation of mutations) {
-      for (let addedNode of mutation.addedNodes) {
+    for (const mutation of mutations) {
+      for (const addedNode of mutation.addedNodes) {
         const article = select('article', addedNode)
         if (hasMedia(article)) makeHarvester(article)
       }
