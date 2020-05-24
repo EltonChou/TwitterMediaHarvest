@@ -1,10 +1,11 @@
 {
   "manifest_version": 2,
-  "name": "Media Harvest : Twitter Media Downloader",
+  "name": "__MSG_appName__",
   "short_name": "Twitter Media Harvest",
-  "description": "The easiest way to get media from twitter timeline.",
+  "description": "__MSG_appDescription__",
   "version": "1.2.0",
   "minimum_chrome_version": "73",
+  "default_locale": "en",
   "icons": {
     "16": "assets/icons/icon16.png",
     "32": "assets/icons/icon32.png",

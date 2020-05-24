@@ -1,0 +1,38 @@
+{
+  "appName": {
+    "message": "Media Harvest : ツイターメディアダウンローダー"
+  },
+  "appDescription": {
+    "message": "一番使いやすいのツイターメディアダウンローダー"
+  },
+  "downloadsDirectoryLabel": {
+    "message": "保存先"
+  },
+  "downloadsDirectoryHelp": {
+    "message": "無効なディレクトリ"
+  },
+  "filenamePatternLabel": {
+    "message": "ファイル名パターン"
+  },
+  "filenamePatternAccount": {
+    "message": "アカウント"
+  },
+  "filenameSerialStyleLabel": {
+    "message": "シリアル番号仕様"
+  },
+  "filenameSerialStyleFileOrder": {
+    "message": "ファイル順"
+  },
+  "filenameSerialStyleFileName": {
+    "message": "ランダムファイル名"
+  },
+  "filenamePreviewLabel": {
+    "message": "プレビュー"
+  },
+  "submitButtonText": {
+    "message": "保存"
+  },
+  "submitButtonSuccessText": {
+    "message": "保存成功"
+  }
+}

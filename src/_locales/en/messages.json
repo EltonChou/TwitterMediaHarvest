@@ -1,0 +1,38 @@
+{
+  "appName": {
+    "message": "Media Harvest : twitter Media Downloader"
+  },
+  "appDescription": {
+    "message": "The easiest way to get medias from twitter timeline."
+  },
+  "downloadsDirectoryLabel": {
+    "message": "Downloads directory"
+  },
+  "downloadsDirectoryHelp": {
+    "message": "This directory is invalid"
+  },
+  "filenamePatternLabel": {
+    "message": "Filename pattern"
+  },
+  "filenamePatternAccount": {
+    "message": "Account"
+  },
+  "filenameSerialStyleLabel": {
+    "message": "Serial style"
+  },
+  "filenameSerialStyleFileOrder": {
+    "message": "file order"
+  },
+  "filenameSerialStyleFileName": {
+    "message": "file name"
+  },
+  "filenamePreviewLabel": {
+    "message": "Preview"
+  },
+  "submitButtonText": {
+    "message": "Save"
+  },
+  "submitButtonSuccessText": {
+    "message": "Success"
+  }
+}

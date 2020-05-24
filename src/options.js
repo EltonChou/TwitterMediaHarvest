@@ -49,11 +49,13 @@ const allowSubmit = () => {
   updatePreview()
   submitButton.disabled = false
   submitButton.classList.remove('is-success')
-  submitButton.innerText = 'Save'
+  // eslint-disable-next-line no-undef
+  submitButton.innerText = chrome.i18n.getMessage('submitButtonText')
 }
 const submitSuccess = () => {
   submitButton.classList.add('is-success')
-  submitButton.innerText = 'Success!'
+  // eslint-disable-next-line no-undef
+  submitButton.innerText = chrome.i18n.getMessage('submitButtonSuccessText')
   disableSubmit()
 }
 
@@ -103,4 +105,18 @@ settingsForm.addEventListener('submit', async function(e) {
 })
 /* eslint-enable no-console */
 
-initializeForm().then(updatePreview)
+async function localize() {
+  const localeObjects = select.all('[data-action="localize"]')
+  for (const localObject of localeObjects) {
+    const tag = localObject.innerHTML
+    const localized = tag.replace(/__MSG_(\w+)__/g, (match, v1) => {
+      // eslint-disable-next-line no-undef
+      return v1 ? chrome.i18n.getMessage(v1) : ''
+    })
+    localObject.innerHTML = localized
+  }
+}
+
+localize()
+  .then(initializeForm)
+  .then(updatePreview)
