@@ -2,10 +2,12 @@ import select from 'select-dom'
 import sanitize from 'sanitize-filename'
 import { setStorage } from './lib/chromeApi'
 import { fetchFileNameSetting } from './utils/storageHelper'
+import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
 
 const accountCheckBox = select('#account')
 const directoryInput = select('#directory')
 const serialSelect = select('select')
+const aria2Control = select('#aria2')
 const settingsForm = select('#settings')
 const submitButton = select('#submit')
 const directoryInputHelp = select('#directory-help')
@@ -28,11 +30,12 @@ const updatePreview = () => {
   preview.value = theFilename
 }
 
-const initializeInput = async () => {
+const initializeForm = async () => {
   // eslint-disable-next-line no-undef
   const setting = await fetchFileNameSetting()
   directoryInput.value = setting.directory
   accountCheckBox.checked = setting.filename_pattern.account
+  aria2Control.checked = JSON.parse(localStorage.getItem('enableAria2'))
   const options = select.all('option')
   for (const option of options) {
     option.selected = option.value === setting.filename_pattern.serial
@@ -56,6 +59,7 @@ const submitSuccess = () => {
 
 serialSelect.addEventListener('change', allowSubmit)
 accountCheckBox.addEventListener('change', allowSubmit)
+aria2Control.addEventListener('change', allowSubmit)
 
 directoryInput.addEventListener('input', function() {
   const filenameReg = new RegExp('^[\\w-_]+$')
@@ -79,6 +83,9 @@ directoryInput.addEventListener('input', function() {
 /* eslint-disable no-console */
 settingsForm.addEventListener('submit', async function(e) {
   e.preventDefault()
+
+  localStorage.setItem(LOCAL_STORAGE_KEY_ARIA2, aria2Control.checked)
+
   const dirResult = await setStorage(
     Object.fromEntries([[directoryInput.name, directoryInput.value]])
   )
@@ -96,4 +103,4 @@ settingsForm.addEventListener('submit', async function(e) {
 })
 /* eslint-enable no-console */
 
-initializeInput().then(updatePreview)
+initializeForm().then(updatePreview)
