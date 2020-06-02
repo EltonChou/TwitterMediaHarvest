@@ -1,4 +1,9 @@
 import path from 'path'
+import {
+  makeBrowserDownloadConfig,
+  makeAria2DownloadConfig,
+} from '../utils/maker'
+
 /**
  * Tweet information
  *
@@ -29,7 +34,7 @@ export default class TwitterMediaFile {
 
   /**
    *
-   * @typedef {import('./chromeApi').fileNameSetting} fileNameSetting
+   * @typedef {import('../utils/storageHelper').fileNameSetting} fileNameSetting
    * @param {fileNameSetting} setting
    */
   makeFileNameBySetting(setting) {
@@ -61,6 +66,23 @@ export default class TwitterMediaFile {
 
   getSrc() {
     return this.src
+  }
+
+  /**
+   * Create download config
+   *
+   * @param {fileNameSetting} setting
+   * @param {'browser'|'aria2'} mode
+   */
+  makeDownloadConfigBySetting(setting, mode = 'browser') {
+    const url = this.getSrc()
+    const fileName = this.makeFileNameBySetting(setting)
+    let config
+
+    if (mode === 'aria2') config = makeAria2DownloadConfig(url, fileName)
+    if (mode === 'browser') config = makeBrowserDownloadConfig(url, fileName)
+
+    return config
   }
 }
 

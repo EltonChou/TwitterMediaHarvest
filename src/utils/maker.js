@@ -38,15 +38,38 @@ export const makeButtonListener = button => {
 }
 
 /**
- * Create chrome download config object.
+ * Create browser download config object.
  *
  * @param {String} url
  * @param {String} fileName
  */
-export const makeChromeDownloadConfig = (url, fileName) => {
+export const makeBrowserDownloadConfig = (url, fileName) => {
   return {
     url: url,
     filename: fileName,
     conflictAction: 'overwrite',
+  }
+}
+
+/**
+ * Create aria2 download config object.
+ *
+ * @param {String} url
+ * @param {String} fileName
+ * @param {String} referrer
+ */
+export const makeAria2DownloadConfig = (
+  url,
+  fileName,
+  referrer = undefined
+) => {
+  // eslint-disable-next-line no-undef
+  referrer = referrer || chrome.runtime.getURL('options.html')
+
+  return {
+    url: url,
+    filename: fileName,
+    referrer: referrer,
+    options: {},
   }
 }

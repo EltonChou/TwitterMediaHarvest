@@ -7,7 +7,7 @@ export const isArticlePhotoMode = article => article instanceof HTMLDivElement
 /**
  *
  * @param {Element} article
- * @returns {string} mode
+ * @returns {'photo' | 'status' | 'stream'} mode
  */
 export const checkMode = article => {
   if (isArticlePhotoMode(article)) return 'photo'
