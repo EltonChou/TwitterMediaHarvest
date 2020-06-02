@@ -1,13 +1,20 @@
 import select from 'select-dom'
 
-export const isArticleStatusMode = article => article.classList.length === 5
+export const isArticleStatusMode = article => {
+  const articleClassLength = article.classList.length
+  const isMagicLength = articleClassLength === 5 || articleClassLength === 6
+  const testStatus = /^.*\/\/twitter.com\/.*\/status\/\d+.*(?<!photo\/\d)$/
+  const url = window.location.href
+
+  return Boolean(url.match(testStatus)) && isMagicLength
+}
 export const isArticleInStream = article => article.classList.length === 8
 export const isArticlePhotoMode = article => article instanceof HTMLDivElement
 
 /**
  *
  * @param {Element} article
- * @returns {string} mode
+ * @returns {'photo' | 'status' | 'stream'} mode
  */
 export const checkMode = article => {
   if (isArticlePhotoMode(article)) return 'photo'

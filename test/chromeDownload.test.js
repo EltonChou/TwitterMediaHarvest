@@ -1,7 +1,7 @@
 import path from 'path'
 
 import { fetchFileNameSetting } from '../src/utils/storageHelper'
-import { makeChromeDownloadConfig } from '../src/utils/maker'
+import { makeBrowserDownloadConfig } from '../src/utils/maker'
 import { TwitterMediaFile, makeOrigSrc } from '../src/lib/TwitterMediaFile'
 import { DEFAULT_DIRECTORY } from '../src/constants'
 
@@ -49,7 +49,7 @@ describe('Elementary test', () => {
       filename: expectFileName,
       conflictAction: 'overwrite',
     }
-    const theConfig = makeChromeDownloadConfig(
+    const theConfig = makeBrowserDownloadConfig(
       expectFileInfo.src,
       expectFileName
     )

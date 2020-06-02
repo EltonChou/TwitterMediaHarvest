@@ -6,7 +6,6 @@ import {
   initStorage,
   fetchFileNameSetting,
 } from './utils/storageHelper'
-import { makeChromeDownloadConfig } from './utils/maker'
 import { LOCAL_STORAGE_KEY_ARIA2, ARIA2_ID } from './constants'
 
 /* eslint-disable no-console */
@@ -16,10 +15,10 @@ chrome.runtime.onInstalled.addListener(async details => {
   const prevVersion = details.previousVersion
   // eslint-disable-next-line no-undef
   const currentVersion = chrome.runtime.getManifest().version
-  if (reason === 'update' && prevVersion === '1.1.6') {
+  if (reason === 'update') {
+    if (prevVersion === '1.1.6') await migrateStorage()
     console.info('Previous version:', prevVersion)
     console.info('Current version:', currentVersion)
-    await migrateStorage()
     console.info('The extension has been updated.')
   }
   if (reason === 'install') {
@@ -40,7 +39,7 @@ chrome.browserAction.onClicked.addListener(openOptionsPage)
 /**
  * Trigger browser-download
  *
- * @function downloadVideo
+ * @function downloadMedias
  * @param {JSON} info twitter information
  */
 async function downloadMedias(info) {
@@ -50,25 +49,18 @@ async function downloadMedias(info) {
   const twitterMedia = new MediaTweet(info.tweetId, value)
   const mediaList = await twitterMedia.fetchMediaList()
   const setting = await fetchFileNameSetting()
+
   for (const [index, value] of mediaList.entries()) {
     const mediaFile = new TwitterMediaFile(info, value, index)
-    const fileName = mediaFile.makeFileNameBySetting(setting)
-    const fileSrc = mediaFile.getSrc()
 
     if (JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_ARIA2))) {
+      const config = mediaFile.makeDownloadConfigBySetting(setting, 'aria2')
       // eslint-disable-next-line no-undef
-      const referrer = chrome.runtime.getURL('options.html')
-      const downloadItem = {
-        url: fileSrc,
-        filename: fileName,
-        referrer: referrer,
-      }
-      // eslint-disable-next-line no-undef
-      chrome.runtime.sendMessage(ARIA2_ID, downloadItem)
+      chrome.runtime.sendMessage(ARIA2_ID, config)
     } else {
-      const downloadConfig = makeChromeDownloadConfig(fileSrc, fileName)
+      const config = mediaFile.makeDownloadConfigBySetting(setting, 'browser')
       // eslint-disable-next-line no-undef
-      chrome.downloads.download(downloadConfig)
+      chrome.downloads.download(config)
     }
   }
 }
