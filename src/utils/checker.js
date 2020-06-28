@@ -2,7 +2,7 @@ import select from 'select-dom'
 
 export const isArticleStatusMode = article => {
   const articleClassLength = article.classList.length
-  const isMagicLength = articleClassLength === 5 || articleClassLength === 6
+  const isMagicLength = articleClassLength === 3
   const testStatus = /^.*\/\/twitter.com\/.*\/status\/\d+.*(?<!photo\/\d)$/
   const url = window.location.href
 
@@ -26,7 +26,7 @@ export const checkMode = article => {
 
 const STREAM_MEDIA_QUERY = ':scope > [class="css-1dbjc4n"]'
 const STATUS_MEDIA_WRAPPER_QUERY =
-  'article > div > div:nth-child(3) > div:nth-child(2)'
+  'article > div > div > div > div:nth-child(3) > div:nth-child(2)'
 
 const checkMediaInStatusAritcle = article => {
   const mediaContents = [

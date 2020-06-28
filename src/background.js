@@ -1,37 +1,26 @@
 import MediaTweet from './lib/MediaTweet'
 import TwitterMediaFile from './lib/TwitterMediaFile'
 import { fetchCookie } from './lib/chromeApi'
-import {
-  migrateStorage,
-  initStorage,
-  fetchFileNameSetting,
-} from './utils/storageHelper'
+import { initStorage, fetchFileNameSetting } from './utils/storageHelper'
 import { LOCAL_STORAGE_KEY_ARIA2, ARIA2_ID } from './constants'
 
-/* eslint-disable no-console */
 // eslint-disable-next-line no-undef
 chrome.runtime.onInstalled.addListener(async details => {
   const reason = details.reason
   const prevVersion = details.previousVersion
   // eslint-disable-next-line no-undef
   const currentVersion = chrome.runtime.getManifest().version
-  if (reason === 'update') {
-    if (prevVersion === '1.1.6') await migrateStorage()
-    console.info('Previous version:', prevVersion)
-    console.info('Current version:', currentVersion)
-    console.info('The extension has been updated.')
-  }
-  if (reason === 'install') {
-    await initStorage()
-  }
+
+  if (reason === 'install') await initStorage()
+  if (reason === 'update') showUpdateMessage(currentVersion, prevVersion)
+
   openOptionsPage()
 })
-/* eslint-enable no-console */
 
 // eslint-disable-next-line no-undef
-chrome.runtime.onMessage.addListener(async request => {
-  await downloadMedias(request)
-})
+chrome.runtime.onMessage.addListener(
+  async request => await downloadMedias(request)
+)
 
 // eslint-disable-next-line no-undef
 chrome.browserAction.onClicked.addListener(openOptionsPage)
@@ -69,3 +58,11 @@ function openOptionsPage() {
   // eslint-disable-next-line no-undef
   chrome.runtime.openOptionsPage()
 }
+
+/* eslint-disable no-console */
+function showUpdateMessage(current, prev) {
+  console.info('Previous version:', prev)
+  console.info('Current version:', current)
+  console.info('The extension has been updated.')
+}
+/* eslint-enable no-console */

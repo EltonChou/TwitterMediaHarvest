@@ -57,19 +57,21 @@ export const makeBrowserDownloadConfig = (url, fileName) => {
  * @param {String} url
  * @param {String} fileName
  * @param {String} referrer
+ * @param {Object} options aria2 options
  */
 export const makeAria2DownloadConfig = (
   url,
   fileName,
-  referrer = undefined
+  referrer = undefined,
+  options = {}
 ) => {
   // eslint-disable-next-line no-undef
-  referrer = referrer || chrome.runtime.getURL('options.html')
+  referrer |= chrome.runtime.getURL('options.html')
 
   return {
     url: url,
     filename: fileName,
     referrer: referrer,
-    options: {},
+    options: options,
   }
 }
