@@ -2,8 +2,8 @@ import select from 'select-dom'
 
 export const isArticleStatusMode = article => {
   const articleClassLength = article.classList.length
-  const isMagicLength = articleClassLength === 3
-  const testStatus = /^.*\/\/twitter.com\/.*\/status\/\d+.*(?<!photo\/\d)$/
+  const isMagicLength = articleClassLength === 3 || articleClassLength === 7
+  const testStatus = /^.*\/\/.*twitter.com\/.*\/status\/\d+.*(?<!photo\/\d)$/
   const url = window.location.href
 
   return Boolean(url.match(testStatus)) && isMagicLength
