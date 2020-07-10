@@ -38,10 +38,28 @@ export const makeButtonListener = button => {
 }
 
 /**
+ * @typedef browserDownloadConfig
+ * @type {Object}
+ * @property {String} url
+ * @property {String} fileName
+ * @property {String} conflictAction
+ *
+ *
+ * @typedef aria2DownloadConfig
+ * @type {Object}
+ * @property {String} url
+ * @property {String} fileName
+ * @property {String} referrer
+ * @property {Object} options
+ *
+ */
+/**
  * Create browser download config object.
  *
  * @param {String} url
  * @param {String} fileName
+ *
+ * @returns {browserDownloadConfig}
  */
 export const makeBrowserDownloadConfig = (url, fileName) => {
   return {
@@ -58,6 +76,8 @@ export const makeBrowserDownloadConfig = (url, fileName) => {
  * @param {String} fileName
  * @param {String} referrer
  * @param {Object} options aria2 options
+ *
+ * @returns {aria2DownloadConfig}
  */
 export const makeAria2DownloadConfig = (
   url,
