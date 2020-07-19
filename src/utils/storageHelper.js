@@ -2,7 +2,13 @@ import {
   CHROME_STORAGE_DEFAULT_FILENAME_PATTERN_OBJECT_STRING,
   DEFAULT_DIRECTORY,
 } from '../constants'
-import { fetchSyncStorage, setSyncStorage, clearSyncStorage } from '../lib/chromeApi'
+import {
+  fetchSyncStorage,
+  setSyncStorage,
+  clearSyncStorage,
+  fetchLocalStorage,
+  setLocalStorage,
+} from '../lib/chromeApi'
 
 /**
  * Fetch settings
@@ -73,4 +79,21 @@ export const initStorage = async () => {
   console.info('Done.')
   console.table(result)
   console.groupEnd()
+}
+
+export const fetchDownloadItemRecord = async downloadItemId => {
+  const volume = await fetchLocalStorage(String(downloadItemId))
+  const downloadItemRecord = JSON.parse(volume[downloadItemId])
+  return downloadItemRecord
+}
+
+export const setDownloadItemRecord = tweetInfo => config => async downloadId => {
+  const record = {}
+
+  record[downloadId] = JSON.stringify({
+    info: tweetInfo,
+    config: config,
+  })
+
+  await setLocalStorage(record)
 }

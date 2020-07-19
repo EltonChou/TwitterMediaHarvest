@@ -1,3 +1,8 @@
+const storageArea = Object.freeze({
+  sync: chrome.storage.sync,
+  local: chrome.storage.local,
+})
+
 /**
  * Fetch data from chrome storage.
  *
@@ -5,15 +10,13 @@
  * @param {(string|string[]|Object)} any
  * @returns {promise}
  */
-export const fetchSyncStorage = any =>
+export const fetchSyncStorage = (any = null) =>
   new Promise(resolve => {
-    // eslint-disable-next-line no-undef
     chrome.storage.sync.get(any, result => resolve(result))
   })
 
-export const fetchLocalStorage = any =>
+export const fetchLocalStorage = (any = null) =>
   new Promise(resolve => {
-    // eslint-disable-next-line no-undef
     chrome.storage.local.get(any, result => resolve(result))
   })
 
@@ -26,25 +29,36 @@ export const fetchLocalStorage = any =>
  */
 export const setSyncStorage = obj =>
   new Promise(resolve => {
-    // eslint-disable-next-line no-undef
     chrome.storage.sync.set(obj, () => resolve(obj))
   })
 
 export const setLocalStorage = obj =>
   new Promise(resolve => {
-    // eslint-disable-next-line no-undef
     chrome.storage.local.set(obj, () => resolve(obj))
   })
 
+/**
+ * @param {removerKeys} removerKeys
+ * @returns { (promt: string | Array<string> | number) => Promise }
+ */
+const storageRemover = storageArea => removerKeys => {
+  removerKeys = removerKeysPretreat(removerKeys)
+
+  return new Promise(resolve => {
+    storageArea.remove(removerKeys, resolve)
+  })
+}
+
+export const removeFromSyncStorage = storageRemover(storageArea.sync)
+export const removeFromLocalStorage = storageRemover(storageArea.local)
+
 export const clearSyncStorage = () =>
   new Promise(resolve => {
-    // eslint-disable-next-line no-undef
     chrome.storage.sync.clear(() => resolve())
   })
 
 export const clearLocalStorage = () =>
   new Promise(resolve => {
-    // eslint-disable-next-line no-undef
     chrome.storage.local.clear(() => resolve())
   })
 
@@ -57,11 +71,15 @@ export const clearLocalStorage = () =>
  */
 export const fetchCookie = target =>
   new Promise(resolve => {
-    // eslint-disable-next-line no-undef
     chrome.cookies.get(target, cookie => resolve(cookie))
   })
 
-// eslint-disable-next-line no-undef
 export const i18nLocalize = kw => chrome.i18n.getMessage(kw)
-// eslint-disable-next-line no-undef
 export const getURL = path => chrome.runtime.getURL(path)
+
+function removerKeysPretreat(keys) {
+  if (typeof keys !== 'string') keys = String(keys)
+  if (Array.isArray(keys)) keys.map(String)
+
+  return keys
+}

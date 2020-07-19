@@ -1,14 +1,19 @@
 import MediaTweet from './lib/MediaTweet'
 import TwitterMediaFile from './lib/TwitterMediaFile'
-import { fetchCookie } from './lib/chromeApi'
-import { initStorage, fetchFileNameSetting } from './utils/storageHelper'
+import { fetchCookie, removeFromLocalStorage } from './lib/chromeApi'
+import {
+  initStorage,
+  fetchFileNameSetting,
+  fetchDownloadItemRecord,
+  setDownloadItemRecord,
+} from './utils/storageHelper'
+import { makeDownloadErrorNotificationConfig } from './utils/notificationHelper'
+import { isDownloadInterrupted, isDownloadCompleted } from './utils/checker'
 import { LOCAL_STORAGE_KEY_ARIA2, ARIA2_ID } from './constants'
 
-// eslint-disable-next-line no-undef
 chrome.runtime.onInstalled.addListener(async details => {
   const reason = details.reason
   const prevVersion = details.previousVersion
-  // eslint-disable-next-line no-undef
   const currentVersion = chrome.runtime.getManifest().version
 
   if (reason === 'install') await initStorage()
@@ -17,10 +22,21 @@ chrome.runtime.onInstalled.addListener(async details => {
   openOptionsPage()
 })
 
-/* eslint-disable no-undef */
+chrome.downloads.onChanged.addListener(async downloadDelta => {
+  if (downloadDelta.hasOwnProperty('state')) {
+    if (isDownloadInterrupted(downloadDelta.state)) {
+      const { info } = await fetchDownloadItemRecord(downloadDelta.id)
+      const notiConf = makeDownloadErrorNotificationConfig(info.tweetId)
+      chrome.notifications.create(info.tweetId, notiConf)
+    }
+    if (isDownloadCompleted(downloadDelta.state)) {
+      await removeFromLocalStorage(downloadDelta.id)
+    }
+  }
+})
+
 chrome.runtime.onMessage.addListener(processRequest)
 chrome.browserAction.onClicked.addListener(openOptionsPage)
-/* eslint-enable no-undef */
 
 /**
  * Trigger browser-download
@@ -29,7 +45,6 @@ chrome.browserAction.onClicked.addListener(openOptionsPage)
  * @returns {void}
  */
 async function processRequest(tweetInfo) {
-  // eslint-disable-next-line no-undef
   let { value } = await fetchCookie({ url: 'https://twitter.com', name: 'ct0' })
   const twitterMedia = new MediaTweet(tweetInfo.tweetId, value)
 
@@ -49,21 +64,20 @@ async function downloadMedias(mediaList, tweetInfo) {
     localStorage.getItem(LOCAL_STORAGE_KEY_ARIA2)
   )
   const downloadTool = isPassToAria2 ? 'aria2' : 'browser'
+  let configRecorder = setDownloadItemRecord(tweetInfo)
 
   for (const [index, value] of mediaList.entries()) {
     const mediaFile = new TwitterMediaFile(tweetInfo, value, index)
     const config = mediaFile.makeDownloadConfigBySetting(setting, downloadTool)
+    configRecorder = configRecorder(config)
 
-    /* eslint-disable no-undef */
     isPassToAria2
       ? chrome.runtime.sendMessage(ARIA2_ID, config)
-      : chrome.downloads.download(config)
-    /* eslint-enable no-undef */
+      : chrome.downloads.download(config, configRecorder)
   }
 }
 
 function openOptionsPage() {
-  // eslint-disable-next-line no-undef
   chrome.runtime.openOptionsPage()
 }
 

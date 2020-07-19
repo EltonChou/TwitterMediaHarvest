@@ -1,5 +1,11 @@
 import select from 'select-dom'
 
+const downloadState = Object.freeze({
+  inProgress: 'in_progress',
+  interrupted: 'interrupted',
+  complete: 'complete',
+})
+
 export const isArticleStatusMode = article => {
   const articleClassLength = article.classList.length
   const isMagicLength = articleClassLength === 3 || articleClassLength === 7
@@ -83,3 +89,9 @@ export const isArticleCanBeAppend = element =>
 
 export const isStreamLoaded = () =>
   select.exists('[role="region"]') && select.exists('article')
+
+export const isDownloadInterrupted = ({ current, previous }) =>
+  current === downloadState.interrupted && previous === downloadState.inProgress
+
+export const isDownloadCompleted = ({ current, previous }) =>
+  current === downloadState.complete && previous === downloadState.inProgress
