@@ -11,6 +11,12 @@ export const fetchSyncStorage = any =>
     chrome.storage.sync.get(any, result => resolve(result))
   })
 
+export const fetchLocalStorage = any =>
+  new Promise(resolve => {
+    // eslint-disable-next-line no-undef
+    chrome.storage.local.get(any, result => resolve(result))
+  })
+
 /**
  * Set data to1 chrome storage.
  *
@@ -24,10 +30,22 @@ export const setSyncStorage = obj =>
     chrome.storage.sync.set(obj, () => resolve(obj))
   })
 
+export const setLocalStorage = obj =>
+  new Promise(resolve => {
+    // eslint-disable-next-line no-undef
+    chrome.storage.local.set(obj, () => resolve(obj))
+  })
+
 export const clearSyncStorage = () =>
   new Promise(resolve => {
     // eslint-disable-next-line no-undef
     chrome.storage.sync.clear(() => resolve())
+  })
+
+export const clearLocalStorage = () =>
+  new Promise(resolve => {
+    // eslint-disable-next-line no-undef
+    chrome.storage.local.clear(() => resolve())
   })
 
 /**
