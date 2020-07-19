@@ -1,6 +1,6 @@
 import select from 'select-dom'
 import sanitize from 'sanitize-filename'
-import { setStorage } from './lib/chromeApi'
+import { setSyncStorage } from './lib/chromeApi'
 import { fetchFileNameSetting } from './utils/storageHelper'
 import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
 
@@ -88,7 +88,7 @@ settingsForm.addEventListener('submit', async function(e) {
 
   localStorage.setItem(LOCAL_STORAGE_KEY_ARIA2, aria2Control.checked)
 
-  const dirResult = await setStorage(
+  const dirResult = await setSyncStorage(
     Object.fromEntries([[directoryInput.name, directoryInput.value]])
   )
   const filename_pattern = {
@@ -97,7 +97,7 @@ settingsForm.addEventListener('submit', async function(e) {
       serial: serialSelect.value,
     }),
   }
-  const filenamePatternResult = await setStorage(filename_pattern)
+  const filenamePatternResult = await setSyncStorage(filename_pattern)
 
   console.info('Save settings.')
   console.table({ ...dirResult, ...filenamePatternResult })

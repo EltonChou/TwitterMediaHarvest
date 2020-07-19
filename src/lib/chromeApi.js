@@ -5,7 +5,7 @@
  * @param {(string|string[]|Object)} any
  * @returns {promise}
  */
-export const fetchStorage = any =>
+export const fetchSyncStorage = any =>
   new Promise(resolve => {
     // eslint-disable-next-line no-undef
     chrome.storage.sync.get(any, result => resolve(result))
@@ -18,13 +18,13 @@ export const fetchStorage = any =>
  * @param {Object} obj
  * @returns {promise}
  */
-export const setStorage = obj =>
+export const setSyncStorage = obj =>
   new Promise(resolve => {
     // eslint-disable-next-line no-undef
     chrome.storage.sync.set(obj, () => resolve(obj))
   })
 
-export const clearStorage = () =>
+export const clearSyncStorage = () =>
   new Promise(resolve => {
     // eslint-disable-next-line no-undef
     chrome.storage.sync.clear(() => resolve())
@@ -42,3 +42,8 @@ export const fetchCookie = target =>
     // eslint-disable-next-line no-undef
     chrome.cookies.get(target, cookie => resolve(cookie))
   })
+
+// eslint-disable-next-line no-undef
+export const i18nLocalize = kw => chrome.i18n.getMessage(kw)
+// eslint-disable-next-line no-undef
+export const getURL = path => chrome.runtime.getURL(path)
