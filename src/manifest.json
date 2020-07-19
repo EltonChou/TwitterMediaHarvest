@@ -3,7 +3,7 @@
   "name": "__MSG_appName__",
   "short_name": "Twitter Media Harvest",
   "description": "__MSG_appDesc__",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "minimum_chrome_version": "73",
   "default_locale": "en",
   "icons": {
@@ -55,6 +55,7 @@
     "activeTab",
     "downloads",
     "cookies",
-    "storage"
+    "storage",
+    "notifications"
   ]
 }
