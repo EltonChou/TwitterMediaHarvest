@@ -5,7 +5,6 @@
  * @returns {Element} A valid HTML element
  */
 export const createElementFromHTML = htmlString => {
-  // eslint-disable-next-line no-undef
   const wrapper = document.createElement('div')
   wrapper.innerHTML = htmlString.trim()
   return wrapper.firstChild
@@ -32,7 +31,6 @@ export const makeButtonWithData = (button, data) => {
 export const makeButtonListener = button => {
   button.addEventListener('click', function(e) {
     e.stopImmediatePropagation()
-    // eslint-disable-next-line no-undef
     chrome.runtime.sendMessage(this.dataset)
   })
 }
@@ -87,7 +85,6 @@ export const makeAria2DownloadConfig = (
   referrer = undefined,
   options = {}
 ) => {
-  // eslint-disable-next-line no-undef
   referrer |= chrome.runtime.getURL('options.html')
 
   return {

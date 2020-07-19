@@ -1,6 +1,6 @@
 import select from 'select-dom'
 import sanitize from 'sanitize-filename'
-import { setSyncStorage } from './lib/chromeApi'
+import { setSyncStorage, i18nLocalize } from './lib/chromeApi'
 import { fetchFileNameSetting } from './utils/storageHelper'
 import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
 
@@ -31,7 +31,6 @@ const updatePreview = () => {
 }
 
 const initializeForm = async () => {
-  // eslint-disable-next-line no-undef
   const setting = await fetchFileNameSetting()
   directoryInput.value = setting.directory
   accountCheckBox.checked = setting.filename_pattern.account
@@ -49,12 +48,10 @@ const allowSubmit = () => {
   updatePreview()
   submitButton.disabled = false
   submitButton.classList.remove('is-success')
-  // eslint-disable-next-line no-undef
   submitButton.innerText = chrome.i18n.getMessage('submitButtonText')
 }
 const submitSuccess = () => {
   submitButton.classList.add('is-success')
-  // eslint-disable-next-line no-undef
   submitButton.innerText = chrome.i18n.getMessage('submitButtonSuccessText')
   disableSubmit()
 }
@@ -110,8 +107,7 @@ async function localize() {
   for (const localObject of localeObjects) {
     const tag = localObject.innerHTML
     const localized = tag.replace(/__MSG_(\w+)__/g, (match, v1) => {
-      // eslint-disable-next-line no-undef
-      return v1 ? chrome.i18n.getMessage(v1) : ''
+      return v1 ? i18nLocalize(v1) : ''
     })
     localObject.innerHTML = localized
   }
