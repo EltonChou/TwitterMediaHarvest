@@ -6,11 +6,12 @@ import {
   fetchFileNameSetting,
   fetchDownloadItemRecord,
   setDownloadItemRecord,
-} from './utils/storageHelper'
-import { makeDownloadErrorNotificationConfig } from './utils/notificationHelper'
+} from './helpers/storageHelper'
+import { makeDownloadErrorNotificationConfig } from './helpers/notificationHelper'
 import { isDownloadInterrupted, isDownloadCompleted } from './utils/checker'
 import { LOCAL_STORAGE_KEY_ARIA2, ARIA2_ID } from './constants'
 
+chrome.runtime.onMessage.addListener(processRequest)
 chrome.runtime.onInstalled.addListener(async details => {
   const reason = details.reason
   const prevVersion = details.previousVersion
@@ -35,7 +36,6 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   }
 })
 
-chrome.runtime.onMessage.addListener(processRequest)
 chrome.browserAction.onClicked.addListener(openOptionsPage)
 
 /**

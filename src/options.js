@@ -1,7 +1,7 @@
 import select from 'select-dom'
 import sanitize from 'sanitize-filename'
 import { setSyncStorage, i18nLocalize } from './lib/chromeApi'
-import { fetchFileNameSetting } from './utils/storageHelper'
+import { fetchFileNameSetting } from './helpers/storageHelper'
 import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
 
 const accountCheckBox = select('#account')

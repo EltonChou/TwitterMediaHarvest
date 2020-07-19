@@ -34,7 +34,7 @@ export default class TwitterMediaFile {
 
   /**
    *
-   * @typedef {import('../utils/storageHelper').fileNameSetting} fileNameSetting
+   * @typedef {import('../helpers/storageHelper').fileNameSetting} fileNameSetting
    * @param {fileNameSetting} setting
    */
   makeFileNameBySetting(setting) {

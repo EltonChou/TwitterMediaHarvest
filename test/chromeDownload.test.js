@@ -1,12 +1,12 @@
 import path from 'path'
 
-import { fetchFileNameSetting } from '../src/utils/storageHelper'
+import { fetchFileNameSetting } from '../src/helpers/storageHelper'
 import { makeBrowserDownloadConfig } from '../src/utils/maker'
 import { TwitterMediaFile, makeOrigSrc } from '../src/lib/TwitterMediaFile'
 import { DEFAULT_DIRECTORY } from '../src/constants'
 
 // mocking field
-jest.mock('../src/utils/storageHelper')
+jest.mock('../src/helpers/storageHelper')
 
 const someHost = 'https://pbs.twimg.com/media/'
 const defaultDirectory = 'twitter_media_harvest'
@@ -48,6 +48,7 @@ describe('Elementary test', () => {
       url: expectFileInfo.src,
       filename: expectFileName,
       conflictAction: 'overwrite',
+      saveAs: false,
     }
     const theConfig = makeBrowserDownloadConfig(
       expectFileInfo.src,
@@ -127,3 +128,5 @@ describe('Test filename pattern', () => {
     expect(fileName).toBe(thisName)
   })
 })
+
+jest.restoreAllMocks()
