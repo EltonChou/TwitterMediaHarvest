@@ -58,6 +58,7 @@ export const makeButtonListener = button => {
  *
  * @param {String} url
  * @param {String} fileName
+ * @param {String} referer
  *
  * @returns {browserDownloadConfig}
  */
@@ -66,6 +67,7 @@ export const makeBrowserDownloadConfig = (url, fileName) => {
     url: url,
     filename: fileName,
     conflictAction: 'overwrite',
+    saveAs: false,
   }
 }
 
