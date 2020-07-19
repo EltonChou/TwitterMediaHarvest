@@ -39,7 +39,7 @@ export const setLocalStorage = obj =>
 
 /**
  * @param {removerKeys} removerKeys
- * @returns { (promt: string | Array<string> | number) => Promise }
+ * @returns { (removerKeys: string | Array<string> | number) => Promise }
  */
 const storageRemover = storageArea => removerKeys => {
   removerKeys = removerKeysPretreat(removerKeys)

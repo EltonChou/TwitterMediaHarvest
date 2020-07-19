@@ -47,9 +47,15 @@ const templateType = Object.freeze({
 })
 
 /**
+ * @param {string} tweetId
+ * @param { Date | string } [eventTime] - allow ISO 8601 format date string
  * @returns {BrowserNotificationOptions}
  */
-export const makeDownloadErrorNotificationConfig = tweetId => {
+export const makeDownloadErrorNotificationConfig = (
+  tweetId,
+  eventTime = Date.now()
+) => {
+  if (typeof eventTime === 'string') eventTime = new Date(eventTime)
   const prevMsg = i18nLocalize('notificationDLFailedMessageFirst')
   const lastMsg = i18nLocalize('notificationDLFailedMessageLast')
   const message = `${prevMsg}twitter(${tweetId})${lastMsg}`
@@ -60,7 +66,7 @@ export const makeDownloadErrorNotificationConfig = tweetId => {
     title: i18nLocalize('notificationDLFailedTitle'),
     message: message,
     contextMessage: 'Media Harvest',
-    eventTime: Date.now(),
+    eventTime: eventTime,
     requireInteraction: true,
   }
 }

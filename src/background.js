@@ -45,35 +45,41 @@ chrome.browserAction.onClicked.addListener(openOptionsPage)
  * @returns {void}
  */
 async function processRequest(tweetInfo) {
-  let { value } = await fetchCookie({ url: 'https://twitter.com', name: 'ct0' })
+  const { value } = await fetchCookie({
+    url: 'https://twitter.com',
+    name: 'ct0',
+  })
   const twitterMedia = new MediaTweet(tweetInfo.tweetId, value)
+  const downloadMedia = mediasDownloader(tweetInfo)
 
-  twitterMedia
-    .fetchMediaList()
-    .then(mediaList => downloadMedias(mediaList, tweetInfo))
+  twitterMedia.fetchMediaList().then(downloadMedia)
 }
 
 /**
- * @param {Array<String>} mediaList
  * @param {tweetInfo} tweetInfo
- * @returns {void}
+ * @returns {(mediaList: Array<string>) => Promise<void>}
  */
-async function downloadMedias(mediaList, tweetInfo) {
-  const setting = await fetchFileNameSetting()
-  const isPassToAria2 = JSON.parse(
-    localStorage.getItem(LOCAL_STORAGE_KEY_ARIA2)
-  )
-  const downloadTool = isPassToAria2 ? 'aria2' : 'browser'
-  let configRecorder = setDownloadItemRecord(tweetInfo)
+function mediasDownloader(tweetInfo) {
+  return async mediaList => {
+    const setting = await fetchFileNameSetting()
+    const isPassToAria2 = JSON.parse(
+      localStorage.getItem(LOCAL_STORAGE_KEY_ARIA2)
+    )
+    const downloadTool = isPassToAria2 ? 'aria2' : 'browser'
+    let downloadRecorder = setDownloadItemRecord(tweetInfo)
 
-  for (const [index, value] of mediaList.entries()) {
-    const mediaFile = new TwitterMediaFile(tweetInfo, value, index)
-    const config = mediaFile.makeDownloadConfigBySetting(setting, downloadTool)
-    configRecorder = configRecorder(config)
+    for (const [index, value] of mediaList.entries()) {
+      const mediaFile = new TwitterMediaFile(tweetInfo, value, index)
+      const config = mediaFile.makeDownloadConfigBySetting(
+        setting,
+        downloadTool
+      )
+      downloadRecorder = downloadRecorder(config)
 
-    isPassToAria2
-      ? chrome.runtime.sendMessage(ARIA2_ID, config)
-      : chrome.downloads.download(config, configRecorder)
+      isPassToAria2
+        ? chrome.runtime.sendMessage(ARIA2_ID, config)
+        : chrome.downloads.download(config, downloadRecorder)
+    }
   }
 }
 
