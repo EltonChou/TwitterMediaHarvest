@@ -86,9 +86,13 @@ export const makeDownloadErrorNotificationConfig = (tweetId, eventTime) => {
   }
 }
 
-export const notifyDownloadFailed = async (downloadId, downloadEndTime) => {
+export const notifyDownloadFailed = async (
+  tweetId,
+  downloadId,
+  downloadEndTime
+) => {
   const eventTime = Date.parse(downloadEndTime)
-  const notiConf = makeDownloadErrorNotificationConfig(downloadId, eventTime)
+  const notiConf = makeDownloadErrorNotificationConfig(tweetId, eventTime)
 
-  chrome.notifications.create(downloadId, notiConf)
+  chrome.notifications.create(String(downloadId), notiConf)
 }
