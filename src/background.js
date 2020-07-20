@@ -28,7 +28,7 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
     const { id, endTime, state } = downloadDelta
     const { info } = await fetchDownloadItemRecord(id)
     if (isDownloadInterrupted(state)) {
-      notifyDownloadFailed(info.tweetId, id, endTime.current)
+      notifyDownloadFailed(info, id, endTime.current)
     }
     if (isDownloadCompleted(state)) {
       removeFromLocalStorage(id)

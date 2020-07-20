@@ -68,11 +68,11 @@ const retryDownloadButton = () => {
  * @param { Date } eventTime - allow ISO 8601 format date string
  * @returns {BrowserNotificationOptions}
  */
-export const makeDownloadErrorNotificationConfig = (tweetId, eventTime) => {
+export const makeDownloadErrorNotificationConfig = (tweetInfo, eventTime) => {
   if (typeof eventTime === 'string') eventTime = Date.parse(eventTime)
   const prevMsg = i18nLocalize('notificationDLFailedMessageFirst')
   const lastMsg = i18nLocalize('notificationDLFailedMessageLast')
-  const message = `${prevMsg}twitter(${tweetId})${lastMsg}`
+  const message = `${prevMsg}${tweetInfo.screenName}(${tweetInfo.tweetId})${lastMsg}`
 
   return {
     type: templateType.basic,
@@ -87,12 +87,12 @@ export const makeDownloadErrorNotificationConfig = (tweetId, eventTime) => {
 }
 
 export const notifyDownloadFailed = async (
-  tweetId,
+  tweetInfo,
   downloadId,
   downloadEndTime
 ) => {
   const eventTime = Date.parse(downloadEndTime)
-  const notiConf = makeDownloadErrorNotificationConfig(tweetId, eventTime)
+  const notiConf = makeDownloadErrorNotificationConfig(tweetInfo, eventTime)
 
   chrome.notifications.create(String(downloadId), notiConf)
 }
