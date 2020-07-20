@@ -71,6 +71,12 @@ export const fetchCookie = target =>
     chrome.cookies.get(target, cookie => resolve(cookie))
   })
 
+export const searchDownload = async query => {
+  return new Promise(resolve => {
+    chrome.downloads.search(query, items => resolve(items))
+  })
+}
+
 export const i18nLocalize = kw => chrome.i18n.getMessage(kw)
 export const getURL = path => chrome.runtime.getURL(path)
 

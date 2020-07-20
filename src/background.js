@@ -1,6 +1,10 @@
 import MediaTweet from './lib/MediaTweet'
 import TwitterMediaFile from './lib/TwitterMediaFile'
-import { fetchCookie, removeFromLocalStorage } from './lib/chromeApi'
+import {
+  fetchCookie,
+  searchDownload,
+  removeFromLocalStorage,
+} from './lib/chromeApi'
 import {
   initStorage,
   fetchFileNameSetting,
@@ -9,7 +13,11 @@ import {
 } from './helpers/storageHelper'
 import { notifyDownloadFailed } from './helpers/notificationHelper'
 import { isDownloadInterrupted, isDownloadCompleted } from './utils/checker'
-import { LOCAL_STORAGE_KEY_ARIA2, ARIA2_ID } from './constants'
+import {
+  ARIA2_ID,
+  DEFAULT_DIRECTORY,
+  LOCAL_STORAGE_KEY_ARIA2,
+} from './constants'
 
 chrome.runtime.onMessage.addListener(processRequest)
 chrome.runtime.onInstalled.addListener(async details => {
@@ -24,6 +32,8 @@ chrome.runtime.onInstalled.addListener(async details => {
 })
 
 chrome.downloads.onChanged.addListener(async downloadDelta => {
+  const isDownloadedBySelf = await checkDownloadItem(downloadDelta.id)
+  if (!isDownloadedBySelf) return false
   if (downloadDelta.hasOwnProperty('state')) {
     const { id, endTime, state } = downloadDelta
     const { info } = await fetchDownloadItemRecord(id)
@@ -110,3 +120,12 @@ function showUpdateMessage(current, prev) {
   console.info('Current version:', current)
 }
 /* eslint-enable no-console */
+
+async function checkDownloadItem(downloadId) {
+  const query = {
+    id: downloadId,
+    filenameRegex: DEFAULT_DIRECTORY,
+  }
+  const result = await searchDownload(query)
+  return Boolean(result.length)
+}
