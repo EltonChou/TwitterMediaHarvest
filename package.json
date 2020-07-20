@@ -36,7 +36,8 @@
   "scripts": {
     "test": "jest --env=node",
     "build": "webpack --display-error-details --colors --config webpack.config.js",
-    "build-windows": "webpack --display-error-details --colors --config webpack.config.js && powershell Compress-Archive -Update build/ build.zip",
+    "build-dev": "webpack --display-error-details --colors --config webpack.config.dev.js",
+    "build-win": "webpack --display-error-details --colors --config webpack.config.js && powershell Compress-Archive -Update build/ build.zip",
     "watch": "webpack --watch --display-error-details --colors --config webpack.config.dev.js"
   },
   "jest": {

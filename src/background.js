@@ -4,10 +4,9 @@ import { fetchCookie, removeFromLocalStorage } from './lib/chromeApi'
 import {
   initStorage,
   fetchFileNameSetting,
-  fetchDownloadItemRecord,
-  setDownloadItemRecord,
+  downloadItemRecorder,
 } from './helpers/storageHelper'
-import { makeDownloadErrorNotificationConfig } from './helpers/notificationHelper'
+import { notifyDownloadFailed } from './helpers/notificationHelper'
 import { isDownloadInterrupted, isDownloadCompleted } from './utils/checker'
 import { LOCAL_STORAGE_KEY_ARIA2, ARIA2_ID } from './constants'
 
@@ -25,16 +24,18 @@ chrome.runtime.onInstalled.addListener(async details => {
 
 chrome.downloads.onChanged.addListener(async downloadDelta => {
   if (downloadDelta.hasOwnProperty('state')) {
-    if (isDownloadInterrupted(downloadDelta.state)) {
-      const { info } = await fetchDownloadItemRecord(downloadDelta.id)
-      const notiConf = makeDownloadErrorNotificationConfig(info.tweetId)
-      chrome.notifications.create(info.tweetId, notiConf)
+    const { id, endTime, state } = downloadDelta
+    if (isDownloadInterrupted(state)) {
+      notifyDownloadFailed(id, endTime.current)
     }
-    if (isDownloadCompleted(downloadDelta.state)) {
-      await removeFromLocalStorage(downloadDelta.id)
+    if (isDownloadCompleted(state)) {
+      notifyDownloadFailed(id, endTime.current)
+      removeFromLocalStorage(id)
     }
   }
 })
+
+chrome.notifications.onButtonClicked.addListener()
 
 chrome.browserAction.onClicked.addListener(openOptionsPage)
 
@@ -51,30 +52,29 @@ async function processRequest(tweetInfo) {
   })
   const twitterMedia = new MediaTweet(tweetInfo.tweetId, value)
   const downloadMedia = mediasDownloader(tweetInfo)
+  const infoRecorder = downloadItemRecorder(tweetInfo)
 
-  twitterMedia.fetchMediaList().then(downloadMedia)
+  twitterMedia
+    .fetchMediaList()
+    .then(mediaList => downloadMedia(mediaList, infoRecorder))
 }
 
 /**
  * @param {tweetInfo} tweetInfo
- * @returns {(mediaList: Array<string>) => Promise<void>}
+ * @returns {(mediaList: Array<string>, infoRecorder:) => Promise<void>}
  */
 function mediasDownloader(tweetInfo) {
-  return async mediaList => {
+  return async (mediaList, infoRecorder) => {
     const setting = await fetchFileNameSetting()
     const isPassToAria2 = JSON.parse(
       localStorage.getItem(LOCAL_STORAGE_KEY_ARIA2)
     )
-    const downloadTool = isPassToAria2 ? 'aria2' : 'browser'
-    let downloadRecorder = setDownloadItemRecord(tweetInfo)
+    const mode = isPassToAria2 ? 'aria2' : 'browser'
 
     for (const [index, value] of mediaList.entries()) {
       const mediaFile = new TwitterMediaFile(tweetInfo, value, index)
-      const config = mediaFile.makeDownloadConfigBySetting(
-        setting,
-        downloadTool
-      )
-      downloadRecorder = downloadRecorder(config)
+      const config = mediaFile.makeDownloadConfigBySetting(setting, mode)
+      const downloadRecorder = infoRecorder(config)
 
       isPassToAria2
         ? chrome.runtime.sendMessage(ARIA2_ID, config)

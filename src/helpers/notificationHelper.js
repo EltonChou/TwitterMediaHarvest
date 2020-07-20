@@ -2,7 +2,7 @@ import { i18nLocalize, getURL } from '../lib/chromeApi'
 
 /**
  * @typedef TemplateType
- * @type {Enumerator<string>}
+ * @type {Enumerator<'basic' | 'image' | 'list' | 'progress'>}
  *
  * @typedef BrowserNotificationButton
  * @type {Object}
@@ -36,8 +36,7 @@ import { i18nLocalize, getURL } from '../lib/chromeApi'
  */
 
 /**
- * @readonly
- * @enum {TemplateType}
+ * @type {TemplateType}
  */
 const templateType = Object.freeze({
   basic: 'basic',
@@ -47,15 +46,30 @@ const templateType = Object.freeze({
 })
 
 /**
+ * @returns {BrowserNotificationButton}
+ */
+const viewTwitterButton = () => {
+  return {
+    title: i18nLocalize('notificationDLFailedButton1'),
+  }
+}
+
+/**
+ * @returns {BrowserNotificationButton}
+ */
+const retryDownloadButton = () => {
+  return {
+    title: i18nLocalize('notificationDLFailedButton2'),
+  }
+}
+
+/**
  * @param {string} tweetId
- * @param { Date | string } [eventTime] - allow ISO 8601 format date string
+ * @param { Date } eventTime - allow ISO 8601 format date string
  * @returns {BrowserNotificationOptions}
  */
-export const makeDownloadErrorNotificationConfig = (
-  tweetId,
-  eventTime = Date.now()
-) => {
-  if (typeof eventTime === 'string') eventTime = new Date(eventTime)
+export const makeDownloadErrorNotificationConfig = (tweetId, eventTime) => {
+  if (typeof eventTime === 'string') eventTime = Date.parse(eventTime)
   const prevMsg = i18nLocalize('notificationDLFailedMessageFirst')
   const lastMsg = i18nLocalize('notificationDLFailedMessageLast')
   const message = `${prevMsg}twitter(${tweetId})${lastMsg}`
@@ -66,7 +80,15 @@ export const makeDownloadErrorNotificationConfig = (
     title: i18nLocalize('notificationDLFailedTitle'),
     message: message,
     contextMessage: 'Media Harvest',
+    buttons: [viewTwitterButton(), retryDownloadButton()],
     eventTime: eventTime,
     requireInteraction: true,
   }
+}
+
+export const notifyDownloadFailed = async (downloadId, downloadEndTime) => {
+  const eventTime = Date.parse(downloadEndTime)
+  const notiConf = makeDownloadErrorNotificationConfig(downloadId, eventTime)
+
+  chrome.notifications.create(downloadId, notiConf)
 }

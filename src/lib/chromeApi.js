@@ -1,3 +1,6 @@
+/**
+ * @type {Enumerator<chrome.storage>}
+ */
 const storageArea = Object.freeze({
   sync: chrome.storage.sync,
   local: chrome.storage.local,
@@ -6,40 +9,37 @@ const storageArea = Object.freeze({
 /**
  * Fetch data from chrome storage.
  *
- * @async
- * @param {(string|string[]|Object)} any
- * @returns {promise}
+ * @param {storageArea} storageArea
+ * @returns {(keys: string | string[] | Object) => Promise<{[key: string]: Object}}> | {}>}
  */
-export const fetchSyncStorage = (any = null) =>
-  new Promise(resolve => {
-    chrome.storage.sync.get(any, result => resolve(result))
+const storageFetcher = storageArea => (keys = null) => {
+  return new Promise(resolve => {
+    storageArea.get(keys, items => resolve(items))
   })
-
-export const fetchLocalStorage = (any = null) =>
-  new Promise(resolve => {
-    chrome.storage.local.get(any, result => resolve(result))
-  })
+}
 
 /**
- * Set data to1 chrome storage.
+ * Set data to chrome storage.
  *
- * @async
- * @param {Object} obj
- * @returns {promise}
+ * @param {storageArea} storageArea
+ * @returns {(items: string | number | Object[] | Object) => Promise<void>}
  */
-export const setSyncStorage = obj =>
-  new Promise(resolve => {
-    chrome.storage.sync.set(obj, () => resolve(obj))
+const storageSetter = storageArea => items => {
+  return new Promise(resolve => {
+    storageArea.set(items, () => resolve())
   })
+}
 
-export const setLocalStorage = obj =>
-  new Promise(resolve => {
-    chrome.storage.local.set(obj, () => resolve(obj))
-  })
+const removerKeysPretreat = keys => {
+  if (typeof keys !== 'string') keys = String(keys)
+  if (Array.isArray(keys)) keys.map(String)
+
+  return keys
+}
 
 /**
- * @param {removerKeys} removerKeys
- * @returns { (removerKeys: string | Array<string> | number) => Promise }
+ * @param {storageArea} storageArea
+ * @returns { (removerKeys: string | string[] | number) => Promise<void> }
  */
 const storageRemover = storageArea => removerKeys => {
   removerKeys = removerKeysPretreat(removerKeys)
@@ -49,18 +49,15 @@ const storageRemover = storageArea => removerKeys => {
   })
 }
 
-export const removeFromSyncStorage = storageRemover(storageArea.sync)
-export const removeFromLocalStorage = storageRemover(storageArea.local)
-
-export const clearSyncStorage = () =>
-  new Promise(resolve => {
-    chrome.storage.sync.clear(() => resolve())
+/**
+ * @param {storageArea} storageArea
+ * @returns { () => Promise<void> }
+ */
+const storageCleaner = storageArea => () => {
+  return new Promise(resolve => {
+    storageArea.clear(() => resolve())
   })
-
-export const clearLocalStorage = () =>
-  new Promise(resolve => {
-    chrome.storage.local.clear(() => resolve())
-  })
+}
 
 /**
  * Fetch chrome cookie
@@ -77,9 +74,11 @@ export const fetchCookie = target =>
 export const i18nLocalize = kw => chrome.i18n.getMessage(kw)
 export const getURL = path => chrome.runtime.getURL(path)
 
-function removerKeysPretreat(keys) {
-  if (typeof keys !== 'string') keys = String(keys)
-  if (Array.isArray(keys)) keys.map(String)
-
-  return keys
-}
+export const fetchSyncStorage = storageFetcher(storageArea.sync)
+export const fetchLocalStorage = storageFetcher(storageArea.local)
+export const setSyncStorage = storageSetter(storageArea.sync)
+export const setLocalStorage = storageSetter(storageArea.local)
+export const removeFromSyncStorage = storageRemover(storageArea.sync)
+export const removeFromLocalStorage = storageRemover(storageArea.local)
+export const clearSyncStorage = storageCleaner(storageArea.sync)
+export const clearLocalStorage = storageCleaner(storageArea.local)

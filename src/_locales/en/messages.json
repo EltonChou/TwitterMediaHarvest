@@ -45,9 +45,9 @@
     "message": " download failed."
   },
   "notificationDLFailedButton1": {
-    "message": "Retry"
+    "message": "View"
   },
   "notificationDLFailedButton2": {
-    "message": "View"
+    "message": "Retry"
   }
 }

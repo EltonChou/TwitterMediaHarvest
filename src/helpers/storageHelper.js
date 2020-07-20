@@ -87,7 +87,7 @@ export const fetchDownloadItemRecord = async downloadItemId => {
   return downloadItemRecord
 }
 
-export const setDownloadItemRecord = tweetInfo => config => async downloadId => {
+export const downloadItemRecorder = tweetInfo => config => downloadId => {
   const record = {}
 
   record[downloadId] = JSON.stringify({
@@ -95,5 +95,5 @@ export const setDownloadItemRecord = tweetInfo => config => async downloadId => 
     config: config,
   })
 
-  await setLocalStorage(record)
+  setLocalStorage(record)
 }
