@@ -34,5 +34,20 @@
   },
   "submitButtonSuccessText": {
     "message": "保存成功"
+  },
+  "notificationDLFailedTitle": {
+    "message": "Download failed"
+  },
+  "notificationDLFailedMessageFirst": {
+    "message": "Media in "
+  },
+  "notificationDLFailedMessageLast": {
+    "message": " download failed."
+  },
+  "notificationDLFailedButton1": {
+    "message": "View"
+  },
+  "notificationDLFailedButton2": {
+    "message": "Retry"
   }
 }

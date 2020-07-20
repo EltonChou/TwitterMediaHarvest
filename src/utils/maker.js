@@ -5,7 +5,6 @@
  * @returns {Element} A valid HTML element
  */
 export const createElementFromHTML = htmlString => {
-  // eslint-disable-next-line no-undef
   const wrapper = document.createElement('div')
   wrapper.innerHTML = htmlString.trim()
   return wrapper.firstChild
@@ -32,7 +31,6 @@ export const makeButtonWithData = (button, data) => {
 export const makeButtonListener = button => {
   button.addEventListener('click', function(e) {
     e.stopImmediatePropagation()
-    // eslint-disable-next-line no-undef
     chrome.runtime.sendMessage(this.dataset)
   })
 }
@@ -58,6 +56,7 @@ export const makeButtonListener = button => {
  *
  * @param {String} url
  * @param {String} fileName
+ * @param {String} referer
  *
  * @returns {browserDownloadConfig}
  */
@@ -66,6 +65,7 @@ export const makeBrowserDownloadConfig = (url, fileName) => {
     url: url,
     filename: fileName,
     conflictAction: 'overwrite',
+    saveAs: false,
   }
 }
 
@@ -85,7 +85,6 @@ export const makeAria2DownloadConfig = (
   referrer = undefined,
   options = {}
 ) => {
-  // eslint-disable-next-line no-undef
   referrer |= chrome.runtime.getURL('options.html')
 
   return {

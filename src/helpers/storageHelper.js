@@ -2,7 +2,13 @@ import {
   CHROME_STORAGE_DEFAULT_FILENAME_PATTERN_OBJECT_STRING,
   DEFAULT_DIRECTORY,
 } from '../constants'
-import { fetchStorage, setStorage, clearStorage } from '../lib/chromeApi'
+import {
+  fetchSyncStorage,
+  setSyncStorage,
+  clearSyncStorage,
+  fetchLocalStorage,
+  setLocalStorage,
+} from '../lib/chromeApi'
 
 /**
  * Fetch settings
@@ -21,7 +27,7 @@ import { fetchStorage, setStorage, clearStorage } from '../lib/chromeApi'
  * @return {Promise<fileNameSetting>}
  */
 export const fetchFileNameSetting = async () => {
-  const setting = await fetchStorage(['directory', 'filename_pattern'])
+  const setting = await fetchSyncStorage(['directory', 'filename_pattern'])
   setting.filename_pattern = JSON.parse(setting.filename_pattern)
 
   return setting
@@ -34,7 +40,7 @@ export const fetchFileNameSetting = async () => {
 export const migrateStorage = async () => {
   console.groupCollapsed('Migration')
   console.info('Fetching old data...')
-  const { directory, needAccount } = await fetchStorage([
+  const { directory, needAccount } = await fetchSyncStorage([
     'directory',
     'needAccount',
   ])
@@ -46,10 +52,10 @@ export const migrateStorage = async () => {
   }
 
   console.info('Clear old data.')
-  await clearStorage()
+  await clearSyncStorage()
 
-  const dirResult = await setStorage({ directory: directory })
-  const fpResult = await setStorage({
+  const dirResult = await setSyncStorage({ directory: directory })
+  const fpResult = await setSyncStorage({
     filename_pattern: JSON.stringify(filename_pattern),
   })
   console.info('Done.')
@@ -66,11 +72,28 @@ export const migrateStorage = async () => {
 export const initStorage = async () => {
   console.groupCollapsed('Initialization')
   console.info('Initializing storage...')
-  const result = await setStorage({
+  const result = await setSyncStorage({
     directory: DEFAULT_DIRECTORY,
     filename_pattern: CHROME_STORAGE_DEFAULT_FILENAME_PATTERN_OBJECT_STRING,
   })
   console.info('Done.')
   console.table(result)
   console.groupEnd()
+}
+
+export const fetchDownloadItemRecord = async downloadItemId => {
+  const volume = await fetchLocalStorage(String(downloadItemId))
+  const downloadItemRecord = JSON.parse(volume[downloadItemId])
+  return downloadItemRecord
+}
+
+export const downloadItemRecorder = tweetInfo => config => downloadId => {
+  const record = {}
+
+  record[downloadId] = JSON.stringify({
+    info: tweetInfo,
+    config: config,
+  })
+
+  setLocalStorage(record)
 }

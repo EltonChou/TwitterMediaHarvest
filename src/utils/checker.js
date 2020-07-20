@@ -1,5 +1,11 @@
 import select from 'select-dom'
 
+const downloadState = Object.freeze({
+  inProgress: 'in_progress',
+  interrupted: 'interrupted',
+  complete: 'complete',
+})
+
 export const isArticleStatusMode = article => {
   const articleClassLength = article.classList.length
   const isMagicLength = articleClassLength === 3 || articleClassLength === 7
@@ -24,13 +30,15 @@ export const checkMode = article => {
 
 //TODO: THIS PART SHOULD BE MORE READBLE (CODE & DOC)
 
-const STREAM_MEDIA_QUERY = ':scope > [class="css-1dbjc4n"]'
-const STATUS_MEDIA_WRAPPER_QUERY =
-  'article > div > div > div > div:nth-child(3) > div:nth-child(2)'
+const query = Object.freeze({
+  streamMedia: ':scope > [class="css-1dbjc4n"]',
+  statusMediaWrapper:
+    'article > div > div > div > div:nth-child(3) > div:nth-child(2)',
+})
 
 const checkMediaInStatusAritcle = article => {
   const mediaContents = [
-    ...select(STATUS_MEDIA_WRAPPER_QUERY, article).childNodes,
+    ...select(query.statusMediaWrapper, article).childNodes,
   ]
   return mediaContents.some(content => {
     if (content.classList.length === 2)
@@ -42,7 +50,7 @@ const checkMediaInStreamArticle = article => {
   const tweet = select('[data-testid="tweet"]', article)
 
   const tweetContents = tweet.childNodes[1].childNodes[1]
-  const mediaWrapper = select.all(STREAM_MEDIA_QUERY, tweetContents)[1]
+  const mediaWrapper = select.all(query.streamMedia, tweetContents)[1]
 
   return [...mediaWrapper.childNodes[0].childNodes].some(
     mediaContent => mediaContent.classList.length === 2
@@ -83,3 +91,9 @@ export const isArticleCanBeAppend = element =>
 
 export const isStreamLoaded = () =>
   select.exists('[role="region"]') && select.exists('article')
+
+export const isDownloadInterrupted = ({ current, previous }) =>
+  current === downloadState.interrupted && previous === downloadState.inProgress
+
+export const isDownloadCompleted = ({ current, previous }) =>
+  current === downloadState.complete && previous === downloadState.inProgress

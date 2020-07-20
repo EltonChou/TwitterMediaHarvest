@@ -34,7 +34,7 @@ export default class TwitterMediaFile {
 
   /**
    *
-   * @typedef {import('../utils/storageHelper').fileNameSetting} fileNameSetting
+   * @typedef {import('../helpers/storageHelper').fileNameSetting} fileNameSetting
    * @param {fileNameSetting} setting
    */
   makeFileNameBySetting(setting) {
@@ -77,10 +77,9 @@ export default class TwitterMediaFile {
   makeDownloadConfigBySetting(setting, mode = 'browser') {
     const url = this.getSrc()
     const fileName = this.makeFileNameBySetting(setting)
-    let config
-
-    if (mode === 'aria2') config = makeAria2DownloadConfig(url, fileName)
-    if (mode === 'browser') config = makeBrowserDownloadConfig(url, fileName)
+    const tweetReferer = `https://twitter.com/i/web/status/${this.tweetId}`
+    const configMaker = selectMaker(mode)
+    const config = configMaker(url, fileName, tweetReferer)
 
     return config
   }
@@ -113,6 +112,11 @@ function cleanUrl(url) {
   theUrl.searchParams.delete('tag')
 
   return theUrl.href
+}
+
+function selectMaker(name) {
+  if (name === 'aria2') return makeAria2DownloadConfig
+  if (name === 'browser') return makeBrowserDownloadConfig
 }
 
 export { TwitterMediaFile, makeOrigSrc }

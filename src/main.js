@@ -3,20 +3,19 @@ import makeHarvester from './core'
 import { hasMedia, isStreamLoaded } from './utils/checker'
 import observeElement from './utils/observer'
 
-//FIXME: Need more efficient way to manage selector
-
-const ROOT_QUERY = '#react-root > div > div'
-const STREAM_QUERY = 'section[role="region"] > div > div > div'
-const MODAL_QUERY = '[aria-labelledby="modal-header"]'
-const MODAL_WRAPPER_QUERY =
-  '#react-root > div > div > div.r-1d2f490.r-u8s1d.r-zchlnj.r-ipm5af.r-184en5c'
-const MODAL_THREAD_QUERY =
-  '[aria-labelledby="modal-header"] [aria-expanded="true"]'
+const query = Object.freeze({
+  root: '#react-root > div > div',
+  stream: 'section[role="region"] > div > div > div',
+  modal: '[aria-labelledby="modal-header"]',
+  modalWrapper:
+    '#react-root > div > div > div.r-1d2f490.r-u8s1d.r-zchlnj.r-ipm5af.r-184en5c',
+  modalThread: '[aria-labelledby="modal-header"] [aria-expanded="true"]',
+})
 
 // The entry point
 function observeRoot() {
   observeElement(
-    ROOT_QUERY,
+    query.root,
     function() {
       if (isStreamLoaded()) {
         initialize()
@@ -34,8 +33,8 @@ function observeRoot() {
 }
 
 function initialize() {
-  if (select.exists(MODAL_QUERY)) {
-    const modal = select(MODAL_QUERY)
+  if (select.exists(query.modal)) {
+    const modal = select(query.modal)
     makeHarvester(modal)
   }
 
@@ -46,7 +45,7 @@ function initialize() {
 }
 
 function observeStream() {
-  observeElement(STREAM_QUERY, mutations => {
+  observeElement(query.stream, mutations => {
     for (const mutation of mutations) {
       for (const addedNode of mutation.addedNodes) {
         const article = select('article', addedNode)
@@ -72,9 +71,9 @@ function observeTitle() {
 
 function observeModal() {
   observeElement(
-    MODAL_WRAPPER_QUERY,
+    query.modalWrapper,
     function() {
-      const modalThread = select(MODAL_THREAD_QUERY)
+      const modalThread = select(query.modalThread)
       if (modalThread) {
         observeElement(modalThread, function() {
           initialize()
