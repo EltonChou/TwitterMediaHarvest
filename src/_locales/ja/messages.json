@@ -36,24 +36,24 @@
     "message": "保存成功"
   },
   "notificationDLFailedTitle": {
-    "message": "Download failed"
+    "message": "ダウンロード失敗しました"
   },
   "notificationDLFailedMessageFirst": {
-    "message": "Media in "
+    "message": ""
   },
   "notificationDLFailedMessageLast": {
-    "message": " download failed."
+    "message": " のメディアがダウンロード失敗しました。"
   },
   "notificationDLFailedButton1": {
-    "message": "View"
+    "message": "ツイッターへ"
   },
   "notificationDLFailedButton2": {
-    "message": "Retry"
+    "message": "やり直し"
   },
   "fetchFailedTooManyRequestsTitle": {
-    "message": "Too many requests."
+    "message": "リクエストが頻繁に行われました"
   },
   "fetchFailedTooManyRequestsMessage": {
-    "message": "Please wait for a while."
+    "message": "しばらくしてからもう一度お試しください。"
   }
 }
