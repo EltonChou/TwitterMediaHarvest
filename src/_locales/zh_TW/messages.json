@@ -36,24 +36,24 @@
     "message": "保存成功"
   },
   "notificationDLFailedTitle": {
-    "message": "Download failed"
+    "message": "下載失敗"
   },
   "notificationDLFailedMessageFirst": {
-    "message": "Media in "
+    "message": "於 "
   },
   "notificationDLFailedMessageLast": {
-    "message": " download failed."
+    "message": " 的多媒體下載失敗。"
   },
   "notificationDLFailedButton1": {
-    "message": "View"
+    "message": "查看"
   },
   "notificationDLFailedButton2": {
-    "message": "Retry"
+    "message": "重試"
   },
   "fetchFailedTooManyRequestsTitle": {
-    "message": "Too many requests."
+    "message": "短時間發出過多請求"
   },
   "fetchFailedTooManyRequestsMessage": {
-    "message": "Please wait for a while."
+    "message": "請稍等後再試。"
   }
 }
