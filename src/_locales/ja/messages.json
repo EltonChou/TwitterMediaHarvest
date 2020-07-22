@@ -49,5 +49,11 @@
   },
   "notificationDLFailedButton2": {
     "message": "Retry"
+  },
+  "fetchFailedTooManyRequestsTitle": {
+    "message": "Too many requests."
+  },
+  "fetchFailedTooManyRequestsMessage": {
+    "message": "Please wait for a while."
   }
 }

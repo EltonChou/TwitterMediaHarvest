@@ -11,7 +11,10 @@ import {
   downloadItemRecorder,
   fetchDownloadItemRecord,
 } from './helpers/storageHelper'
-import { notifyDownloadFailed } from './helpers/notificationHelper'
+import {
+  notifyFetchError,
+  notifyDownloadFailed,
+} from './helpers/notificationHelper'
 import { isDownloadInterrupted, isDownloadCompleted } from './utils/checker'
 import {
   ARIA2_ID,
@@ -34,10 +37,13 @@ chrome.runtime.onInstalled.addListener(async details => {
 chrome.downloads.onChanged.addListener(async downloadDelta => {
   const isDownloadedBySelf = await checkDownloadItem(downloadDelta.id)
   if (!isDownloadedBySelf) return false
-  if (downloadDelta.hasOwnProperty('state')) {
+
+  const isStateChanged = downloadDelta.hasOwnProperty('state')
+
+  if (isStateChanged) {
     const { id, endTime, state } = downloadDelta
-    const { info } = await fetchDownloadItemRecord(id)
     if (isDownloadInterrupted(state)) {
+      const { info } = await fetchDownloadItemRecord(id)
       notifyDownloadFailed(info, id, endTime.current)
     }
     if (isDownloadCompleted(state)) {
@@ -46,20 +52,23 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   }
 })
 
+chrome.notifications.onClosed.addListener(removeFromLocalStorage)
+chrome.notifications.onClicked.addListener(async notifficationId => {
+  openTweetFailed(notifficationId)
+  removeFromLocalStorage(notifficationId)
+})
+
 chrome.notifications.onButtonClicked.addListener(
   async (notifficationId, buttonIndex) => {
-    const { info, config } = await fetchDownloadItemRecord(notifficationId)
     if (buttonIndex === 0) {
-      const url = `https://twitter.com/i/web/status/${info.tweetId}`
-      chrome.tabs.create({ url: url })
-      removeFromLocalStorage(notifficationId)
+      openTweetFailed(notifficationId)
     }
     if (buttonIndex === 1) {
-      const infoRecorder = downloadItemRecorder(info)
-      const downloadRecorder = infoRecorder(config)
+      const { info, config } = await fetchDownloadItemRecord(notifficationId)
+      const downloadRecorder = downloadItemRecorder(info)(config)
       chrome.downloads.download(config, downloadRecorder)
-      removeFromLocalStorage(notifficationId)
     }
+    removeFromLocalStorage(notifficationId)
   }
 )
 
@@ -83,6 +92,7 @@ async function processRequest(tweetInfo) {
   twitterMedia
     .fetchMediaList()
     .then(mediaList => downloadMedia(mediaList, infoRecorder))
+    .catch(reason => notifyFetchError(tweetInfo, reason))
 }
 
 /**
@@ -128,4 +138,19 @@ async function checkDownloadItem(downloadId) {
   }
   const result = await searchDownload(query)
   return Boolean(result.length)
+}
+
+async function openTweetFailed(notifficationId) {
+  const isDownloadId = notifficationId.length < 10
+  let tweetId
+  if (isDownloadId) {
+    const { info } = await fetchDownloadItemRecord(notifficationId)
+    tweetId = info.tweetId
+  }
+  if (!isDownloadId) {
+    tweetId = notifficationId
+  }
+
+  const url = `https://twitter.com/i/web/status/${tweetId}`
+  chrome.tabs.create({ url: url })
 }
