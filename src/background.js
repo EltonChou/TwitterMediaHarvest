@@ -11,7 +11,10 @@ import {
   downloadItemRecorder,
   fetchDownloadItemRecord,
 } from './helpers/storageHelper'
-import { notifyDownloadFailed } from './helpers/notificationHelper'
+import {
+  notifyFetchError,
+  notifyDownloadFailed,
+} from './helpers/notificationHelper'
 import { isDownloadInterrupted, isDownloadCompleted } from './utils/checker'
 import {
   ARIA2_ID,
@@ -89,6 +92,7 @@ async function processRequest(tweetInfo) {
   twitterMedia
     .fetchMediaList()
     .then(mediaList => downloadMedia(mediaList, infoRecorder))
+    .catch(reason => notifyFetchError(tweetInfo, reason))
 }
 
 /**
@@ -137,7 +141,16 @@ async function checkDownloadItem(downloadId) {
 }
 
 async function openTweetFailed(notifficationId) {
-  const { info } = await fetchDownloadItemRecord(notifficationId)
-  const url = `https://twitter.com/i/web/status/${info.tweetId}`
+  const isDownloadId = notifficationId.length < 10
+  let tweetId
+  if (isDownloadId) {
+    const { info } = await fetchDownloadItemRecord(notifficationId)
+    tweetId = info.tweetId
+  }
+  if (!isDownloadId) {
+    tweetId = notifficationId
+  }
+
+  const url = `https://twitter.com/i/web/status/${tweetId}`
   chrome.tabs.create({ url: url })
 }

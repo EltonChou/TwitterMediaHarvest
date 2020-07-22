@@ -1,4 +1,5 @@
 import { TWITTER_AUTH_TOKEN } from '../constants'
+import { i18nLocalize } from './chromeApi'
 
 export default class MediaTweet {
   constructor(tweetId, token) {
@@ -21,7 +22,13 @@ export default class MediaTweet {
         const detail = await mediaResponse.json()
         resolve(this.parseMedias(detail))
       }
-      if (statusCode === 429) reject(new Error('Too many requests.'))
+      if (statusCode === 429) {
+        const reason = {
+          title: i18nLocalize('fetchFailedTooManyRequestsTitle'),
+          message: i18nLocalize('fetchFailedTooManyRequestsMessage'),
+        }
+        reject(reason)
+      }
     })
   }
 

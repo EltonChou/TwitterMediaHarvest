@@ -68,7 +68,7 @@ const retryDownloadButton = () => {
  * @param { Date } eventTime - allow ISO 8601 format date string
  * @returns {BrowserNotificationOptions}
  */
-export const makeDownloadErrorNotificationConfig = (tweetInfo, eventTime) => {
+const makeDownloadErrorNotificationConfig = (tweetInfo, eventTime) => {
   if (typeof eventTime === 'string') eventTime = Date.parse(eventTime)
   const prevMsg = i18nLocalize('notificationDLFailedMessageFirst')
   const lastMsg = i18nLocalize('notificationDLFailedMessageLast')
@@ -86,7 +86,37 @@ export const makeDownloadErrorNotificationConfig = (tweetInfo, eventTime) => {
   }
 }
 
-export const notifyDownloadFailed = async (
+/**
+ * @returns {BrowserNotificationOptions}
+ */
+const makeTooManyRequestsNotificationConfig = (
+  tweetInfo,
+  { title, message }
+) => {
+  const prevMsg = i18nLocalize('notificationDLFailedMessageFirst')
+  const lastMsg = i18nLocalize('notificationDLFailedMessageLast')
+  const info = `${prevMsg}${tweetInfo.screenName}(${tweetInfo.tweetId})${lastMsg} ${message}`
+
+  return {
+    type: templateType.basic,
+    iconUrl: getURL('assets/icons/icon128.png'),
+    title: title,
+    message: info,
+    contextMessage: 'Media Harvest',
+    buttons: [viewTwitterButton()],
+    eventTime: Date.now(),
+    requireInteraction: true,
+    silent: false,
+  }
+}
+
+export const notifyFetchError = (tweetInfo, reason) => {
+  const notiConf = makeTooManyRequestsNotificationConfig(tweetInfo, reason)
+
+  chrome.notifications.create(tweetInfo.tweetId, notiConf)
+}
+
+export const notifyDownloadFailed = (
   tweetInfo,
   downloadId,
   downloadEndTime
