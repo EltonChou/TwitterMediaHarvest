@@ -1,6 +1,6 @@
 {
   "name": "twitter-media-harvest",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "The easiest way to get media from twitter-timeline.",
   "main": "./src/main.js",
   "dependencies": {
@@ -22,6 +22,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "file-loader": "^1.1.11",
     "jest": "^25.3.0",
+    "jest-chrome": "^0.6.0",
     "node-sass": "^4.12.0",
     "prettier": "^1.16.4",
     "sass-loader": "^7.1.0",
@@ -35,11 +36,13 @@
   "scripts": {
     "test": "jest --env=node",
     "build": "webpack --display-error-details --colors --config webpack.config.js",
-    "build-windows": "webpack --display-error-details --colors --config webpack.config.js && powershell Compress-Archive -Update build/ build.zip",
+    "build-dev": "webpack --display-error-details --colors --config webpack.config.dev.js",
+    "build-win": "webpack --display-error-details --colors --config webpack.config.js && powershell Compress-Archive -Update build/ build.zip",
     "watch": "webpack --watch --display-error-details --colors --config webpack.config.dev.js"
   },
   "jest": {
-    "verbose": true
+    "verbose": true,
+    "setupFilesAfterEnv": ["./jest.setup.js"]
   },
   "repository": {
     "type": "git",

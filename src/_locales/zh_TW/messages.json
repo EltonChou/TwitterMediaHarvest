@@ -34,5 +34,26 @@
   },
   "submitButtonSuccessText": {
     "message": "保存成功"
+  },
+  "notificationDLFailedTitle": {
+    "message": "下載失敗"
+  },
+  "notificationDLFailedMessageFirst": {
+    "message": "於 "
+  },
+  "notificationDLFailedMessageLast": {
+    "message": " 的多媒體下載失敗。"
+  },
+  "notificationDLFailedButton1": {
+    "message": "查看"
+  },
+  "notificationDLFailedButton2": {
+    "message": "重試"
+  },
+  "fetchFailedTooManyRequestsTitle": {
+    "message": "短時間發出過多請求"
+  },
+  "fetchFailedTooManyRequestsMessage": {
+    "message": "請稍等後再試。"
   }
 }

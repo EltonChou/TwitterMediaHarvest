@@ -1,22 +1,35 @@
 import { TWITTER_AUTH_TOKEN } from '../constants'
+import { i18nLocalize } from './chromeApi'
 
 export default class MediaTweet {
   constructor(tweetId, token) {
     this.tweetId = tweetId
-    this.header = initHeader(token)
+    this.header = initHeader(token, tweetId)
     this.tweetAPIurl = `https://api.twitter.com/2/timeline/conversation/${tweetId}.json?tweet_mode=extended`
   }
 
   async fetchMediaList() {
-    let mediaRes = await fetch(this.tweetAPIurl, {
+    const mediaResponse = await fetch(this.tweetAPIurl, {
       method: 'GET',
       headers: this.header,
       mode: 'cors',
       cache: 'no-cache',
     })
 
-    let detail = await mediaRes.json()
-    return this.parseMedias(detail)
+    return new Promise(async (resolve, reject) => {
+      const statusCode = mediaResponse.status
+      if (statusCode === 200) {
+        const detail = await mediaResponse.json()
+        resolve(this.parseMedias(detail))
+      }
+      if (statusCode === 429) {
+        const reason = {
+          title: i18nLocalize('fetchFailedTooManyRequestsTitle'),
+          message: i18nLocalize('fetchFailedTooManyRequestsMessage'),
+        }
+        reject(reason)
+      }
+    })
   }
 
   parseMedias(detail) {
@@ -60,14 +73,14 @@ export default class MediaTweet {
   }
 }
 
-function initHeader(token) {
-  const header = new Headers([
+function initHeader(token, tweetId) {
+  return new Headers([
     ['Authorization', TWITTER_AUTH_TOKEN],
     ['User-Agent', navigator.userAgent],
+    ['Referer', `https://twitter.com/i/web/status/${tweetId}`],
     ['cache-control', 'no-cache'],
     ['x-twitter-active-user', 'yes'],
     ['x-twitter-auth-type', 'OAuth2Session'],
     ['x-csrf-token', token],
   ])
-  return header
 }

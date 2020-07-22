@@ -34,5 +34,26 @@
   },
   "submitButtonSuccessText": {
     "message": "保存成功"
+  },
+  "notificationDLFailedTitle": {
+    "message": "ダウンロード失敗しました"
+  },
+  "notificationDLFailedMessageFirst": {
+    "message": ""
+  },
+  "notificationDLFailedMessageLast": {
+    "message": " のメディアがダウンロード失敗しました。"
+  },
+  "notificationDLFailedButton1": {
+    "message": "ツイッターへ"
+  },
+  "notificationDLFailedButton2": {
+    "message": "やり直し"
+  },
+  "fetchFailedTooManyRequestsTitle": {
+    "message": "リクエストが頻繁に行われました"
+  },
+  "fetchFailedTooManyRequestsMessage": {
+    "message": "しばらくしてからもう一度お試しください。"
   }
 }

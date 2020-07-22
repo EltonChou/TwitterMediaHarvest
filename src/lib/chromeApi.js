@@ -1,34 +1,63 @@
 /**
- * Fetch data from chrome storage.
- *
- * @async
- * @param {(string|string[]|Object)} any
- * @returns {promise}
+ * @type {Enumerator<chrome.storage>}
  */
-export const fetchStorage = any =>
-  new Promise(resolve => {
-    // eslint-disable-next-line no-undef
-    chrome.storage.sync.get(any, result => resolve(result))
-  })
+const storageArea = Object.freeze({
+  sync: chrome.storage.sync,
+  local: chrome.storage.local,
+})
 
 /**
- * Set data to1 chrome storage.
+ * Fetch data from chrome storage.
  *
- * @async
- * @param {Object} obj
- * @returns {promise}
+ * @param {storageArea} storageArea
+ * @returns {(keys: string | string[] | Object) => Promise<{[key: string]: Object}}> | {}>}
  */
-export const setStorage = obj =>
-  new Promise(resolve => {
-    // eslint-disable-next-line no-undef
-    chrome.storage.sync.set(obj, () => resolve(obj))
+const storageFetcher = storageArea => (keys = null) => {
+  return new Promise(resolve => {
+    storageArea.get(keys, items => resolve(items))
   })
+}
 
-export const clearStorage = () =>
-  new Promise(resolve => {
-    // eslint-disable-next-line no-undef
-    chrome.storage.sync.clear(() => resolve())
+/**
+ * Set data to chrome storage.
+ *
+ * @param {storageArea} storageArea
+ * @returns {(items: string | number | Object[] | Object) => Promise<void>}
+ */
+const storageSetter = storageArea => items => {
+  return new Promise(resolve => {
+    storageArea.set(items, () => resolve())
   })
+}
+
+const removerKeysPretreat = keys => {
+  if (typeof keys !== 'string') keys = String(keys)
+  if (Array.isArray(keys)) keys.map(String)
+
+  return keys
+}
+
+/**
+ * @param {storageArea} storageArea
+ * @returns { (removerKeys: string | string[] | number) => Promise<void> }
+ */
+const storageRemover = storageArea => removerKeys => {
+  removerKeys = removerKeysPretreat(removerKeys)
+
+  return new Promise(resolve => {
+    storageArea.remove(removerKeys, resolve)
+  })
+}
+
+/**
+ * @param {storageArea} storageArea
+ * @returns { () => Promise<void> }
+ */
+const storageCleaner = storageArea => () => {
+  return new Promise(resolve => {
+    storageArea.clear(() => resolve())
+  })
+}
 
 /**
  * Fetch chrome cookie
@@ -39,6 +68,23 @@ export const clearStorage = () =>
  */
 export const fetchCookie = target =>
   new Promise(resolve => {
-    // eslint-disable-next-line no-undef
     chrome.cookies.get(target, cookie => resolve(cookie))
   })
+
+export const searchDownload = async query => {
+  return new Promise(resolve => {
+    chrome.downloads.search(query, items => resolve(items))
+  })
+}
+
+export const i18nLocalize = kw => chrome.i18n.getMessage(kw)
+export const getURL = path => chrome.runtime.getURL(path)
+
+export const fetchSyncStorage = storageFetcher(storageArea.sync)
+export const fetchLocalStorage = storageFetcher(storageArea.local)
+export const setSyncStorage = storageSetter(storageArea.sync)
+export const setLocalStorage = storageSetter(storageArea.local)
+export const removeFromSyncStorage = storageRemover(storageArea.sync)
+export const removeFromLocalStorage = storageRemover(storageArea.local)
+export const clearSyncStorage = storageCleaner(storageArea.sync)
+export const clearLocalStorage = storageCleaner(storageArea.local)
