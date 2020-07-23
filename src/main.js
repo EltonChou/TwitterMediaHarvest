@@ -1,6 +1,6 @@
 import select from 'select-dom'
 import makeHarvester from './core'
-import { hasMedia, isStreamLoaded } from './utils/checker'
+import { articleHasMedia, isStreamLoaded } from './utils/checker'
 import observeElement from './utils/observer'
 
 const query = Object.freeze({
@@ -40,7 +40,7 @@ function initialize() {
 
   const articles = select.all('article')
   for (const article of articles) {
-    if (hasMedia(article)) makeHarvester(article)
+    if (articleHasMedia(article)) makeHarvester(article)
   }
 }
 
@@ -49,7 +49,7 @@ function observeStream() {
     for (const mutation of mutations) {
       for (const addedNode of mutation.addedNodes) {
         const article = select('article', addedNode)
-        if (hasMedia(article)) makeHarvester(article)
+        if (articleHasMedia(article)) makeHarvester(article)
       }
     }
   })

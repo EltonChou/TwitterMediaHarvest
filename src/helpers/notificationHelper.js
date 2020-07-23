@@ -1,4 +1,4 @@
-import { i18nLocalize, getURL } from '../lib/chromeApi'
+import { i18nLocalize, getExtensionURL } from '../lib/chromeApi'
 
 /**
  * @typedef TemplateType
@@ -76,7 +76,7 @@ const makeDownloadErrorNotificationConfig = (tweetInfo, eventTime) => {
 
   return {
     type: templateType.basic,
-    iconUrl: getURL('assets/icons/icon128.png'),
+    iconUrl: getExtensionURL('assets/icons/icon128.png'),
     title: i18nLocalize('notificationDLFailedTitle'),
     message: message,
     contextMessage: 'Media Harvest',
@@ -87,6 +87,7 @@ const makeDownloadErrorNotificationConfig = (tweetInfo, eventTime) => {
 }
 
 /**
+ * FIXME: ugly
  * @returns {BrowserNotificationOptions}
  */
 const makeTooManyRequestsNotificationConfig = (
@@ -99,7 +100,7 @@ const makeTooManyRequestsNotificationConfig = (
 
   return {
     type: templateType.basic,
-    iconUrl: getURL('assets/icons/icon128.png'),
+    iconUrl: getExtensionURL('assets/icons/icon128.png'),
     title: title,
     message: info,
     contextMessage: 'Media Harvest',
@@ -110,7 +111,7 @@ const makeTooManyRequestsNotificationConfig = (
   }
 }
 
-export const notifyFetchError = (tweetInfo, reason) => {
+export const notifyMediaListFetchError = (tweetInfo, reason) => {
   const notiConf = makeTooManyRequestsNotificationConfig(tweetInfo, reason)
 
   chrome.notifications.create(tweetInfo.tweetId, notiConf)

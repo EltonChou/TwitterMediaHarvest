@@ -22,7 +22,7 @@ export const isArticlePhotoMode = article => article instanceof HTMLDivElement
  * @param {Element} article
  * @returns {'photo' | 'status' | 'stream'} mode
  */
-export const checkMode = article => {
+export const checkModeOfArticle = article => {
   if (isArticlePhotoMode(article)) return 'photo'
   if (isArticleStatusMode(article)) return 'status'
   return 'stream'
@@ -69,7 +69,7 @@ const checkMediaInStreamArticle = article => {
  * @param {Element} article This should be article.
  * @returns {boolean} Media is exist in tweet or not.
  */
-export const hasMedia = article => {
+export const articleHasMedia = article => {
   if (!article) return false
   try {
     if (isArticleInStream(article)) return checkMediaInStreamArticle(article)

@@ -1,3 +1,5 @@
+//FIXME: this should be a helper
+
 /**
  * @type {Enumerator<chrome.storage>}
  */
@@ -78,7 +80,7 @@ export const searchDownload = async query => {
 }
 
 export const i18nLocalize = kw => chrome.i18n.getMessage(kw)
-export const getURL = path => chrome.runtime.getURL(path)
+export const getExtensionURL = path => chrome.runtime.getURL(path)
 
 export const fetchSyncStorage = storageFetcher(storageArea.sync)
 export const fetchLocalStorage = storageFetcher(storageArea.local)

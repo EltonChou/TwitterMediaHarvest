@@ -1,6 +1,6 @@
 import select from 'select-dom'
 import downloadButtonSVG from '../assets/icons/twitter-download.svg'
-import { checkMode } from '../utils/checker'
+import { checkModeOfArticle } from '../utils/checker'
 import {
   createElementFromHTML,
   makeButtonWithData,
@@ -8,7 +8,7 @@ import {
 } from '../utils/maker'
 import { parseTweetInfo } from '../utils/parser'
 
-const style = {
+const style = Object.freeze({
   stream: {
     svg:
       'r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi',
@@ -21,11 +21,11 @@ const style = {
     ltr:
       'css-901oao r-1awozwy r-111h2gw r-6koalj r-1qd0xha r-a023e6 r-16dba41 r-1h0z5md r-ad9z0x r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0',
   },
-}
+})
 
 class Harvester {
   constructor(article) {
-    this.mode = checkMode(article)
+    this.mode = checkModeOfArticle(article)
     this.info = parseTweetInfo(article)
     this.button = this.makeButton()
   }

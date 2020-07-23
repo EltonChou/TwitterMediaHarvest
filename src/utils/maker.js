@@ -1,3 +1,6 @@
+// FIXME: prevent importing lib or helper in utils
+import { getExtensionURL } from '../lib/chromeApi'
+
 /**
  * Create HTMLElement from html string.
  *
@@ -85,7 +88,7 @@ export const makeAria2DownloadConfig = (
   referrer = undefined,
   options = {}
 ) => {
-  referrer |= chrome.runtime.getURL('options.html')
+  referrer |= getExtensionURL('options.html')
 
   return {
     url: url,
