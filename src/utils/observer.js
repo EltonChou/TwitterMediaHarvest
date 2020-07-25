@@ -2,7 +2,7 @@ import select from 'select-dom'
 
 /**
  * MutationObserver
- * @param {String} element DOMSelector
+ * @param {string | HTMLElement} element DOMSelector or HTMLElement
  * @param {MutationCallback} observerCallback
  * @param {Object} options MutationsObserver options
  * @returns {MutationObserver}

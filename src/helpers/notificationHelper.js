@@ -64,8 +64,6 @@ const retryDownloadButton = () => {
 }
 
 /**
- * @param {string} tweetId
- * @param { Date } eventTime - allow ISO 8601 format date string
  * @returns {BrowserNotificationOptions}
  */
 const makeDownloadErrorNotificationConfig = (tweetInfo, eventTime) => {
@@ -87,7 +85,7 @@ const makeDownloadErrorNotificationConfig = (tweetInfo, eventTime) => {
 }
 
 /**
- * FIXME: ugly
+ * @param {import('../utils/parser').tweetInfo} tweetInfo
  * @returns {BrowserNotificationOptions}
  */
 const makeTooManyRequestsNotificationConfig = (

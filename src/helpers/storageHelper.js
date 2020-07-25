@@ -81,12 +81,19 @@ export const initStorage = async () => {
   console.groupEnd()
 }
 
+/**
+ * @param {number} downloadItemId
+ */
 export const fetchDownloadItemRecord = async downloadItemId => {
   const volume = await fetchLocalStorage(String(downloadItemId))
   const downloadItemRecord = JSON.parse(volume[downloadItemId])
   return downloadItemRecord
 }
 
+/**
+ * @param {import('../utils/parser').tweetInfo} tweetInfo
+ * @returns {(config) => (downloadId:number) => void}
+ */
 export const downloadItemRecorder = tweetInfo => config => downloadId => {
   const record = {}
 
