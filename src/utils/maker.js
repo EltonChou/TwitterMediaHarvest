@@ -1,11 +1,8 @@
-// FIXME: prevent importing lib or helper in utils
-import { getExtensionURL } from '../lib/chromeApi'
-
 /**
  * Create HTMLElement from html string.
  *
  * @param {InnerHTML} htmlString A valid html.
- * @returns {Element} A valid HTML element
+ * @returns {HTMLElement}
  */
 export const createElementFromHTML = htmlString => {
   const wrapper = document.createElement('div')
@@ -15,10 +12,10 @@ export const createElementFromHTML = htmlString => {
 
 /**
  *
- * @param {Element} button
- * @param {Object} data
+ * @param {HTMLElement} button
+ * @param {import('./parser').tweetInfo} data
  *
- * @returns {Element}
+ * @returns {HTMLElement}
  */
 export const makeButtonWithData = (button, data) => {
   Object.assign(button.dataset, data)
@@ -27,9 +24,9 @@ export const makeButtonWithData = (button, data) => {
 
 /**
  *
- * @param {Element} button harvestButton
+ * @param {HTMLElement} button harvestButton
  *
- * @returns {Element} button
+ * @returns {HTMLElement} button
  */
 export const makeButtonListener = button => {
   button.addEventListener('click', function(e) {
@@ -39,8 +36,7 @@ export const makeButtonListener = button => {
 }
 
 /**
- * @typedef browserDownloadConfig
- * @type {Object}
+ * @typedef {Object} browserDownloadConfig
  * @property {String} url
  * @property {String} fileName
  * @property {String} conflictAction
@@ -85,11 +81,9 @@ export const makeBrowserDownloadConfig = (url, fileName) => {
 export const makeAria2DownloadConfig = (
   url,
   fileName,
-  referrer = undefined,
+  referrer,
   options = {}
 ) => {
-  referrer |= getExtensionURL('options.html')
-
   return {
     url: url,
     filename: fileName,

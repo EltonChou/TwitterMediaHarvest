@@ -4,7 +4,7 @@ import select from 'select-dom'
  * MutationObserver
  * @param {string | HTMLElement} element DOMSelector or HTMLElement
  * @param {MutationCallback} observerCallback
- * @param {Object} options MutationsObserver options
+ * @param {MutationObserverInit} options MutationsObserver options
  * @returns {MutationObserver}
  */
 export const observeElement = (

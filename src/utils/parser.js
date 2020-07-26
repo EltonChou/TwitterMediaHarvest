@@ -7,6 +7,9 @@ const featureRegEx = Object.freeze({
   screenNameInURL: /(?<=\/)\S+(?=\/status)/,
 })
 
+/**
+ * @param {HTMLElement} article
+ */
 const parseScreeNameFromUserAccount = article => {
   const userAccount = select('[data-testid="tweet"] [dir="ltr"]', article)
     .childNodes[0].textContent
@@ -16,15 +19,14 @@ const parseScreeNameFromUserAccount = article => {
 }
 
 /**
- * @typedef tweetInfo
- * @type {Object}
+ * @typedef {Object} tweetInfo
  * @property {string} screenName
  * @property {string} tweetId
  */
 /**
  * Generate tweet information.
  *
- * @param {Element} article A valid tweet element.
+ * @param {HTMLElement} article A valid tweet element.
  * @returns {tweetInfo}
  */
 // FIXME: some tweet will cause null time error

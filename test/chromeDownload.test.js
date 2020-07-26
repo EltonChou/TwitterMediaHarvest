@@ -2,7 +2,7 @@ import path from 'path'
 
 import { fetchFileNameSetting } from '../src/helpers/storageHelper'
 import { makeBrowserDownloadConfig } from '../src/utils/maker'
-import { TwitterMediaFile, makeOrigSrc } from '../src/lib/TwitterMediaFile'
+import { TwitterMediaFile, makeOrigSrc } from '../src/libs/TwitterMediaFile'
 import { DEFAULT_DIRECTORY } from '../src/constants'
 
 // mocking field

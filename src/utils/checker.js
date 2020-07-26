@@ -6,6 +6,9 @@ const downloadState = Object.freeze({
   complete: 'complete',
 })
 
+/**
+ * @param {HTMLElement} article
+ */
 export const isArticleStatusMode = article => {
   const articleClassLength = article.classList.length
   const isMagicLength = articleClassLength === 3 || articleClassLength === 7
@@ -14,15 +17,22 @@ export const isArticleStatusMode = article => {
 
   return Boolean(url.match(testStatus)) && isMagicLength
 }
+
+/**
+ * @param {HTMLElement} article
+ */
 export const isArticleInStream = article => {
   const articleClassLength = article.classList.length
   return articleClassLength === 8 || articleClassLength === 6
 }
+
+/**
+ * @param {HTMLElement} article
+ */
 export const isArticlePhotoMode = article => article instanceof HTMLDivElement
 
 /**
- *
- * @param {Element} article
+ * @param {HTMLElement} article
  * @returns {'photo' | 'status' | 'stream'} mode
  */
 export const checkModeOfArticle = article => {
@@ -30,8 +40,6 @@ export const checkModeOfArticle = article => {
   if (isArticleStatusMode(article)) return 'status'
   return 'stream'
 }
-
-//TODO: THIS PART SHOULD BE MORE READBLE (CODE & DOC)
 
 const query = Object.freeze({
   streamMediaWrapper:
@@ -44,10 +52,7 @@ const query = Object.freeze({
 })
 
 /**
- * Check media is exist in tweet or not.
- *
- * @param {Element} article This should be article.
- * @returns {boolean} Media is exist in tweet or not.
+ * @param {HTMLElement} article This should be article.
  */
 export const articleHasMedia = article => {
   if (!article) return false
@@ -65,19 +70,22 @@ export const articleHasMedia = article => {
 }
 
 /**
- * Check the tweet has been appended or not.
- *
- * @param {Element} element A valid tweet element
- * @returns {boolean} Is element has been appended?
+ * @param {HTMLElement} article
  */
-export const isArticleCanBeAppend = element =>
-  element && !element.dataset.appended
+export const isArticleCanBeAppend = article =>
+  article && !article.dataset.appended
 
 export const isStreamLoaded = () =>
   select.exists('[role="region"]') && select.exists('article')
 
+/**
+ * @param {chrome.downloads.StringDelta} param0 - downloadStateDelta
+ */
 export const isDownloadInterrupted = ({ current, previous }) =>
   current === downloadState.interrupted && previous === downloadState.inProgress
 
+/**
+ * @param {chrome.downloads.StringDelta} param0 - downloadStateDelta
+ */
 export const isDownloadCompleted = ({ current, previous }) =>
   current === downloadState.complete && previous === downloadState.inProgress

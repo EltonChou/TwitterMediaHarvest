@@ -1,10 +1,10 @@
-import MediaTweet from './lib/MediaTweet'
-import TwitterMediaFile from './lib/TwitterMediaFile'
+import MediaTweet from './libs/MediaTweet'
+import TwitterMediaFile from './libs/TwitterMediaFile'
 import {
   fetchCookie,
   searchDownload,
   removeFromLocalStorage,
-} from './lib/chromeApi'
+} from './libs/chromeApi'
 import {
   initStorage,
   fetchFileNameSetting,
@@ -78,7 +78,7 @@ chrome.browserAction.onClicked.addListener(openOptionsPage)
 // FIXME: what a mess recorder
 /**
  * Trigger browser-download
- * @typedef {import('./lib/TwitterMediaFile').tweetInfo} tweetInfo
+ * @typedef {import('./libs/TwitterMediaFile').tweetInfo} tweetInfo
  * @param {tweetInfo} tweetInfo twitter information
  * @returns {void}
  */
@@ -125,7 +125,6 @@ function openOptionsPage() {
   chrome.runtime.openOptionsPage()
 }
 
-// FIXME: this should be in console helper
 /* eslint-disable no-console */
 function showUpdateMessageInConsole(current, previous) {
   console.info('The extension has been updated.')
@@ -134,7 +133,6 @@ function showUpdateMessageInConsole(current, previous) {
 }
 /* eslint-enable no-console */
 
-// FIXME: this should be in checker
 async function checkItemIsDownloadedBySelf(downloadId) {
   const query = {
     id: downloadId,

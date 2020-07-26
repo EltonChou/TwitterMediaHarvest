@@ -1,6 +1,6 @@
 import select from 'select-dom'
 import sanitize from 'sanitize-filename'
-import { setSyncStorage, i18nLocalize } from './lib/chromeApi'
+import { setSyncStorage, i18nLocalize } from './libs/chromeApi'
 import { fetchFileNameSetting } from './helpers/storageHelper'
 import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
 

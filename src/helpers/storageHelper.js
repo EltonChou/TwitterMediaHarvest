@@ -8,7 +8,7 @@ import {
   clearSyncStorage,
   fetchLocalStorage,
   setLocalStorage,
-} from '../lib/chromeApi'
+} from '../libs/chromeApi'
 
 /**
  * Fetch settings
@@ -23,8 +23,6 @@ import {
  * @property {String} directory
  * @property {patternSetting} filename_pattern
  *
- * @async
- * @return {Promise<fileNameSetting>}
  */
 export const fetchFileNameSetting = async () => {
   const setting = await fetchSyncStorage(['directory', 'filename_pattern'])

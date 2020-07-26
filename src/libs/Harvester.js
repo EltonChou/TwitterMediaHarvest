@@ -45,10 +45,12 @@ class Harvester {
   createButtonByMode() {
     const mode = this.mode
     const icon = createElementFromHTML(downloadButtonSVG)
-    const iconStyle = (mode === 'stream' ? style.stream : style.photo).svg
+    const iconType = mode === 'stream' ? style.stream : style.photo
+    const iconStyle = iconType.svg
     icon.setAttribute('class', iconStyle)
 
-    const ltrStyle = (mode === 'photo' ? style.photo : style.stream).ltr
+    const ltrType = mode === 'photo' ? style.photo : style.stream
+    const ltrStyle = ltrType.ltr
 
     const buttonWrapper = createElementFromHTML(`
       <div class="css-1dbjc4n harvester ${mode}">
