@@ -1,28 +1,32 @@
 import select from 'select-dom'
 import { isArticlePhotoMode, isArticleStatusMode } from './checker'
 
-const idFeature = /(?:status\/)(\d+)/
-const screenNameFeature = /(?<=@)\S+/
-const urlScreenNameFeature = /(?<=\/)\S+(?=\/status)/
+const featureRegEx = Object.freeze({
+  id: /(?:status\/)(\d+)/,
+  screenName: /(?<=@)\S+/,
+  screenNameInURL: /(?<=\/)\S+(?=\/status)/,
+})
 
+/**
+ * @param {HTMLElement} article
+ */
 const parseScreeNameFromUserAccount = article => {
   const userAccount = select('[data-testid="tweet"] [dir="ltr"]', article)
     .childNodes[0].textContent
-  const screenName = userAccount.match(screenNameFeature)[0]
+  const screenName = userAccount.match(featureRegEx.screenName)[0]
 
   return screenName
 }
 
 /**
- * @typedef tweetInfo
- * @type {Object}
+ * @typedef {Object} tweetInfo
  * @property {string} screenName
  * @property {string} tweetId
  */
 /**
  * Generate tweet information.
  *
- * @param {Element} article A valid tweet element.
+ * @param {HTMLElement} article A valid tweet element.
  * @returns {tweetInfo}
  */
 // FIXME: some tweet will cause null time error
@@ -37,10 +41,10 @@ export const parseTweetInfo = article => {
     magicLink = time.parentNode.getAttribute('href')
   }
 
-  const tweetId = magicLink.match(idFeature)[1]
+  const tweetId = magicLink.match(featureRegEx.id)[1]
 
   const screenName = isArticlePhotoMode(article)
-    ? magicLink.match(urlScreenNameFeature)[0]
+    ? magicLink.match(featureRegEx.screenNameInURL)[0]
     : parseScreeNameFromUserAccount(article)
 
   return {

@@ -2,17 +2,17 @@ import select from 'select-dom'
 
 /**
  * MutationObserver
- * @param {String} element DOMSelector
- * @param {MutationCallback} callback
- * @param {Object} options MutationsObserver options
+ * @param {string | HTMLElement} element DOMSelector or HTMLElement
+ * @param {MutationCallback} observerCallback
+ * @param {MutationObserverInit} options MutationsObserver options
  * @returns {MutationObserver}
  */
 export const observeElement = (
   element,
-  callback,
+  observerCallback,
   options = { childList: true }
 ) => {
-  const observer = new MutationObserver(callback)
+  const observer = new MutationObserver(observerCallback)
   if (element instanceof HTMLElement) {
     observer.observe(element, options)
   }

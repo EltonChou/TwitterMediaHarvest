@@ -19,8 +19,8 @@ export default class TwitterMediaFile {
   /**
    * @constructor
    * @param {tweetInfo} tweetInfo
-   * @param {String} url
-   * @param {Number} index
+   * @param {string} url
+   * @param {number} index
    */
   constructor(tweetInfo, url, index = 0) {
     this.screenName = tweetInfo.screenName
@@ -33,7 +33,6 @@ export default class TwitterMediaFile {
   }
 
   /**
-   *
    * @typedef {import('../helpers/storageHelper').fileNameSetting} fileNameSetting
    * @param {fileNameSetting} setting
    */
@@ -114,6 +113,9 @@ function cleanUrl(url) {
   return theUrl.href
 }
 
+/**
+ * @param {'aria2' | 'browser'} name
+ */
 function selectMaker(name) {
   if (name === 'aria2') return makeAria2DownloadConfig
   if (name === 'browser') return makeBrowserDownloadConfig

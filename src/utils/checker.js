@@ -6,6 +6,9 @@ const downloadState = Object.freeze({
   complete: 'complete',
 })
 
+/**
+ * @param {HTMLElement} article
+ */
 export const isArticleStatusMode = article => {
   const articleClassLength = article.classList.length
   const isMagicLength = articleClassLength === 3 || articleClassLength === 7
@@ -14,86 +17,75 @@ export const isArticleStatusMode = article => {
 
   return Boolean(url.match(testStatus)) && isMagicLength
 }
-export const isArticleInStream = article => article.classList.length === 8
+
+/**
+ * @param {HTMLElement} article
+ */
+export const isArticleInStream = article => {
+  const articleClassLength = article.classList.length
+  return articleClassLength === 8 || articleClassLength === 6
+}
+
+/**
+ * @param {HTMLElement} article
+ */
 export const isArticlePhotoMode = article => article instanceof HTMLDivElement
 
 /**
- *
- * @param {Element} article
+ * @param {HTMLElement} article
  * @returns {'photo' | 'status' | 'stream'} mode
  */
-export const checkMode = article => {
+export const checkModeOfArticle = article => {
   if (isArticlePhotoMode(article)) return 'photo'
   if (isArticleStatusMode(article)) return 'status'
   return 'stream'
 }
 
-//TODO: THIS PART SHOULD BE MORE READBLE (CODE & DOC)
-
 const query = Object.freeze({
-  streamMedia: ':scope > [class="css-1dbjc4n"]',
+  streamMediaWrapper:
+    '[data-testid="tweet"] > div:nth-child(2) > div:nth-child(2) >\
+     div.css-1dbjc4n:nth-last-child(2) > div.css-1dbjc4n:nth-child(1) >\
+     div.css-1dbjc4n:nth-child(1)',
   statusMediaWrapper:
-    'article > div > div > div > div:nth-child(3) > div:nth-child(2)',
+    'article > div > div > div > div:nth-child(3) > [class="css-1dbjc4n"] >\
+     .css-1dbjc4n:nth-child(1)',
 })
 
-const checkMediaInStatusAritcle = article => {
-  const mediaContents = [
-    ...select(query.statusMediaWrapper, article).childNodes,
-  ]
-  return mediaContents.some(content => {
-    if (content.classList.length === 2)
-      return content.childNodes[0].classList.length === 7
-  })
-}
+/**
+ * @param {HTMLElement} article This should be article.
+ */
+export const articleHasMedia = article => {
+  if (!article) return false
 
-const checkMediaInStreamArticle = article => {
-  const tweet = select('[data-testid="tweet"]', article)
+  let mediaWrapperQuery
+  if (isArticleInStream(article)) mediaWrapperQuery = query.streamMediaWrapper
+  if (isArticleStatusMode(article)) mediaWrapperQuery = query.statusMediaWrapper
+  const mediaWrapper = select(mediaWrapperQuery, article)
 
-  const tweetContents = tweet.childNodes[1].childNodes[1]
-  const mediaWrapper = select.all(query.streamMedia, tweetContents)[1]
+  if (mediaWrapper === null) return false
 
-  return [...mediaWrapper.childNodes[0].childNodes].some(
-    mediaContent => mediaContent.classList.length === 2
+  return [...mediaWrapper.childNodes].some(
+    mediaContent => mediaContent.classList.length === 7
   )
 }
 
 /**
- * Check media is exist in tweet or not.
- *
- * FIXME: 4 types of article
- * 1. Stream
- * 2. Status 19s
- * 3. Status
- * 4. Modal
- *
- * @param {Element} article This should be article.
- * @returns {boolean} Media is exist in tweet or not.
+ * @param {HTMLElement} article
  */
-export const hasMedia = article => {
-  if (!article) return false
-  try {
-    if (isArticleInStream(article)) return checkMediaInStreamArticle(article)
-    if (isArticleStatusMode(article)) return checkMediaInStatusAritcle(article)
-    if (!isArticleStatusMode(article)) return checkMediaInStreamArticle(article)
-  } catch (error) {
-    return false
-  }
-}
-
-/**
- * Check the tweet has been appended or not.
- *
- * @param {Element} element A valid tweet element
- * @returns {boolean} Is element has been appended?
- */
-export const isArticleCanBeAppend = element =>
-  element && !element.dataset.appended
+export const isArticleCanBeAppend = article =>
+  article && !article.dataset.appended
 
 export const isStreamLoaded = () =>
   select.exists('[role="region"]') && select.exists('article')
 
+/**
+ * @param {chrome.downloads.StringDelta} param0 - downloadStateDelta
+ */
 export const isDownloadInterrupted = ({ current, previous }) =>
   current === downloadState.interrupted && previous === downloadState.inProgress
 
+/**
+ * @param {chrome.downloads.StringDelta} param0 - downloadStateDelta
+ */
 export const isDownloadCompleted = ({ current, previous }) =>
   current === downloadState.complete && previous === downloadState.inProgress

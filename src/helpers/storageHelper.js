@@ -8,7 +8,7 @@ import {
   clearSyncStorage,
   fetchLocalStorage,
   setLocalStorage,
-} from '../lib/chromeApi'
+} from '../libs/chromeApi'
 
 /**
  * Fetch settings
@@ -23,8 +23,6 @@ import {
  * @property {String} directory
  * @property {patternSetting} filename_pattern
  *
- * @async
- * @return {Promise<fileNameSetting>}
  */
 export const fetchFileNameSetting = async () => {
   const setting = await fetchSyncStorage(['directory', 'filename_pattern'])
@@ -81,12 +79,19 @@ export const initStorage = async () => {
   console.groupEnd()
 }
 
+/**
+ * @param {number} downloadItemId
+ */
 export const fetchDownloadItemRecord = async downloadItemId => {
   const volume = await fetchLocalStorage(String(downloadItemId))
   const downloadItemRecord = JSON.parse(volume[downloadItemId])
   return downloadItemRecord
 }
 
+/**
+ * @param {import('../utils/parser').tweetInfo} tweetInfo
+ * @returns {(config) => (downloadId:number) => void}
+ */
 export const downloadItemRecorder = tweetInfo => config => downloadId => {
   const record = {}
 

@@ -1,6 +1,13 @@
 import { TWITTER_AUTH_TOKEN } from '../constants'
 import { i18nLocalize } from './chromeApi'
 
+/**
+ * @typedef {Object} fetchErrorReason
+ * @property {number} status status code
+ * @property {string} title
+ * @property {string} message
+ */
+
 export default class MediaTweet {
   constructor(tweetId, token) {
     this.tweetId = tweetId
@@ -8,6 +15,9 @@ export default class MediaTweet {
     this.tweetAPIurl = `https://api.twitter.com/2/timeline/conversation/${tweetId}.json?tweet_mode=extended`
   }
 
+  /**
+   * @returns {Promise<string[], fetchErrorReason>}
+   */
   async fetchMediaList() {
     const mediaResponse = await fetch(this.tweetAPIurl, {
       method: 'GET',
@@ -20,18 +30,29 @@ export default class MediaTweet {
       const statusCode = mediaResponse.status
       if (statusCode === 200) {
         const detail = await mediaResponse.json()
-        resolve(this.parseMedias(detail))
+        const mediaList = this.parseMedias(detail)
+
+        resolve(mediaList)
       }
       if (statusCode === 429) {
+        /**
+         * @type fetchErrorReason
+         */
         const reason = {
+          status: statusCode,
           title: i18nLocalize('fetchFailedTooManyRequestsTitle'),
           message: i18nLocalize('fetchFailedTooManyRequestsMessage'),
         }
+
         reject(reason)
       }
     })
   }
 
+  /**
+   * @param {JSON} detail
+   * @returns {string[]}
+   */
   parseMedias(detail) {
     const medias =
       detail.globalObjects.tweets[this.tweetId].extended_entities.media
@@ -46,7 +67,11 @@ export default class MediaTweet {
     return mediaList
   }
 
-  async parseVideo(video_info) {
+  /**
+   * @param {JSON} video_info
+   * @returns {string[]}
+   */
+  parseVideo(video_info) {
     const mediaList = []
     const { variants } = video_info
 
@@ -68,11 +93,19 @@ export default class MediaTweet {
     return mediaList
   }
 
-  async parseImage(medias) {
+  /**
+   * @param {string[]} medias
+   * @returns {string[]}
+   */
+  parseImage(medias) {
     return medias.map(media => media.media_url_https)
   }
 }
 
+/**
+ * @param {string} token
+ * @param {string} tweetId
+ */
 function initHeader(token, tweetId) {
   return new Headers([
     ['Authorization', TWITTER_AUTH_TOKEN],

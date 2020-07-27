@@ -1,5 +1,7 @@
+//FIXME: this should be a helper
+
 /**
- * @type {Enumerator<chrome.storage>}
+ * @type {Enumerator<chrome.storage.StorageArea>}
  */
 const storageArea = Object.freeze({
   sync: chrome.storage.sync,
@@ -9,8 +11,8 @@ const storageArea = Object.freeze({
 /**
  * Fetch data from chrome storage.
  *
- * @param {storageArea} storageArea
- * @returns {(keys: string | string[] | Object) => Promise<{[key: string]: Object}}> | {}>}
+ * @param {chrome.storage.StorageArea} storageArea
+ * @returns {(keys: string | string[] | Object) => Promise<{[key: string]: Object}}>}
  */
 const storageFetcher = storageArea => (keys = null) => {
   return new Promise(resolve => {
@@ -21,7 +23,7 @@ const storageFetcher = storageArea => (keys = null) => {
 /**
  * Set data to chrome storage.
  *
- * @param {storageArea} storageArea
+ * @param {chrome.storage.StorageArea} storageArea
  * @returns {(items: string | number | Object[] | Object) => Promise<void>}
  */
 const storageSetter = storageArea => items => {
@@ -38,7 +40,7 @@ const removerKeysPretreat = keys => {
 }
 
 /**
- * @param {storageArea} storageArea
+ * @param {chrome.storage.StorageArea} storageArea
  * @returns { (removerKeys: string | string[] | number) => Promise<void> }
  */
 const storageRemover = storageArea => removerKeys => {
@@ -50,7 +52,7 @@ const storageRemover = storageArea => removerKeys => {
 }
 
 /**
- * @param {storageArea} storageArea
+ * @param {chrome.storage.StorageArea} storageArea
  * @returns { () => Promise<void> }
  */
 const storageCleaner = storageArea => () => {
@@ -77,8 +79,14 @@ export const searchDownload = async query => {
   })
 }
 
+/**
+ * @param {string} kw i18n keyname
+ */
 export const i18nLocalize = kw => chrome.i18n.getMessage(kw)
-export const getURL = path => chrome.runtime.getURL(path)
+/**
+ * @param {string} path url path
+ */
+export const getExtensionURL = path => chrome.runtime.getURL(path)
 
 export const fetchSyncStorage = storageFetcher(storageArea.sync)
 export const fetchLocalStorage = storageFetcher(storageArea.local)
