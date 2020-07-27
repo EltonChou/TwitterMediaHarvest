@@ -3,6 +3,7 @@ import { i18nLocalize } from './chromeApi'
 
 /**
  * @typedef {Object} fetchErrorReason
+ * @property {number} status status code
  * @property {string} title
  * @property {string} message
  */
@@ -29,16 +30,20 @@ export default class MediaTweet {
       const statusCode = mediaResponse.status
       if (statusCode === 200) {
         const detail = await mediaResponse.json()
-        resolve(this.parseMedias(detail))
+        const mediaList = this.parseMedias(detail)
+
+        resolve(mediaList)
       }
       if (statusCode === 429) {
         /**
          * @type fetchErrorReason
          */
         const reason = {
+          status: statusCode,
           title: i18nLocalize('fetchFailedTooManyRequestsTitle'),
           message: i18nLocalize('fetchFailedTooManyRequestsMessage'),
         }
+
         reject(reason)
       }
     })

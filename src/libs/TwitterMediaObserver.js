@@ -103,16 +103,18 @@ export default class TwitterMediaObserver {
       subtree: true,
     }
 
+    const threadCallback = (_, observer) => {
+      this.initialize()
+      observer.disconnect()
+    }
+
     /**
      * @type {MutationCallback}
      */
-    const modalMutationCallback = (_, observer) => {
+    const modalMutationCallback = () => {
       const modalThread = select(query.modalThread)
       if (modalThread) {
-        observeElement(modalThread, function() {
-          this.initialize()
-          observer.disconnect()
-        })
+        observeElement(modalThread, threadCallback)
       }
     }
 

@@ -72,8 +72,27 @@ const makeTooManyRequestsNotificationConfig = (
   }
 }
 
+const makeUnknownFetchErrorNotificationConfig = ({ stack, message }) => {
+  return {
+    type: templateType.basic,
+    iconUrl: getExtensionURL('assets/icons/icon128.png'),
+    title: stack,
+    message: message,
+    contextMessage: 'Media Harvest',
+    eventTime: Date.now(),
+    requireInteraction: true,
+    silent: false,
+  }
+}
+
 export const notifyMediaListFetchError = (tweetInfo, reason) => {
   const notiConf = makeTooManyRequestsNotificationConfig(tweetInfo, reason)
+
+  chrome.notifications.create(tweetInfo.tweetId, notiConf)
+}
+
+export const notifyUnknownFetchError = (tweetInfo, reason) => {
+  const notiConf = makeUnknownFetchErrorNotificationConfig(reason)
 
   chrome.notifications.create(tweetInfo.tweetId, notiConf)
 }

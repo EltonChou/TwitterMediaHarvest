@@ -14,6 +14,7 @@ import {
 import {
   notifyDownloadFailed,
   notifyMediaListFetchError,
+  notifyUnknownFetchError,
 } from './helpers/notificationHelper'
 import { isDownloadInterrupted, isDownloadCompleted } from './utils/checker'
 import {
@@ -47,6 +48,7 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
       const { info } = await fetchDownloadItemRecord(id)
       notifyDownloadFailed(info, id, endTime.current)
     }
+
     if (isDownloadCompleted(state)) {
       removeFromLocalStorage(id)
     }
@@ -64,11 +66,13 @@ chrome.notifications.onButtonClicked.addListener(
     if (buttonIndex === 0) {
       openFailedTweetInNewTab(notifficationId)
     }
+
     if (buttonIndex === 1) {
       const { info, config } = await fetchDownloadItemRecord(notifficationId)
       const downloadRecorder = downloadItemRecorder(info)(config)
       chrome.downloads.download(config, downloadRecorder)
     }
+
     removeFromLocalStorage(notifficationId)
   }
 )
@@ -94,7 +98,7 @@ async function processRequest(tweetInfo) {
   twitterMedia
     .fetchMediaList()
     .then(mediaList => downloadMedia(mediaList, infoRecorder))
-    .catch(reason => notifyMediaListFetchError(tweetInfo, reason))
+    .catch(reason => fetchErrorHandler(tweetInfo, reason))
 }
 
 /**
@@ -155,4 +159,19 @@ async function openFailedTweetInNewTab(notifficationId) {
 
   const url = `https://twitter.com/i/web/status/${tweetId}`
   chrome.tabs.create({ url: url })
+}
+
+function fetchErrorHandler(tweetInfo, reason) {
+  let notify
+  switch (reason.status) {
+    case 429:
+      notify = notifyMediaListFetchError
+      break
+
+    default:
+      notify = notifyUnknownFetchError
+      break
+  }
+
+  notify(tweetInfo, reason)
 }
