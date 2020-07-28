@@ -65,7 +65,9 @@ export const articleHasMedia = article => {
   if (mediaWrapper === null) return false
 
   return [...mediaWrapper.childNodes].some(
-    mediaContent => mediaContent.classList.length === 7
+    mediaContent =>
+      mediaContent.classList.length === 7 &&
+      !mediaContent.firstChild.hasAttribute('role')
   )
 }
 
