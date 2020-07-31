@@ -37,7 +37,7 @@ export const parseTweetInfo = article => {
       : null
 
   const time = select('time', article)
-  if (time) {
+  if (!magicLink) {
     magicLink = time.parentNode.getAttribute('href')
   }
 
