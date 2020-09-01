@@ -7,8 +7,7 @@ const query = Object.freeze({
   root: '#react-root > div > div',
   stream: 'section[role="region"] > div > div',
   modal: '[aria-labelledby="modal-header"]',
-  modalWrapper:
-    '#react-root > div > div > div.r-1d2f490.r-u8s1d.r-zchlnj.r-ipm5af.r-184en5c',
+  modalWrapper: '#layers',
   modalThread: '[aria-labelledby="modal-header"] [aria-expanded="true"]',
 })
 
@@ -112,7 +111,9 @@ export default class TwitterMediaObserver {
      * @type {MutationCallback}
      */
     const modalMutationCallback = () => {
+      this.initialize()
       const modalThread = select(query.modalThread)
+
       if (modalThread) {
         observeElement(modalThread, threadCallback)
       }

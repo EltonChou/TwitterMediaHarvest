@@ -8,34 +8,25 @@ import {
 } from '../utils/maker'
 import { parseTweetInfo } from '../utils/parser'
 
-const style = Object.freeze({
-  stream: {
-    svg:
-      'r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi',
-    ltr:
-      'css-901oao r-1awozwy r-111h2gw r-6koalj r-1qd0xha r-a023e6 r-16dba41 r-1h0z5md r-ad9z0x r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0',
-  },
-  photo: {
-    svg:
-      'r-4qtqp9 r-yyyyoo r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1srniue',
-    ltr:
-      'css-901oao r-1awozwy r-111h2gw r-6koalj r-1qd0xha r-a023e6 r-16dba41 r-1h0z5md r-ad9z0x r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0',
-  },
-})
-
 class Harvester {
   constructor(article) {
     this.mode = checkModeOfArticle(article)
     this.info = parseTweetInfo(article)
-    this.button = this.makeButton()
+
+    const sampleButton = select('[role="group"] [dir="ltr"]', article)
+    this.ltrStyle = sampleButton.className
+    this.svgStyle = select('svg', sampleButton).className['baseVal']
   }
 
-  makeButton() {
+  get button() {
     const button = this.createButtonByMode()
+
     makeButtonWithData(button, this.info)
     makeButtonListener(button)
+
     return button
   }
+
   /**
    * FIXME: WTF is this shit.
    *
@@ -45,19 +36,15 @@ class Harvester {
   createButtonByMode() {
     const mode = this.mode
     const icon = createElementFromHTML(downloadButtonSVG)
-    const iconType = mode === 'stream' ? style.stream : style.photo
-    const iconStyle = iconType.svg
-    icon.setAttribute('class', iconStyle)
 
-    const ltrType = mode === 'photo' ? style.photo : style.stream
-    const ltrStyle = ltrType.ltr
+    icon.setAttribute('class', this.svgStyle)
 
     const buttonWrapper = createElementFromHTML(`
       <div class="css-1dbjc4n harvester ${mode}">
         <div aria-haspopup="true" aria-label="Media Harvest" role="button" data-focusable="true" tabindex="0"
           class="css-18t94o4 css-1dbjc4n r-1777fci r-11cpok1 r-1ny4l3l r-bztko3 r-lrvibr">
           <div dir="ltr"
-            class="${ltrStyle}">
+            class="${this.ltrStyle}">
             <div class="css-1dbjc4n r-xoduu5">
               <div class="css-1dbjc4n r-sdzlij r-1p0dtai r-xoduu5 r-1d2f490 r-xf4iuw r-u8s1d r-zchlnj r-ipm5af r-o7ynqc r-6416eg ${mode}BG"></div>
               ${icon.outerHTML}
