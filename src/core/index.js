@@ -21,7 +21,7 @@ const swapData = article => {
  */
 const makeHarvester = article => {
   if (isArticleCanBeAppend(article)) {
-    const actionBar = select('[role="group"]', article)
+    const actionBar = select('[role="group"][aria-label$="likes"]', article)
     if (actionBar) {
       const harvester = new Harvester(article)
 
