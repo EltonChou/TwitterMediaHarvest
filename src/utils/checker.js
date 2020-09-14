@@ -65,7 +65,7 @@ export const articleHasMedia = article => {
   if (mediaWrapper === null) return false
 
   const checkContent = mediaContent => {
-    const magicLength = mediaContent.classList.length === 7
+    const magicLength = mediaContent.classList.length > 7
     const photoContent = select.exists(
       '[role="link"][href*="photo"]',
       mediaContent
