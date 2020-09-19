@@ -9,7 +9,7 @@ const downloadState = Object.freeze({
 /**
  * @param {HTMLElement} article
  */
-export const isArticleStatusMode = article => {
+export const isArticleInStatus = article => {
   const articleClassLength = article.classList.length
   const isMagicLength = articleClassLength === 3 || articleClassLength === 7
   const testStatus = /^.*\/\/.*twitter.com\/.*\/status\/\d+.*(?<!photo\/\d)$/
@@ -37,7 +37,7 @@ export const isArticlePhotoMode = article => article instanceof HTMLDivElement
  */
 export const checkModeOfArticle = article => {
   if (isArticlePhotoMode(article)) return 'photo'
-  if (isArticleStatusMode(article)) return 'status'
+  if (isArticleInStatus(article)) return 'status'
   return 'stream'
 }
 
@@ -59,16 +59,23 @@ export const articleHasMedia = article => {
 
   let mediaWrapperQuery
   if (isArticleInStream(article)) mediaWrapperQuery = query.streamMediaWrapper
-  if (isArticleStatusMode(article)) mediaWrapperQuery = query.statusMediaWrapper
+  if (isArticleInStatus(article)) mediaWrapperQuery = query.statusMediaWrapper
   const mediaWrapper = select(mediaWrapperQuery, article)
 
   if (mediaWrapper === null) return false
 
-  return [...mediaWrapper.childNodes].some(
-    mediaContent =>
-      mediaContent.classList.length === 7 &&
-      !mediaContent.firstChild.hasAttribute('role')
-  )
+  const checkContent = mediaContent => {
+    const magicLength = mediaContent.classList.length > 7
+    const photoContent = select.exists(
+      '[role="link"][href*="photo"]',
+      mediaContent
+    )
+    const videoContent = select.exists('[role="progressbar"]', mediaContent)
+
+    return magicLength && (photoContent || videoContent)
+  }
+
+  return [...mediaWrapper.childNodes].some(checkContent)
 }
 
 /**

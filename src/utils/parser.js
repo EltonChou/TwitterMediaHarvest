@@ -1,5 +1,5 @@
 import select from 'select-dom'
-import { isArticlePhotoMode, isArticleStatusMode } from './checker'
+import { isArticlePhotoMode, isArticleInStatus } from './checker'
 
 const featureRegEx = Object.freeze({
   id: /(?:status\/)(\d+)/,
@@ -32,7 +32,7 @@ const parseScreeNameFromUserAccount = article => {
 // FIXME: some tweet will cause null time error
 export const parseTweetInfo = article => {
   let magicLink =
-    isArticlePhotoMode(article) || isArticleStatusMode(article)
+    isArticlePhotoMode(article) || isArticleInStatus(article)
       ? window.location.pathname
       : null
 
