@@ -48,7 +48,7 @@ const query = Object.freeze({
      div.css-1dbjc4n:nth-child(1)',
   statusMediaWrapper:
     'article > div > div > div > div:nth-child(3) > [class="css-1dbjc4n"] >\
-     .css-1dbjc4n:nth-child(1)',
+     [class="css-1dbjc4n"] > [class="css-1dbjc4n"]',
 })
 
 /**
