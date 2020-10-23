@@ -93,11 +93,11 @@ async function processRequest(tweetInfo) {
   })
   const twitterMedia = new MediaTweet(tweetInfo.tweetId, value)
   const downloadMedia = mediasDownloader(tweetInfo)
-  const infoRecorder = downloadItemRecorder(tweetInfo)
+  const downloadInfoRecorder = downloadItemRecorder(tweetInfo)
 
   twitterMedia
     .fetchMediaList()
-    .then(mediaList => downloadMedia(mediaList, infoRecorder))
+    .then(mediaList => downloadMedia(mediaList, downloadInfoRecorder))
     .catch(reason => fetchErrorHandler(tweetInfo, reason))
 }
 
