@@ -108,12 +108,19 @@ export const downloadItemRecorder = tweetInfo => config => downloadId => {
   setLocalStorage(record)
 }
 
-const addDownloadCount = async key => {
+const getDownloadCount = async key => {
   const downloadCount = {}
   downloadCount[key] = 0
 
   const count = await fetchLocalStorage(downloadCount)
-  downloadCount[key] = count[key] + 1
+  return count[key]
+}
+
+const addDownloadCount = async key => {
+  const count = await getDownloadCount(key)
+  const downloadCount = {}
+  downloadCount[key] = count + 1
+
   await setLocalStorage(downloadCount)
 }
 
@@ -127,11 +134,11 @@ export class Statistics {
   }
 
   static async getSuccessDownloadCount() {
-    const count = await fetchLocalStorage(statisticsKey.successDownloadCount)
+    const count = await getDownloadCount(statisticsKey.successDownloadCount)
     return count
   }
   static async getFailedDownloadCount() {
-    const count = await fetchLocalStorage(statisticsKey.failedDownloadCount)
+    const count = await getDownloadCount(statisticsKey.failedDownloadCount)
     return count
   }
 }
