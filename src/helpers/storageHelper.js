@@ -122,7 +122,7 @@ export class Statistics {
     await addDownloadCount(statisticsKey.successDownloadCount)
   }
 
-  static async addErrorDownloadCount() {
+  static async addFailedDownloadCount() {
     await addDownloadCount(statisticsKey.failedDownloadCount)
   }
 
