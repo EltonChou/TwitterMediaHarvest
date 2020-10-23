@@ -113,8 +113,7 @@ const addDownloadCount = async key => {
   downloadCount[key] = 0
 
   const count = await fetchLocalStorage(downloadCount)
-  downloadCount[key] = count + 1
-
+  downloadCount[key] = count[key] + 1
   await setLocalStorage(downloadCount)
 }
 
