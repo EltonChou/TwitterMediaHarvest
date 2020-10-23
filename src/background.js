@@ -10,6 +10,7 @@ import {
   fetchFileNameSetting,
   downloadItemRecorder,
   fetchDownloadItemRecord,
+  Statistics,
 } from './helpers/storageHelper'
 import {
   notifyDownloadFailed,
@@ -42,15 +43,18 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
 
   const isStateChanged = downloadDelta.hasOwnProperty('state')
 
+  //TODO: add statistics process
   if (isStateChanged) {
     const { id, endTime, state } = downloadDelta
     if (isDownloadInterrupted(state)) {
       const { info } = await fetchDownloadItemRecord(id)
       notifyDownloadFailed(info, id, endTime.current)
+      await Statistics.addErrorDownloadCount()
     }
 
     if (isDownloadCompleted(state)) {
       removeFromLocalStorage(id)
+      await Statistics.addSuccessDownloadCount()
     }
   }
 })

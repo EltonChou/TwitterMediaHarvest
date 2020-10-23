@@ -10,6 +10,11 @@ import {
   setLocalStorage,
 } from '../libs/chromeApi'
 
+const statisticsKey = Object.freeze({
+  successDownloadCount: 'successDownloadCount',
+  failedDownloadCount: 'failedDownloadCount',
+})
+
 /**
  * Fetch settings
  *
@@ -101,4 +106,33 @@ export const downloadItemRecorder = tweetInfo => config => downloadId => {
   })
 
   setLocalStorage(record)
+}
+
+const addDownloadCount = async key => {
+  const downloadCount = {}
+  downloadCount[key] = 0
+
+  const count = await fetchLocalStorage(downloadCount)
+  downloadCount[key] = count + 1
+
+  await setLocalStorage(downloadCount)
+}
+
+export class Statistics {
+  static async addSuccessDownloadCount() {
+    await addDownloadCount(statisticsKey.successDownloadCount)
+  }
+
+  static async addErrorDownloadCount() {
+    await addDownloadCount(statisticsKey.failedDownloadCount)
+  }
+
+  static async getSuccessDownloadCount() {
+    const count = await fetchLocalStorage(statisticsKey.successDownloadCount)
+    return count
+  }
+  static async getFailedDownloadCount() {
+    const count = await fetchLocalStorage(statisticsKey.failedDownloadCount)
+    return count
+  }
 }
