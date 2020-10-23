@@ -69,6 +69,12 @@ serialSelect.addEventListener('change', allowSubmit)
 accountCheckBox.addEventListener('change', allowSubmit)
 aria2Control.addEventListener('change', allowSubmit)
 
+chrome.runtime.onMessage.addListener(msg => {
+  if (msg.action === 'refresh') {
+    initializeStatistics()
+  }
+})
+
 directoryInput.addEventListener('input', function() {
   const filenameReg = new RegExp('^[\\w-_]+$')
   const sanitizedValue = sanitize(this.value)

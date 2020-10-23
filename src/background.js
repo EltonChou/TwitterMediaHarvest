@@ -56,6 +56,8 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
       removeFromLocalStorage(id)
       await Statistics.addSuccessDownloadCount()
     }
+
+    chrome.runtime.sendMessage({ action: 'refresh' })
   }
 })
 
