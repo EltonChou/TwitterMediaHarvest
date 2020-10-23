@@ -12,6 +12,30 @@
 <body>
   <section class="section">
     <div class="container">
+      <div class="tile is-ancestor">
+        <div class="tile is-parent is-success">
+          <article class="tile is-child notification is-success">
+            <p class="title" data-category="statistics" data-type="successDownloadCount">6545</p>
+            <p class="subtitle">Successes</p>
+          </article>
+        </div>
+        <div class="tile is-parent is-warning">
+          <article class="tile is-child notification is-warning">
+            <p class="title" data-category="statistics" data-type="failedDownloadCount">30</p>
+            <p class="subtitle">Failures</p>
+          </article>
+        </div>
+        <div class="tile is-parent is-danger">
+          <article class="tile is-child notification is-danger">
+            <p class="title" data-category="statistics" data-type="error">1</p>
+            <p class="subtitle">Errors</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
       <div class="field">
         <figure class="image is-128x128">
           <img src="assets/icons/icon128.png">
@@ -21,9 +45,11 @@
         <div class="field">
           <label for="directory" class="label" data-action="localize">__MSG_downloadsDirectoryLabel__</label>
           <div class="control">
-            <input class="input is-rounded" type="text" name="directory" id="directory" placeholder="twitter_media_harvest">
+            <input class="input is-rounded" type="text" name="directory" id="directory"
+              placeholder="twitter_media_harvest">
           </div>
-          <p id="directory-help" class="help is-danger is-hidden" data-action="localize">__MSG_downloadsDirectoryHelp__</p>
+          <p id="directory-help" class="help is-danger is-hidden" data-action="localize">__MSG_downloadsDirectoryHelp__
+          </p>
         </div>
         <div class="field">
           <label class="label" data-action="localize">__MSG_filenamePatternLabel__</label>
@@ -53,12 +79,15 @@
           <label for="aria2" class="label">Intergration<sup>BETA</sup></label>
           <div class="control">
             <input type="checkbox" name="aria2" id="aria2">
-            <label for="aria2">Enable <a href="https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn">Aria2 for Chrome</a> capturing</label>
+            <label for="aria2">Enable <a
+                href="https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn">Aria2
+                for Chrome</a> capturing</label>
           </div>
         </div>
         <div class="field is-grouped">
           <div class="control">
-            <button type="submit" id="submit" class="button is-info" data-action="localize" disabled>__MSG_submitButtonText__</button>
+            <button type="submit" id="submit" class="button is-info" data-action="localize"
+              disabled>__MSG_submitButtonText__</button>
           </div>
         </div>
       </form>

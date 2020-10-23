@@ -1,7 +1,7 @@
 import select from 'select-dom'
 import sanitize from 'sanitize-filename'
 import { setSyncStorage, i18nLocalize } from './libs/chromeApi'
-import { fetchFileNameSetting } from './helpers/storageHelper'
+import { fetchFileNameSetting, getDownloadCount } from './helpers/storageHelper'
 import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
 
 const accountCheckBox = select('#account')
@@ -38,6 +38,15 @@ const initializeForm = async () => {
   const options = select.all('option')
   for (const option of options) {
     option.selected = option.value === setting.filename_pattern.serial
+  }
+}
+
+const initializeStatistics = async () => {
+  const statisticsQuery = '[data-category="statistics"]'
+  const statisticsItems = select.all(statisticsQuery)
+  for (let item of statisticsItems) {
+    const count = await getDownloadCount(item.dataset.type)
+    item.textContent = count
   }
 }
 
@@ -115,4 +124,5 @@ async function localize() {
 
 localize()
   .then(initializeForm)
+  .then(initializeStatistics)
   .then(updatePreview)

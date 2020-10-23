@@ -108,7 +108,7 @@ export const downloadItemRecorder = tweetInfo => config => downloadId => {
   setLocalStorage(record)
 }
 
-const getDownloadCount = async key => {
+export const getDownloadCount = async key => {
   const downloadCount = {}
   downloadCount[key] = 0
 
