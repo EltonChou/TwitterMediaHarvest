@@ -19,6 +19,7 @@ import {
 } from './helpers/notificationHelper'
 import { isDownloadInterrupted, isDownloadCompleted } from './utils/checker'
 import {
+  ACTION,
   ARIA2_ID,
   DEFAULT_DIRECTORY,
   LOCAL_STORAGE_KEY_ARIA2,
@@ -57,7 +58,7 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
       await Statistics.addSuccessDownloadCount()
     }
 
-    chrome.runtime.sendMessage({ action: 'refresh' })
+    chrome.runtime.sendMessage({ action: ACTION.refresh })
   }
 })
 
@@ -92,7 +93,10 @@ chrome.browserAction.onClicked.addListener(openOptionsPage)
  * @param {tweetInfo} tweetInfo twitter information
  * @returns {void}
  */
-async function processRequest(tweetInfo) {
+async function processRequest(request) {
+  if (request.action !== ACTION.download) return false
+
+  const tweetInfo = request.data
   const { value } = await fetchCookie({
     url: 'https://twitter.com',
     name: 'ct0',

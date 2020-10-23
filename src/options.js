@@ -2,7 +2,7 @@ import select from 'select-dom'
 import sanitize from 'sanitize-filename'
 import { setSyncStorage, i18nLocalize } from './libs/chromeApi'
 import { fetchFileNameSetting, getDownloadCount } from './helpers/storageHelper'
-import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
+import { LOCAL_STORAGE_KEY_ARIA2, ACTION } from './constants'
 
 const accountCheckBox = select('#account')
 const directoryInput = select('#directory')
@@ -70,7 +70,7 @@ accountCheckBox.addEventListener('change', allowSubmit)
 aria2Control.addEventListener('change', allowSubmit)
 
 chrome.runtime.onMessage.addListener(msg => {
-  if (msg.action === 'refresh') {
+  if (msg.action === ACTION.refresh) {
     initializeStatistics()
   }
 })

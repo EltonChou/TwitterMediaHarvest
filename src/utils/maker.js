@@ -1,3 +1,5 @@
+import { ACTION } from '../constants'
+
 /**
  * Create HTMLElement from html string.
  *
@@ -31,7 +33,10 @@ export const makeButtonWithData = (button, data) => {
 export const makeButtonListener = button => {
   button.addEventListener('click', function(e) {
     e.stopImmediatePropagation()
-    chrome.runtime.sendMessage(this.dataset)
+    chrome.runtime.sendMessage({
+      action: ACTION.download,
+      data: this.dataset,
+    })
   })
 }
 
