@@ -46,7 +46,7 @@ const initializeStatistics = async () => {
   const statisticsItems = select.all(statisticsQuery)
   for (let item of statisticsItems) {
     const count = await getDownloadCount(item.dataset.type)
-    item.textContent = count
+    item.textContent = count.toLocaleString()
   }
 }
 
