@@ -57,8 +57,6 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
       removeFromLocalStorage(id)
       await Statistics.addSuccessDownloadCount()
     }
-
-    chrome.runtime.sendMessage({ action: ACTION.refresh })
   }
 })
 
@@ -109,6 +107,8 @@ async function processRequest(request) {
     .fetchMediaList()
     .then(mediaList => downloadMedia(mediaList, downloadInfoRecorder))
     .catch(reason => fetchErrorHandler(tweetInfo, reason))
+
+  chrome.runtime.sendMessage({ action: ACTION.refresh })
 }
 
 /**
