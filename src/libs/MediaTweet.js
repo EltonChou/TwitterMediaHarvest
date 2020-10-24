@@ -33,8 +33,8 @@ export default class MediaTweet {
        */
       const reason = {
         status: statusCode,
-        title: 'UnknownError',
-        message: 'Please contact with developer.',
+        title: i18nLocalize('fetchFailedUnknownTitle') + statusCode,
+        message: i18nLocalize('fetchFailedUnknownMessage'),
       }
 
       if (statusCode === 200) {
