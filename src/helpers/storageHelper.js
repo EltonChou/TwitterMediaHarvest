@@ -13,6 +13,7 @@ import {
 const statisticsKey = Object.freeze({
   successDownloadCount: 'successDownloadCount',
   failedDownloadCount: 'failedDownloadCount',
+  errorCount: 'errorCount',
 })
 
 /**
@@ -108,7 +109,7 @@ export const downloadItemRecorder = tweetInfo => config => downloadId => {
   setLocalStorage(record)
 }
 
-export const getDownloadCount = async key => {
+export const getStatisticsCount = async key => {
   const downloadCount = {}
   downloadCount[key] = 0
 
@@ -116,8 +117,8 @@ export const getDownloadCount = async key => {
   return count[key]
 }
 
-const addDownloadCount = async key => {
-  const count = await getDownloadCount(key)
+const addStatisticsCount = async key => {
+  const count = await getStatisticsCount(key)
   const downloadCount = {}
   downloadCount[key] = count + 1
 
@@ -126,19 +127,28 @@ const addDownloadCount = async key => {
 
 export class Statistics {
   static async addSuccessDownloadCount() {
-    await addDownloadCount(statisticsKey.successDownloadCount)
+    await addStatisticsCount(statisticsKey.successDownloadCount)
   }
 
   static async addFailedDownloadCount() {
-    await addDownloadCount(statisticsKey.failedDownloadCount)
+    await addStatisticsCount(statisticsKey.failedDownloadCount)
+  }
+
+  static async addErrorCount() {
+    await addStatisticsCount(statisticsKey.errorCount)
   }
 
   static async getSuccessDownloadCount() {
-    const count = await getDownloadCount(statisticsKey.successDownloadCount)
+    const count = await getStatisticsCount(statisticsKey.successDownloadCount)
     return count
   }
   static async getFailedDownloadCount() {
-    const count = await getDownloadCount(statisticsKey.failedDownloadCount)
+    const count = await getStatisticsCount(statisticsKey.failedDownloadCount)
+    return count
+  }
+
+  static async getErrorCount() {
+    const count = await getStatisticsCount(statisticsKey.errorCount)
     return count
   }
 }

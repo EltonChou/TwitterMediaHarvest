@@ -171,7 +171,7 @@ async function openFailedTweetInNewTab(notifficationId) {
   chrome.tabs.create({ url: url })
 }
 
-function fetchErrorHandler(tweetInfo, reason) {
+async function fetchErrorHandler(tweetInfo, reason) {
   let notify
   switch (reason.status) {
     case 429:
@@ -183,5 +183,6 @@ function fetchErrorHandler(tweetInfo, reason) {
       break
   }
 
+  await Statistics.addErrorCount()
   notify(tweetInfo, reason)
 }

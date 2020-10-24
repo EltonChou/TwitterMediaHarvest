@@ -1,7 +1,10 @@
 import select from 'select-dom'
 import sanitize from 'sanitize-filename'
 import { setSyncStorage, i18nLocalize } from './libs/chromeApi'
-import { fetchFileNameSetting, getDownloadCount } from './helpers/storageHelper'
+import {
+  fetchFileNameSetting,
+  getStatisticsCount,
+} from './helpers/storageHelper'
 import { LOCAL_STORAGE_KEY_ARIA2, ACTION } from './constants'
 
 const accountCheckBox = select('#account')
@@ -45,7 +48,7 @@ const initializeStatistics = async () => {
   const statisticsQuery = '[data-category="statistics"]'
   const statisticsItems = select.all(statisticsQuery)
   for (let item of statisticsItems) {
-    const count = await getDownloadCount(item.dataset.type)
+    const count = await getStatisticsCount(item.dataset.type)
     item.textContent = count.toLocaleString()
   }
 }
