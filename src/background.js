@@ -17,7 +17,11 @@ import {
   notifyMediaListFetchError,
   notifyUnknownFetchError,
 } from './helpers/notificationHelper'
-import { isDownloadInterrupted, isDownloadCompleted } from './utils/checker'
+import {
+  isDownloadInterrupted,
+  isDownloadCompleted,
+  isInvalidInfo,
+} from './utils/checker'
 import {
   ACTION,
   ARIA2_ID,
@@ -44,7 +48,6 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
 
   const isStateChanged = downloadDelta.hasOwnProperty('state')
 
-  //TODO: add statistics process
   if (isStateChanged) {
     const { id, endTime, state } = downloadDelta
     if (isDownloadInterrupted(state)) {
@@ -95,6 +98,15 @@ async function processRequest(request) {
   if (request.action !== ACTION.download) return false
 
   const tweetInfo = request.data
+
+  /* eslint-disable no-console */
+  if (isInvalidInfo(tweetInfo)) {
+    await Statistics.addErrorCount()
+    console.Error('Invalid tweetInfo.')
+    return false
+  }
+  /* eslint-enable no-console */
+
   const { value } = await fetchCookie({
     url: 'https://twitter.com',
     name: 'ct0',
