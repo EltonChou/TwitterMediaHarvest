@@ -14,8 +14,8 @@ class Harvester {
     this.info = parseTweetInfo(article)
 
     const sampleButton = select('[role="group"] [dir="ltr"]', article)
-    this.ltrStyle = sampleButton.className
-    this.svgStyle = select('svg', sampleButton).className['baseVal']
+    this.ltrStyle = sampleButton.classList.value
+    this.svgStyle = select('svg', sampleButton).classList.value
   }
 
   get button() {
