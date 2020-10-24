@@ -1,8 +1,12 @@
 const path = require('path')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
+  stats: 'errors-warnings',
+  resolve: {
+    fallback: { "path": require.resolve("path-browserify") }
+  },
   optimization: {
     minimize: false,
   },
@@ -52,32 +56,32 @@ module.exports = {
     ],
   },
   plugins: [
-    new CopyWebpackPlugin([
-      {
-        from: 'background.js',
-        context: 'src',
-        to: 'background.js',
-      },
-      {
-        from: '*',
-        context: 'src',
-        ignore: '*.js',
-      },
-      {
-        from: 'assets/icons/*.png',
-        context: 'src',
-        to: 'assets/icons/[name].[ext]',
-      },
-      {
-        from: 'pages/*',
-        context: 'src',
-        to: '[name].[ext]',
-      },
-      {
-        from: '_locales',
-        context: 'src',
-        to: '_locales',
-      },
-    ]),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: '*',
+          context: 'src',
+          globOptions: {
+            ignore: ['*.js'],
+          },
+        },
+        {
+          from: 'assets/icons/*.png',
+          context: 'src',
+          to: 'assets/icons/[name].[ext]',
+        },
+        {
+          from: 'pages/*',
+          context: 'src',
+          to: '[name].[ext]',
+        },
+        {
+          from: '_locales',
+          context: 'src',
+          to: '_locales',
+        },
+      ]
+    }),
   ],
 }
+
