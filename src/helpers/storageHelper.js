@@ -10,12 +10,6 @@ import {
   setLocalStorage,
 } from '../libs/chromeApi'
 
-const statisticsKey = Object.freeze({
-  successDownloadCount: 'successDownloadCount',
-  failedDownloadCount: 'failedDownloadCount',
-  errorCount: 'errorCount',
-})
-
 /**
  * Fetch settings
  *
@@ -117,38 +111,10 @@ export const getStatisticsCount = async key => {
   return count[key]
 }
 
-const addStatisticsCount = async key => {
+export const addStatisticsCount = async key => {
   const count = await getStatisticsCount(key)
   const downloadCount = {}
   downloadCount[key] = count + 1
 
   await setLocalStorage(downloadCount)
-}
-
-export class Statistics {
-  static async addSuccessDownloadCount() {
-    await addStatisticsCount(statisticsKey.successDownloadCount)
-  }
-
-  static async addFailedDownloadCount() {
-    await addStatisticsCount(statisticsKey.failedDownloadCount)
-  }
-
-  static async addErrorCount() {
-    await addStatisticsCount(statisticsKey.errorCount)
-  }
-
-  static async getSuccessDownloadCount() {
-    const count = await getStatisticsCount(statisticsKey.successDownloadCount)
-    return count
-  }
-  static async getFailedDownloadCount() {
-    const count = await getStatisticsCount(statisticsKey.failedDownloadCount)
-    return count
-  }
-
-  static async getErrorCount() {
-    const count = await getStatisticsCount(statisticsKey.errorCount)
-    return count
-  }
 }

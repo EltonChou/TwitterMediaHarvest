@@ -1,5 +1,6 @@
 import MediaTweet from './libs/MediaTweet'
 import TwitterMediaFile from './libs/TwitterMediaFile'
+import Statistics from './libs/Statistics'
 import {
   fetchCookie,
   searchDownload,
@@ -10,7 +11,6 @@ import {
   fetchFileNameSetting,
   downloadItemRecorder,
   fetchDownloadItemRecord,
-  Statistics,
 } from './helpers/storageHelper'
 import {
   notifyDownloadFailed,
