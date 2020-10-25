@@ -60,6 +60,8 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
       removeFromLocalStorage(id)
       await Statistics.addSuccessDownloadCount()
     }
+
+    refreshOptionsPage()
   }
 })
 
@@ -119,8 +121,6 @@ async function processRequest(request) {
     .fetchMediaList()
     .then(mediaList => downloadMedia(mediaList, downloadInfoRecorder))
     .catch(reason => fetchErrorHandler(tweetInfo, reason))
-
-  chrome.runtime.sendMessage({ action: ACTION.refresh })
 }
 
 /**
@@ -149,6 +149,10 @@ function mediasDownloader(tweetInfo) {
 
 function openOptionsPage() {
   chrome.runtime.openOptionsPage()
+}
+
+function refreshOptionsPage() {
+  chrome.runtime.sendMessage({ action: ACTION.refresh })
 }
 
 /* eslint-disable no-console */
