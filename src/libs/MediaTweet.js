@@ -28,6 +28,15 @@ export default class MediaTweet {
 
     return new Promise(async (resolve, reject) => {
       const statusCode = mediaResponse.status
+      /**
+       * @type fetchErrorReason
+       */
+      const reason = {
+        status: statusCode,
+        title: i18nLocalize('fetchFailedUnknownTitle') + statusCode,
+        message: i18nLocalize('fetchFailedUnknownMessage'),
+      }
+
       if (statusCode === 200) {
         const detail = await mediaResponse.json()
         const mediaList = this.parseMedias(detail)
@@ -35,17 +44,11 @@ export default class MediaTweet {
         resolve(mediaList)
       }
       if (statusCode === 429) {
-        /**
-         * @type fetchErrorReason
-         */
-        const reason = {
-          status: statusCode,
-          title: i18nLocalize('fetchFailedTooManyRequestsTitle'),
-          message: i18nLocalize('fetchFailedTooManyRequestsMessage'),
-        }
-
-        reject(reason)
+        reason.title = i18nLocalize('fetchFailedTooManyRequestsTitle')
+        reason.message = i18nLocalize('fetchFailedTooManyRequestsMessage')
       }
+
+      reject(reason)
     })
   }
 

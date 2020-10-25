@@ -1,5 +1,6 @@
 import MediaTweet from './libs/MediaTweet'
 import TwitterMediaFile from './libs/TwitterMediaFile'
+import Statistics from './libs/Statistics'
 import {
   fetchCookie,
   searchDownload,
@@ -16,8 +17,13 @@ import {
   notifyMediaListFetchError,
   notifyUnknownFetchError,
 } from './helpers/notificationHelper'
-import { isDownloadInterrupted, isDownloadCompleted } from './utils/checker'
 import {
+  isDownloadInterrupted,
+  isDownloadCompleted,
+  isInvalidInfo,
+} from './utils/checker'
+import {
+  ACTION,
   ARIA2_ID,
   DEFAULT_DIRECTORY,
   LOCAL_STORAGE_KEY_ARIA2,
@@ -47,11 +53,15 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
     if (isDownloadInterrupted(state)) {
       const { info } = await fetchDownloadItemRecord(id)
       notifyDownloadFailed(info, id, endTime.current)
+      await Statistics.addFailedDownloadCount()
     }
 
     if (isDownloadCompleted(state)) {
       removeFromLocalStorage(id)
+      await Statistics.addSuccessDownloadCount()
     }
+
+    refreshOptionsPage()
   }
 })
 
@@ -86,18 +96,30 @@ chrome.browserAction.onClicked.addListener(openOptionsPage)
  * @param {tweetInfo} tweetInfo twitter information
  * @returns {void}
  */
-async function processRequest(tweetInfo) {
+async function processRequest(request) {
+  if (request.action !== ACTION.download) return false
+
+  const tweetInfo = request.data
+
+  /* eslint-disable no-console */
+  if (isInvalidInfo(tweetInfo)) {
+    await Statistics.addErrorCount()
+    console.Error('Invalid tweetInfo.')
+    return false
+  }
+  /* eslint-enable no-console */
+
   const { value } = await fetchCookie({
     url: 'https://twitter.com',
     name: 'ct0',
   })
   const twitterMedia = new MediaTweet(tweetInfo.tweetId, value)
   const downloadMedia = mediasDownloader(tweetInfo)
-  const infoRecorder = downloadItemRecorder(tweetInfo)
+  const downloadInfoRecorder = downloadItemRecorder(tweetInfo)
 
   twitterMedia
     .fetchMediaList()
-    .then(mediaList => downloadMedia(mediaList, infoRecorder))
+    .then(mediaList => downloadMedia(mediaList, downloadInfoRecorder))
     .catch(reason => fetchErrorHandler(tweetInfo, reason))
 }
 
@@ -127,6 +149,10 @@ function mediasDownloader(tweetInfo) {
 
 function openOptionsPage() {
   chrome.runtime.openOptionsPage()
+}
+
+function refreshOptionsPage() {
+  chrome.runtime.sendMessage({ action: ACTION.refresh })
 }
 
 /* eslint-disable no-console */
@@ -161,7 +187,7 @@ async function openFailedTweetInNewTab(notifficationId) {
   chrome.tabs.create({ url: url })
 }
 
-function fetchErrorHandler(tweetInfo, reason) {
+async function fetchErrorHandler(tweetInfo, reason) {
   let notify
   switch (reason.status) {
     case 429:
@@ -173,5 +199,6 @@ function fetchErrorHandler(tweetInfo, reason) {
       break
   }
 
+  await Statistics.addErrorCount()
   notify(tweetInfo, reason)
 }
