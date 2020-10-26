@@ -1,16 +1,13 @@
 import MediaTweet from './libs/MediaTweet'
 import TwitterMediaFile from './libs/TwitterMediaFile'
 import Statistics from './libs/Statistics'
-import {
-  fetchTwitterCt0Cookie,
-  searchDownload,
-  removeFromLocalStorage,
-} from './libs/chromeApi'
+import { searchDownload, removeFromLocalStorage } from './libs/chromeApi'
 import {
   initStorage,
   fetchFileNameSetting,
   downloadItemRecorder,
   fetchDownloadItemRecord,
+  fetchTwitterCt0Cookie,
 } from './helpers/storageHelper'
 import {
   notifyDownloadFailed,

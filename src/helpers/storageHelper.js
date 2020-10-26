@@ -8,6 +8,7 @@ import {
   clearSyncStorage,
   fetchLocalStorage,
   setLocalStorage,
+  fetchCookie,
 } from '../libs/chromeApi'
 
 /**
@@ -117,4 +118,13 @@ export const addStatisticsCount = async key => {
   downloadCount[key] = count + 1
 
   await setLocalStorage(downloadCount)
+}
+
+export const fetchTwitterCt0Cookie = async () => {
+  const { value } = await fetchCookie({
+    url: 'https://twitter.com',
+    name: 'ct0',
+  })
+
+  return value
 }
