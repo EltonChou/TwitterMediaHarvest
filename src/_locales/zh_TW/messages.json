@@ -55,5 +55,11 @@
   },
   "fetchFailedTooManyRequestsMessage": {
     "message": "請稍等後再試。"
+  },
+  "fetchFailedUnknownTitle": {
+    "message": "未知錯誤:"
+  },
+  "fetchFailedUnknownMessage": {
+    "message": "請與開發人員聯絡。"
   }
 }

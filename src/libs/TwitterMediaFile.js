@@ -3,6 +3,7 @@ import {
   makeBrowserDownloadConfig,
   makeAria2DownloadConfig,
 } from '../utils/maker'
+import { DOWNLOAD_MODE } from '../constants'
 
 /**
  * Tweet information
@@ -73,7 +74,7 @@ export default class TwitterMediaFile {
    * @param {fileNameSetting} setting
    * @param {'browser'|'aria2'} mode
    */
-  makeDownloadConfigBySetting(setting, mode = 'browser') {
+  makeDownloadConfigBySetting(setting, mode = DOWNLOAD_MODE.browser) {
     const url = this.getSrc()
     const fileName = this.makeFileNameBySetting(setting)
     const tweetReferer = `https://twitter.com/i/web/status/${this.tweetId}`
@@ -117,8 +118,8 @@ function cleanUrl(url) {
  * @param {'aria2' | 'browser'} name
  */
 function selectMaker(name) {
-  if (name === 'aria2') return makeAria2DownloadConfig
-  if (name === 'browser') return makeBrowserDownloadConfig
+  if (name === DOWNLOAD_MODE.aria2) return makeAria2DownloadConfig
+  if (name === DOWNLOAD_MODE.browser) return makeBrowserDownloadConfig
 }
 
 export { TwitterMediaFile, makeOrigSrc }

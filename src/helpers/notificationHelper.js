@@ -72,11 +72,11 @@ const makeTooManyRequestsNotificationConfig = (
   }
 }
 
-const makeUnknownFetchErrorNotificationConfig = ({ stack, message }) => {
+const makeUnknownFetchErrorNotificationConfig = ({ title, message }) => {
   return {
     type: templateType.basic,
     iconUrl: getExtensionURL('assets/icons/icon128.png'),
-    title: stack,
+    title: title,
     message: message,
     contextMessage: 'Media Harvest',
     eventTime: Date.now(),

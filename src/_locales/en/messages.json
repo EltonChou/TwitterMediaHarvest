@@ -55,5 +55,11 @@
   },
   "fetchFailedTooManyRequestsMessage": {
     "message": "Please wait for a while."
+  },
+  "fetchFailedUnknownTitle": {
+    "message": "Unknown Error:"
+  },
+  "fetchFailedUnknownMessage": {
+    "message": "Please contact with developer."
   }
 }

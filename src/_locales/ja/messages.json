@@ -55,5 +55,11 @@
   },
   "fetchFailedTooManyRequestsMessage": {
     "message": "しばらくしてからもう一度お試しください。"
+  },
+  "fetchFailedUnknownTitle": {
+    "message": "不明なエラー："
+  },
+  "fetchFailedUnknownMessage": {
+    "message": "開発者に問い合わせてください。"
   }
 }

@@ -98,3 +98,10 @@ export const isDownloadInterrupted = ({ current, previous }) =>
  */
 export const isDownloadCompleted = ({ current, previous }) =>
   current === downloadState.complete && previous === downloadState.inProgress
+
+/**
+ * @typedef {import('./libs/TwitterMediaFile').tweetInfo} tweetInfo
+ * @param {tweetInfo} tweetInfo twitter information
+ */
+export const isInvalidInfo = tweetInfo =>
+  !tweetInfo.screenName.length || !tweetInfo.tweetId.length

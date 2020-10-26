@@ -16,9 +16,12 @@ export default class MediaTweet {
   }
 
   /**
-   * @returns {Promise<string[], fetchErrorReason>}
+   * @returns {Promise<[string[], fetchErrorReason]>}
    */
   async fetchMediaList() {
+    let result = null
+    let errorReason = null
+
     const mediaResponse = await fetch(this.tweetAPIurl, {
       method: 'GET',
       headers: this.header,
@@ -26,27 +29,30 @@ export default class MediaTweet {
       cache: 'no-cache',
     })
 
-    return new Promise(async (resolve, reject) => {
-      const statusCode = mediaResponse.status
-      if (statusCode === 200) {
-        const detail = await mediaResponse.json()
-        const mediaList = this.parseMedias(detail)
+    const statusCode = mediaResponse.status
+    /**
+     * @type fetchErrorReason
+     */
+    const reason = {
+      status: statusCode,
+      title: i18nLocalize('fetchFailedUnknownTitle') + statusCode,
+      message: i18nLocalize('fetchFailedUnknownMessage'),
+    }
 
-        resolve(mediaList)
-      }
-      if (statusCode === 429) {
-        /**
-         * @type fetchErrorReason
-         */
-        const reason = {
-          status: statusCode,
-          title: i18nLocalize('fetchFailedTooManyRequestsTitle'),
-          message: i18nLocalize('fetchFailedTooManyRequestsMessage'),
-        }
+    if (statusCode === 200) {
+      const detail = await mediaResponse.json()
+      const mediaList = this.parseMedias(detail)
 
-        reject(reason)
-      }
-    })
+      result = mediaList
+    }
+    if (statusCode === 429) {
+      reason.title = i18nLocalize('fetchFailedTooManyRequestsTitle')
+      reason.message = i18nLocalize('fetchFailedTooManyRequestsMessage')
+
+      errorReason = reason
+    }
+
+    return [result, errorReason]
   }
 
   /**
@@ -60,7 +66,7 @@ export default class MediaTweet {
     const [media] = medias
 
     const VIDEO_INFO = 'video_info'
-    const mediaList = media.hasOwnProperty(VIDEO_INFO)
+    const mediaList = Object.prototype.hasOwnProperty.call(media, VIDEO_INFO)
       ? this.parseVideo(media[VIDEO_INFO])
       : this.parseImage(medias)
 

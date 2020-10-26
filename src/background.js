@@ -1,37 +1,46 @@
 import MediaTweet from './libs/MediaTweet'
 import TwitterMediaFile from './libs/TwitterMediaFile'
-import {
-  fetchCookie,
-  searchDownload,
-  removeFromLocalStorage,
-} from './libs/chromeApi'
+import Statistics from './libs/Statistics'
+import { searchDownload, removeFromLocalStorage } from './libs/chromeApi'
 import {
   initStorage,
   fetchFileNameSetting,
   downloadItemRecorder,
   fetchDownloadItemRecord,
+  fetchTwitterCt0Cookie,
 } from './helpers/storageHelper'
 import {
   notifyDownloadFailed,
   notifyMediaListFetchError,
   notifyUnknownFetchError,
 } from './helpers/notificationHelper'
-import { isDownloadInterrupted, isDownloadCompleted } from './utils/checker'
 import {
+  isDownloadInterrupted,
+  isDownloadCompleted,
+  isInvalidInfo,
+} from './utils/checker'
+import {
+  ACTION,
   ARIA2_ID,
   DEFAULT_DIRECTORY,
   LOCAL_STORAGE_KEY_ARIA2,
+  DOWNLOAD_MODE,
 } from './constants'
+
+const installReason = Object.freeze({
+  instsall: 'instasll',
+  update: 'update',
+})
 
 chrome.runtime.onMessage.addListener(processRequest)
 chrome.runtime.onInstalled.addListener(async details => {
   const reason = details.reason
   const previousVersion = details.previousVersion
-  const currentVersion = chrome.runtime.getManifest().version
 
-  if (reason === 'install') await initStorage()
-  if (reason === 'update')
-    showUpdateMessageInConsole(currentVersion, previousVersion)
+  if (reason === installReason.instsall) await initStorage()
+  if (reason === installReason.update) {
+    showUpdateMessageInConsole(previousVersion)
+  }
 
   openOptionsPage()
 })
@@ -40,18 +49,25 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   const isDownloadedBySelf = await checkItemIsDownloadedBySelf(downloadDelta.id)
   if (!isDownloadedBySelf) return false
 
-  const isStateChanged = downloadDelta.hasOwnProperty('state')
+  const isStateChanged = Object.prototype.hasOwnProperty.call(
+    downloadDelta,
+    'state'
+  )
 
   if (isStateChanged) {
     const { id, endTime, state } = downloadDelta
     if (isDownloadInterrupted(state)) {
       const { info } = await fetchDownloadItemRecord(id)
       notifyDownloadFailed(info, id, endTime.current)
+      await Statistics.addFailedDownloadCount()
     }
 
     if (isDownloadCompleted(state)) {
       removeFromLocalStorage(id)
+      await Statistics.addSuccessDownloadCount()
     }
+
+    refreshOptionsPage()
   }
 })
 
@@ -86,19 +102,32 @@ chrome.browserAction.onClicked.addListener(openOptionsPage)
  * @param {tweetInfo} tweetInfo twitter information
  * @returns {void}
  */
-async function processRequest(tweetInfo) {
-  const { value } = await fetchCookie({
-    url: 'https://twitter.com',
-    name: 'ct0',
-  })
-  const twitterMedia = new MediaTweet(tweetInfo.tweetId, value)
-  const downloadMedia = mediasDownloader(tweetInfo)
-  const infoRecorder = downloadItemRecorder(tweetInfo)
+async function processRequest(request) {
+  if (request.action !== ACTION.download) return false
 
-  twitterMedia
-    .fetchMediaList()
-    .then(mediaList => downloadMedia(mediaList, infoRecorder))
-    .catch(reason => fetchErrorHandler(tweetInfo, reason))
+  const tweetInfo = request.data
+
+  /* eslint-disable no-console */
+  if (isInvalidInfo(tweetInfo)) {
+    console.Error('Invalid tweetInfo.')
+    await Statistics.addErrorCount()
+    return false
+  }
+  /* eslint-enable no-console */
+
+  const ct0Value = await fetchTwitterCt0Cookie()
+  const twitterMedia = new MediaTweet(tweetInfo.tweetId, ct0Value)
+  const downloadMedia = mediasDownloader(tweetInfo)
+  const downloadInfoRecorder = downloadItemRecorder(tweetInfo)
+
+  let [mediaList, errorReason] = await twitterMedia.fetchMediaList()
+
+  if (errorReason) {
+    fetchErrorHandler(tweetInfo, errorReason)
+    return false
+  }
+
+  downloadMedia(mediaList, downloadInfoRecorder)
 }
 
 /**
@@ -111,7 +140,7 @@ function mediasDownloader(tweetInfo) {
     const isPassToAria2 = JSON.parse(
       localStorage.getItem(LOCAL_STORAGE_KEY_ARIA2)
     )
-    const mode = isPassToAria2 ? 'aria2' : 'browser'
+    const mode = isPassToAria2 ? DOWNLOAD_MODE.aria2 : DOWNLOAD_MODE.browser
 
     for (const [index, value] of mediaList.entries()) {
       const mediaFile = new TwitterMediaFile(tweetInfo, value, index)
@@ -129,8 +158,13 @@ function openOptionsPage() {
   chrome.runtime.openOptionsPage()
 }
 
+function refreshOptionsPage() {
+  chrome.runtime.sendMessage({ action: ACTION.refresh })
+}
+
 /* eslint-disable no-console */
-function showUpdateMessageInConsole(current, previous) {
+function showUpdateMessageInConsole(previous) {
+  const current = chrome.runtime.getManifest().version
   console.info('The extension has been updated.')
   console.info('Previous version:', previous)
   console.info('Current version:', current)
@@ -147,6 +181,7 @@ async function checkItemIsDownloadedBySelf(downloadId) {
 }
 
 async function openFailedTweetInNewTab(notifficationId) {
+  //FIXME: notifficationID checker
   const isDownloadId = notifficationId.length < 10
   let tweetId
   if (isDownloadId) {
@@ -161,7 +196,7 @@ async function openFailedTweetInNewTab(notifficationId) {
   chrome.tabs.create({ url: url })
 }
 
-function fetchErrorHandler(tweetInfo, reason) {
+async function fetchErrorHandler(tweetInfo, reason) {
   let notify
   switch (reason.status) {
     case 429:
@@ -173,5 +208,6 @@ function fetchErrorHandler(tweetInfo, reason) {
       break
   }
 
+  await Statistics.addErrorCount()
   notify(tweetInfo, reason)
 }

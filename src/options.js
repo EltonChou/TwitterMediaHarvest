@@ -1,8 +1,11 @@
 import select from 'select-dom'
 import sanitize from 'sanitize-filename'
 import { setSyncStorage, i18nLocalize } from './libs/chromeApi'
-import { fetchFileNameSetting } from './helpers/storageHelper'
-import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
+import {
+  fetchFileNameSetting,
+  getStatisticsCount,
+} from './helpers/storageHelper'
+import { LOCAL_STORAGE_KEY_ARIA2, ACTION } from './constants'
 
 const accountCheckBox = select('#account')
 const directoryInput = select('#directory')
@@ -41,6 +44,15 @@ const initializeForm = async () => {
   }
 }
 
+const initializeStatistics = async () => {
+  const statisticsQuery = '[data-category="statistics"]'
+  const statisticsItems = select.all(statisticsQuery)
+  for (let item of statisticsItems) {
+    const count = await getStatisticsCount(item.dataset.type)
+    item.textContent = count.toLocaleString()
+  }
+}
+
 const disableSubmit = () => {
   submitButton.disabled = true
 }
@@ -59,6 +71,12 @@ const submitSuccess = () => {
 serialSelect.addEventListener('change', allowSubmit)
 accountCheckBox.addEventListener('change', allowSubmit)
 aria2Control.addEventListener('change', allowSubmit)
+
+chrome.runtime.onMessage.addListener(msg => {
+  if (msg.action === ACTION.refresh) {
+    initializeStatistics()
+  }
+})
 
 directoryInput.addEventListener('input', function() {
   const filenameReg = new RegExp('^[\\w-_]+$')
@@ -115,4 +133,5 @@ async function localize() {
 
 localize()
   .then(initializeForm)
+  .then(initializeStatistics)
   .then(updatePreview)
