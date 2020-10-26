@@ -57,13 +57,13 @@ class Harvester {
     const bg = select(`.${mode}BG`, buttonWrapper)
     const ltr = select('[dir="ltr"]', buttonWrapper)
 
-    const toggleBG = function() {
+    const toggleBG = () => {
       bg.classList.toggle('hover')
       ltr.classList.toggle(`${mode}Color`)
       bg.classList.remove('click')
     }
 
-    const clickBG = function(e) {
+    const clickBG = e => {
       bg.classList.toggle('click')
       ltr.classList.toggle('click')
       e.stopImmediatePropagation()

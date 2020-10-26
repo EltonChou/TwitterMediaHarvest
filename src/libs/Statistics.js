@@ -1,11 +1,13 @@
-import { addStatisticsCount, getStatisticsCount } from '../helpers/storageHelper'
+import {
+  addStatisticsCount,
+  getStatisticsCount,
+} from '../helpers/storageHelper'
 
 const statisticsKey = Object.freeze({
   successDownloadCount: 'successDownloadCount',
   failedDownloadCount: 'failedDownloadCount',
   errorCount: 'errorCount',
 })
-
 
 export default class Statistics {
   static async addSuccessDownloadCount() {
