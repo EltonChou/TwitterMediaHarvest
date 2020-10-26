@@ -96,3 +96,12 @@ export const removeFromSyncStorage = storageRemover(storageArea.sync)
 export const removeFromLocalStorage = storageRemover(storageArea.local)
 export const clearSyncStorage = storageCleaner(storageArea.sync)
 export const clearLocalStorage = storageCleaner(storageArea.local)
+
+export const fetchTwitterCt0Cookie = async () => {
+  const { value } = await fetchCookie({
+    url: 'https://twitter.com',
+    name: 'ct0',
+  })
+
+  return value
+}
