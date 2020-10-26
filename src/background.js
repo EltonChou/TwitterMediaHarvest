@@ -46,7 +46,10 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   const isDownloadedBySelf = await checkItemIsDownloadedBySelf(downloadDelta.id)
   if (!isDownloadedBySelf) return false
 
-  const isStateChanged = downloadDelta.hasOwnProperty('state')
+  const isStateChanged = Object.prototype.hasOwnProperty.call(
+    downloadDelta,
+    'state'
+  )
 
   if (isStateChanged) {
     const { id, endTime, state } = downloadDelta
@@ -117,10 +120,14 @@ async function processRequest(request) {
   const downloadMedia = mediasDownloader(tweetInfo)
   const downloadInfoRecorder = downloadItemRecorder(tweetInfo)
 
-  twitterMedia
-    .fetchMediaList()
-    .then(mediaList => downloadMedia(mediaList, downloadInfoRecorder))
-    .catch(reason => fetchErrorHandler(tweetInfo, reason))
+  let [mediaList, errorReason] = await twitterMedia.fetchMediaList()
+
+  if (errorReason) {
+    fetchErrorHandler(tweetInfo, errorReason)
+    return false
+  }
+
+  downloadMedia(mediaList, downloadInfoRecorder)
 }
 
 /**
