@@ -5,7 +5,7 @@ module.exports = {
   mode: 'production',
   stats: 'errors-only',
   resolve: {
-    fallback: { "path": require.resolve("path-browserify") }
+    fallback: { path: require.resolve('path-browserify') },
   },
   optimization: {
     minimize: true,
@@ -80,7 +80,7 @@ module.exports = {
           context: 'src',
           to: '_locales',
         },
-      ]
+      ],
     }),
   ],
 }
