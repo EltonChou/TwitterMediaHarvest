@@ -1,7 +1,7 @@
 import select from 'select-dom'
 import '../assets/styles/main.sass'
 import Harvester from '../libs/Harvester'
-import { isArticleCanBeAppend } from '../utils/checker'
+import { isArticleCanBeAppend, isArticleInStatus } from '../utils/checker'
 import { makeButtonWithData } from '../utils/maker'
 import { parseTweetInfo } from '../utils/parser'
 
@@ -21,7 +21,11 @@ const swapData = article => {
  */
 const makeHarvester = article => {
   if (isArticleCanBeAppend(article)) {
-    const actionBar = select('[role="group"][aria-label]', article)
+    const actionBarQuery = isArticleInStatus
+      ? '[role="group"]'
+      : '[role="group"][aria-label]'
+
+    const actionBar = select(actionBarQuery, article)
     if (actionBar) {
       const harvester = new Harvester(article)
 
