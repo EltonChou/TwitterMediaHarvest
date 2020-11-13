@@ -22,7 +22,7 @@ const swapData = article => {
 const makeHarvester = article => {
   if (isArticleCanBeAppend(article)) {
     const actionBarQuery = isArticleInStatus
-      ? '[role="group"]'
+      ? '.r-ahm1il[role="group"]'
       : '[role="group"][aria-label]'
 
     const actionBar = select(actionBarQuery, article)
