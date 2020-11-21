@@ -7,11 +7,16 @@ const downloadState = Object.freeze({
 })
 
 /**
+ * <article role="article" data-focusable="true" tabindex="0" class="css-1dbjc4n r-18u37iz r-1ny4l3l r-1udh08x r-1yt7n81 r-ry3cjt">
+ *
  * @param {HTMLElement} article
  */
 export const isArticleInStatus = article => {
   const articleClassLength = article.classList.length
-  const isMagicLength = articleClassLength === 3 || articleClassLength === 7
+  const isMagicLength =
+    articleClassLength === 3 ||
+    articleClassLength === 7 ||
+    articleClassLength === 6
   const testStatus = /^.*\/\/.*twitter.com\/.*\/status\/\d+.*(?<!photo\/\d)$/
   const url = window.location.href
 
@@ -19,11 +24,13 @@ export const isArticleInStatus = article => {
 }
 
 /**
+ * <article role="article" data-focusable="true" tabindex="0" class="css-1dbjc4n r-1loqt21 r-18u37iz r-1ny4l3l r-1udh08x r-1yt7n81 r-ry3cjt r-o7ynqc r-6416eg">
+ *
  * @param {HTMLElement} article
  */
 export const isArticleInStream = article => {
   const articleClassLength = article.classList.length
-  return articleClassLength === 8 || articleClassLength === 6
+  return articleClassLength === 9 || articleClassLength === 5
 }
 
 /**
