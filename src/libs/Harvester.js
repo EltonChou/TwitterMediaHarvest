@@ -13,7 +13,7 @@ class Harvester {
     this.mode = checkModeOfArticle(article)
     this.info = parseTweetInfo(article)
 
-    const sampleButton = select('[role="group"] [dir="ltr"]', article)
+    const sampleButton = select.all('[role="group"] [dir="ltr"]', article).pop()
     this.ltrStyle = sampleButton.classList.value
     this.svgStyle = select('svg', sampleButton).classList.value
   }

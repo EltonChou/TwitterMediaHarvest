@@ -1,6 +1,6 @@
 {
   "name": "twitter-media-harvest",
-  "version": "1.3.0",
+  "version": "1.3.2",
   "description": "The easiest way to get media from twitter-timeline.",
   "main": "./src/main.js",
   "dependencies": {
@@ -38,7 +38,7 @@
     "test": "jest --env=node",
     "build": "webpack --progress --color -c webpack.config.js",
     "build-dev": "webpack --progress --color -c webpack.config.dev.js",
-    "build-win": "webpack --progress --color -c webpack.config.js && powershell Compress-Archive -Update build/ build.zip",
+    "build-win": "webpack --progress --color -c webpack.config.js && powershell Compress-Archive -Update build/ media_harvest.zip",
     "watch": "webpack --watch --progress --color -c webpack.config.dev.js"
   },
   "jest": {

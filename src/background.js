@@ -28,7 +28,7 @@ import {
 } from './constants'
 
 const installReason = Object.freeze({
-  instsall: 'instasll',
+  install: 'install',
   update: 'update',
 })
 
@@ -37,7 +37,7 @@ chrome.runtime.onInstalled.addListener(async details => {
   const reason = details.reason
   const previousVersion = details.previousVersion
 
-  if (reason === installReason.instsall) await initStorage()
+  if (reason === installReason.install) await initStorage()
   if (reason === installReason.update) {
     showUpdateMessageInConsole(previousVersion)
   }

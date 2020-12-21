@@ -31,7 +31,7 @@ export const makeButtonWithData = (button, data) => {
  * @returns {HTMLElement} button
  */
 export const makeButtonListener = button => {
-  button.addEventListener('click', function(e) {
+  button.addEventListener('click', function (e) {
     e.stopImmediatePropagation()
     chrome.runtime.sendMessage({
       action: ACTION.download,

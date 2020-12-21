@@ -78,7 +78,7 @@ chrome.runtime.onMessage.addListener(msg => {
   }
 })
 
-directoryInput.addEventListener('input', function() {
+directoryInput.addEventListener('input', function () {
   const filenameReg = new RegExp('^[\\w-_]+$')
   const sanitizedValue = sanitize(this.value)
   const isFileNameAllowed =
@@ -98,7 +98,7 @@ directoryInput.addEventListener('input', function() {
 })
 
 /* eslint-disable no-console */
-settingsForm.addEventListener('submit', async function(e) {
+settingsForm.addEventListener('submit', async function (e) {
   e.preventDefault()
 
   localStorage.setItem(LOCAL_STORAGE_KEY_ARIA2, aria2Control.checked)
@@ -131,7 +131,4 @@ async function localize() {
   }
 }
 
-localize()
-  .then(initializeForm)
-  .then(initializeStatistics)
-  .then(updatePreview)
+localize().then(initializeForm).then(initializeStatistics).then(updatePreview)
