@@ -78,7 +78,7 @@ export default class TwitterMediaFile {
     const url = this.getSrc()
     const fileName = this.makeFileNameBySetting(setting)
     const tweetReferer = `https://twitter.com/i/web/status/${this.tweetId}`
-    const configMaker = selectMaker(mode)
+    const configMaker = selectConfigMakerByMode(mode)
     const config = configMaker(url, fileName, tweetReferer)
 
     return config
@@ -115,11 +115,11 @@ function cleanUrl(url) {
 }
 
 /**
- * @param {'aria2' | 'browser'} name
+ * @param {'aria2' | 'browser'} modeName
  */
-function selectMaker(name) {
-  if (name === DOWNLOAD_MODE.aria2) return makeAria2DownloadConfig
-  if (name === DOWNLOAD_MODE.browser) return makeBrowserDownloadConfig
+function selectConfigMakerByMode(modeName) {
+  if (modeName === DOWNLOAD_MODE.aria2) return makeAria2DownloadConfig
+  if (modeName === DOWNLOAD_MODE.browser) return makeBrowserDownloadConfig
 }
 
 export { TwitterMediaFile, makeOrigSrc }
