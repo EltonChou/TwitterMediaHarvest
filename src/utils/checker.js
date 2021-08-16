@@ -24,13 +24,18 @@ export const isArticleInStatus = article => {
 }
 
 /**
+ * !! CAUTION: This function relied on magic number
  * <article role="article" data-focusable="true" tabindex="0" class="css-1dbjc4n r-1loqt21 r-18u37iz r-1ny4l3l r-1udh08x r-1yt7n81 r-ry3cjt r-o7ynqc r-6416eg">
  *
  * @param {HTMLElement} article
  */
 export const isArticleInStream = article => {
   const articleClassLength = article.classList.length
-  return articleClassLength === 9 || articleClassLength === 5
+  return (
+    articleClassLength === 5 ||
+    articleClassLength === 9 ||
+    articleClassLength === 10
+  )
 }
 
 /**
