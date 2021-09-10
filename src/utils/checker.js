@@ -55,9 +55,7 @@ export const checkModeOfArticle = article => {
 
 const query = Object.freeze({
   streamMediaWrapper:
-    '[data-testid="tweet"] > div:nth-child(2) > div:nth-child(2) >\
-     div.css-1dbjc4n:nth-last-child(2) > div.css-1dbjc4n:nth-child(1) >\
-     div.css-1dbjc4n:nth-child(1)',
+    'div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-last-child(2) > div > div',
   statusMediaWrapper:
     'article > div > div > div > div:nth-child(3) > [class="css-1dbjc4n"] >\
      [class="css-1dbjc4n"] > [class="css-1dbjc4n"]',
