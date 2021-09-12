@@ -11,8 +11,10 @@ const featureRegEx = Object.freeze({
  * @param {HTMLElement} article
  */
 const parseScreeNameFromUserAccount = article => {
-  const userAccount = select('[data-testid="tweet"] [dir="ltr"]', article)
-    .childNodes[0].textContent
+  const userAccount = select(
+    '[role="link"] > div[id*="id__"] [dir="ltr"]',
+    article
+  ).textContent
   const screenName = userAccount.match(featureRegEx.screenName)[0]
 
   return screenName
