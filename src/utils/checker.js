@@ -58,7 +58,7 @@ const query = Object.freeze({
     'div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-last-child(2) > div > div',
   statusMediaWrapper:
     'article > div > div > div > div:nth-child(3) > [class="css-1dbjc4n"] >\
-     [class="css-1dbjc4n"] > [class="css-1dbjc4n"]',
+     [class="css-1dbjc4n"]',
 })
 
 /**
@@ -75,7 +75,7 @@ export const articleHasMedia = article => {
   if (mediaWrapper === null) return false
 
   const checkContent = mediaContent => {
-    const magicLength = mediaContent.classList.length > 7
+    const magicLength = mediaContent.classList.length >= 2
     const photoContent = select.exists(
       '[role="link"][href*="photo"]',
       mediaContent
