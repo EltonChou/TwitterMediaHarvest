@@ -174,7 +174,7 @@ function showUpdateMessageInConsole(previous) {
 async function checkItemIsDownloadedBySelf(downloadId) {
   const query = {
     id: downloadId,
-    filenameRegex: DEFAULT_DIRECTORY,
+    // filenameRegex: DEFAULT_DIRECTORY,
   }
   const result = await searchDownload(query)
   return Boolean(result.length)
