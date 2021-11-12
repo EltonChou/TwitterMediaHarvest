@@ -25,9 +25,7 @@
     "open_in_tab": true
   },
   "background": {
-    "scripts": [
-      "background.js"
-    ],
+    "scripts": ["background.js"],
     "persistent": true
   },
   "content_scripts": [
@@ -38,9 +36,7 @@
         "http://mobile.twitter.com/*",
         "https://mobile.twitter.com/*"
       ],
-      "js": [
-        "main.js"
-      ],
+      "js": ["main.js"],
       "all_frames": true,
       "run_at": "document_idle"
     }

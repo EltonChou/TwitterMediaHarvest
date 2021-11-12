@@ -14,7 +14,7 @@ const storageArea = Object.freeze({
  * @param {chrome.storage.StorageArea} storageArea
  * @returns {(keys: string | string[] | Object) => Promise<{[key: string]: Object}}>}
  */
-const storageFetcher = storageArea => (keys = null) => {
+const storageFetcher = storageArea => keys => {
   return new Promise(resolve => {
     storageArea.get(keys, items => resolve(items))
   })
