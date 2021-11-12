@@ -38,6 +38,9 @@ const initializeForm = async () => {
   const setting = await fetchFileNameSetting()
   directoryInput.value = setting.directory
   noSubDirCheckBox.checked = Boolean(setting.no_subdirectory)
+  if (noSubDirCheckBox.checked) {
+    disableDirectoryInput()
+  }
   accountCheckBox.checked = setting.filename_pattern.account
   aria2Control.checked = JSON.parse(localStorage.getItem('enableAria2'))
   const options = select.all('option')
