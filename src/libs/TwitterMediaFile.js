@@ -38,7 +38,7 @@ export default class TwitterMediaFile {
    * @param {fileNameSetting} setting
    */
   makeFileNameBySetting(setting) {
-    const root = setting.directory
+    const root = setting.no_subdirectory ? '' : setting.directory.concat('/')
 
     const accountPart = setting.filename_pattern.account
       ? `${this.screenName}-`
@@ -59,7 +59,7 @@ export default class TwitterMediaFile {
     }
 
     const basename = accountPart.concat(this.tweetId, '-', serialPart)
-    const fullPath = root.concat('/', basename, this.ext)
+    const fullPath = root.concat(basename, this.ext)
 
     return fullPath
   }

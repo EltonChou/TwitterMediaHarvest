@@ -59,9 +59,10 @@ describe('Elementary test', () => {
 })
 
 describe('Test filename pattern', () => {
-  const makeSetting = jest.fn((needAccount, serial) => {
+  const makeSetting = jest.fn((needAccount, serial, no_sub_dir) => {
     return {
       directory: DEFAULT_DIRECTORY,
+      no_subdirectory: no_sub_dir,
       filename_pattern: {
         account: needAccount,
         serial: serial,
@@ -70,7 +71,7 @@ describe('Test filename pattern', () => {
   })
 
   it('account with order (default)', async () => {
-    const defaultSetting = makeSetting(true, 'order')
+    const defaultSetting = makeSetting(true, 'order', false)
 
     fetchFileNameSetting.mockReturnValue(Promise.resolve(defaultSetting))
     const patternSetting = await fetchFileNameSetting()
@@ -86,7 +87,7 @@ describe('Test filename pattern', () => {
       name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-${expectFileInfo.name}`,
       ext: fileExt,
     })
-    const defaultSetting = makeSetting(true, 'file_name')
+    const defaultSetting = makeSetting(true, 'file_name', false)
 
     fetchFileNameSetting.mockReturnValue(Promise.resolve(defaultSetting))
     const patternSetting = await fetchFileNameSetting()
@@ -123,6 +124,21 @@ describe('Test filename pattern', () => {
     fetchFileNameSetting.mockReturnValue(Promise.resolve(defaultSetting))
     const patternSetting = await fetchFileNameSetting()
 
+    const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
+
+    expect(fileName).toBe(thisName)
+  })
+
+  it('no-subdirectory', async () => {
+    const thisName = path.format({
+      root: '',
+      name: `${tweetInfo.tweetId}-${expectFileInfo.name}`,
+      ext: fileExt,
+    })
+
+    const defaultSetting = makeSetting(false, 'file_name', true)
+    fetchFileNameSetting.mockReturnValue(Promise.resolve(defaultSetting))
+    const patternSetting = await fetchFileNameSetting()
     const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
 
     expect(fileName).toBe(thisName)

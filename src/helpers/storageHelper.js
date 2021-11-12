@@ -22,11 +22,19 @@ import {
  * @typedef fileNameSetting
  * @type {Object}
  * @property {String} directory
+ * @property {Boolean} no_subdirectory
  * @property {patternSetting} filename_pattern
  *
  */
+/**
+ * @returns {fileNameSetting}
+ */
 export const fetchFileNameSetting = async () => {
-  const setting = await fetchSyncStorage(['directory', 'filename_pattern'])
+  const setting = await fetchSyncStorage([
+    'directory',
+    'no_subdirectory',
+    'filename_pattern',
+  ])
   setting.filename_pattern = JSON.parse(setting.filename_pattern)
 
   return setting
