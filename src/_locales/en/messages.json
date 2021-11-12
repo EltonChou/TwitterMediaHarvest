@@ -63,6 +63,6 @@
     "message": "Please contact with developer."
   },
   "noSubDirectory": {
-    "message": "No subdirectory"
+    "message": "Don't create subdirectory."
   }
 }
