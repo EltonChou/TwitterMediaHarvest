@@ -7,6 +7,7 @@ import {
 } from './helpers/storageHelper'
 import { LOCAL_STORAGE_KEY_ARIA2, ACTION } from './constants'
 
+const noSubDirCheckBox = select('#no_subdirectory')
 const accountCheckBox = select('#account')
 const directoryInput = select('#directory')
 const serialSelect = select('select')
@@ -36,6 +37,7 @@ const updatePreview = () => {
 const initializeForm = async () => {
   const setting = await fetchFileNameSetting()
   directoryInput.value = setting.directory
+  noSubDirCheckBox.checked = Boolean(setting.no_subdirectory)
   accountCheckBox.checked = setting.filename_pattern.account
   aria2Control.checked = JSON.parse(localStorage.getItem('enableAria2'))
   const options = select.all('option')
@@ -68,9 +70,20 @@ const submitSuccess = () => {
   disableSubmit()
 }
 
+const disableDirectoryInput = () => {
+  directoryInput.disabled = true
+}
+const enableDirectoryInput = () => {
+  directoryInput.disabled = false
+}
+
 serialSelect.addEventListener('change', allowSubmit)
 accountCheckBox.addEventListener('change', allowSubmit)
 aria2Control.addEventListener('change', allowSubmit)
+noSubDirCheckBox.addEventListener('change', () => {
+  noSubDirCheckBox.checked ? disableDirectoryInput() : enableDirectoryInput()
+  allowSubmit()
+})
 
 chrome.runtime.onMessage.addListener(msg => {
   if (msg.action === ACTION.refresh) {
@@ -104,7 +117,10 @@ settingsForm.addEventListener('submit', async function (e) {
   localStorage.setItem(LOCAL_STORAGE_KEY_ARIA2, aria2Control.checked)
 
   const dirResult = await setSyncStorage(
-    Object.fromEntries([[directoryInput.name, directoryInput.value]])
+    Object.fromEntries([
+      [directoryInput.name, directoryInput.value],
+      [noSubDirCheckBox.name, noSubDirCheckBox.checked],
+    ])
   )
   const filename_pattern = {
     filename_pattern: JSON.stringify({
