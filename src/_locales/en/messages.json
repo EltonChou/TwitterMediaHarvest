@@ -61,5 +61,8 @@
   },
   "fetchFailedUnknownMessage": {
     "message": "Please contact with developer."
+  },
+  "noSubDirectory": {
+    "message": "No subdirectory"
   }
 }

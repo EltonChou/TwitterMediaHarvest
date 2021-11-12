@@ -61,5 +61,8 @@
   },
   "fetchFailedUnknownMessage": {
     "message": "請與開發人員聯絡。"
+  },
+  "noSubDirectory": {
+    "message": "不新增子資料夾"
   }
 }

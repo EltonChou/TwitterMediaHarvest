@@ -61,5 +61,8 @@
   },
   "fetchFailedUnknownMessage": {
     "message": "開発者に問い合わせてください。"
+  },
+  "noSubDirectory": {
+    "message": "サブディレクトリを作成しません"
   }
 }
