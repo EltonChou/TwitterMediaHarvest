@@ -22,7 +22,6 @@ import {
 import {
   ACTION,
   ARIA2_ID,
-  DEFAULT_DIRECTORY,
   LOCAL_STORAGE_KEY_ARIA2,
   DOWNLOAD_MODE,
 } from './constants'
