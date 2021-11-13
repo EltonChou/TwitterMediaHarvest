@@ -10,14 +10,17 @@ const storageArea = Object.freeze({
 
 /**
  * Fetch data from chrome storage.
+ * Passing null keys to get all storage item.
  *
  * @param {chrome.storage.StorageArea} storageArea
- * @returns {(keys: string | string[] | Object) => Promise<{[key: string]: Object}}>}
+ * @returns {(keys: string | string[] | Object | null) => Promise<{[key: string]: Object}}
  */
-const storageFetcher = storageArea => keys => {
-  return new Promise(resolve => {
-    storageArea.get(keys, items => resolve(items))
-  })
+const storageFetcher = storageArea => {
+  return (keys = null) => {
+    return new Promise(resolve => {
+      storageArea.get(keys, items => resolve(items))
+    })
+  }
 }
 
 /**
