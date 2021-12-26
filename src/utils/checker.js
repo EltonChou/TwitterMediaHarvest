@@ -115,3 +115,16 @@ export const isDownloadCompleted = ({ current, previous }) =>
  */
 export const isInvalidInfo = tweetInfo =>
   !tweetInfo.screenName.length || !tweetInfo.tweetId.length
+
+/**
+ * Check current page is in tweetdeck or not.
+ * @returns {boolean}
+ */
+export const isTweetDeck = () =>
+  window.location.host === 'tweetdeck.twitter.com'
+
+/**
+ * Check current page is in twitter or not.
+ * @returns {boolean}
+ */
+export const isTwitter = () => window.location.host === 'twitter.com'
