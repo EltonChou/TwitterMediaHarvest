@@ -4,11 +4,11 @@ import { isTweetDeck, isTwitter } from './utils/checker'
 
 let observer = undefined
 
-if (isTweetDeck) {
+if (isTweetDeck()) {
   observer = new TwitterDeckObserver()
 }
 
-if (isTwitter) {
+if (isTwitter()) {
   observer = new TwitterMediaObserver()
 }
 
