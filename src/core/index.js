@@ -1,14 +1,16 @@
 import select from 'select-dom'
 import '../assets/styles/main.sass'
 import Harvester from '../libs/Harvester'
+import DeckHarvester from '../libs/DeckHarvester'
 import {
   isArticleCanBeAppend,
   isArticleInStatus,
   isTweetDeck,
+  isTwitter,
 } from '../utils/checker'
 
 const getActionBarQuery = () => {
-  if (isTweetDeck()) return '.actions'
+  if (isTweetDeck()) return '.tweet-actions'
 
   return isArticleInStatus
     ? '.r-18u37iz[role="group"]'
@@ -16,7 +18,26 @@ const getActionBarQuery = () => {
 }
 
 const articleAppendedConfirm = article =>
-  (article.dataset.harvest.appended = true)
+  (article.dataset.harvestAppended = true)
+
+/**
+ *
+ * @param {HTMLElement} actionBar
+ * @param {HTMLElement} button
+ * @returns HTMLElement
+ */
+const twitterActionAppend = (actionBar, button) => actionBar.appendChild(button)
+
+/**
+ *
+ * @param {HTMLElement} actionBar
+ * @param {HTMLElement} button
+ * @returns HTMLElement
+ */
+const deckActionInsert = (actionBar, button) => {
+  actionBar.insertBefore(button, actionBar.childNodes[7])
+  return actionBar
+}
 
 /**
  * Create Harvester and append to action-bar.
@@ -32,9 +53,18 @@ const makeHarvester = article => {
 
     const actionBar = select(actionBarQuery, article)
     if (actionBar) {
-      const harvester = new Harvester(article)
+      let harvester = undefined
 
-      actionBar.appendChild(harvester.button)
+      if (isTwitter) {
+        harvester = new Harvester(article)
+        twitterActionAppend(actionBar, harvester.button)
+      }
+
+      if (isTweetDeck) {
+        harvester = new DeckHarvester(article)
+        deckActionInsert(actionBar, harvester.button)
+      }
+
       articleAppendedConfirm(article)
     }
   } else Harvester.swapData(article)
