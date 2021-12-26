@@ -1,18 +1,22 @@
 import select from 'select-dom'
 import '../assets/styles/main.sass'
 import Harvester from '../libs/Harvester'
-import { isArticleCanBeAppend, isArticleInStatus } from '../utils/checker'
-import { makeButtonWithData } from '../utils/maker'
-import { parseTweetInfo } from '../utils/parser'
+import {
+  isArticleCanBeAppend,
+  isArticleInStatus,
+  isTweetDeck,
+} from '../utils/checker'
 
-/**
- * @param {HTMLElement} article
- */
-const swapData = article => {
-  const info = parseTweetInfo(article)
-  const havestButton = select('.harvester', article)
-  makeButtonWithData(havestButton, info)
+const getActionBarQuery = () => {
+  if (isTweetDeck()) return '.actions'
+
+  return isArticleInStatus
+    ? '.r-18u37iz[role="group"]'
+    : '[role="group"][aria-label]'
 }
+
+const articleAppendedConfirm = article =>
+  (article.dataset.harvest.appended = true)
 
 /**
  * Create Harvester and append to action-bar.
@@ -24,18 +28,16 @@ const swapData = article => {
  */
 const makeHarvester = article => {
   if (isArticleCanBeAppend(article)) {
-    const actionBarQuery = isArticleInStatus
-      ? '.r-18u37iz[role="group"]'
-      : '[role="group"][aria-label]'
+    const actionBarQuery = getActionBarQuery()
 
     const actionBar = select(actionBarQuery, article)
     if (actionBar) {
       const harvester = new Harvester(article)
 
-      article.dataset.appended = true
       actionBar.appendChild(harvester.button)
+      articleAppendedConfirm(article)
     }
-  } else swapData(article)
+  } else Harvester.swapData(article)
 }
 
 export default makeHarvester

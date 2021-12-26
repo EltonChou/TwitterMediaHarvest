@@ -76,6 +76,15 @@ class Harvester {
 
     return buttonWrapper
   }
+
+  /**
+   * @param {HTMLElement} article
+   */
+  static swapData(article) {
+    const info = parseTweetInfo(article)
+    const havestButton = select('.harvester', article)
+    makeButtonWithData(havestButton, info)
+  }
 }
 
 export default Harvester
