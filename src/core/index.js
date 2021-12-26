@@ -55,12 +55,12 @@ const makeHarvester = article => {
     if (actionBar) {
       let harvester = undefined
 
-      if (isTwitter) {
+      if (isTwitter()) {
         harvester = new Harvester(article)
         twitterActionAppend(actionBar, harvester.button)
       }
 
-      if (isTweetDeck) {
+      if (isTweetDeck()) {
         harvester = new DeckHarvester(article)
         deckActionInsert(actionBar, harvester.button)
       }
