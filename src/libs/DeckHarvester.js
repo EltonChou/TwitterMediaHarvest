@@ -1,4 +1,8 @@
-import { createElementFromHTML } from '../utils/maker'
+import {
+  createElementFromHTML,
+  makeButtonWithData,
+  makeButtonListener,
+} from '../utils/maker'
 import downloadButtonSVG from '../assets/icons/twitter-download.svg'
 import select from 'select-dom'
 
@@ -15,9 +19,8 @@ const fetchTweetId = article => article.dataset.tweetId
  */
 const parseTweetInfo = article => {
   const screenNamePattern = /^@(.*)/
-  const screenName = select('.username', article).textContent.match(
-    screenNamePattern
-  )[1]
+  const screenNameEle = select('.username', article)
+  const screenName = screenNameEle.textContent.match(screenNamePattern)[1]
   const tweetId = fetchTweetId(article)
 
   return {
@@ -32,6 +35,15 @@ class DeckHarvester {
   }
 
   get button() {
+    const button = this.createButton()
+
+    makeButtonWithData(button, this.info)
+    makeButtonListener(button)
+
+    return button
+  }
+
+  createButton() {
     const wrapper = createElementFromHTML(`
       <li class="tweet-action-item pull-left margin-r--10">
         <a class="tweet-action">
