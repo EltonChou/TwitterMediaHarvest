@@ -33,6 +33,11 @@ export default class TwitterDeckObserver {
 
   /** @returns {void} */
   observeContent() {
+    /** @type {MutationObserverInit} */
+    const options = {
+      childList: true,
+    }
+
     /** @type {MutationCallback} */
     const contentCallback = mutations => {
       for (const mutation of mutations) {
@@ -44,12 +49,33 @@ export default class TwitterDeckObserver {
       }
     }
 
-    /** @type {MutationObserverInit} */
-    const options = {
-      childList: true,
+    const repliesCallback = mutations => {
+      for (const mutation of mutations) {
+        for (const addedNode of mutation.addedNodes) {
+          if (deckStreamHasMedia(addedNode)) {
+            makeHarvester(addedNode)
+          }
+        }
+      }
+    }
+
+    /** @type {MutationCallback} */
+    const detailCallback = mutations => {
+      let replies = null
+      for (const mutation of mutations) {
+        if (!replies) {
+          replies = select('.replies-after', mutation.target)
+        }
+      }
+      observeElement(replies, repliesCallback, options)
     }
 
     const tweetContainers = select.all('.chirp-container')
+    const tweetDetails = select.all('.column-detail')
+
+    for (const tweetDetail of tweetDetails) {
+      observeElement(tweetDetail, detailCallback, options)
+    }
 
     for (const tweetContainer of tweetContainers) {
       observeElement(tweetContainer, contentCallback, options)
