@@ -63,7 +63,9 @@ const observeColumns = () => {
     mutations => {
       for (const mutation of mutations) {
         for (const addedNode of mutation.addedNodes) {
-          console.log(addedNode)
+          if (addedNode.classList.contains('column')) {
+            initColumnObserver(addedNode)
+          }
         }
       }
     },
@@ -71,7 +73,61 @@ const observeColumns = () => {
   )
 }
 
-export default class TwitterDeckObserver {
+const observeDetail = tweetDetail => {
+  /** @type {MutationObserverInit} */
+  const detailOptions = {
+    childList: true,
+    subtree: true,
+  }
+
+  /** @type {MutationCallback} */
+  const detailCallback = mutations => {
+    let replies = null
+    const rootTweets = select.all('.js-detail-content article')
+
+    for (const tweet of rootTweets) {
+      if (deckStreamHasMedia(tweet)) makeHarvester(tweet)
+    }
+
+    for (const mutation of mutations) {
+      if (!replies) {
+        replies = select('.replies-after', mutation.target)
+      }
+    }
+    observerDetailReplies(replies)
+  }
+
+  observeElement(tweetDetail, detailCallback, detailOptions)
+}
+
+const observeStreamContainer = streamContainer => {
+  /** @type {MutationObserverInit} */
+  const options = {
+    childList: true,
+  }
+
+  /** @type {MutationCallback} */
+  const streamCallback = mutations => {
+    for (const mutation of mutations) {
+      for (const addedNode of mutation.addedNodes) {
+        if (deckStreamHasMedia(addedNode)) {
+          makeHarvester(addedNode)
+        }
+      }
+    }
+  }
+
+  observeElement(streamContainer, streamCallback, options)
+}
+
+const initColumnObserver = column => {
+  const tweetContainer = select('.chirp-container', column)
+  const tweetDetail = select('.column-detail', column)
+  observeDetail(tweetDetail)
+  observeStreamContainer(tweetContainer)
+}
+
+class TwitterDeckObserver {
   /** @returns {void} */
   observeRoot() {
     /** @type {MutationObserverInit} */
@@ -83,8 +139,9 @@ export default class TwitterDeckObserver {
       '.application',
       (_, this_observer) => {
         if (select.exists('.app-columns')) {
-          this.initObservers()
+          this.initObserver()
           observeColumns()
+          observeModal()
           this_observer.disconnect()
         }
       },
@@ -92,66 +149,13 @@ export default class TwitterDeckObserver {
     )
   }
 
-  /** @returns {void} */
-  initObservers() {
-    const tweetContainers = select.all('.chirp-container')
-    const tweetDetails = select.all('.column-detail')
+  initObserver() {
+    const columns = select.all('section.column')
 
-    for (const tweetDetail of tweetDetails) {
-      this.observeDetail(tweetDetail)
+    for (const column of columns) {
+      initColumnObserver(column)
     }
-
-    for (const tweetContainer of tweetContainers) {
-      this.observeStreamContainer(tweetContainer)
-    }
-
-    observeModal()
-  }
-
-  observeStreamContainer(streamContainer) {
-    /** @type {MutationObserverInit} */
-    const options = {
-      childList: true,
-    }
-
-    /** @type {MutationCallback} */
-    const streamCallback = mutations => {
-      for (const mutation of mutations) {
-        for (const addedNode of mutation.addedNodes) {
-          if (deckStreamHasMedia(addedNode)) {
-            makeHarvester(addedNode)
-          }
-        }
-      }
-    }
-
-    observeElement(streamContainer, streamCallback, options)
-  }
-
-  observeDetail(tweetDetail) {
-    /** @type {MutationObserverInit} */
-    const detailOptions = {
-      childList: true,
-      subtree: true,
-    }
-
-    /** @type {MutationCallback} */
-    const detailCallback = mutations => {
-      let replies = null
-      const rootTweets = select.all('.js-detail-content article')
-
-      for (const tweet of rootTweets) {
-        if (deckStreamHasMedia(tweet)) makeHarvester(tweet)
-      }
-
-      for (const mutation of mutations) {
-        if (!replies) {
-          replies = select('.replies-after', mutation.target)
-        }
-      }
-      observerDetailReplies(replies)
-    }
-
-    observeElement(tweetDetail, detailCallback, detailOptions)
   }
 }
+
+export default TwitterDeckObserver
