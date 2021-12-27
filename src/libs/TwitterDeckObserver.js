@@ -62,10 +62,10 @@ export default class TwitterDeckObserver {
     /** @type {MutationCallback} */
     const detailCallback = mutations => {
       let replies = null
-      const rootTweet = select('.tweet-detail-wrapper > article')
+      const rootTweets = select.all('.js-detail-content article')
 
-      if (rootTweet) {
-        makeHarvester(rootTweet)
+      for (const tweet of rootTweets) {
+        if (deckStreamHasMedia(tweet)) makeHarvester(tweet)
       }
 
       for (const mutation of mutations) {
@@ -79,8 +79,14 @@ export default class TwitterDeckObserver {
     const tweetContainers = select.all('.chirp-container')
     const tweetDetails = select.all('.column-detail')
 
+    //FIXME: monkey patch
+    /** @type {MutationObserverInit} */
+    const detailOptions = {
+      childList: true,
+      subtree: true,
+    }
     for (const tweetDetail of tweetDetails) {
-      observeElement(tweetDetail, detailCallback, options)
+      observeElement(tweetDetail, detailCallback, detailOptions)
     }
 
     for (const tweetContainer of tweetContainers) {

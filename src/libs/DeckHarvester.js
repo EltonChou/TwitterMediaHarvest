@@ -1,10 +1,11 @@
+import select from 'select-dom'
 import {
   createElementFromHTML,
   makeButtonWithData,
   makeButtonListener,
 } from '../utils/maker'
 import downloadButtonSVG from '../assets/icons/twitter-download.svg'
-import select from 'select-dom'
+import { isArticleInDetail } from '../utils/checker'
 
 /**
  *
@@ -33,6 +34,7 @@ const parseTweetInfo = article => {
 class DeckHarvester {
   constructor(article) {
     this.info = parseTweetInfo(article)
+    this.isInDetail = isArticleInDetail(article)
   }
 
   get button() {
@@ -45,10 +47,28 @@ class DeckHarvester {
   }
 
   createButton() {
+    /**
+     *  <li class="tweet-detail-action-item">
+          <a
+            class="js-show-tip tweet-detail-action position-rel"
+            data-original-title="  Like from umaiIKAze   "
+          >
+            <i class="js-icon-favorite icon icon-favorite icon-favorite-toggle txt-center"></i>
+            <span class="is-vishidden"> Like </span>
+          </a>
+        </li>
+     */
+    const liClass = this.isInDetail
+      ? 'tweet-detail-action-item'
+      : 'tweet-action-item pull-left margin-r--10'
+    const aClass = this.isInDetail
+      ? 'js-show-tip tweet-detail-action position-rel deck-harvester'
+      : 'tweet-action deck-harvester'
+
     const wrapper = createElementFromHTML(`
-      <li class="tweet-action-item pull-left margin-r--10">
-        <a class="tweet-action deck-harvester">
-          <i class="icon txt-center pull-left">
+      <li class="${liClass}">
+        <a class="${aClass}" data-original-title="Download by MediaHarvest">
+          <i class="icon txt-center ${this.isInDetail ? '' : 'pull-left'}">
             ${downloadButtonSVG}
           </i>
         </a>
