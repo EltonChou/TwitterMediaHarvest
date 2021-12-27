@@ -11,7 +11,8 @@ import select from 'select-dom'
  * @param {HTMLElement} article
  */
 
-const fetchTweetId = article => article.dataset.tweetId
+const fetchTweetId = article =>
+  article.dataset.tweetId || select('.js-tweet-box').dataset.key
 
 /**
  *
