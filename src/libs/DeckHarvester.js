@@ -47,27 +47,16 @@ class DeckHarvester {
   }
 
   createButton() {
-    /**
-     *  <li class="tweet-detail-action-item">
-          <a
-            class="js-show-tip tweet-detail-action position-rel"
-            data-original-title="  Like from umaiIKAze   "
-          >
-            <i class="js-icon-favorite icon icon-favorite icon-favorite-toggle txt-center"></i>
-            <span class="is-vishidden"> Like </span>
-          </a>
-        </li>
-     */
     const liClass = this.isInDetail
       ? 'tweet-detail-action-item'
       : 'tweet-action-item pull-left margin-r--10'
     const aClass = this.isInDetail
       ? 'js-show-tip tweet-detail-action position-rel deck-harvester'
-      : 'tweet-action deck-harvester'
+      : 'js-show-tip tweet-action position-rel deck-harvester'
 
     const wrapper = createElementFromHTML(`
       <li class="${liClass}">
-        <a class="${aClass}" data-original-title="Download by MediaHarvest">
+        <a class="${aClass}" data-original-title="Download via MediaHarvest">
           <i class="icon txt-center ${this.isInDetail ? '' : 'pull-left'}">
             ${downloadButtonSVG}
           </i>
