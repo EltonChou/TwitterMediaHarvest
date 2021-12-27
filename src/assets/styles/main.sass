@@ -44,25 +44,36 @@ $harvest-yellow: rgb(241, 185, 26)
   &.click
     background: rgba(241, 185, 26, 0.2)
 
-
 // tweetdeck
+=dark-deck-harvester
+  svg
+    fill: #8899a6
+
+=light-deck-harvester
+  svg
+    fill: #aab8c2
+
+=hover-deck-harvester
+  svg
+    fill: $harvest-yellow
+
+.deck-harvester
+  cursor: pointer
+
 .dark
   .deck-harvester
-    svg
-      fill: #8899a6
-    &.hover
-      svg
-        fill: $harvest-yellow
+    +dark-deck-harvester
+
+    &:hover
+      +hover-deck-harvester
 
 article
   &:hover
     .deck-harvester
-      svg
-        fill: #8899a6
-  .deck-harvester
-    svg
-      fill: #aab8c2
-    &:hover
-      svg
-        fill: $harvest-yellow
+      +dark-deck-harvester
 
+  .deck-harvester
+    +light-deck-harvester
+
+    &:hover
+      +hover-deck-harvester
