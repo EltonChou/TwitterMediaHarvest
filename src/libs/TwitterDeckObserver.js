@@ -9,7 +9,7 @@ import observeElement from '../utils/observer'
  */
 const deckStreamHasMedia = addedNode =>
   select.exists('.media-preview', addedNode) &&
-  !select.exists('.quted-tweet', addedNode)
+  !select.exists('.quoted-tweet', addedNode)
 
 export default class TwitterDeckObserver {
   /** @returns {void} */
