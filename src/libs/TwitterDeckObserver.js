@@ -17,7 +17,6 @@ export default class TwitterDeckObserver {
     /** @type {MutationCallback} */
     const rootCallback = (_, this_observer) => {
       if (select.exists('.app-columns')) {
-        // console.log('huja')
         this.observeContent()
         this.observeModal()
         this_observer.disconnect()
