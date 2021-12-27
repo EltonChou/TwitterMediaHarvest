@@ -8,7 +8,8 @@ import observeElement from '../utils/observer'
  * @returns boolean
  */
 const deckStreamHasMedia = addedNode =>
-  select.exists('.media-preview', addedNode)
+  select.exists('.media-preview', addedNode) &&
+  !select.exists('.quted-tweet', addedNode)
 
 export default class TwitterDeckObserver {
   /** @returns {void} */
@@ -18,6 +19,7 @@ export default class TwitterDeckObserver {
       if (select.exists('.app-columns')) {
         // console.log('huja')
         this.observeContent()
+        this.observeModal()
         this_observer.disconnect()
       }
     }
@@ -53,5 +55,24 @@ export default class TwitterDeckObserver {
     for (const tweetContainer of tweetContainers) {
       observeElement(tweetContainer, contentCallback, options)
     }
+  }
+
+  observeModal() {
+    /** @type {MutationCallback} */
+    const modalCallback = mutations => {
+      for (const mutation of mutations) {
+        if (mutation.addedNodes) {
+          const article = select('.tweet', mutation.addedNodes[0])
+          makeHarvester(article)
+        }
+      }
+    }
+
+    /** @type {MutationObserverInit} */
+    const options = {
+      childList: true,
+    }
+
+    observeElement('#open-modal', modalCallback, options)
   }
 }
