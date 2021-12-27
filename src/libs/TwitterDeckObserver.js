@@ -2,6 +2,14 @@ import select from 'select-dom'
 import makeHarvester from '../core'
 import observeElement from '../utils/observer'
 
+/**
+ *
+ * @param {Node} addedNode
+ * @returns boolean
+ */
+const deckStreamHasMedia = addedNode =>
+  select.exists('.media-preview', addedNode)
+
 export default class TwitterDeckObserver {
   /** @returns {void} */
   observeRoot() {
@@ -28,7 +36,7 @@ export default class TwitterDeckObserver {
     const contentCallback = mutations => {
       for (const mutation of mutations) {
         for (const addedNode of mutation.addedNodes) {
-          if (select.exists('.media-preview', addedNode)) {
+          if (deckStreamHasMedia(addedNode)) {
             makeHarvester(addedNode)
           }
         }
