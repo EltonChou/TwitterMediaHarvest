@@ -62,6 +62,12 @@ export default class TwitterDeckObserver {
     /** @type {MutationCallback} */
     const detailCallback = mutations => {
       let replies = null
+      const rootTweet = select('.tweet-detail-wrapper > article')
+
+      if (rootTweet) {
+        makeHarvester(rootTweet)
+      }
+
       for (const mutation of mutations) {
         if (!replies) {
           replies = select('.replies-after', mutation.target)

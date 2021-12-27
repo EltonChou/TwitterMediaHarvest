@@ -5,14 +5,19 @@ import DeckHarvester from '../libs/DeckHarvester'
 import {
   isArticleCanBeAppend,
   isArticleInStatus,
+  isArticleInDetail,
   isTweetDeck,
   isTwitter,
 } from '../utils/checker'
 
-const getActionBarQuery = () => {
-  if (isTweetDeck()) return '.tweet-actions'
+const getActionBarQuery = article => {
+  if (isTweetDeck()) {
+    return isArticleInDetail(article)
+      ? '.tweet-detail-actions'
+      : '.tweet-actions'
+  }
 
-  return isArticleInStatus
+  return isArticleInStatus(article)
     ? '.r-18u37iz[role="group"]'
     : '[role="group"][aria-label]'
 }
@@ -49,7 +54,7 @@ const deckActionInsert = (actionBar, button) => {
  */
 const makeHarvester = article => {
   if (isArticleCanBeAppend(article)) {
-    const actionBarQuery = getActionBarQuery()
+    const actionBarQuery = getActionBarQuery(article)
 
     const actionBar = select(actionBarQuery, article)
     if (actionBar) {
@@ -67,7 +72,9 @@ const makeHarvester = article => {
 
       articleAppendedConfirm(article)
     }
-  } else Harvester.swapData(article)
+  } else {
+    if (isTwitter()) Harvester.swapData(article)
+  }
 }
 
 export default makeHarvester

@@ -6,6 +6,9 @@ const downloadState = Object.freeze({
   complete: 'complete',
 })
 
+export const isArticleInDetail = article =>
+  select.exists('.tweet-detail', article)
+
 /**
  * <article role="article" data-focusable="true" tabindex="0" class="css-1dbjc4n r-18u37iz r-1ny4l3l r-1udh08x r-1yt7n81 r-ry3cjt">
  *
