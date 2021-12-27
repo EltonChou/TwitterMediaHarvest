@@ -7,9 +7,14 @@ import observeElement from '../utils/observer'
  * @param {Node} addedNode
  * @returns boolean
  */
-const deckStreamHasMedia = addedNode =>
-  select.exists('.media-preview', addedNode) &&
-  !select.exists('.quoted-tweet', addedNode)
+const deckStreamHasMedia = addedNode => {
+  const hasMedia =
+    select.exists('.media-preview', addedNode) ||
+    select.exists('[rel="mediaPreview"]', addedNode)
+
+  const notQuoted = !select.exists('.quoted-tweet', addedNode)
+  return hasMedia && notQuoted
+}
 
 const observerDetailReplies = replies => {
   /** @type {MutationObserverInit} */
