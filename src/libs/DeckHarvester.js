@@ -46,7 +46,7 @@ class DeckHarvester {
   createButton() {
     const wrapper = createElementFromHTML(`
       <li class="tweet-action-item pull-left margin-r--10">
-        <a class="tweet-action">
+        <a class="tweet-action deck-harvester">
           <i class="icon txt-center pull-left">
             ${downloadButtonSVG}
           </i>

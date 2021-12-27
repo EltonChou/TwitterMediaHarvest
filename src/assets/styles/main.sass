@@ -1,3 +1,5 @@
+$harvest-yellow: rgb(241, 185, 26)
+
 .harvester
   cursor: pointer
   -webkit-box-pack: start
@@ -28,7 +30,7 @@
 
 .statusColor, .streamColor
   // color: rgb(29, 161, 242)
-  color: rgb(241, 185, 26)
+  color: $harvest-yellow
 
 .photoBG
   &.hover
@@ -41,3 +43,26 @@
     background: rgba(241, 185, 26, 0.1)
   &.click
     background: rgba(241, 185, 26, 0.2)
+
+
+// tweetdeck
+.dark
+  .deck-harvester
+    svg
+      fill: #8899a6
+    &.hover
+      svg
+        fill: $harvest-yellow
+
+article
+  &:hover
+    .deck-harvester
+      svg
+        fill: #8899a6
+  .deck-harvester
+    svg
+      fill: #aab8c2
+    &:hover
+      svg
+        fill: $harvest-yellow
+
