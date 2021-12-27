@@ -68,6 +68,9 @@ const makeHarvester = article => {
       if (isTweetDeck()) {
         harvester = new DeckHarvester(article)
         deckActionInsert(actionBar, harvester.button)
+        if (isArticleInDetail(article)) {
+          actionBar.classList.add('deck-harvest-actions')
+        }
       }
 
       articleAppendedConfirm(article)
