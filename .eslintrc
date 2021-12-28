@@ -23,6 +23,7 @@
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
     "semi": ["error", "never"],
-    "eqeqeq": ["error", "always"]
+    "eqeqeq": ["error", "always"],
+    "no-console": "warn"
   }
 }

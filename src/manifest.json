@@ -3,7 +3,7 @@
   "name": "__MSG_appName__",
   "short_name": "Twitter Media Harvest",
   "description": "__MSG_appDesc__",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "minimum_chrome_version": "73",
   "default_locale": "en",
   "icons": {
@@ -34,7 +34,9 @@
         "http://twitter.com/*",
         "https://twitter.com/*",
         "http://mobile.twitter.com/*",
-        "https://mobile.twitter.com/*"
+        "https://mobile.twitter.com/*",
+        "http://tweetdeck.twitter.com/*",
+        "https://tweetdeck.twitter.com/*"
       ],
       "js": ["main.js"],
       "all_frames": true,
@@ -48,6 +50,8 @@
     "https://mobile.twitter.com/*",
     "http://api.twitter.com/*",
     "https://api.twitter.com/*",
+    "http://tweetdeck.twitter.com/*",
+    "https://tweetdeck.twitter.com/*",
     "activeTab",
     "downloads",
     "cookies",

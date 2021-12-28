@@ -6,6 +6,9 @@ const downloadState = Object.freeze({
   complete: 'complete',
 })
 
+export const isArticleInDetail = article =>
+  select.exists('.tweet-detail', article)
+
 /**
  * <article role="article" data-focusable="true" tabindex="0" class="css-1dbjc4n r-18u37iz r-1ny4l3l r-1udh08x r-1yt7n81 r-ry3cjt">
  *
@@ -92,7 +95,7 @@ export const articleHasMedia = article => {
  * @param {HTMLElement} article
  */
 export const isArticleCanBeAppend = article =>
-  article && !article.dataset.appended
+  article && !article.dataset.harvestAppended
 
 export const isStreamLoaded = () =>
   select.exists('[role="region"]') && select.exists('article')
@@ -115,3 +118,16 @@ export const isDownloadCompleted = ({ current, previous }) =>
  */
 export const isInvalidInfo = tweetInfo =>
   !tweetInfo.screenName.length || !tweetInfo.tweetId.length
+
+/**
+ * Check current page is in tweetdeck or not.
+ * @returns {boolean}
+ */
+export const isTweetDeck = () =>
+  window.location.host === 'tweetdeck.twitter.com'
+
+/**
+ * Check current page is in twitter or not.
+ * @returns {boolean}
+ */
+export const isTwitter = () => window.location.host === 'twitter.com'
