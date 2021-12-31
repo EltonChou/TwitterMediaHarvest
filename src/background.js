@@ -74,7 +74,7 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
 })
 
 chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
-  if (checkItemIsDownloadedBySelf(downloadItem)) {
+  if (downloadItem.byExtensionId === getExtensionId()) {
     fetchDownloadItemRecord(downloadItem.id).then(record => {
       const { config } = record
       suggest(config)
@@ -156,7 +156,7 @@ function mediasDownloader(tweetInfo) {
       const mediaFile = new TwitterMediaFile(tweetInfo, value, index)
       const config = mediaFile.makeDownloadConfigBySetting(setting, mode)
       const downloadRecorder = infoRecorder(config)
-
+      console.log('download')
       isPassToAria2
         ? chrome.runtime.sendMessage(ARIA2_ID, config)
         : chrome.downloads.download(config, downloadRecorder)
