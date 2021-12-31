@@ -156,7 +156,6 @@ function mediasDownloader(tweetInfo) {
       const mediaFile = new TwitterMediaFile(tweetInfo, value, index)
       const config = mediaFile.makeDownloadConfigBySetting(setting, mode)
       const downloadRecorder = infoRecorder(config)
-      console.log('download')
       isPassToAria2
         ? chrome.runtime.sendMessage(ARIA2_ID, config)
         : chrome.downloads.download(config, downloadRecorder)
