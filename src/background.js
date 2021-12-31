@@ -86,9 +86,7 @@ chrome.notifications.onButtonClicked.addListener(
     }
 
     if (buttonIndex === 1) {
-      const { info, config } = await fetchDownloadItemRecord(notifficationId)
-      const downloadRecorder = downloadItemRecorder(info)(config)
-      chrome.downloads.download(config, downloadRecorder)
+      retryDownload(notifficationId)
     }
 
     removeFromLocalStorage(notifficationId)
@@ -219,4 +217,10 @@ async function fetchErrorHandler(tweetInfo, reason) {
 
   await Statistics.addErrorCount()
   notify(tweetInfo, reason)
+}
+
+async function retryDownload(dawnloadItemId) {
+  const { info, config } = await fetchDownloadItemRecord(dawnloadItemId)
+  const downloadRecorder = downloadItemRecorder(info)(config)
+  chrome.downloads.download(config, downloadRecorder)
 }
