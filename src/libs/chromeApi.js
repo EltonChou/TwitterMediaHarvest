@@ -95,6 +95,7 @@ export const i18nLocalize = kw => chrome.i18n.getMessage(kw)
  * @param {string} path url path
  */
 export const getExtensionURL = path => chrome.runtime.getURL(path)
+export const getExtensionId = () => chrome.runtime.id
 
 export const fetchSyncStorage = storageFetcher(storageArea.sync)
 export const fetchLocalStorage = storageFetcher(storageArea.local)
