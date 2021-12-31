@@ -1,7 +1,11 @@
 import MediaTweet from './libs/MediaTweet'
 import TwitterMediaFile from './libs/TwitterMediaFile'
 import Statistics from './libs/Statistics'
-import { searchDownload, removeFromLocalStorage } from './libs/chromeApi'
+import {
+  searchDownload,
+  removeFromLocalStorage,
+  getExtensionId,
+} from './libs/chromeApi'
 import {
   initStorage,
   fetchFileNameSetting,
@@ -48,18 +52,16 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   const isDownloadedBySelf = await checkItemIsDownloadedBySelf(downloadDelta.id)
   if (!isDownloadedBySelf) return false
 
-  const isStateChanged = Object.prototype.hasOwnProperty.call(
-    downloadDelta,
-    'state'
-  )
+  const isStateChanged = 'state' in downloadDelta
 
-  if (isStateChanged) {
+  if (isStateChanged && isDownloadedBySelf) {
     const { id, endTime, state } = downloadDelta
     if (isDownloadInterrupted(state)) {
       const { info } = await fetchDownloadItemRecord(id)
-      const eventTime = endTime ? endTime.current : Date.now()
-      notifyDownloadFailed(info, id, eventTime)
+      const { current } = endTime
+      const eventTime = current || Date.now()
       await Statistics.addFailedDownloadCount()
+      notifyDownloadFailed(info, id, eventTime)
     }
 
     if (isDownloadCompleted(state)) {
@@ -172,11 +174,18 @@ function showUpdateMessageInConsole(previous) {
 /* eslint-enable no-console */
 
 async function checkItemIsDownloadedBySelf(downloadId) {
+  const runtimeId = getExtensionId()
   const query = {
     id: downloadId,
-    // filenameRegex: DEFAULT_DIRECTORY,
   }
   const result = await searchDownload(query)
+  result.filter(item => {
+    if ('byExtensionId' in item) {
+      return item['byExtensionId'] === runtimeId
+    }
+    return false
+  })
+
   return Boolean(result.length)
 }
 
