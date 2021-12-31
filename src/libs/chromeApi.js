@@ -56,7 +56,7 @@ const storageRemover = storageArea => removerKeys => {
 
 /**
  * @param {chrome.storage.StorageArea} storageArea
- * @returns { () => Promise<void> }
+ * @returns { Promise<void> }
  */
 const storageCleaner = storageArea => () => {
   return new Promise(resolve => {
@@ -69,13 +69,18 @@ const storageCleaner = storageArea => () => {
  *
  * @async
  * @param {Object} target
- * @returns {promise}
+ * @returns { Promise<chrome.cookies.Cookie }
  */
 export const fetchCookie = target =>
   new Promise(resolve => {
     chrome.cookies.get(target, cookie => resolve(cookie))
   })
 
+/**
+ *
+ * @param {chrome.downloads.DownloadQuery} query
+ * @returns { Promise<chrome.downloads.DownloadItem[]> }
+ */
 export const searchDownload = async query => {
   return new Promise(resolve => {
     chrome.downloads.search(query, items => resolve(items))
