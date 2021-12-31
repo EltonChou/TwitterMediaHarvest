@@ -57,7 +57,8 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
     const { id, endTime, state } = downloadDelta
     if (isDownloadInterrupted(state)) {
       const { info } = await fetchDownloadItemRecord(id)
-      notifyDownloadFailed(info, id, endTime.current)
+      const eventTime = endTime ? endTime.current : Date.now()
+      notifyDownloadFailed(info, id, eventTime)
       await Statistics.addFailedDownloadCount()
     }
 
