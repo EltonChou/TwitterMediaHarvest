@@ -73,6 +73,13 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   }
 })
 
+chrome.downloads.onDeterminingFilename.addListener(
+  async (downloadItem, suggest) => {
+    const { config } = await fetchDownloadItemRecord(downloadItem.id)
+    suggest(config)
+  }
+)
+
 chrome.notifications.onClosed.addListener(removeFromLocalStorage)
 chrome.notifications.onClicked.addListener(async notifficationId => {
   openFailedTweetInNewTab(notifficationId)
