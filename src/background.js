@@ -73,12 +73,15 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   }
 })
 
-chrome.downloads.onDeterminingFilename.addListener(
-  async (downloadItem, suggest) => {
-    const { config } = await fetchDownloadItemRecord(downloadItem.id)
-    suggest(config)
+chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
+  if (checkItemIsDownloadedBySelf(downloadItem)) {
+    fetchDownloadItemRecord(downloadItem.id).then(record => {
+      const { config } = record
+      suggest(config)
+    })
+    return true
   }
-)
+})
 
 chrome.notifications.onClosed.addListener(removeFromLocalStorage)
 chrome.notifications.onClicked.addListener(async notifficationId => {
