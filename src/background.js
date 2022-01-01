@@ -128,15 +128,15 @@ async function processRequest(request) {
 
   const ct0Value = await fetchTwitterCt0Cookie()
   const twitterMedia = new MediaTweet(tweetInfo.tweetId, ct0Value)
-  const downloadMedia = mediasDownloader(tweetInfo)
-  const downloadInfoRecorder = downloadItemRecorder(tweetInfo)
-
   let { mediaList, errorReason } = await twitterMedia.fetchMediaList()
 
   if (errorReason) {
     fetchErrorHandler(tweetInfo, errorReason)
     return false
   }
+
+  const downloadMedia = mediasDownloader(tweetInfo)
+  const downloadInfoRecorder = downloadItemRecorder(tweetInfo)
 
   downloadMedia(mediaList, downloadInfoRecorder)
 }
@@ -156,10 +156,11 @@ function mediasDownloader(tweetInfo) {
     for (const [index, value] of mediaList.entries()) {
       const mediaFile = new TwitterMediaFile(tweetInfo, value, index)
       const config = mediaFile.makeDownloadConfigBySetting(setting, mode)
-      const downloadRecorder = infoRecorder(config)
+
+      const downloadCallback = infoRecorder(config)
       isPassToAria2
         ? chrome.runtime.sendMessage(ARIA2_ID, config)
-        : chrome.downloads.download(config, downloadRecorder)
+        : chrome.downloads.download(config, downloadCallback)
     }
   }
 }
