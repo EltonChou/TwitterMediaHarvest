@@ -15,11 +15,8 @@ export default class MediaTweet {
     this.tweetAPIurl = `https://api.twitter.com/2/timeline/conversation/${tweetId}.json?tweet_mode=extended`
   }
 
-  /**
-   * @returns {Promise<[string[], fetchErrorReason]>}
-   */
   async fetchMediaList() {
-    let result = null
+    let mediaList = null
     let errorReason = null
 
     const mediaResponse = await fetch(this.tweetAPIurl, {
@@ -41,9 +38,7 @@ export default class MediaTweet {
 
     if (statusCode === 200) {
       const detail = await mediaResponse.json()
-      const mediaList = this.parseMedias(detail)
-
-      result = mediaList
+      mediaList = this.parseMedias(detail)
     }
     if (statusCode === 429) {
       reason.title = i18nLocalize('fetchFailedTooManyRequestsTitle')
@@ -52,7 +47,7 @@ export default class MediaTweet {
       errorReason = reason
     }
 
-    return [result, errorReason]
+    return { mediaList: mediaList, errorReason: errorReason }
   }
 
   /**
@@ -66,9 +61,10 @@ export default class MediaTweet {
     const [media] = medias
 
     const VIDEO_INFO = 'video_info'
-    const mediaList = Object.prototype.hasOwnProperty.call(media, VIDEO_INFO)
-      ? this.parseVideo(media[VIDEO_INFO])
-      : this.parseImage(medias)
+    const mediaList =
+      VIDEO_INFO in media
+        ? this.parseVideo(media[VIDEO_INFO])
+        : this.parseImage(medias)
 
     return mediaList
   }

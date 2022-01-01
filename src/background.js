@@ -111,12 +111,11 @@ chrome.browserAction.onClicked.addListener(openOptionsPage)
 /**
  * Trigger browser-download
  * @typedef {import('./libs/TwitterMediaFile').tweetInfo} tweetInfo
- * @param {tweetInfo} tweetInfo twitter information
  * @returns {void}
  */
 async function processRequest(request) {
   if (request.action !== ACTION.download) return false
-
+  /** @type tweetInfo */
   const tweetInfo = request.data
 
   /* eslint-disable no-console */
@@ -132,7 +131,7 @@ async function processRequest(request) {
   const downloadMedia = mediasDownloader(tweetInfo)
   const downloadInfoRecorder = downloadItemRecorder(tweetInfo)
 
-  let [mediaList, errorReason] = await twitterMedia.fetchMediaList()
+  let { mediaList, errorReason } = await twitterMedia.fetchMediaList()
 
   if (errorReason) {
     fetchErrorHandler(tweetInfo, errorReason)
