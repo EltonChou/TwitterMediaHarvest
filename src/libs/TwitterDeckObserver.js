@@ -10,7 +10,8 @@ import observeElement from '../utils/observer'
 const deckStreamHasMedia = addedNode => {
   const hasMedia =
     select.exists('.media-preview', addedNode) ||
-    select.exists('[rel="mediaPreview"]', addedNode)
+    select.exists('[rel="mediaPreview"]', addedNode) ||
+    select.exists('.media-preview-container', addedNode)
 
   const notQuoted = !select.exists('.quoted-tweet', addedNode)
   return hasMedia && notQuoted
