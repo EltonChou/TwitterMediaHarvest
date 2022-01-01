@@ -74,12 +74,15 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
 })
 
 chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
-  if (downloadItem.byExtensionId === getExtensionId()) {
-    fetchDownloadItemRecord(downloadItem.id).then(record => {
-      const { config } = record
-      suggest(config)
-    })
-    return true
+  const { byExtensionId } = downloadItem
+  if (byExtensionId) {
+    if (byExtensionId === getExtensionId()) {
+      fetchDownloadItemRecord(downloadItem.id).then(record => {
+        const { config } = record
+        suggest(config)
+      })
+      return true
+    }
   }
 })
 
