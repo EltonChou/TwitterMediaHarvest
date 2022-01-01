@@ -40,7 +40,7 @@
       ],
       "js": ["main.js"],
       "all_frames": true,
-      "run_at": "document_idle"
+      "run_at": "document_end"
     }
   ],
   "permissions": [
