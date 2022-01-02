@@ -1,6 +1,11 @@
 import { ACTION } from '../constants'
 
 /**
+ * @typedef {Object} tweetInfo
+ * @property {string} screenName
+ * @property {string} tweetId
+ */
+/**
  * Create HTMLElement from html string.
  *
  * @param {InnerHTML} htmlString A valid html.
@@ -15,7 +20,7 @@ export const createElementFromHTML = htmlString => {
 /**
  *
  * @param {HTMLElement} button
- * @param {import('./parser').tweetInfo} data
+ * @param {tweetInfo} data
  *
  * @returns {HTMLElement}
  */

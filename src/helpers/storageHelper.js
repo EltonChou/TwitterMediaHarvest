@@ -12,6 +12,11 @@ import {
 } from '../libs/chromeApi'
 
 /**
+ * @typedef {Object} tweetInfo
+ * @property {string} screenName
+ * @property {string} tweetId
+ */
+/**
  * Fetch settings
  *
  * @typedef patternSetting
@@ -98,7 +103,7 @@ export const fetchDownloadItemRecord = async downloadItemId => {
 }
 
 /**
- * @param {import('../utils/parser').tweetInfo} tweetInfo
+ * @param {tweetInfo} tweetInfo
  * @returns {(config) => (downloadId:number) => void}
  */
 export const downloadItemRecorder = tweetInfo => config => downloadId => {

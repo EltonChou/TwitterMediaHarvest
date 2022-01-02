@@ -1,5 +1,11 @@
 import { i18nLocalize, getExtensionURL } from '../libs/chromeApi'
 
+/**
+ * @typedef {Object} tweetInfo
+ * @property {string} screenName
+ * @property {string} tweetId
+ */
+
 const templateType = Object.freeze({
   basic: 'basic',
   image: 'image',
@@ -47,7 +53,7 @@ const makeDownloadErrorNotificationConfig = (tweetInfo, eventTime) => {
 }
 
 /**
- * @param {import('../utils/parser').tweetInfo} tweetInfo
+ * @param {tweetInfo} tweetInfo
  * @param {import('../libs/MediaTweet').fetchErrorReason} param1
  * @returns {chrome.notifications.NotificationOptions}
  */
@@ -99,7 +105,7 @@ export const notifyUnknownFetchError = (tweetInfo, reason) => {
 
 /**
  *
- * @param {import('../utils/parser').tweetInfo} tweetInfo
+ * @param {tweetInfo} tweetInfo
  * @param {number} downloadId
  * @param {number} downloadEndTime
  */
