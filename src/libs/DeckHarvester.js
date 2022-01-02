@@ -8,15 +8,12 @@ import downloadButtonSVG from '../assets/icons/twitter-download.svg'
 import { isArticleInDetail } from '../utils/checker'
 
 /**
- *
  * @param {HTMLElement} article
  */
-
 const fetchTweetId = article =>
   article.dataset.tweetId || select('.js-tweet-box').dataset.key
 
 /**
- *
  * @param {HTMLElement} article
  */
 const parseTweetInfo = article => {

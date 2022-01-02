@@ -190,7 +190,7 @@ async function checkItemIsDownloadedBySelf(downloadId) {
   const result = await searchDownload(query)
   result.filter(item => {
     if ('byExtensionId' in item) {
-      return item['byExtensionId'] === runtimeId
+      return item.byExtensionId === runtimeId
     }
     return false
   })
@@ -199,6 +199,7 @@ async function checkItemIsDownloadedBySelf(downloadId) {
 }
 
 async function openFailedTweetInNewTab(notifficationId) {
+  // notificationId is tweet's id
   //FIXME: notifficationID checker
   const isDownloadId = notifficationId.length < 10
   let tweetId
