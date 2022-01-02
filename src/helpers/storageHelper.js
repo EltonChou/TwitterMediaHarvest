@@ -11,13 +11,16 @@ import {
   fetchCookie,
 } from '../libs/chromeApi'
 
+export const statisticsKey = Object.freeze({
+  successDownloadCount: 'successDownloadCount',
+  failedDownloadCount: 'failedDownloadCount',
+  errorCount: 'errorCount',
+})
+
 /**
  * @typedef {Object} tweetInfo
  * @property {string} screenName
  * @property {string} tweetId
- */
-/**
- * Fetch settings
  *
  * @typedef patternSetting
  * @type {Object}

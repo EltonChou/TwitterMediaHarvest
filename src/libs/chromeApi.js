@@ -1,5 +1,3 @@
-//FIXME: this should be a helper
-
 /**
  * @type {Enumerator<chrome.storage.StorageArea>}
  */
@@ -77,6 +75,7 @@ export const fetchCookie = target =>
   })
 
 /**
+ * Search browser download history with query.
  *
  * @param {chrome.downloads.DownloadQuery} query
  * @returns { Promise<chrome.downloads.DownloadItem[]> }
