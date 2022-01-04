@@ -1,5 +1,11 @@
 $harvest-yellow: rgb(241, 185, 26)
 
+@keyframes spin
+  from
+    transform: rotate(0deg)
+  to
+    transform: rotate(360deg)
+
 .harvester
   cursor: pointer
   -webkit-box-pack: start
@@ -23,6 +29,11 @@ $harvest-yellow: rgb(241, 185, 26)
     // flex-grow: 0.4
     // padding-left: 0.85rem;
     // padding-right: 0.85rem;
+  &.downloading
+    svg
+      animation-name: spin
+      animation-duration: 500ms
+      animation-iteration-count: infinite
 
 .photoColor
   color: rgb(255, 255, 255)
@@ -79,4 +90,4 @@ article
       +hover-deck-harvester
 
 .tweet-detail-actions.deck-harvest-actions > li
-    width: 20% !important
+  width: 20% !important
