@@ -114,9 +114,15 @@ class Harvester {
     const bg = select(`.${mode}BG`, buttonWrapper)
     const ltr = select('[dir="ltr"]', buttonWrapper)
 
-    const toggleBG = () => {
-      bg.classList.toggle('hover')
-      ltr.classList.toggle(`${mode}Color`)
+    const hoverBG = () => {
+      bg.classList.add('hover')
+      ltr.classList.add(`${mode}Color`)
+      bg.classList.remove('click')
+    }
+
+    const hoverOutBG = () => {
+      bg.classList.remove('hover')
+      ltr.classList.remove(`${mode}Color`)
       bg.classList.remove('click')
     }
 
@@ -126,8 +132,8 @@ class Harvester {
       e.stopImmediatePropagation()
     }
 
-    buttonWrapper.addEventListener('mouseover', toggleBG)
-    buttonWrapper.addEventListener('mouseout', toggleBG)
+    buttonWrapper.addEventListener('mouseover', hoverBG)
+    buttonWrapper.addEventListener('mouseout', hoverOutBG)
     buttonWrapper.addEventListener('mouseup', clickBG)
     buttonWrapper.addEventListener('mousedown', clickBG)
 
