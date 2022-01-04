@@ -26,6 +26,12 @@ import {
 } from './utils/checker'
 import { ACTION, ARIA2_ID, DOWNLOAD_MODE } from './constants'
 
+/**
+ * @typedef {Object} tweetInfo
+ * @property {string} screenName
+ * @property {string} tweetId
+ */
+
 const installReason = Object.freeze({
   install: 'install',
   update: 'update',
@@ -53,10 +59,9 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendRespone) => {
     return false
   }
 
-  const downloadMedia = mediasDownloader(tweetInfo)
-  const downloadInfoRecorder = downloadItemRecorder(tweetInfo)
+  const mediaDownloader = MediaDownloader.build(tweetInfo)
 
-  downloadMedia(mediaList, downloadInfoRecorder)
+  mediaDownloader.downloadMedias(mediaList)
 })
 
 chrome.runtime.onInstalled.addListener(async details => {
@@ -127,25 +132,35 @@ chrome.notifications.onButtonClicked.addListener(
     removeFromLocalStorage(notifficationId)
   }
 )
-
 chrome.browserAction.onClicked.addListener(openOptionsPage)
 
-/**
- * @param {tweetInfo} tweetInfo
- * @returns {(mediaList: Array<string>, infoRecorder:) => Promise<void>}
- */
-function mediasDownloader(tweetInfo) {
-  return async (mediaList, infoRecorder) => {
-    const setting = await fetchFileNameSetting()
-    const isPassToAria2 = isEnableAria2()
-    const mode = isPassToAria2 ? DOWNLOAD_MODE.aria2 : DOWNLOAD_MODE.browser
+class MediaDownloader {
+  constructor(tweetInfo, fileNameSettings) {
+    this.tweetInfo = tweetInfo
+    this.fileNameSettings = fileNameSettings
+    this.isPassToAria2 = isEnableAria2()
+    this.mode = this.isPassToAria2 ? DOWNLOAD_MODE.aria2 : DOWNLOAD_MODE.browser
+    this.recorder = downloadItemRecorder(tweetInfo)
+  }
 
+  /**
+   * @param {tweetInfo} tweetInfo
+   */
+  static async build(tweetInfo) {
+    const fileNameSettings = await fetchFileNameSetting()
+    return new MediaDownloader(tweetInfo, fileNameSettings)
+  }
+
+  async downloadMedias(mediaList) {
     for (const [index, value] of mediaList.entries()) {
-      const mediaFile = new TwitterMediaFile(tweetInfo, value, index)
-      const config = mediaFile.makeDownloadConfigBySetting(setting, mode)
+      const mediaFile = new TwitterMediaFile(this.tweetInfo, value, index)
+      const config = mediaFile.makeDownloadConfigBySetting(
+        this.fileNameSettings,
+        this.mode
+      )
 
-      const downloadCallback = infoRecorder(config)
-      isPassToAria2
+      const downloadCallback = this.recorder(config)
+      this.isPassToAria2
         ? chrome.runtime.sendMessage(ARIA2_ID, config)
         : chrome.downloads.download(config, downloadCallback)
     }
