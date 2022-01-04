@@ -37,6 +37,7 @@ export const makeButtonWithData = (button, data) => {
  */
 export const makeButtonListener = button => {
   button.addEventListener('click', function (e) {
+    if (button.classList.contains('downloading')) return false
     e.stopImmediatePropagation()
     button.classList.add('downloading')
     chrome.runtime.sendMessage(
@@ -45,7 +46,6 @@ export const makeButtonListener = button => {
         data: this.dataset,
       },
       response => {
-        // TODO: swap svg content
         const { status } = response
         if (status === 'success') {
           button.classList.remove('downloading')
