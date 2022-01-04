@@ -1,4 +1,6 @@
+import select from 'select-dom'
 import { ACTION } from '../constants'
+import loading from '../assets/icons/loading.svg'
 
 /**
  * @typedef {Object} tweetInfo
