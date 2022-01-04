@@ -38,6 +38,7 @@ export const makeButtonWithData = (button, data) => {
 export const makeButtonListener = button => {
   button.addEventListener('click', function (e) {
     if (button.classList.contains('downloading')) return false
+    button.classList.remove('success', 'error')
     e.stopImmediatePropagation()
     button.classList.add('downloading')
     chrome.runtime.sendMessage(
