@@ -38,10 +38,26 @@ export const makeButtonWithData = (button, data) => {
 export const makeButtonListener = button => {
   button.addEventListener('click', function (e) {
     e.stopImmediatePropagation()
-    chrome.runtime.sendMessage({
-      action: ACTION.download,
-      data: this.dataset,
-    })
+    button.classList.add('downloading')
+    chrome.runtime.sendMessage(
+      {
+        action: ACTION.download,
+        data: this.dataset,
+      },
+      response => {
+        // TODO: swap svg content
+        const { status } = response
+        if (status === 'success') {
+          button.classList.remove('downloading')
+          button.classList.add('success')
+        }
+        if (status === 'error') {
+          button.classList.remove('downloading')
+          button.classList.add('error')
+        }
+        // return true
+      }
+    )
   })
 }
 
