@@ -47,12 +47,11 @@ export const makeButtonListener = button => {
       },
       response => {
         const { status } = response
+        button.classList.remove('downloading', 'success', 'error')
         if (status === 'success') {
-          button.classList.remove('downloading')
           button.classList.add('success')
         }
         if (status === 'error') {
-          button.classList.remove('downloading')
           button.classList.add('error')
         }
         // return true
