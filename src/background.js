@@ -38,8 +38,6 @@ const installReason = Object.freeze({
 })
 
 chrome.runtime.onMessage.addListener(async (message, sender, sendRespone) => {
-  console.log(message)
-  console.log(sender)
   if (message.action !== ACTION.download) return false
   /** @type tweetInfo */
   const tweetInfo = message.data
