@@ -12,6 +12,7 @@ import {
   downloadItemRecorder,
   fetchDownloadItemRecord,
   fetchTwitterCt0Cookie,
+  isEnableAria2,
 } from './helpers/storageHelper'
 import {
   notifyDownloadFailed,
@@ -23,19 +24,41 @@ import {
   isDownloadCompleted,
   isInvalidInfo,
 } from './utils/checker'
-import {
-  ACTION,
-  ARIA2_ID,
-  LOCAL_STORAGE_KEY_ARIA2,
-  DOWNLOAD_MODE,
-} from './constants'
+import { ACTION, ARIA2_ID, DOWNLOAD_MODE } from './constants'
 
 const installReason = Object.freeze({
   install: 'install',
   update: 'update',
 })
 
-chrome.runtime.onMessage.addListener(processRequest)
+chrome.runtime.onMessage.addListener(async (message, sender, sendRespone) => {
+  if (message.action !== ACTION.download) return false
+  /** @type tweetInfo */
+  const tweetInfo = message.data
+
+  /* eslint-disable no-console */
+  if (isInvalidInfo(tweetInfo)) {
+    console.Error('Invalid tweetInfo.')
+    await Statistics.addErrorCount()
+    return false
+  }
+  /* eslint-enable no-console */
+
+  const ct0Value = await fetchTwitterCt0Cookie()
+  const twitterMedia = new MediaTweet(tweetInfo.tweetId, ct0Value)
+  let { mediaList, errorReason } = await twitterMedia.fetchMediaList()
+
+  if (errorReason) {
+    fetchErrorHandler(tweetInfo, errorReason)
+    return false
+  }
+
+  const downloadMedia = mediasDownloader(tweetInfo)
+  const downloadInfoRecorder = downloadItemRecorder(tweetInfo)
+
+  downloadMedia(mediaList, downloadInfoRecorder)
+})
+
 chrome.runtime.onInstalled.addListener(async details => {
   const reason = details.reason
   const previousVersion = details.previousVersion
@@ -107,40 +130,6 @@ chrome.notifications.onButtonClicked.addListener(
 
 chrome.browserAction.onClicked.addListener(openOptionsPage)
 
-// FIXME: what a mess recorder
-/**
- * Trigger browser-download
- * @typedef {import('./libs/TwitterMediaFile').tweetInfo} tweetInfo
- * @returns {void}
- */
-async function processRequest(request) {
-  if (request.action !== ACTION.download) return false
-  /** @type tweetInfo */
-  const tweetInfo = request.data
-
-  /* eslint-disable no-console */
-  if (isInvalidInfo(tweetInfo)) {
-    console.Error('Invalid tweetInfo.')
-    await Statistics.addErrorCount()
-    return false
-  }
-  /* eslint-enable no-console */
-
-  const ct0Value = await fetchTwitterCt0Cookie()
-  const twitterMedia = new MediaTweet(tweetInfo.tweetId, ct0Value)
-  let { mediaList, errorReason } = await twitterMedia.fetchMediaList()
-
-  if (errorReason) {
-    fetchErrorHandler(tweetInfo, errorReason)
-    return false
-  }
-
-  const downloadMedia = mediasDownloader(tweetInfo)
-  const downloadInfoRecorder = downloadItemRecorder(tweetInfo)
-
-  downloadMedia(mediaList, downloadInfoRecorder)
-}
-
 /**
  * @param {tweetInfo} tweetInfo
  * @returns {(mediaList: Array<string>, infoRecorder:) => Promise<void>}
@@ -148,9 +137,7 @@ async function processRequest(request) {
 function mediasDownloader(tweetInfo) {
   return async (mediaList, infoRecorder) => {
     const setting = await fetchFileNameSetting()
-    const isPassToAria2 = JSON.parse(
-      localStorage.getItem(LOCAL_STORAGE_KEY_ARIA2)
-    )
+    const isPassToAria2 = isEnableAria2()
     const mode = isPassToAria2 ? DOWNLOAD_MODE.aria2 : DOWNLOAD_MODE.browser
 
     for (const [index, value] of mediaList.entries()) {

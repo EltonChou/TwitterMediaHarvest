@@ -1,6 +1,7 @@
 import {
   CHROME_STORAGE_DEFAULT_FILENAME_PATTERN_OBJECT_STRING,
   DEFAULT_DIRECTORY,
+  LOCAL_STORAGE_KEY_ARIA2,
 } from '../constants'
 import {
   fetchSyncStorage,
@@ -35,7 +36,7 @@ export const statisticsKey = Object.freeze({
  *
  */
 /**
- * @returns {fileNameSetting}
+ * @returns { Promise<fileNameSetting> }
  */
 export const fetchFileNameSetting = async () => {
   const setting = await fetchSyncStorage([
@@ -143,4 +144,9 @@ export const fetchTwitterCt0Cookie = async () => {
   })
 
   return value
+}
+
+export const isEnableAria2 = () => {
+  const aria2Flag = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_ARIA2))
+  return Boolean(aria2Flag)
 }
