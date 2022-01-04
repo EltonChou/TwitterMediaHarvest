@@ -37,8 +37,7 @@ const installReason = Object.freeze({
   update: 'update',
 })
 
-chrome.runtime.onMessage.addListener(async (message, sender, sendRespone) => {
-  if (message.action !== ACTION.download) return false
+const processDownloadAction = async message => {
   /** @type tweetInfo */
   const tweetInfo = message.data
 
@@ -61,7 +60,19 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendRespone) => {
 
   const mediaDownloader = await MediaDownloader.build(tweetInfo)
 
-  mediaDownloader.downloadMedias(mediaList)
+  await mediaDownloader.downloadMedias(mediaList)
+}
+
+chrome.runtime.onMessage.addListener((message, sender, sendRespone) => {
+  if (message.action !== ACTION.download) {
+    return false
+  }
+
+  processDownloadAction(message)
+    .then(() => sendRespone({ status: 'success' }))
+    .catch(() => sendRespone({ status: 'error' }))
+
+  return true // keep message channel open
 })
 
 chrome.runtime.onInstalled.addListener(async details => {
