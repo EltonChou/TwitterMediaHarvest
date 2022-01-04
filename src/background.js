@@ -55,7 +55,7 @@ const processDownloadAction = async message => {
 
   if (errorReason) {
     fetchErrorHandler(tweetInfo, errorReason)
-    return false
+    throw Error(`Fetching mediaList failed. ${errorReason.status}`)
   }
 
   const mediaDownloader = await MediaDownloader.build(tweetInfo)
