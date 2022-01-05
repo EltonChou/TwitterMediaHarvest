@@ -37,8 +37,7 @@ const installReason = Object.freeze({
   update: 'update',
 })
 
-chrome.runtime.onMessage.addListener(async (message, sender, sendRespone) => {
-  if (message.action !== ACTION.download) return false
+const processDownloadAction = async message => {
   /** @type tweetInfo */
   const tweetInfo = message.data
 
@@ -56,12 +55,24 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendRespone) => {
 
   if (errorReason) {
     fetchErrorHandler(tweetInfo, errorReason)
-    return false
+    throw Error(`Fetching mediaList failed. ${errorReason.status}`)
   }
 
   const mediaDownloader = await MediaDownloader.build(tweetInfo)
 
-  mediaDownloader.downloadMedias(mediaList)
+  await mediaDownloader.downloadMedias(mediaList)
+}
+
+chrome.runtime.onMessage.addListener((message, sender, sendRespone) => {
+  if (message.action !== ACTION.download) {
+    return false
+  }
+
+  processDownloadAction(message)
+    .then(() => sendRespone({ status: 'success' }))
+    .catch(() => sendRespone({ status: 'error' }))
+
+  return true // keep message channel open
 })
 
 chrome.runtime.onInstalled.addListener(async details => {
@@ -83,10 +94,16 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   const isStateChanged = 'state' in downloadDelta
 
   if (isStateChanged && isDownloadedBySelf) {
-    const { id, endTime, state } = downloadDelta
+    const { id, endTime, state, error } = downloadDelta
     if (isDownloadInterrupted(state)) {
       const { info } = await fetchDownloadItemRecord(id)
-      const eventTime = 'current' in endTime ? endTime.current : Date.now()
+      let eventTime
+      if (!error) {
+        eventTime = 'current' in endTime ? endTime.current : Date.now()
+      }
+      if (error) {
+        eventTime = Date.now()
+      }
       await Statistics.addFailedDownloadCount()
       notifyDownloadFailed(info, id, eventTime)
     }

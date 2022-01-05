@@ -37,11 +37,27 @@ export const makeButtonWithData = (button, data) => {
  */
 export const makeButtonListener = button => {
   button.addEventListener('click', function (e) {
+    if (button.classList.contains('downloading')) return false
+    button.classList.remove('success', 'error')
     e.stopImmediatePropagation()
-    chrome.runtime.sendMessage({
-      action: ACTION.download,
-      data: this.dataset,
-    })
+    button.classList.add('downloading')
+    chrome.runtime.sendMessage(
+      {
+        action: ACTION.download,
+        data: this.dataset,
+      },
+      response => {
+        const { status } = response
+        button.classList.remove('downloading', 'success', 'error')
+        if (status === 'success') {
+          button.classList.add('success')
+        }
+        if (status === 'error') {
+          button.classList.add('error')
+        }
+        // return true
+      }
+    )
   })
 }
 
