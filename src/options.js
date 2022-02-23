@@ -1,9 +1,10 @@
 import select from 'select-dom'
 import sanitize from 'sanitize-filename'
-import { setSyncStorage, i18nLocalize } from './libs/chromeApi'
+import { setSyncStorage, i18nLocalize, setLocalStorage } from './libs/chromeApi'
 import {
   fetchFileNameSetting,
   getStatisticsCount,
+  isEnableAria2,
 } from './helpers/storageHelper'
 import { LOCAL_STORAGE_KEY_ARIA2, ACTION } from './constants'
 
@@ -42,7 +43,7 @@ const initializeForm = async () => {
     disableDirectoryInput()
   }
   accountCheckBox.checked = setting.filename_pattern.account
-  aria2Control.checked = JSON.parse(localStorage.getItem('enableAria2'))
+  aria2Control.checked = await isEnableAria2()
   const options = select.all('option')
   for (const option of options) {
     option.selected = option.value === setting.filename_pattern.serial
@@ -117,7 +118,9 @@ directoryInput.addEventListener('input', function () {
 settingsForm.addEventListener('submit', async function (e) {
   e.preventDefault()
 
-  localStorage.setItem(LOCAL_STORAGE_KEY_ARIA2, aria2Control.checked)
+  const aria2Config = {}
+  aria2Config[LOCAL_STORAGE_KEY_ARIA2] = aria2Control.ariaChecked
+  await setLocalStorage(aria2Config)
 
   const dirResult = await setSyncStorage(
     Object.fromEntries([
