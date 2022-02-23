@@ -66,9 +66,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendRespone) => {
   if (message.action === ACTION.download) {
     processDownloadAction(message)
       .then(() => sendRespone({ status: 'success' }))
-      .catch(reason => {
-        sendRespone({ status: 'error', reason: reason })
-      })
+      .catch(() => sendRespone({ status: 'error' }))
 
     return true // keep message channel open
   }
