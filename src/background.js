@@ -49,7 +49,7 @@ const processDownloadAction = async message => {
     return false
   }
   /* eslint-enable no-console */
-
+  const mediaDownloader = await MediaDownloader.build(tweetInfo)
   const ct0Value = await fetchTwitterCt0Cookie()
   const twitterMedia = new MediaTweet(tweetInfo.tweetId, ct0Value)
   let { mediaList, errorReason } = await twitterMedia.fetchMediaList()
@@ -59,23 +59,19 @@ const processDownloadAction = async message => {
     throw Error(`Fetching mediaList failed. ${errorReason.status}`)
   }
 
-  const mediaDownloader = await MediaDownloader.build(tweetInfo)
-
-  await mediaDownloader.downloadMedias(mediaList)
+  mediaDownloader.downloadMedias(mediaList)
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendRespone) => {
-  if (message.action !== ACTION.download) {
-    return false
+  if (message.action === ACTION.download) {
+    processDownloadAction(message)
+      .then(() => sendRespone({ status: 'success' }))
+      .catch(reason => {
+        sendRespone({ status: 'error', reason: reason })
+      })
+
+    return true // keep message channel open
   }
-
-  processDownloadAction(message)
-    .then(() => sendRespone({ status: 'success' }))
-    .catch(reason => {
-      sendRespone({ status: 'error', reason: reason })
-    })
-
-  return true // keep message channel open
 })
 
 chrome.runtime.onInstalled.addListener(async details => {
@@ -156,10 +152,10 @@ chrome.notifications.onButtonClicked.addListener(
 chrome.action.onClicked.addListener(openOptionsPage)
 
 class MediaDownloader {
-  constructor(tweetInfo, fileNameSettings) {
+  constructor(tweetInfo, fileNameSettings, isPassToAria2) {
     this.tweetInfo = tweetInfo
     this.fileNameSettings = fileNameSettings
-    this.isPassToAria2 = isEnableAria2()
+    this.isPassToAria2 = isPassToAria2
     this.mode = this.isPassToAria2 ? DOWNLOAD_MODE.aria2 : DOWNLOAD_MODE.browser
     this.recorder = downloadItemRecorder(tweetInfo)
   }
@@ -169,10 +165,11 @@ class MediaDownloader {
    */
   static async build(tweetInfo) {
     const fileNameSettings = await fetchFileNameSetting()
-    return new MediaDownloader(tweetInfo, fileNameSettings)
+    const isPassToAria2 = await isEnableAria2()
+    return new MediaDownloader(tweetInfo, fileNameSettings, isPassToAria2)
   }
 
-  async downloadMedias(mediaList) {
+  downloadMedias(mediaList) {
     for (const [index, value] of mediaList.entries()) {
       const mediaFile = new TwitterMediaFile(this.tweetInfo, value, index)
       const config = mediaFile.makeDownloadConfigBySetting(
