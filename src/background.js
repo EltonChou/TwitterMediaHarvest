@@ -70,7 +70,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendRespone) => {
 
   processDownloadAction(message)
     .then(() => sendRespone({ status: 'success' }))
-    .catch(() => sendRespone({ status: 'error' }))
+    .catch(reason => {
+      sendRespone({ status: 'error', reason: reason })
+    })
 
   return true // keep message channel open
 })
@@ -149,7 +151,7 @@ chrome.notifications.onButtonClicked.addListener(
     removeFromLocalStorage(notifficationId)
   }
 )
-chrome.browserAction.onClicked.addListener(openOptionsPage)
+chrome.action.onClicked.addListener(openOptionsPage)
 
 class MediaDownloader {
   constructor(tweetInfo, fileNameSettings) {

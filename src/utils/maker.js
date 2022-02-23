@@ -47,12 +47,13 @@ export const makeButtonListener = button => {
         data: this.dataset,
       },
       response => {
-        const { status } = response
+        const { status, reason } = response
         button.classList.remove('downloading', 'success', 'error')
         if (status === 'success') {
           button.classList.add('success')
         }
         if (status === 'error') {
+          console.log(reason)
           button.classList.add('error')
         }
         // return true
