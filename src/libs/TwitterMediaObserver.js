@@ -28,9 +28,8 @@ export default class TwitterMediaObserver {
      * @type {MutationCallback}
      */
     const rootMutationCallback = (_, observer) => {
-      const isLoaded = isStreamLoaded()
-      if (isLoaded) {
-        this.initialize()
+      this.initialize()
+      if (isStreamLoaded()) {
         this.observeTitle()
         this.observeModal()
         this.observeStream()
