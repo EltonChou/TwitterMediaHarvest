@@ -13,6 +13,7 @@ import {
   fetchDownloadItemRecord,
   fetchTwitterCt0Cookie,
   isEnableAria2,
+  migrateStorage,
 } from './helpers/storageHelper'
 import {
   notifyDownloadFailed,
@@ -84,6 +85,7 @@ chrome.runtime.onInstalled.addListener(async details => {
   if (reason === installReason.install) await initStorage()
   if (reason === installReason.update) {
     showUpdateMessageInConsole(previousVersion)
+    await migrateStorage()
   }
 
   openOptionsPage()
