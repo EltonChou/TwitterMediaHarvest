@@ -6,11 +6,13 @@ import {
 import {
   fetchSyncStorage,
   setSyncStorage,
-  clearSyncStorage,
   fetchLocalStorage,
   setLocalStorage,
   fetchCookie,
+  clearLocalStorage,
 } from '../libs/chromeApi'
+
+import Statistics from '../libs/Statistics'
 
 export const statisticsKey = Object.freeze({
   successDownloadCount: 'successDownloadCount',
@@ -51,31 +53,29 @@ export const fetchFileNameSetting = async () => {
 
 /* eslint-disable no-console */
 /**
- * Migrate storer from 1.1.6
+ * Migrate storage to 3.0.0
  */
 export const migrateStorage = async () => {
   console.groupCollapsed('Migration')
   console.info('Fetching old data...')
-  const { directory, needAccount } = await fetchSyncStorage([
-    'directory',
-    'needAccount',
-  ])
+  const { aria2Flag } = await fetchLocalStorage([LOCAL_STORAGE_KEY_ARIA2])
+  const initData = {}
+  initData[LOCAL_STORAGE_KEY_ARIA2] = Boolean(aria2Flag)
+  initData[statisticsKey.errorCount] = await Statistics.getErrorCount()
+  initData[statisticsKey.failedDownloadCount] =
+    await Statistics.getFailedDownloadCount()
+  initData[statisticsKey.successDownloadCount] =
+    await Statistics.getSuccessDownloadCount()
 
   console.info('Migrating...')
-  const filename_pattern = {
-    account: typeof needAccount === Boolean ? needAccount : true,
-    serial: 'file_name',
-  }
-
   console.info('Clear old data.')
-  await clearSyncStorage()
+  await clearLocalStorage()
 
-  const dirResult = await setSyncStorage({ directory: directory })
-  const fpResult = await setSyncStorage({
-    filename_pattern: JSON.stringify(filename_pattern),
-  })
+  console.info('Filling data...')
+  const result = setLocalStorage(initData)
   console.info('Done.')
-  console.table({ ...dirResult, ...fpResult })
+
+  console.table({ ...result })
   console.groupEnd()
   console.warn(
     'The default serial of filename would be changed into order of the file in next version.'
@@ -92,6 +92,9 @@ export const initStorage = async () => {
     directory: DEFAULT_DIRECTORY,
     filename_pattern: CHROME_STORAGE_DEFAULT_FILENAME_PATTERN_OBJECT_STRING,
   })
+  const initLocalData = {}
+  initLocalData[LOCAL_STORAGE_KEY_ARIA2] = false
+  await setLocalStorage(initLocalData)
   console.info('Done.')
   console.table(result)
   console.groupEnd()
@@ -146,7 +149,7 @@ export const fetchTwitterCt0Cookie = async () => {
   return value
 }
 
-export const isEnableAria2 = () => {
-  const aria2Flag = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_ARIA2))
+export const isEnableAria2 = async () => {
+  const { aria2Flag } = await fetchLocalStorage(LOCAL_STORAGE_KEY_ARIA2)
   return Boolean(aria2Flag)
 }
