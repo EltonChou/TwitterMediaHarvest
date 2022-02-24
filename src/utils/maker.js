@@ -36,11 +36,11 @@ export const makeButtonWithData = (button, data) => {
  * @returns {HTMLElement} button
  */
 export const makeButtonListener = button => {
-  button.addEventListener('click', function (e) {
-    if (button.classList.contains('downloading')) return false
-    button.classList.remove('success', 'error')
+  button.addEventListener('click', async function (e) {
+    if (this.classList.contains('downloading')) return false
+    this.classList.remove('success', 'error')
     e.stopImmediatePropagation()
-    button.classList.add('downloading')
+    this.classList.add('downloading')
     chrome.runtime.sendMessage(
       {
         action: ACTION.download,
@@ -48,14 +48,8 @@ export const makeButtonListener = button => {
       },
       response => {
         const { status } = response
-        button.classList.remove('downloading', 'success', 'error')
-        if (status === 'success') {
-          button.classList.add('success')
-        }
-        if (status === 'error') {
-          button.classList.add('error')
-        }
-        // return true
+        this.classList.remove('downloading', 'success', 'error')
+        this.classList.add(status)
       }
     )
   })
