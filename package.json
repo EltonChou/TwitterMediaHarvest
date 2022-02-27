@@ -38,10 +38,10 @@
   },
   "scripts": {
     "test": "jest --env=node",
-    "build": "webpack --progress --color -c webpack.config.js",
-    "build-dev": "webpack --progress --color -c webpack.config.dev.js",
-    "build-win": "webpack --progress --color -c webpack.config.js && powershell Compress-Archive -Update build/ media_harvest.zip",
-    "watch": "webpack --watch --progress --color -c webpack.config.dev.js"
+    "build": "webpack --progress --color",
+    "build-dev": "webpack --mode development --progress --color",
+    "build-win": "webpack --progress --color && powershell Compress-Archive -Force build/ media_harvest.zip",
+    "watch": "webpack --mode development --watch --progress --color"
   },
   "jest": {
     "verbose": true,

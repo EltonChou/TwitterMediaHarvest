@@ -1,7 +1,7 @@
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
 
-module.exports = {
+const config = {
   mode: 'production',
   stats: 'errors-only',
   resolve: {
@@ -18,6 +18,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.join(__dirname, 'build'),
+    clean: true,
   },
   module: {
     rules: [
@@ -27,12 +28,11 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /(node_modules|bower_componemts)/,
+        exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-transform-runtime'],
           },
         },
       },
@@ -83,4 +83,14 @@ module.exports = {
       ],
     }),
   ],
+}
+
+module.exports = (env, argv) => {
+  if (argv.mode === 'development') {
+    config.mode = 'development'
+    config.optimization.minimize = false
+    config.stats = 'errors-warnings'
+    config.devtool = 'inline-source-map'
+  }
+  return config
 }
