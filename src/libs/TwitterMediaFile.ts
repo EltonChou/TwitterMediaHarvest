@@ -3,27 +3,23 @@ import {
   makeBrowserDownloadConfig,
   makeAria2DownloadConfig,
 } from '../utils/maker'
-import { DOWNLOAD_MODE } from '../constants'
+import {
+  TweetInfo,
+  FilenameSetting,
+  DownloadMode,
+  Aria2DownloadOption,
+} from '../typings'
 
-/**
- * Tweet information
- *
- * @typedef tweetInfo
- * @type {Object}
- * @property {String} screenName
- * @property {String} tweetId
- */
-/**
- * @class TwitterMediaFile
- */
 export default class TwitterMediaFile {
-  /**
-   * @constructor
-   * @param {tweetInfo} tweetInfo
-   * @param {string} url
-   * @param {number} index
-   */
-  constructor(tweetInfo, url, index = 0) {
+  public screenName: string
+  public tweetId: string
+  public url: string
+  public src: string
+  public ext: string
+  public name: string
+  public order: string
+
+  constructor(tweetInfo: TweetInfo, url: string, index: number = 0) {
     this.screenName = tweetInfo.screenName
     this.tweetId = tweetInfo.tweetId
     this.url = cleanUrl(url)
@@ -33,11 +29,7 @@ export default class TwitterMediaFile {
     this.order = String(index + 1)
   }
 
-  /**
-   * @typedef {import('../helpers/storageHelper').fileNameSetting} fileNameSetting
-   * @param {fileNameSetting} setting
-   */
-  makeFileNameBySetting(setting) {
+  makeFileNameBySetting(setting: FilenameSetting) {
     const root = setting.no_subdirectory ? '' : setting.directory.concat('/')
 
     const accountPart = setting.filename_pattern.account
@@ -64,18 +56,14 @@ export default class TwitterMediaFile {
     return fullPath
   }
 
-  getSrc() {
-    return this.src
-  }
-
   /**
    * Create download config
-   *
-   * @param {fileNameSetting} setting
-   * @param {'browser'|'aria2'} mode
    */
-  makeDownloadConfigBySetting(setting, mode = DOWNLOAD_MODE.browser) {
-    const url = this.getSrc()
+  makeDownloadConfigBySetting(
+    setting: FilenameSetting,
+    mode: DownloadMode = DownloadMode.Browser
+  ): chrome.downloads.DownloadOptions | Aria2DownloadOption {
+    const url = this.src
     const fileName = this.makeFileNameBySetting(setting)
     const tweetReferer = `https://twitter.com/i/web/status/${this.tweetId}`
     const configMaker = selectConfigMakerByMode(mode)
@@ -87,11 +75,8 @@ export default class TwitterMediaFile {
 
 /**
  * Make original quality source of tweet media from media url
- *
- * @param {String} url
- * @returns {String}
  */
-function makeOrigSrc(url) {
+function makeOrigSrc(url: string): string {
   if (path.extname(url) === '.mp4') return url
 
   // const ext = path.extname(url).split('.')[1]
@@ -103,23 +88,17 @@ function makeOrigSrc(url) {
 
 /**
  * Clean all searchParams
- *
- * @param {String} url
- * @returns {String}
  */
-function cleanUrl(url) {
+function cleanUrl(url: string): string {
   const theUrl = new URL(url)
   theUrl.searchParams.delete('tag')
 
   return theUrl.href
 }
 
-/**
- * @param {'aria2' | 'browser'} modeName
- */
-function selectConfigMakerByMode(modeName) {
-  if (modeName === DOWNLOAD_MODE.aria2) return makeAria2DownloadConfig
-  if (modeName === DOWNLOAD_MODE.browser) return makeBrowserDownloadConfig
+function selectConfigMakerByMode(modeName: DownloadMode) {
+  if (modeName === DownloadMode.Aria2) return makeAria2DownloadConfig
+  if (modeName === DownloadMode.Browser) return makeBrowserDownloadConfig
 }
 
 export { TwitterMediaFile, makeOrigSrc }
