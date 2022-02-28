@@ -1,10 +1,5 @@
 import { i18nLocalize, getExtensionURL } from '../libs/chromeApi'
-
-/**
- * @typedef {Object} tweetInfo
- * @property {string} screenName
- * @property {string} tweetId
- */
+import { FetchErrorReason, TweetInfo } from '../typings'
 
 const templateType = Object.freeze({
   basic: 'basic',
@@ -13,29 +8,22 @@ const templateType = Object.freeze({
   progress: 'progress',
 })
 
-/**
- * @returns {chrome.notifications.ButtonOptions}
- */
-const viewTwitterButton = () => {
+const viewTwitterButton = (): chrome.notifications.ButtonOptions => {
   return {
     title: i18nLocalize('notificationDLFailedButton1'),
   }
 }
 
-/**
- * @returns {chrome.notifications.ButtonOptions}
- */
-const retryDownloadButton = () => {
+const retryDownloadButton = (): chrome.notifications.ButtonOptions => {
   return {
     title: i18nLocalize('notificationDLFailedButton2'),
   }
 }
 
-/**
- * @returns {chrome.notifications.NotificationOptions}
- */
-const makeDownloadErrorNotificationConfig = (tweetInfo, eventTime) => {
-  if (typeof eventTime === 'string') eventTime = Date.parse(eventTime)
+const makeDownloadErrorNotificationConfig = (
+  tweetInfo: TweetInfo,
+  eventTime: number
+): chrome.notifications.NotificationOptions => {
   const prevMsg = i18nLocalize('notificationDLFailedMessageFirst')
   const lastMsg = i18nLocalize('notificationDLFailedMessageLast')
   const message = `${prevMsg}${tweetInfo.screenName}(${tweetInfo.tweetId})${lastMsg}`
@@ -52,15 +40,10 @@ const makeDownloadErrorNotificationConfig = (tweetInfo, eventTime) => {
   }
 }
 
-/**
- * @param {tweetInfo} tweetInfo
- * @param {import('../libs/MediaTweet').fetchErrorReason} param1
- * @returns {chrome.notifications.NotificationOptions}
- */
 const makeTooManyRequestsNotificationConfig = (
-  tweetInfo,
-  { title, message }
-) => {
+  tweetInfo: TweetInfo,
+  { title, message }: FetchErrorReason
+): chrome.notifications.NotificationOptions => {
   const prevMsg = i18nLocalize('notificationDLFailedMessageFirst')
   const lastMsg = i18nLocalize('notificationDLFailedMessageLast')
   const info = `${prevMsg}${tweetInfo.screenName}(${tweetInfo.tweetId})${lastMsg} ${message}`
@@ -78,7 +61,10 @@ const makeTooManyRequestsNotificationConfig = (
   }
 }
 
-const makeUnknownFetchErrorNotificationConfig = ({ title, message }) => {
+const makeUnknownFetchErrorNotificationConfig = ({
+  title,
+  message,
+}: FetchErrorReason): chrome.notifications.NotificationOptions => {
   return {
     type: templateType.basic,
     iconUrl: getExtensionURL('assets/icons/icon128.png'),
@@ -91,31 +77,33 @@ const makeUnknownFetchErrorNotificationConfig = ({ title, message }) => {
   }
 }
 
-export const notifyMediaListFetchError = (tweetInfo, reason) => {
+export const notifyMediaListFetchError = (
+  tweetInfo: TweetInfo,
+  reason: FetchErrorReason
+) => {
   const notiConf = makeTooManyRequestsNotificationConfig(tweetInfo, reason)
 
   chrome.notifications.create(tweetInfo.tweetId, notiConf)
 }
 
-export const notifyUnknownFetchError = (tweetInfo, reason) => {
+export const notifyUnknownFetchError = (
+  tweetInfo: TweetInfo,
+  reason: FetchErrorReason
+) => {
   const notiConf = makeUnknownFetchErrorNotificationConfig(reason)
 
   chrome.notifications.create(tweetInfo.tweetId, notiConf)
 }
 
-/**
- *
- * @param {tweetInfo} tweetInfo
- * @param {number} downloadId
- * @param {number} downloadEndTime
- */
 export const notifyDownloadFailed = (
-  tweetInfo,
-  downloadId,
-  downloadEndTime
+  tweetInfo: TweetInfo,
+  downloadId: number,
+  downloadEndTime: number
 ) => {
-  const eventTime = Date.parse(downloadEndTime)
-  const notiConf = makeDownloadErrorNotificationConfig(tweetInfo, eventTime)
+  const notiConf = makeDownloadErrorNotificationConfig(
+    tweetInfo,
+    downloadEndTime
+  )
 
   chrome.notifications.create(String(downloadId), notiConf)
 }
