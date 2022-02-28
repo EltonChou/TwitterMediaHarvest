@@ -6,17 +6,12 @@ import {
 } from '../utils/maker'
 import downloadButtonSVG from '../assets/icons/twitter-download.svg'
 import { isArticleInDetail } from '../utils/checker'
+import { TweetInfo } from '../typings'
 
-/**
- * @param {HTMLElement} article
- */
-const fetchTweetId = article =>
+const fetchTweetId = (article: HTMLElement) =>
   article.dataset.tweetId || select('.js-tweet-box').dataset.key
 
-/**
- * @param {HTMLElement} article
- */
-const parseTweetInfo = article => {
+const parseTweetInfo = (article: HTMLElement): TweetInfo => {
   const screenNamePattern = /^@(.*)/
   const screenNameEle = select('.username', article)
   const screenName = screenNameEle.textContent.match(screenNamePattern)[1]
@@ -29,7 +24,10 @@ const parseTweetInfo = article => {
 }
 
 class DeckHarvester {
-  constructor(article) {
+  public info: TweetInfo
+  public isInDetail: boolean
+
+  constructor(article: HTMLElement) {
     this.info = parseTweetInfo(article)
     this.isInDetail = isArticleInDetail(article)
   }
@@ -37,8 +35,8 @@ class DeckHarvester {
   get button() {
     const button = this.createButton()
 
-    makeButtonWithData(button, this.info)
-    makeButtonListener(button)
+    makeButtonWithData(button as HTMLElement, this.info)
+    makeButtonListener(button as HTMLElement)
 
     return button
   }

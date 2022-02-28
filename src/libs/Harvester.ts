@@ -10,6 +10,7 @@ import {
   makeButtonWithData,
   makeButtonListener,
 } from '../utils/maker'
+import { TweetInfo, TweetMode } from '../typings'
 
 const featureRegEx = Object.freeze({
   id: /(?:status\/)(\d+)/,
@@ -20,7 +21,7 @@ const featureRegEx = Object.freeze({
 /**
  * @param {HTMLElement} article
  */
-const parseScreeNameFromUserAccount = article => {
+const parseScreeNameFromUserAccount = (article: HTMLElement) => {
   const userAccount = select(
     '[role="link"] > div[id*="id__"] [dir="ltr"]',
     article
@@ -31,18 +32,12 @@ const parseScreeNameFromUserAccount = article => {
 }
 
 /**
- * @typedef {Object} tweetInfo
- * @property {string} screenName
- * @property {string} tweetId
- */
-/**
  * Generate tweet information.
  *
- * @param {HTMLElement} article A valid tweet element.
- * @returns {tweetInfo}
+ * @param article A valid tweet element.
  */
 // FIXME: some tweet will cause null time error
-export const parseTweetInfo = article => {
+export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
   let magicLink =
     isArticlePhotoMode(article) || isArticleInStatus(article)
       ? window.location.pathname
@@ -50,7 +45,7 @@ export const parseTweetInfo = article => {
 
   const time = select('time', article)
   if (!magicLink) {
-    magicLink = time.parentNode.getAttribute('href')
+    magicLink = time.parentElement.getAttribute('href')
   }
 
   const tweetId = magicLink.match(featureRegEx.id)[1]
@@ -66,7 +61,12 @@ export const parseTweetInfo = article => {
 }
 
 class Harvester {
-  constructor(article) {
+  public mode: TweetMode
+  public info: TweetInfo
+  private ltrStyle: string
+  private svgStyle: string
+
+  constructor(article: HTMLElement) {
     this.mode = checkModeOfArticle(article)
     this.info = parseTweetInfo(article)
 
@@ -78,8 +78,8 @@ class Harvester {
   get button() {
     const button = this.createButtonByMode()
 
-    makeButtonWithData(button, this.info)
-    makeButtonListener(button)
+    makeButtonWithData(button as HTMLElement, this.info)
+    makeButtonListener(button as HTMLElement)
 
     return button
   }
@@ -88,7 +88,6 @@ class Harvester {
    * FIXME: WTF is this shit.
    *
    * FIXME: Need to use different style in `stream`, `status`, `photo`
-   * @returns {HTMLElement} Harvester
    */
   createButtonByMode() {
     const mode = this.mode
@@ -126,7 +125,7 @@ class Harvester {
       bg.classList.remove('click')
     }
 
-    const clickBG = e => {
+    const clickBG = (e: MouseEvent) => {
       bg.classList.toggle('click')
       ltr.classList.toggle('click')
       e.stopImmediatePropagation()
@@ -140,10 +139,7 @@ class Harvester {
     return buttonWrapper
   }
 
-  /**
-   * @param {HTMLElement} article
-   */
-  static swapData(article) {
+  static swapData(article: HTMLElement) {
     const info = parseTweetInfo(article)
     const havestButton = select('.harvester', article)
     makeButtonWithData(havestButton, info)
