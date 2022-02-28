@@ -5,14 +5,15 @@ const config = {
   mode: 'production',
   stats: 'errors-only',
   resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
     fallback: { path: require.resolve('path-browserify') },
   },
   optimization: {
     minimize: true,
   },
   entry: {
-    main: path.resolve('./src/main.js'),
-    background: path.resolve('./src/background.js'),
+    main: path.resolve('./src/main.ts'),
+    background: path.resolve('./src/background.ts'),
     options: path.resolve('./src/options.js'),
   },
   output: {
@@ -34,6 +35,13 @@ const config = {
           options: {
             presets: ['@babel/preset-env'],
           },
+        },
+      },
+      {
+        test: /\.ts$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'ts-loader',
         },
       },
       {
@@ -62,7 +70,7 @@ const config = {
           from: '*',
           context: 'src',
           globOptions: {
-            ignore: ['*.js'],
+            ignore: ['**/*.js', '**/*.ts'],
           },
         },
         {

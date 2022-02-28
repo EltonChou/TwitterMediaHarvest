@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "module": "es2020",
+    "target": "es6",
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "lib": ["DOM", "ES2017.Intl", "ES2018.Intl", "ESNEXT.Intl"],
+    "include": ["src/custom.d.ts"]
+  }
+}
