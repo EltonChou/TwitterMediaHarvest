@@ -11,7 +11,3 @@ export const ACTION = Object.freeze({
   download: 1,
   refresh: 2,
 })
-export const DOWNLOAD_MODE = Object.freeze({
-  aria2: 'aria2',
-  browser: 'browser',
-})
