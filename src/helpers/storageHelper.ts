@@ -10,6 +10,7 @@ import {
   setLocalStorage,
   fetchCookie,
   clearLocalStorage,
+  removeFromLocalStorage,
 } from '../libs/chromeApi'
 import Statistics from '../libs/Statistics'
 import {
@@ -19,7 +20,9 @@ import {
   LocalStorageInitialData,
   DownloadRecord,
   DownloadRecordId,
+  DownloadItemRecorder,
 } from '../typings'
+import { makeDownloadRecordId } from '../utils/maker'
 
 export const fetchFileNameSetting = async (): Promise<FilenameSetting> => {
   const setting = await fetchSyncStorage([
@@ -90,31 +93,35 @@ export const initStorage = async () => {
 
 export const fetchDownloadItemRecord = async (
   downloadItemId: number
-): Promise<DownloadRecord> => {
-  const recordId = `dl_${downloadItemId}`
-  const volume = await fetchLocalStorage(recordId)
-  const downloadItemRecord = JSON.parse(volume[downloadItemId])
-  return downloadItemRecord
+): Promise<DownloadRecord | Record<string, never>> => {
+  const recordId: DownloadRecordId = `dl_${downloadItemId}`
+  const volume: { [key: DownloadRecordId]: DownloadRecord } =
+    await fetchLocalStorage(recordId)
+  if (recordId in volume) {
+    return volume[recordId]
+  }
+  return {}
 }
 
-type DownloadItemRecorder = (
-  config: chrome.downloads.DownloadOptions
-) => (downloadId: number) => void
+export const removeDownloadItemRecord = async (downloadItemId: number) => {
+  const recordId = makeDownloadRecordId(downloadItemId)
+  await removeFromLocalStorage(recordId)
+}
 
 export const downloadItemRecorder =
   (tweetInfo: TweetInfo): DownloadItemRecorder =>
-  config =>
-  downloadId => {
-    const recordId: DownloadRecordId = `dl_${downloadId}`
-    const record: { [key: DownloadRecordId]: DownloadRecord } = {}
+    config =>
+      downloadId => {
+        const recordId: DownloadRecordId = `dl_${downloadId}`
+        const record: { [key: DownloadRecordId]: DownloadRecord } = {}
 
-    record[recordId] = {
-      info: tweetInfo,
-      config: config,
-    }
+        record[recordId] = {
+          info: tweetInfo,
+          config: config,
+        }
 
-    setLocalStorage(record)
-  }
+        setLocalStorage(record)
+      }
 
 type DownloadStatistic = {
   [StatisticsKey.SuccessDownloadCount]?: number

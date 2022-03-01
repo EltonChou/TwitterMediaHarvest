@@ -4,12 +4,11 @@
  *
  * @param storageArea
  */
-const storageFetcher = (
-  storageArea: chrome.storage.StorageArea
-): ((
-  keys: string | string[] | object | null
-) => Promise<{ [key: string]: any }>) => {
-  return (keys = null) => {
+const storageFetcher = (storageArea: chrome.storage.StorageArea) => {
+  return (
+    keys: string | string[] | object | null = null
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): Promise<{ [key: string]: any }> => {
     return new Promise(resolve => {
       storageArea.get(keys, items => resolve(items))
     })
@@ -21,13 +20,12 @@ const storageFetcher = (
  *
  * @param storageArea
  */
-const storageSetter =
-  (
-    storageArea: chrome.storage.StorageArea
-  ): ((items: object) => Promise<void>) =>
-  items => {
+const storageSetter = (
+  storageArea: chrome.storage.StorageArea
+): ((items: object) => Promise<void>) =>
+  function (items) {
     return new Promise(resolve => {
-      storageArea.set(items, () => resolve())
+      storageArea.set(items, resolve)
     })
   }
 
@@ -41,11 +39,10 @@ const removerKeysPretreat = (keys: string | string[]) => {
 /**
  * @param storageArea
  */
-const storageRemover =
-  (
-    storageArea: chrome.storage.StorageArea
-  ): ((removerKeys: string | string[]) => Promise<void>) =>
-  removerKeys => {
+const storageRemover = (
+  storageArea: chrome.storage.StorageArea
+): ((removerKeys: string | string[]) => Promise<void>) =>
+  function (removerKeys) {
     removerKeys = removerKeysPretreat(removerKeys)
 
     return new Promise(resolve => {
@@ -303,8 +300,8 @@ export const i18nLocalize = (kw: string) => {
   const userLocale = new Intl.Locale(chrome.i18n.getUILanguage())
 
   const locale = Object.keys(langMapping).includes(userLocale.language)
-    ? // @ts-ignore: Unreachable code error
-      langMapping[userLocale.language]
+    // @ts-expect-error monkey patch
+    ? langMapping[userLocale.language]
     : langMapping.en
 
   return locale[kw]['message']
