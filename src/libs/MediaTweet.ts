@@ -1,15 +1,44 @@
 import { TWITTER_AUTH_TOKEN } from '../constants'
 import { i18nLocalize } from './chromeApi'
+import { FetchErrorReason } from '../typings'
 
-/**
- * @typedef {Object} fetchErrorReason
- * @property {number} status status code
- * @property {string} title
- * @property {string} message
- */
+type VideoInfo = {
+  aspect_ratio: number[]
+  duration_millis: number
+  variants: TweetVideoVariant[]
+}
+
+type TweetMedia = {
+  media_url: string,
+  media_url_https: string,
+  video_info?: VideoInfo
+}
+
+type TweetVideoVariant = {
+  bitrate: number,
+  url: string,
+
+}
+
+type TweetDetail = {
+  globalObjects: {
+    tweets: {
+      [key: string]: {
+        extended_entities: {
+          media: TweetMedia[]
+        },
+      }
+    }
+  }
+}
 
 export default class MediaTweet {
-  constructor(tweetId, token) {
+  public tweetId: string
+  public token: string
+  private header: Headers
+  private tweetAPIurl: string
+
+  constructor(tweetId: string, token: string) {
     this.tweetId = tweetId
     this.header = initHeader(token, tweetId)
     this.tweetAPIurl = `https://api.twitter.com/2/timeline/conversation/${tweetId}.json?tweet_mode=extended`
@@ -27,17 +56,14 @@ export default class MediaTweet {
     })
 
     const statusCode = mediaResponse.status
-    /**
-     * @type fetchErrorReason
-     */
-    const reason = {
+    const reason: FetchErrorReason = {
       status: statusCode,
       title: i18nLocalize('fetchFailedUnknownTitle') + statusCode,
       message: i18nLocalize('fetchFailedUnknownMessage'),
     }
 
     if (statusCode === 200) {
-      const detail = await mediaResponse.json()
+      const detail: TweetDetail = await mediaResponse.json()
       mediaList = this.parseMedias(detail)
     }
     if (statusCode === 429) {
@@ -50,11 +76,7 @@ export default class MediaTweet {
     return { mediaList: mediaList, errorReason: errorReason }
   }
 
-  /**
-   * @param {JSON} detail
-   * @returns {string[]}
-   */
-  parseMedias(detail) {
+  parseMedias(detail: TweetDetail): string[] {
     const medias =
       detail.globalObjects.tweets[this.tweetId].extended_entities.media
 
@@ -69,22 +91,18 @@ export default class MediaTweet {
     return mediaList
   }
 
-  /**
-   * @param {JSON} video_info
-   * @returns {string[]}
-   */
-  parseVideo(video_info) {
+  parseVideo(video_info: VideoInfo): string[] {
     const mediaList = []
     const { variants } = video_info
 
     let hiRes = 0
     let targetUrl
 
-    for (let variant of variants) {
-      let { bitrate, url } = variant
+    for (const variant of variants) {
+      const { bitrate, url } = variant
       // bitrate will be 0 if video is made from gif.
       // variants contains m3u8 info.
-      let isHigherBitrate = bitrate > hiRes || bitrate === 0
+      const isHigherBitrate = bitrate > hiRes || bitrate === 0
       if (typeof bitrate !== 'undefined' && isHigherBitrate) {
         hiRes = bitrate
         targetUrl = url
@@ -95,20 +113,12 @@ export default class MediaTweet {
     return mediaList
   }
 
-  /**
-   * @param {string[]} medias
-   * @returns {string[]}
-   */
-  parseImage(medias) {
+  parseImage(medias: TweetMedia[]): string[] {
     return medias.map(media => media.media_url_https)
   }
 }
 
-/**
- * @param {string} token
- * @param {string} tweetId
- */
-function initHeader(token, tweetId) {
+function initHeader(token: string, tweetId: string) {
   return new Headers([
     ['Authorization', TWITTER_AUTH_TOKEN],
     ['User-Agent', navigator.userAgent],
