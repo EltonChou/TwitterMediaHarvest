@@ -1,5 +1,5 @@
 import { ACTION } from '../constants'
-import { Aria2DownloadOption, TweetInfo } from '../typings'
+import { Aria2DownloadOption, DownloadRecordId, TweetInfo } from '../typings'
 
 /**
  * Create HTMLElement from html string.
@@ -90,3 +90,6 @@ export const makeAria2DownloadConfig = (
     options: options,
   }
 }
+
+export const makeDownloadRecordId = (downloadId: number): DownloadRecordId =>
+  `dl_${downloadId}`

@@ -135,3 +135,6 @@ export const isTweetDeck = (): boolean =>
  * @returns {boolean}
  */
 export const isTwitter = (): boolean => window.location.host === 'twitter.com'
+
+export const isDownloadRecordId = (downloadRecordId: string) =>
+  Boolean(downloadRecordId.match(/^dl_(\d+)/))
