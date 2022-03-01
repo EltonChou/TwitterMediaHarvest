@@ -52,7 +52,7 @@
     "build-dev": "webpack --mode development --progress --color",
     "build-win": "webpack --progress --color && powershell Compress-Archive -Force build/ media_harvest.zip",
     "watch": "webpack --mode development --watch --progress --color",
-    "lint": "eslint --ext .js --ext .ts src/"
+    "lint": "eslint --color --quiet --ext .js --ext .ts src/"
   },
   "jest": {
     "preset": "ts-jest/presets/default-esm",
