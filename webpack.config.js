@@ -14,7 +14,7 @@ const config = {
   entry: {
     main: path.resolve('./src/main.ts'),
     background: path.resolve('./src/background.ts'),
-    options: path.resolve('./src/options.js'),
+    options: path.resolve('./src/options.ts'),
   },
   output: {
     filename: '[name].js',
