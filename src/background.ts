@@ -27,7 +27,7 @@ import {
   isInvalidInfo,
   isDownloadRecordId,
 } from './utils/checker'
-import { ACTION, ARIA2_ID } from './constants'
+import { ARIA2_ID } from './constants'
 import {
   DownloadMode,
   TweetInfo,
@@ -35,6 +35,8 @@ import {
   FetchErrorReason,
   DownloadRecordId,
   DownloadItemRecorder,
+  Action,
+  HarvestMessage
 } from './typings'
 import { makeDownloadRecordId } from './utils/maker'
 
@@ -73,8 +75,8 @@ const processDownloadAction = async (message: any) => {
   mediaDownloader.downloadMedias(mediaList)
 }
 
-chrome.runtime.onMessage.addListener((message, sender, sendRespone) => {
-  if (message.action === ACTION.download) {
+chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespone) => {
+  if (message.action === Action.Download) {
     processDownloadAction(message)
       .then(() => sendRespone({ status: 'success' }))
       .catch(() => sendRespone({ status: 'error' }))
@@ -216,7 +218,7 @@ function openOptionsPage() {
 }
 
 function refreshOptionsPage() {
-  chrome.runtime.sendMessage({ action: ACTION.refresh })
+  chrome.runtime.sendMessage({ action: Action.Refresh })
 }
 
 /* eslint-disable no-console */

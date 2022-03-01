@@ -1,3 +1,5 @@
+import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
+
 interface HarvestObserver {
   observeRoot: () => void
 }
@@ -42,8 +44,6 @@ export enum StatisticsKey {
   ErrorCount = 'errorCount',
 }
 
-export const LOCAL_STORAGE_KEY_ARIA2 = 'enableAria2'
-
 export type LocalStorageInitialData = {
   [StatisticsKey.SuccessDownloadCount]: number
   [StatisticsKey.FailedDownloadCount]: number
@@ -67,3 +67,12 @@ export type FetchErrorReason = {
 export type DownloadItemRecorder = (
   config: chrome.downloads.DownloadOptions
 ) => (downloadId: number) => void
+
+export enum Action {
+  Download,
+  Refresh
+}
+
+export type HarvestMessage = {
+  action: Action
+}

@@ -6,8 +6,8 @@ import {
   getStatisticsCount,
   isEnableAria2,
 } from './helpers/storageHelper'
-import { ACTION } from './constants'
-import { FilenameSetting, LOCAL_STORAGE_KEY_ARIA2, StatisticsKey } from './typings'
+import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
+import { FilenameSetting, StatisticsKey, Action, HarvestMessage } from './typings'
 
 const noSubDirCheckBox: HTMLInputElement = select('#no_subdirectory')
 const accountCheckBox: HTMLInputElement = select('#account')
@@ -90,8 +90,8 @@ noSubDirCheckBox.addEventListener('change', () => {
   allowSubmit()
 })
 
-chrome.runtime.onMessage.addListener(msg => {
-  if (msg.action === ACTION.refresh) {
+chrome.runtime.onMessage.addListener((msg: HarvestMessage) => {
+  if (msg.action === Action.Refresh) {
     initializeStatistics()
   }
 })
@@ -153,4 +153,5 @@ async function localize() {
   }
 }
 
-localize().then(initializeForm).then(initializeStatistics).then(updatePreview)
+
+Promise.all([localize, initializeForm, initializeStatistics]).then(updatePreview)

@@ -1,5 +1,4 @@
-import { ACTION } from '../constants'
-import { Aria2DownloadOption, DownloadRecordId, TweetInfo } from '../typings'
+import { Aria2DownloadOption, DownloadRecordId, TweetInfo, Action } from '../typings'
 
 /**
  * Create HTMLElement from html string.
@@ -37,7 +36,7 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
     this.classList.add('downloading')
     chrome.runtime.sendMessage(
       {
-        action: ACTION.download,
+        action: Action.Download,
         data: this.dataset,
       },
       response => {
