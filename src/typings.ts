@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
 
-interface HarvestObserver {
+export interface HarvestObserver {
   observeRoot: () => void
 }
 
@@ -75,4 +76,5 @@ export enum Action {
 
 export type HarvestMessage = {
   action: Action
+  data?: any
 }

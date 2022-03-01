@@ -45,10 +45,7 @@ const installReason = Object.freeze({
   update: 'update',
 })
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const processDownloadAction = async (message: any) => {
-  const tweetInfo: TweetInfo = message.data
-
+const processDownloadAction = async (tweetInfo: TweetInfo) => {
   /* eslint-disable no-console */
   if (isInvalidInfo(tweetInfo)) {
     console.error('Invalid tweetInfo.')
@@ -71,7 +68,7 @@ const processDownloadAction = async (message: any) => {
 
 chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespone) => {
   if (message.action === Action.Download) {
-    processDownloadAction(message)
+    processDownloadAction(message.data as TweetInfo)
       .then(() => sendRespone({ status: 'success' }))
       .catch(() => sendRespone({ status: 'error' }))
 
