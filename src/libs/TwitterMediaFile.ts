@@ -19,7 +19,7 @@ export default class TwitterMediaFile {
   public name: string
   public order: string
 
-  constructor(tweetInfo: TweetInfo, url: string, index: number = 0) {
+  constructor(tweetInfo: TweetInfo, url: string, index = 0) {
     this.screenName = tweetInfo.screenName
     this.tweetId = tweetInfo.tweetId
     this.url = cleanUrl(url)
