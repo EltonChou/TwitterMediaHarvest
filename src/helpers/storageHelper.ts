@@ -63,9 +63,6 @@ export const migrateStorage = async () => {
 
   console.table({ ...result })
   console.groupEnd()
-  console.warn(
-    'The default serial of filename would be changed into order of the file in next version.'
-  )
 }
 
 /**
