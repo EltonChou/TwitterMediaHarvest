@@ -1,5 +1,6 @@
 import { i18nLocalize, getExtensionURL } from '../libs/chromeApi'
 import { FetchErrorReason, TweetInfo } from '../typings'
+import { makeDownloadRecordId } from '../utils/maker'
 
 const templateType = Object.freeze({
   basic: 'basic',
@@ -105,5 +106,6 @@ export const notifyDownloadFailed = (
     downloadEndTime
   )
 
-  chrome.notifications.create(String(downloadId), notiConf)
+  const downloadRecordId = makeDownloadRecordId(downloadId)
+  chrome.notifications.create(downloadRecordId, notiConf)
 }
