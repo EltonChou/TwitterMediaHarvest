@@ -1,12 +1,21 @@
 {
+  "exclude": [
+    "node_modules",
+    "build",
+    "jest.setup.js",
+    "*.config.js"
+  ],
   "compilerOptions": {
+    "outDir": "./build",
+    "rootDir": "./src",
     "noImplicitAny": true,
-    "module": "es2020",
-    "target": "es6",
-    "jsx": "react",
+    "module": "ESNEXT",
+    "target": "ESNEXT",
+    "removeComments": true,
     "allowJs": true,
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "lib": ["DOM", "ES2017.Intl", "ES2018.Intl", "ESNEXT.Intl"]
+    "lib": ["DOM", "ES2017.Intl", "ES2018.Intl", "ESNEXT.Intl", "DOM.Iterable"]
   }
 }
