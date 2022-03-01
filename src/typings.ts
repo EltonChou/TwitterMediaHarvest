@@ -1,18 +1,22 @@
-export abstract class TwitterMediaHarvestObserver {
+interface HarvestObserver {
+  observeRoot: () => void
+}
+
+export abstract class TwitterMediaHarvestObserver implements HarvestObserver {
   public abstract observeRoot(): void
 }
 
-export interface TweetInfo {
+export type TweetInfo = {
   screenName: string
   tweetId: string
 }
 
-export interface FilenamePatternOption {
+export type FilenamePatternOption = {
   account: boolean
   serial: 'order' | 'file_name'
 }
 
-export interface FilenameSetting {
+export type FilenameSetting = {
   directory: string
   no_subdirectory: boolean
   filename_pattern: FilenamePatternOption
@@ -23,7 +27,7 @@ export enum DownloadMode {
   Browser = 'browser',
 }
 
-export interface Aria2DownloadOption {
+export type Aria2DownloadOption = {
   url: string
   filename: string
   referrer: string
@@ -40,21 +44,21 @@ export enum StatisticsKey {
 
 export const LOCAL_STORAGE_KEY_ARIA2 = 'enableAria2'
 
-export interface LocalStorageInitialData {
+export type LocalStorageInitialData = {
   [StatisticsKey.SuccessDownloadCount]: number
   [StatisticsKey.FailedDownloadCount]: number
   [StatisticsKey.ErrorCount]: number
   [LOCAL_STORAGE_KEY_ARIA2]: boolean
 }
 
-export interface DownloadRecord {
+export type DownloadRecord = {
   info: TweetInfo
   config: chrome.downloads.DownloadOptions
 }
 
 export type DownloadRecordId = `dl_${number}`
 
-export interface FetchErrorReason {
+export type FetchErrorReason = {
   status: number
   title: string
   message: string
