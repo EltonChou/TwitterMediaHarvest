@@ -40,12 +40,6 @@ import {
 } from './typings'
 import { makeDownloadRecordId } from './utils/maker'
 
-/**
- * @typedef {Object} tweetInfo
- * @property {string} screenName
- * @property {string} tweetId
- */
-
 const installReason = Object.freeze({
   install: 'install',
   update: 'update',
@@ -130,18 +124,18 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   }
 })
 
-// chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
-//   const { byExtensionId } = downloadItem
-//   if (byExtensionId) {
-//     if (byExtensionId === getExtensionId()) {
-//       fetchDownloadItemRecord(downloadItem.id).then(record => {
-//         const { config } = record
-//         suggest(config as chrome.downloads.DownloadFilenameSuggestion)
-//       })
-//       return true
-//     }
-//   }
-// })
+chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
+  const { byExtensionId } = downloadItem
+  if (byExtensionId) {
+    if (byExtensionId === getExtensionId()) {
+      fetchDownloadItemRecord(downloadItem.id).then(record => {
+        const { config } = record
+        suggest(config as chrome.downloads.DownloadFilenameSuggestion)
+      })
+      return true
+    }
+  }
+})
 
 chrome.notifications.onClosed.addListener(async notifficationId => {
   const isRecordId = isDownloadRecordId(notifficationId)
@@ -177,7 +171,7 @@ class MediaDownloader {
   public filenameSetting: FilenameSetting
   public isPassToAria2: boolean
   public mode: DownloadMode
-  private recorder: DownloadItemRecorder
+  private record_config: DownloadItemRecorder
 
   constructor(
     tweetInfo: TweetInfo,
@@ -188,7 +182,7 @@ class MediaDownloader {
     this.filenameSetting = filenameSetting
     this.isPassToAria2 = isPassToAria2
     this.mode = this.isPassToAria2 ? DownloadMode.Aria2 : DownloadMode.Browser
-    this.recorder = downloadItemRecorder(tweetInfo)
+    this.record_config = downloadItemRecorder(tweetInfo)
   }
 
   static async build(tweetInfo: TweetInfo) {
@@ -205,7 +199,7 @@ class MediaDownloader {
         this.mode
       )
 
-      const downloadCallback = this.recorder(config)
+      const downloadCallback = this.record_config(config)
       this.isPassToAria2
         ? chrome.runtime.sendMessage(ARIA2_ID, config)
         : chrome.downloads.download(config, downloadCallback)

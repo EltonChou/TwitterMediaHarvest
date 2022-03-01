@@ -106,19 +106,17 @@ export const removeDownloadItemRecord = async (downloadItemId: number) => {
 }
 
 export const downloadItemRecorder =
-  (tweetInfo: TweetInfo): DownloadItemRecorder =>
-    config =>
-      downloadId => {
-        const recordId: DownloadRecordId = `dl_${downloadId}`
-        const record: { [key: DownloadRecordId]: DownloadRecord } = {}
+  (tweetInfo: TweetInfo): DownloadItemRecorder => config => downloadId => {
+    const recordId: DownloadRecordId = `dl_${downloadId}`
+    const record: { [key: DownloadRecordId]: DownloadRecord } = {}
 
-        record[recordId] = {
-          info: tweetInfo,
-          config: config,
-        }
+    record[recordId] = {
+      info: tweetInfo,
+      config: config,
+    }
 
-        setLocalStorage(record)
-      }
+    setLocalStorage(record)
+  }
 
 type DownloadStatistic = {
   [StatisticsKey.SuccessDownloadCount]?: number
