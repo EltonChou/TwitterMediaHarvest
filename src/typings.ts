@@ -1,5 +1,3 @@
-import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
-
 export abstract class TwitterMediaHarvestObserver {
   public abstract observeRoot(): void
 }
@@ -40,7 +38,7 @@ export enum StatisticsKey {
   ErrorCount = 'errorCount',
 }
 
-export type LOCAL_STORAGE_KEY_ARIA2 = 'enableAria2'
+export const LOCAL_STORAGE_KEY_ARIA2 = 'enableAria2'
 
 export interface LocalStorageInitialData {
   [StatisticsKey.SuccessDownloadCount]: number
@@ -56,8 +54,12 @@ export interface DownloadRecord {
 
 export type DownloadRecordId = `dl_${number}`
 
-export type FetchErrorReason = {
+export interface FetchErrorReason {
   status: number
   title: string
   message: string
 }
+
+export type DownloadItemRecorder = (
+  config: chrome.downloads.DownloadOptions
+) => (downloadId: number) => void
