@@ -25,7 +25,7 @@ export type FilenameSetting = {
   filename_pattern: FilenamePatternOption
 }
 
-export enum DownloadMode {
+export const enum DownloadMode {
   Aria2 = 'aria2',
   Browser = 'browser',
 }
@@ -39,7 +39,7 @@ export type Aria2DownloadOption = {
 
 export type TweetMode = 'photo' | 'status' | 'stream'
 
-export enum StatisticsKey {
+export const enum StatisticsKey {
   SuccessDownloadCount = 'successDownloadCount',
   FailedDownloadCount = 'failedDownloadCount',
   ErrorCount = 'errorCount',
@@ -69,7 +69,7 @@ export type DownloadItemRecorder = (
   config: chrome.downloads.DownloadOptions
 ) => (downloadId: number) => void
 
-export enum Action {
+export const enum Action {
   Download,
   Refresh
 }
