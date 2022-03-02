@@ -1,5 +1,5 @@
-import select from 'select-dom'
 import { TweetInfo, TweetMode } from '../typings'
+import select from 'select-dom'
 
 enum DownloadState {
   InProgress = 'in_progress',

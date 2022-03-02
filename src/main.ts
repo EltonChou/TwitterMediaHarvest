@@ -1,5 +1,6 @@
-import TwitterMediaObserver from './libs/TwitterMediaObserver'
-import TwitterDeckObserver from './libs/TwitterDeckObserver'
+import './assets/styles/main.sass'
+import TwitterMediaObserver from './observers/TwitterMediaObserver'
+import TwitterDeckObserver from './observers/TwitterDeckObserver'
 import { isTweetDeck, isTwitter } from './utils/checker'
 import { HarvestObserver } from './typings'
 

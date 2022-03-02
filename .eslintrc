@@ -17,6 +17,16 @@
     "quotes": ["error", "single"],
     "semi": ["error", "never"],
     "eqeqeq": ["error", "always"],
-    "no-console": "warn"
+    "no-console": "warn",
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "single", "multiple"],
+        "allowSeparatedGroups": false
+      }
+    ]
   }
 }

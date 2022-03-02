@@ -2,13 +2,13 @@ import select from 'select-dom'
 import downloadButtonSVG from '../assets/icons/twitter-download.svg'
 import {
   checkModeOfArticle,
-  isArticlePhotoMode,
   isArticleInStatus,
+  isArticlePhotoMode,
 } from '../utils/checker'
 import {
   createElementFromHTML,
-  makeButtonWithData,
   makeButtonListener,
+  makeButtonWithData,
 } from '../utils/maker'
 import { TweetInfo, TweetMode } from '../typings'
 

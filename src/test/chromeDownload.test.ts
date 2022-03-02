@@ -1,13 +1,10 @@
-import { jest } from '@jest/globals'
-import path from 'path'
-
-jest.useFakeTimers()
-
-// import { fetchFileNameSetting } from '../src/helpers/storageHelper'
-import { makeBrowserDownloadConfig } from '../utils/maker'
-import { TwitterMediaFile, makeOrigSrc } from '../libs/TwitterMediaFile'
 import { DEFAULT_DIRECTORY } from '../constants'
 import { FilenameSetting } from '../typings'
+import { jest } from '@jest/globals'
+import { makeBrowserDownloadConfig } from '../utils/maker'
+import path from 'path'
+import { makeOrigSrc, TwitterMediaFile } from '../libs/TwitterMediaFile'
+
 
 // mocking field
 jest.mock('../helpers/storageHelper')

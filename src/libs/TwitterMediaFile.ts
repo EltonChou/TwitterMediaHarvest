@@ -1,13 +1,13 @@
 import path from 'path'
 import {
-  makeBrowserDownloadConfig,
   makeAria2DownloadConfig,
+  makeBrowserDownloadConfig,
 } from '../utils/maker'
 import {
-  TweetInfo,
-  FilenameSetting,
-  DownloadMode,
   Aria2DownloadOption,
+  DownloadMode,
+  FilenameSetting,
+  TweetInfo,
 } from '../typings'
 
 export default class TwitterMediaFile {

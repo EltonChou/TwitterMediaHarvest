@@ -1,6 +1,6 @@
 import select from 'select-dom'
+import observeElement from './observer'
 import makeHarvester from '../core'
-import observeElement from '../utils/observer'
 import { TwitterMediaHarvestObserver } from '../typings'
 
 const deckStreamHasMedia = (addedNode: Node) => {

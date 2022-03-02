@@ -1,11 +1,11 @@
 import select from 'select-dom'
-import {
-  createElementFromHTML,
-  makeButtonWithData,
-  makeButtonListener,
-} from '../utils/maker'
 import downloadButtonSVG from '../assets/icons/twitter-download.svg'
 import { isArticleInDetail } from '../utils/checker'
+import {
+  createElementFromHTML,
+  makeButtonListener,
+  makeButtonWithData,
+} from '../utils/maker'
 import { TweetInfo } from '../typings'
 
 const fetchTweetId = (article: HTMLElement) =>

@@ -1,7 +1,7 @@
 import select from 'select-dom'
 import makeHarvester from '../core'
+import observeElement from './observer'
 import { articleHasMedia, isStreamLoaded } from '../utils/checker'
-import observeElement from '../utils/observer'
 import { TwitterMediaHarvestObserver } from '../typings'
 
 enum Query {

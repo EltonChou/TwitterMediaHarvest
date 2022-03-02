@@ -1,17 +1,25 @@
-import { fetchMediaList } from './libs/MediaTweet'
-import TwitterMediaFile from './libs/TwitterMediaFile'
+import { ARIA2_ID } from './constants'
 import Statistics from './libs/Statistics'
+import TwitterMediaFile from './libs/TwitterMediaFile'
+import { fetchMediaList } from './libs/MediaTweet'
 import {
-  searchDownload,
-  removeFromLocalStorage,
   getExtensionId,
+  removeFromLocalStorage,
+  searchDownload,
 } from './libs/chromeApi'
+import { makeDownloadRecordId } from './utils/maker'
 import {
-  initStorage,
-  fetchFileNameSetting,
+  isDownloadCompleted,
+  isDownloadInterrupted,
+  isDownloadRecordId,
+  isInvalidInfo,
+} from './utils/checker'
+import {
   downloadItemRecorder,
   fetchDownloadItemRecord,
+  fetchFileNameSetting,
   fetchTwitterCt0Cookie,
+  initStorage,
   isEnableAria2,
   migrateStorage,
   removeDownloadItemRecord,
@@ -22,23 +30,15 @@ import {
   notifyUnknownFetchError,
 } from './helpers/notificationHelper'
 import {
-  isDownloadInterrupted,
-  isDownloadCompleted,
-  isInvalidInfo,
-  isDownloadRecordId,
-} from './utils/checker'
-import { ARIA2_ID } from './constants'
-import {
-  DownloadMode,
-  TweetInfo,
-  FilenameSetting,
-  FetchErrorReason,
-  DownloadRecordId,
-  DownloadItemRecorder,
   Action,
-  HarvestMessage
+  DownloadItemRecorder,
+  DownloadMode,
+  DownloadRecordId,
+  FetchErrorReason,
+  FilenameSetting,
+  HarvestMessage,
+  TweetInfo
 } from './typings'
-import { makeDownloadRecordId } from './utils/maker'
 
 const installReason = Object.freeze({
   install: 'install',

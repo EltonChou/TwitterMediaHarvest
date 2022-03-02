@@ -1,6 +1,6 @@
-import { i18nLocalize, getExtensionURL } from '../libs/chromeApi'
-import { FetchErrorReason, TweetInfo } from '../typings'
+import { getExtensionURL, i18nLocalize } from '../libs/chromeApi'
 import { makeDownloadRecordId } from '../utils/maker'
+import { FetchErrorReason, TweetInfo } from '../typings'
 
 const templateType = Object.freeze({
   basic: 'basic',

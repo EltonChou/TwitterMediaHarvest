@@ -1,13 +1,13 @@
-import select from 'select-dom'
+import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
 import sanitize from 'sanitize-filename'
-import { setSyncStorage, i18nLocalize, setLocalStorage } from './libs/chromeApi'
+import select from 'select-dom'
 import {
   fetchFileNameSetting,
   getStatisticsCount,
   isEnableAria2,
 } from './helpers/storageHelper'
-import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
-import { FilenameSetting, StatisticsKey, Action, HarvestMessage } from './typings'
+import { i18nLocalize, setLocalStorage, setSyncStorage } from './libs/chromeApi'
+import { Action, FilenameSetting, HarvestMessage, StatisticsKey } from './typings'
 
 const noSubDirCheckBox: HTMLInputElement = select('#no_subdirectory')
 const accountCheckBox: HTMLInputElement = select('#account')

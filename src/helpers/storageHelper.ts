@@ -4,25 +4,25 @@ import {
   LOCAL_STORAGE_KEY_ARIA2,
 } from '../constants'
 import {
-  fetchSyncStorage,
-  setSyncStorage,
-  fetchLocalStorage,
-  setLocalStorage,
-  fetchCookie,
   clearLocalStorage,
+  fetchCookie,
+  fetchLocalStorage,
+  fetchSyncStorage,
   removeFromLocalStorage,
+  setLocalStorage,
+  setSyncStorage,
 } from '../libs/chromeApi'
 import Statistics from '../libs/Statistics'
+import { makeDownloadRecordId } from '../utils/maker'
 import {
-  FilenameSetting,
-  TweetInfo,
-  StatisticsKey,
-  LocalStorageInitialData,
+  DownloadItemRecorder,
   DownloadRecord,
   DownloadRecordId,
-  DownloadItemRecorder,
+  FilenameSetting,
+  LocalStorageInitialData,
+  StatisticsKey,
+  TweetInfo,
 } from '../typings'
-import { makeDownloadRecordId } from '../utils/maker'
 
 export const fetchFileNameSetting = async (): Promise<FilenameSetting> => {
   const setting = await fetchSyncStorage([
