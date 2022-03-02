@@ -13,6 +13,7 @@
     "target": "ESNEXT",
     "removeComments": true,
     "allowJs": true,
+    "declaration": false,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

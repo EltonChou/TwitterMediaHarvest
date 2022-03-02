@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
-
 export interface HarvestObserver {
   observeRoot: () => void
 }
@@ -49,7 +47,7 @@ export type LocalStorageInitialData = {
   [StatisticsKey.SuccessDownloadCount]: number
   [StatisticsKey.FailedDownloadCount]: number
   [StatisticsKey.ErrorCount]: number
-  [LOCAL_STORAGE_KEY_ARIA2]: boolean
+  enableAria2: boolean
 }
 
 export type DownloadRecord = {
