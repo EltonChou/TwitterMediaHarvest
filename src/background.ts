@@ -1,4 +1,4 @@
-import MediaTweet from './libs/MediaTweet'
+import { fetchMediaList } from './libs/MediaTweet'
 import TwitterMediaFile from './libs/TwitterMediaFile'
 import Statistics from './libs/Statistics'
 import {
@@ -55,22 +55,24 @@ const processDownloadAction = async (tweetInfo: TweetInfo) => {
   /* eslint-enable no-console */
   const mediaDownloader = await MediaDownloader.build(tweetInfo)
   const ct0Value = await fetchTwitterCt0Cookie()
-  const twitterMedia = new MediaTweet(tweetInfo.tweetId, ct0Value)
-  const { mediaList, errorReason } = await twitterMedia.fetchMediaList()
-
-  if (errorReason) {
-    fetchErrorHandler(tweetInfo, errorReason)
-    throw Error(`Fetching mediaList failed. ${errorReason.status}`)
+  try {
+    const mediaList = await fetchMediaList(tweetInfo.tweetId, ct0Value)
+    mediaDownloader.downloadMedias(mediaList)
+  } catch (reason) {
+    if (reason.message !== undefined) {
+      fetchErrorHandler(tweetInfo, reason)
+      throw Error(reason.message)
+    }
+    fetchErrorHandler(tweetInfo, { status: 500, title: 'InternalError', message: reason })
+    throw Error(reason)
   }
-
-  mediaDownloader.downloadMedias(mediaList)
 }
 
 chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespone) => {
   if (message.action === Action.Download) {
     processDownloadAction(message.data as TweetInfo)
       .then(() => sendRespone({ status: 'success' }))
-      .catch(() => sendRespone({ status: 'error' }))
+      .catch((reason) => sendRespone({ status: 'error', data: reason }))
 
     return true // keep message channel open
   }
