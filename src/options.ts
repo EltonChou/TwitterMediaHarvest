@@ -153,5 +153,4 @@ async function localize() {
   }
 }
 
-
-Promise.all([localize, initializeForm, initializeStatistics]).then(updatePreview)
+localize().then(initializeForm).then(initializeStatistics).then(updatePreview)
