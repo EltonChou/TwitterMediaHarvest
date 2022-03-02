@@ -1,22 +1,23 @@
-import select from 'select-dom'
+import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
 import sanitize from 'sanitize-filename'
-import { setSyncStorage, i18nLocalize, setLocalStorage } from './libs/chromeApi'
+import select from 'select-dom'
 import {
   fetchFileNameSetting,
   getStatisticsCount,
   isEnableAria2,
 } from './helpers/storageHelper'
-import { LOCAL_STORAGE_KEY_ARIA2, ACTION } from './constants'
+import { i18nLocalize, setLocalStorage, setSyncStorage } from './libs/chromeApi'
+import { Action, FilenameSetting, HarvestMessage, StatisticsKey } from './typings'
 
-const noSubDirCheckBox = select('#no_subdirectory')
-const accountCheckBox = select('#account')
-const directoryInput = select('#directory')
-const serialSelect = select('select')
-const aria2Control = select('#aria2')
-const settingsForm = select('#settings')
-const submitButton = select('#submit')
+const noSubDirCheckBox: HTMLInputElement = select('#no_subdirectory')
+const accountCheckBox: HTMLInputElement = select('#account')
+const directoryInput: HTMLInputElement = select('#directory')
+const serialSelect: HTMLSelectElement = select('select')
+const aria2Control: HTMLInputElement = select('#aria2')
+const settingsForm: HTMLFormElement = select('#settings')
+const submitButton: HTMLButtonElement = select('#submit')
 const directoryInputHelp = select('#directory-help')
-const preview = select('#preview')
+const preview: HTMLInputElement = select('#preview')
 const example = {
   account: 'twitterUser001-',
   tweetId: '1253677247493337088',
@@ -53,8 +54,8 @@ const initializeForm = async () => {
 const initializeStatistics = async () => {
   const statisticsQuery = '[data-category="statistics"]'
   const statisticsItems = select.all(statisticsQuery)
-  for (let item of statisticsItems) {
-    const count = await getStatisticsCount(item.dataset.type)
+  for (const item of statisticsItems) {
+    const count = await getStatisticsCount(item.dataset.type as StatisticsKey)
     item.textContent = count.toLocaleString()
   }
 }
@@ -89,8 +90,8 @@ noSubDirCheckBox.addEventListener('change', () => {
   allowSubmit()
 })
 
-chrome.runtime.onMessage.addListener(msg => {
-  if (msg.action === ACTION.refresh) {
+chrome.runtime.onMessage.addListener((msg: HarvestMessage) => {
+  if (msg.action === Action.Refresh) {
     initializeStatistics()
   }
 })
@@ -118,27 +119,26 @@ directoryInput.addEventListener('input', function () {
 settingsForm.addEventListener('submit', async function (e) {
   e.preventDefault()
 
-  const aria2Config = {}
-  aria2Config[LOCAL_STORAGE_KEY_ARIA2] = aria2Control.ariaChecked
-  await setLocalStorage(aria2Config)
+  const aria2Config: { [key: string]: boolean } = {}
+  aria2Config[LOCAL_STORAGE_KEY_ARIA2] = Boolean(aria2Control.ariaChecked)
 
-  const dirResult = await setSyncStorage(
-    Object.fromEntries([
+  const filenameSetting: FilenameSetting = {
+    ...Object.fromEntries([
       [directoryInput.name, directoryInput.value],
-      [noSubDirCheckBox.name, noSubDirCheckBox.checked],
-    ])
-  )
-  const filename_pattern = {
-    filename_pattern: JSON.stringify({
-      account: accountCheckBox.checked,
-      serial: serialSelect.value,
-    }),
+      [noSubDirCheckBox.name, noSubDirCheckBox.checked]
+    ]),
+    account: accountCheckBox.checked,
+    serial: serialSelect.value,
   }
-  const filenamePatternResult = await setSyncStorage(filename_pattern)
 
-  console.info('Save settings.')
-  console.table({ ...dirResult, ...filenamePatternResult })
-  submitSuccess()
+  const saveAria2 = setLocalStorage(aria2Config)
+  const saveFilenameSetting = setSyncStorage(filenameSetting)
+
+  Promise.all([saveAria2, saveFilenameSetting]).then(() => {
+    console.info('Save settings.')
+    console.table(filenameSetting)
+    submitSuccess()
+  })
 })
 /* eslint-enable no-console */
 

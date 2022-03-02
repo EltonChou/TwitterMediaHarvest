@@ -1,34 +1,34 @@
 import select from 'select-dom'
+import observeElement from './observer'
 import makeHarvester from '../core'
-import observeElement from '../utils/observer'
+import { TwitterMediaHarvestObserver } from '../typings'
 
-/**
- *
- * @param {Node} addedNode
- * @returns boolean
- */
-const deckStreamHasMedia = addedNode => {
+const deckStreamHasMedia = (addedNode: Node) => {
   const hasMedia =
-    select.exists('.media-preview', addedNode) ||
-    select.exists('[rel="mediaPreview"]', addedNode) ||
-    select.exists('.media-preview-container', addedNode)
+    select.exists('.media-preview', addedNode as unknown as ParentNode) ||
+    select.exists('[rel="mediaPreview"]', addedNode as unknown as ParentNode) ||
+    select.exists(
+      '.media-preview-container',
+      addedNode as unknown as ParentNode
+    )
 
-  const notQuoted = !select.exists('.quoted-tweet', addedNode)
+  const notQuoted = !select.exists(
+    '.quoted-tweet',
+    addedNode as unknown as ParentNode
+  )
   return hasMedia && notQuoted
 }
 
-const observerDetailReplies = replies => {
-  /** @type {MutationObserverInit} */
-  const options = {
+const observerDetailReplies = (replies: HTMLElement) => {
+  const options: MutationObserverInit = {
     childList: true,
   }
 
-  /** @type {MutationCallback} */
-  const repliesCallback = mutations => {
+  const repliesCallback: MutationCallback = mutations => {
     for (const mutation of mutations) {
       for (const addedNode of mutation.addedNodes) {
         if (deckStreamHasMedia(addedNode)) {
-          makeHarvester(addedNode)
+          makeHarvester(addedNode as unknown as HTMLElement)
         }
       }
     }
@@ -38,18 +38,19 @@ const observerDetailReplies = replies => {
 }
 
 const observeModal = () => {
-  /** @type {MutationCallback} */
-  const modalCallback = mutations => {
+  const modalCallback: MutationCallback = mutations => {
     for (const mutation of mutations) {
       if (mutation.addedNodes) {
-        const article = select('.tweet', mutation.addedNodes[0])
+        const article = select(
+          '.tweet',
+          mutation.addedNodes[0] as unknown as ParentNode
+        )
         makeHarvester(article)
       }
     }
   }
 
-  /** @type {MutationObserverInit} */
-  const options = {
+  const options: MutationObserverInit = {
     childList: true,
   }
 
@@ -59,8 +60,7 @@ const observeModal = () => {
 const observeColumns = () => {
   const columnContainer = select('.app-columns')
 
-  /** @type {MutationObserverInit} */
-  const observerOptions = {
+  const observerOptions: MutationObserverInit = {
     childList: true,
   }
 
@@ -68,9 +68,9 @@ const observeColumns = () => {
     columnContainer,
     mutations => {
       for (const mutation of mutations) {
-        for (const addedNode of mutation.addedNodes) {
+        for (const addedNode of mutation.addedNodes as unknown as HTMLCollection) {
           if (addedNode.classList.contains('column')) {
-            initColumnObserver(addedNode)
+            initColumnObserver(addedNode as HTMLElement)
           }
         }
       }
@@ -79,16 +79,14 @@ const observeColumns = () => {
   )
 }
 
-const observeDetail = tweetDetail => {
-  /** @type {MutationObserverInit} */
-  const detailOptions = {
+const observeDetail = (tweetDetail: HTMLElement) => {
+  const detailOptions: MutationObserverInit = {
     childList: true,
     subtree: true,
   }
 
-  /** @type {MutationCallback} */
-  const detailCallback = mutations => {
-    let replies = null
+  const detailCallback: MutationCallback = mutations => {
+    let replies: HTMLElement = null
     const rootTweets = select.all('.js-detail-content article')
 
     for (const tweet of rootTweets) {
@@ -97,7 +95,10 @@ const observeDetail = tweetDetail => {
 
     for (const mutation of mutations) {
       if (!replies) {
-        replies = select('.replies-after', mutation.target)
+        replies = select(
+          '.replies-after',
+          mutation.target as unknown as ParentNode
+        )
       }
     }
     observerDetailReplies(replies)
@@ -106,18 +107,16 @@ const observeDetail = tweetDetail => {
   observeElement(tweetDetail, detailCallback, detailOptions)
 }
 
-const observeStreamContainer = streamContainer => {
-  /** @type {MutationObserverInit} */
-  const options = {
+const observeStreamContainer = (streamContainer: HTMLElement) => {
+  const options: MutationObserverInit = {
     childList: true,
   }
 
-  /** @type {MutationCallback} */
-  const streamCallback = mutations => {
+  const streamCallback: MutationCallback = mutations => {
     for (const mutation of mutations) {
       for (const addedNode of mutation.addedNodes) {
         if (deckStreamHasMedia(addedNode)) {
-          makeHarvester(addedNode)
+          makeHarvester(addedNode as HTMLElement)
         }
       }
     }
@@ -126,18 +125,16 @@ const observeStreamContainer = streamContainer => {
   observeElement(streamContainer, streamCallback, options)
 }
 
-const initColumnObserver = column => {
+const initColumnObserver = (column: HTMLElement) => {
   const tweetContainer = select('.chirp-container', column)
   const tweetDetail = select('.column-detail', column)
   observeDetail(tweetDetail)
   observeStreamContainer(tweetContainer)
 }
 
-class TwitterDeckObserver {
-  /** @returns {void} */
+class TwitterDeckObserver extends TwitterMediaHarvestObserver {
   observeRoot() {
-    /** @type {MutationObserverInit} */
-    const options = {
+    const options: MutationObserverInit = {
       childList: true,
     }
 

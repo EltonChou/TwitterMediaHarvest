@@ -1,23 +1,26 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
 
-module.exports = {
+const config = {
   mode: 'production',
   stats: 'errors-only',
   resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
     fallback: { path: require.resolve('path-browserify') },
   },
   optimization: {
     minimize: true,
   },
   entry: {
-    main: path.resolve('./src/main.js'),
-    background: path.resolve('./src/background.js'),
-    options: path.resolve('./src/options.js'),
+    main: path.resolve('./src/main.ts'),
+    background: path.resolve('./src/background.ts'),
+    options: path.resolve('./src/options.ts'),
   },
   output: {
     filename: '[name].js',
     path: path.join(__dirname, 'build'),
+    clean: true,
   },
   module: {
     rules: [
@@ -27,14 +30,24 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /(node_modules|bower_componemts)/,
+        exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-transform-runtime'],
           },
         },
+      },
+      {
+        test: /\.ts$/,
+        exclude: /(node_modules)/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: { presets: ['@babel/preset-env'] },
+          },
+          { loader: 'ts-loader' },
+        ],
       },
       {
         test: /\.svg$/,
@@ -62,7 +75,7 @@ module.exports = {
           from: '*',
           context: 'src',
           globOptions: {
-            ignore: ['*.js'],
+            ignore: ['**/*.js', '**/*.ts'],
           },
         },
         {
@@ -83,4 +96,14 @@ module.exports = {
       ],
     }),
   ],
+}
+
+module.exports = (env, argv) => {
+  if (argv.mode === 'development') {
+    config.mode = 'development'
+    config.optimization.minimize = false
+    config.stats = 'errors-warnings'
+    config.devtool = 'inline-source-map'
+  }
+  return config
 }

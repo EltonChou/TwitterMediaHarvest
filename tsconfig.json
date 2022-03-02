@@ -1,0 +1,22 @@
+{
+  "exclude": [
+    "node_modules",
+    "build",
+    "jest.setup.js",
+    "*.config.js"
+  ],
+  "compilerOptions": {
+    "outDir": "./build",
+    "rootDir": "./src",
+    "noImplicitAny": true,
+    "module": "ESNEXT",
+    "target": "ESNEXT",
+    "removeComments": true,
+    "allowJs": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": ["DOM", "ES2017.Intl", "ES2018.Intl", "ESNEXT.Intl", "DOM.Iterable"]
+  }
+}

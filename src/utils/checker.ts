@@ -1,12 +1,13 @@
+import { TweetInfo, TweetMode } from '../typings'
 import select from 'select-dom'
 
-const downloadState = Object.freeze({
-  inProgress: 'in_progress',
-  interrupted: 'interrupted',
-  complete: 'complete',
-})
+enum DownloadState {
+  InProgress = 'in_progress',
+  Interrupted = 'interrupted',
+  Complete = 'complete',
+}
 
-export const isArticleInDetail = article =>
+export const isArticleInDetail = (article: HTMLElement) =>
   select.exists('.tweet-detail', article)
 
 /**
@@ -14,7 +15,7 @@ export const isArticleInDetail = article =>
  *
  * @param {HTMLElement} article
  */
-export const isArticleInStatus = article => {
+export const isArticleInStatus = (article: HTMLElement) => {
   const articleClassLength = article.classList.length
   const isMagicLength =
     articleClassLength === 3 ||
@@ -32,7 +33,7 @@ export const isArticleInStatus = article => {
  *
  * @param {HTMLElement} article
  */
-export const isArticleInStream = article => {
+export const isArticleInStream = (article: HTMLElement) => {
   const articleClassLength = article.classList.length
   return (
     articleClassLength === 5 ||
@@ -44,40 +45,38 @@ export const isArticleInStream = article => {
 /**
  * @param {HTMLElement} article
  */
-export const isArticlePhotoMode = article => article instanceof HTMLDivElement
+export const isArticlePhotoMode = (article: HTMLElement) =>
+  article instanceof HTMLDivElement
 
 /**
  * @param {HTMLElement} article
- * @returns {'photo' | 'status' | 'stream'} mode
  */
-export const checkModeOfArticle = article => {
+export const checkModeOfArticle = (article: HTMLElement): TweetMode => {
   if (isArticlePhotoMode(article)) return 'photo'
   if (isArticleInStatus(article)) return 'status'
   return 'stream'
 }
 
-const query = Object.freeze({
-  streamMediaWrapper:
-    'div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-last-child(2) > div > div',
-  statusMediaWrapper:
-    'article > div > div > div > div:nth-child(3) > [class="css-1dbjc4n"] >\
+enum Query {
+  StreamMediaWrapper = 'div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-last-child(2) > div > div',
+  StatusMediaWrapper = 'article > div > div > div > div:nth-child(3) > [class="css-1dbjc4n"] >\
      [class="css-1dbjc4n"]',
-})
+}
 
 /**
- * @param {HTMLElement} article This should be article.
+ * @param {ParentNode} article This should be article.
  */
-export const articleHasMedia = article => {
+export const articleHasMedia = (article: HTMLElement) => {
   if (!article) return false
 
-  let mediaWrapperQuery
-  if (isArticleInStream(article)) mediaWrapperQuery = query.streamMediaWrapper
-  if (isArticleInStatus(article)) mediaWrapperQuery = query.statusMediaWrapper
+  let mediaWrapperQuery: Query
+  if (isArticleInStream(article)) mediaWrapperQuery = Query.StreamMediaWrapper
+  if (isArticleInStatus(article)) mediaWrapperQuery = Query.StatusMediaWrapper
   const mediaWrapper = select(mediaWrapperQuery, article)
 
   if (mediaWrapper === null) return false
 
-  const checkContent = mediaContent => {
+  const checkContent = (mediaContent: Element) => {
     const magicLength = mediaContent.classList.length >= 2
     const photoContent = select.exists(
       '[role="link"][href*="photo"]',
@@ -88,13 +87,13 @@ export const articleHasMedia = article => {
     return magicLength && (photoContent || videoContent)
   }
 
-  return [...mediaWrapper.childNodes].some(checkContent)
+  return [...mediaWrapper.children].some(checkContent)
 }
 
 /**
  * @param {HTMLElement} article
  */
-export const isArticleCanBeAppend = article =>
+export const isArticleCanBeAppend = (article: HTMLElement) =>
   article && !article.dataset.harvestAppended
 
 export const isStreamLoaded = () =>
@@ -103,31 +102,39 @@ export const isStreamLoaded = () =>
 /**
  * @param {chrome.downloads.StringDelta} param0 - downloadStateDelta
  */
-export const isDownloadInterrupted = ({ current, previous }) =>
-  current === downloadState.interrupted && previous === downloadState.inProgress
+export const isDownloadInterrupted = ({
+  current,
+  previous,
+}: chrome.downloads.StringDelta) =>
+  current === DownloadState.Interrupted && previous === DownloadState.InProgress
 
 /**
  * @param {chrome.downloads.StringDelta} param0 - downloadStateDelta
  */
-export const isDownloadCompleted = ({ current, previous }) =>
-  current === downloadState.complete && previous === downloadState.inProgress
+export const isDownloadCompleted = ({
+  current,
+  previous,
+}: chrome.downloads.StringDelta) =>
+  current === DownloadState.Complete && previous === DownloadState.InProgress
 
 /**
- * @typedef {import('./libs/TwitterMediaFile').tweetInfo} tweetInfo
- * @param {tweetInfo} tweetInfo twitter information
+ * @param tweetInfo twitter information
  */
-export const isInvalidInfo = tweetInfo =>
+export const isInvalidInfo = (tweetInfo: TweetInfo) =>
   !tweetInfo.screenName.length || !tweetInfo.tweetId.length
 
 /**
  * Check current page is in tweetdeck or not.
  * @returns {boolean}
  */
-export const isTweetDeck = () =>
+export const isTweetDeck = (): boolean =>
   window.location.host === 'tweetdeck.twitter.com'
 
 /**
  * Check current page is in twitter or not.
  * @returns {boolean}
  */
-export const isTwitter = () => window.location.host === 'twitter.com'
+export const isTwitter = (): boolean => window.location.host === 'twitter.com'
+
+export const isDownloadRecordId = (downloadRecordId: string) =>
+  Boolean(downloadRecordId.match(/^dl_(\d+)/))

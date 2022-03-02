@@ -1,20 +1,14 @@
 /**
- * @type {Enumerator<chrome.storage.StorageArea>}
- */
-const storageArea = Object.freeze({
-  sync: chrome.storage.sync,
-  local: chrome.storage.local,
-})
-
-/**
  * Fetch data from chrome storage.
  * Passing null keys to get all storage item.
  *
- * @param {chrome.storage.StorageArea} storageArea
- * @returns {(keys: string | string[] | Object | null) => Promise<{[key: string]: Object}}
+ * @param storageArea
  */
-const storageFetcher = storageArea => {
-  return (keys = null) => {
+const storageFetcher = (storageArea: chrome.storage.StorageArea) => {
+  return (
+    keys: string | string[] | object | null = null
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): Promise<{ [key: string]: any }> => {
     return new Promise(resolve => {
       storageArea.get(keys, items => resolve(items))
     })
@@ -24,16 +18,18 @@ const storageFetcher = storageArea => {
 /**
  * Set data to chrome storage.
  *
- * @param {chrome.storage.StorageArea} storageArea
- * @returns {(items: string | number | Object[] | Object) => Promise<void>}
+ * @param storageArea
  */
-const storageSetter = storageArea => items => {
-  return new Promise(resolve => {
-    storageArea.set(items, () => resolve())
-  })
-}
+const storageSetter = (
+  storageArea: chrome.storage.StorageArea
+): ((items: object) => Promise<void>) =>
+  function (items) {
+    return new Promise(resolve => {
+      storageArea.set(items, resolve)
+    })
+  }
 
-const removerKeysPretreat = keys => {
+const removerKeysPretreat = (keys: string | string[]) => {
   if (typeof keys !== 'string') keys = String(keys)
   if (Array.isArray(keys)) keys.map(String)
 
@@ -41,35 +37,34 @@ const removerKeysPretreat = keys => {
 }
 
 /**
- * @param {chrome.storage.StorageArea} storageArea
- * @returns { (removerKeys: string | string[] | number) => Promise<void> }
+ * @param storageArea
  */
-const storageRemover = storageArea => removerKeys => {
-  removerKeys = removerKeysPretreat(removerKeys)
+const storageRemover = (
+  storageArea: chrome.storage.StorageArea
+): ((removerKeys: string | string[]) => Promise<void>) =>
+  function (removerKeys) {
+    removerKeys = removerKeysPretreat(removerKeys)
 
-  return new Promise(resolve => {
-    storageArea.remove(removerKeys, resolve)
-  })
-}
+    return new Promise(resolve => {
+      storageArea.remove(removerKeys, resolve)
+    })
+  }
 
 /**
- * @param {chrome.storage.StorageArea} storageArea
- * @returns { Promise<void> }
+ * @param storageArea
  */
-const storageCleaner = storageArea => () => {
-  return new Promise(resolve => {
-    storageArea.clear(() => resolve())
-  })
-}
+const storageCleaner =
+  (storageArea: chrome.storage.StorageArea) => (): Promise<void> =>
+    new Promise(resolve => {
+      storageArea.clear(() => resolve())
+    })
 
 /**
  * Fetch chrome cookie
- *
- * @async
- * @param {Object} target
- * @returns { Promise<chrome.cookies.Cookie }
  */
-export const fetchCookie = target =>
+export const fetchCookie = (
+  target: chrome.cookies.Details
+): Promise<chrome.cookies.Cookie> =>
   new Promise(resolve => {
     chrome.cookies.get(target, cookie => resolve(cookie))
   })
@@ -77,14 +72,16 @@ export const fetchCookie = target =>
 /**
  * Search browser download history with query.
  *
- * @param {chrome.downloads.DownloadQuery} query
- * @returns { Promise<chrome.downloads.DownloadItem[]> }
+ * @param query
  */
-export const searchDownload = async query => {
+export const searchDownload = async (
+  query: chrome.downloads.DownloadQuery
+): Promise<chrome.downloads.DownloadItem[]> => {
   return new Promise(resolve => {
     chrome.downloads.search(query, items => resolve(items))
   })
 }
+
 const langMapping = {
   en: {
     appName: {
@@ -298,27 +295,29 @@ const langMapping = {
 /**
  * @param {string} kw i18n keyname
  */
-export const i18nLocalize = kw => {
+export const i18nLocalize = (kw: string) => {
   //chrome.i18n.getMessage(kw)
   const userLocale = new Intl.Locale(chrome.i18n.getUILanguage())
 
   const locale = Object.keys(langMapping).includes(userLocale.language)
+    // @ts-expect-error monkey patch
     ? langMapping[userLocale.language]
-    : langMapping['en']
+    : langMapping.en
 
   return locale[kw]['message']
 }
+
 /**
  * @param {string} path url path
  */
-export const getExtensionURL = path => chrome.runtime.getURL(path)
+export const getExtensionURL = (path: string) => chrome.runtime.getURL(path)
 export const getExtensionId = () => chrome.runtime.id
 
-export const fetchSyncStorage = storageFetcher(storageArea.sync)
-export const fetchLocalStorage = storageFetcher(storageArea.local)
-export const setSyncStorage = storageSetter(storageArea.sync)
-export const setLocalStorage = storageSetter(storageArea.local)
-export const removeFromSyncStorage = storageRemover(storageArea.sync)
-export const removeFromLocalStorage = storageRemover(storageArea.local)
-export const clearSyncStorage = storageCleaner(storageArea.sync)
-export const clearLocalStorage = storageCleaner(storageArea.local)
+export const fetchSyncStorage = storageFetcher(chrome.storage.sync)
+export const fetchLocalStorage = storageFetcher(chrome.storage.local)
+export const setSyncStorage = storageSetter(chrome.storage.sync)
+export const setLocalStorage = storageSetter(chrome.storage.local)
+export const removeFromSyncStorage = storageRemover(chrome.storage.sync)
+export const removeFromLocalStorage = storageRemover(chrome.storage.local)
+export const clearSyncStorage = storageCleaner(chrome.storage.sync)
+export const clearLocalStorage = storageCleaner(chrome.storage.local)

@@ -1,29 +1,32 @@
 {
   "env": {
-    "commonjs": true,
-    "es6": true,
     "node": true,
     "browser": true,
-    "jest": true,
-    "webextensions": true
+    "es2021": true
   },
-  "extends": ["eslint:recommended", "prettier"],
-  "plugins": ["prettier"],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": 12,
     "sourceType": "module"
   },
+  "plugins": ["@typescript-eslint"],
   "rules": {
-    "prettier/prettier": ["error"],
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
     "semi": ["error", "never"],
     "eqeqeq": ["error", "always"],
-    "no-console": "warn"
+    "no-console": "warn",
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "single", "multiple"],
+        "allowSeparatedGroups": false
+      }
+    ]
   }
 }
