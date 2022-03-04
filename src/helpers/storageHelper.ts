@@ -30,8 +30,6 @@ export const fetchFileNameSetting = async (): Promise<FilenameSetting> => {
     'no_subdirectory',
     'filename_pattern',
   ])
-  setting.filename_pattern = JSON.parse(setting.filename_pattern)
-
   return setting as unknown as FilenameSetting
 }
 
