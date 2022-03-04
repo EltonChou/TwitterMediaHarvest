@@ -1,5 +1,5 @@
 import { DEFAULT_DIRECTORY } from '../constants'
-import { FilenameSetting } from '../typings'
+import { FilenameSerialRule, FilenameSetting } from '../typings'
 import { jest } from '@jest/globals'
 import { makeBrowserDownloadConfig } from '../utils/maker'
 import path from 'path'
@@ -24,7 +24,7 @@ const expectFileInfo = {
   src: `${someHost}${fileName}${fileExt}:orig`,
   name: fileName,
   ext: fileExt,
-  order: String(fileIndex + 1),
+  order: fileIndex + 1,
 }
 const expectFileName = path.format({
   root: `${defaultDirectory}/`,
@@ -62,7 +62,7 @@ describe('Test filename pattern', () => {
   const makeSetting = jest.fn(
     (
       needAccount: boolean,
-      serial: 'order' | 'file_name',
+      serial: FilenameSerialRule,
       no_sub_dir: boolean
     ): FilenameSetting => {
       return {
@@ -77,7 +77,7 @@ describe('Test filename pattern', () => {
   )
 
   it('account with order (default)', async () => {
-    const patternSetting = makeSetting(true, 'order', false)
+    const patternSetting = makeSetting(true, FilenameSerialRule.Order, false)
 
     const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
 
@@ -90,7 +90,7 @@ describe('Test filename pattern', () => {
       name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-${expectFileInfo.name}`,
       ext: fileExt,
     })
-    const patternSetting = makeSetting(true, 'file_name', false)
+    const patternSetting = makeSetting(true, FilenameSerialRule.Filename, false)
 
     const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
 
@@ -103,7 +103,7 @@ describe('Test filename pattern', () => {
       name: `${tweetInfo.tweetId}-0${expectFileInfo.order}`,
       ext: fileExt,
     })
-    const patternSetting = makeSetting(false, 'order', false)
+    const patternSetting = makeSetting(false, FilenameSerialRule.Order, false)
 
     const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
 
@@ -116,7 +116,7 @@ describe('Test filename pattern', () => {
       name: `${tweetInfo.tweetId}-${expectFileInfo.name}`,
       ext: fileExt,
     })
-    const patternSetting = makeSetting(false, 'file_name', false)
+    const patternSetting = makeSetting(false, FilenameSerialRule.Filename, false)
 
     const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
 
@@ -130,7 +130,7 @@ describe('Test filename pattern', () => {
       ext: fileExt,
     })
 
-    const patternSetting = makeSetting(false, 'file_name', true)
+    const patternSetting = makeSetting(false, FilenameSerialRule.Filename, true)
     const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
 
     expect(fileName).toBe(thisName)

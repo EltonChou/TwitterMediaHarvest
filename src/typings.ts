@@ -12,9 +12,14 @@ export type TweetInfo = {
   tweetId: string
 }
 
+export const enum FilenameSerialRule {
+  Order = 'order',
+  Filename = 'filename'
+}
+
 export type FilenamePatternOption = {
   account: boolean
-  serial: 'order' | 'file_name'
+  serial: FilenameSerialRule
 }
 
 export type FilenameSetting = {

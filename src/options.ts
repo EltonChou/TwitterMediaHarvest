@@ -7,7 +7,7 @@ import {
   isEnableAria2,
 } from './helpers/storageHelper'
 import { i18nLocalize, setLocalStorage, setSyncStorage } from './libs/chromeApi'
-import { Action, FilenameSetting, HarvestMessage, StatisticsKey } from './typings'
+import { Action, FilenameSerialRule, FilenameSetting, HarvestMessage, StatisticsKey } from './typings'
 
 const noSubDirCheckBox: HTMLInputElement = select('#no_subdirectory')
 const accountCheckBox: HTMLInputElement = select('#account')
@@ -21,15 +21,15 @@ const preview: HTMLInputElement = select('#preview')
 const example = {
   account: 'twitterUser001-',
   tweetId: '1253677247493337088',
-  serial_order: '03',
+  serial_order: '02',
   serial_name: 'E9123klnWE90JHU',
   ext: '.jpg',
 }
 
 const updatePreview = () => {
   let serial = null
-  if (serialSelect.value === 'order') serial = example.serial_order
-  if (serialSelect.value === 'file_name') serial = example.serial_name
+  if (serialSelect.value === FilenameSerialRule.Order) serial = example.serial_order
+  if (serialSelect.value === FilenameSerialRule.Filename) serial = example.serial_name
   const filenameHead = accountCheckBox.checked ? example.account : ''
   const filenameQueue = [example.tweetId, '-', serial, example.ext]
   const theFilename = filenameHead.concat(...filenameQueue)

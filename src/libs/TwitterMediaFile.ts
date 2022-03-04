@@ -6,6 +6,7 @@ import {
 import {
   Aria2DownloadOption,
   DownloadMode,
+  FilenameSerialRule,
   FilenameSetting,
   TweetInfo,
 } from '../typings'
@@ -16,7 +17,7 @@ export default class TwitterMediaFile {
   public src: string
   public ext: string
   public name: string
-  public order: string
+  public order: number
 
   constructor(tweetInfo: TweetInfo, url: string, index = 0) {
     this.screenName = tweetInfo.screenName
@@ -24,7 +25,7 @@ export default class TwitterMediaFile {
     this.src = makeOrigSrc(url)
     this.ext = path.extname(url)
     this.name = path.basename(url, this.ext)
-    this.order = String(index + 1)
+    this.order = index + 1
   }
 
   makeFileNameBySetting(setting: FilenameSetting) {
@@ -36,20 +37,20 @@ export default class TwitterMediaFile {
 
     let serialPart
     switch (setting.filename_pattern.serial) {
-      case 'order':
-        serialPart = this.order.padStart(2, '0')
+      case FilenameSerialRule.Order:
+        serialPart = makeSerialOrder(this.order)
         break
 
-      case 'file_name':
+      case FilenameSerialRule.Filename:
         serialPart = this.name
         break
 
       default:
-        serialPart = this.order.padStart(2, '0')
+        serialPart = makeSerialOrder(this.order)
     }
 
-    const basename = accountPart.concat(this.tweetId, '-', serialPart)
-    const fullPath = root.concat(basename, this.ext)
+    const filename = accountPart.concat(this.tweetId, '-', serialPart, this.ext)
+    const fullPath = root.concat(filename)
 
     return fullPath
   }
@@ -71,7 +72,7 @@ export default class TwitterMediaFile {
   }
 
   static isValidFileUrl(url: string): boolean {
-    const twitter_media_url_pattern = /^https:\/\/(pbs|video)\.twimg\.com\/(media|ext_tw_video)\/.*\.(jpg|png|gif|mp4)$/
+    const twitter_media_url_pattern = /^https:\/\/(pbs|video)\.twimg\.com\/(media|ext_tw_video|tweet_video)\/.*\.(jpg|png|gif|mp4)$/
     return Boolean(url.match(twitter_media_url_pattern))
   }
 }
@@ -93,5 +94,7 @@ function selectConfigMakerByMode(modeName: DownloadMode) {
   if (modeName === DownloadMode.Aria2) return makeAria2DownloadConfig
   if (modeName === DownloadMode.Browser) return makeBrowserDownloadConfig
 }
+
+const makeSerialOrder = (order: number): string => String(order).padStart(2, '0')
 
 export { TwitterMediaFile, makeOrigSrc }
