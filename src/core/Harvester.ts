@@ -102,7 +102,10 @@ class Harvester {
           <div dir="ltr"
             class="${this.ltrStyle}">
             <div class="css-1dbjc4n r-xoduu5">
-              <div class="css-1dbjc4n r-sdzlij r-1p0dtai r-xoduu5 r-1d2f490 r-xf4iuw r-u8s1d r-zchlnj r-ipm5af r-o7ynqc r-6416eg ${mode}BG"></div>
+              <div class="\
+              css-1dbjc4n r-sdzlij r-1p0dtai r-xoduu5 r-1d2f490 r-xf4iuw r-u8s1d r-zchlnj r-ipm5af r-o7ynqc r-6416eg\
+              ${mode}BG"\
+              ></div>
               ${icon.outerHTML}
             </div>
           </div>
