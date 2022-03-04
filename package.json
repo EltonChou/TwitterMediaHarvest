@@ -47,7 +47,7 @@
     "**/@typescript-eslint/parser": "^4.15.1"
   },
   "scripts": {
-    "test": "jest --env=node",
+    "test": "jest --env=node --coverage",
     "build": "webpack --progress --color",
     "build-dev": "webpack --mode development --progress --color",
     "build-win": "webpack --progress --color && powershell Compress-Archive -Force build/ media_harvest.zip",

@@ -3,7 +3,8 @@
     "node_modules",
     "build",
     "jest.setup.js",
-    "*.config.js"
+    "*.config.js",
+    "coverage"
   ],
   "compilerOptions": {
     "outDir": "./build",
