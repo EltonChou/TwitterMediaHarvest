@@ -192,6 +192,7 @@ class MediaDownloader {
 
   downloadMedias(mediaList: string[]) {
     mediaList.forEach((value: string, index: number) => {
+      if (!TwitterMediaFile.isValidFileUrl(value)) return
       const mediaFile = new TwitterMediaFile(this.tweetInfo, value, index)
       const config = mediaFile.makeDownloadConfigBySetting(
         this.filenameSetting,

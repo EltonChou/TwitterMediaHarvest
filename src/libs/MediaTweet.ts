@@ -32,9 +32,8 @@ type TweetDetail = {
   }
 }
 
-const VIDEO_INFO = 'video_info'
 
-export const fetchMediaList = async (tweetId: string, token: string): Promise<string[]> => {
+export const fetchMediaList = async (tweetId: string, token: string) => {
   const endpoint = makeTweetEndpoint(tweetId)
   const mediaResponse = await fetch(endpoint, {
     method: 'GET',
@@ -44,14 +43,14 @@ export const fetchMediaList = async (tweetId: string, token: string): Promise<st
   })
 
   const statusCode = mediaResponse.status
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve: (value: string[]) => void, reject: (reason: FetchErrorReason) => void) => {
     if (statusCode === 200) {
       mediaResponse.json().then(
         (detail: TweetDetail) => {
           const medias = getMediaFromDetailByTweetId(detail)(tweetId)
           const leadMedia = getLeadMedia(medias)
           const mediaList = isVideo(leadMedia)
-            ? parseVideo(leadMedia[VIDEO_INFO])
+            ? parseVideo(getVideoInfo(leadMedia))
             : parseImage(medias)
           resolve(mediaList)
         }
@@ -61,29 +60,43 @@ export const fetchMediaList = async (tweetId: string, token: string): Promise<st
     if (statusCode === 429) {
       const reason: FetchErrorReason = {
         status: statusCode,
-        title: i18nLocalize('fetchFailedUnknownTitle') + statusCode,
-        message: i18nLocalize('fetchFailedUnknownMessage'),
+        title: i18nLocalize('fetchFailedTooManyRequestsTitle'),
+        message: i18nLocalize('fetchFailedTooManyRequestsMessage'),
       }
-      reason.title = i18nLocalize('fetchFailedTooManyRequestsTitle')
-      reason.message = i18nLocalize('fetchFailedTooManyRequestsMessage')
 
       reject(reason)
     }
+
+    const reason: FetchErrorReason = {
+      status: statusCode,
+      title: i18nLocalize('fetchFailedUnknownTitle') + statusCode,
+      message: i18nLocalize('fetchFailedUnknownMessage'),
+    }
+
+    reject(reason)
   })
 }
-
+const VIDEO_INFO = 'video_info'
+/**
+ * Clean all searchParams
+ */
+const cleanUrl = (url: URL): URL => {
+  url.searchParams.delete('tag')
+  return url
+}
 const makeTweetEndpoint = (tweetId: string) => `https://api.twitter.com/2/timeline/conversation/${tweetId}.json?tweet_mode=extended`
 const getMediaFromDetailByTweetId = (detail: TweetDetail) =>
   (tweetId: string): TweetMedia[] => detail.globalObjects.tweets[tweetId].extended_entities.media
 const getLeadMedia = ([media]: TweetMedia[]) => media
+const getVideoInfo = (tweetMedia: TweetMedia): VideoInfo => tweetMedia.video_info
 const isVideo = (media: TweetMedia) => VIDEO_INFO in media
-const parseImage = (medias: TweetMedia[]): string[] => medias.map(media => media.media_url_https)
+const parseImage = (medias: TweetMedia[]): string[] => medias.map(media => cleanUrl(new URL(media.media_url_https)).href)
 const parseVideo = (video_info: VideoInfo): string[] => {
-  const mediaList = []
+  const mediaList: string[] = []
   const { variants } = video_info
 
   let hiRes = 0
-  let targetUrl
+  let targetUrl: URL
 
   for (const variant of variants) {
     const { bitrate, url } = variant
@@ -92,11 +105,12 @@ const parseVideo = (video_info: VideoInfo): string[] => {
     const isHigherBitrate = bitrate > hiRes || bitrate === 0
     if (typeof bitrate !== 'undefined' && isHigherBitrate) {
       hiRes = bitrate
-      targetUrl = url
+      targetUrl = new URL(url)
+      targetUrl = cleanUrl(targetUrl)
     }
   }
 
-  mediaList.push(targetUrl)
+  mediaList.push(targetUrl.href)
   return mediaList
 }
 

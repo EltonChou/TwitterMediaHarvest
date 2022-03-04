@@ -13,7 +13,6 @@ import {
 export default class TwitterMediaFile {
   public screenName: string
   public tweetId: string
-  public url: string
   public src: string
   public ext: string
   public name: string
@@ -22,10 +21,9 @@ export default class TwitterMediaFile {
   constructor(tweetInfo: TweetInfo, url: string, index = 0) {
     this.screenName = tweetInfo.screenName
     this.tweetId = tweetInfo.tweetId
-    this.url = cleanUrl(url)
-    this.src = makeOrigSrc(this.url)
-    this.ext = path.extname(this.url)
-    this.name = path.basename(this.url, this.ext)
+    this.src = makeOrigSrc(url)
+    this.ext = path.extname(url)
+    this.name = path.basename(url, this.ext)
     this.order = String(index + 1)
   }
 
@@ -71,6 +69,11 @@ export default class TwitterMediaFile {
 
     return config
   }
+
+  static isValidFileUrl(url: string): boolean {
+    const twitter_media_url_pattern = /^https:\/\/(pbs|video)\.twimg\.com\/(media|ext_tw_video)\/.*\.(jpg|png|gif|mp4)$/
+    return Boolean(url.match(twitter_media_url_pattern))
+  }
 }
 
 /**
@@ -84,16 +87,6 @@ function makeOrigSrc(url: string): string {
   // baseUrl.searchParams.append('name', 'orig')
 
   return `${url}:orig`
-}
-
-/**
- * Clean all searchParams
- */
-function cleanUrl(url: string): string {
-  const theUrl = new URL(url)
-  theUrl.searchParams.delete('tag')
-
-  return theUrl.href
 }
 
 function selectConfigMakerByMode(modeName: DownloadMode) {
