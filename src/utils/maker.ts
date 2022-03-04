@@ -1,4 +1,4 @@
-import { Action, Aria2DownloadOption, DownloadRecordId, TweetInfo } from '../typings'
+import { Action, DownloadRecordId, TweetInfo } from '../typings'
 
 /**
  * Create HTMLElement from html string.
