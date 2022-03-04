@@ -6,7 +6,7 @@ import {
   getStatisticsCount,
   isEnableAria2,
 } from './helpers/storageHelper'
-import { i18nLocalize, setLocalStorage, setSyncStorage } from './libs/chromeApi'
+import { setLocalStorage, setSyncStorage } from './libs/chromeApi'
 import { Action, FilenameSerialRule, FilenameSetting, HarvestMessage, StatisticsKey } from './typings'
 
 const noSubDirCheckBox: HTMLInputElement = select('#no_subdirectory')
@@ -39,7 +39,7 @@ const updatePreview = () => {
 const initializeForm = async () => {
   const setting = await fetchFileNameSetting()
   directoryInput.value = setting.directory
-  noSubDirCheckBox.checked = Boolean(setting.no_subdirectory)
+  noSubDirCheckBox.checked = setting.no_subdirectory
   if (noSubDirCheckBox.checked) {
     disableDirectoryInput()
   }
@@ -123,12 +123,12 @@ settingsForm.addEventListener('submit', async function (e) {
   aria2Config[LOCAL_STORAGE_KEY_ARIA2] = Boolean(aria2Control.ariaChecked)
 
   const filenameSetting: FilenameSetting = {
-    ...Object.fromEntries([
-      [directoryInput.name, directoryInput.value],
-      [noSubDirCheckBox.name, noSubDirCheckBox.checked]
-    ]),
-    account: accountCheckBox.checked,
-    serial: serialSelect.value,
+    directory: directoryInput.value,
+    no_subdirectory: noSubDirCheckBox.checked,
+    filename_pattern: {
+      account: accountCheckBox.checked,
+      serial: getSerialRule(serialSelect.value),
+    }
   }
 
   const saveAria2 = setLocalStorage(aria2Config)
@@ -147,10 +147,15 @@ async function localize() {
   for (const localObject of localeObjects) {
     const tag = localObject.innerHTML
     const localized = tag.replace(/__MSG_(\w+)__/g, (match, v1) => {
-      return v1 ? i18nLocalize(v1) : ''
+      return v1 ? chrome.i18n.getMessage(v1) : ''
     })
     localObject.innerHTML = localized
   }
+}
+
+function getSerialRule(value: string) {
+  if (value === FilenameSerialRule.Filename) return FilenameSerialRule.Filename
+  if (value === FilenameSerialRule.Order) return FilenameSerialRule.Order
 }
 
 localize().then(initializeForm).then(initializeStatistics).then(updatePreview)
