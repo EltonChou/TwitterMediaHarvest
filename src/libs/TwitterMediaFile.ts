@@ -22,37 +22,32 @@ export default class TwitterMediaFile {
   constructor(tweetInfo: TweetInfo, url: string, index = 0) {
     this.screenName = tweetInfo.screenName
     this.tweetId = tweetInfo.tweetId
-    this.src = makeOrigSrc(url)
     this.ext = path.extname(url)
+    this.src = this.isVideo() ? url : makeImageOrigSrc(url)
     this.name = path.basename(url, this.ext)
     this.order = index + 1
   }
 
-  makeFilenameBySetting(setting: FilenameSetting) {
-    const root = setting.no_subdirectory ? '' : setting.directory.concat('/')
+  isVideo(): boolean {
+    return this.ext === '.mp4'
+  }
 
+  makeFilenameBySetting(setting: FilenameSetting) {
     const accountPart = setting.filename_pattern.account
       ? `${this.screenName}-`
       : ''
 
-    let serialPart
-    switch (setting.filename_pattern.serial) {
-      case FilenameSerialRule.Order:
-        serialPart = makeSerialOrder(this.order)
-        break
+    let serialPart: string
+    if (setting.filename_pattern.serial === FilenameSerialRule.Order) serialPart = makeSerialOrder(this.order)
+    if (setting.filename_pattern.serial === FilenameSerialRule.Filename) serialPart = this.name
 
-      case FilenameSerialRule.Filename:
-        serialPart = this.name
-        break
+    return accountPart.concat(this.tweetId, '-', serialPart, this.ext)
+  }
 
-      default:
-        serialPart = makeSerialOrder(this.order)
-    }
-
-    const filename = accountPart.concat(this.tweetId, '-', serialPart, this.ext)
-    const fullPath = root.concat(filename)
-
-    return fullPath
+  makeFileFullPathBySetting(setting: FilenameSetting) {
+    const directory = makeDirectoryBySetting(setting)
+    const fileName = this.makeFilenameBySetting(setting)
+    return directory.concat(fileName)
   }
 
   /**
@@ -60,41 +55,33 @@ export default class TwitterMediaFile {
    */
   makeDownloadConfigBySetting(
     setting: FilenameSetting,
-    mode: DownloadMode = DownloadMode.Browser
+    mode: DownloadMode
   ): chrome.downloads.DownloadOptions | Aria2DownloadOption {
     const url = this.src
-    const fileName = this.makeFilenameBySetting(setting)
+    const fileFullPath = this.makeFileFullPathBySetting(setting)
     const tweetReferer = `https://twitter.com/i/web/status/${this.tweetId}`
-    const configMaker = selectConfigMakerByMode(mode)
-    const config = configMaker(url, fileName, tweetReferer)
+    const makeConfig = selectConfigMakerByMode(mode)
+    const config = makeConfig(url, fileFullPath, tweetReferer)
 
     return config
   }
 
   static isValidFileUrl(url: string): boolean {
-    const twitter_media_url_pattern = /^https:\/\/(pbs|video)\.twimg\.com\/(media|ext_tw_video|tweet_video)\/.*\.(jpg|png|gif|mp4)$/
+    const twitter_media_url_pattern =
+      /^https:\/\/(pbs|video)\.twimg\.com\/(media|ext_tw_video|tweet_video)\/.*\.(jpg|png|gif|mp4)$/
     return Boolean(url.match(twitter_media_url_pattern))
   }
 }
 
-/**
- * Make original quality source of tweet media from media url
- */
-function makeOrigSrc(url: string): string {
-  if (path.extname(url) === '.mp4') return url
 
-  // const ext = path.extname(url).split('.')[1]
-  // baseUrl.searchParams.append('format', ext)
-  // baseUrl.searchParams.append('name', 'orig')
+export const makeDirectoryBySetting = (setting: FilenameSetting) =>
+  setting.no_subdirectory ? '' : setting.directory.concat('/')
+/** Make original quality source of tweet media from media url */
+export const makeImageOrigSrc = (url: string): string => `${url}:orig`
 
-  return `${url}:orig`
-}
-
-function selectConfigMakerByMode(modeName: DownloadMode) {
+export const selectConfigMakerByMode = (modeName: DownloadMode) => {
   if (modeName === DownloadMode.Aria2) return makeAria2DownloadConfig
   if (modeName === DownloadMode.Browser) return makeBrowserDownloadConfig
 }
 
-const makeSerialOrder = (order: number): string => String(order).padStart(2, '0')
-
-export { TwitterMediaFile, makeOrigSrc }
+export const makeSerialOrder = (order: number): string => String(order).padStart(2, '0')
