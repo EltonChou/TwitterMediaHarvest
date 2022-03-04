@@ -28,7 +28,7 @@ export default class TwitterMediaFile {
     this.order = index + 1
   }
 
-  makeFileNameBySetting(setting: FilenameSetting) {
+  makeFilenameBySetting(setting: FilenameSetting) {
     const root = setting.no_subdirectory ? '' : setting.directory.concat('/')
 
     const accountPart = setting.filename_pattern.account
@@ -63,7 +63,7 @@ export default class TwitterMediaFile {
     mode: DownloadMode = DownloadMode.Browser
   ): chrome.downloads.DownloadOptions | Aria2DownloadOption {
     const url = this.src
-    const fileName = this.makeFileNameBySetting(setting)
+    const fileName = this.makeFilenameBySetting(setting)
     const tweetReferer = `https://twitter.com/i/web/status/${this.tweetId}`
     const configMaker = selectConfigMakerByMode(mode)
     const config = configMaker(url, fileName, tweetReferer)

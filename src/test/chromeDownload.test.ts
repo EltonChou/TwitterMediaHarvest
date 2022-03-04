@@ -79,7 +79,7 @@ describe('Test filename pattern', () => {
   it('account with order (default)', async () => {
     const patternSetting = makeSetting(true, FilenameSerialRule.Order, false)
 
-    const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
+    const fileName = twitterMediaFile.makeFilenameBySetting(patternSetting)
 
     expect(fileName).toBe(expectFileName)
   })
@@ -92,7 +92,7 @@ describe('Test filename pattern', () => {
     })
     const patternSetting = makeSetting(true, FilenameSerialRule.Filename, false)
 
-    const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
+    const fileName = twitterMediaFile.makeFilenameBySetting(patternSetting)
 
     expect(fileName).toBe(thisName)
   })
@@ -105,7 +105,7 @@ describe('Test filename pattern', () => {
     })
     const patternSetting = makeSetting(false, FilenameSerialRule.Order, false)
 
-    const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
+    const fileName = twitterMediaFile.makeFilenameBySetting(patternSetting)
 
     expect(fileName).toBe(thisName)
   })
@@ -118,7 +118,7 @@ describe('Test filename pattern', () => {
     })
     const patternSetting = makeSetting(false, FilenameSerialRule.Filename, false)
 
-    const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
+    const fileName = twitterMediaFile.makeFilenameBySetting(patternSetting)
 
     expect(fileName).toBe(thisName)
   })
@@ -131,7 +131,7 @@ describe('Test filename pattern', () => {
     })
 
     const patternSetting = makeSetting(false, FilenameSerialRule.Filename, true)
-    const fileName = twitterMediaFile.makeFileNameBySetting(patternSetting)
+    const fileName = twitterMediaFile.makeFilenameBySetting(patternSetting)
 
     expect(fileName).toBe(thisName)
   })
