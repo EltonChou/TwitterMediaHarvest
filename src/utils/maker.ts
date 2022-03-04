@@ -30,16 +30,17 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
   button: T
 ): T => {
   button.addEventListener('click', async function (e) {
+    e.stopImmediatePropagation()
     if (this.classList.contains('downloading')) return false
     this.classList.remove('success', 'error')
-    e.stopImmediatePropagation()
     this.classList.add('downloading')
     chrome.runtime.sendMessage(
       {
         action: Action.Download,
         data: this.dataset,
       },
-      response => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (response: any) => {
         const { status } = response
         this.classList.remove('downloading', 'success', 'error')
         this.classList.add(status)
@@ -49,46 +50,7 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
   return button
 }
 
-/**
- * Create browser download config object.
- *
- * @param url
- * @param fileName
- * @param referer
- */
-export const makeBrowserDownloadConfig = (
-  url: string,
-  fileName: string
-): chrome.downloads.DownloadOptions => {
-  return {
-    url: url,
-    filename: fileName,
-    conflictAction: 'overwrite',
-    saveAs: false,
-  }
-}
 
-/**
- * Create aria2 download config object.
- *
- * @param url
- * @param fileName
- * @param referrer
- * @param options aria2 options
- */
-export const makeAria2DownloadConfig = (
-  url: string,
-  fileName: string,
-  referrer: string,
-  options: object = {}
-): Aria2DownloadOption => {
-  return {
-    url: url,
-    filename: fileName,
-    referrer: referrer,
-    options: options,
-  }
-}
 
 export const makeDownloadRecordId = (downloadId: number): DownloadRecordId =>
   `dl_${downloadId}`

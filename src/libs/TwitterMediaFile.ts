@@ -1,9 +1,5 @@
 import path from 'path'
 import {
-  makeAria2DownloadConfig,
-  makeBrowserDownloadConfig,
-} from '../utils/maker'
-import {
   Aria2DownloadOption,
   DownloadMode,
   FilenameSerialRule,
@@ -85,3 +81,43 @@ export const selectConfigMakerByMode = (modeName: DownloadMode) => {
 }
 
 export const makeSerialOrder = (order: number): string => String(order).padStart(2, '0')
+
+/**
+ * Create browser download config object.
+ *
+ * @param url
+ * @param fileName
+ */
+export const makeBrowserDownloadConfig = (
+  url: string,
+  fileName: string
+): chrome.downloads.DownloadOptions => {
+  return {
+    url: url,
+    filename: fileName,
+    conflictAction: 'overwrite',
+    saveAs: false,
+  }
+}
+
+/**
+ * Create aria2 download config object.
+ *
+ * @param url
+ * @param fileName
+ * @param referrer
+ * @param options aria2 options
+ */
+export const makeAria2DownloadConfig = (
+  url: string,
+  fileName: string,
+  referrer: string,
+  options: object = {}
+): Aria2DownloadOption => {
+  return {
+    url: url,
+    filename: fileName,
+    referrer: referrer,
+    options: options,
+  }
+}
