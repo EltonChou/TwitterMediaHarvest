@@ -55,9 +55,7 @@ export const fetchMediaList = async (tweetId: string, token: string) => {
           resolve(mediaList)
         }
       )
-    }
-
-    if (statusCode === 429) {
+    } else if (statusCode === 429) {
       const reason: FetchErrorReason = {
         status: statusCode,
         title: i18nLocalize('fetchFailedTooManyRequestsTitle'),
@@ -65,15 +63,15 @@ export const fetchMediaList = async (tweetId: string, token: string) => {
       }
 
       reject(reason)
-    }
+    } else {
+      const reason: FetchErrorReason = {
+        status: statusCode,
+        title: i18nLocalize('fetchFailedUnknownTitle') + statusCode,
+        message: i18nLocalize('fetchFailedUnknownMessage'),
+      }
 
-    const reason: FetchErrorReason = {
-      status: statusCode,
-      title: i18nLocalize('fetchFailedUnknownTitle') + statusCode,
-      message: i18nLocalize('fetchFailedUnknownMessage'),
+      reject(reason)
     }
-
-    reject(reason)
   })
 }
 const VIDEO_INFO = 'video_info'
