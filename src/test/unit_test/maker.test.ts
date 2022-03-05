@@ -11,9 +11,6 @@ import {
 } from '../../content_script/utils/maker'
 import { makeDownloadRecordId } from '../../backend/utils/maker'
 
-import {
-  TweetInfo
-} from '../../typings'
 
 test('create element from HTML string', () => {
   const button = createElementFromHTML('<button><span>yolo</span></button>')

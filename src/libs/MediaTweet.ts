@@ -1,6 +1,5 @@
 import { TWITTER_AUTH_TOKEN } from '../constants'
 import { i18nLocalize } from './chromeApi'
-import { FetchErrorReason } from '../typings'
 
 type VideoInfo = {
   aspect_ratio: number[]

@@ -2,7 +2,6 @@ import {
   addStatisticsCount,
   getStatisticsCount,
 } from '../backend/helpers/storageHelper'
-
 import { StatisticsKey } from '../typings'
 
 export default class Statistics {

@@ -1,7 +1,6 @@
 import select from 'select-dom'
 import observeElement from './observer'
 import makeHarvester from '../core'
-import { TwitterMediaHarvestObserver } from '../../typings'
 
 const deckStreamHasMedia = (addedNode: Node) => {
   const hasMedia =
@@ -132,7 +131,7 @@ const initColumnObserver = (column: HTMLElement) => {
   observeStreamContainer(tweetContainer)
 }
 
-class TwitterDeckObserver extends TwitterMediaHarvestObserver {
+class TwitterDeckObserver implements HarvestObserver {
   observeRoot() {
     const options: MutationObserverInit = {
       childList: true,

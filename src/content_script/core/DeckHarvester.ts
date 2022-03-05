@@ -6,7 +6,6 @@ import {
   makeButtonListener,
   makeButtonWithData,
 } from '../utils/maker'
-import { TweetInfo } from '../../typings'
 
 const fetchTweetId = (article: HTMLElement) =>
   article.dataset.tweetId || select('.js-tweet-box').dataset.key

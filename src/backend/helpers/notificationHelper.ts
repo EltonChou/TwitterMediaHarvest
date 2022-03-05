@@ -1,6 +1,5 @@
 import { getExtensionURL, i18nLocalize } from '../../libs/chromeApi'
 import { makeDownloadRecordId } from '../utils/maker'
-import { FetchErrorReason, TweetInfo } from '../../typings'
 
 const templateType = Object.freeze({
   basic: 'basic',

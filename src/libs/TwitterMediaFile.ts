@@ -1,11 +1,6 @@
 import path from 'path'
-import {
-  Aria2DownloadOption,
-  DownloadMode,
-  FilenameSerialRule,
-  FilenameSetting,
-  TweetInfo,
-} from '../typings'
+import { DownloadMode, FilenameSerialRule } from '../typings'
+
 
 export default class TwitterMediaFile {
   public screenName: string

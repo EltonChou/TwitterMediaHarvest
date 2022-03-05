@@ -7,7 +7,7 @@ import {
   isEnableAria2,
 } from './helpers/storageHelper'
 import { setLocalStorage, setSyncStorage } from '../libs/chromeApi'
-import { Action, FilenameSerialRule, FilenameSetting, HarvestMessage, StatisticsKey } from '../typings'
+import { Action, FilenameSerialRule, StatisticsKey, } from '../typings'
 
 const noSubDirCheckBox: HTMLInputElement = select('#no_subdirectory')
 const accountCheckBox: HTMLInputElement = select('#account')

@@ -13,16 +13,8 @@ import {
   setSyncStorage,
 } from '../../libs/chromeApi'
 import Statistics from '../../libs/Statistics'
+import { StatisticsKey } from '../../typings'
 import { makeDownloadRecordId } from '../utils/maker'
-import {
-  DownloadItemRecorder,
-  DownloadRecord,
-  DownloadRecordId,
-  FilenameSetting,
-  LocalStorageInitialData,
-  StatisticsKey,
-  TweetInfo,
-} from '../../typings'
 
 export const fetchFileNameSetting = async (): Promise<FilenameSetting> => {
   const setting = await fetchSyncStorage([

@@ -10,7 +10,6 @@ import {
   makeButtonListener,
   makeButtonWithData,
 } from '../utils/maker'
-import { TweetInfo, TweetMode } from '../../typings'
 
 const featureRegEx = Object.freeze({
   id: /(?:status\/)(\d+)/,

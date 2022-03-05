@@ -1,5 +1,4 @@
 import select from 'select-dom'
-import { TweetMode } from '../../typings'
 
 export const isArticleInDetail = (article: HTMLElement) =>
   select.exists('.tweet-detail', article)

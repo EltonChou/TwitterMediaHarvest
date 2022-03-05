@@ -1,5 +1,4 @@
-import { Action, TweetInfo } from '../../typings'
-
+import { Action } from '../../typings'
 /**
  * Create HTMLElement from html string.
  *
@@ -34,17 +33,17 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
     if (this.classList.contains('downloading')) return false
     this.classList.remove('success', 'error')
     this.classList.add('downloading')
-    chrome.runtime.sendMessage(
-      {
-        action: Action.Download,
-        data: this.dataset,
-      },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (response: any) => {
-        const { status } = response
-        this.classList.remove('downloading', 'success', 'error')
-        this.classList.add(status)
-      }
+    const message: HarvestMessage = {
+      action: Action.Download,
+      data: this.dataset
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    chrome.runtime.sendMessage(message, (response: any) => {
+      const { status } = response
+      this.classList.remove('downloading', 'success', 'error')
+      this.classList.add(status)
+    }
     )
   })
   return button

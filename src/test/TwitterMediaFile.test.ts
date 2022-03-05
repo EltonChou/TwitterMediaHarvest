@@ -1,8 +1,7 @@
 import path from 'path'
 import { jest } from '@jest/globals'
 import TwitterMediaFile from '../libs/TwitterMediaFile'
-import { Aria2DownloadOption, DownloadMode, FilenameSerialRule, FilenameSetting, TweetInfo } from '../typings'
-
+import { DownloadMode, FilenameSerialRule } from '../typings'
 
 const DEFAULT_DIRECTORY = 'twitter_media_harvest'
 const defaultFilenameSetting: FilenameSetting = {

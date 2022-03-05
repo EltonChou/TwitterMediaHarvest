@@ -1,5 +1,3 @@
-import { TweetInfo } from '../../typings'
-
 enum DownloadState {
   InProgress = 'in_progress',
   Interrupted = 'interrupted',

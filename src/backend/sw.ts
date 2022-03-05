@@ -29,16 +29,8 @@ import {
   notifyMediaListFetchError,
   notifyUnknownFetchError,
 } from './helpers/notificationHelper'
-import {
-  Action,
-  DownloadItemRecorder,
-  DownloadMode,
-  DownloadRecordId,
-  FetchErrorReason,
-  FilenameSetting,
-  HarvestMessage,
-  TweetInfo
-} from '../typings'
+import { Action, DownloadMode } from '../typings'
+
 
 const installReason = Object.freeze({
   install: 'install',

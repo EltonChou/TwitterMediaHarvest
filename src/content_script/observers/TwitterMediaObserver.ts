@@ -2,7 +2,6 @@ import select from 'select-dom'
 import makeHarvester from '../core'
 import observeElement from './observer'
 import { articleHasMedia, isStreamLoaded } from '../utils/checker'
-import { TwitterMediaHarvestObserver } from '../../typings'
 
 enum Query {
   Root = '#react-root > div > div',
@@ -12,7 +11,7 @@ enum Query {
   ModalThread = '[aria-labelledby="modal-header"] [aria-expanded="true"]',
 }
 
-export default class TwitterMediaObserver extends TwitterMediaHarvestObserver {
+export default class TwitterMediaObserver implements HarvestObserver {
   observeRoot() {
     const options: MutationObserverInit = {
       childList: true,
