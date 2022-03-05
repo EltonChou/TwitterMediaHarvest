@@ -33,20 +33,24 @@ export default class TwitterMediaFile {
 
   makeFilenameBySetting(setting: FilenameSetting) {
     const accountPart = setting.filename_pattern.account
-      ? `${this.screenName}-`
+      ? this.screenName.concat('-')
       : ''
 
     let serialPart: string
     if (setting.filename_pattern.serial === FilenameSerialRule.Order) serialPart = makeSerialOrder(this.order)
     if (setting.filename_pattern.serial === FilenameSerialRule.Filename) serialPart = this.name
 
-    return accountPart.concat(this.tweetId, '-', serialPart, this.ext)
+    return accountPart.concat(this.tweetId, '-', serialPart)
   }
 
   makeFileFullPathBySetting(setting: FilenameSetting) {
     const directory = makeDirectoryBySetting(setting)
     const fileName = this.makeFilenameBySetting(setting)
-    return directory.concat(fileName)
+    return path.format({
+      dir: directory,
+      name: fileName,
+      ext: this.ext
+    })
   }
 
   /**
@@ -74,7 +78,8 @@ export default class TwitterMediaFile {
 
 
 export const makeDirectoryBySetting = (setting: FilenameSetting) =>
-  setting.no_subdirectory ? '' : setting.directory.concat('/')
+  setting.no_subdirectory ? '' : setting.directory
+
 /** Make original quality source of tweet media from media url */
 export const makeImageOrigSrc = (url: string): string => `${url}:orig`
 

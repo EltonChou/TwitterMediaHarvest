@@ -36,7 +36,11 @@ describe('Test TwitterMediaFile usage.', () => {
   it('can make valid chrome download config', () => {
     const expectConfig: chrome.downloads.DownloadOptions = {
       url: IMAGE_URL_BASE.concat('cool.jpg:orig'),
-      filename: DEFAULT_DIRECTORY.concat('/', tweetInfo.screenName, '-', tweetInfo.tweetId, '-', '01.jpg'),
+      filename: path.format({
+        dir: DEFAULT_DIRECTORY,
+        name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-01`,
+        ext: '.jpg'
+      }),
       conflictAction: 'overwrite',
       saveAs: false,
     }
@@ -48,7 +52,11 @@ describe('Test TwitterMediaFile usage.', () => {
   it('can make valid aria2 download config', () => {
     const expectConfig: Aria2DownloadOption = {
       url: VIDEO_URL_BASE.concat('hq.mp4'),
-      filename: DEFAULT_DIRECTORY.concat('/', tweetInfo.screenName, '-', tweetInfo.tweetId, '-', '01.mp4'),
+      filename: path.format({
+        dir: DEFAULT_DIRECTORY,
+        name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-01`,
+        ext: '.mp4'
+      }),
       referrer: `https://twitter.com/i/web/status/${tweetInfo.tweetId}`,
       options: {}
     }
@@ -99,15 +107,20 @@ describe('Test different filename pattern.', () => {
   const twitterMediaFile = new TwitterMediaFile(tweetInfo, IMAGE_URL_BASE.concat(filename), fileIndex)
 
   it('can be account with serial in order (by default).', () => {
+    const thisFilename = path.format({
+      dir: `${DEFAULT_DIRECTORY}`,
+      name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-0${fileIndex + 1}`,
+      ext: fileExt
+    })
     const patternSetting = makeSetting(true, FilenameSerialRule.Order, false)
     const fileName = twitterMediaFile.makeFileFullPathBySetting(patternSetting)
 
-    expect(fileName).toBe(`${DEFAULT_DIRECTORY}/${tweetInfo.screenName}-${tweetInfo.tweetId}-04.jpg`)
+    expect(fileName).toBe(thisFilename)
   })
 
   it('can be account with serial in original filename', () => {
     const thisFilename = path.format({
-      root: `${DEFAULT_DIRECTORY}/`,
+      dir: `${DEFAULT_DIRECTORY}`,
       name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-${basename}`,
       ext: fileExt,
     })
@@ -119,7 +132,7 @@ describe('Test different filename pattern.', () => {
 
   it('can be serial in order without account', () => {
     const thisFilename = path.format({
-      root: `${DEFAULT_DIRECTORY}/`,
+      dir: `${DEFAULT_DIRECTORY}`,
       name: `${tweetInfo.tweetId}-0${fileIndex + 1}`,
       ext: fileExt,
     })
@@ -131,7 +144,7 @@ describe('Test different filename pattern.', () => {
 
   it('can be serial in file basename without account', async () => {
     const thisFilename = path.format({
-      root: `${DEFAULT_DIRECTORY}/`,
+      dir: `${DEFAULT_DIRECTORY}`,
       name: `${tweetInfo.tweetId}-${basename}`,
       ext: fileExt,
     })
