@@ -5,9 +5,11 @@ import {
   fetchFileNameSetting,
   getStatisticsCount,
   isEnableAria2,
+  StatisticsKey
 } from './helpers/storageHelper'
 import { setLocalStorage, setSyncStorage } from '../libs/chromeApi'
-import { Action, FilenameSerialRule, StatisticsKey, } from '../typings'
+import { Action, } from '../typings'
+import { FilenameSerialRule } from '../libs/TwitterMediaFile'
 
 const noSubDirCheckBox: HTMLInputElement = select('#no_subdirectory')
 const accountCheckBox: HTMLInputElement = select('#account')
@@ -127,7 +129,7 @@ settingsForm.addEventListener('submit', async function (e) {
     no_subdirectory: noSubDirCheckBox.checked,
     filename_pattern: {
       account: accountCheckBox.checked,
-      serial: getSerialRule(serialSelect.value),
+      serial: serialSelect.value as FilenameSerialRule,
     }
   }
 
@@ -151,11 +153,6 @@ async function localize() {
     })
     localObject.innerHTML = localized
   }
-}
-
-function getSerialRule(value: string) {
-  if (value === FilenameSerialRule.Filename) return FilenameSerialRule.Filename
-  if (value === FilenameSerialRule.Order) return FilenameSerialRule.Order
 }
 
 localize().then(initializeForm).then(initializeStatistics).then(updatePreview)

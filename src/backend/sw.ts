@@ -1,6 +1,6 @@
 import { ARIA2_ID } from '../constants'
 import Statistics from '../libs/Statistics'
-import TwitterMediaFile from '../libs/TwitterMediaFile'
+import TwitterMediaFile, { DownloadMode } from '../libs/TwitterMediaFile'
 import { fetchMediaList } from '../libs/MediaTweet'
 import {
   getExtensionId,
@@ -29,7 +29,7 @@ import {
   notifyMediaListFetchError,
   notifyUnknownFetchError,
 } from './helpers/notificationHelper'
-import { Action, DownloadMode } from '../typings'
+import { Action } from '../typings'
 
 
 const installReason = Object.freeze({

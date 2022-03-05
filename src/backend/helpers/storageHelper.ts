@@ -1,5 +1,4 @@
 import {
-  CHROME_STORAGE_DEFAULT_FILENAME_PATTERN_OBJECT_STRING,
   DEFAULT_DIRECTORY,
   LOCAL_STORAGE_KEY_ARIA2,
 } from '../../constants'
@@ -13,7 +12,6 @@ import {
   setSyncStorage,
 } from '../../libs/chromeApi'
 import Statistics from '../../libs/Statistics'
-import { StatisticsKey } from '../../typings'
 import { makeDownloadRecordId } from '../utils/maker'
 
 export const fetchFileNameSetting = async (): Promise<FilenameSetting> => {
@@ -61,10 +59,11 @@ export const migrateStorage = async () => {
 export const initStorage = async () => {
   console.groupCollapsed('Initialization')
   console.info('Initializing storage...')
-  const result = await setSyncStorage({
+  const initSyncData: FilenameSetting = {
     directory: DEFAULT_DIRECTORY,
-    filename_pattern: CHROME_STORAGE_DEFAULT_FILENAME_PATTERN_OBJECT_STRING,
-  })
+    no_subdirectory: false,
+    filename_pattern: { serial: 'order', account: true }
+  }
   const initLocalData: LocalStorageInitialData = {
     [LOCAL_STORAGE_KEY_ARIA2]: false,
     [StatisticsKey.ErrorCount]: 0,
@@ -72,9 +71,9 @@ export const initStorage = async () => {
     [StatisticsKey.SuccessDownloadCount]: 0,
   }
 
+  await setSyncStorage(initSyncData)
   await setLocalStorage(initLocalData)
   console.info('Done.')
-  console.table(result)
   console.groupEnd()
 }
 
@@ -107,6 +106,12 @@ export const downloadItemRecorder =
 
     setLocalStorage(record)
   }
+
+export const enum StatisticsKey {
+  SuccessDownloadCount = 'successDownloadCount',
+  FailedDownloadCount = 'failedDownloadCount',
+  ErrorCount = 'errorCount',
+}
 
 type DownloadStatistic = {
   [StatisticsKey.SuccessDownloadCount]?: number

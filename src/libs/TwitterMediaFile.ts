@@ -1,6 +1,14 @@
 import path from 'path'
-import { DownloadMode, FilenameSerialRule } from '../typings'
 
+export const enum FilenameSerialRule {
+  Order = 'order',
+  Filename = 'filename'
+}
+
+export const enum DownloadMode {
+  Aria2 = 'aria2',
+  Browser = 'browser',
+}
 
 export default class TwitterMediaFile {
   public screenName: string

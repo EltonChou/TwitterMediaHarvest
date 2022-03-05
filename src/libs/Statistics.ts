@@ -1,8 +1,10 @@
 import {
   addStatisticsCount,
   getStatisticsCount,
+  StatisticsKey
 } from '../backend/helpers/storageHelper'
-import { StatisticsKey } from '../typings'
+
+
 
 export default class Statistics {
   static async addSuccessDownloadCount() {
