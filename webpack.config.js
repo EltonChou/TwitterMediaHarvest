@@ -81,12 +81,12 @@ const config = {
         {
           from: 'assets/icons/*.png',
           context: 'src',
-          to: 'assets/icons/[name].[ext]',
+          to: 'assets/icons/[name][ext]',
         },
         {
           from: 'backend/pages/*',
           context: 'src',
-          to: '[name].[ext]',
+          to: '[name][ext]',
         },
         {
           from: '_locales',
