@@ -1,5 +1,5 @@
 import select from 'select-dom'
-import downloadButtonSVG from '../assets/icons/twitter-download.svg'
+import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
 import {
   checkModeOfArticle,
   isArticleInStatus,
@@ -10,7 +10,7 @@ import {
   makeButtonListener,
   makeButtonWithData,
 } from '../utils/maker'
-import { TweetInfo, TweetMode } from '../typings'
+import { TweetInfo, TweetMode } from '../../typings'
 
 const featureRegEx = Object.freeze({
   id: /(?:status\/)(\d+)/,

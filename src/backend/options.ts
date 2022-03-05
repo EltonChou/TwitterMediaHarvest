@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_KEY_ARIA2 } from './constants'
+import { LOCAL_STORAGE_KEY_ARIA2 } from '../constants'
 import sanitize from 'sanitize-filename'
 import select from 'select-dom'
 import {
@@ -6,8 +6,8 @@ import {
   getStatisticsCount,
   isEnableAria2,
 } from './helpers/storageHelper'
-import { setLocalStorage, setSyncStorage } from './libs/chromeApi'
-import { Action, FilenameSerialRule, FilenameSetting, HarvestMessage, StatisticsKey } from './typings'
+import { setLocalStorage, setSyncStorage } from '../libs/chromeApi'
+import { Action, FilenameSerialRule, FilenameSetting, HarvestMessage, StatisticsKey } from '../typings'
 
 const noSubDirCheckBox: HTMLInputElement = select('#no_subdirectory')
 const accountCheckBox: HTMLInputElement = select('#account')

@@ -7,8 +7,9 @@ import {
   createElementFromHTML,
   makeButtonListener,
   makeButtonWithData,
-  makeDownloadRecordId
-} from '../../utils/maker'
+
+} from '../../content_script/utils/maker'
+import { makeDownloadRecordId } from '../../backend/utils/maker'
 
 import {
   TweetInfo

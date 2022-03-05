@@ -1,12 +1,12 @@
 import select from 'select-dom'
-import downloadButtonSVG from '../assets/icons/twitter-download.svg'
+import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
 import { isArticleInDetail } from '../utils/checker'
 import {
   createElementFromHTML,
   makeButtonListener,
   makeButtonWithData,
 } from '../utils/maker'
-import { TweetInfo } from '../typings'
+import { TweetInfo } from '../../typings'
 
 const fetchTweetId = (article: HTMLElement) =>
   article.dataset.tweetId || select('.js-tweet-box').dataset.key

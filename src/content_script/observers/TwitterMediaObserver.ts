@@ -2,7 +2,7 @@ import select from 'select-dom'
 import makeHarvester from '../core'
 import observeElement from './observer'
 import { articleHasMedia, isStreamLoaded } from '../utils/checker'
-import { TwitterMediaHarvestObserver } from '../typings'
+import { TwitterMediaHarvestObserver } from '../../typings'
 
 enum Query {
   Root = '#react-root > div > div',

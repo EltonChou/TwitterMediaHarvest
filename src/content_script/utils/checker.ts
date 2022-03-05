@@ -1,11 +1,5 @@
-import { TweetInfo, TweetMode } from '../typings'
 import select from 'select-dom'
-
-enum DownloadState {
-  InProgress = 'in_progress',
-  Interrupted = 'interrupted',
-  Complete = 'complete',
-}
+import { TweetMode } from '../../typings'
 
 export const isArticleInDetail = (article: HTMLElement) =>
   select.exists('.tweet-detail', article)
@@ -99,31 +93,6 @@ export const isArticleCanBeAppend = (article: HTMLElement) =>
 export const isStreamLoaded = () =>
   select.exists('[role="region"]') && select.exists('article')
 
-/**
- * @param {chrome.downloads.StringDelta} param0 - downloadStateDelta
- */
-export const isDownloadInterrupted = ({
-  current,
-  previous,
-}: chrome.downloads.StringDelta) =>
-  current === DownloadState.Interrupted && previous === DownloadState.InProgress
-
-/**
- * @param {chrome.downloads.StringDelta} param0 - downloadStateDelta
- */
-export const isDownloadCompleted = ({
-  current,
-  previous,
-}: chrome.downloads.StringDelta) =>
-  current === DownloadState.Complete && previous === DownloadState.InProgress
-
-/**
- * @param tweetInfo twitter information
- */
-export const isInvalidInfo = (tweetInfo: TweetInfo) =>
-  !tweetInfo.screenName.length || !tweetInfo.tweetId.length
-
-
 const fetchHost = (): string => window.location.host
 /**
  * Check current page is in tweetdeck or not.
@@ -140,6 +109,3 @@ export const isTwitter = (): boolean => {
   const host = fetchHost()
   return host === 'twitter.com' || host === 'mobile.twitter.com'
 }
-
-export const isDownloadRecordId = (downloadRecordId: string) =>
-  Boolean(downloadRecordId.match(/^dl_(\d+)/))

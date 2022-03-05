@@ -13,9 +13,9 @@ const config = {
     minimize: true,
   },
   entry: {
-    main: path.resolve('./src/main.ts'),
-    background: path.resolve('./src/background.ts'),
-    options: path.resolve('./src/options.ts'),
+    main: path.resolve('./src/content_script/main.ts'),
+    sw: path.resolve('./src/backend/sw.ts'),
+    options: path.resolve('./src/backend/options.ts'),
   },
   output: {
     filename: '[name].js',
@@ -84,7 +84,7 @@ const config = {
           to: 'assets/icons/[name].[ext]',
         },
         {
-          from: 'pages/*',
+          from: 'backend/pages/*',
           context: 'src',
           to: '[name].[ext]',
         },

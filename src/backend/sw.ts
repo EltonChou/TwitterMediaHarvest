@@ -1,12 +1,12 @@
-import { ARIA2_ID } from './constants'
-import Statistics from './libs/Statistics'
-import TwitterMediaFile from './libs/TwitterMediaFile'
-import { fetchMediaList } from './libs/MediaTweet'
+import { ARIA2_ID } from '../constants'
+import Statistics from '../libs/Statistics'
+import TwitterMediaFile from '../libs/TwitterMediaFile'
+import { fetchMediaList } from '../libs/MediaTweet'
 import {
   getExtensionId,
   removeFromLocalStorage,
   searchDownload,
-} from './libs/chromeApi'
+} from '../libs/chromeApi'
 import { makeDownloadRecordId } from './utils/maker'
 import {
   isDownloadCompleted,
@@ -38,7 +38,7 @@ import {
   FilenameSetting,
   HarvestMessage,
   TweetInfo
-} from './typings'
+} from '../typings'
 
 const installReason = Object.freeze({
   install: 'install',

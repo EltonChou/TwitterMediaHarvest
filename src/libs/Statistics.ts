@@ -1,7 +1,7 @@
 import {
   addStatisticsCount,
   getStatisticsCount,
-} from '../helpers/storageHelper'
+} from '../backend/helpers/storageHelper'
 
 import { StatisticsKey } from '../typings'
 

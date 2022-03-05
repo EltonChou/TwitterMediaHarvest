@@ -1,4 +1,4 @@
-import { Action, DownloadRecordId, TweetInfo } from '../typings'
+import { Action, TweetInfo } from '../../typings'
 
 /**
  * Create HTMLElement from html string.
@@ -49,8 +49,3 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
   })
   return button
 }
-
-
-
-export const makeDownloadRecordId = (downloadId: number): DownloadRecordId =>
-  `dl_${downloadId}`

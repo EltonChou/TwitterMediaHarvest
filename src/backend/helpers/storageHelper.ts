@@ -2,7 +2,7 @@ import {
   CHROME_STORAGE_DEFAULT_FILENAME_PATTERN_OBJECT_STRING,
   DEFAULT_DIRECTORY,
   LOCAL_STORAGE_KEY_ARIA2,
-} from '../constants'
+} from '../../constants'
 import {
   clearLocalStorage,
   fetchCookie,
@@ -11,8 +11,8 @@ import {
   removeFromLocalStorage,
   setLocalStorage,
   setSyncStorage,
-} from '../libs/chromeApi'
-import Statistics from '../libs/Statistics'
+} from '../../libs/chromeApi'
+import Statistics from '../../libs/Statistics'
 import { makeDownloadRecordId } from '../utils/maker'
 import {
   DownloadItemRecorder,
@@ -22,7 +22,7 @@ import {
   LocalStorageInitialData,
   StatisticsKey,
   TweetInfo,
-} from '../typings'
+} from '../../typings'
 
 export const fetchFileNameSetting = async (): Promise<FilenameSetting> => {
   const setting = await fetchSyncStorage([
