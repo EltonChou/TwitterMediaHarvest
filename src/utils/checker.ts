@@ -123,18 +123,23 @@ export const isDownloadCompleted = ({
 export const isInvalidInfo = (tweetInfo: TweetInfo) =>
   !tweetInfo.screenName.length || !tweetInfo.tweetId.length
 
+
+const fetchHost = (): string => window.location.host
 /**
  * Check current page is in tweetdeck or not.
  * @returns {boolean}
  */
 export const isTweetDeck = (): boolean =>
-  window.location.host === 'tweetdeck.twitter.com'
+  fetchHost() === 'tweetdeck.twitter.com'
 
 /**
  * Check current page is in twitter or not.
  * @returns {boolean}
  */
-export const isTwitter = (): boolean => window.location.host === 'twitter.com'
+export const isTwitter = (): boolean => {
+  const host = fetchHost()
+  return host === 'twitter.com' || host === 'mobile.twitter.com'
+}
 
 export const isDownloadRecordId = (downloadRecordId: string) =>
   Boolean(downloadRecordId.match(/^dl_(\d+)/))
