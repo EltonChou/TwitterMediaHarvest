@@ -2,16 +2,23 @@ import './main.sass'
 import select from 'select-dom'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
 import TwitterDeckObserver from './observers/TwitterDeckObserver'
-import { isTweetDeck, isTwitter } from './utils/checker'
+import { isTweetDeck } from './utils/checker'
+
+let currentFocusing: Element = document.activeElement
+const observer: HarvestObserver = isTweetDeck() ? new TwitterDeckObserver() : new TwitterMediaObserver()
+
+const getDownloadKey = () => isTweetDeck() ? 'o' : 'd'
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === getDownloadKey() && e.target instanceof Element) {
+    currentFocusing = e.target
+  }
+})
 
 window.addEventListener('keyup', (e) => {
-  const isDeck = isTweetDeck()
-  const downloadKey = isDeck ? 'o' : 'd'
-  // const focusingQuery = isDeck ? '.is-selected-tweet' : '[data-focusvisible-polyfill]'
-  const buttonQuery = isDeck ? '.deck-harvester' : '.harvester'
-  if (e.key === downloadKey) {
-    const currentFocusing = document.activeElement
-    if (currentFocusing) {
+  const buttonQuery = isTweetDeck() ? '.deck-harvester' : '.harvester'
+  if (e.key === getDownloadKey()) {
+    if (e.target instanceof Element && currentFocusing) {
       const tweetCanBeHarvested = currentFocusing.closest('[data-harvest-appended]')
       if (tweetCanBeHarvested) {
         const harvesterButton = select(buttonQuery, tweetCanBeHarvested)
@@ -20,15 +27,5 @@ window.addEventListener('keyup', (e) => {
     }
   }
 })
-
-let observer: HarvestObserver = undefined
-
-if (isTweetDeck()) {
-  observer = new TwitterDeckObserver()
-}
-
-if (isTwitter()) {
-  observer = new TwitterMediaObserver()
-}
 
 observer.observeRoot()
