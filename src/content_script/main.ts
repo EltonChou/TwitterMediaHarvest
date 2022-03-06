@@ -5,13 +5,17 @@ import TwitterDeckObserver from './observers/TwitterDeckObserver'
 import { isTweetDeck, isTwitter } from './utils/checker'
 
 window.addEventListener('keyup', (e) => {
-  if (e.key === 'd') {
-    const currentFocusing = select('[data-focusvisible-polyfill]')
+  const isDeck = isTweetDeck()
+  const downloadKey = isDeck ? 'o' : 'd'
+  const focusingQuery = isDeck ? '.is-selected-tweet' : '[data-focusvisible-polyfill]'
+  const buttonQuery = isDeck ? '.deck-harvester' : '.harvester'
+  if (e.key === downloadKey) {
+    const currentFocusing = select(focusingQuery)
     if (currentFocusing) {
       const tweetCanBeHarvested = currentFocusing.closest('[data-harvest-appended]')
       if (tweetCanBeHarvested) {
-        const harvesterButton = select('.harvester', tweetCanBeHarvested)
-        harvesterButton.click()
+        const harvesterButton = select(buttonQuery, tweetCanBeHarvested)
+        if (harvesterButton) harvesterButton.click()
       }
     }
   }
