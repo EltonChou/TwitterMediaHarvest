@@ -67,7 +67,7 @@ export const articleHasMedia = (article: HTMLElement) => {
   if (isArticleInStatus(article)) mediaWrapperQuery = Query.StatusMediaWrapper
   const mediaWrapper = select(mediaWrapperQuery, article)
 
-  if (mediaWrapper === null) return false
+  if (!mediaWrapper) return false
 
   const checkContent = (mediaContent: Element) => {
     const magicLength = mediaContent.classList.length >= 2
