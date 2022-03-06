@@ -11,7 +11,7 @@ const getDownloadKey = () => isTweetDeck() ? 'o' : 'd'
 
 window.addEventListener('keydown', (e) => {
   if (e.key === getDownloadKey() && e.target instanceof Element) {
-    currentFocusing = e.target
+    currentFocusing = isTweetDeck() ? select('.is-selected-tweet') : e.target
   }
 })
 
