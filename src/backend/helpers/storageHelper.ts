@@ -12,7 +12,7 @@ import {
   setSyncStorage,
 } from '../../libs/chromeApi'
 import Statistics from '../libs/Statistics'
-import { makeDownloadRecordId } from '../utils/maker'
+import DownloadRecordUtil from '../utils/DownloadRecordUtil'
 
 export const fetchFileNameSetting = async (): Promise<FilenameSetting> => {
   const setting = await fetchSyncStorage([
@@ -80,7 +80,7 @@ export const initStorage = async () => {
 export const fetchDownloadItemRecord = async (
   downloadItemId: number
 ): Promise<DownloadRecord | Record<string, never>> => {
-  const recordId: DownloadRecordId = `dl_${downloadItemId}`
+  const recordId: DownloadRecordId = DownloadRecordUtil.createId(downloadItemId)
   const volume: { [key: DownloadRecordId]: DownloadRecord } =
     await fetchLocalStorage(recordId)
   if (recordId in volume) {
@@ -90,7 +90,7 @@ export const fetchDownloadItemRecord = async (
 }
 
 export const removeDownloadItemRecord = async (downloadItemId: number) => {
-  const recordId = makeDownloadRecordId(downloadItemId)
+  const recordId = DownloadRecordUtil.createId(downloadItemId)
   await removeFromLocalStorage(recordId)
 }
 

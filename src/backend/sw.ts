@@ -4,16 +4,15 @@ import TwitterMediaFile, { DownloadMode } from './libs/TwitterMediaFile'
 import { fetchMediaList } from './libs/MediaTweet'
 import {
   getExtensionId,
-  removeFromLocalStorage,
-  searchDownload,
+  openOptionsPage,
+  removeFromLocalStorage
 } from '../libs/chromeApi'
-import { makeDownloadRecordId } from './utils/maker'
 import {
-  isDownloadCompleted,
-  isDownloadInterrupted,
-  isDownloadRecordId,
+  isDownloadedBySelf,
   isInvalidInfo,
 } from './utils/checker'
+import DownloadStateUtil from './utils/DownloadStateUtil'
+import DownloadRecordUtil from './utils/DownloadRecordUtil'
 import {
   downloadItemRecorder,
   fetchDownloadItemRecord,
@@ -32,10 +31,10 @@ import {
 import { Action } from '../typings'
 
 
-const installReason = Object.freeze({
-  install: 'install',
-  update: 'update',
-})
+const enum InstallReason {
+  Install = 'install',
+  Update = 'update',
+}
 
 const processDownloadAction = async (tweetInfo: TweetInfo) => {
   /* eslint-disable no-console */
@@ -74,8 +73,8 @@ chrome.runtime.onInstalled.addListener(async details => {
   const reason = details.reason
   const previousVersion = details.previousVersion
 
-  if (reason === installReason.install) await initStorage()
-  if (reason === installReason.update) {
+  if (reason === InstallReason.Install) await initStorage()
+  if (reason === InstallReason.Update) {
     showUpdateMessageInConsole(previousVersion)
     await migrateStorage()
   }
@@ -84,27 +83,26 @@ chrome.runtime.onInstalled.addListener(async details => {
 })
 
 chrome.downloads.onChanged.addListener(async downloadDelta => {
-  const isDownloadedBySelf = await checkItemIsDownloadedBySelf(downloadDelta.id)
-  if (!isDownloadedBySelf) return false
+  const isBySelf = await isDownloadedBySelf(downloadDelta.id)
+  if (!isBySelf) return false
 
   const isStateChanged = 'state' in downloadDelta
 
   if (isStateChanged && isDownloadedBySelf) {
     const { id, endTime, state, error } = downloadDelta
-    const downloadRecordId = makeDownloadRecordId(id)
-    if (isDownloadInterrupted(state)) {
+    const downloadRecordId = DownloadRecordUtil.createId(id)
+    if (DownloadStateUtil.isInterrupted(state)) {
       let eventTime = Date.now()
-      const { info } = await fetchDownloadItemRecord(id)
-
       if (!error && 'current' in endTime) {
         eventTime = Date.parse(endTime.current)
       }
 
       await Statistics.addFailedDownloadCount()
+      const { info } = await fetchDownloadItemRecord(id)
       notifyDownloadFailed(info, id, eventTime)
     }
 
-    if (isDownloadCompleted(state)) {
+    if (DownloadStateUtil.isCompleted(state)) {
       removeFromLocalStorage(downloadRecordId)
       await Statistics.addSuccessDownloadCount()
     }
@@ -127,7 +125,7 @@ chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
 })
 
 chrome.notifications.onClosed.addListener(async notifficationId => {
-  const isRecordId = isDownloadRecordId(notifficationId)
+  const isRecordId = DownloadRecordUtil.isValidId(notifficationId)
   if (isRecordId) {
     const pattern = /^dl_(\d+)/
     const downloadItemId = Number(notifficationId.match(pattern)[1])
@@ -197,10 +195,6 @@ class MediaDownloader {
   }
 }
 
-function openOptionsPage() {
-  chrome.runtime.openOptionsPage()
-}
-
 function refreshOptionsPage() {
   chrome.runtime.sendMessage({ action: Action.Refresh })
 }
@@ -214,30 +208,15 @@ function showUpdateMessageInConsole(previous: string) {
 }
 /* eslint-enable no-console */
 
-async function checkItemIsDownloadedBySelf(downloadId: number) {
-  const runtimeId = getExtensionId()
-  const query = {
-    id: downloadId,
-  }
-  const result = await searchDownload(query)
-  result.filter(item => {
-    if ('byExtensionId' in item) {
-      return item.byExtensionId === runtimeId
-    }
-    return false
-  })
 
-  return Boolean(result.length)
-}
 
 async function openFailedTweetInNewTab(notifficationId: string) {
   // notificationId is tweet's id
   //FIXME: notifficationID checker
-  const isRecordId = isDownloadRecordId(notifficationId)
+  const isRecordId = DownloadRecordUtil.isValidId(notifficationId)
   let tweetId
   if (isRecordId) {
-    const pattern = /^dl_(\d+)/
-    const downloadItemId = Number(notifficationId.match(pattern)[1])
+    const downloadItemId = DownloadRecordUtil.extractDownloadItemId(notifficationId)
     const { info } = await fetchDownloadItemRecord(downloadItemId)
     tweetId = info.tweetId
     await removeDownloadItemRecord(downloadItemId)
@@ -270,9 +249,7 @@ async function fetchErrorHandler(
 }
 
 async function retryDownload(downloadRecordId: DownloadRecordId) {
-  const pattern = /^dl_(\d+)/
-  const downloadItemId = Number(downloadRecordId.match(pattern)[1])
-
+  const downloadItemId = DownloadRecordUtil.extractDownloadItemId(downloadRecordId)
   const { info, config } = await fetchDownloadItemRecord(downloadItemId)
   await removeDownloadItemRecord(downloadItemId)
   const downloadRecorder = downloadItemRecorder(info)(config)

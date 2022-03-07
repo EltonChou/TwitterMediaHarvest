@@ -312,6 +312,7 @@ export const i18nLocalize = (kw: string) => {
  */
 export const getExtensionURL = (path: string) => chrome.runtime.getURL(path)
 export const getExtensionId = () => chrome.runtime.id
+export const openOptionsPage = () => chrome.runtime.openOptionsPage()
 
 export const fetchSyncStorage = storageFetcher(chrome.storage.sync)
 export const fetchLocalStorage = storageFetcher(chrome.storage.local)
