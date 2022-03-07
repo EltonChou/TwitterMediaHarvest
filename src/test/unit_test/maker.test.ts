@@ -9,7 +9,7 @@ import {
   makeButtonWithData,
 
 } from '../../content_script/utils/maker'
-import { makeDownloadRecordId } from '../../backend/utils/maker'
+import DownloadRecordUtil from '../../backend/utils/DownloadRecordUtil'
 
 
 test('create element from HTML string', () => {
@@ -39,5 +39,5 @@ test('add listener to html element', () => {
 })
 
 test('make DownloadRecordId', () => {
-  expect(makeDownloadRecordId(123)).toBe('dl_123')
+  expect(DownloadRecordUtil.createId(123)).toBe('dl_123')
 })
