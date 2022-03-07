@@ -212,17 +212,12 @@ function showUpdateMessageInConsole(previous: string) {
 
 async function openFailedTweetInNewTab(notifficationId: string) {
   // notificationId is tweet's id
-  //FIXME: notifficationID checker
-  const isRecordId = DownloadRecordUtil.isValidId(notifficationId)
-  let tweetId
-  if (isRecordId) {
+  let tweetId = notifficationId
+  if (DownloadRecordUtil.isValidId(notifficationId)) {
     const downloadItemId = DownloadRecordUtil.extractDownloadItemId(notifficationId)
     const { info } = await fetchDownloadItemRecord(downloadItemId)
     tweetId = info.tweetId
     await removeDownloadItemRecord(downloadItemId)
-  }
-  if (!isRecordId) {
-    tweetId = notifficationId
   }
 
   const url = `https://twitter.com/i/web/status/${tweetId}`
