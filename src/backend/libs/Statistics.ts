@@ -2,7 +2,7 @@ import {
   addStatisticsCount,
   getStatisticsCount,
   StatisticsKey
-} from '../backend/helpers/storageHelper'
+} from '../helpers/storageHelper'
 
 
 

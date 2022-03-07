@@ -1,7 +1,7 @@
 import { ARIA2_ID } from '../constants'
-import Statistics from '../libs/Statistics'
-import TwitterMediaFile, { DownloadMode } from '../libs/TwitterMediaFile'
-import { fetchMediaList } from '../libs/MediaTweet'
+import Statistics from './libs/Statistics'
+import TwitterMediaFile, { DownloadMode } from './libs/TwitterMediaFile'
+import { fetchMediaList } from './libs/MediaTweet'
 import {
   getExtensionId,
   removeFromLocalStorage,

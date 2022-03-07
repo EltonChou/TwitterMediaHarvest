@@ -9,7 +9,7 @@ import {
 } from './helpers/storageHelper'
 import { setLocalStorage, setSyncStorage } from '../libs/chromeApi'
 import { Action, } from '../typings'
-import { FilenameSerialRule } from '../libs/TwitterMediaFile'
+import { FilenameSerialRule } from './libs/TwitterMediaFile'
 
 const noSubDirCheckBox: HTMLInputElement = select('#no_subdirectory')
 const accountCheckBox: HTMLInputElement = select('#account')
