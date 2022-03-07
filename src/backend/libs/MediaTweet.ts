@@ -1,5 +1,5 @@
-import { TWITTER_AUTH_TOKEN } from '../constants'
-import { i18nLocalize } from './chromeApi'
+import { TWITTER_AUTH_TOKEN } from '../../constants'
+import { i18nLocalize } from '../../libs/chromeApi'
 
 type VideoInfo = {
   aspect_ratio: number[]
