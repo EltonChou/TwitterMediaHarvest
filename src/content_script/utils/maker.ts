@@ -22,6 +22,13 @@ export const makeButtonWithData = (
   return button
 }
 
+
+const runtimeSendMessage = (
+  message: HarvestMessage,
+  responseCb: (response: { status: string, data: object }) => void) => {
+  chrome.runtime.sendMessage(message, responseCb)
+}
+
 /**
  * @param button harvestButton
  */
@@ -39,12 +46,13 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    chrome.runtime.sendMessage(message, (response: any) => {
+    const reponseCb = (response: any) => {
       const { status } = response
       this.classList.remove('downloading', 'success', 'error')
       this.classList.add(status)
     }
-    )
+
+    runtimeSendMessage(message, reponseCb)
   })
   return button
 }
