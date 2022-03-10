@@ -92,10 +92,10 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
     const { id, endTime, state, error } = downloadDelta
     const downloadRecordId = DownloadRecordUtil.createId(id)
     if (DownloadStateUtil.isInterrupted(state)) {
-      let eventTime = Date.now()
-      if (!error && 'current' in endTime) {
-        eventTime = Date.parse(endTime.current)
-      }
+      const eventTime =
+        !error && 'current' in endTime
+          ? Date.parse(endTime.current)
+          : Date.now()
 
       await Statistics.addFailedDownloadCount()
       const { info } = await fetchDownloadItemRecord(id)
