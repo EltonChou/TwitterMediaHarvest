@@ -92,9 +92,10 @@ noSubDirCheckBox.addEventListener('change', () => {
   allowSubmit()
 })
 
-chrome.runtime.onMessage.addListener((msg: HarvestMessage) => {
+chrome.runtime.onMessage.addListener((msg: HarvestMessage, sender, sendResponse) => {
   if (msg.action === Action.Refresh) {
     initializeStatistics()
+    sendResponse(true)
   }
 })
 
