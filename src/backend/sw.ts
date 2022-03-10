@@ -104,8 +104,6 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
       removeDownloadItemRecord(id)
       await Statistics.addSuccessDownloadCount()
     }
-
-    refreshOptionsPage()
   }
 })
 
@@ -183,10 +181,6 @@ class MediaDownloader {
         : chrome.downloads.download(config, downloadCallback)
     })
   }
-}
-
-function refreshOptionsPage() {
-  chrome.runtime.sendMessage({ action: Action.Refresh })
 }
 
 /* eslint-disable no-console */
