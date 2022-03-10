@@ -127,8 +127,7 @@ chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
 chrome.notifications.onClosed.addListener(async notifficationId => {
   const isRecordId = DownloadRecordUtil.isValidId(notifficationId)
   if (isRecordId) {
-    const pattern = /^dl_(\d+)/
-    const downloadItemId = Number(notifficationId.match(pattern)[1])
+    const downloadItemId = DownloadRecordUtil.extractDownloadItemId(notifficationId)
     await removeDownloadItemRecord(downloadItemId)
   }
 })
