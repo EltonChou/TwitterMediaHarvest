@@ -5,7 +5,6 @@ import { fetchMediaList } from './libs/MediaTweet'
 import {
   getExtensionId,
   openOptionsPage,
-  removeFromLocalStorage
 } from '../libs/chromeApi'
 import {
   isDownloadedBySelf,
@@ -90,7 +89,6 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
 
   if (isStateChanged && isDownloadedBySelf) {
     const { id, endTime, state, error } = downloadDelta
-    const downloadRecordId = DownloadRecordUtil.createId(id)
     if (DownloadStateUtil.isInterrupted(state)) {
       const eventTime =
         !error && 'current' in endTime
@@ -103,7 +101,7 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
     }
 
     if (DownloadStateUtil.isCompleted(state)) {
-      removeFromLocalStorage(downloadRecordId)
+      removeDownloadItemRecord(id)
       await Statistics.addSuccessDownloadCount()
     }
 
@@ -125,8 +123,7 @@ chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
 })
 
 chrome.notifications.onClosed.addListener(async notifficationId => {
-  const isRecordId = DownloadRecordUtil.isValidId(notifficationId)
-  if (isRecordId) {
+  if (DownloadRecordUtil.isValidId(notifficationId)) {
     const downloadItemId = DownloadRecordUtil.extractDownloadItemId(notifficationId)
     await removeDownloadItemRecord(downloadItemId)
   }
@@ -134,18 +131,12 @@ chrome.notifications.onClosed.addListener(async notifficationId => {
 
 chrome.notifications.onClicked.addListener(async notifficationId => {
   openFailedTweetInNewTab(notifficationId)
-  removeFromLocalStorage(notifficationId)
 })
 
 chrome.notifications.onButtonClicked.addListener(
   async (notifficationId, buttonIndex) => {
-    if (buttonIndex === 0) {
-      openFailedTweetInNewTab(notifficationId)
-    }
-
-    if (buttonIndex === 1) {
-      retryDownload(notifficationId as DownloadRecordId)
-    }
+    if (buttonIndex === 0) openFailedTweetInNewTab(notifficationId)
+    if (buttonIndex === 1) retryDownload(notifficationId as DownloadRecordId)
   }
 )
 
