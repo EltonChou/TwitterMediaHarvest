@@ -4,7 +4,7 @@ import observeElement from './observer'
 import { articleHasMedia, isStreamLoaded } from '../utils/checker'
 
 enum Query {
-  Root = '#react-root',
+  Root = '#react-root > div > div',
   Stream = 'section[role="region"] > div > div',
   Modal = '[aria-labelledby="modal-header"]',
   ModalWrapper = '#layers',
