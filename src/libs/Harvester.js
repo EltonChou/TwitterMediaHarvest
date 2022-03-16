@@ -21,11 +21,18 @@ const featureRegEx = Object.freeze({
  * @param {HTMLElement} article
  */
 const parseScreeNameFromUserAccount = article => {
-  const userAccount = select(
+  const querys = [
+    '[role="link"] > div[id*="id__"] [dir="ltr"]',
     '[role="link"] div[dir="ltr"]',
-    article
-  ).textContent
-  const screenName = userAccount.match(featureRegEx.screenName)[0]
+  ]
+
+  let userAccountEle
+  for (const query of querys) {
+    userAccountEle = select(query, article)
+  }
+  const screenName = userAccountEle.textContent.match(
+    featureRegEx.screenName
+  )[0]
 
   return screenName
 }
