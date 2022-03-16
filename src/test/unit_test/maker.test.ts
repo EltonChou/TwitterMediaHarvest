@@ -38,6 +38,18 @@ test('add listener to html element', () => {
   makeButtonListener(button)
 })
 
-test('make DownloadRecordId', () => {
-  expect(DownloadRecordUtil.createId(123)).toBe('dl_123')
+
+describe('Test DownloadRecordUtil', () => {
+  it('can make DownloadRecordId', () => {
+    expect(DownloadRecordUtil.createId(123)).toBe('dl_123')
+  })
+
+  it('can valid DownloadRecord id', () => {
+    expect(DownloadRecordUtil.isValidId('dl_384')).toBeTruthy()
+    expect(DownloadRecordUtil.isValidId('384')).toBeFalsy()
+  })
+
+  it('can extract DownloadItemId from DownloadRecord id', () => {
+    expect(DownloadRecordUtil.extractDownloadItemId('dl_123')).toBe(123)
+  })
 })
