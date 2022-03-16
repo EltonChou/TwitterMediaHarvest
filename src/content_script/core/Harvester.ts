@@ -22,7 +22,7 @@ const featureRegEx = Object.freeze({
  */
 const parseScreeNameFromUserAccount = (article: HTMLElement) => {
   const userAccount = select(
-    '[role="link"] > div[id*="id__"] [dir="ltr"]',
+    '[role="link"] div[dir="ltr"]',
     article
   ).textContent
   const screenName = userAccount.match(featureRegEx.screenName)[0]
