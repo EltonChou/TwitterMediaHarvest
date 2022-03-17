@@ -4,6 +4,8 @@
   "description": "The easiest way to get media from twitter-timeline.",
   "main": "./src/main.js",
   "dependencies": {
+    "@sentry/browser": "^6.18.2",
+    "@sentry/tracing": "^6.18.2",
     "path-browserify": "^1.0.1",
     "sanitize-filename": "^1.6.3",
     "select-dom": "^7.1.1"
