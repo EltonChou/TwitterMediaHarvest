@@ -40,8 +40,8 @@ Sentry.init({
     }),
   ],
   tracesSampleRate: 1.0,
+  environment: process.env.NODE_ENV
 })
-
 
 const enum InstallReason {
   Install = 'install',
@@ -62,13 +62,16 @@ const processDownloadAction = async (tweetInfo: TweetInfo) => {
     const mediaList = await fetchMediaList(tweetInfo.tweetId, ct0Value)
     mediaDownloader.downloadMedias(mediaList)
   } catch (reason) {
-    if (reason.message !== undefined) {
-      fetchErrorHandler(tweetInfo, reason)
-      throw Error(reason.message)
-    }
-    fetchErrorHandler(tweetInfo, { status: 500, title: 'InternalError', message: reason })
-    throw Error(reason)
+    Sentry.captureException(reason)
+    fetchErrorHandler(
+      tweetInfo,
+      'status' in reason ?
+        reason :
+        { status: 500, title: 'InternalError', message: reason }
+    )
+    throw reason
   }
+
 }
 
 chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespone) => {

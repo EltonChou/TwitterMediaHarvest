@@ -1,16 +1,18 @@
 import './main.sass'
 import * as Sentry from '@sentry/browser'
 import { BrowserTracing } from '@sentry/tracing'
-import select from 'select-dom'
-import TwitterMediaObserver from './observers/TwitterMediaObserver'
-import TwitterDeckObserver from './observers/TwitterDeckObserver'
-import { isTweetDeck } from './utils/checker'
 
 Sentry.init({
   dsn: 'https://40df3cc6025d4968a6275f3aa1a6bbee@o1169684.ingest.sentry.io/6263910',
   integrations: [new BrowserTracing()],
   tracesSampleRate: 1.0,
+  environment: process.env.NODE_ENV
 })
+
+import select from 'select-dom'
+import TwitterMediaObserver from './observers/TwitterMediaObserver'
+import TwitterDeckObserver from './observers/TwitterDeckObserver'
+import { isTweetDeck } from './utils/checker'
 
 let currentFocusing: Element = document.activeElement
 const observer: HarvestObserver = isTweetDeck() ? new TwitterDeckObserver() : new TwitterMediaObserver()
