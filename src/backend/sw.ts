@@ -184,7 +184,8 @@ class MediaDownloader {
 
   downloadMedias(mediaList: string[]) {
     mediaList.forEach((value: string, index: number) => {
-      if (!TwitterMediaFile.isValidFileUrl(value)) return
+      if (!TwitterMediaFile.isValidFileUrl(value)) throw new Error(`Invalid url: ${value}`)
+
       const mediaFile = new TwitterMediaFile(this.tweetInfo, value, index)
       const config = mediaFile.makeDownloadConfigBySetting(
         this.filenameSetting,
