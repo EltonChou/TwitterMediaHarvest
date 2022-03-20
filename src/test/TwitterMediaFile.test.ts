@@ -78,6 +78,10 @@ describe('Test TwitterMediaFile usage.', () => {
     expect(
       TwitterMediaFile.isValidFileUrl('https://pbs.twimg.com/media/safdzhzh.jpg:orig')
     ).toBeFalsy()
+    expect(
+      TwitterMediaFile.isValidFileUrl(
+        'https://video.twimg.com/amplify_video/5465465465415/vid/1440x720/adsfasdfasdf.mp4')
+    ).toBeTruthy()
   })
 })
 
