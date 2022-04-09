@@ -70,14 +70,15 @@ export const articleHasMedia = (article: HTMLElement) => {
   if (!mediaWrapper) return false
 
   const checkContent = (mediaContent: Element) => {
-    const magicLength = mediaContent.classList.length >= 2
+    // const magicLength = mediaContent.classList.length >= 2
     const photoContent = select.exists(
       '[role="link"][href*="photo"]',
       mediaContent
     )
     const videoContent = select.exists('[role="progressbar"]', mediaContent)
 
-    return magicLength && (photoContent || videoContent)
+    // return magicLength && (photoContent || videoContent)
+    return photoContent || videoContent
   }
 
   return [...mediaWrapper.children].some(checkContent)
