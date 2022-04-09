@@ -78,14 +78,14 @@ export const articleHasMedia = article => {
   if (mediaWrapper === null) return false
 
   const checkContent = mediaContent => {
-    const magicLength = mediaContent.classList.length >= 2
+    // const magicLength = mediaContent.classList.length >= 1
     const photoContent = select.exists(
       '[role="link"][href*="photo"]',
       mediaContent
     )
     const videoContent = select.exists('[role="progressbar"]', mediaContent)
 
-    return magicLength && (photoContent || videoContent)
+    return photoContent || videoContent
   }
 
   return [...mediaWrapper.childNodes].some(checkContent)
