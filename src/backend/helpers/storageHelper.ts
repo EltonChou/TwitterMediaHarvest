@@ -40,16 +40,21 @@ export const migrateStorage = async () => {
     [StatisticsKey.SuccessDownloadCount]:
       await Statistics.getSuccessDownloadCount(),
   }
+  const { filename_pattern } = await fetchSyncStorage('filename_pattern')
 
-  console.info('Migrating...')
-  console.info('Clear old data.')
+  console.info('Clear old data...')
   await clearLocalStorage()
 
-  console.info('Filling data...')
-  const result = setLocalStorage(initData)
-  console.info('Done.')
+  console.info('Set local storage...')
+  await setLocalStorage(initData)
+  if (typeof filename_pattern === 'string') {
+    console.info('Transforming filename_pattern data type...')
+    await setSyncStorage({
+      filename_pattern: JSON.parse(filename_pattern)
+    })
+  }
 
-  console.table({ ...result })
+  console.info('Done.')
   console.groupEnd()
 }
 
