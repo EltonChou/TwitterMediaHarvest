@@ -51,9 +51,8 @@ export const checkModeOfArticle = (article: HTMLElement): TweetMode => {
 }
 
 enum Query {
-  StreamMediaWrapper = 'div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-last-child(2) > div > div',
-  StatusMediaWrapper = 'article > div > div > div > div:nth-child(3) > [class="css-1dbjc4n"] >\
-     [class="css-1dbjc4n"]',
+  StreamMediaWrapper = 'div:nth-child(2) > div:nth-child(2) > div:nth-child(2) [aria-labelledby^="id__"]',
+  StatusMediaWrapper = 'article > div > div > div > div:nth-child(3) [aria-labelledby^="id__"]',
 }
 
 /**
