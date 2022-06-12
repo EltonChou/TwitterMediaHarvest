@@ -1,4 +1,5 @@
 
+import * as Sentry from '@sentry/browser'
 import select from 'select-dom'
 import DeckHarvester from './DeckHarvester'
 import Harvester from './Harvester'
@@ -49,15 +50,23 @@ const makeHarvester = (article: HTMLElement) => {
       let harvester = undefined
 
       if (isTwitter()) {
-        harvester = new Harvester(article)
-        twitterActionAppend(actionBar, harvester.button)
+        try {
+          harvester = new Harvester(article)
+          twitterActionAppend(actionBar, harvester.button)
+        } catch (error) {
+          Sentry.captureException(error)
+        }
       }
 
       if (isTweetDeck()) {
-        harvester = new DeckHarvester(article)
-        deckActionInsert(actionBar, harvester.button)
-        if (isArticleInDetail(article)) {
-          actionBar.classList.add('deck-harvest-actions')
+        try {
+          harvester = new DeckHarvester(article)
+          deckActionInsert(actionBar, harvester.button)
+          if (isArticleInDetail(article)) {
+            actionBar.classList.add('deck-harvest-actions')
+          }
+        } catch (error) {
+          Sentry.captureException(error)
         }
       }
 

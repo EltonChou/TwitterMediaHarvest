@@ -28,6 +28,9 @@ class DeckHarvester {
 
   constructor(article: HTMLElement) {
     this.info = parseTweetInfo(article)
+    if (!this.info.screenName || !this.info.tweetId) {
+      throw new Error(`Failed to parse tweet info. ${this.info}`)
+    }
     this.isInDetail = isArticleInDetail(article)
   }
 

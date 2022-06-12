@@ -68,6 +68,9 @@ class Harvester {
   constructor(article: HTMLElement) {
     this.mode = checkModeOfArticle(article)
     this.info = parseTweetInfo(article)
+    if (!this.info.screenName || !this.info.tweetId) {
+      throw new Error(`Failed to parse tweet info. ${this.info}`)
+    }
 
     const sampleButton = select.all('[role="group"] [dir="ltr"]', article).pop()
     this.ltrStyle = sampleButton.classList.value
