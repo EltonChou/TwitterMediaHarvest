@@ -50,7 +50,7 @@ const processDownloadAction = async (tweetInfo: TweetInfo) => {
   if (isInvalidInfo(tweetInfo)) {
     console.error('Invalid tweetInfo.')
     await Statistics.addErrorCount()
-    return false
+    throw new Error(`Invalid tweetInfo. ${tweetInfo}`)
   }
   /* eslint-enable no-console */
   const mediaDownloader = await MediaDownloader.build(tweetInfo)
@@ -59,7 +59,6 @@ const processDownloadAction = async (tweetInfo: TweetInfo) => {
     const mediaList = await fetchMediaList(tweetInfo.tweetId, ct0Value)
     mediaDownloader.downloadMedias(mediaList)
   } catch (reason) {
-    Sentry.captureException(reason)
     fetchErrorHandler(
       tweetInfo,
       'status' in reason ?
@@ -75,7 +74,10 @@ chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespo
   if (message.action === Action.Download) {
     processDownloadAction(message.data as TweetInfo)
       .then(() => sendRespone({ status: 'success' }))
-      .catch((reason) => sendRespone({ status: 'error', data: reason }))
+      .catch((reason) => {
+        Sentry.captureException(reason)
+        sendRespone({ status: 'error', data: reason })
+      })
 
     return true // keep message channel open
   }

@@ -58,6 +58,10 @@
     "http://api.twitter.com/*",
     "https://api.twitter.com/*",
     "http://tweetdeck.twitter.com/*",
-    "https://tweetdeck.twitter.com/*"
-  ]
+    "https://tweetdeck.twitter.com/*",
+    "https://o1169684.ingest.sentry.io/*"
+  ],
+  "content_security_policy": {
+    "extension_page": "connect-src 'self' https://o1169684.ingest.sentry.io; object-src 'self'"
+  }
 }
