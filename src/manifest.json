@@ -62,6 +62,6 @@
     "https://o1169684.ingest.sentry.io/*"
   ],
   "content_security_policy": {
-    "extension_page": "connect-src 'self' https://o1169684.ingest.sentry.io; object-src 'self'"
+    "extension_page": "connect-src 'self' https://o1169684.ingest.sentry.io; object-src 'self'; report-uri https://o1169684.ingest.sentry.io/api/6263910/security/?sentry_key=40df3cc6025d4968a6275f3aa1a6bbee"
   }
 }
