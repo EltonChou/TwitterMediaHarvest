@@ -45,7 +45,7 @@ const processDownloadAction = async message => {
   if (isInvalidInfo(tweetInfo)) {
     console.Error('Invalid tweetInfo.')
     await Statistics.addErrorCount()
-    return false
+    throw Error(`Invalid tweet info. ${tweetInfo}`)
   }
   /* eslint-enable no-console */
 
@@ -70,7 +70,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendRespone) => {
 
   processDownloadAction(message)
     .then(() => sendRespone({ status: 'success' }))
-    .catch(() => sendRespone({ status: 'error' }))
+    .catch(e => {
+      sendRespone({ status: 'error' })
+      throw e
+    })
 
   return true // keep message channel open
 })
