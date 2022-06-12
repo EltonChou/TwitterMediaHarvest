@@ -4,10 +4,11 @@ import select from 'select-dom'
 import {
   fetchFileNameSetting,
   getStatisticsCount,
+  initStorage,
   isEnableAria2,
-  StatisticsKey
+  StatisticsKey,
 } from './helpers/storageHelper'
-import { setLocalStorage, setSyncStorage } from '../libs/chromeApi'
+import { clearLocalStorage, clearSyncStorage, setLocalStorage, setSyncStorage } from '../libs/chromeApi'
 import { Action, } from '../typings'
 import { FilenameSerialRule } from './libs/TwitterMediaFile'
 
@@ -18,6 +19,7 @@ const serialSelect: HTMLSelectElement = select('select')
 const aria2Control: HTMLInputElement = select('#aria2')
 const settingsForm: HTMLFormElement = select('#settings')
 const submitButton: HTMLButtonElement = select('#submit')
+const resetStorageButton: HTMLInputElement = select('#reset_storage')
 const directoryInputHelp = select('#directory-help')
 const preview: HTMLInputElement = select('#preview')
 const example = {
@@ -144,6 +146,13 @@ settingsForm.addEventListener('submit', async function (e) {
   })
 })
 /* eslint-enable no-console */
+
+resetStorageButton.addEventListener('click', async () => {
+  await clearLocalStorage()
+  await clearSyncStorage()
+  await initStorage()
+  location.reload()
+})
 
 async function localize() {
   const localeObjects = select.all('[data-action="localize"]')

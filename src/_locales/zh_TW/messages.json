@@ -64,5 +64,8 @@
   },
   "noSubDirectory": {
     "message": "不新增子資料夾"
+  },
+  "resetStorageButtonText": {
+    "message": "重製設定"
   }
 }
