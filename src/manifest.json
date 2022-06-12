@@ -1,10 +1,10 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "__MSG_appName__",
   "short_name": "Twitter Media Harvest",
   "description": "__MSG_appDesc__",
-  "version": "2.0.4",
-  "minimum_chrome_version": "73",
+  "version": "3.0.0",
+  "minimum_chrome_version": "88",
   "default_locale": "en",
   "icons": {
     "16": "assets/icons/icon16.png",
@@ -12,7 +12,7 @@
     "48": "assets/icons/icon48.png",
     "128": "assets/icons/icon128.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": {
       "16": "assets/icons/icon16.png",
       "32": "assets/icons/icon32.png",
@@ -25,8 +25,7 @@
     "open_in_tab": true
   },
   "background": {
-    "scripts": ["background.js"],
-    "persistent": true
+    "service_worker": "sw.js"
   },
   "content_scripts": [
     {
@@ -38,12 +37,20 @@
         "http://tweetdeck.twitter.com/*",
         "https://tweetdeck.twitter.com/*"
       ],
-      "js": ["main.js"],
-      "all_frames": true,
+      "js": [
+        "main.js"
+      ],
       "run_at": "document_end"
     }
   ],
   "permissions": [
+    "activeTab",
+    "downloads",
+    "cookies",
+    "storage",
+    "notifications"
+  ],
+  "host_permissions": [
     "http://twitter.com/*",
     "https://twitter.com/*",
     "http://mobile.twitter.com/*",
@@ -51,11 +58,6 @@
     "http://api.twitter.com/*",
     "https://api.twitter.com/*",
     "http://tweetdeck.twitter.com/*",
-    "https://tweetdeck.twitter.com/*",
-    "activeTab",
-    "downloads",
-    "cookies",
-    "storage",
-    "notifications"
+    "https://tweetdeck.twitter.com/*"
   ]
 }

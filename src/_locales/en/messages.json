@@ -64,5 +64,8 @@
   },
   "noSubDirectory": {
     "message": "Don't create subdirectory."
+  },
+  "resetStorageButtonText": {
+    "message": "Reset settings"
   }
 }

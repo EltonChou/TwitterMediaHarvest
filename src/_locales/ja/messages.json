@@ -64,5 +64,8 @@
   },
   "noSubDirectory": {
     "message": "サブディレクトリを作成しません"
+  },
+  "resetStorageButtonText": {
+    "message": "リセット設定"
   }
 }
