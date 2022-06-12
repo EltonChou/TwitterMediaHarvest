@@ -42,9 +42,9 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
       ? window.location.pathname
       : null
 
-  const time = select('time', article)
   if (!magicLink) {
-    magicLink = time.parentElement.getAttribute('href')
+    const linkEle: HTMLAnchorElement = select('a[dir="auto"][role="link"][id^="id__"]', article)
+    magicLink = linkEle.href
   }
 
   const tweetId = magicLink.match(featureRegEx.id)[1]
