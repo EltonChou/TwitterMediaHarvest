@@ -43,7 +43,7 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
       : null
 
   if (!magicLink) {
-    const linkEle: HTMLAnchorElement = select('a[dir="auto"][role="link"][id^="id__"]', article)
+    const linkEle: HTMLAnchorElement = select('a[href*="status"][dir="auto"][role="link"][id^="id__"]', article)
     magicLink = linkEle.href
   }
 
