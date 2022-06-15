@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser'
 import select from 'select-dom'
 import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
 import {
@@ -21,13 +22,23 @@ const featureRegEx = Object.freeze({
  * @param {HTMLElement} article
  */
 const parseScreeNameFromUserAccount = (article: HTMLElement) => {
-  const userAccount = select(
-    '[role="link"] div[dir="ltr"]',
-    article
-  ).textContent
-  const screenName = userAccount.match(featureRegEx.screenName)[0]
+  const query = 'div[id*="id__"] [role="link"] [dir="ltr"]'
+  const userAccountEle = select(query, article)
+  if (userAccountEle) {
+    const userAccount = userAccountEle.textContent
+    return userAccount.match(featureRegEx.screenName)[0]
+  }
 
-  return screenName
+  throw new Error(`Can't parse screen name. (query: ${query})`)
+}
+
+const parseMagicLink = (article: HTMLElement): string => {
+  if (isArticlePhotoMode(article) || isArticleInStatus(article)) return window.location.pathname
+  const linkEle: HTMLAnchorElement = select('a[href*="status"][dir="auto"][role="link"][id^="id__"]', article)
+  if (!linkEle) throw new Error(`Failed to parse magic-link. (article: ${article.innerHTML})`)
+  const magicLink = linkEle.href
+
+  return magicLink
 }
 
 /**
@@ -37,18 +48,15 @@ const parseScreeNameFromUserAccount = (article: HTMLElement) => {
  */
 // FIXME: some tweet will cause null time error
 export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
-  let magicLink =
-    isArticlePhotoMode(article) || isArticleInStatus(article)
-      ? window.location.pathname
-      : null
+  Sentry.addBreadcrumb({
+    category: 'parse',
+    message: 'Parse tweet info.',
+    level: 'info',
+  })
 
-  if (!magicLink) {
-    const linkEle: HTMLAnchorElement = select('a[href*="status"][dir="auto"][role="link"][id^="id__"]', article)
-    magicLink = linkEle.href
-  }
+  const magicLink = parseMagicLink(article)
 
   const tweetId = magicLink.match(featureRegEx.id)[1]
-
   const screenName = isArticlePhotoMode(article)
     ? magicLink.match(featureRegEx.screenNameInURL)[0]
     : parseScreeNameFromUserAccount(article)
