@@ -58,16 +58,21 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
     level: 'info',
   })
 
-  const magicLink = parseMagicLink(article)
+  try {
 
-  const tweetId = magicLink.match(featureRegEx.id)[1]
-  const screenName = isArticlePhotoMode(article)
-    ? magicLink.match(featureRegEx.screenNameInURL)[0]
-    : parseScreeNameFromUserAccount(article)
+    const magicLink = parseMagicLink(article)
 
-  return {
-    screenName: screenName,
-    tweetId: tweetId,
+    const tweetId = magicLink.match(featureRegEx.id)[1]
+    const screenName = isArticlePhotoMode(article)
+      ? magicLink.match(featureRegEx.screenNameInURL)[0]
+      : parseScreeNameFromUserAccount(article)
+
+    return {
+      screenName: screenName,
+      tweetId: tweetId,
+    }
+  } catch (error) {
+    Sentry.captureException(error)
   }
 }
 
