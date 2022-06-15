@@ -122,8 +122,7 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
         message: `Download interupted. (info: ${info})`,
         level: 'info',
       })
-
-      notifyDownloadFailed(info, id, eventTime)
+      if (info) notifyDownloadFailed(info, id, eventTime)
     }
 
     if (DownloadStateUtil.isCompleted(state)) {
