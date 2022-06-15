@@ -29,6 +29,7 @@
     "file-loader": "^6.1.1",
     "jest": "^28.1.1",
     "jest-chrome": "^0.7.0",
+    "jest-environment-jsdom": "^28.1.1",
     "prettier": "^2.4.1",
     "prettier-eslint": "^15.0.1",
     "sass": "^1.45.1",
