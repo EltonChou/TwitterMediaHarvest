@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/browser'
-import { Integrations } from '@sentry/tracing'
 import Statistics from './libs/Statistics'
 import MediaDownloader from './libs/MediaDownloader'
 import { fetchMediaList } from './libs/MediaTweet'
@@ -30,12 +29,6 @@ import { Action } from '../typings'
 
 Sentry.init({
   dsn: 'https://40df3cc6025d4968a6275f3aa1a6bbee@o1169684.ingest.sentry.io/6263910',
-  integrations: [
-    new Integrations.BrowserTracing({
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      routingInstrumentation: () => { },
-    }),
-  ],
   tracesSampleRate: 1.0,
   environment: process.env.NODE_ENV
 })
@@ -46,6 +39,12 @@ const enum InstallReason {
 }
 
 const processDownloadAction = async (tweetInfo: TweetInfo) => {
+  Sentry.addBreadcrumb({
+    category: 'download',
+    message: 'Process download.',
+    level: 'info',
+  })
+
   /* eslint-disable no-console */
   if (isInvalidInfo(tweetInfo)) {
     console.error('Invalid tweetInfo.')
@@ -97,6 +96,12 @@ chrome.runtime.onInstalled.addListener(async details => {
 })
 
 chrome.downloads.onChanged.addListener(async downloadDelta => {
+  Sentry.addBreadcrumb({
+    category: 'download',
+    message: `Download state changed. (delta: ${downloadDelta})`,
+    level: 'info',
+  })
+
   const isBySelf = await isDownloadedBySelf(downloadDelta.id)
   if (!isBySelf) return false
 
@@ -112,6 +117,12 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
 
       await Statistics.addFailedDownloadCount()
       const { info } = await fetchDownloadItemRecord(id)
+      Sentry.addBreadcrumb({
+        category: 'download',
+        message: `Download interupted. (info: ${info})`,
+        level: 'info',
+      })
+
       notifyDownloadFailed(info, id, eventTime)
     }
 
