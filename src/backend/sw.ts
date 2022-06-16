@@ -108,20 +108,19 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   const isStateChanged = 'state' in downloadDelta
 
   if (isStateChanged && isDownloadedBySelf) {
-    const { id, endTime, state, error } = downloadDelta
+    const { id, state, error } = downloadDelta
     if (DownloadStateUtil.isInterrupted(state)) {
-      const eventTime =
-        !error && 'current' in endTime
-          ? Date.parse(endTime.current)
-          : Date.now()
+      const eventTime = getDownloadDeltaEventTime(downloadDelta)
 
       await Statistics.addFailedDownloadCount()
       const { info } = await fetchDownloadItemRecord(id)
       Sentry.addBreadcrumb({
         category: 'download',
-        message: `Download interupted. (info: ${info})`,
+        message: `Download interupted reason. (current: ${error.current}, previous: ${error.previous})`,
         level: 'info',
       })
+      Sentry.captureMessage(`Download interupted reason. (current: ${error.current}, previous: ${error.previous})`)
+
       if (info) notifyDownloadFailed(info, id, eventTime)
     }
 
@@ -217,4 +216,13 @@ async function retryDownload(downloadRecordId: DownloadRecordId) {
   await removeDownloadItemRecord(downloadItemId)
   const downloadRecorder = downloadItemRecorder(info)(config)
   chrome.downloads.download(config, downloadRecorder)
+}
+
+function getDownloadDeltaEventTime(downloadDelta: chrome.downloads.DownloadDelta) {
+  const eventTime =
+    !downloadDelta.error && 'current' in downloadDelta.endTime
+      ? Date.parse(downloadDelta.endTime.current)
+      : Date.now()
+
+  return eventTime
 }
