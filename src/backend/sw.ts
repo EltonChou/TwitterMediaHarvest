@@ -38,26 +38,29 @@ const enum InstallReason {
   Update = 'update',
 }
 
+/* eslint-disable no-console */
 const processDownloadAction = async (tweetInfo: TweetInfo) => {
+  console.log('Processing download. Info:', tweetInfo)
   Sentry.addBreadcrumb({
     category: 'download',
     message: 'Process download.',
     level: 'info',
   })
 
-  /* eslint-disable no-console */
   if (isInvalidInfo(tweetInfo)) {
     console.error('Invalid tweetInfo.')
     await Statistics.addErrorCount()
     throw new Error(`Invalid tweetInfo. ${tweetInfo}`)
   }
-  /* eslint-enable no-console */
+
   const mediaDownloader = await MediaDownloader.build(tweetInfo)
   const ct0Value = await fetchTwitterCt0Cookie()
   try {
+    console.log('Fetching media info...')
     const mediaList = await fetchMediaList(tweetInfo.tweetId, ct0Value)
     mediaDownloader.downloadMedias(mediaList)
   } catch (reason) {
+    console.log('Error. Reason: ', reason)
     fetchErrorHandler(
       tweetInfo,
       'status' in reason ?
@@ -66,8 +69,8 @@ const processDownloadAction = async (tweetInfo: TweetInfo) => {
     )
     throw reason
   }
-
 }
+/* eslint-disable no-console */
 
 chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespone) => {
   if (message.action === Action.Download) {
@@ -110,6 +113,7 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   if (isStateChanged && isDownloadedBySelf) {
     const { id, state, error } = downloadDelta
     if (DownloadStateUtil.isInterrupted(state)) {
+      console.log('Download was interrupted.', downloadDelta)
       const eventTime = getDownloadDeltaEventTime(downloadDelta)
 
       await Statistics.addFailedDownloadCount()
@@ -125,6 +129,7 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
     }
 
     if (DownloadStateUtil.isCompleted(state)) {
+      console.log('Download was completed.')
       Sentry.captureMessage('Download completed.')
       removeDownloadItemRecord(id)
       await Statistics.addSuccessDownloadCount()

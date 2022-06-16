@@ -23,11 +23,15 @@ export const makeButtonWithData = (
 }
 
 
+/* eslint-disable no-console */
 const runtimeSendMessage = (
   message: HarvestMessage,
   responseCb: (response: { status: string, data: object }) => void) => {
+  console.log('Send message to service worker.', message)
   chrome.runtime.sendMessage(message, responseCb)
 }
+
+/* eslint-disable no-console */
 
 /**
  * @param button harvestButton
