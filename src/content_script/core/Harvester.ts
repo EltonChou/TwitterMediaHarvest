@@ -9,7 +9,6 @@ import {
 import {
   createElementFromHTML,
   makeButtonListener,
-  makeButtonWithData,
 } from '../utils/maker'
 
 const featureRegEx = Object.freeze({
@@ -94,8 +93,7 @@ class Harvester {
   get button() {
     const button = this.createButtonByMode()
 
-    makeButtonWithData(button as HTMLElement, this.info)
-    makeButtonListener(button as HTMLElement)
+    makeButtonListener(button as HTMLElement, parseTweetInfo)
 
     return button
   }
@@ -158,11 +156,6 @@ class Harvester {
     return buttonWrapper
   }
 
-  static swapData(article: HTMLElement) {
-    const info = parseTweetInfo(article)
-    const havestButton = select('.harvester', article)
-    makeButtonWithData(havestButton, info)
-  }
 }
 
 export default Harvester

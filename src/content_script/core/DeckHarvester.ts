@@ -4,7 +4,6 @@ import { isArticleInDetail } from '../utils/checker'
 import {
   createElementFromHTML,
   makeButtonListener,
-  makeButtonWithData,
 } from '../utils/maker'
 
 const fetchTweetId = (article: HTMLElement) =>
@@ -36,9 +35,7 @@ class DeckHarvester {
 
   get button() {
     const button = this.createButton()
-
-    makeButtonWithData(button as HTMLElement, this.info)
-    makeButtonListener(button as HTMLElement)
+    makeButtonListener(button as HTMLElement, parseTweetInfo)
 
     return button
   }
