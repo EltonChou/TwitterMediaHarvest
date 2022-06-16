@@ -5,7 +5,7 @@ import { articleHasMedia, isStreamLoaded } from '../utils/checker'
 
 enum Query {
   Root = '#react-root > div > div',
-  Stream = 'section[role="region"] > div > div',
+  Stream = 'section[role="region"] > div[aria-label] > div',
   Modal = '[aria-labelledby="modal-header"]',
   ModalWrapper = '#layers',
   ModalThread = '[aria-labelledby="modal-header"] [aria-expanded="true"]',
