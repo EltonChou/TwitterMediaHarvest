@@ -38,26 +38,29 @@ const enum InstallReason {
   Update = 'update',
 }
 
+/* eslint-disable no-console */
 const processDownloadAction = async (tweetInfo: TweetInfo) => {
+  console.log('Processing download. Info:', tweetInfo)
   Sentry.addBreadcrumb({
     category: 'download',
     message: 'Process download.',
     level: 'info',
   })
 
-  /* eslint-disable no-console */
   if (isInvalidInfo(tweetInfo)) {
     console.error('Invalid tweetInfo.')
     await Statistics.addErrorCount()
     throw new Error(`Invalid tweetInfo. ${tweetInfo}`)
   }
-  /* eslint-enable no-console */
+
   const mediaDownloader = await MediaDownloader.build(tweetInfo)
   const ct0Value = await fetchTwitterCt0Cookie()
   try {
+    console.log('Fetching media info...')
     const mediaList = await fetchMediaList(tweetInfo.tweetId, ct0Value)
     mediaDownloader.downloadMedias(mediaList)
   } catch (reason) {
+    console.log('Error. Reason: ', reason)
     fetchErrorHandler(
       tweetInfo,
       'status' in reason ?
@@ -66,8 +69,8 @@ const processDownloadAction = async (tweetInfo: TweetInfo) => {
     )
     throw reason
   }
-
 }
+/* eslint-disable no-console */
 
 chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespone) => {
   if (message.action === Action.Download) {
@@ -108,25 +111,26 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   const isStateChanged = 'state' in downloadDelta
 
   if (isStateChanged && isDownloadedBySelf) {
-    const { id, endTime, state, error } = downloadDelta
+    const { id, state, error } = downloadDelta
     if (DownloadStateUtil.isInterrupted(state)) {
-      const eventTime =
-        !error && 'current' in endTime
-          ? Date.parse(endTime.current)
-          : Date.now()
+      console.log('Download was interrupted.', downloadDelta)
+      const eventTime = getDownloadDeltaEventTime(downloadDelta)
 
       await Statistics.addFailedDownloadCount()
       const { info } = await fetchDownloadItemRecord(id)
       Sentry.addBreadcrumb({
         category: 'download',
-        message: `Download interupted. (info: ${info})`,
+        message: `Download interupted reason. (current: ${error.current}, previous: ${error.previous})`,
         level: 'info',
       })
+      Sentry.captureMessage(`Download interupted reason. (current: ${error.current}, previous: ${error.previous})`)
 
-      notifyDownloadFailed(info, id, eventTime)
+      if (info) notifyDownloadFailed(info, id, eventTime)
     }
 
     if (DownloadStateUtil.isCompleted(state)) {
+      console.log('Download was completed.', downloadDelta)
+      Sentry.captureMessage('Download completed.')
       removeDownloadItemRecord(id)
       await Statistics.addSuccessDownloadCount()
     }
@@ -218,4 +222,13 @@ async function retryDownload(downloadRecordId: DownloadRecordId) {
   await removeDownloadItemRecord(downloadItemId)
   const downloadRecorder = downloadItemRecorder(info)(config)
   chrome.downloads.download(config, downloadRecorder)
+}
+
+function getDownloadDeltaEventTime(downloadDelta: chrome.downloads.DownloadDelta) {
+  const eventTime =
+    !downloadDelta.error && 'current' in downloadDelta.endTime
+      ? Date.parse(downloadDelta.endTime.current)
+      : Date.now()
+
+  return eventTime
 }

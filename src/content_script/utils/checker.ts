@@ -86,8 +86,8 @@ export const articleHasMedia = (article: HTMLElement) => {
 /**
  * @param {HTMLElement} article
  */
-export const isArticleCanBeAppend = (article: HTMLElement) =>
-  article && !article.dataset.harvestAppended
+export const isArticleCanBeAppend = (article: HTMLElement) => !select.exists('.harvester', article)
+// article && !article.dataset.harvestAppended
 
 export const isStreamLoaded = () =>
   select.exists('[role="region"]') && select.exists('article')

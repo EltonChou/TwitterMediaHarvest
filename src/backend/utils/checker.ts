@@ -12,8 +12,8 @@ export async function isDownloadedBySelf(downloadId: number) {
   const query = {
     id: downloadId,
   }
-  const result = await searchDownload(query)
-  result.filter(item =>
+  let result = await searchDownload(query)
+  result = result.filter(item =>
     'byExtensionId' in item ?
       item.byExtensionId === runtimeId : false
   )

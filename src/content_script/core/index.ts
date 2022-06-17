@@ -1,4 +1,3 @@
-
 import * as Sentry from '@sentry/browser'
 import select from 'select-dom'
 import DeckHarvester from './DeckHarvester'
@@ -35,6 +34,8 @@ const deckActionInsert = (actionBar: HTMLElement, button: HTMLElement | Element)
   return actionBar
 }
 
+const setTargetArticle = (article: HTMLElement) => article.dataset.harvestArticle = 'true'
+
 /**
  * Create Harvester and append to action-bar.
  * <div role="group" class="css-1dbjc4n r-1oszu61 r-1kfrmmb r-1efd50x r-5kkj8d r-18u37iz r-ahm1il r-a2tzq0">
@@ -43,37 +44,31 @@ const deckActionInsert = (actionBar: HTMLElement, button: HTMLElement | Element)
  */
 const makeHarvester = (article: HTMLElement) => {
   if (isArticleCanBeAppend(article)) {
+    setTargetArticle(article)
     const actionBarQuery = getActionBarQuery(article)
 
     const actionBar = select(actionBarQuery, article)
     if (actionBar) {
       let harvester = undefined
-
-      if (isTwitter()) {
-        try {
+      try {
+        if (isTwitter()) {
           harvester = new Harvester(article)
           twitterActionAppend(actionBar, harvester.button)
-        } catch (error) {
-          Sentry.captureException(error)
         }
-      }
 
-      if (isTweetDeck()) {
-        try {
+        if (isTweetDeck()) {
           harvester = new DeckHarvester(article)
           deckActionInsert(actionBar, harvester.button)
           if (isArticleInDetail(article)) {
             actionBar.classList.add('deck-harvest-actions')
           }
-        } catch (error) {
-          Sentry.captureException(error)
         }
+      } catch (error) {
+        Sentry.captureException(error)
       }
 
       articleAppendedConfirm(article)
     }
-  } else {
-    if (isTwitter()) Harvester.swapData(article)
   }
 }
 

@@ -23,26 +23,34 @@ export const makeButtonWithData = (
 }
 
 
+/* eslint-disable no-console */
 const runtimeSendMessage = (
   message: HarvestMessage,
   responseCb: (response: { status: string, data: object }) => void) => {
+  console.log('Send message to service worker.', message)
   chrome.runtime.sendMessage(message, responseCb)
 }
+
+/* eslint-disable no-console */
 
 /**
  * @param button harvestButton
  */
 export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
-  button: T
+  button: T, infoParser: (article: HTMLElement) => TweetInfo
 ): T => {
   button.addEventListener('click', async function (e) {
+    const article: HTMLElement = this.closest('[data-harvest-article]')
+    if (!article) return false
+    const tweetInfo: TweetInfo = infoParser(article)
+
     e.stopImmediatePropagation()
     if (this.classList.contains('downloading')) return false
     this.classList.remove('success', 'error')
     this.classList.add('downloading')
     const message: HarvestMessage = {
       action: Action.Download,
-      data: this.dataset
+      data: tweetInfo
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

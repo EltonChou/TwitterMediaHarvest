@@ -5,7 +5,6 @@ import { chrome } from 'jest-chrome'
 
 import {
   createElementFromHTML,
-  makeButtonListener,
   makeButtonWithData,
 
 } from '../../content_script/utils/maker'
@@ -27,15 +26,6 @@ test('append tweet info data to html element', () => {
 
   expect(buttonWithData.dataset.screenName).toBe(tweetInfo.screenName)
   expect(buttonWithData.dataset.tweetId).toBe(tweetInfo.tweetId)
-})
-
-test('add listener to html element', () => {
-  const button = document.createElement('button')
-  chrome.runtime.sendMessage.mockImplementation((message, callback) => {
-    callback('a')
-  })
-
-  makeButtonListener(button)
 })
 
 

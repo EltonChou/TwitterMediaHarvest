@@ -9,7 +9,6 @@ import {
 import {
   createElementFromHTML,
   makeButtonListener,
-  makeButtonWithData,
 } from '../utils/maker'
 
 const featureRegEx = Object.freeze({
@@ -36,10 +35,7 @@ const parseMagicLink = (article: HTMLElement): string => {
   const query = 'a[href*="status"][dir="auto"][role="link"][id^="id__"]'
   if (isArticlePhotoMode(article) || isArticleInStatus(article)) return window.location.pathname
   const linkEle: HTMLAnchorElement = select(query, article)
-  if (!linkEle) throw new Error(`Failed to parse magic-link. (${{
-    query: query,
-    article: article.outerHTML
-  }})`)
+  if (!linkEle) throw new Error(`Failed to parse magic-link. (query: ${query}, article: ${article.outerHTML})`)
   const magicLink = linkEle.href
 
   return magicLink
@@ -97,8 +93,7 @@ class Harvester {
   get button() {
     const button = this.createButtonByMode()
 
-    makeButtonWithData(button as HTMLElement, this.info)
-    makeButtonListener(button as HTMLElement)
+    makeButtonListener(button as HTMLElement, parseTweetInfo)
 
     return button
   }
@@ -161,11 +156,6 @@ class Harvester {
     return buttonWrapper
   }
 
-  static swapData(article: HTMLElement) {
-    const info = parseTweetInfo(article)
-    const havestButton = select('.harvester', article)
-    makeButtonWithData(havestButton, info)
-  }
 }
 
 export default Harvester
