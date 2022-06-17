@@ -129,7 +129,7 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
     }
 
     if (DownloadStateUtil.isCompleted(state)) {
-      console.log('Download was completed.')
+      console.log('Download was completed.', downloadDelta)
       Sentry.captureMessage('Download completed.')
       removeDownloadItemRecord(id)
       await Statistics.addSuccessDownloadCount()
