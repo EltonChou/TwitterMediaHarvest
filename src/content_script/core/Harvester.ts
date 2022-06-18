@@ -23,12 +23,11 @@ const featureRegEx = Object.freeze({
 const parseScreeNameFromUserAccount = (article: HTMLElement) => {
   const query = 'div[id*="id__"] [role="link"] [dir="ltr"]'
   const userAccountEle = select(query, article)
-  if (userAccountEle) {
-    const userAccount = userAccountEle.textContent
-    return userAccount.match(featureRegEx.screenName)[0]
+  if (!userAccountEle) {
+    throw new Error(`Can't parse screen name. (query: ${query})`)
   }
-
-  throw new Error(`Can't parse screen name. (query: ${query})`)
+  const userAccount = userAccountEle.textContent
+  return userAccount.match(featureRegEx.screenName)[0]
 }
 
 const parseMagicLink = (article: HTMLElement): string => {
@@ -46,7 +45,6 @@ const parseMagicLink = (article: HTMLElement): string => {
  *
  * @param article A valid tweet element.
  */
-// FIXME: some tweet will cause null time error
 export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
   Sentry.addBreadcrumb({
     category: 'parse',
@@ -54,21 +52,26 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
     level: 'info',
   })
 
-  try {
+  const magicLink = parseMagicLink(article)
 
-    const magicLink = parseMagicLink(article)
+  Sentry.addBreadcrumb({
+    category: 'parse',
+    message: `Magic link: ${magicLink}`,
+    level: 'info',
+  })
 
-    const tweetId = magicLink.match(featureRegEx.id)[1]
-    const screenName = isArticlePhotoMode(article)
-      ? magicLink.match(featureRegEx.screenNameInURL)[0]
-      : parseScreeNameFromUserAccount(article)
+  if (!magicLink.match(featureRegEx.id).length) {
+    throw new Error('Failed to get valid magic link.')
+  }
 
-    return {
-      screenName: screenName,
-      tweetId: tweetId,
-    }
-  } catch (error) {
-    Sentry.captureException(error)
+  const tweetId = magicLink.match(featureRegEx.id)[1]
+  const screenName = isArticlePhotoMode(article)
+    ? magicLink.match(featureRegEx.screenNameInURL)[0]
+    : parseScreeNameFromUserAccount(article)
+
+  return {
+    screenName: screenName,
+    tweetId: tweetId,
   }
 }
 
@@ -81,9 +84,6 @@ class Harvester {
   constructor(article: HTMLElement) {
     this.mode = checkModeOfArticle(article)
     this.info = parseTweetInfo(article)
-    if (!this.info.screenName || !this.info.tweetId) {
-      throw new Error('Failed to parse tweet info.')
-    }
 
     const sampleButton = select.all('[role="group"] [dir="ltr"]', article).pop()
     this.ltrStyle = sampleButton.classList.value
