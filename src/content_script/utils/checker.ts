@@ -76,10 +76,11 @@ export const articleHasMedia = (article: HTMLElement) => {
     )
     const videoContent = (select.exists('[role="progressbar"]', mediaContent)
       || select.exists('[data-testid="videoPlayer"]', mediaContent))
-      && !select.exists('[role="link"]', mediaContent)
 
     // return magicLength && (photoContent || videoContent)
-    return photoContent || videoContent
+    return photoContent
+      || videoContent
+      && !select.exists('[role="link"]', mediaContent)
   }
 
   return [...mediaWrapper.children].some(checkContent)
