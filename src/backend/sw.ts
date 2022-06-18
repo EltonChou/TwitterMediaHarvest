@@ -30,7 +30,7 @@ import { Action } from '../typings'
 Sentry.init({
   dsn: 'https://40df3cc6025d4968a6275f3aa1a6bbee@o1169684.ingest.sentry.io/6263910',
   tracesSampleRate: 0.3,
-  environment: process.env.NODE_ENV
+  environment: `${process.env.NODE_ENV} ${chrome.runtime.getManifest().version}`
 })
 
 const enum InstallReason {
