@@ -8,8 +8,8 @@ Sentry.init({
   ignoreErrors: [
     'ResizeObserver loop limit exceeded'
   ],
-  tracesSampleRate: 1.0,
-  environment: process.env.NODE_ENV
+  tracesSampleRate: 0.3,
+  environment: `${process.env.NODE_ENV} ${chrome.runtime.getManifest().version}`
 })
 
 import select from 'select-dom'

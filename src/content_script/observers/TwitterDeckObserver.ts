@@ -39,7 +39,7 @@ const observerDetailReplies = (replies: HTMLElement) => {
 const observeModal = () => {
   const modalCallback: MutationCallback = mutations => {
     for (const mutation of mutations) {
-      if (mutation.addedNodes) {
+      if (mutation.addedNodes.length) {
         const article = select(
           '.tweet',
           mutation.addedNodes[0] as unknown as ParentNode
