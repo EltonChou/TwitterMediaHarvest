@@ -8,7 +8,7 @@ Sentry.init({
   ignoreErrors: [
     'ResizeObserver loop limit exceeded'
   ],
-  tracesSampleRate: 1.0,
+  tracesSampleRate: 0.3,
   environment: process.env.NODE_ENV
 })
 

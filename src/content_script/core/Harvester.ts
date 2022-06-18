@@ -35,7 +35,7 @@ const parseMagicLink = (article: HTMLElement): string => {
   const query = 'a[href*="status"][dir="auto"][role="link"][id^="id__"]'
   if (isArticlePhotoMode(article) || isArticleInStatus(article)) return window.location.pathname
   const linkEle: HTMLAnchorElement = select(query, article)
-  if (!linkEle) throw new Error(`Failed to parse magic-link. (query: ${query}, article: ${article.outerHTML})`)
+  if (!linkEle) throw new Error(`Failed to parse magic-link. (query: ${query})`)
   const magicLink = linkEle.href
 
   return magicLink
@@ -82,7 +82,7 @@ class Harvester {
     this.mode = checkModeOfArticle(article)
     this.info = parseTweetInfo(article)
     if (!this.info.screenName || !this.info.tweetId) {
-      throw new Error(`Failed to parse tweet info. ${this.info}`)
+      throw new Error('Failed to parse tweet info.')
     }
 
     const sampleButton = select.all('[role="group"] [dir="ltr"]', article).pop()
