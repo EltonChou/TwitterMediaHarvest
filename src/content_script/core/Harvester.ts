@@ -34,7 +34,19 @@ const parseMagicLink = (article: HTMLElement): string => {
   const query = 'a[href*="status"][dir="auto"][role="link"][id^="id__"]'
   if (isArticlePhotoMode(article) || isArticleInStatus(article)) return window.location.pathname
   const linkEle: HTMLAnchorElement = select(query, article)
-  if (!linkEle) throw new Error(`Failed to parse magic-link. (query: ${query})`)
+
+  if (!linkEle) {
+    Sentry.addBreadcrumb({
+      category: 'parse',
+      message: 'Can\'t get magic- link element.',
+      level: 'info',
+      data: {
+        query: query,
+        article: article.outerHTML
+      }
+    })
+    throw new Error('Failed to parse magic-link.')
+  }
   const magicLink = linkEle.href
 
   return magicLink
