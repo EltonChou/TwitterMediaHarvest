@@ -70,6 +70,7 @@ export const articleHasMedia = (article: HTMLElement) => {
 
   const checkContent = (mediaContent: Element) => {
     // const magicLength = mediaContent.classList.length >= 2
+    if (mediaContent.hasAttribute('id')) return false
     const photoContent = select.exists(
       '[role="link"][href*="photo"]',
       mediaContent
