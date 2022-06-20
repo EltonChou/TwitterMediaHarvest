@@ -24,7 +24,7 @@ const parseMagicLink = (article: HTMLElement): string => {
 
   if (!linkEle) {
     const links: string[] = []
-    const anchor_elements = select.all('a[href*="status"]', article)
+    const anchor_elements = select.all('a[href]', article)
     anchor_elements.forEach(v => links.push(v.href))
 
     Sentry.addBreadcrumb({
