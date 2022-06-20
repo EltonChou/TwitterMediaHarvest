@@ -13,26 +13,13 @@ import {
 
 const featureRegEx = Object.freeze({
   id: /(?:status\/)(\d+)/,
-  screenName: /(?<=@)\S+/,
-  screenNameInURL: /(?<=\/)\S+(?=\/status)/,
+  screenName: /.com\/(\S+)\/(?:status\/)/,
 })
 
-/**
- * @param {HTMLElement} article
- */
-const parseScreeNameFromUserAccount = (article: HTMLElement) => {
-  const query = 'div[id*="id__"] [role="link"] [dir="ltr"]'
-  const userAccountEle = select(query, article)
-  if (!userAccountEle) {
-    throw new Error(`Can't parse screen name. (query: ${query})`)
-  }
-  const userAccount = userAccountEle.textContent
-  return userAccount.match(featureRegEx.screenName)[0]
-}
 
 const parseMagicLink = (article: HTMLElement): string => {
-  const query = 'a[href*="status"][dir="auto"][role="link"][id^="id__"]'
-  if (isArticlePhotoMode(article) || isArticleInStatus(article)) return window.location.pathname
+  let query = 'a[href*="status"][dir="auto"][role="link"][id^="id__"]'
+  if (isArticlePhotoMode(article) || isArticleInStatus(article)) query = 'a[href*="status"][role="link"]'
   const linkEle: HTMLAnchorElement = select(query, article)
 
   if (!linkEle) {
@@ -80,9 +67,7 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
   }
 
   const tweetId = magicLink.match(featureRegEx.id)[1]
-  const screenName = isArticlePhotoMode(article)
-    ? magicLink.match(featureRegEx.screenNameInURL)[0]
-    : parseScreeNameFromUserAccount(article)
+  const screenName = magicLink.match(featureRegEx.screenName)[1]
 
   return {
     screenName: screenName,
