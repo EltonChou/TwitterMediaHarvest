@@ -141,7 +141,7 @@ class TwitterDeckObserver implements HarvestObserver {
       '.application',
       (_, this_observer) => {
         if (select.exists('.app-columns')) {
-          this.initObserver()
+          this.initialize()
           observeColumns()
           observeModal()
           this_observer.disconnect()
@@ -151,7 +151,7 @@ class TwitterDeckObserver implements HarvestObserver {
     )
   }
 
-  initObserver() {
+  initialize() {
     const columns = select.all('section.column')
 
     for (const column of columns) {
