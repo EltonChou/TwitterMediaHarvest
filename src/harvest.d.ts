@@ -54,4 +54,5 @@ interface FetchErrorReason {
 
 interface HarvestObserver {
   observeRoot: () => void
+  initialize: () => void
 }

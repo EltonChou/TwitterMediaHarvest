@@ -1,14 +1,16 @@
 import './main.sass'
 import * as Sentry from '@sentry/browser'
 import { BrowserTracing } from '@sentry/tracing'
+import { SENTRY_DSN } from '../constants'
+
 
 Sentry.init({
-  dsn: 'https://40df3cc6025d4968a6275f3aa1a6bbee@o1169684.ingest.sentry.io/6263910',
+  dsn: SENTRY_DSN,
   integrations: [new BrowserTracing()],
   ignoreErrors: [
     'ResizeObserver loop limit exceeded'
   ],
-  tracesSampleRate: 0.3,
+  tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
   environment: process.env.NODE_ENV
 })
 
@@ -42,6 +44,15 @@ window.addEventListener('keyup', (e) => {
         if (harvesterButton) harvesterButton.click()
       }
     }
+  }
+})
+
+let hasFocused = false
+window.addEventListener('focus', () => {
+  observer.initialize()
+  if (!hasFocused) {
+    observer.observeRoot()
+    hasFocused = true
   }
 })
 

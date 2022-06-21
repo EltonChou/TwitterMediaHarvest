@@ -1,5 +1,7 @@
 import select from 'select-dom'
 
+const isElementObserved = (ele: HTMLElement) => ele.dataset.harvestObserved === 'true'
+
 /**
  * MutationObserver
  * @param element valid DOMSelector string or HTMLElement
@@ -12,12 +14,16 @@ export const observeElement = (
   options: MutationObserverInit = { childList: true }
 ): MutationObserver => {
   const observer = new MutationObserver(observerCallback)
-  if (element instanceof HTMLElement) {
-    observer.observe(element, options)
+  const observeElement = element instanceof HTMLElement
+    ? element
+    : typeof element === 'string' && select.exists(element)
+      ? select(element) : null
+
+  if (observeElement && !isElementObserved(observeElement)) {
+    observer.observe(observeElement, options)
+    observeElement.dataset.harvestObserved = 'true'
   }
-  if (typeof element === 'string' && select.exists(element)) {
-    observer.observe(select(element), options)
-  }
+
   return observer
 }
 
