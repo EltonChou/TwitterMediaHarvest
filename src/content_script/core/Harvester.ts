@@ -77,13 +77,11 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
 
 class Harvester {
   public mode: TweetMode
-  public info: TweetInfo
   private ltrStyle: string
   private svgStyle: string
 
   constructor(article: HTMLElement) {
     this.mode = checkModeOfArticle(article)
-    this.info = parseTweetInfo(article)
 
     const sampleButton = select.all('[role="group"] [dir="ltr"]', article).pop()
     this.ltrStyle = sampleButton.classList.value
