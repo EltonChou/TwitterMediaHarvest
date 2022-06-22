@@ -22,11 +22,9 @@ const parseTweetInfo = (article: HTMLElement): TweetInfo => {
 }
 
 class DeckHarvester {
-  public info: TweetInfo
   public isInDetail: boolean
 
   constructor(article: HTMLElement) {
-    this.info = parseTweetInfo(article)
     this.isInDetail = isArticleInDetail(article)
   }
 

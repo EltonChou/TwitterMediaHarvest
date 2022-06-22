@@ -9,6 +9,7 @@ enum Query {
   Modal = '[aria-labelledby="modal-header"]',
   ModalWrapper = '#layers',
   ModalThread = '[aria-labelledby="modal-header"] [aria-expanded="true"]',
+  Timeline = '[data-testid="primaryColumn"] [aria-label]'
 }
 
 export default class TwitterMediaObserver implements HarvestObserver {
@@ -21,9 +22,10 @@ export default class TwitterMediaObserver implements HarvestObserver {
     const rootMutationCallback: MutationCallback = (_, observer) => {
       this.initialize()
       if (isStreamLoaded()) {
-        this.observeTitle()
+        this.observeHead()
         this.observeModal()
         this.observeStream()
+        this.observeHead()
         observer.disconnect()
       }
     }
@@ -53,17 +55,24 @@ export default class TwitterMediaObserver implements HarvestObserver {
     })
   }
 
-  observeTitle() {
+  observeTimeline() {
+    observeElement(Query.Timeline, () => {
+      this.initialize()
+    }, { childList: true, subtree: true })
+  }
+
+  observeHead() {
     const options: MutationObserverInit = {
       childList: true,
-      characterData: true,
+      subtree: false
     }
 
-    const titleMutationCallback: MutationCallback = (_, observer) => {
+    const titleMutationCallback: MutationCallback = () => {
+      this.initialize()
       this.observeRoot()
-      observer.disconnect()
+      this.observeTimeline()
     }
-    observeElement('title', titleMutationCallback, options)
+    observeElement('head', titleMutationCallback, options)
   }
 
   observeModal() {

@@ -23,20 +23,23 @@ const parseMagicLink = (article: HTMLElement): string => {
   const linkEle: HTMLAnchorElement = select(query, article)
 
   if (!linkEle) {
+    const links: string[] = []
+    const anchor_elements = select.all('a[href]', article)
+    anchor_elements.forEach(v => links.push(v.href))
+
     Sentry.addBreadcrumb({
       category: 'parse',
-      message: 'Can\'t get magic- link element.',
+      message: 'Can\'t get magic-link element.',
       level: 'info',
       data: {
         query: query,
-        article: article.outerHTML
+        links: links
       }
     })
     throw new Error('Failed to parse magic-link.')
   }
-  const magicLink = linkEle.href
 
-  return magicLink
+  return linkEle.href
 }
 
 /**
@@ -74,13 +77,11 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
 
 class Harvester {
   public mode: TweetMode
-  public info: TweetInfo
   private ltrStyle: string
   private svgStyle: string
 
   constructor(article: HTMLElement) {
     this.mode = checkModeOfArticle(article)
-    this.info = parseTweetInfo(article)
 
     const sampleButton = select.all('[role="group"] [dir="ltr"]', article).pop()
     this.ltrStyle = sampleButton.classList.value
