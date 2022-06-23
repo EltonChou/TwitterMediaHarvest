@@ -66,7 +66,7 @@ const processDownloadAction = async (tweetInfo: TweetInfo) => {
       tweetInfo,
       'status' in reason ?
         reason :
-        { status: 500, title: 'InternalError', message: reason }
+        { status: 500, title: 'InternalError', message: 'message' in reason ? reason.message : 'Unknown Error.' }
     )
     throw reason
   }
