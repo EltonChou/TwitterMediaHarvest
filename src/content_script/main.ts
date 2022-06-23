@@ -38,7 +38,7 @@ window.addEventListener('keyup', (e) => {
   const buttonQuery = isTweetDeck() ? '.deck-harvester' : '.harvester'
   if (e.code === getDownloadKeyCode()) {
     if (e.target instanceof Element && currentFocusing) {
-      const tweetCanBeHarvested = currentFocusing.closest('[data-harvest-appended]')
+      const tweetCanBeHarvested = currentFocusing.closest('[data-harvest-article]')
       if (tweetCanBeHarvested) {
         const harvesterButton = select(buttonQuery, tweetCanBeHarvested)
         if (harvesterButton) harvesterButton.click()

@@ -22,10 +22,6 @@ const getActionBarQuery = (article: HTMLElement) => {
     : '[role="group"][aria-label]'
 }
 
-const articleAppendedConfirm = (article: HTMLElement): void => {
-  article.dataset.harvestAppended = 'true'
-}
-
 const twitterActionAppend = (actionBar: HTMLElement, button: HTMLElement | Element) =>
   actionBar.appendChild(button)
 
@@ -67,7 +63,6 @@ const makeHarvester = (article: HTMLElement) => {
         Sentry.captureException(error)
       }
 
-      articleAppendedConfirm(article)
     }
   }
 }

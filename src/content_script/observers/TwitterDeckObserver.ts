@@ -18,6 +18,13 @@ const deckStreamHasMedia = (addedNode: Node) => {
   return hasMedia && notQuoted
 }
 
+const processRootTweets = () => {
+  const rootTweets = select.all('.js-detail-content article')
+  for (const tweet of rootTweets) {
+    if (deckStreamHasMedia(tweet)) makeHarvester(tweet)
+  }
+}
+
 const observerDetailReplies = (replies: HTMLElement) => {
   const options: MutationObserverInit = {
     childList: true,
@@ -25,6 +32,7 @@ const observerDetailReplies = (replies: HTMLElement) => {
 
   const repliesCallback: MutationCallback = mutations => {
     for (const mutation of mutations) {
+      processRootTweets()
       for (const addedNode of mutation.addedNodes) {
         if (deckStreamHasMedia(addedNode)) {
           makeHarvester(addedNode as unknown as HTMLElement)
@@ -85,11 +93,8 @@ const observeDetail = (tweetDetail: HTMLElement) => {
 
   const detailCallback: MutationCallback = mutations => {
     let replies: HTMLElement = null
-    const rootTweets = select.all('.js-detail-content article')
 
-    for (const tweet of rootTweets) {
-      if (deckStreamHasMedia(tweet)) makeHarvester(tweet)
-    }
+    processRootTweets()
 
     for (const mutation of mutations) {
       if (!replies) {
