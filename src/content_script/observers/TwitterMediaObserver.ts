@@ -33,7 +33,7 @@ export default class TwitterMediaObserver implements HarvestObserver {
   }
 
   initialize() {
-    if (select.exists(Query.Modal) && window.location.pathname !== '/compose/tweet') {
+    if (select.exists(Query.Modal) && !window.location.pathname.match(/\/compose\/tweet\/.*/)) {
       const modal = select(Query.Modal)
       makeHarvester(modal)
     }
