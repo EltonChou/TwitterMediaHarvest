@@ -67,5 +67,8 @@
   },
   "resetStorageButtonText": {
     "message": "リセット設定"
+  },
+  "userCanceledMessage": {
+    "message": "[ファイルごとに保存する場所を確認する] をオフしてください。"
   }
 }

@@ -39,6 +39,10 @@ const enum InstallReason {
   Update = 'update',
 }
 
+const enum InterruptReason {
+  UserCancel = 'USER_CANCELED'
+}
+
 /* eslint-disable no-console */
 const processDownloadAction = async (tweetInfo: TweetInfo) => {
   console.log('Processing download. Info:', tweetInfo)
@@ -61,14 +65,14 @@ const processDownloadAction = async (tweetInfo: TweetInfo) => {
     const mediaList = await fetchMediaList(tweetInfo.tweetId, ct0Value)
     mediaDownloader.downloadMedias(mediaList)
   } catch (reason) {
-    console.log('Error. Reason: ', reason)
+    console.log('Error reason: ', reason)
     fetchErrorHandler(
       tweetInfo,
       'status' in reason ?
         reason :
         { status: 500, title: 'InternalError', message: 'message' in reason ? reason.message : 'Unknown Error.' }
     )
-    throw reason
+    throw new Error(reason.message)
   }
 }
 /* eslint-disable no-console */
@@ -113,6 +117,7 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
 
   if (isStateChanged && isDownloadedBySelf) {
     const { id, state, error } = downloadDelta
+
     if (DownloadStateUtil.isInterrupted(state)) {
       console.log('Download was interrupted.', downloadDelta)
       const eventTime = getDownloadDeltaEventTime(downloadDelta)

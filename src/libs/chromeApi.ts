@@ -152,6 +152,12 @@ const langMapping = {
       // eslint-disable-next-line quotes
       message: "Don't create subdirectory.",
     },
+    resetStorageButtonText: {
+      message: 'Reset settings'
+    },
+    userCanceledMessage: {
+      message: 'Please disable [Ask where to save each file before downloading].'
+    }
   },
   ja: {
     appName: {
@@ -221,6 +227,12 @@ const langMapping = {
     noSubDirectory: {
       message: 'サブディレクトリを作成しません',
     },
+    resetStorageButtonText: {
+      message: 'リセット設定'
+    },
+    userCanceledMessage: {
+      message: '[ファイルごとに保存する場所を確認する] をオフしてください。'
+    }
   },
   zh: {
     appName: {
@@ -289,6 +301,12 @@ const langMapping = {
     noSubDirectory: {
       message: '不新增子資料夾',
     },
+    resetStorageButtonText: {
+      message: '重置設定'
+    },
+    userCanceledMessage: {
+      message: '請取消 [下載每個檔案前先詢問儲存位置] 的設定。'
+    }
   },
 }
 

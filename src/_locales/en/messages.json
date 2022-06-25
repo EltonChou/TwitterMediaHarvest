@@ -67,5 +67,8 @@
   },
   "resetStorageButtonText": {
     "message": "Reset settings"
+  },
+  "userCanceledMessage": {
+    "message": "Please disable [Ask where to save each file before downloading]."
   }
 }

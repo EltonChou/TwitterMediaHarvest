@@ -67,5 +67,8 @@
   },
   "resetStorageButtonText": {
     "message": "重置設定"
+  },
+    "userCanceledMessage": {
+      "message": "請取消 [下載每個檔案前先詢問儲存位置] 的設定。"
   }
 }
