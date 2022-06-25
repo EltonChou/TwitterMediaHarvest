@@ -15,7 +15,13 @@ const deckStreamHasMedia = (addedNode: Node) => {
     '.quoted-tweet',
     addedNode as unknown as ParentNode
   )
-  return hasMedia && notQuoted
+
+  const notYoutube = !select.exists(
+    '[rel="mediaPreview"][href*="youtube.com"]',
+    addedNode as unknown as ParentNode
+  )
+
+  return hasMedia && notQuoted && notYoutube
 }
 
 const processRootTweets = () => {
