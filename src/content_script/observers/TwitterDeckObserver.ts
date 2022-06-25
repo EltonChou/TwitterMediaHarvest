@@ -31,7 +31,7 @@ const processRootTweets = () => {
   }
 }
 
-const observerDetailReplies = (replies: HTMLElement) => {
+const observeDetailReplies = (replies: HTMLElement) => {
   const options: MutationObserverInit = {
     childList: true,
   }
@@ -98,19 +98,27 @@ const observeDetail = (tweetDetail: HTMLElement) => {
   }
 
   const detailCallback: MutationCallback = mutations => {
-    let replies: HTMLElement = null
+    let after_replies: HTMLElement = null
+    let before_replies: HTMLElement = null
 
     processRootTweets()
 
     for (const mutation of mutations) {
-      if (!replies) {
-        replies = select(
+      if (!before_replies) {
+        before_replies = select(
+          '.js-replies-before',
+          mutation.target as unknown as ParentNode
+        )
+      }
+      if (!after_replies) {
+        after_replies = select(
           '.replies-after',
           mutation.target as unknown as ParentNode
         )
       }
     }
-    if (replies) observerDetailReplies(replies)
+    if (after_replies) observeDetailReplies(after_replies)
+    if (before_replies) observeDetailReplies(before_replies)
   }
 
   observeElement(tweetDetail, detailCallback, detailOptions)
