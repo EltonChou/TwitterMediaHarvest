@@ -26,7 +26,8 @@ const makeDownloadErrorNotificationConfig = (
 ): chrome.notifications.NotificationOptions => {
   const prevMsg = i18nLocalize('notificationDLFailedMessageFirst')
   const lastMsg = i18nLocalize('notificationDLFailedMessageLast')
-  const message = `${prevMsg}${tweetInfo.screenName}(${tweetInfo.tweetId})${lastMsg}`
+  const message = `${prevMsg}${tweetInfo.screenName}(${tweetInfo.tweetId})${lastMsg}` +
+    `${i18nLocalize('userCanceledMessage')}`
 
   return {
     type: templateType.basic,

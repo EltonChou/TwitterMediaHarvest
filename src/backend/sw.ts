@@ -39,6 +39,10 @@ const enum InstallReason {
   Update = 'update',
 }
 
+const enum InterruptReason {
+  UserCancel = 'USER_CANCELED'
+}
+
 /* eslint-disable no-console */
 const processDownloadAction = async (tweetInfo: TweetInfo) => {
   console.log('Processing download. Info:', tweetInfo)
@@ -113,6 +117,7 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
 
   if (isStateChanged && isDownloadedBySelf) {
     const { id, state, error } = downloadDelta
+
     if (DownloadStateUtil.isInterrupted(state)) {
       console.log('Download was interrupted.', downloadDelta)
       const eventTime = getDownloadDeltaEventTime(downloadDelta)
