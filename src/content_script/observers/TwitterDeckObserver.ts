@@ -95,6 +95,7 @@ const observeColumns = () => {
 const observeDetail = (tweetDetail: HTMLElement) => {
   const detailOptions: MutationObserverInit = {
     childList: true,
+    subtree: true
   }
 
   const detailCallback: MutationCallback = mutations => {
