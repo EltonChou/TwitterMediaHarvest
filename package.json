@@ -51,7 +51,8 @@
   },
   "scripts": {
     "test": "jest --env=node --coverage",
-    "build": "webpack --mode=production --progress --color",
+    "build:v2": "webpack --mode=production --progress --color --env=manifest=2",
+    "build:v3": "webpack --mode=production --progress --color --env=manifest=3",
     "build:dev": "webpack --mode=development --progress --color",
     "watch": "webpack --mode development --watch --progress --color",
     "lint": "eslint --color --quiet --ext .js --ext .ts src/"
