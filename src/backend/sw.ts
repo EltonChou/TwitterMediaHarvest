@@ -173,7 +173,10 @@ chrome.notifications.onButtonClicked.addListener(
   }
 )
 
-chrome.browserAction.onClicked.addListener(openOptionsPage)
+process.env.MANIFEST === '3'
+  // @ts-expect-error lul
+  ? chrome.action.onClicked.addListener(openOptionsPage)
+  : chrome.browserAction.onClicked.addListener(openOptionsPage)
 
 
 /* eslint-disable no-console */

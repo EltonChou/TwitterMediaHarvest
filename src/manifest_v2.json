@@ -3,8 +3,8 @@
   "name": "__MSG_appName__",
   "short_name": "Twitter Media Harvest",
   "description": "__MSG_appDesc__",
-  "version": "3.0.7",
-  "minimum_chrome_version": "88",
+  "version": "__MANIFEST_VERSION__",
+  "minimum_chrome_version": "73",
   "default_locale": "en",
   "icons": {
     "16": "assets/icons/icon16.png",
@@ -25,7 +25,10 @@
     "open_in_tab": true
   },
   "background": {
-    "scripts": ["sw.js"]
+    "scripts": [
+      "sw.js"
+    ],
+    "persistent": true
   },
   "content_scripts": [
     {
@@ -40,15 +43,11 @@
       "js": [
         "main.js"
       ],
+      "all_frames": true,
       "run_at": "document_end"
     }
   ],
   "permissions": [
-    "activeTab",
-    "downloads",
-    "cookies",
-    "storage",
-    "notifications",
     "http://twitter.com/*",
     "https://twitter.com/*",
     "http://mobile.twitter.com/*",
@@ -57,6 +56,10 @@
     "https://api.twitter.com/*",
     "http://tweetdeck.twitter.com/*",
     "https://tweetdeck.twitter.com/*",
-    "https://o1169684.ingest.sentry.io/*"
+    "activeTab",
+    "downloads",
+    "cookies",
+    "storage",
+    "notifications"
   ]
 }
