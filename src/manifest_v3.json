@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "__MSG_appName__",
   "short_name": "Twitter Media Harvest",
   "description": "__MSG_appDesc__",
@@ -12,7 +12,7 @@
     "48": "assets/icons/icon48.png",
     "128": "assets/icons/icon128.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": {
       "16": "assets/icons/icon16.png",
       "32": "assets/icons/icon32.png",
@@ -25,7 +25,7 @@
     "open_in_tab": true
   },
   "background": {
-    "scripts": ["sw.js"]
+    "service_worker": "sw.js"
   },
   "content_scripts": [
     {
@@ -43,12 +43,7 @@
       "run_at": "document_end"
     }
   ],
-  "permissions": [
-    "activeTab",
-    "downloads",
-    "cookies",
-    "storage",
-    "notifications",
+  "host_permissions": [
     "http://twitter.com/*",
     "https://twitter.com/*",
     "http://mobile.twitter.com/*",
@@ -58,6 +53,13 @@
     "http://tweetdeck.twitter.com/*",
     "https://tweetdeck.twitter.com/*",
     "https://o1169684.ingest.sentry.io/*"
+  ],
+  "permissions": [
+    "activeTab",
+    "downloads",
+    "cookies",
+    "storage",
+    "notifications"
   ],
   "content_security_policy": {
     "extension_page": "connect-src 'self' https://o1169684.ingest.sentry.io; object-src 'self';"
