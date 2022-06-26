@@ -27,6 +27,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "file-loader": "^6.1.1",
+    "filemanager-webpack-plugin": "^7.0.0",
     "jest": "^28.1.1",
     "jest-chrome": "^0.7.0",
     "jest-environment-jsdom": "^28.1.1",
@@ -51,8 +52,7 @@
   "scripts": {
     "test": "jest --env=node --coverage",
     "build": "webpack --mode=production --progress --color",
-    "build-dev": "webpack --mode=development --progress --color",
-    "build-win": "webpack --mode=production --progress --color && powershell Compress-Archive -Force build/ media_harvest.zip",
+    "build:dev": "webpack --mode=development --progress --color",
     "watch": "webpack --mode development --watch --progress --color",
     "lint": "eslint --color --quiet --ext .js --ext .ts src/"
   },

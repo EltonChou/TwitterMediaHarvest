@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
+const FileManagerPlugin = require('filemanager-webpack-plugin')
 const PACKAGE = require('./package.json')
 const webpack = require('webpack')
 const version = PACKAGE.version
@@ -95,13 +96,6 @@ const config = {
 }
 
 module.exports = (env, argv) => {
-  if (argv.mode === 'development') {
-    config.mode = 'development'
-    config.optimization.minimize = false
-    config.stats = 'errors-warnings'
-    config.devtool = 'inline-source-map'
-  }
-
   config.plugins.push(
     new CopyPlugin({
       patterns: [
@@ -113,14 +107,37 @@ module.exports = (env, argv) => {
             content.toString().replace('__MANIFEST_VERSION__', version),
         },
       ],
-    })
-  )
-
-  config.plugins.push(
+    }),
     new webpack.EnvironmentPlugin({
       MANIFEST: env.manifest,
     })
   )
+
+  if (argv.mode === 'development') {
+    config.mode = 'development'
+    config.optimization.minimize = false
+    config.stats = 'errors-warnings'
+    config.devtool = 'inline-source-map'
+  }
+
+  if (argv.mode === 'production') {
+    config.plugins.push(
+      new FileManagerPlugin({
+        events: {
+          onEnd: {
+            mkdir: ['dist'],
+            archive: [
+              {
+                source: 'build',
+                destination: `dist/v${version}.zip`,
+                options: { zlib: { level: 9 } },
+              },
+            ],
+          },
+        },
+      })
+    )
+  }
 
   return config
 }
