@@ -3,7 +3,7 @@
   "name": "__MSG_appName__",
   "short_name": "Twitter Media Harvest",
   "description": "__MSG_appDesc__",
-  "version": "3.0.6",
+  "version": "__MANIFEST_VERSION__",
   "minimum_chrome_version": "88",
   "default_locale": "en",
   "icons": {
@@ -62,6 +62,6 @@
     "https://o1169684.ingest.sentry.io/*"
   ],
   "content_security_policy": {
-    "extension_page": "connect-src 'self' https://o1169684.ingest.sentry.io; object-src 'self'; report-uri https://o1169684.ingest.sentry.io/api/6263910/security/?sentry_key=40df3cc6025d4968a6275f3aa1a6bbee"
+    "extension_page": "connect-src 'self' https://o1169684.ingest.sentry.io; object-src 'self';"
   }
 }

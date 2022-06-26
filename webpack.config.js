@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
+const PACKAGE = require('./package.json')
+const webpack = require('webpack')
+const version = PACKAGE.version
 
 const config = {
   mode: 'production',
@@ -72,13 +75,6 @@ const config = {
     new CopyPlugin({
       patterns: [
         {
-          from: '*',
-          context: 'src',
-          globOptions: {
-            ignore: ['**/*.js', '**/*.ts'],
-          },
-        },
-        {
           from: 'assets/icons/*.png',
           context: 'src',
           to: 'assets/icons/[name][ext]',
@@ -105,5 +101,26 @@ module.exports = (env, argv) => {
     config.stats = 'errors-warnings'
     config.devtool = 'inline-source-map'
   }
+
+  config.plugins.push(
+    new CopyPlugin({
+      patterns: [
+        {
+          from: `manifest_v${env.manifest}.json`,
+          context: 'src',
+          to: 'manifest[ext]',
+          transform: content =>
+            content.toString().replace('__MANIFEST_VERSION__', version),
+        },
+      ],
+    })
+  )
+
+  config.plugins.push(
+    new webpack.EnvironmentPlugin({
+      MANIFEST: env.manifest,
+    })
+  )
+
   return config
 }
