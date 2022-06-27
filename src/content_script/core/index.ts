@@ -6,6 +6,7 @@ import {
   isArticleCanBeAppend,
   isArticleInDetail,
   isArticleInStatus,
+  isComposingTweet,
   isTweetDeck,
   isTwitter,
 } from '../utils/checker'
@@ -39,7 +40,7 @@ const setTargetArticle = (article: HTMLElement) => article.dataset.harvestArticl
  * <div aria-label="9 replies, 301 Retweets, 2913 likes" role="group" class="css-1dbjc4n r-18u37iz r-ahm1il r-1wtj0ep r-1mnahxq r-10m99ii r-utggzx">
  */
 const makeHarvester = (article: HTMLElement) => {
-  if (isArticleCanBeAppend(article)) {
+  if (isArticleCanBeAppend(article) && !isComposingTweet()) {
     setTargetArticle(article)
     const actionBarQuery = getActionBarQuery(article)
 
@@ -62,7 +63,6 @@ const makeHarvester = (article: HTMLElement) => {
       } catch (error) {
         Sentry.captureException(error)
       }
-
     }
   }
 }
