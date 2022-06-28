@@ -113,3 +113,9 @@ export const isTwitter = (): boolean => {
   const host = fetchHost()
   return host === 'twitter.com' || host === 'mobile.twitter.com'
 }
+
+/**
+ * Check user is composing tweet or not.
+ * @returns {boolean}
+ */
+export const isComposingTweet = (): boolean => Boolean(window.location.pathname.match(/\/compose\/tweet\/?.*/))
