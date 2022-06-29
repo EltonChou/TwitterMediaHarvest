@@ -17,29 +17,71 @@ const featureRegEx = Object.freeze({
 })
 
 
-const parseMagicLink = (article: HTMLElement): string => {
-  let query = 'a[href*="status"][dir="auto"][role="link"][id^="id__"]'
-  if (isArticlePhotoMode(article) || isArticleInStatus(article)) query = 'a[href*="status"][role="link"]'
-  const linkEle: HTMLAnchorElement = select(query, article)
+type MagicLinkElement = {
+  element: HTMLAnchorElement | null
+  query: string
+}
 
-  if (!linkEle) {
+
+const getMagicLinkEle = (article: HTMLElement): MagicLinkElement => {
+  const magicLink: MagicLinkElement = {
+    element: null,
+    query: undefined
+  }
+
+  if (
+    isArticlePhotoMode(article) ||
+    isArticleInStatus(article)
+  ) {
+    const query = 'a[href*="status"][role="link"]'
+    magicLink.element = select(query, article) || null
+    magicLink.query = query
+    return magicLink
+  }
+
+  const querys: string[] = [
+    '[data-testid="User-Names"] a[href*="status"][dir="auto"][role="link"]',
+    'a[href*="status"][dir="auto"][role="link"]'
+  ]
+
+  let linkEle: HTMLAnchorElement
+  for (const query of querys) {
+    magicLink.query = query
+    linkEle = select(query, article)
+    if (linkEle) {
+      magicLink.element = linkEle
+    }
+  }
+
+  return magicLink
+}
+
+
+const parseMagicLink = (article: HTMLElement): string => {
+  const magicLink: MagicLinkElement = getMagicLinkEle(article)
+
+  if (!magicLink.element) {
     const links: string[] = []
     const anchor_elements = select.all('a[href]', article)
-    anchor_elements.forEach(v => links.push(v.href))
+    anchor_elements.forEach(v => {
+      links.push(v.href)
+      if (v.href.match(featureRegEx.id) && !magicLink.element) magicLink.element = v
+    })
 
     Sentry.addBreadcrumb({
       category: 'parse',
       message: 'Can\'t get magic-link element.',
       level: 'info',
       data: {
-        query: query,
+        query: magicLink.query,
         links: links
       }
     })
-    throw new Error('Failed to parse magic-link.')
+
+    if (!magicLink.element) throw new Error('Failed to parse magic-link.')
   }
 
-  return linkEle.href
+  return magicLink.element.href
 }
 
 /**
@@ -54,7 +96,7 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
     level: 'info',
   })
 
-  const magicLink = parseMagicLink(article)
+  const magicLink: string = parseMagicLink(article)
 
   Sentry.addBreadcrumb({
     category: 'parse',
