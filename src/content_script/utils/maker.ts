@@ -1,4 +1,6 @@
 import { Action } from '../../typings'
+import * as Sentry from '@sentry/browser'
+
 /**
  * Create HTMLElement from html string.
  *
@@ -41,26 +43,32 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
 ): T => {
   button.addEventListener('click', async function (e) {
     const article: HTMLElement = this.closest('[data-harvest-article]')
-    if (!article) return false
-    const tweetInfo: TweetInfo = infoParser(article)
-
-    e.stopImmediatePropagation()
-    if (this.classList.contains('downloading')) return false
-    this.classList.remove('success', 'error')
-    this.classList.add('downloading')
-    const message: HarvestMessage = {
-      action: Action.Download,
-      data: tweetInfo
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const reponseCb = (response: any) => {
       const { status } = response
       this.classList.remove('downloading', 'success', 'error')
       this.classList.add(status)
     }
+    if (!article) return false
 
-    runtimeSendMessage(message, reponseCb)
+    e.stopImmediatePropagation()
+    if (this.classList.contains('downloading')) return false
+    this.classList.remove('success', 'error')
+    this.classList.add('downloading')
+
+    try {
+      const tweetInfo: TweetInfo = infoParser(article)
+      const message: HarvestMessage = {
+        action: Action.Download,
+        data: tweetInfo
+      }
+
+      runtimeSendMessage(message, reponseCb)
+    } catch (error) {
+      Sentry.captureException(error)
+      console.error(error)
+    }
   })
+
   return button
 }
