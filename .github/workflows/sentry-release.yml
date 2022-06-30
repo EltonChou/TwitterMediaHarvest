@@ -21,6 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Get package info
+      id: package
       uses: codex-team/action-nodejs-package-info@v1
     - name: Set release name environment from tag
       run: |
