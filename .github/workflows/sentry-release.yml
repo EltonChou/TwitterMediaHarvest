@@ -24,7 +24,7 @@ jobs:
       uses: codex-team/action-nodejs-package-info@v1
     - name: Set release name environment from tag
       run: |
-        echo "RELEASE=${{ steps.package.outputs.name }}@${{ steps.package.outputs.version }}" >> $GITHUB_ENV
+        echo "RELEASE_NAME=${{ steps.package.outputs.name }}@${{ steps.package.outputs.version }}" >> $GITHUB_ENV
         echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
@@ -44,7 +44,7 @@ jobs:
         SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         # SENTRY_URL: https://sentry.io/
       with:
-        version: ${{ env.RELEASE }}
+        version: ${{ env.RELEASE_NAME }}
         environment: production
         sourcemaps: 'sourcemaps'
         set_commits: 'skip'
