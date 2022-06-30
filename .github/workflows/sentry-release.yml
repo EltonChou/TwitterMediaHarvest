@@ -39,4 +39,4 @@ jobs:
       with:
         environment: production
         sourcemaps: 'sourcemaps'
-        set_commits: 'skips'
+        set_commits: 'skip'
