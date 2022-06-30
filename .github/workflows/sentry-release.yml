@@ -19,6 +19,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Get package info
+      id: package
+      uses: codex-team/action-nodejs-package-info@v1
+
+    - name: Set release name from tag
+      run: |
+        echo "RELEASE=${{ steps.package.outputs.name }}@${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
@@ -37,6 +45,7 @@ jobs:
         SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         # SENTRY_URL: https://sentry.io/
       with:
+        version: ${{ env.RELEASE }}
         environment: production
         sourcemaps: 'sourcemaps'
         set_commits: 'skip'
