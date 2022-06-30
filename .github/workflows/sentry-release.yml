@@ -1,0 +1,58 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Sentry Release
+
+on:
+  push:
+    branches:
+      - 'main'
+    tags: [ v*.*.* ]
+
+jobs:
+  deploy:
+    name: Create Release
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get package info
+      uses: codex-team/action-nodejs-package-info@v1
+    - name: Set release name environment from tag
+      run: |
+        echo "RELEASE=${{ steps.package.outputs.name }}@${{ steps.package.outputs.version }}" >> $GITHUB_ENV
+        echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
+    - run: yarn install
+    - run: yarn lint
+    - run: yarn test
+    - run: yarn build:v2
+
+    - name: Create Sentry release
+      uses: getsentry/action-release@v1
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+        SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        # SENTRY_URL: https://sentry.io/
+      with:
+        version: ${{ env.RELEASE }}
+        environment: production
+        sourcemaps: 'sourcemaps'
+        set_commits: 'skip'
+
+    - name: Create Repository Release
+      uses: ncipollo/release-action@v1
+      with:
+        name: 'TwitterMediaHarvest ${{ env.RELEASE_VERSION }}'
+        artifacts: 'dist/*.zip'
+        token: ${{ secrets.GITHUB_TOKEN }}
+        generateReleaseNotes: true

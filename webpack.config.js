@@ -9,6 +9,7 @@ const version = PACKAGE.version
 const config = {
   mode: 'production',
   stats: 'errors-only',
+  devtool: 'source-map',
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     fallback: { path: require.resolve('path-browserify') },
@@ -104,12 +105,13 @@ module.exports = (env, argv) => {
           context: 'src',
           to: 'manifest[ext]',
           transform: content =>
-            content.toString().replace('__MANIFEST_VERSION__', version),
+            content.toString().replace('__MANIFEST_RELEASE_VERSION__', version),
         },
       ],
     }),
     new webpack.EnvironmentPlugin({
       MANIFEST: env.manifest,
+      RELEASE: PACKAGE.name  + '@' + version
     })
   )
 
@@ -125,11 +127,13 @@ module.exports = (env, argv) => {
       new FileManagerPlugin({
         events: {
           onEnd: {
-            mkdir: ['dist'],
+            mkdir: ['dist', 'sourcemaps'],
+            copy: [{ source: 'build/*.map', destination: 'sourcemaps' }],
+            delete: ['build/*.map'],
             archive: [
               {
                 source: 'build',
-                destination: `dist/v${version}.zip`,
+                destination: `dist/TwitterMediaHarvest-v${version}.zip`,
                 options: { zlib: { level: 9 } },
               },
             ],
