@@ -50,7 +50,7 @@ jobs:
     - name: Create Repository Release
       uses: ncipollo/release-action@v1
       with:
-        name: 'TwitterMediaHarvest-${{ env.RELEASE_VERSION }}'
+        name: 'TwitterMediaHarvest ${{ env.RELEASE_VERSION }}'
         artifacts: 'dist/*.zip'
         token: ${{ secrets.GITHUB_TOKEN }}
         generateReleaseNotes: true
