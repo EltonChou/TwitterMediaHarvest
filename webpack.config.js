@@ -133,7 +133,7 @@ module.exports = (env, argv) => {
             archive: [
               {
                 source: 'build',
-                destination: `dist/v${version}.zip`,
+                destination: `dist/TwitterMediaHarvest-v${version}.zip`,
                 options: { zlib: { level: 9 } },
               },
             ],
