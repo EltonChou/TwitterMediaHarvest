@@ -10,7 +10,7 @@ Sentry.init({
   ignoreErrors: [
     'ResizeObserver loop limit exceeded'
   ],
-  release: process.env.RELEASE_NAME + '@' + process.env.RELEASE_VERSION,
+  release: process.env.RELEASE,
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
   environment: process.env.NODE_ENV
 })
