@@ -104,12 +104,14 @@ module.exports = (env, argv) => {
           context: 'src',
           to: 'manifest[ext]',
           transform: content =>
-            content.toString().replace('__MANIFEST_VERSION__', version),
+            content.toString().replace('__MANIFEST_RELEASE_VERSION__', version),
         },
       ],
     }),
     new webpack.EnvironmentPlugin({
       MANIFEST: env.manifest,
+      RELEASE_VERSION: version,
+      RELEASE_NAME: PACKAGE.name
     })
   )
 
