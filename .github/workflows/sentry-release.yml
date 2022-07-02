@@ -46,14 +46,15 @@ jobs:
         # SENTRY_URL: https://sentry.io/
       with:
         version: ${{ env.RELEASE_NAME }}
+        url_prefix: '~/'
         environment: production
-        sourcemaps: 'sourcemaps'
+        sourcemaps: './sourcemaps'
         set_commits: 'skip'
 
     - name: Create Repository Release
       uses: ncipollo/release-action@v1
       with:
         name: 'TwitterMediaHarvest ${{ env.RELEASE_VERSION }}'
-        artifacts: 'dist/*.zip'
+        artifacts: './dist/*.zip'
         token: ${{ secrets.GITHUB_TOKEN }}
         generateReleaseNotes: true
