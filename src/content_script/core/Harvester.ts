@@ -33,7 +33,8 @@ const getMagicLinkEle = (article: HTMLElement): MagicLinkElement => {
     isArticlePhotoMode(article) ||
     isArticleInStatus(article)
   ) {
-    const query = 'a[href*="status"][role="link"]'
+    const tweetId = window.location.pathname.match(featureRegEx.id)[1]
+    const query = `a[href*="${tweetId}"][role="link"]`
     magicLink.element = select(query, article) || null
     magicLink.query = query
     return magicLink
