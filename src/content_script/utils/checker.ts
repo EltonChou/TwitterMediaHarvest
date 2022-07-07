@@ -121,3 +121,5 @@ export const isTwitter = (): boolean => {
 export const isComposingTweet = (): boolean =>
   Boolean(window.location.pathname.match(/\/compose\/tweet\/?.*/)) ||
   Boolean(window.location.pathname.match(/\/intent\/tweet\/?.*/))
+
+export const isInTweetStatus = (): boolean => Boolean(window.location.pathname.match(/\/status\//))
