@@ -13,7 +13,8 @@ import {
 
 const featureRegEx = Object.freeze({
   id: /(?:status\/)(\d+)/,
-  screenName: /.com\/(\S+)\/(?:status\/)/,
+  screenName: /.com\/(\w+)\/(?:status\/)/,
+  photoModeUrl: /.com\/\w+\/status\/\d+\/(photo|video)\/\d+/
 })
 
 
@@ -79,7 +80,13 @@ const parseMagicLink = (article: HTMLElement): string => {
       }
     })
 
-    if (!magicLink.element) throw new Error('Failed to parse magic-link.')
+    if (!magicLink.element) {
+      if (
+        window.location.pathname.match(featureRegEx.photoModeUrl) &&
+        isArticlePhotoMode(article)
+      ) return window.location.href
+      throw new Error('Failed to parse magic-link.')
+    }
   }
 
   return magicLink.element.href
