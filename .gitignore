@@ -11,6 +11,7 @@ temp/
 *.psd
 *.clip
 sourcemaps
+*.exe
 
 # Logs
 logs

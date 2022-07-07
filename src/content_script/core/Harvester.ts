@@ -33,7 +33,8 @@ const getMagicLinkEle = (article: HTMLElement): MagicLinkElement => {
     isArticlePhotoMode(article) ||
     isArticleInStatus(article)
   ) {
-    const query = 'a[href*="status"][role="link"]'
+    const tweetId = window.location.pathname.match(featureRegEx.id)[1]
+    const query = `a[href*="${tweetId}"][role="link"]`
     magicLink.element = select(query, article) || null
     magicLink.query = query
     return magicLink
@@ -117,6 +118,14 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
   }
 }
 
+const getSampleButton = (article: HTMLElement): HTMLElement => {
+  const sampleButton = select('[role="group"] [data-testid$="like"] [dir="ltr"]', article) ||
+    select.all('[role="group"] [dir="ltr"]', article).pop()
+
+  if (!sampleButton) throw new Error('Can\'t get sample button.')
+  return sampleButton
+}
+
 class Harvester {
   public mode: TweetMode
   private ltrStyle: string
@@ -125,7 +134,7 @@ class Harvester {
   constructor(article: HTMLElement) {
     this.mode = checkModeOfArticle(article)
 
-    const sampleButton = select.all('[role="group"] [dir="ltr"]', article).pop()
+    const sampleButton = getSampleButton(article)
     this.ltrStyle = sampleButton.classList.value
     this.svgStyle = select('svg', sampleButton).classList.value
   }

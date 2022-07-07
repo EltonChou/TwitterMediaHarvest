@@ -63,6 +63,14 @@ export const fetchMediaList = async (tweetId: string, token: string) => {
         }
 
         reject(reason)
+      } else if (statusCode === 404) {
+        const reason: FetchErrorReason = {
+          status: statusCode,
+          title: i18nLocalize('fetchFailedNotFoundTitle'),
+          message: i18nLocalize('fetchFailedNotFoundMessage'),
+        }
+
+        reject(reason)
       } else {
         const reason: FetchErrorReason = {
           status: statusCode,

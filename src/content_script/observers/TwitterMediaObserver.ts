@@ -1,7 +1,7 @@
 import select from 'select-dom'
 import makeHarvester from '../core'
 import observeElement from './observer'
-import { articleHasMedia, isStreamLoaded } from '../utils/checker'
+import { articleHasMedia, isInTweetStatus, isStreamLoaded } from '../utils/checker'
 
 enum Query {
   Root = '#react-root > div > div',
@@ -33,7 +33,7 @@ export default class TwitterMediaObserver implements HarvestObserver {
   }
 
   initialize() {
-    if (select.exists(Query.Modal)) {
+    if (select.exists(Query.Modal) && isInTweetStatus()) {
       const modal = select(Query.Modal)
       makeHarvester(modal)
     }

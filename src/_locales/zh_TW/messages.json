@@ -62,13 +62,19 @@
   "fetchFailedUnknownMessage": {
     "message": "請與開發人員聯絡。"
   },
+  "fetchFailedNotFoundTitle": {
+    "message": "無法取得資料"
+  },
+  "fetchFailedNotFoundMessage": {
+    "message": "推特內容可能已經被刪除。"
+  },
   "noSubDirectory": {
     "message": "不新增子資料夾"
   },
   "resetStorageButtonText": {
     "message": "重置設定"
   },
-    "userCanceledMessage": {
-      "message": "請取消 [下載每個檔案前先詢問儲存位置] 的設定。"
+  "userCanceledMessage": {
+    "message": "請取消 [下載每個檔案前先詢問儲存位置] 的設定。"
   }
 }
