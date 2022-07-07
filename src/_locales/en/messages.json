@@ -62,6 +62,12 @@
   "fetchFailedUnknownMessage": {
     "message": "Please contact with developer."
   },
+  "fetchFailedNotFoundTitle": {
+    "message": "Can't find data of the tweet."
+  },
+  "fetchFailedNotFoundMessage": {
+    "message": "The tweet might be deleted."
+  },
   "noSubDirectory": {
     "message": "Don't create subdirectory."
   },

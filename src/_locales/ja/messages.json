@@ -62,6 +62,12 @@
   "fetchFailedUnknownMessage": {
     "message": "開発者に問い合わせてください。"
   },
+  "fetchFailedNotFoundTitle": {
+    "message": " 要求されたデータを取得できませんでした"
+  },
+  "fetchFailedNotFoundMessage": {
+    "message": "該当のツイートがすでに削除された。"
+  },
   "noSubDirectory": {
     "message": "サブディレクトリを作成しません"
   },
