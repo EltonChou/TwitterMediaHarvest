@@ -118,4 +118,6 @@ export const isTwitter = (): boolean => {
  * Check user is composing tweet or not.
  * @returns {boolean}
  */
-export const isComposingTweet = (): boolean => Boolean(window.location.pathname.match(/\/compose\/tweet\/?.*/))
+export const isComposingTweet = (): boolean =>
+  Boolean(window.location.pathname.match(/\/compose\/tweet\/?.*/)) ||
+  Boolean(window.location.pathname.match(/\/intent\/tweet\/?.*/))
