@@ -119,7 +119,7 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
 }
 
 const getSampleButton = (article: HTMLElement): HTMLElement => {
-  const sampleButton = select('[role="group"] [data-testid="reply"] [dir="ltr"]', article) ||
+  const sampleButton = select('[role="group"] [data-testid$="like"] [dir="ltr"]', article) ||
     select.all('[role="group"] [dir="ltr"]', article).pop()
 
   if (!sampleButton) throw new Error('Can\'t get sample button.')
