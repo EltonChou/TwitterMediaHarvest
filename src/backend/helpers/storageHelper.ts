@@ -15,11 +15,15 @@ import Statistics from '../libs/Statistics'
 import DownloadRecordUtil from '../utils/DownloadRecordUtil'
 
 export const fetchFileNameSetting = async (): Promise<FilenameSetting> => {
-  const setting = await fetchSyncStorage([
-    'directory',
-    'no_subdirectory',
-    'filename_pattern',
-  ])
+  const fallbackSetting: FilenameSetting = {
+    directory: DEFAULT_DIRECTORY,
+    no_subdirectory: false,
+    filename_pattern: {
+      account: true,
+      serial: 'order'
+    }
+  }
+  const setting = await fetchSyncStorage(fallbackSetting)
   return setting as unknown as FilenameSetting
 }
 
