@@ -80,7 +80,6 @@ export const fetchMediaList = async (tweetId: string, token: string) => {
 
         reject(reason)
       }
-      // TODO: 404 error
     })
 }
 const VIDEO_INFO = 'video_info'
