@@ -66,6 +66,7 @@ const processDownloadAction = async (tweetInfo: TweetInfo) => {
     const mediaList = await fetchMediaList(tweetInfo.tweetId, ct0Value)
     mediaDownloader.downloadMedias(mediaList)
   } catch (reason) {
+    // FIXME: it's so weird.
     console.log('Error reason: ', reason)
     fetchErrorHandler(
       tweetInfo,
@@ -73,7 +74,8 @@ const processDownloadAction = async (tweetInfo: TweetInfo) => {
         reason :
         { status: 500, title: 'InternalError', message: 'message' in reason ? reason.message : 'Unknown Error.' }
     )
-    throw new Error(reason.message)
+
+    throw reason instanceof Error ? reason : new Error(reason.message)
   }
 }
 /* eslint-disable no-console */
