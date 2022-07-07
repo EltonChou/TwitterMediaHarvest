@@ -10,7 +10,7 @@
 
 Clone to local and run:
 
-`yarn build`
+`yarn build:v3`
 
 ## Fearture
 
