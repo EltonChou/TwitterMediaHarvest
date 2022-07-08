@@ -17,14 +17,21 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+      id: checkout
+      run: |
+        BODY=$(/usr/bin/git tag -l ${GITHUB_REF#refs/tags/} --format='%(body)')
+        echo "::set-output name=tag_body::${BODY}"
+
     - name: Get package info
       id: package
       uses: codex-team/action-nodejs-package-info@v1
+
     - name: Set release name environment from tag
       run: |
         echo "RELEASE_NAME=${{ steps.package.outputs.name }}@${{ steps.package.outputs.version }}" >> $GITHUB_ENV
         echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
@@ -56,3 +63,4 @@ jobs:
         artifacts: './dist/*.zip'
         token: ${{ secrets.GITHUB_TOKEN }}
         generateReleaseNotes: true
+        body: ${{ step.checkout.outputs.tag_body }}

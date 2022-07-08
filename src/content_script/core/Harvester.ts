@@ -13,7 +13,8 @@ import {
 
 const featureRegEx = Object.freeze({
   id: /(?:status\/)(\d+)/,
-  screenName: /.com\/(\S+)\/(?:status\/)/,
+  screenName: /.com\/(\w+)\/(?:status\/)/,
+  photoModeUrl: /.com\/\w+\/status\/\d+\/(photo|video)\/\d+/
 })
 
 
@@ -79,7 +80,13 @@ const parseMagicLink = (article: HTMLElement): string => {
       }
     })
 
-    if (!magicLink.element) throw new Error('Failed to parse magic-link.')
+    if (!magicLink.element) {
+      if (
+        window.location.pathname.match(featureRegEx.photoModeUrl) &&
+        isArticlePhotoMode(article)
+      ) return window.location.href
+      throw new Error('Failed to parse magic-link.')
+    }
   }
 
   return magicLink.element.href
@@ -119,7 +126,9 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
 }
 
 const getSampleButton = (article: HTMLElement): HTMLElement => {
-  const sampleButton = select('[role="group"] [data-testid$="like"] [dir="ltr"]', article) ||
+  const shareSvg = select('[role="group"] [dir="ltr"] [data-testid$="iconOutgoing"]', article)
+  const sampleButton = shareSvg ?
+    shareSvg.closest('[dir="ltr"]') as HTMLElement :
     select.all('[role="group"] [dir="ltr"]', article).pop()
 
   if (!sampleButton) throw new Error('Can\'t get sample button.')
