@@ -66,4 +66,4 @@ jobs:
         artifacts: './dist/*.zip'
         token: ${{ secrets.GITHUB_TOKEN }}
         generateReleaseNotes: true
-        bodyFile: ${{ step.release_note.outputs.body_file }}
+        bodyFile: ${{ steps.release_note.outputs.body_file }}
