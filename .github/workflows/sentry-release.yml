@@ -18,10 +18,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-      id: checkout
+
+    - name: Get release note
+      id: release_note
       run: |
-        BODY=$(/usr/bin/git tag -l ${GITHUB_REF#refs/tags/} --format='%(body)')
-        echo "::set-output name=tag_body::${BODY}"
+        BODY_FILE="release_note.md"
+        /usr/bin/git tag -l ${GITHUB_REF#refs/tags/} --format='%(body)' >> $BODY_FILE
+        echo "::set-output name=body_file::${BODY_FILE}"
 
     - name: Get package info
       id: package
@@ -63,4 +66,4 @@ jobs:
         artifacts: './dist/*.zip'
         token: ${{ secrets.GITHUB_TOKEN }}
         generateReleaseNotes: true
-        body: ${{ step.checkout.outputs.tag_body }}
+        bodyFile: ${{ step.release_note.outputs.body_file }}
