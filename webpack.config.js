@@ -111,7 +111,7 @@ module.exports = (env, argv) => {
     }),
     new webpack.EnvironmentPlugin({
       MANIFEST: env.manifest,
-      RELEASE: env.RELEASE_NAME || PACKAGE.name  + '@' + version
+      RELEASE: env.RELEASE_NAME || PACKAGE.name + '@' + version,
     })
   )
 
@@ -128,13 +128,16 @@ module.exports = (env, argv) => {
         events: {
           onEnd: {
             mkdir: ['dist', 'sourcemaps'],
-            copy: [{ source: 'build/*.map', destination: 'sourcemaps' }],
-            delete: ['build/*.map'],
             archive: [
               {
                 source: 'build',
                 destination: `dist/TwitterMediaHarvest-v${version}.zip`,
-                options: { zlib: { level: 9 } },
+                options: {
+                  zlib: { level: 9 },
+                  globOptions: {
+                    ignore: ['*.map'],
+                  },
+                },
               },
             ],
           },

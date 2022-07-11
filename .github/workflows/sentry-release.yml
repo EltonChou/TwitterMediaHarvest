@@ -56,7 +56,7 @@ jobs:
         version: ${{ env.RELEASE_NAME }}
         url_prefix: '~/'
         environment: production
-        sourcemaps: './sourcemaps'
+        sourcemaps: './build'
         set_commits: 'skip'
 
     - name: Create Repository Release
