@@ -127,7 +127,7 @@ module.exports = (env, argv) => {
       new FileManagerPlugin({
         events: {
           onEnd: {
-            mkdir: ['dist', 'sourcemaps'],
+            mkdir: ['dist'],
             archive: [
               {
                 source: 'build',
