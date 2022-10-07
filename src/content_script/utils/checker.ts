@@ -122,4 +122,7 @@ export const isComposingTweet = (): boolean =>
   Boolean(window.location.pathname.match(/\/compose\/tweet\/?.*/)) ||
   Boolean(window.location.pathname.match(/\/intent\/tweet\/?.*/))
 
+export const isNotFunctionPath = (): boolean =>
+  Boolean(window.location.pathname.match(/\/i\/lists\/add_member/))
+
 export const isInTweetStatus = (): boolean => Boolean(window.location.pathname.match(/\/status\//))
