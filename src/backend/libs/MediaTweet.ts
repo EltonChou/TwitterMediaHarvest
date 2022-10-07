@@ -50,7 +50,7 @@ export const fetchMediaList = async (tweetId: string, token: string) => {
             const medias = getMediaFromDetailByTweetId(detail)(tweetId)
             const leadMedia = getLeadMedia(medias)
             const mediaList = isVideo(leadMedia)
-              ? parseVideo(getVideoInfo(leadMedia))
+              ? parseVideo(medias)
               : parseImage(medias)
             resolve(mediaList)
           }
@@ -105,8 +105,16 @@ const isVideo = (media: TweetMedia) => VIDEO_INFO in media
 const parseImage = (medias: TweetMedia[]): string[] =>
   medias.map(media => cleanUrl(new URL(media.media_url_https)).href)
 
-const parseVideo = (video_info: VideoInfo): string[] => {
+const parseVideo = (medias: TweetMedia[]): string [] => {
   const mediaList: string[] = []
+  for (const media of medias) {
+    const videoInfo = getVideoInfo(media)
+    mediaList.push(parseVideoInfo(videoInfo))
+  }
+  return mediaList
+}
+
+const parseVideoInfo = (video_info: VideoInfo): string => {
   const { variants } = video_info
 
   let hiRes = 0
@@ -124,8 +132,7 @@ const parseVideo = (video_info: VideoInfo): string[] => {
     }
   }
 
-  mediaList.push(targetUrl.href)
-  return mediaList
+  return targetUrl.href
 }
 
 
