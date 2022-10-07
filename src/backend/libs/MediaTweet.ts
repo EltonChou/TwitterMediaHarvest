@@ -48,10 +48,8 @@ export const fetchMediaList = async (tweetId: string, token: string) => {
         mediaResponse.json().then(
           (detail: TweetDetail) => {
             const medias = getMediaFromDetailByTweetId(detail)(tweetId)
-            const leadMedia = getLeadMedia(medias)
-            const mediaList = isVideo(leadMedia)
-              ? parseVideo(medias)
-              : parseImage(medias)
+            const mediaList = parseImage(medias)
+            mediaList.push(...parseVideo(medias))
             resolve(mediaList)
           }
         )
@@ -96,20 +94,22 @@ const makeTweetEndpoint = (tweetId: string) =>
 const getMediaFromDetailByTweetId = (detail: TweetDetail) =>
   (tweetId: string): TweetMedia[] => detail.globalObjects.tweets[tweetId].extended_entities.media
 
-const getLeadMedia = ([media]: TweetMedia[]) => media
-
-const getVideoInfo = (tweetMedia: TweetMedia): VideoInfo => tweetMedia.video_info
-
 const isVideo = (media: TweetMedia) => VIDEO_INFO in media
+
+const getVideoInfo = (tweetMedia: TweetMedia): VideoInfo | null => (
+  isVideo(tweetMedia) ? tweetMedia.video_info : null
+)
 
 const parseImage = (medias: TweetMedia[]): string[] =>
   medias.map(media => cleanUrl(new URL(media.media_url_https)).href)
 
-const parseVideo = (medias: TweetMedia[]): string [] => {
+const parseVideo = (medias: TweetMedia[]): string[] => {
   const mediaList: string[] = []
   for (const media of medias) {
     const videoInfo = getVideoInfo(media)
-    mediaList.push(parseVideoInfo(videoInfo))
+    if (videoInfo) {
+      mediaList.push(parseVideoInfo(videoInfo))
+    }
   }
   return mediaList
 }
