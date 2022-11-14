@@ -128,8 +128,8 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
 const getSampleButton = (article: HTMLElement): HTMLElement => {
   const shareSvg = select('[role="group"] [dir="ltr"] [data-testid$="iconOutgoing"]', article)
   const sampleButton = shareSvg ?
-    shareSvg.closest('[dir="ltr"]') as HTMLElement :
-    select.all('[role="group"] [dir="ltr"]', article).pop()
+    shareSvg.closest('[role="button"] > div') as HTMLElement :
+    select.all('[role="group"] [role="button"] > div', article).pop()
 
   if (!sampleButton) throw new Error('Can\'t get sample button.')
   return sampleButton
@@ -171,7 +171,7 @@ class Harvester {
       <div class="css-1dbjc4n harvester ${mode}">
         <div aria-haspopup="true" aria-label="Media Harvest" role="button" data-focusable="true" tabindex="0"
           class="css-18t94o4 css-1dbjc4n r-1777fci r-11cpok1 r-1ny4l3l r-bztko3 r-lrvibr">
-          <div dir="ltr"
+          <div
             class="${this.ltrStyle}">
             <div class="css-1dbjc4n r-xoduu5">
               <div class="\
@@ -186,7 +186,7 @@ class Harvester {
     `)
 
     const bg = select(`.${mode}BG`, buttonWrapper)
-    const ltr = select('[dir="ltr"]', buttonWrapper)
+    const ltr = select('[role="button"] > div', buttonWrapper)
 
     const hoverBG = () => {
       bg.classList.add('hover')
