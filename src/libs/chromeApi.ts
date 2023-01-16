@@ -1,3 +1,13 @@
+export type BrowserStorageFetcher = (
+  keys: string | string[] | object | null
+) => Promise<{
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+}>
+
+export type BrowserStorageSetter = (items: object) => Promise<void>
+export type BrowserStorageRemover = (keyToRemove: string | string[]) => Promise<void>
+
 /**
  * @param {string} kw i18n keyname
  */
@@ -21,33 +31,28 @@ export const i18nLocalize = process.env.MANIFEST === '3' ?
 /**
  * Fetch data from chrome storage.
  * Passing null keys to get all storage item.
- *
- * @param storageArea
  */
-const storageFetcher = (storageArea: chrome.storage.StorageArea) => {
-  return (
-    keys: string | string[] | object | null = null
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): Promise<{ [key: string]: any }> => {
-    return new Promise(resolve => {
-      storageArea.get(keys, items => resolve(items))
-    })
-  }
-}
+export const storageFetcher = (
+  storageArea: chrome.storage.StorageArea
+): BrowserStorageFetcher => (
+  keys = null
+) => new Promise(
+  resolve => {
+    storageArea.get(keys, items => resolve(items))
+  })
+
 
 /**
  * Set data to chrome storage.
  *
  * @param storageArea
  */
-const storageSetter = (
+export const storageSetter = (
   storageArea: chrome.storage.StorageArea
-): ((items: object) => Promise<void>) =>
-  function (items) {
-    return new Promise(resolve => {
-      storageArea.set(items, resolve)
-    })
-  }
+): BrowserStorageSetter =>
+  items => new Promise(resolve => {
+    storageArea.set(items, resolve)
+  })
 
 const removerKeysPretreat = (keys: string | string[]) => {
   if (typeof keys !== 'string') keys = String(keys)
@@ -59,16 +64,14 @@ const removerKeysPretreat = (keys: string | string[]) => {
 /**
  * @param storageArea
  */
-const storageRemover = (
+export const storageRemover = (
   storageArea: chrome.storage.StorageArea
-): ((removerKeys: string | string[]) => Promise<void>) =>
-  function (removerKeys) {
-    removerKeys = removerKeysPretreat(removerKeys)
-
-    return new Promise(resolve => {
-      storageArea.remove(removerKeys, resolve)
-    })
-  }
+): BrowserStorageRemover => removerKeys => {
+  removerKeys = removerKeysPretreat(removerKeys)
+  return new Promise(resolve => {
+    storageArea.remove(removerKeys, resolve)
+  })
+}
 
 /**
  * @param storageArea

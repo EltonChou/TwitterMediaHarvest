@@ -4,41 +4,43 @@ type DownloadItemRecorder = (
   config: chrome.downloads.DownloadOptions
 ) => (downloadId: number) => void
 
-interface HarvestMessage {
+type HarvestMessage = {
   action: number
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: any
 }
 
-interface TweetInfo {
+type TweetInfo = {
   screenName: string
   tweetId: string
 }
 
-interface FilenamePatternOption {
+type FilenamePatternOption = {
   account: boolean
   serial: 'order' | 'filename'
 }
 
-interface FilenameSetting {
+type FilenameSettings = {
   directory: string
   no_subdirectory: boolean
   filename_pattern: FilenamePatternOption
 }
 
+type DownloadSettings = {
+  enableAria2: boolean
+  includeVideoThumbnail: boolean
+}
 
-interface Aria2DownloadOption {
+type Aria2DownloadOption = {
   url: string
   filename: string
   referrer: string
   options?: object
 }
 
-interface LocalStorageInitialData {
-  successDownloadCount: number
-  failedDownloadCount: number
-  errorCount: number
-  enableAria2: boolean
+type TweetMediaCatalog = {
+  images: string[]
+  videos: string[]
 }
 
 interface DownloadRecord {

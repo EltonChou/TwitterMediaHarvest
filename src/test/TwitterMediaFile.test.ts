@@ -1,9 +1,9 @@
 import path from 'path'
 import { jest } from '@jest/globals'
-import TwitterMediaFile, { DownloadMode, FilenameSerialRule } from '../backend/libs/TwitterMediaFile'
+import TwitterMediaFile, { DownloadMode, FilenameSerialRule } from '../backend/downloads/TwitterMediaFile'
 
 const DEFAULT_DIRECTORY = 'twitter_media_harvest'
-const defaultFilenameSetting: FilenameSetting = {
+const defaultFilenameSetting: FilenameSettings = {
   directory: DEFAULT_DIRECTORY,
   no_subdirectory: false,
   filename_pattern: {
@@ -97,7 +97,7 @@ describe('Test different filename pattern.', () => {
       needAccount: boolean,
       serial: FilenameSerialRule,
       no_sub_dir: boolean
-    ): FilenameSetting => {
+    ): FilenameSettings => {
       return {
         directory: DEFAULT_DIRECTORY,
         no_subdirectory: no_sub_dir,

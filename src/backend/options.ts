@@ -1,16 +1,16 @@
 import { LOCAL_STORAGE_KEY_ARIA2 } from '../constants'
 import sanitize from 'sanitize-filename'
 import select from 'select-dom'
-import {
-  fetchFileNameSetting,
-  getStatisticsCount,
-  initStorage,
-  isEnableAria2,
-  StatisticsKey,
-} from './helpers/storageHelper'
-import { clearLocalStorage, clearSyncStorage, setLocalStorage, setSyncStorage } from '../libs/chromeApi'
+import StatisticsRepository, { StatisticsKey } from './statistics/repositories'
+import { clearLocalStorage, clearSyncStorage, setLocalStorage } from '../libs/chromeApi'
 import { Action, } from '../typings'
-import { FilenameSerialRule } from './libs/TwitterMediaFile'
+import { FilenameSerialRule } from './downloads/TwitterMediaFile'
+import FilenameSettingsRepository from './filenameSettings/repository'
+import DownloadSettingsRepository from './downloadSettings/repository'
+import { initStorage } from './commands/storage'
+
+const filenameSettingsRepo = new FilenameSettingsRepository(chrome.storage.sync)
+const downloadSettingsRepo = new DownloadSettingsRepository(chrome.storage.local)
 
 const noSubDirCheckBox: HTMLInputElement = select('#no_subdirectory')
 const accountCheckBox: HTMLInputElement = select('#account')
@@ -41,25 +41,27 @@ const updatePreview = () => {
 }
 
 const initializeForm = async () => {
-  const setting = await fetchFileNameSetting()
-  directoryInput.value = setting.directory
-  noSubDirCheckBox.checked = setting.no_subdirectory
+  const filenameSettings = await filenameSettingsRepo.getFilenameSettings()
+  const downloadSettings = await downloadSettingsRepo.getDownloadSettings()
+  directoryInput.value = filenameSettings.directory
+  noSubDirCheckBox.checked = filenameSettings.no_subdirectory
   if (noSubDirCheckBox.checked) {
     disableDirectoryInput()
   }
-  accountCheckBox.checked = setting.filename_pattern.account
-  aria2Control.checked = await isEnableAria2()
+  accountCheckBox.checked = filenameSettings.filename_pattern.account
+  aria2Control.checked = downloadSettings.enableAria2
   const options = select.all('option')
   for (const option of options) {
-    option.selected = option.value === setting.filename_pattern.serial
+    option.selected = option.value === filenameSettings.filename_pattern.serial
   }
 }
 
 const initializeStatistics = async () => {
   const statisticsQuery = '[data-category="statistics"]'
   const statisticsItems = select.all(statisticsQuery)
+  const statisticsRepo = new StatisticsRepository(chrome.storage.local)
   for (const item of statisticsItems) {
-    const count = await getStatisticsCount(item.dataset.type as StatisticsKey)
+    const count = await statisticsRepo.getStatisticsCount(item.dataset.type as StatisticsKey)
     item.textContent = count.toLocaleString()
   }
 }
@@ -127,7 +129,7 @@ settingsForm.addEventListener('submit', async function (e) {
   const aria2Config: { [key: string]: boolean } = {}
   aria2Config[LOCAL_STORAGE_KEY_ARIA2] = Boolean(aria2Control.ariaChecked)
 
-  const filenameSetting: FilenameSetting = {
+  const filenameSetting: FilenameSettings = {
     directory: directoryInput.value,
     no_subdirectory: noSubDirCheckBox.checked,
     filename_pattern: {
@@ -137,7 +139,7 @@ settingsForm.addEventListener('submit', async function (e) {
   }
 
   const saveAria2 = setLocalStorage(aria2Config)
-  const saveFilenameSetting = setSyncStorage(filenameSetting)
+  const saveFilenameSetting = await filenameSettingsRepo.saveFilenameSettings(filenameSetting)
 
   Promise.all([saveAria2, saveFilenameSetting]).then(() => {
     console.info('Save settings.')

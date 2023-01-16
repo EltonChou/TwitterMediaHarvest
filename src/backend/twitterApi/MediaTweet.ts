@@ -1,5 +1,7 @@
 import { TWITTER_AUTH_TOKEN } from '../../constants'
 import { i18nLocalize } from '../../libs/chromeApi'
+import { TwitterCookiesUseCase } from '../cookie/useCases'
+import { NotFound, TooManyRequest, TwitterApiError, UnknownError } from '../errors'
 
 type VideoInfo = {
   aspect_ratio: number[]
@@ -31,8 +33,39 @@ type TweetDetail = {
   }
 }
 
+const twitterCookieUseCase = new TwitterCookiesUseCase
 
-export const fetchMediaList = async (tweetId: string, token: string) => {
+const getFetchError = (statusCode: number): TwitterApiError => {
+  if (statusCode === 429) {
+    const reason: FetchErrorReason = {
+      status: statusCode,
+      title: i18nLocalize('fetchFailedTooManyRequestsTitle'),
+      message: i18nLocalize('fetchFailedTooManyRequestsMessage'),
+    }
+    return new TooManyRequest(reason)
+
+  }
+
+  else if (statusCode === 404) {
+    const reason: FetchErrorReason = {
+      status: statusCode,
+      title: i18nLocalize('fetchFailedNotFoundTitle'),
+      message: i18nLocalize('fetchFailedNotFoundMessage'),
+    }
+    return new NotFound(reason)
+  }
+
+  const reason: FetchErrorReason = {
+    status: statusCode,
+    title: i18nLocalize('fetchFailedUnknownTitle') + statusCode,
+    message: i18nLocalize('fetchFailedUnknownMessage'),
+  }
+
+  return new UnknownError(reason)
+}
+
+export const fetchMediaCatalog = async (tweetId: string): Promise<TweetMediaCatalog> => {
+  const token = await twitterCookieUseCase.getCt0()
   const endpoint = makeTweetEndpoint(tweetId)
   const mediaResponse = await fetch(endpoint, {
     method: 'GET',
@@ -41,45 +74,23 @@ export const fetchMediaList = async (tweetId: string, token: string) => {
     cache: 'no-cache',
   })
 
-  const statusCode = mediaResponse.status
-  return new Promise(
-    (resolve: (value: string[]) => void, reject: (reason: FetchErrorReason) => void) => {
-      if (statusCode === 200) {
-        mediaResponse.json().then(
-          (detail: TweetDetail) => {
-            const medias = getMediaFromDetailByTweetId(detail)(tweetId)
-            const mediaList = parseImage(medias)
-            mediaList.push(...parseVideo(medias))
-            resolve(mediaList)
-          }
-        )
-      } else if (statusCode === 429) {
-        const reason: FetchErrorReason = {
-          status: statusCode,
-          title: i18nLocalize('fetchFailedTooManyRequestsTitle'),
-          message: i18nLocalize('fetchFailedTooManyRequestsMessage'),
-        }
+  if (mediaResponse.status === 200) {
+    const detail: TweetDetail = await mediaResponse.json()
+    const medias = getMediaFromDetailByTweetId(detail)(tweetId)
+    const image_list = parseImage(medias)
+    const video_list = parseVideo(medias)
+    const mediaCatalog: TweetMediaCatalog = {
+      images: image_list,
+      videos: video_list
+    }
+    return mediaCatalog
+  }
 
-        reject(reason)
-      } else if (statusCode === 404) {
-        const reason: FetchErrorReason = {
-          status: statusCode,
-          title: i18nLocalize('fetchFailedNotFoundTitle'),
-          message: i18nLocalize('fetchFailedNotFoundMessage'),
-        }
-
-        reject(reason)
-      } else {
-        const reason: FetchErrorReason = {
-          status: statusCode,
-          title: i18nLocalize('fetchFailedUnknownTitle') + statusCode,
-          message: i18nLocalize('fetchFailedUnknownMessage'),
-        }
-
-        reject(reason)
-      }
-    })
+  const err = getFetchError(mediaResponse.status)
+  throw err
 }
+
+
 const VIDEO_INFO = 'video_info'
 /**
  * Clean all searchParams
