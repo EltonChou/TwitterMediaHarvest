@@ -88,7 +88,7 @@ export class NotificationConfig {
     return {
       type: TemplateType.Basic,
       iconUrl: notificationIconUrl,
-      title: 'Internal Error',
+      title: i18nLocalize('internalError'),
       message: message,
       contextMessage: contextMessage,
       eventTime: Date.now(),
