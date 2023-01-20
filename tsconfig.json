@@ -19,6 +19,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "lib": ["DOM", "ES2017.Intl", "ES2018.Intl", "ESNEXT.Intl", "DOM.Iterable"]
+    "lib": ["DOM", "ES2017.Intl", "ES2018.Intl", "ESNEXT.Intl", "DOM.Iterable"],
+    "forceConsistentCasingInFileNames": true
   }
 }
