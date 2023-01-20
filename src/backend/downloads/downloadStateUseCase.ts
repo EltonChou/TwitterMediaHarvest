@@ -1,17 +1,15 @@
 import * as Sentry from '@sentry/browser'
 import { downloadIsCompleted, downloadIsInterrupted } from './utils/downloadState'
 import { IDownloadRecordsRepository } from '../downloadRecords/repository'
-import { IStatisticsUseCase } from '../statistics/useCases'
-import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCase'
 import StatisticsUseCases from '../statistics/useCases'
+import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCase'
 import StatisticsRepository from '../statistics/repositories'
 
-const statisticsUsecases = new StatisticsUseCases(new StatisticsRepository(chrome.storage.local))
+const statisticsUseCase = new StatisticsUseCases(new StatisticsRepository(chrome.storage.local))
 
 export default class DownloadStateUseCase {
   readonly downloadDelta: chrome.downloads.DownloadDelta
   private downloadRecordRepo: IDownloadRecordsRepository
-  private statisticsUseCase: IStatisticsUseCase
 
   constructor(
     downloadDelta: chrome.downloads.DownloadDelta,
@@ -30,7 +28,7 @@ export default class DownloadStateUseCase {
     // eslint-disable-next-line no-console
     console.log('Download was interrupted.', this.downloadDelta)
     const { id, error } = this.downloadDelta
-    await statisticsUsecases.addFailedDownloadCount()
+    await statisticsUseCase.addFailedDownloadCount()
 
     const downloadRecord = await this.downloadRecordRepo.getById(id)
     if (downloadRecord) {
@@ -53,7 +51,7 @@ export default class DownloadStateUseCase {
   async handle_completed(): Promise<void> {
     // eslint-disable-next-line no-console
     console.log('Download was completed.', this.downloadDelta)
-    await statisticsUsecases.addSuccessDownloadCount()
+    await statisticsUseCase.addSuccessDownloadCount()
     await this.downloadRecordRepo.removeById(this.downloadDelta.id)
   }
 }
