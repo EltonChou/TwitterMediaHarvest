@@ -10,7 +10,6 @@ Sentry.init({
 
 
 import MediaDownloader from './downloads/MediaDownloader'
-import StatisticsRepository from './statistics/repositories'
 import StatisticsUseCases from './statistics/useCases'
 import { fetchMediaCatalog } from './twitterApi/MediaTweet'
 import {
@@ -24,11 +23,11 @@ import {
 import { initStorage } from './commands/storage'
 import { Action } from '../typings'
 import { showUpdateMessageInConsole } from './commands/console'
-import { StorageAreaDownloadRecordsRepository } from './downloadRecords/repository'
 import { FetchErrorNotificationUseCase, InternalErrorNotificationUseCase } from './notifications/notifyUseCase'
 import NotificationUseCase from './notifications/notificationIdUseCase'
 import DownloadStateUseCase from './downloads/downloadStateUseCase'
 import { HarvestError, TwitterApiError } from './errors'
+import { storageConfig } from './configurations'
 
 
 const enum InstallReason {
@@ -40,8 +39,8 @@ const enum InterruptReason {
   UserCancel = 'USER_CANCELED'
 }
 
-const statisticsUsecases = new StatisticsUseCases(new StatisticsRepository(chrome.storage.local))
-const downloadRecordRepository = new StorageAreaDownloadRecordsRepository(chrome.storage.local)
+const statisticsUsecases = new StatisticsUseCases(storageConfig.statisticsRepo)
+const downloadRecordRepo = storageConfig.downloadRecordRepo
 
 /* eslint-disable no-console */
 const processDownloadAction = async (
@@ -117,7 +116,7 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   if ('state' in downloadDelta) {
     const downloadStateUseCase = new DownloadStateUseCase(
       downloadDelta,
-      downloadRecordRepository,
+      downloadRecordRepo,
     )
     await downloadStateUseCase.process()
   }
@@ -150,7 +149,7 @@ process.env.MANIFEST === '3'
 chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
   const { byExtensionId } = downloadItem
   if (byExtensionId && byExtensionId === getExtensionId()) {
-    downloadRecordRepository.getById(downloadItem.id).then(
+    downloadRecordRepo.getById(downloadItem.id).then(
       record => {
         const { downloadConfig } = record
         suggest(downloadConfig as chrome.downloads.DownloadFilenameSuggestion)

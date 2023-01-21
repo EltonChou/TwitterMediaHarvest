@@ -3,16 +3,12 @@ import {
   BrowserStorageSetter,
   storageFetcher,
   storageSetter
-} from '../../libs/chromeApi'
+} from '../../../libs/chromeApi'
 import {
   DEFAULT_DIRECTORY,
-} from '../../constants'
+} from '../../../constants'
+import { ISettingsRepository } from '../repository'
 
-
-interface IFilenameSettingsRepository {
-  getFilenameSettings(): Promise<FilenameSettings>
-  saveFilenameSettings(settings: FilenameSettings): Promise<FilenameSettings>
-}
 
 const defaultFilenameSettings: FilenameSettings = {
   directory: DEFAULT_DIRECTORY,
@@ -24,7 +20,7 @@ const defaultFilenameSettings: FilenameSettings = {
 }
 
 
-export default class FilenameSettingsRepository implements IFilenameSettingsRepository {
+export default class FilenameSettingsRepository implements ISettingsRepository<FilenameSettings> {
   private fetchStorage: BrowserStorageFetcher
   private setStorage: BrowserStorageSetter
 
@@ -33,12 +29,12 @@ export default class FilenameSettingsRepository implements IFilenameSettingsRepo
     this.setStorage = storageSetter(storageArea)
   }
 
-  async getFilenameSettings(): Promise<FilenameSettings> {
+  async getSettings(): Promise<FilenameSettings> {
     const settings = await this.fetchStorage(defaultFilenameSettings)
     return settings as FilenameSettings
   }
 
-  async saveFilenameSettings(settings: FilenameSettings): Promise<FilenameSettings> {
+  async saveSettings(settings: FilenameSettings): Promise<FilenameSettings> {
     await this.setStorage(settings)
     return settings
   }

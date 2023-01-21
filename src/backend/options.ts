@@ -5,12 +5,11 @@ import StatisticsRepository, { StatisticsKey } from './statistics/repositories'
 import { clearLocalStorage, clearSyncStorage, setLocalStorage } from '../libs/chromeApi'
 import { Action, } from '../typings'
 import { FilenameSerialRule } from './downloads/TwitterMediaFile'
-import FilenameSettingsRepository from './filenameSettings/repository'
-import DownloadSettingsRepository from './downloadSettings/repository'
 import { initStorage } from './commands/storage'
+import { storageConfig } from './configurations'
 
-const filenameSettingsRepo = new FilenameSettingsRepository(chrome.storage.sync)
-const downloadSettingsRepo = new DownloadSettingsRepository(chrome.storage.local)
+const filenameSettingsRepo = storageConfig.filenameSettingsRepo
+const downloadSettingsRepo = storageConfig.downloadSettingsRepo
 
 const noSubDirCheckBox: HTMLInputElement = select('#no_subdirectory')
 const accountCheckBox: HTMLInputElement = select('#account')
@@ -41,8 +40,8 @@ const updatePreview = () => {
 }
 
 const initializeForm = async () => {
-  const filenameSettings = await filenameSettingsRepo.getFilenameSettings()
-  const downloadSettings = await downloadSettingsRepo.getDownloadSettings()
+  const filenameSettings = await filenameSettingsRepo.getSettings()
+  const downloadSettings = await downloadSettingsRepo.getSettings()
   directoryInput.value = filenameSettings.directory
   noSubDirCheckBox.checked = filenameSettings.no_subdirectory
   if (noSubDirCheckBox.checked) {
@@ -139,7 +138,7 @@ settingsForm.addEventListener('submit', async function (e) {
   }
 
   const saveAria2 = setLocalStorage(aria2Config)
-  const saveFilenameSetting = await filenameSettingsRepo.saveFilenameSettings(filenameSetting)
+  const saveFilenameSetting = await filenameSettingsRepo.saveSettings(filenameSetting)
 
   Promise.all([saveAria2, saveFilenameSetting]).then(() => {
     console.info('Save settings.')

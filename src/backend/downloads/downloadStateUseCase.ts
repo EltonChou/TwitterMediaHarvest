@@ -3,9 +3,9 @@ import { downloadIsCompleted, downloadIsInterrupted } from './utils/downloadStat
 import { IDownloadRecordsRepository } from '../downloadRecords/repository'
 import StatisticsUseCases from '../statistics/useCases'
 import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCase'
-import StatisticsRepository from '../statistics/repositories'
+import { storageConfig } from '../configurations'
 
-const statisticsUseCase = new StatisticsUseCases(new StatisticsRepository(chrome.storage.local))
+const statisticsUseCase = new StatisticsUseCases(storageConfig.statisticsRepo)
 
 export default class DownloadStateUseCase {
   readonly downloadDelta: chrome.downloads.DownloadDelta

@@ -3,13 +3,9 @@ import {
   BrowserStorageSetter,
   storageFetcher,
   storageSetter
-} from '../../libs/chromeApi'
+} from '../../../libs/chromeApi'
+import { ISettingsRepository } from '../repository'
 
-
-interface IDownloadSettingsRepository {
-  getDownloadSettings(): Promise<DownloadSettings>
-  saveDownloadSettings(settings: DownloadSettings): Promise<DownloadSettings>
-}
 
 const defaultFilenameSettings: DownloadSettings = {
   enableAria2: false,
@@ -17,7 +13,7 @@ const defaultFilenameSettings: DownloadSettings = {
 }
 
 
-export default class DownloadSettingsRepository implements IDownloadSettingsRepository {
+export default class DownloadSettingsRepository implements ISettingsRepository<DownloadSettings> {
   private fetchStorage: BrowserStorageFetcher
   private setStorage: BrowserStorageSetter
 
@@ -26,12 +22,12 @@ export default class DownloadSettingsRepository implements IDownloadSettingsRepo
     this.setStorage = storageSetter(storageArea)
   }
 
-  async getDownloadSettings(): Promise<DownloadSettings> {
+  async getSettings(): Promise<DownloadSettings> {
     const settings = await this.fetchStorage(defaultFilenameSettings)
     return settings as DownloadSettings
   }
 
-  async saveDownloadSettings(settings: DownloadSettings): Promise<DownloadSettings> {
+  async saveSettings(settings: DownloadSettings): Promise<DownloadSettings> {
     await this.setStorage(settings)
     return settings
   }

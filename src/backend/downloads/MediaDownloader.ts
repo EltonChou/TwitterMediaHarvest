@@ -2,13 +2,8 @@
 import { ARIA2_ID } from '../../constants'
 import TwitterMediaFile, { DownloadMode } from './TwitterMediaFile'
 import { downloadItemRecorder } from './downloadItemRecorder'
-import FilenameSettingsRepository from '../filenameSettings/repository'
-import DownloadSettingsRepository from '../downloadSettings/repository'
 import { HarvestError } from '../errors'
-
-
-const downloadSettingsRepo = new DownloadSettingsRepository(chrome.storage.local)
-const filenameSettingsRepo = new FilenameSettingsRepository(chrome.storage.sync)
+import { storageConfig } from '../configurations'
 
 
 export default class MediaDownloader {
@@ -31,8 +26,8 @@ export default class MediaDownloader {
   }
 
   static async build(tweetInfo: TweetInfo) {
-    const fileNameSettings = await filenameSettingsRepo.getFilenameSettings()
-    const downloadSettings = await downloadSettingsRepo.getDownloadSettings()
+    const fileNameSettings = await storageConfig.filenameSettingsRepo.getSettings()
+    const downloadSettings = await storageConfig.downloadSettingsRepo.getSettings()
     return new MediaDownloader(tweetInfo, fileNameSettings, downloadSettings)
   }
 

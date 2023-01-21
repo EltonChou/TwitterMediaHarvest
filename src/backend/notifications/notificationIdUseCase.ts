@@ -1,6 +1,6 @@
-import { StorageAreaDownloadRecordsRepository } from '../downloadRecords/repository'
 import { IDownloadRecordsRepository } from '../downloadRecords/repository'
 import { downloadItemRecorder } from '../downloads/downloadItemRecorder'
+import { storageConfig } from '../configurations'
 
 
 interface INotificationUseCase {
@@ -21,10 +21,9 @@ function checkUseCase(notificationId: string): INotificationUseCase {
     )
   }
   if (notificationId.match(DownloadFailedIdPattern)) {
-    const downloadRecordRepo = new StorageAreaDownloadRecordsRepository(chrome.storage.local)
     return new DownloadNotificationUseCase(
       notificationIdToDownloadItemId(notificationId),
-      downloadRecordRepo
+      storageConfig.downloadRecordRepo,
     )
   }
 }
