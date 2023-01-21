@@ -97,7 +97,7 @@ chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespo
 chrome.runtime.onInstalled.addListener(async details => {
   if (details.reason === InstallReason.Install) await initStorage()
   if (details.reason === InstallReason.Update) showUpdateMessageInConsole(details.previousVersion)
-  else openOptionsPage()
+  openOptionsPage()
 })
 
 chrome.downloads.onChanged.addListener(async downloadDelta => {
