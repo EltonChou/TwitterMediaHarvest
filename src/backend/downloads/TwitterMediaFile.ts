@@ -11,12 +11,12 @@ export const enum DownloadMode {
 }
 
 export default class TwitterMediaFile {
-  public screenName: string
-  public tweetId: string
-  public src: string
-  public ext: string
-  public name: string
-  public order: number
+  readonly screenName: string
+  readonly tweetId: string
+  readonly src: string
+  readonly ext: string
+  readonly name: string
+  readonly order: number
 
   constructor(tweetInfo: TweetInfo, url: string, index = 0) {
     this.screenName = tweetInfo.screenName
@@ -31,7 +31,7 @@ export default class TwitterMediaFile {
     return this.ext === '.mp4'
   }
 
-  makeFilenameBySetting(setting: FilenameSetting) {
+  makeFilenameBySetting(setting: FilenameSettings) {
     const accountPart = setting.filename_pattern.account
       ? this.screenName.concat('-')
       : ''
@@ -43,7 +43,7 @@ export default class TwitterMediaFile {
     return accountPart.concat(this.tweetId, '-', serialPart)
   }
 
-  makeFileFullPathBySetting(setting: FilenameSetting) {
+  makeFileFullPathBySetting(setting: FilenameSettings) {
     const directory = makeDirectoryBySetting(setting)
     const fileName = this.makeFilenameBySetting(setting)
     return path.format({
@@ -53,11 +53,25 @@ export default class TwitterMediaFile {
     })
   }
 
+  makeDownloadConfigBySetting(
+    setting: FilenameSettings,
+    mode: DownloadMode.Aria2
+  ): Aria2DownloadOption
+
+  makeDownloadConfigBySetting(
+    setting: FilenameSettings,
+    mode: DownloadMode.Browser
+  ): chrome.downloads.DownloadOptions
+
+  makeDownloadConfigBySetting(
+    setting: FilenameSettings,
+    mode: DownloadMode
+  ): chrome.downloads.DownloadOptions | Aria2DownloadOption
   /**
    * Create download config
    */
   makeDownloadConfigBySetting(
-    setting: FilenameSetting,
+    setting: FilenameSettings,
     mode: DownloadMode
   ): chrome.downloads.DownloadOptions | Aria2DownloadOption {
     const url = this.src
@@ -77,7 +91,7 @@ export default class TwitterMediaFile {
 }
 
 
-export const makeDirectoryBySetting = (setting: FilenameSetting) =>
+export const makeDirectoryBySetting = (setting: FilenameSettings) =>
   setting.no_subdirectory ? '' : setting.directory
 
 /** Make original quality source of tweet media from media url */

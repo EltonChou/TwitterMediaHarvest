@@ -8,7 +8,7 @@ import {
   makeButtonWithData,
 
 } from '../../content_script/utils/maker'
-import DownloadRecordUtil from '../../backend/utils/DownloadRecordUtil'
+import { DownloadRecordIdHelper } from '../../backend/downloadRecords/helpers'
 
 
 test('create element from HTML string', () => {
@@ -30,16 +30,12 @@ test('append tweet info data to html element', () => {
 
 
 describe('Test DownloadRecordUtil', () => {
-  it('can make DownloadRecordId', () => {
-    expect(DownloadRecordUtil.createId(123)).toBe('dl_123')
-  })
-
   it('can valid DownloadRecord id', () => {
-    expect(DownloadRecordUtil.isValidId('dl_384')).toBeTruthy()
-    expect(DownloadRecordUtil.isValidId('384')).toBeFalsy()
+    expect(DownloadRecordIdHelper.validId('dl_384')).toBeTruthy()
+    expect(DownloadRecordIdHelper.validId('384')).toBeFalsy()
   })
 
   it('can extract DownloadItemId from DownloadRecord id', () => {
-    expect(DownloadRecordUtil.extractDownloadItemId('dl_123')).toBe(123)
+    expect(DownloadRecordIdHelper.toDownloadItemId('dl_123')).toBe(123)
   })
 })

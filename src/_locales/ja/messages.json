@@ -76,5 +76,8 @@
   },
   "userCanceledMessage": {
     "message": "[ファイルごとに保存する場所を確認する] をオフしてください。"
+  },
+  "internalError": {
+    "message": "内部エラー"
   }
 }
