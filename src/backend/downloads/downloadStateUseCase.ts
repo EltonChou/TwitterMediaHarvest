@@ -5,6 +5,11 @@ import StatisticsUseCases from '../statistics/useCases'
 import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCase'
 import { storageConfig } from '../configurations'
 
+
+const enum InterruptReason {
+  UserCancel = 'USER_CANCELED'
+}
+
 const statisticsUseCase = new StatisticsUseCases(storageConfig.statisticsRepo)
 
 export default class DownloadStateUseCase {
@@ -28,8 +33,14 @@ export default class DownloadStateUseCase {
     // eslint-disable-next-line no-console
     console.log('Download was interrupted.', this.downloadDelta)
     const { id, error } = this.downloadDelta
-    await statisticsUseCase.addFailedDownloadCount()
 
+    // If download was canceled by user (file location asking), remove the record and don't notify.
+    if (error.current === InterruptReason.UserCancel) {
+      await this.downloadRecordRepo.removeById(this.downloadDelta.id)
+      return
+    }
+
+    await statisticsUseCase.addFailedDownloadCount()
     const downloadRecord = await this.downloadRecordRepo.getById(id)
     if (downloadRecord) {
       Sentry.addBreadcrumb({

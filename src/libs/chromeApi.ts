@@ -11,22 +11,23 @@ export type BrowserStorageRemover = (keyToRemove: string | string[]) => Promise<
 /**
  * @param {string} kw i18n keyname
  */
-export const i18nLocalize = process.env.MANIFEST === '3' ?
-  (kw: string) => {
-    const userLocale = new Intl.Locale(chrome.i18n.getUILanguage())
-    const langMapping = {
-      en: import('../_locales/en/messages.json'),
-      ja: import('../_locales/ja/messages.json'),
-      zh: import('../_locales/zh_TW/messages.json')
-    }
+export const i18nLocalize = (kw: string) => chrome.i18n.getMessage(kw)
+// process.env.MANIFEST === '3' ?
+//   (kw: string) => {
+//     const userLocale = new Intl.Locale(chrome.i18n.getUILanguage())
+//     const langMapping = {
+//       en: import('../_locales/en/messages.json'),
+//       ja: import('../_locales/ja/messages.json'),
+//       zh: import('../_locales/zh_TW/messages.json')
+//     }
 
-    const locale = Object.keys(langMapping).includes(userLocale.language)
-      // @ts-expect-error monkey patch
-      ? langMapping[userLocale.language]
-      : langMapping.en
+//     const locale = Object.keys(langMapping).includes(userLocale.language)
+//       // @ts-expect-error monkey patch
+//       ? langMapping[userLocale.language]
+//       : langMapping.en
 
-    return locale[kw]['message']
-  } : (kw: string) => chrome.i18n.getMessage(kw)
+//     return locale[kw]['message']
+//   } : (kw: string) => chrome.i18n.getMessage(kw)
 
 /**
  * Fetch data from chrome storage.

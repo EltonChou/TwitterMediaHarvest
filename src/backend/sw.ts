@@ -35,10 +35,6 @@ const enum InstallReason {
   Update = 'update',
 }
 
-const enum InterruptReason {
-  UserCancel = 'USER_CANCELED'
-}
-// TODO: when user canceled the download then remove the downloadRecord.
 
 const statisticsUsecases = new StatisticsUseCases(storageConfig.statisticsRepo)
 const downloadRecordRepo = storageConfig.downloadRecordRepo
