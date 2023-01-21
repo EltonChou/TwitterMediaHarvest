@@ -1,17 +1,12 @@
-import {
-  setLocalStorage,
-} from '../../libs/chromeApi'
-
+import { storageConfig } from '../configurations'
+import DownloadRecord from '../downloadRecords/models'
 
 export const downloadItemRecorder =
   (tweetInfo: TweetInfo): DownloadItemRecorder => config => downloadId => {
-    const recordId: DownloadRecordId = `dl_${downloadId}`
-    const record: { [key: DownloadRecordId]: DownloadRecord } = {}
+    const record = new DownloadRecord(downloadId, {
+      tweetInfo: tweetInfo,
+      downloadConfig: config
+    })
 
-    record[recordId] = {
-      info: tweetInfo,
-      config: config,
-    }
-
-    setLocalStorage(record)
+    storageConfig.downloadRecordRepo.save(record)
   }
