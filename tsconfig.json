@@ -2,6 +2,7 @@
   "exclude": [
     "node_modules",
     "build",
+    "dist",
     "jest.setup.js",
     "*.config.js",
     "coverage"
