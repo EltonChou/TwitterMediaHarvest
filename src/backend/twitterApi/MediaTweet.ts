@@ -1,6 +1,6 @@
 import { TWITTER_AUTH_TOKEN } from '../../constants'
 import { i18nLocalize } from '../../libs/chromeApi'
-import { TwitterCookiesUseCase } from '../cookie/useCases'
+import { TwitterTokenRepository } from '../cookie/repository'
 import { NotFound, TooManyRequest, TwitterApiError, UnknownError } from '../errors'
 
 type VideoInfo = {
@@ -33,7 +33,7 @@ type TweetDetail = {
   }
 }
 
-const twitterCookieUseCase = new TwitterCookiesUseCase
+const twitterTokenRepo = new TwitterTokenRepository
 
 const getFetchError = (statusCode: number): TwitterApiError => {
   if (statusCode === 429) {
@@ -65,11 +65,12 @@ const getFetchError = (statusCode: number): TwitterApiError => {
 }
 
 export const fetchMediaCatalog = async (tweetId: string): Promise<TweetMediaCatalog> => {
-  const token = await twitterCookieUseCase.getCt0()
+  const csrfToken = await twitterTokenRepo.getCsrfToken()
+  const guestToken = await twitterTokenRepo.getGuestToken()
   const endpoint = makeTweetEndpoint(tweetId)
   const mediaResponse = await fetch(endpoint, {
     method: 'GET',
-    headers: initHeader(token, tweetId),
+    headers: initHeaders(tweetId, csrfToken, guestToken),
     mode: 'cors',
     cache: 'no-cache',
   })
@@ -147,13 +148,15 @@ const parseVideoInfo = (video_info: VideoInfo): string => {
 }
 
 
-const initHeader = (token: string, tweetId: string) =>
+const initHeaders = (tweetId: string, csrfToken: string, guestToken?: string) =>
   new Headers([
     ['Authorization', TWITTER_AUTH_TOKEN],
     ['User-Agent', navigator.userAgent],
     ['Referer', `https://twitter.com/i/web/status/${tweetId}`],
     ['cache-control', 'no-cache'],
     ['x-twitter-active-user', 'yes'],
-    ['x-twitter-auth-type', 'OAuth2Session'],
-    ['x-csrf-token', token],
+    ['x-csrf-token', csrfToken],
+    guestToken ?
+      ['x-guest-token', guestToken] :
+      ['x-twitter-auth-type', 'OAuth2Session'],
   ])
