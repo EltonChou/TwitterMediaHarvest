@@ -2,8 +2,7 @@
 [![Media Harvest : Twitter Media Downloader](https://img.shields.io/chrome-web-store/users/hpcgabhdlnapolkkjpejieegfpehfdok?style=for-the-badge)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok)
 ![Chrome web store rating](https://img.shields.io/chrome-web-store/stars/hpcgabhdlnapolkkjpejieegfpehfdok?style=for-the-badge)
 
-![GitHub Workflow Status](
-  https://img.shields.io/github/actions/workflow/status/EltonChou/TwitterMediaHarvest/CI.yml?branch=main&style=for-the-badge)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EltonChou/TwitterMediaHarvest/ci.yml?branch=main&style=for-the-badge)
 
 ![TwitterMediaHarvest](./src/assets/icons/icon128.png)
 
