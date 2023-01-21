@@ -52,7 +52,7 @@ const processDownloadAction = async (
     return
   }
 
-  console.group('Processing download. Info:', tweetInfo)
+  console.info('Processing download. Info:', tweetInfo)
   Sentry.addBreadcrumb({
     category: 'download',
     message: 'Process download.',
@@ -70,7 +70,6 @@ const processDownloadAction = async (
     console.error('Error reason: ', err)
     onError(err)
   }
-  console.groupEnd()
 }
 /* eslint-disable no-console */
 
