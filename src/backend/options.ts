@@ -1,8 +1,7 @@
-import { LOCAL_STORAGE_KEY_ARIA2 } from '../constants'
 import sanitize from 'sanitize-filename'
 import select from 'select-dom'
 import StatisticsRepository, { StatisticsKey } from './statistics/repositories'
-import { clearLocalStorage, clearSyncStorage, setLocalStorage } from '../libs/chromeApi'
+import { clearLocalStorage, clearSyncStorage } from '../libs/chromeApi'
 import { Action, } from '../typings'
 import { FilenameSerialRule } from './downloads/TwitterMediaFile'
 import { initStorage } from './commands/storage'
@@ -16,6 +15,7 @@ const accountCheckBox: HTMLInputElement = select('#account')
 const directoryInput: HTMLInputElement = select('#directory')
 const serialSelect: HTMLSelectElement = select('select')
 const aria2Control: HTMLInputElement = select('#aria2')
+const videoThumbnailControl: HTMLInputElement = select('#videoThumbnail')
 const settingsForm: HTMLFormElement = select('#settings')
 const submitButton: HTMLButtonElement = select('#submit')
 const resetStorageButton: HTMLInputElement = select('#reset_storage')
@@ -49,6 +49,7 @@ const initializeForm = async () => {
   }
   accountCheckBox.checked = filenameSettings.filename_pattern.account
   aria2Control.checked = downloadSettings.enableAria2
+  videoThumbnailControl.checked = downloadSettings.includeVideoThumbnail
   const options = select.all('option')
   for (const option of options) {
     option.selected = option.value === filenameSettings.filename_pattern.serial
@@ -90,6 +91,7 @@ const enableDirectoryInput = () => {
 serialSelect.addEventListener('change', allowSubmit)
 accountCheckBox.addEventListener('change', allowSubmit)
 aria2Control.addEventListener('change', allowSubmit)
+videoThumbnailControl.addEventListener('change', allowSubmit)
 noSubDirCheckBox.addEventListener('change', () => {
   noSubDirCheckBox.checked ? disableDirectoryInput() : enableDirectoryInput()
   allowSubmit()
@@ -125,8 +127,10 @@ directoryInput.addEventListener('input', function () {
 settingsForm.addEventListener('submit', async function (e) {
   e.preventDefault()
 
-  const aria2Config: { [key: string]: boolean } = {}
-  aria2Config[LOCAL_STORAGE_KEY_ARIA2] = Boolean(aria2Control.ariaChecked)
+  const downloadSettings: DownloadSettings = {
+    enableAria2: Boolean(aria2Control.ariaChecked),
+    includeVideoThumbnail: Boolean(videoThumbnailControl.checked)
+  }
 
   const filenameSetting: FilenameSettings = {
     directory: directoryInput.value,
@@ -137,10 +141,10 @@ settingsForm.addEventListener('submit', async function (e) {
     }
   }
 
-  const saveAria2 = setLocalStorage(aria2Config)
-  const saveFilenameSetting = await filenameSettingsRepo.saveSettings(filenameSetting)
+  const saveDownloadSettings = downloadSettingsRepo.saveSettings(downloadSettings)
+  const saveFilenameSetting = filenameSettingsRepo.saveSettings(filenameSetting)
 
-  Promise.all([saveAria2, saveFilenameSetting]).then(() => {
+  Promise.all([saveDownloadSettings, saveFilenameSetting]).then(() => {
     console.info('Save settings.')
     console.table(filenameSetting)
     submitSuccess()
