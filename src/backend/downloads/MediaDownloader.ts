@@ -58,7 +58,7 @@ export default class MediaDownloader {
       : chrome.downloads.download(config, downloadCallback)
   }
 
-  downloadMediasByMediaCatelog(mediaCatalog: TweetMediaCatalog) {
+  downloadMediasByMediaCatalog(mediaCatalog: TweetMediaCatalog) {
     for (const [category, items] of Object.entries(mediaCatalog)) {
       if (items.length) {
         items.forEach((media_url, index) => {

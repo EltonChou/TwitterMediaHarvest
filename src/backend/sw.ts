@@ -67,9 +67,10 @@ const processDownloadAction = async (
     const mediaDownloader = await MediaDownloader.build(tweetInfo)
     console.info(`Fetching media info (tweetId: ${tweetInfo.tweetId})...`)
     const mediaCatelog = await fetchMediaCatalog(tweetInfo.tweetId)
-    mediaDownloader.downloadMediasByMediaCatelog(mediaCatelog)
+    mediaDownloader.downloadMediasByMediaCatalog(mediaCatelog)
     onSuccess()
   } catch (err) {
+    Sentry.captureException(err)
     console.error('Error reason: ', err)
     onError(err)
   }
@@ -82,6 +83,8 @@ chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespo
     const onSuccess = () => sendRespone({ status: 'success' })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onError = (err: any) => {
+      sendRespone({ status: 'error', data: err })
+
       if (err instanceof TwitterApiError) {
         const fetchErrorUseCase = new FetchErrorNotificationUseCase(message.data)
         fetchErrorUseCase.notify(err)
@@ -89,8 +92,6 @@ chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespo
         const internalErrorNotifyUseCase = new InternalErrorNotificationUseCase(message.data)
         internalErrorNotifyUseCase.notify(err)
       }
-      Sentry.captureException(err)
-      sendRespone({ status: 'error', data: err })
     }
 
     processDownloadAction(message.data as TweetInfo, onSuccess, onError)

@@ -5,6 +5,7 @@ export class TwitterApiError extends HarvestError {
 
   constructor(reason: FetchErrorReason) {
     super(reason.message + `(statusCode: ${reason.status})`)
+    this.reason = reason
   }
 }
 
