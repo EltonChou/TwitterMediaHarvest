@@ -116,9 +116,6 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
     )
     await downloadStateUseCase.process()
   }
-  chrome.runtime.sendMessage({
-    action: Action.Refresh,
-  })
 })
 
 chrome.notifications.onClosed.addListener(async notifficationId => {

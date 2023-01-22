@@ -48,6 +48,10 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
       const { status } = response
       this.classList.remove('downloading', 'success', 'error')
       this.classList.add(status)
+
+      chrome.runtime.sendMessage({
+        action: Action.Refresh,
+      })
     }
     if (!article) return false
 
