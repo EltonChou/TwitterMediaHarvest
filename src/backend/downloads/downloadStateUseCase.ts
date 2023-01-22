@@ -4,11 +4,7 @@ import { IDownloadRecordsRepository } from '../downloadRecords/repository'
 import StatisticsUseCases from '../statistics/useCases'
 import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCase'
 import { storageConfig } from '../configurations'
-
-
-const enum InterruptReason {
-  UserCancel = 'USER_CANCELED'
-}
+import InterruptReason from './InterruptReason'
 
 const statisticsUseCase = new StatisticsUseCases(storageConfig.statisticsRepo)
 
@@ -31,8 +27,13 @@ export default class DownloadStateUseCase {
 
   async handle_interrupted(): Promise<void> {
     // eslint-disable-next-line no-console
-    console.log('Download was interrupted.', this.downloadDelta)
     const { id, error } = this.downloadDelta
+    console.log('Download was interrupted.', this.downloadDelta)
+    Sentry.addBreadcrumb({
+      category: 'download',
+      message: `Download interupted reason. (current: ${error.current}, previous: ${error.previous})`,
+      level: 'info',
+    })
 
     // If download was canceled by user (file location asking), remove the record and don't notify.
     if (error.current === InterruptReason.UserCancel) {
@@ -43,14 +44,6 @@ export default class DownloadStateUseCase {
     await statisticsUseCase.addFailedDownloadCount()
     const downloadRecord = await this.downloadRecordRepo.getById(id)
     if (downloadRecord) {
-      Sentry.addBreadcrumb({
-        category: 'download',
-        message: `Download interupted reason. (current: ${error.current}, previous: ${error.previous})`,
-        level: 'info',
-      })
-      Sentry.captureMessage(
-        `Download interupted reason. (current: ${error.current}, previous: ${error.previous})`
-      )
       const { tweetInfo } = downloadRecord
       if (tweetInfo) {
         const notifyUseCase = new DownwloadFailedNotificationUseCase(tweetInfo)
