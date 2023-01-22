@@ -1,0 +1,33 @@
+enum InterruptReason {
+    FileFailed = 'FILE_FAILED',
+    FileAccessDenied = 'FILE_ACCESS_DENIED',
+    FileNoSpace = 'FILE_NO_SPACE',
+    FileNameTooLong = 'FILE_NAME_TOO_LONG',
+    FileTooLarge = 'FILE_TOO_LARGE',
+    FileVirusInfected = 'FILE_VIRUS_INFECTED',
+    FileTransientError = 'FILE_TRANSIENT_ERROR',
+    FileBlocked = 'FILE_BLOCKED',
+    FileSecurityCheckFailed = 'FILE_SECURITY_CHECK_FAILED',
+    FileTooShort = 'FILE_TOO_SHORT',
+    FileHashMismatch = 'FILE_HASH_MISMATCH',
+    FileSameAsSource = 'FILE_SAME_AS_SOURCE',
+    NetworkFailed = 'NETWORK_FAILED',
+    NetworkTimeout = 'NETWORK_TIMEOUT',
+    NetworkDisconnected = 'NETWORK_DISCONNECTED',
+    NetworkServerDown = 'NETWORK_SERVER_DOWN',
+    NetworkInvalidRequest = 'NETWORK_INVALID_REQUEST',
+    ServerFailed = 'SERVER_FAILED',
+    ServerNoRange = 'SERVER_NO_RANGE',
+    ServerBadContent = 'SERVER_BAD_CONTENT',
+    ServerUnauthorized = 'SERVER_UNAUTHORIZED',
+    ServerCertProblem = 'SERVER_CERT_PROBLEM',
+    ServerForbidden = 'SERVER_FORBIDDEN',
+    ServerUnreachable = 'SERVER_UNREACHABLE',
+    ServerContentLengthMismatch = 'SERVER_CONTENT_LENGTH_MISMATCH',
+    ServerCrossOriginRedirect = 'SERVER_CROSS_ORIGIN_REDIRECT',
+    UserCancel = 'USER_CANCELED',
+    UserShutdown = 'USER_SHUTDOWN',
+    Crash = 'CRASH'
+}
+
+export default InterruptReason
