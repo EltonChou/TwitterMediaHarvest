@@ -144,12 +144,16 @@ process.env.MANIFEST === '3'
 
 chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
   const { byExtensionId } = downloadItem
-  if (byExtensionId && byExtensionId === getExtensionId()) {
-    downloadRecordRepo.getById(downloadItem.id).then(
-      record => {
+  const runtimeId = getExtensionId()
+
+  if (byExtensionId && byExtensionId === runtimeId) {
+    downloadRecordRepo
+      .getById(downloadItem.id)
+      .then(record => {
         const { downloadConfig } = record
         suggest(downloadConfig as chrome.downloads.DownloadFilenameSuggestion)
       })
-  }
-  return true
+  } else if (byExtensionId && byExtensionId !== runtimeId) return true
+  // if extensionId is undefined, it was trigger by the browser.
+  // return true
 })
