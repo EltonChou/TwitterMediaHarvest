@@ -153,7 +153,10 @@ chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
         const { downloadConfig } = record
         suggest(downloadConfig as chrome.downloads.DownloadFilenameSuggestion)
       })
-  } else if (byExtensionId && byExtensionId !== runtimeId) return true
+    return true
+  } else if (byExtensionId && byExtensionId !== runtimeId) {
+    return true
+  }
   // if extensionId is undefined, it was trigger by the browser.
-  // return true
+  suggest()
 })
