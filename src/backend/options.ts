@@ -129,7 +129,8 @@ settingsForm.addEventListener('submit', async function (e) {
 
   const downloadSettings: DownloadSettings = {
     enableAria2: Boolean(aria2Control.ariaChecked),
-    includeVideoThumbnail: Boolean(videoThumbnailControl.checked)
+    includeVideoThumbnail: Boolean(videoThumbnailControl.checked),
+    aggresive_mode: false
   }
 
   const filenameSetting: FilenameSettings = {
