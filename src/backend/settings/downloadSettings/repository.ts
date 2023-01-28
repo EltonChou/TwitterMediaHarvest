@@ -9,7 +9,8 @@ import { ISettingsRepository } from '../repository'
 
 const defaultFilenameSettings: DownloadSettings = {
   enableAria2: false,
-  includeVideoThumbnail: false
+  includeVideoThumbnail: false,
+  aggresive_mode: false
 }
 
 
@@ -30,5 +31,9 @@ export default class DownloadSettingsRepository implements ISettingsRepository<D
   async saveSettings(settings: DownloadSettings): Promise<DownloadSettings> {
     await this.setStorage(settings)
     return settings
+  }
+
+  async setDefaultSettings(): Promise<void> {
+    await this.setStorage(defaultFilenameSettings)
   }
 }

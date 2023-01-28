@@ -17,6 +17,12 @@ type DownloadStatistic = {
   [StatisticsKey.ErrorCount]?: number
 }
 
+const defaultStatistic: DownloadStatistic = {
+  [StatisticsKey.ErrorCount]: 0,
+  [StatisticsKey.FailedDownloadCount]: 0,
+  [StatisticsKey.SuccessDownloadCount]: 0,
+}
+
 export interface IStatisticsRepository {
   getStatisticsCount(key: StatisticsKey): Promise<number>
   addStatisticsCount(key: StatisticsKey): Promise<void>
@@ -47,5 +53,9 @@ export default class StatisticsRepository implements IStatisticsRepository {
     downloadCount[key] = count + 1
 
     await this.setStorage(downloadCount)
+  }
+
+  async setDefaultStatistics(): Promise<void> {
+    await this.setStorage(defaultStatistic)
   }
 }
