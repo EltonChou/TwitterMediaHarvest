@@ -13,8 +13,8 @@ import {
 
 const featureRegEx = Object.freeze({
   id: /(?:status\/)(\d+)/,
-  screenName: /.com\/(\w+)\/(?:status\/)/,
-  photoModeUrl: /.com\/\w+\/status\/\d+\/(photo|video)\/\d+/
+  screenName: /(\w+)\/(?:status\/)/,
+  photoModeUrl: /\w+\/status\/\d+\/(photo|video)\/\d+/
 })
 
 
