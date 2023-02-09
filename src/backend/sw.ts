@@ -142,7 +142,10 @@ process.env.MANIFEST === '3'
   : chrome.browserAction.onClicked.addListener(openOptionsPage)
 
 
-chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
+const ensureFilename = (
+  downloadItem: chrome.downloads.DownloadItem,
+  suggest: (suggestion?: chrome.downloads.DownloadFilenameSuggestion) => void
+) => {
   const { byExtensionId } = downloadItem
   const runtimeId = getExtensionId()
 
@@ -159,4 +162,36 @@ chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
   }
   // if extensionId is undefined, it was trigger by the browser.
   suggest()
-})
+}
+
+
+const removeSuggestion = () => {
+  if (chrome.downloads.onDeterminingFilename.hasListener(ensureFilename)) {
+    chrome.downloads.onDeterminingFilename.removeListener(ensureFilename)
+  }
+  console.log('Disable suggestion.')
+}
+
+const addSuggestion = () => {
+  if (!chrome.downloads.onDeterminingFilename.hasListener(ensureFilename)) {
+    chrome.downloads.onDeterminingFilename.addListener(ensureFilename)
+  }
+  console.log('Enable suggestion')
+}
+
+chrome.storage.onChanged.addListener(
+  (changes, areaName) => {
+    const AggressiveModeKey = 'aggressive_mode'
+    if (AggressiveModeKey in changes) {
+      changes[AggressiveModeKey].newValue ?
+        addSuggestion() :
+        removeSuggestion()
+    }
+  }
+)
+
+storageConfig.downloadSettingsRepo.getSettings().then(
+  (downloadSettings) => {
+    if (downloadSettings.aggressive_mode) addSuggestion()
+  }
+)

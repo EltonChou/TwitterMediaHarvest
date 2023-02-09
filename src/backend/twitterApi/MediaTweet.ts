@@ -18,15 +18,14 @@ type TweetMedia = {
 type TweetVideoVariant = {
   bitrate: number,
   url: string,
-
 }
 
 type TweetDetail = {
   globalObjects: {
     tweets: {
       [key: string]: {
-        extended_entities: {
-          media: TweetMedia[]
+        extended_entities?: {
+          media?: TweetMedia[]
         },
       }
     }
@@ -78,13 +77,20 @@ export const fetchMediaCatalog = async (tweetId: string): Promise<TweetMediaCata
   if (mediaResponse.status === 200) {
     const detail: TweetDetail = await mediaResponse.json()
     const medias = getMediaFromDetailByTweetId(detail)(tweetId)
-    const image_list = parseImage(medias)
-    const video_list = parseVideo(medias)
-    const mediaCatalog: TweetMediaCatalog = {
-      images: image_list,
-      videos: video_list
+    if (medias) {
+      const image_list = parseImage(medias)
+      const video_list = parseVideo(medias)
+      const mediaCatalog: TweetMediaCatalog = {
+        images: image_list,
+        videos: video_list
+      }
+      return mediaCatalog
+    } else {
+      return {
+        images: [],
+        videos: []
+      }
     }
-    return mediaCatalog
   }
 
   const err = getFetchError(mediaResponse.status)
@@ -104,7 +110,16 @@ const makeTweetEndpoint = (tweetId: string) =>
   `https://api.twitter.com/2/timeline/conversation/${tweetId}.json?tweet_mode=extended`
 
 const getMediaFromDetailByTweetId = (detail: TweetDetail) =>
-  (tweetId: string): TweetMedia[] => detail.globalObjects.tweets[tweetId].extended_entities.media
+  (tweetId: string): TweetMedia[] | null => {
+    const tweet_obj = detail.globalObjects.tweets[tweetId]
+    if ('extended_entities' in tweet_obj) {
+      const entities = tweet_obj.extended_entities
+      if ('media' in entities) {
+        return entities.media
+      }
+    }
+    return null
+  }
 
 const isVideo = (media: TweetMedia) => VIDEO_INFO in media
 

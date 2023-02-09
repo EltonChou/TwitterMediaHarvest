@@ -30,7 +30,7 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.sass$/,
+        test: /\.(sa|sc|c)ss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
@@ -57,10 +57,6 @@ const config = {
       {
         test: /\.svg$/,
         loader: 'svg-inline-loader',
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(ttf|eot|woff|woff2)$/,
