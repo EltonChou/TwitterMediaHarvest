@@ -10,7 +10,7 @@ import { ISettingsRepository } from '../repository'
 const defaultFilenameSettings: DownloadSettings = {
   enableAria2: false,
   includeVideoThumbnail: false,
-  aggresive_mode: false
+  aggressive_mode: false
 }
 
 

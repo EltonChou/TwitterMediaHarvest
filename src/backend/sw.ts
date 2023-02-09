@@ -181,9 +181,9 @@ const addSuggestion = () => {
 
 chrome.storage.onChanged.addListener(
   (changes, areaName) => {
-    const AggresiveModeKey = 'aggresive_mode'
-    if (AggresiveModeKey in changes) {
-      changes[AggresiveModeKey].newValue ?
+    const AggressiveModeKey = 'aggressive_mode'
+    if (AggressiveModeKey in changes) {
+      changes[AggressiveModeKey].newValue ?
         addSuggestion() :
         removeSuggestion()
     }
@@ -192,6 +192,6 @@ chrome.storage.onChanged.addListener(
 
 storageConfig.downloadSettingsRepo.getSettings().then(
   (downloadSettings) => {
-    if (downloadSettings.aggresive_mode) addSuggestion()
+    if (downloadSettings.aggressive_mode) addSuggestion()
   }
 )

@@ -29,7 +29,7 @@ type FilenameSettings = {
 type DownloadSettings = {
   enableAria2: boolean
   includeVideoThumbnail: boolean
-  aggresive_mode: boolean
+  aggressive_mode: boolean
 }
 
 

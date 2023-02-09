@@ -16,6 +16,7 @@ const directoryInput: HTMLInputElement = select('#directory')
 const serialSelect: HTMLSelectElement = select('select')
 const aria2Control: HTMLInputElement = select('#aria2')
 const videoThumbnailControl: HTMLInputElement = select('#videoThumbnail')
+const aggressiveModeControl: HTMLInputElement = select('#aggressiveMode')
 const settingsForm: HTMLFormElement = select('#settings')
 const submitButton: HTMLButtonElement = select('#submit')
 const resetStorageButton: HTMLInputElement = select('#reset_storage')
@@ -50,6 +51,7 @@ const initializeForm = async () => {
   accountCheckBox.checked = filenameSettings.filename_pattern.account
   aria2Control.checked = downloadSettings.enableAria2
   videoThumbnailControl.checked = downloadSettings.includeVideoThumbnail
+  aggressiveModeControl.checked = downloadSettings.aggressive_mode
   const options = select.all('option')
   for (const option of options) {
     option.selected = option.value === filenameSettings.filename_pattern.serial
@@ -92,6 +94,7 @@ serialSelect.addEventListener('change', allowSubmit)
 accountCheckBox.addEventListener('change', allowSubmit)
 aria2Control.addEventListener('change', allowSubmit)
 videoThumbnailControl.addEventListener('change', allowSubmit)
+aggressiveModeControl.addEventListener('change', allowSubmit)
 noSubDirCheckBox.addEventListener('change', () => {
   noSubDirCheckBox.checked ? disableDirectoryInput() : enableDirectoryInput()
   allowSubmit()
@@ -130,7 +133,7 @@ settingsForm.addEventListener('submit', async function (e) {
   const downloadSettings: DownloadSettings = {
     enableAria2: Boolean(aria2Control.ariaChecked),
     includeVideoThumbnail: Boolean(videoThumbnailControl.checked),
-    aggresive_mode: false
+    aggressive_mode: Boolean(aggressiveModeControl.checked)
   }
 
   const filenameSetting: FilenameSettings = {
