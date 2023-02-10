@@ -26,7 +26,7 @@ import { showUpdateMessageInConsole } from './commands/console'
 import { FetchErrorNotificationUseCase, InternalErrorNotificationUseCase } from './notifications/notifyUseCase'
 import NotificationUseCase from './notifications/notificationIdUseCase'
 import DownloadStateUseCase from './downloads/downloadStateUseCase'
-import { HarvestError, TwitterApiError } from './errors'
+import { HarvestError, NotFound, TooManyRequest, TwitterApiError } from './errors'
 import { storageConfig } from './configurations'
 
 
@@ -66,7 +66,12 @@ const processDownloadAction = async (
     mediaDownloader.downloadMediasByMediaCatalog(mediaCatelog)
     onSuccess()
   } catch (err) {
-    Sentry.captureException(err)
+    if (!(
+      err instanceof TooManyRequest ||
+      err instanceof NotFound)
+    ) {
+      Sentry.captureException(err)
+    }
     console.error('Error reason: ', err)
     onError(err)
   }
@@ -90,8 +95,8 @@ chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespo
     }
 
     processDownloadAction(message.data as TweetInfo, onSuccess, onError)
-    return true // keep message channel open
   }
+  return true // keep message channel open
 })
 
 chrome.runtime.onInstalled.addListener(async details => {
@@ -118,19 +123,19 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   }
 })
 
-chrome.notifications.onClosed.addListener(async notifficationId => {
+chrome.notifications.onClosed.addListener(notifficationId => {
   const notificationUseCase = new NotificationUseCase(notifficationId)
   notificationUseCase.handle_close()
 
 })
 
-chrome.notifications.onClicked.addListener(async notifficationId => {
+chrome.notifications.onClicked.addListener(notifficationId => {
   const notificationUseCase = new NotificationUseCase(notifficationId)
   notificationUseCase.handle_click()
 })
 
 chrome.notifications.onButtonClicked.addListener(
-  async (notifficationId, buttonIndex) => {
+  (notifficationId, buttonIndex) => {
     const notificationUseCase = new NotificationUseCase(notifficationId)
     notificationUseCase.handle_button(buttonIndex)
   }

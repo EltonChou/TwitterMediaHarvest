@@ -105,6 +105,7 @@ chrome.runtime.onMessage.addListener((msg: HarvestMessage, sender, sendResponse)
     initializeStatistics()
     sendResponse(true)
   }
+  return true // keep message channel open
 })
 
 directoryInput.addEventListener('input', function () {

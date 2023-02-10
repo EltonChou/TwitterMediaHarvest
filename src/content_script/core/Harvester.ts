@@ -189,18 +189,21 @@ class Harvester {
     const ltr = select('[role="button"] > div', buttonWrapper)
 
     const hoverBG = () => {
+      if (!bg || !ltr) return
       bg.classList.add('hover')
       ltr.classList.add(`${mode}Color`)
       bg.classList.remove('click')
     }
 
     const hoverOutBG = () => {
+      if (!bg || !ltr) return
       bg.classList.remove('hover')
       ltr.classList.remove(`${mode}Color`)
       bg.classList.remove('click')
     }
 
     const clickBG = (e: MouseEvent) => {
+      if (!bg || !ltr) return
       bg.classList.toggle('click')
       ltr.classList.toggle('click')
       e.stopImmediatePropagation()
