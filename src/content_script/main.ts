@@ -9,7 +9,8 @@ Sentry.init({
   integrations: [new BrowserTracing()],
   ignoreErrors: [
     'ResizeObserver loop limit exceeded',
-    'Extension context invalidated'
+    'Extension context invalidated',
+    '(intermediate value)(intermediate value)(intermediate value).querySelector is not a function'
   ],
   release: process.env.RELEASE,
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
