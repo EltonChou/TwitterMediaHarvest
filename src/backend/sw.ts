@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN } from '../constants'
 
@@ -9,9 +10,7 @@ Sentry.init({
 })
 
 
-import MediaDownloader from './downloads/MediaDownloader'
 import StatisticsUseCases from './statistics/useCases'
-import { fetchMediaCatalog } from './twitterApi/MediaTweet'
 import {
   getExtensionId,
   openOptionsPage,
@@ -23,11 +22,11 @@ import {
 import { initStorage } from './commands/storage'
 import { Action } from '../typings'
 import { showUpdateMessageInConsole } from './commands/console'
-import { FetchErrorNotificationUseCase, InternalErrorNotificationUseCase } from './notifications/notifyUseCase'
 import NotificationUseCase from './notifications/notificationIdUseCase'
 import DownloadStateUseCase from './downloads/downloadStateUseCase'
-import { HarvestError, NotFound, TooManyRequest, TwitterApiError } from './errors'
+import { HarvestError } from './errors'
 import { storageConfig } from './configurations'
+import DownloadActionUseCase from './downloads/downloadActionUseCase'
 
 
 const enum InstallReason {
@@ -35,68 +34,23 @@ const enum InstallReason {
   Update = 'update',
 }
 
-
-const statisticsUsecases = new StatisticsUseCases(storageConfig.statisticsRepo)
-const downloadRecordRepo = storageConfig.downloadRecordRepo
-
-/* eslint-disable no-console */
-const processDownloadAction = async (
-  tweetInfo: TweetInfo,
-  onSuccess: CallableFunction,
-  onError: CallableFunction
-) => {
-  if (isInvalidInfo(tweetInfo)) {
-    console.error('Invalid tweetInfo.')
-    await statisticsUsecases.addErrorCount()
-    onError(new HarvestError(`Invalid tweetInfo. ${tweetInfo}`))
-    return
-  }
-
-  console.info('Processing download. Info:', tweetInfo)
-  Sentry.addBreadcrumb({
-    category: 'download',
-    message: 'Process download.',
-    level: 'info',
-  })
-
-  try {
-    const mediaDownloader = await MediaDownloader.build(tweetInfo)
-    console.info(`Fetching media info (tweetId: ${tweetInfo.tweetId})...`)
-    const mediaCatelog = await fetchMediaCatalog(tweetInfo.tweetId)
-    mediaDownloader.downloadMediasByMediaCatalog(mediaCatelog)
-    onSuccess()
-  } catch (err) {
-    if (!(
-      err instanceof TooManyRequest ||
-      err instanceof NotFound)
-    ) {
-      Sentry.captureException(err)
-    }
-    console.error('Error reason: ', err)
-    onError(err)
-  }
-}
-/* eslint-disable no-console */
-
 chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespone) => {
+  const statisticsUsecases = new StatisticsUseCases(storageConfig.statisticsRepo)
   if (message.action === Action.Download) {
+    if (isInvalidInfo(message.data)) {
+      console.error('Invalid tweetInfo.')
+      statisticsUsecases.addErrorCount()
+      sendRespone({ status: 'error', data: new HarvestError(`Invalid tweetInfo. ${message.data}`) })
+      return
+    }
+
+    const usecase = new DownloadActionUseCase(message.data as TweetInfo)
     const onSuccess = () => sendRespone({ status: 'success' })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const onError = (err: any) => {
-      sendRespone({ status: 'error', data: err })
-
-      if (err instanceof TwitterApiError) {
-        const fetchErrorUseCase = new FetchErrorNotificationUseCase(message.data)
-        fetchErrorUseCase.notify(err)
-      } else {
-        const internalErrorNotifyUseCase = new InternalErrorNotificationUseCase(message.data)
-        internalErrorNotifyUseCase.notify(err)
-      }
-    }
-
-    processDownloadAction(message.data as TweetInfo, onSuccess, onError)
+    const onError = (err: Error) => sendRespone({ status: 'error', data: err })
+    usecase.processDownload(onSuccess, onError)
+    return true // keep message channel open
   }
-  return true // keep message channel open
 })
 
 chrome.runtime.onInstalled.addListener(async details => {
@@ -117,7 +71,7 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   if ('state' in downloadDelta) {
     const downloadStateUseCase = new DownloadStateUseCase(
       downloadDelta,
-      downloadRecordRepo,
+      storageConfig.downloadRecordRepo,
     )
     await downloadStateUseCase.process()
   }
@@ -155,7 +109,7 @@ const ensureFilename = (
   const runtimeId = getExtensionId()
 
   if (byExtensionId && byExtensionId === runtimeId) {
-    downloadRecordRepo
+    storageConfig.downloadRecordRepo
       .getById(downloadItem.id)
       .then(record => {
         const { downloadConfig } = record

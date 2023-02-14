@@ -25,6 +25,7 @@ class NotificationButton {
   }
 }
 
+// TODO: 404, 401
 export class NotificationConfig {
   static downloadError(
     tweetInfo: TweetInfo,

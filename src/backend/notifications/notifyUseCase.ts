@@ -1,6 +1,6 @@
 import { NotificationConfig } from './helpers'
 import { makeDownloadFailedNotificationId, makeFetchErrorNotificationId } from './utils/notificationId'
-import { TooManyRequest, TwitterApiError } from '../errors'
+import { TooManyRequest, TwitterApiError,  } from '../errors'
 
 export class FetchErrorNotificationUseCase {
   readonly tweetInfo: TweetInfo
@@ -14,6 +14,7 @@ export class FetchErrorNotificationUseCase {
     if (err instanceof TooManyRequest) {
       notiConf = NotificationConfig.tooManyRequests(this.tweetInfo, err.reason)
     }
+    // TODO: 404, 401
 
     chrome.notifications.create(makeFetchErrorNotificationId(this.tweetInfo.tweetId), notiConf)
   }
