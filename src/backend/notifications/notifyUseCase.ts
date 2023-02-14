@@ -14,7 +14,6 @@ export class FetchErrorNotificationUseCase {
     if (err instanceof TooManyRequest) {
       notiConf = NotificationConfig.tooManyRequests(this.tweetInfo, err.reason)
     }
-    // TODO: 404, 401
 
     chrome.notifications.create(makeFetchErrorNotificationId(this.tweetInfo.tweetId), notiConf)
   }

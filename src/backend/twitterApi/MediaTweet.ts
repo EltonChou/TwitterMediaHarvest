@@ -1,7 +1,7 @@
 import { TWITTER_AUTH_TOKEN } from '../../constants'
 import { i18nLocalize } from '../../libs/chromeApi'
 import { TwitterTokenRepository } from '../cookie/repository'
-import { NotFound, TooManyRequest, TwitterApiError, UnknownError } from '../errors'
+import { NotFound, TooManyRequest, TwitterApiError, Unauthorized, UnknownError } from '../errors'
 
 type VideoInfo = {
   aspect_ratio: number[]
@@ -45,13 +45,23 @@ const getFetchError = (statusCode: number): TwitterApiError => {
 
   }
 
-  else if (statusCode === 404) {
+  if (statusCode === 404) {
     const reason: FetchErrorReason = {
       status: statusCode,
       title: i18nLocalize('fetchFailedNotFoundTitle'),
       message: i18nLocalize('fetchFailedNotFoundMessage'),
     }
     return new NotFound(reason)
+  }
+
+  if (statusCode === 401) {
+    // TODO: i18n
+    const reason: FetchErrorReason = {
+      status: statusCode,
+      title: 'Unauthorized',
+      message: 'Please check your login session or your permission to read this tweet.',
+    }
+    return new Unauthorized(reason)
   }
 
   const reason: FetchErrorReason = {
@@ -77,19 +87,19 @@ export const fetchMediaCatalog = async (tweetId: string): Promise<TweetMediaCata
   if (mediaResponse.status === 200) {
     const detail: TweetDetail = await mediaResponse.json()
     const medias = getMediaFromDetailByTweetId(detail)(tweetId)
+    const mediaCatalog: TweetMediaCatalog = {
+      images: [],
+      videos: []
+    }
+
     if (medias) {
       const image_list = parseImage(medias)
       const video_list = parseVideo(medias)
-      const mediaCatalog: TweetMediaCatalog = {
-        images: image_list,
-        videos: video_list
-      }
+      mediaCatalog.images = image_list
+      mediaCatalog.videos = video_list
       return mediaCatalog
     } else {
-      return {
-        images: [],
-        videos: []
-      }
+      return mediaCatalog
     }
   }
 
