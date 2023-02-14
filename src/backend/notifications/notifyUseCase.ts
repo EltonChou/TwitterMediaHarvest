@@ -1,6 +1,6 @@
 import { NotificationConfig } from './helpers'
 import { makeDownloadFailedNotificationId, makeFetchErrorNotificationId } from './utils/notificationId'
-import { TooManyRequest, TwitterApiError } from '../errors'
+import { TooManyRequest, TwitterApiError,  } from '../errors'
 
 export class FetchErrorNotificationUseCase {
   readonly tweetInfo: TweetInfo
