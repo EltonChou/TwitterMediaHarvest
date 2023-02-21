@@ -43,6 +43,7 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
 ): T => {
   button.addEventListener('click', async function (e) {
     const article: HTMLElement = this.closest('[data-harvest-article]')
+    if (!article) return false
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const reponseCb = (response: any) => {
       const { status } = response
@@ -53,7 +54,6 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
         action: Action.Refresh,
       })
     }
-    if (!article) return false
 
     e.stopImmediatePropagation()
     if (this.classList.contains('downloading')) return false
