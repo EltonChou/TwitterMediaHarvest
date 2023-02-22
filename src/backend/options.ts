@@ -103,9 +103,8 @@ noSubDirCheckBox.addEventListener('change', () => {
 chrome.runtime.onMessage.addListener((msg: HarvestMessage, sender, sendResponse) => {
   if (msg.action === Action.Refresh) {
     initializeStatistics()
-    sendResponse(true)
   }
-  return true // keep message channel open
+  sendResponse(true)
 })
 
 directoryInput.addEventListener('input', function () {

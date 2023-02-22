@@ -31,7 +31,11 @@ const deckActionInsert = (actionBar: HTMLElement, button: HTMLElement | Element)
   return actionBar
 }
 
-const setTargetArticle = (article: HTMLElement) => article.dataset.harvestArticle = 'true'
+const setTargetArticle = (article: HTMLElement) => {
+  if (article) {
+    article.dataset.harvestArticle = 'true'
+  }
+}
 
 /**
  * Create Harvester and append to action-bar.

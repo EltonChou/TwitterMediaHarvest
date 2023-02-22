@@ -51,6 +51,7 @@ chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespo
     usecase.processDownload(onSuccess, onError)
     return true // keep message channel open
   }
+  return false
 })
 
 chrome.runtime.onInstalled.addListener(async details => {

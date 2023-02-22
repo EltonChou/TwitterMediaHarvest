@@ -15,12 +15,12 @@ const DownloadFailedIdPattern = /^download_(\d+)/
 
 
 function checkUseCase(notificationId: string): INotificationUseCase {
-  if (notificationId.match(FetchErrorIdPattern)) {
+  if (FetchErrorNotificationUseCase.valid_id(notificationId)) {
     return new FetchErrorNotificationUseCase(
       notifficationIdToTweetId(notificationId)
     )
   }
-  if (notificationId.match(DownloadFailedIdPattern)) {
+  if (DownloadNotificationUseCase.valid_id(notificationId)) {
     return new DownloadNotificationUseCase(
       notificationIdToDownloadItemId(notificationId),
       storageConfig.downloadRecordRepo,
@@ -87,6 +87,10 @@ class DownloadNotificationUseCase implements INotificationUseCase {
     const downloadRecorder = downloadItemRecorder(tweetInfo)(downloadConfig)
     chrome.downloads.download(downloadConfig, downloadRecorder)
   }
+
+  static valid_id(notificationId: string): boolean {
+    return Boolean(notificationId.match(DownloadFailedIdPattern))
+  }
 }
 
 
@@ -107,15 +111,18 @@ class FetchErrorNotificationUseCase implements INotificationUseCase {
 
   async handle_close(): Promise<void> { /*pass*/ }
 
-
   async openFailedTweetInNewTab(): Promise<void> {
     chrome.tabs.create({ url: tweetUrl(this.tweetId) })
+  }
+
+  static valid_id(notificationId: string): boolean {
+    return Boolean(notificationId.match(FetchErrorIdPattern))
   }
 }
 
 
 function notifficationIdToTweetId(notificationId: string): string {
-  return notificationId.match(DownloadFailedIdPattern)[1]
+  return notificationId.match(FetchErrorIdPattern)[1]
 }
 
 function notificationIdToDownloadItemId(notificationId: string): number {
