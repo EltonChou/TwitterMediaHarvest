@@ -50,41 +50,19 @@ export const checkModeOfArticle = (article: HTMLElement): TweetMode => {
   return 'stream'
 }
 
-enum Query {
-  StreamMediaWrapper = 'div:nth-child(2) > div:nth-child(2) > div:nth-child(2) [aria-labelledby^="id__"]',
-  StatusMediaWrapper = 'article > div > div > div > div:nth-child(3) [aria-labelledby^="id__"]',
-}
-
 /**
  * @param {ParentNode} article This should be article.
  */
 export const articleHasMedia = (article: HTMLElement) => {
   if (!article) return false
+  const hasPhoto = select.exists(
+    '[data-testid="tweetPhoto"]',
+    article
+  )
+  const hasVideo = (select.exists('[role="progressbar"]', article)
+    || select.exists('[data-testid="videoPlayer"]', article))
 
-  let mediaWrapperQuery: Query
-  if (isArticleInStream(article)) mediaWrapperQuery = Query.StreamMediaWrapper
-  if (isArticleInStatus(article)) mediaWrapperQuery = Query.StatusMediaWrapper
-  const mediaWrapper = select(mediaWrapperQuery, article)
-
-  if (!mediaWrapper) return false
-
-  const checkContent = (mediaContent: Element) => {
-    // const magicLength = mediaContent.classList.length >= 2
-    if (mediaContent.hasAttribute('id')) return false
-    const photoContent = select.exists(
-      '[role="link"][href*="photo"]',
-      mediaContent
-    )
-    const videoContent = (select.exists('[role="progressbar"]', mediaContent)
-      || select.exists('[data-testid="videoPlayer"]', mediaContent))
-
-    // return magicLength && (photoContent || videoContent)
-    return photoContent
-      || videoContent
-      && !select.exists('[role="link"]', mediaContent)
-  }
-
-  return [...mediaWrapper.children].some(checkContent)
+  return hasVideo || hasPhoto
 }
 
 /**
