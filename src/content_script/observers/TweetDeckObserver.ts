@@ -150,7 +150,7 @@ const initColumnObserver = (column: HTMLElement) => {
   observeStreamContainer(tweetContainer)
 }
 
-class TwitterDeckObserver implements HarvestObserver {
+class TweetDeckObserver implements HarvestObserver {
   observeRoot() {
     const options: MutationObserverInit = {
       childList: true,
@@ -179,4 +179,4 @@ class TwitterDeckObserver implements HarvestObserver {
   }
 }
 
-export default TwitterDeckObserver
+export default TweetDeckObserver

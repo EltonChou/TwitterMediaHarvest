@@ -42,6 +42,11 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
   button: T, infoParser: (article: HTMLElement) => TweetInfo
 ): T => {
   button.addEventListener('click', async function (e) {
+    e.stopImmediatePropagation()
+    if (this.classList.contains('downloading')) return false
+    this.classList.remove('success', 'error')
+    this.classList.add('downloading')
+
     const article: HTMLElement = this.closest('[data-harvest-article]')
     if (!article) return false
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,11 +59,6 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
         action: Action.Refresh,
       })
     }
-
-    e.stopImmediatePropagation()
-    if (this.classList.contains('downloading')) return false
-    this.classList.remove('success', 'error')
-    this.classList.add('downloading')
 
     try {
       const tweetInfo: TweetInfo = infoParser(article)
