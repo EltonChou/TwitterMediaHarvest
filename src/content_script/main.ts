@@ -18,16 +18,17 @@ Sentry.init({
 })
 
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
-import TwitterDeckObserver from './observers/TwitterDeckObserver'
+import TweetDeckObserver from './observers/TweetDeckObserver'
 import { isTweetDeck } from './utils/checker'
-import KeyboardMonitor from './KeyboardMonitor'
+import { TweetDeckKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
 
-const observer = isTweetDeck() ? new TwitterDeckObserver() : new TwitterMediaObserver()
-const keyboardMonitor = new KeyboardMonitor()
+const observer = isTweetDeck() ? new TweetDeckObserver() : new TwitterMediaObserver()
+const keyboardMonitor = isTweetDeck() ? new TweetDeckKeyboardMonitor() : new TwitterKeyboardMonitor()
 
 window.addEventListener('keydown', keyboardMonitor.handleKeyDown.bind(keyboardMonitor))
 window.addEventListener('keyup', keyboardMonitor.handleKeyUp.bind(keyboardMonitor))
 
+// Ensure observing when the tab is focused.
 let hasFocused = false
 window.addEventListener('focus', () => {
   observer.initialize()
