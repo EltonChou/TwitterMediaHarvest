@@ -17,39 +17,18 @@ Sentry.init({
   environment: process.env.NODE_ENV
 })
 
-import select from 'select-dom'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
-import TwitterDeckObserver from './observers/TwitterDeckObserver'
+import TweetDeckObserver from './observers/TweetDeckObserver'
 import { isTweetDeck } from './utils/checker'
+import { TweetDeckKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
 
-enum DownloadKey {
-  Twitter = 'KeyD',
-  TweetDeck = 'KeyO'
-}
+const observer = isTweetDeck() ? new TweetDeckObserver() : new TwitterMediaObserver()
+const keyboardMonitor = isTweetDeck() ? new TweetDeckKeyboardMonitor() : new TwitterKeyboardMonitor()
 
-let currentFocusing: Element = document.activeElement
-const observer: HarvestObserver = isTweetDeck() ? new TwitterDeckObserver() : new TwitterMediaObserver()
-const getDownloadKeyCode = () => isTweetDeck() ? DownloadKey.TweetDeck : DownloadKey.Twitter
+window.addEventListener('keydown', keyboardMonitor.handleKeyDown.bind(keyboardMonitor))
+window.addEventListener('keyup', keyboardMonitor.handleKeyUp.bind(keyboardMonitor))
 
-window.addEventListener('keydown', (e) => {
-  if (e.code === getDownloadKeyCode() && e.target instanceof Element) {
-    currentFocusing = isTweetDeck() ? select('.is-selected-tweet') : e.target
-  }
-})
-
-window.addEventListener('keyup', (e) => {
-  const buttonQuery = isTweetDeck() ? '.deck-harvester' : '.harvester'
-  if (e.code === getDownloadKeyCode()) {
-    if (e.target instanceof Element && currentFocusing) {
-      const tweetCanBeHarvested = currentFocusing.closest('[data-harvest-article]')
-      if (tweetCanBeHarvested) {
-        const harvesterButton = select(buttonQuery, tweetCanBeHarvested)
-        if (harvesterButton) harvesterButton.click()
-      }
-    }
-  }
-})
-
+// Ensure observing when the tab is focused.
 let hasFocused = false
 window.addEventListener('focus', () => {
   observer.initialize()
