@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "__MSG_appName__",
-  "short_name": "Twitter Media Harvest",
+  "short_name": "Media Harvest",
   "description": "__MSG_appDesc__",
   "version": "__MANIFEST_RELEASE_VERSION__",
   "minimum_chrome_version": "88",
