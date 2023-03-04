@@ -10,8 +10,8 @@ temp/
 /*.html
 *.psd
 *.clip
-sourcemaps
 *.exe
+public_keys/
 
 # Logs
 logs

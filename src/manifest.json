@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "__MSG_appName__",
-  "short_name": "Media Harvest",
+  "short_name": "MediaHarvest",
   "description": "__MSG_appDesc__",
   "version": "__MANIFEST_RELEASE_VERSION__",
   "minimum_chrome_version": "88",
@@ -64,5 +64,5 @@
   "content_security_policy": {
     "extension_page": "connect-src 'self' https://o1169684.ingest.sentry.io; object-src 'self';"
   },
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp5W/De2hWM9tLnwVIGj3t+5i1VQAfmuntfaMBKAKIVEY5uBlg47M7fh3j46kvMc8FLfd5kazASDIjO/moDIh2PKmYzdAF1zKgARaLaGJPL03FVdlCk+QVpTpTsjzr3MBZbZJ9qex3Mn6IpHaQ4gyj2jBh0c7W6u/yTJ1tHTjq/tyixjoEWEsvlk9/Xi0viCEDaPS4NG1kT+Ph3swqZQvKJd+yA+PivQytj0Ns4iM/YWlTEhI5JxMB50AOS3uVA1rlvHMvg5IpK4BYzuZGNZnnbLV0JBt5/Yox1vbFjppALFomquAodGtCs/0D6zFrG63fpj7f21VzYQiKGkh5hW5PwIDAQAB"
+  "key": "__PUBLIC_KEY__"
 }

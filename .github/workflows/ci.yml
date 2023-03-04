@@ -27,7 +27,7 @@ jobs:
       - run: yarn install
       - run: yarn lint
       - run: yarn test
-      - run: yarn build:v3
+      - run: yarn build
 
   # merge:
   #   runs-on: ubuntu-latest

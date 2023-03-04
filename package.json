@@ -51,10 +51,12 @@
   },
   "scripts": {
     "test": "jest --env=node --coverage",
-    "build:v2": "webpack --mode=production --progress --color --env=manifest=2",
-    "build:v3": "webpack --mode=production --progress --color --env=manifest=3",
-    "build:dev": "webpack --mode=development --progress --color --env=manifest=3",
-    "watch": "webpack --mode development --watch --progress --color --env=manifest=3",
+    "build": "yarn build:chrome & yarn build:edge",
+    "build:dev": "webpack --mode=development --progress --color --env target=chrome",
+    "build:chrome": "webpack --mode=production --progress --color --env target=chrome",
+    "build:edge": "webpack --mode=production --progress --color --env target=edge",
+    "build:chrome:dev": "webpack --mode=development --progress --color --env target=chrome",
+    "build:edge:dev": "webpack --mode=development --progress --color --env target=edge",
     "lint": "eslint --color --quiet --ext .js --ext .ts src/ --fix"
   },
   "jest": {
