@@ -3,6 +3,7 @@ const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
 const FileManagerPlugin = require('filemanager-webpack-plugin')
 const PACKAGE = require('./package.json')
+const PublicKey = require('./public_key.json')
 const webpack = require('webpack')
 const version = PACKAGE.version
 
@@ -93,21 +94,30 @@ const config = {
 }
 
 module.exports = (env, argv) => {
+  config.output = {
+    filename: '[name].js',
+    path: path.join(__dirname, 'build', env.target),
+    clean: true,
+  }
+
   config.plugins.push(
     new CopyPlugin({
       patterns: [
         {
-          from: `manifest_v${env.manifest}.json`,
+          from: 'manifest.json',
           context: 'src',
-          to: 'manifest[ext]',
+          to: '[name][ext]',
           transform: content =>
-            content.toString().replace('__MANIFEST_RELEASE_VERSION__', version),
+            content
+              .toString()
+              .replace('__MANIFEST_RELEASE_VERSION__', version)
+              .replace('__PUBLIC_KEY__', PublicKey[env.target])
+          ,
         },
       ],
     }),
     new webpack.EnvironmentPlugin({
-      MANIFEST: env.manifest,
-      RELEASE: env.RELEASE_NAME || PACKAGE.name + '@' + version,
+      RELEASE: env.RELEASE_NAME || PACKAGE.name + '('+ env.target + ')' + '@' + version,
     })
   )
 
@@ -127,7 +137,7 @@ module.exports = (env, argv) => {
             archive: [
               {
                 source: 'build',
-                destination: `dist/TwitterMediaHarvest-v${version}.zip`,
+                destination: `dist/${env.target}-TwitterMediaHarvest-v${version}.zip`,
                 options: {
                   zlib: { level: 9 },
                   globOptions: {

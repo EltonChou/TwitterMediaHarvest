@@ -6,7 +6,7 @@ Sentry.init({
   dsn: SENTRY_DSN,
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
   environment: process.env.NODE_ENV,
-  release: process.env.RELEASE
+  release: process.env.RELEASE,
 })
 
 
@@ -96,11 +96,9 @@ chrome.notifications.onButtonClicked.addListener(
   }
 )
 
-process.env.MANIFEST === '3'
-  // @ts-expect-error lul
-  ? chrome.action.onClicked.addListener(openOptionsPage)
-  : chrome.browserAction.onClicked.addListener(openOptionsPage)
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+chrome.action.onClicked.addListener(openOptionsPage)
 
 const ensureFilename = (
   downloadItem: chrome.downloads.DownloadItem,

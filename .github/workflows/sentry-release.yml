@@ -8,12 +8,16 @@ on:
     tags: [ v*.*.* ]
 
 jobs:
-  deploy:
+  release:
     name: Create Release
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16.x]
+        target: [
+          "chrome",
+          "edge"
+        ]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -32,7 +36,7 @@ jobs:
 
     - name: Set release name environment from tag
       run: |
-        echo "RELEASE_NAME=${{ steps.package.outputs.name }}@${{ steps.package.outputs.version }}" >> $GITHUB_ENV
+        echo "RELEASE_NAME=${{ steps.package.outputs.name }}(${{ matrix.target }})@${{ steps.package.outputs.version }}" >> $GITHUB_ENV
         echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
     - name: Use Node.js ${{ matrix.node-version }}
@@ -43,7 +47,7 @@ jobs:
     - run: yarn install
     - run: yarn lint
     - run: yarn test
-    - run: yarn build:v3
+    - run: 'yarn build:${{ matrix.target }}'
 
     - name: Create Sentry release
       uses: getsentry/action-release@v1
@@ -56,8 +60,7 @@ jobs:
         version: ${{ env.RELEASE_NAME }}
         url_prefix: '~/'
         environment: production
-        sourcemaps: './build'
-        set_commits: 'skip'
+        sourcemaps: './build/${{ matrix.target }}'
 
     - name: Create Repository Release
       uses: ncipollo/release-action@v1
