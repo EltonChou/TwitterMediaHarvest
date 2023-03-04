@@ -24,7 +24,7 @@ and then execute
 
 `yarn build`
 
-You will get somw output under `dist` and `build` directory.
+You will get some files under `dist` and `build` directory.
 
 ## Fearture
 
