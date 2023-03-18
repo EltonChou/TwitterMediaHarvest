@@ -9,41 +9,41 @@ Sentry.init({
   release: process.env.RELEASE,
 })
 
-import StatisticsUseCases from './statistics/useCases'
+import browser from 'webextension-polyfill'
 import { openOptionsPage } from '../libs/chromeApi'
-import { isDownloadedBySelf, isInvalidInfo } from './utils/checker'
-import { initStorage } from './commands/storage'
 import { Action } from '../typings'
 import { showUpdateMessageInConsole } from './commands/console'
-import NotificationUseCase from './notifications/notificationIdUseCase'
-import DownloadStateUseCase from './downloads/downloadStateUseCase'
-import { HarvestError } from './errors'
+import { initStorage } from './commands/storage'
 import { storageConfig } from './configurations'
 import DownloadActionUseCase from './downloads/downloadActionUseCase'
-import browser from 'webextension-polyfill'
+import DownloadStateUseCase from './downloads/downloadStateUseCase'
+import { HarvestError } from './errors'
 import { chromium_init, firefox_init } from './initialization'
+import NotificationUseCase from './notifications/notificationIdUseCase'
+import StatisticsUseCases from './statistics/useCases'
+import { isDownloadedBySelf, isInvalidInfo } from './utils/checker'
 
 const enum InstallReason {
   Install = 'install',
   Update = 'update',
 }
 
-chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespone) => {
+browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender) => {
   const statisticsUsecases = new StatisticsUseCases(storageConfig.statisticsRepo)
   if (message.action === Action.Download) {
     if (isInvalidInfo(message.data)) {
       console.error('Invalid tweetInfo.')
       statisticsUsecases.addErrorCount()
-      sendRespone({ status: 'error', data: new HarvestError(`Invalid tweetInfo. ${message.data}`) })
-      return
+      return { status: 'error', data: new HarvestError(`Invalid tweetInfo. ${message.data}`) }
     }
 
     const usecase = new DownloadActionUseCase(message.data as TweetInfo)
-    const onSuccess = () => sendRespone({ status: 'success' })
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const onError = (err: Error) => sendRespone({ status: 'error', data: err })
-    usecase.processDownload(onSuccess, onError)
-    return true // keep message channel open
+    try {
+      await usecase.processDownload()
+      return { status: 'success' }
+    } catch (error) {
+      return { status: 'error', data: error }
+    }
   }
   return false
 })

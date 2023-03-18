@@ -41,14 +41,14 @@ export default class DownloadActionUseCase {
     mediaDownloader.downloadMediasByMediaCatalog(mediaCatelog)
   }
 
-  async processDownload(onSuccess: CallableFunction, onError: (err: Error) => void): Promise<void> {
+  async processDownload(): Promise<void> {
     try {
       await this.process()
-      onSuccess()
+      // onSuccess()
     } catch (err) {
       console.error('Error reason: ', err)
       this.handleError(err)
-      onError(err)
+      throw err
     }
   }
   /* eslint-disable no-console */
