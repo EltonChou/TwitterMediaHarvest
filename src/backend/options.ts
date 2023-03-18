@@ -104,7 +104,6 @@ browser.runtime.onMessage.addListener((msg: HarvestMessage, sender, sendResponse
   if (msg.action === Action.Refresh) {
     initializeStatistics()
   }
-  return true
 })
 
 directoryInput.addEventListener('input', function () {
@@ -174,5 +173,6 @@ async function localize() {
 }
 
 aggressiveModeControl.disabled = process.env.TARGET === 'firefox'
+aria2Control.disabled = process.env.TARGET === 'firefox'
 
 localize().then(initializeForm).then(initializeStatistics).then(updatePreview)

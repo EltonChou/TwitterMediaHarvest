@@ -22,18 +22,6 @@ export const makeButtonWithData = (button: HTMLElement, data: TweetInfo): HTMLEl
   return button
 }
 
-/* eslint-disable no-console */
-const runtimeSendMessage = async (
-  message: HarvestMessage,
-  responseCb: (response: { status: string; data: object }) => void
-) => {
-  console.log('Send message to service worker.', message)
-  const resp = await browser.runtime.sendMessage(message)
-  responseCb(resp)
-}
-
-/* eslint-disable no-console */
-
 /**
  * @param button harvestButton
  */
@@ -50,12 +38,12 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
     const article: HTMLElement = this.closest('[data-harvest-article]')
     if (!article) return false
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const reponseCb = (response: any) => {
+    const reponseCb = async (response: any) => {
       const { status } = response
       this.classList.remove('downloading', 'success', 'error')
       this.classList.add(status)
 
-      browser.runtime.sendMessage({
+      await browser.runtime.sendMessage({
         action: Action.Refresh,
       })
     }
@@ -66,8 +54,9 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
         action: Action.Download,
         data: tweetInfo,
       }
-
-      await runtimeSendMessage(message, reponseCb)
+      console.log('Send message to service worker.', message)
+      const resp = await browser.runtime.sendMessage(message)
+      await reponseCb(resp)
     } catch (error) {
       Sentry.captureException(error)
       console.error(error)
