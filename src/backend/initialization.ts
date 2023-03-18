@@ -1,19 +1,17 @@
 import browser from 'webextension-polyfill'
-import type { Downloads } from 'webextension-polyfill'
 import type { IDownloadRecordsRepository } from './downloadRecords/repository'
 import type { ISettingsRepository } from './settings/repository'
-import { getExtensionId } from '../libs/chromeApi'
 
 export const chromium_init = (
   downloadSettingsRepo: ISettingsRepository<DownloadSettings>,
   downloadRecordRepo: IDownloadRecordsRepository
 ) => {
   const ensureFilename = (
-    downloadItem: Downloads.DownloadItem | chrome.downloads.DownloadItem,
+    downloadItem: chrome.downloads.DownloadItem,
     suggest: (suggestion?: chrome.downloads.DownloadFilenameSuggestion) => void
   ) => {
     const { byExtensionId } = downloadItem
-    const runtimeId = getExtensionId()
+    const runtimeId = browser.runtime.id
 
     if (byExtensionId && byExtensionId === runtimeId) {
       downloadRecordRepo.getById(downloadItem.id).then(record => {

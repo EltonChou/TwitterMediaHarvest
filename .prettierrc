@@ -5,5 +5,5 @@
   "bracketSpacing": true,
   "arrowParens": "avoid",
   "endOfLine": "lf",
-  "printWidth": 120
+  "printWidth": 120,
 }

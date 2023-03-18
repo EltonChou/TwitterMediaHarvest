@@ -2,9 +2,10 @@ import sanitize from 'sanitize-filename'
 import select from 'select-dom'
 import StatisticsRepository, { StatisticsKey } from './statistics/repositories'
 import { clearLocalStorage, clearSyncStorage } from '../libs/chromeApi'
-import { Action, } from '../typings'
+import { Action } from '../typings'
 import { FilenameSerialRule } from './downloads/TwitterMediaFile'
 import { initStorage } from './commands/storage'
+import browser from 'webextension-polyfill'
 import { storageConfig } from './configurations'
 
 const filenameSettingsRepo = storageConfig.filenameSettingsRepo
@@ -61,7 +62,7 @@ const initializeForm = async () => {
 const initializeStatistics = async () => {
   const statisticsQuery = '[data-category="statistics"]'
   const statisticsItems = select.all(statisticsQuery)
-  const statisticsRepo = new StatisticsRepository(chrome.storage.local)
+  const statisticsRepo = new StatisticsRepository(browser.storage.local)
   for (const item of statisticsItems) {
     const count = await statisticsRepo.getStatisticsCount(item.dataset.type as StatisticsKey)
     item.textContent = count.toLocaleString()
@@ -75,11 +76,11 @@ const allowSubmit = () => {
   updatePreview()
   submitButton.disabled = false
   submitButton.classList.remove('is-success')
-  submitButton.innerText = chrome.i18n.getMessage('submitButtonText')
+  submitButton.innerText = browser.i18n.getMessage('submitButtonText')
 }
 const submitSuccess = () => {
   submitButton.classList.add('is-success')
-  submitButton.innerText = chrome.i18n.getMessage('submitButtonSuccessText')
+  submitButton.innerText = browser.i18n.getMessage('submitButtonSuccessText')
   disableSubmit()
 }
 
@@ -100,18 +101,17 @@ noSubDirCheckBox.addEventListener('change', () => {
   allowSubmit()
 })
 
-chrome.runtime.onMessage.addListener((msg: HarvestMessage, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((msg: HarvestMessage, sender, sendResponse) => {
   if (msg.action === Action.Refresh) {
     initializeStatistics()
   }
-  sendResponse(true)
+  return true
 })
 
 directoryInput.addEventListener('input', function () {
   const filenameReg = new RegExp('^[\\w-_]+$')
   const sanitizedValue = sanitize(this.value)
-  const isFileNameAllowed =
-    filenameReg.test(this.value) && sanitizedValue === this.value
+  const isFileNameAllowed = filenameReg.test(this.value) && sanitizedValue === this.value
 
   if (isFileNameAllowed) {
     allowSubmit()
@@ -133,7 +133,7 @@ settingsForm.addEventListener('submit', async function (e) {
   const downloadSettings: DownloadSettings = {
     enableAria2: Boolean(aria2Control.ariaChecked),
     includeVideoThumbnail: Boolean(videoThumbnailControl.checked),
-    aggressive_mode: Boolean(aggressiveModeControl.checked)
+    aggressive_mode: Boolean(aggressiveModeControl.checked),
   }
 
   const filenameSetting: FilenameSettings = {
@@ -142,7 +142,7 @@ settingsForm.addEventListener('submit', async function (e) {
     filename_pattern: {
       account: accountCheckBox.checked,
       serial: serialSelect.value as FilenameSerialRule,
-    }
+    },
   }
 
   const saveDownloadSettings = downloadSettingsRepo.saveSettings(downloadSettings)
@@ -168,7 +168,7 @@ async function localize() {
   for (const localObject of localeObjects) {
     const tag = localObject.innerHTML
     const localized = tag.replace(/__MSG_(\w+)__/g, (match, v1) => {
-      return v1 ? chrome.i18n.getMessage(v1) : ''
+      return v1 ? browser.i18n.getMessage(v1) : ''
     })
     localObject.innerHTML = localized
   }

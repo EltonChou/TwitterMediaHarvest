@@ -1,16 +1,16 @@
+import type { Downloads } from 'webextension-polyfill'
 import Entity from '../entity'
 
 interface DownloadRecordProps {
   tweetInfo: TweetInfo
-  downloadConfig: chrome.downloads.DownloadOptions
+  downloadConfig: Downloads.DownloadOptionsType
 }
 
 type DownloadRecordValueObject = {
-  'id': number,
-  'tweetInfo': TweetInfo,
-  'config': chrome.downloads.DownloadOptions
+  id: number
+  tweetInfo: TweetInfo
+  config: Downloads.DownloadOptionsType
 }
-
 
 export default class DownloadRecord extends Entity<number, DownloadRecordProps> {
   constructor(downloadItemId: number, props: DownloadRecordProps) {
@@ -21,7 +21,7 @@ export default class DownloadRecord extends Entity<number, DownloadRecordProps> 
     return this.props.tweetInfo
   }
 
-  public get downloadConfig(): chrome.downloads.DownloadOptions {
+  public get downloadConfig(): Downloads.DownloadOptionsType {
     return this.props.downloadConfig
   }
 
@@ -29,14 +29,14 @@ export default class DownloadRecord extends Entity<number, DownloadRecordProps> 
     return {
       id: this.id,
       tweetInfo: this.props.tweetInfo,
-      config: this.props.downloadConfig
+      config: this.props.downloadConfig,
     }
   }
 
   static fromJson(valueObject: DownloadRecordValueObject): DownloadRecord {
     const props: DownloadRecordProps = {
       tweetInfo: valueObject.tweetInfo,
-      downloadConfig: valueObject.config
+      downloadConfig: valueObject.config,
     }
     return new DownloadRecord(valueObject.id, props)
   }

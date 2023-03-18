@@ -1,7 +1,8 @@
+import type { Downloads } from 'webextension-polyfill'
+import browser from 'webextension-polyfill'
+import { TooManyRequest, TwitterApiError } from '../errors'
 import { NotificationConfig } from './helpers'
 import { makeDownloadFailedNotificationId, makeFetchErrorNotificationId } from './utils/notificationId'
-import { TooManyRequest, TwitterApiError } from '../errors'
-import type { Downloads } from 'webextension-polyfill'
 
 export class FetchErrorNotificationUseCase {
   readonly tweetInfo: TweetInfo
@@ -16,7 +17,7 @@ export class FetchErrorNotificationUseCase {
       notiConf = NotificationConfig.tooManyRequests(this.tweetInfo, err.reason)
     }
 
-    chrome.notifications.create(makeFetchErrorNotificationId(this.tweetInfo.tweetId), notiConf)
+    browser.notifications.create(makeFetchErrorNotificationId(this.tweetInfo.tweetId), notiConf)
   }
 }
 
@@ -29,7 +30,7 @@ export class InternalErrorNotificationUseCase {
 
   notify(err: Error) {
     const notiConf = NotificationConfig.internalError(err.message)
-    chrome.notifications.create(makeFetchErrorNotificationId(this.tweetInfo.tweetId), notiConf)
+    browser.notifications.create(makeFetchErrorNotificationId(this.tweetInfo.tweetId), notiConf)
   }
 }
 
@@ -43,7 +44,7 @@ export class DownwloadFailedNotificationUseCase {
   notify(downloadDelta: Downloads.OnChangedDownloadDeltaType): void {
     const notiConf = NotificationConfig.downloadError(this.tweetInfo, getDownloadDeltaEventTime(downloadDelta))
 
-    chrome.notifications.create(makeDownloadFailedNotificationId(downloadDelta.id), notiConf)
+    browser.notifications.create(makeDownloadFailedNotificationId(downloadDelta.id), notiConf)
   }
 }
 

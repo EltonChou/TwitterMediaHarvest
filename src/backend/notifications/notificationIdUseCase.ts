@@ -1,7 +1,7 @@
 import { IDownloadRecordsRepository } from '../downloadRecords/repository'
 import { downloadItemRecorder } from '../downloads/downloadItemRecorder'
 import { storageConfig } from '../configurations'
-
+import browser from 'webextension-polyfill'
 
 interface INotificationUseCase {
   handle_close(): Promise<void>
@@ -9,21 +9,17 @@ interface INotificationUseCase {
   handle_button(buttonIndex: number): Promise<void>
 }
 
-
 const FetchErrorIdPattern = /^tweet_(\d+)/
 const DownloadFailedIdPattern = /^download_(\d+)/
 
-
 function checkUseCase(notificationId: string): INotificationUseCase {
   if (FetchErrorNotificationUseCase.valid_id(notificationId)) {
-    return new FetchErrorNotificationUseCase(
-      notifficationIdToTweetId(notificationId)
-    )
+    return new FetchErrorNotificationUseCase(notifficationIdToTweetId(notificationId))
   }
   if (DownloadNotificationUseCase.valid_id(notificationId)) {
     return new DownloadNotificationUseCase(
       notificationIdToDownloadItemId(notificationId),
-      storageConfig.downloadRecordRepo,
+      storageConfig.downloadRecordRepo
     )
   }
 }
@@ -49,7 +45,6 @@ export default class NotificationUseCase implements INotificationUseCase {
     await this.useCase.handle_button(buttonIndex)
   }
 }
-
 
 const tweetUrl = (tweetId: string) => `https://twitter.com/i/web/status/${tweetId}`
 
@@ -78,21 +73,21 @@ class DownloadNotificationUseCase implements INotificationUseCase {
   async openFailedTweetInNewTab(): Promise<void> {
     const { tweetInfo } = await this.downloadRecordRepo.getById(this.downloadItemId)
     await this.downloadRecordRepo.removeById(this.downloadItemId)
-    chrome.tabs.create({ url: tweetUrl(tweetInfo.tweetId) })
+    browser.tabs.create({ url: tweetUrl(tweetInfo.tweetId) })
   }
 
   async retryDownload(): Promise<void> {
     const { tweetInfo, downloadConfig } = await this.downloadRecordRepo.getById(this.downloadItemId)
     await this.downloadRecordRepo.removeById(this.downloadItemId)
     const downloadRecorder = downloadItemRecorder(tweetInfo)(downloadConfig)
-    chrome.downloads.download(downloadConfig, downloadRecorder)
+    const downloadId = await browser.downloads.download(downloadConfig)
+    downloadRecorder(downloadId)
   }
 
   static valid_id(notificationId: string): boolean {
     return Boolean(notificationId.match(DownloadFailedIdPattern))
   }
 }
-
 
 class FetchErrorNotificationUseCase implements INotificationUseCase {
   private tweetId: string
@@ -109,17 +104,18 @@ class FetchErrorNotificationUseCase implements INotificationUseCase {
     await this.openFailedTweetInNewTab()
   }
 
-  async handle_close(): Promise<void> { /*pass*/ }
+  async handle_close(): Promise<void> {
+    /*pass*/
+  }
 
   async openFailedTweetInNewTab(): Promise<void> {
-    chrome.tabs.create({ url: tweetUrl(this.tweetId) })
+    browser.tabs.create({ url: tweetUrl(this.tweetId) })
   }
 
   static valid_id(notificationId: string): boolean {
     return Boolean(notificationId.match(FetchErrorIdPattern))
   }
 }
-
 
 function notifficationIdToTweetId(notificationId: string): string {
   return notificationId.match(FetchErrorIdPattern)[1]

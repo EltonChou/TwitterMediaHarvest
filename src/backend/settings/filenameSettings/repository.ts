@@ -1,45 +1,34 @@
-import {
-  BrowserStorageFetcher,
-  BrowserStorageSetter,
-  storageFetcher,
-  storageSetter
-} from '../../../libs/chromeApi'
-import {
-  DEFAULT_DIRECTORY,
-} from '../../../constants'
+import type { Storage } from 'webextension-polyfill'
+import { DEFAULT_DIRECTORY } from '../../../constants'
 import { ISettingsRepository } from '../repository'
-
 
 const defaultFilenameSettings: FilenameSettings = {
   directory: DEFAULT_DIRECTORY,
   no_subdirectory: false,
   filename_pattern: {
     account: true,
-    serial: 'order'
-  }
+    serial: 'order',
+  },
 }
 
-
 export default class FilenameSettingsRepository implements ISettingsRepository<FilenameSettings> {
-  private fetchStorage: BrowserStorageFetcher
-  private setStorage: BrowserStorageSetter
+  readonly storageArea: Storage.StorageArea
 
-  constructor(storageArea: chrome.storage.StorageArea) {
-    this.fetchStorage = storageFetcher(storageArea)
-    this.setStorage = storageSetter(storageArea)
+  constructor(storageArea: Storage.StorageArea) {
+    this.storageArea = storageArea
   }
 
   async getSettings(): Promise<FilenameSettings> {
-    const settings = await this.fetchStorage(defaultFilenameSettings)
+    const settings = await this.storageArea.get(defaultFilenameSettings)
     return settings as FilenameSettings
   }
 
   async saveSettings(settings: FilenameSettings): Promise<FilenameSettings> {
-    await this.setStorage(settings)
+    await this.storageArea.set(settings)
     return settings
   }
 
   async setDefaultSettings(): Promise<void> {
-    await this.setStorage(defaultFilenameSettings)
+    await this.storageArea.set(defaultFilenameSettings)
   }
 }

@@ -1,11 +1,11 @@
 import * as Sentry from '@sentry/browser'
-import { downloadIsCompleted, downloadIsInterrupted } from './utils/downloadState'
-import { IDownloadRecordsRepository } from '../downloadRecords/repository'
-import StatisticsUseCases from '../statistics/useCases'
-import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCase'
-import { storageConfig } from '../configurations'
-import InterruptReason from './InterruptReason'
 import type { Downloads } from 'webextension-polyfill'
+import { storageConfig } from '../configurations'
+import { IDownloadRecordsRepository } from '../downloadRecords/repository'
+import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCase'
+import StatisticsUseCases from '../statistics/useCases'
+import InterruptReason from './InterruptReason'
+import { downloadIsCompleted, downloadIsInterrupted } from './utils/downloadState'
 
 const statisticsUseCase = new StatisticsUseCases(storageConfig.statisticsRepo)
 
