@@ -10,7 +10,7 @@ Sentry.init({
 })
 
 import StatisticsUseCases from './statistics/useCases'
-import { getExtensionId, openOptionsPage } from '../libs/chromeApi'
+import { openOptionsPage } from '../libs/chromeApi'
 import { isDownloadedBySelf, isInvalidInfo } from './utils/checker'
 import { initStorage } from './commands/storage'
 import { Action } from '../typings'
@@ -21,7 +21,7 @@ import { HarvestError } from './errors'
 import { storageConfig } from './configurations'
 import DownloadActionUseCase from './downloads/downloadActionUseCase'
 import browser from 'webextension-polyfill'
-import type { Downloads } from 'webextension-polyfill'
+import { chromium_init, firefox_init } from './initialization'
 
 const enum InstallReason {
   Install = 'install',
@@ -87,49 +87,6 @@ browser.notifications.onButtonClicked.addListener((notifficationId, buttonIndex)
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 browser.action.onClicked.addListener(openOptionsPage)
 
-if (process.env.TARGET !== 'firefox') {
-  const ensureFilename = (
-    downloadItem: Downloads.DownloadItem | chrome.downloads.DownloadItem,
-    suggest: (suggestion?: chrome.downloads.DownloadFilenameSuggestion) => void
-  ) => {
-    const { byExtensionId } = downloadItem
-    const runtimeId = getExtensionId()
-
-    if (byExtensionId && byExtensionId === runtimeId) {
-      storageConfig.downloadRecordRepo.getById(downloadItem.id).then(record => {
-        const { downloadConfig } = record
-        suggest(downloadConfig as chrome.downloads.DownloadFilenameSuggestion)
-      })
-      return true
-    } else if (byExtensionId && byExtensionId !== runtimeId) {
-      return true
-    }
-    // if extensionId is undefined, it was trigger by the browser.
-    suggest()
-  }
-
-  const removeSuggestion = () => {
-    if (chrome.downloads.onDeterminingFilename.hasListener(ensureFilename)) {
-      chrome.downloads.onDeterminingFilename.removeListener(ensureFilename)
-    }
-    console.log('Disable suggestion.')
-  }
-
-  const addSuggestion = () => {
-    if (!chrome.downloads.onDeterminingFilename.hasListener(ensureFilename)) {
-      chrome.downloads.onDeterminingFilename.addListener(ensureFilename)
-    }
-    console.log('Enable suggestion')
-  }
-
-  browser.storage.onChanged.addListener((changes, areaName) => {
-    const AggressiveModeKey = 'aggressive_mode'
-    if (AggressiveModeKey in changes) {
-      changes[AggressiveModeKey].newValue ? addSuggestion() : removeSuggestion()
-    }
-  })
-
-  storageConfig.downloadSettingsRepo.getSettings().then(downloadSettings => {
-    if (downloadSettings.aggressive_mode) addSuggestion()
-  })
-}
+process.env.TARGET !== 'firefox'
+  ? chromium_init(storageConfig.downloadSettingsRepo, storageConfig.downloadRecordRepo)
+  : firefox_init()
