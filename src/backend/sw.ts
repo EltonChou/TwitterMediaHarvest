@@ -87,7 +87,7 @@ browser.notifications.onButtonClicked.addListener((notifficationId, buttonIndex)
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 browser.action.onClicked.addListener(openOptionsPage)
 
-if (process.env.target !== 'firefox') {
+if (process.env.TARGET !== 'firefox') {
   const ensureFilename = (
     downloadItem: Downloads.DownloadItem | chrome.downloads.DownloadItem,
     suggest: (suggestion?: chrome.downloads.DownloadFilenameSuggestion) => void
@@ -120,16 +120,16 @@ if (process.env.target !== 'firefox') {
       chrome.downloads.onDeterminingFilename.addListener(ensureFilename)
     }
     console.log('Enable suggestion')
-
-    browser.storage.onChanged.addListener((changes, areaName) => {
-      const AggressiveModeKey = 'aggressive_mode'
-      if (AggressiveModeKey in changes) {
-        changes[AggressiveModeKey].newValue ? addSuggestion() : removeSuggestion()
-      }
-    })
-
-    storageConfig.downloadSettingsRepo.getSettings().then(downloadSettings => {
-      if (downloadSettings.aggressive_mode) addSuggestion()
-    })
   }
+
+  browser.storage.onChanged.addListener((changes, areaName) => {
+    const AggressiveModeKey = 'aggressive_mode'
+    if (AggressiveModeKey in changes) {
+      changes[AggressiveModeKey].newValue ? addSuggestion() : removeSuggestion()
+    }
+  })
+
+  storageConfig.downloadSettingsRepo.getSettings().then(downloadSettings => {
+    if (downloadSettings.aggressive_mode) addSuggestion()
+  })
 }

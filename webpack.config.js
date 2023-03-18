@@ -118,6 +118,7 @@ module.exports = (env, argv) => {
     }),
     new webpack.EnvironmentPlugin({
       RELEASE: env.RELEASE_NAME || PACKAGE.name + '('+ env.target + ')' + '@' + version,
+      TARGET: env.target
     })
   )
 
