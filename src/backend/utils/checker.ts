@@ -1,22 +1,15 @@
-import { getExtensionId, searchDownload } from '../../libs/chromeApi'
+import browser from 'webextension-polyfill'
 
 /**
  * @param tweetInfo twitter information
  */
-export const isInvalidInfo = (tweetInfo: TweetInfo) =>
-  !tweetInfo.screenName.length || !tweetInfo.tweetId.length
-
+export const isInvalidInfo = (tweetInfo: TweetInfo) => !tweetInfo.screenName.length || !tweetInfo.tweetId.length
 
 export async function isDownloadedBySelf(downloadId: number) {
-  const runtimeId = getExtensionId()
+  const runtimeId = browser.runtime.id
   const query = {
     id: downloadId,
   }
-  let result = await searchDownload(query)
-  result = result.filter(item =>
-    'byExtensionId' in item ?
-      item.byExtensionId === runtimeId : false
-  )
-
-  return Boolean(result.length)
+  const result = await browser.downloads.search(query)
+  return Boolean(result.filter(item => ('byExtensionId' in item ? item.byExtensionId === runtimeId : false)).length)
 }

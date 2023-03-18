@@ -1,7 +1,6 @@
 import sanitize from 'sanitize-filename'
 import select from 'select-dom'
 import browser from 'webextension-polyfill'
-import { clearLocalStorage, clearSyncStorage } from '../libs/chromeApi'
 import { Action } from '../typings'
 import { initStorage } from './commands/storage'
 import { storageConfig } from './configurations'
@@ -157,8 +156,8 @@ settingsForm.addEventListener('submit', async function (e) {
 /* eslint-enable no-console */
 
 resetStorageButton.addEventListener('click', async () => {
-  await clearLocalStorage()
-  await clearSyncStorage()
+  await browser.storage.local.clear()
+  await browser.storage.sync.clear()
   await initStorage()
   location.reload()
 })
