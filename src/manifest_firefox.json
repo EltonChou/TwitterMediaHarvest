@@ -1,0 +1,61 @@
+{
+  "manifest_version": 2,
+  "name": "__MSG_appName__",
+  "short_name": "MediaHarvest",
+  "description": "__MSG_appDesc__",
+  "version": "3.2.8",
+  "default_locale": "en",
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "32": "assets/icons/icon32.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "assets/icons/icon16.png",
+      "32": "assets/icons/icon32.png",
+      "48": "assets/icons/icon48.png",
+      "128": "assets/icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "scripts": [
+      "sw.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://twitter.com/*",
+        "*://mobile.twitter.com/*",
+        "*://tweetdeck.twitter.com/*"
+      ],
+      "js": [
+        "main.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "permissions": [
+    "*://twitter.com/*",
+    "*://mobile.twitter.com/*",
+    "*://api.twitter.com/*",
+    "*://tweetdeck.twitter.com/*",
+    "https://o1169684.ingest.sentry.io/*",
+    "activeTab",
+    "downloads",
+    "cookies",
+    "storage",
+    "notifications"
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "mediaharvest@addons.mozilla.org"
+    }
+  }
+}

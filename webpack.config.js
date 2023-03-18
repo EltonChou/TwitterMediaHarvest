@@ -93,7 +93,41 @@ const config = {
   ],
 }
 
+
+
 module.exports = (env, argv) => {
+  const chromeManifestCopyPlugin = new CopyPlugin({
+    patterns: [
+      {
+        from: 'manifest.json',
+        context: 'src',
+        to: '[name][ext]',
+        transform: content =>
+          content
+            .toString()
+            .replace('__MANIFEST_RELEASE_VERSION__', version)
+            .replace('__PUBLIC_KEY__', PublicKey[env.target])
+        ,
+      },
+    ],
+  })
+
+  const firefoxManifestCopyPlugin = new CopyPlugin({
+    patterns: [
+      {
+        from: 'manifest_firefox.json',
+        context: 'src',
+        to: 'manifest[ext]',
+        transform: content =>
+          content
+            .toString()
+            .replace('__MANIFEST_RELEASE_VERSION__', version)
+
+        ,
+      },
+    ],
+  })
+
   config.output = {
     filename: '[name].js',
     path: path.join(__dirname, 'build', env.target),
@@ -101,23 +135,9 @@ module.exports = (env, argv) => {
   }
 
   config.plugins.push(
-    new CopyPlugin({
-      patterns: [
-        {
-          from: 'manifest.json',
-          context: 'src',
-          to: '[name][ext]',
-          transform: content =>
-            content
-              .toString()
-              .replace('__MANIFEST_RELEASE_VERSION__', version)
-              .replace('__PUBLIC_KEY__', PublicKey[env.target])
-          ,
-        },
-      ],
-    }),
+    env.target === 'firefox' ? firefoxManifestCopyPlugin : chromeManifestCopyPlugin,
     new webpack.EnvironmentPlugin({
-      RELEASE: env.RELEASE_NAME || PACKAGE.name + '('+ env.target + ')' + '@' + version,
+      RELEASE: env.RELEASE_NAME || PACKAGE.name + '(' + env.target + ')' + '@' + version,
       TARGET: env.target
     })
   )
@@ -137,8 +157,30 @@ module.exports = (env, argv) => {
             mkdir: ['dist'],
             archive: [
               {
-                source: 'build',
+                source: `build/${env.target}`,
                 destination: `dist/${env.target}-TwitterMediaHarvest-v${version}.zip`,
+                options: {
+                  zlib: { level: 9 },
+                  globOptions: {
+                    ignore: ['*.map'],
+                  },
+                },
+              },
+            ],
+          },
+        },
+      })
+    )
+  } else if (env.target === 'firefox') {
+    config.plugins.push(
+      new FileManagerPlugin({
+        events: {
+          onEnd: {
+            mkdir: ['dist'],
+            archive: [
+              {
+                source: `build/${env.target}`,
+                destination: `dist/${env.target}-TwitterMediaHarvest-v${version}-dev.zip`,
                 options: {
                   zlib: { level: 9 },
                   globOptions: {

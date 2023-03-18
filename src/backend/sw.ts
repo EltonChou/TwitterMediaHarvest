@@ -50,7 +50,7 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender) =>
 browser.runtime.onInstalled.addListener(async details => {
   if (details.reason === InstallReason.Install) await initStorage()
   if (details.reason === InstallReason.Update) showUpdateMessageInConsole(details.previousVersion)
-  await browser.runtime.openOptionsPage()
+  browser.runtime.openOptionsPage()
 })
 
 browser.downloads.onChanged.addListener(async downloadDelta => {
@@ -84,8 +84,10 @@ browser.notifications.onButtonClicked.addListener((notifficationId, buttonIndex)
 })
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-browser.action.onClicked.addListener(browser.runtime.openOptionsPage)
+process.env.TARGET === 'firefox'
+  ? browser.browserAction.onClicked.addListener(() => browser.runtime.openOptionsPage())
+  : browser.action.onClicked.addListener(() => browser.runtime.openOptionsPage())
 
-process.env.TARGET !== 'firefox'
-  ? chromium_init(storageConfig.downloadSettingsRepo, storageConfig.downloadRecordRepo)
-  : firefox_init()
+process.env.TARGET === 'firefox'
+  ? firefox_init()
+  : chromium_init(storageConfig.downloadSettingsRepo, storageConfig.downloadRecordRepo)

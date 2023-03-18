@@ -1,12 +1,12 @@
 import sanitize from 'sanitize-filename'
 import select from 'select-dom'
-import StatisticsRepository, { StatisticsKey } from './statistics/repositories'
+import browser from 'webextension-polyfill'
 import { clearLocalStorage, clearSyncStorage } from '../libs/chromeApi'
 import { Action } from '../typings'
-import { FilenameSerialRule } from './downloads/TwitterMediaFile'
 import { initStorage } from './commands/storage'
-import browser from 'webextension-polyfill'
 import { storageConfig } from './configurations'
+import { FilenameSerialRule } from './downloads/TwitterMediaFile'
+import StatisticsRepository, { StatisticsKey } from './statistics/repositories'
 
 const filenameSettingsRepo = storageConfig.filenameSettingsRepo
 const downloadSettingsRepo = storageConfig.downloadSettingsRepo
@@ -173,5 +173,7 @@ async function localize() {
     localObject.innerHTML = localized
   }
 }
+
+aggressiveModeControl.disabled = process.env.TARGET === 'firefox'
 
 localize().then(initializeForm).then(initializeStatistics).then(updatePreview)
