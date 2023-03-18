@@ -5,17 +5,15 @@ import StatisticsUseCases from '../statistics/useCases'
 import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCase'
 import { storageConfig } from '../configurations'
 import InterruptReason from './InterruptReason'
+import type { Downloads } from 'webextension-polyfill'
 
 const statisticsUseCase = new StatisticsUseCases(storageConfig.statisticsRepo)
 
 export default class DownloadStateUseCase {
-  readonly downloadDelta: chrome.downloads.DownloadDelta
+  readonly downloadDelta: Downloads.OnChangedDownloadDeltaType
   private downloadRecordRepo: IDownloadRecordsRepository
 
-  constructor(
-    downloadDelta: chrome.downloads.DownloadDelta,
-    downloadRecordRepo: IDownloadRecordsRepository
-  ) {
+  constructor(downloadDelta: Downloads.OnChangedDownloadDeltaType, downloadRecordRepo: IDownloadRecordsRepository) {
     this.downloadDelta = downloadDelta
     this.downloadRecordRepo = downloadRecordRepo
   }

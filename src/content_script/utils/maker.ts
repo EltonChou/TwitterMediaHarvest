@@ -1,5 +1,6 @@
-import { Action } from '../../typings'
 import * as Sentry from '@sentry/browser'
+import browser from 'webextension-polyfill'
+import { Action } from '../../typings'
 
 /**
  * Create HTMLElement from html string.
@@ -16,21 +17,19 @@ export const createElementFromHTML = (htmlString: string): Element => {
  * @param button
  * @param data
  */
-export const makeButtonWithData = (
-  button: HTMLElement,
-  data: TweetInfo
-): HTMLElement => {
+export const makeButtonWithData = (button: HTMLElement, data: TweetInfo): HTMLElement => {
   Object.assign(button.dataset, data)
   return button
 }
 
-
 /* eslint-disable no-console */
-const runtimeSendMessage = (
+const runtimeSendMessage = async (
   message: HarvestMessage,
-  responseCb: (response: { status: string, data: object }) => void) => {
+  responseCb: (response: { status: string; data: object }) => void
+) => {
   console.log('Send message to service worker.', message)
-  chrome.runtime.sendMessage(message, responseCb)
+  const resp = await browser.runtime.sendMessage(message)
+  responseCb(resp)
 }
 
 /* eslint-disable no-console */
@@ -39,7 +38,8 @@ const runtimeSendMessage = (
  * @param button harvestButton
  */
 export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
-  button: T, infoParser: (article: HTMLElement) => TweetInfo
+  button: T,
+  infoParser: (article: HTMLElement) => TweetInfo
 ): T => {
   button.addEventListener('click', async function (e) {
     e.stopImmediatePropagation()
@@ -55,7 +55,7 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
       this.classList.remove('downloading', 'success', 'error')
       this.classList.add(status)
 
-      chrome.runtime.sendMessage({
+      browser.runtime.sendMessage({
         action: Action.Refresh,
       })
     }
@@ -64,10 +64,10 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
       const tweetInfo: TweetInfo = infoParser(article)
       const message: HarvestMessage = {
         action: Action.Download,
-        data: tweetInfo
+        data: tweetInfo,
       }
 
-      runtimeSendMessage(message, reponseCb)
+      await runtimeSendMessage(message, reponseCb)
     } catch (error) {
       Sentry.captureException(error)
       console.error(error)

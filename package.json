@@ -8,7 +8,8 @@
     "@sentry/tracing": "^7.1.1",
     "path-browserify": "^1.0.1",
     "sanitize-filename": "^1.6.3",
-    "select-dom": "^7.1.1"
+    "select-dom": "^7.1.1",
+    "webextension-polyfill": "^0.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
@@ -16,6 +17,7 @@
     "@babel/preset-typescript": "^7.16.7",
     "@babel/runtime": "^7.6.3",
     "@types/jest": "^28.1.1",
+    "@types/webextension-polyfill": "^0.10.0",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.28.0",
     "babel-jest": "^28.1.1",

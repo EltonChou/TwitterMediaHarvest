@@ -9,16 +9,9 @@ Sentry.init({
   release: process.env.RELEASE,
 })
 
-
 import StatisticsUseCases from './statistics/useCases'
-import {
-  getExtensionId,
-  openOptionsPage,
-} from '../libs/chromeApi'
-import {
-  isDownloadedBySelf,
-  isInvalidInfo,
-} from './utils/checker'
+import { getExtensionId, openOptionsPage } from '../libs/chromeApi'
+import { isDownloadedBySelf, isInvalidInfo } from './utils/checker'
 import { initStorage } from './commands/storage'
 import { Action } from '../typings'
 import { showUpdateMessageInConsole } from './commands/console'
@@ -27,7 +20,8 @@ import DownloadStateUseCase from './downloads/downloadStateUseCase'
 import { HarvestError } from './errors'
 import { storageConfig } from './configurations'
 import DownloadActionUseCase from './downloads/downloadActionUseCase'
-
+import browser from 'webextension-polyfill'
+import type { Downloads } from 'webextension-polyfill'
 
 const enum InstallReason {
   Install = 'install',
@@ -54,14 +48,14 @@ chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespo
   return false
 })
 
-chrome.runtime.onInstalled.addListener(async details => {
+browser.runtime.onInstalled.addListener(async details => {
   if (details.reason === InstallReason.Install) await initStorage()
   if (details.reason === InstallReason.Update) showUpdateMessageInConsole(details.previousVersion)
   openOptionsPage()
 })
 
-chrome.downloads.onChanged.addListener(async downloadDelta => {
-  if (! await isDownloadedBySelf(downloadDelta.id)) return false
+browser.downloads.onChanged.addListener(async downloadDelta => {
+  if (!(await isDownloadedBySelf(downloadDelta.id))) return false
 
   Sentry.addBreadcrumb({
     category: 'download',
@@ -70,86 +64,72 @@ chrome.downloads.onChanged.addListener(async downloadDelta => {
   })
 
   if ('state' in downloadDelta) {
-    const downloadStateUseCase = new DownloadStateUseCase(
-      downloadDelta,
-      storageConfig.downloadRecordRepo,
-    )
+    const downloadStateUseCase = new DownloadStateUseCase(downloadDelta, storageConfig.downloadRecordRepo)
     await downloadStateUseCase.process()
   }
 })
 
-chrome.notifications.onClosed.addListener(notifficationId => {
+browser.notifications.onClosed.addListener(notifficationId => {
   const notificationUseCase = new NotificationUseCase(notifficationId)
   notificationUseCase.handle_close()
-
 })
 
-chrome.notifications.onClicked.addListener(notifficationId => {
+browser.notifications.onClicked.addListener(notifficationId => {
   const notificationUseCase = new NotificationUseCase(notifficationId)
   notificationUseCase.handle_click()
 })
 
-chrome.notifications.onButtonClicked.addListener(
-  (notifficationId, buttonIndex) => {
-    const notificationUseCase = new NotificationUseCase(notifficationId)
-    notificationUseCase.handle_button(buttonIndex)
-  }
-)
+browser.notifications.onButtonClicked.addListener((notifficationId, buttonIndex) => {
+  const notificationUseCase = new NotificationUseCase(notifficationId)
+  notificationUseCase.handle_button(buttonIndex)
+})
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-chrome.action.onClicked.addListener(openOptionsPage)
+browser.action.onClicked.addListener(openOptionsPage)
 
-const ensureFilename = (
-  downloadItem: chrome.downloads.DownloadItem,
-  suggest: (suggestion?: chrome.downloads.DownloadFilenameSuggestion) => void
-) => {
-  const { byExtensionId } = downloadItem
-  const runtimeId = getExtensionId()
+if (process.env.target !== 'firefox') {
+  const ensureFilename = (
+    downloadItem: Downloads.DownloadItem | chrome.downloads.DownloadItem,
+    suggest: (suggestion?: chrome.downloads.DownloadFilenameSuggestion) => void
+  ) => {
+    const { byExtensionId } = downloadItem
+    const runtimeId = getExtensionId()
 
-  if (byExtensionId && byExtensionId === runtimeId) {
-    storageConfig.downloadRecordRepo
-      .getById(downloadItem.id)
-      .then(record => {
+    if (byExtensionId && byExtensionId === runtimeId) {
+      storageConfig.downloadRecordRepo.getById(downloadItem.id).then(record => {
         const { downloadConfig } = record
         suggest(downloadConfig as chrome.downloads.DownloadFilenameSuggestion)
       })
-    return true
-  } else if (byExtensionId && byExtensionId !== runtimeId) {
-    return true
-  }
-  // if extensionId is undefined, it was trigger by the browser.
-  suggest()
-}
-
-
-const removeSuggestion = () => {
-  if (chrome.downloads.onDeterminingFilename.hasListener(ensureFilename)) {
-    chrome.downloads.onDeterminingFilename.removeListener(ensureFilename)
-  }
-  console.log('Disable suggestion.')
-}
-
-const addSuggestion = () => {
-  if (!chrome.downloads.onDeterminingFilename.hasListener(ensureFilename)) {
-    chrome.downloads.onDeterminingFilename.addListener(ensureFilename)
-  }
-  console.log('Enable suggestion')
-}
-
-chrome.storage.onChanged.addListener(
-  (changes, areaName) => {
-    const AggressiveModeKey = 'aggressive_mode'
-    if (AggressiveModeKey in changes) {
-      changes[AggressiveModeKey].newValue ?
-        addSuggestion() :
-        removeSuggestion()
+      return true
+    } else if (byExtensionId && byExtensionId !== runtimeId) {
+      return true
     }
+    // if extensionId is undefined, it was trigger by the browser.
+    suggest()
   }
-)
 
-storageConfig.downloadSettingsRepo.getSettings().then(
-  (downloadSettings) => {
-    if (downloadSettings.aggressive_mode) addSuggestion()
+  const removeSuggestion = () => {
+    if (chrome.downloads.onDeterminingFilename.hasListener(ensureFilename)) {
+      chrome.downloads.onDeterminingFilename.removeListener(ensureFilename)
+    }
+    console.log('Disable suggestion.')
   }
-)
+
+  const addSuggestion = () => {
+    if (!chrome.downloads.onDeterminingFilename.hasListener(ensureFilename)) {
+      chrome.downloads.onDeterminingFilename.addListener(ensureFilename)
+    }
+    console.log('Enable suggestion')
+
+    browser.storage.onChanged.addListener((changes, areaName) => {
+      const AggressiveModeKey = 'aggressive_mode'
+      if (AggressiveModeKey in changes) {
+        changes[AggressiveModeKey].newValue ? addSuggestion() : removeSuggestion()
+      }
+    })
+
+    storageConfig.downloadSettingsRepo.getSettings().then(downloadSettings => {
+      if (downloadSettings.aggressive_mode) addSuggestion()
+    })
+  }
+}
