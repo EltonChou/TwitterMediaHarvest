@@ -1,39 +1,27 @@
 import * as Sentry from '@sentry/browser'
 import select from 'select-dom'
 import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
-import {
-  checkModeOfArticle,
-  isArticleInStatus,
-  isArticlePhotoMode,
-} from '../utils/checker'
-import {
-  createElementFromHTML,
-  makeButtonListener,
-} from '../utils/maker'
+import { checkModeOfArticle, isArticleInStatus, isArticlePhotoMode } from '../utils/checker'
+import { createElementFromHTML, makeButtonListener } from '../utils/maker'
 
 const featureRegEx = Object.freeze({
   id: /(?:status\/)(\d+)/,
   screenName: /(\w+)\/(?:status\/)/,
-  photoModeUrl: /\w+\/status\/\d+\/(photo|video)\/\d+/
+  photoModeUrl: /\w+\/status\/\d+\/(photo|video)\/\d+/,
 })
-
 
 type MagicLinkElement = {
   element: HTMLAnchorElement | null
   query: string
 }
 
-
 const getMagicLinkEle = (article: HTMLElement): MagicLinkElement => {
   const magicLink: MagicLinkElement = {
     element: null,
-    query: undefined
+    query: undefined,
   }
 
-  if (
-    isArticlePhotoMode(article) ||
-    isArticleInStatus(article)
-  ) {
+  if (isArticlePhotoMode(article) || isArticleInStatus(article)) {
     const tweetId = window.location.pathname.match(featureRegEx.id)[1]
     const query = `a[href*="${tweetId}"][role="link"]`
     magicLink.element = select(query, article) || null
@@ -43,7 +31,7 @@ const getMagicLinkEle = (article: HTMLElement): MagicLinkElement => {
 
   const querys: string[] = [
     '[data-testid="User-Names"] a[href*="status"][dir="auto"][role="link"]',
-    'a[href*="status"][dir="auto"][role="link"]'
+    'a[href*="status"][dir="auto"][role="link"]',
   ]
 
   let linkEle: HTMLAnchorElement
@@ -58,7 +46,6 @@ const getMagicLinkEle = (article: HTMLElement): MagicLinkElement => {
   return magicLink
 }
 
-
 const parseMagicLink = (article: HTMLElement): string => {
   const magicLink: MagicLinkElement = getMagicLinkEle(article)
 
@@ -72,19 +59,17 @@ const parseMagicLink = (article: HTMLElement): string => {
 
     Sentry.addBreadcrumb({
       category: 'parse',
-      message: 'Can\'t get magic-link element.',
+      message: 'Cannott get magic-link element.',
       level: 'info',
       data: {
         query: magicLink.query,
-        links: links
-      }
+        links: links,
+      },
     })
 
     if (!magicLink.element) {
-      if (
-        window.location.pathname.match(featureRegEx.photoModeUrl) &&
-        isArticlePhotoMode(article)
-      ) return window.location.href
+      if (window.location.pathname.match(featureRegEx.photoModeUrl) && isArticlePhotoMode(article))
+        return window.location.href
       throw new Error('Failed to parse magic-link.')
     }
   }
@@ -127,11 +112,11 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
 
 const getSampleButton = (article: HTMLElement): HTMLElement => {
   const shareSvg = select('[role="group"] [dir="ltr"] [data-testid$="iconOutgoing"]', article)
-  const sampleButton = shareSvg ?
-    shareSvg.closest('[role="button"] > div') as HTMLElement :
-    select.all('[role="group"] [role="button"] > div', article).pop()
+  const sampleButton = shareSvg
+    ? (shareSvg.closest('[role="button"] > div') as HTMLElement)
+    : select.all('[role="group"] [role="button"] > div', article).pop()
 
-  if (!sampleButton) throw new Error('Can\'t get sample button.')
+  if (!sampleButton) throw new Error('Cannot get sample button.')
   return sampleButton
 }
 
@@ -216,7 +201,6 @@ class Harvester {
 
     return buttonWrapper
   }
-
 }
 
 export default Harvester

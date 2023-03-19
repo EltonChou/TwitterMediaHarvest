@@ -38,15 +38,6 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
     const article: HTMLElement = this.closest('[data-harvest-article]')
     if (!article) return false
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const reponseCb = async (response: any) => {
-      const { status } = response
-      this.classList.remove('downloading', 'success', 'error')
-      this.classList.add(status)
-
-      await browser.runtime.sendMessage({
-        action: Action.Refresh,
-      })
-    }
 
     try {
       const tweetInfo: TweetInfo = infoParser(article)
@@ -55,8 +46,13 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
         data: tweetInfo,
       }
       console.log('Send message to service worker.', message)
-      const resp = await browser.runtime.sendMessage(message)
-      await reponseCb(resp)
+      const { status } = await browser.runtime.sendMessage(message)
+      this.classList.remove('downloading', 'success', 'error')
+      this.classList.add(status)
+
+      await browser.runtime.sendMessage({
+        action: Action.Refresh,
+      })
     } catch (error) {
       Sentry.captureException(error)
       console.error(error)

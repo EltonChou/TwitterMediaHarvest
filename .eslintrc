@@ -29,7 +29,10 @@
       "error",
       2,
       {
-        "SwitchCase": 1
+        "SwitchCase": 1,
+        "ignoredNodes": [
+          "ArrowFunctionExpression"
+        ]
       }
     ],
     "linebreak-style": [

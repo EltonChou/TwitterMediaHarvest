@@ -1,16 +1,14 @@
 import select from 'select-dom'
 
-
 enum DownloadKeyCode {
   Twitter = 'KeyD',
-  TweetDeck = 'KeyO'
+  TweetDeck = 'KeyO',
 }
 
 interface IKeyboardMonitor {
   handleKeyDown(e: KeyboardEvent): void
   handleKeyUp(e: KeyboardEvent): void
 }
-
 
 abstract class GeneralKeyboardMonitor implements IKeyboardMonitor {
   readonly downloadKeyCode: DownloadKeyCode
@@ -77,5 +75,3 @@ export class TwitterKeyboardMonitor extends GeneralKeyboardMonitor {
     this.focusing = e.target
   }
 }
-
-
