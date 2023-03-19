@@ -46,7 +46,8 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
         data: tweetInfo,
       }
       console.log('Send message to service worker.', message)
-      const { status } = await browser.runtime.sendMessage(message)
+      const resp = await browser.runtime.sendMessage(message)
+      const { status } = resp
       this.classList.remove('downloading', 'success', 'error')
       this.classList.add(status)
 
