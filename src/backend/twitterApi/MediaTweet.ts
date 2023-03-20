@@ -93,7 +93,7 @@ export const fetchMediaCatalog = async (tweetId: string): Promise<TweetMediaCata
       videos: [],
     }
 
-    if (medias) {
+    if (medias.length) {
       mediaCatalog.images = parseImage(medias)
       mediaCatalog.videos = parseVideo(medias)
     }
