@@ -9,7 +9,7 @@
 # TwitterMediaHarvest
 **Gather medias with just one-click.**
 
-## Fearture
+## Features
 
 - [x] One-click to get original-size image.
 - [x] One-click to get video.
