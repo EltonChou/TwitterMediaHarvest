@@ -39,9 +39,9 @@ const config = {
         exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
+          // options: {
+          //   presets: ['@babel/preset-env'],
+          // },
         },
       },
       {
@@ -50,7 +50,7 @@ const config = {
         use: [
           {
             loader: 'babel-loader',
-            options: { presets: ['@babel/preset-env'] },
+            // options: { presets: ['@babel/preset-env'] },
           },
           { loader: 'ts-loader' },
         ],
@@ -93,8 +93,6 @@ const config = {
   ],
 }
 
-
-
 module.exports = (env, argv) => {
   const chromeManifestCopyPlugin = new CopyPlugin({
     patterns: [
@@ -106,8 +104,7 @@ module.exports = (env, argv) => {
           content
             .toString()
             .replace('__MANIFEST_RELEASE_VERSION__', version)
-            .replace('__PUBLIC_KEY__', PublicKey[env.target])
-        ,
+            .replace('__PUBLIC_KEY__', PublicKey[env.target]),
       },
     ],
   })
@@ -118,12 +115,7 @@ module.exports = (env, argv) => {
         from: 'manifest_firefox.json',
         context: 'src',
         to: 'manifest[ext]',
-        transform: content =>
-          content
-            .toString()
-            .replace('__MANIFEST_RELEASE_VERSION__', version)
-
-        ,
+        transform: content => content.toString().replace('__MANIFEST_RELEASE_VERSION__', version),
       },
     ],
   })
@@ -138,7 +130,7 @@ module.exports = (env, argv) => {
     env.target === 'firefox' ? firefoxManifestCopyPlugin : chromeManifestCopyPlugin,
     new webpack.EnvironmentPlugin({
       RELEASE: env.RELEASE_NAME || PACKAGE.name + '(' + env.target + ')' + '@' + version,
-      TARGET: env.target
+      TARGET: env.target,
     })
   )
 

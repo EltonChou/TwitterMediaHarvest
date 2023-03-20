@@ -30,6 +30,11 @@ export default class StatisticsRepository implements IStatisticsRepository {
     this.storageArea = storageArea
   }
 
+  async getStatistics(): Promise<DownloadStatistic> {
+    const stats = await this.storageArea.get(defaultStatistic)
+    return stats
+  }
+
   async getStatisticsCount(key: StatisticsKey): Promise<number> {
     const downloadStatistic: DownloadStatistic = {}
     downloadStatistic[key] = 0
@@ -46,7 +51,7 @@ export default class StatisticsRepository implements IStatisticsRepository {
     await this.storageArea.set(downloadCount)
   }
 
-  async setDefaultStatistics(): Promise<void> {
-    await this.storageArea.set(defaultStatistic)
+  async setDefaultStatistics(defaultStats: DownloadStatistic = defaultStatistic): Promise<void> {
+    await this.storageArea.set(defaultStats)
   }
 }
