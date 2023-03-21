@@ -1,14 +1,9 @@
 import select from 'select-dom'
 import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
 import { isArticleInDetail } from '../utils/checker'
-import {
-  createElementFromHTML,
-  makeButtonListener,
-} from '../utils/maker'
+import { createElementFromHTML, makeButtonListener } from '../utils/maker'
 
-const fetchTweetId = (article: HTMLElement) => article ?
-  article.dataset.tweetId :
-  select('.js-tweet-box').dataset.key
+const fetchTweetId = (article: HTMLElement) => (article ? article.dataset.tweetId : select('.js-tweet-box').dataset.key)
 
 const parseTweetInfo = (article: HTMLElement): TweetInfo => {
   const screenNamePattern = /^@(.*)/

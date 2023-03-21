@@ -9,7 +9,7 @@ enum Query {
   Modal = '[aria-labelledby="modal-header"]',
   ModalWrapper = '#layers',
   ModalThread = '[aria-labelledby="modal-header"] [aria-expanded="true"]',
-  Timeline = '[data-testid="primaryColumn"] [aria-label]'
+  Timeline = '[data-testid="primaryColumn"] [aria-label]',
 }
 
 export default class TwitterMediaObserver implements HarvestObserver {
@@ -56,15 +56,19 @@ export default class TwitterMediaObserver implements HarvestObserver {
   }
 
   observeTimeline() {
-    observeElement(Query.Timeline, () => {
-      this.initialize()
-    }, { childList: true, subtree: true })
+    observeElement(
+      Query.Timeline,
+      () => {
+        this.initialize()
+      },
+      { childList: true, subtree: true }
+    )
   }
 
   observeHead() {
     const options: MutationObserverInit = {
       childList: true,
-      subtree: false
+      subtree: false,
     }
 
     const titleMutationCallback: MutationCallback = () => {

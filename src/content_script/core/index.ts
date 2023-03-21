@@ -13,18 +13,13 @@ import {
 
 const getActionBarQuery = (article: HTMLElement) => {
   if (isTweetDeck()) {
-    return isArticleInDetail(article)
-      ? '.tweet-detail-actions'
-      : '.tweet-actions'
+    return isArticleInDetail(article) ? '.tweet-detail-actions' : '.tweet-actions'
   }
 
-  return isArticleInStatus(article)
-    ? '.r-18u37iz[role="group"]'
-    : '[role="group"][aria-label]'
+  return isArticleInStatus(article) ? '.r-18u37iz[role="group"]' : '[role="group"][aria-label]'
 }
 
-const twitterActionAppend = (actionBar: HTMLElement, button: HTMLElement | Element) =>
-  actionBar.appendChild(button)
+const twitterActionAppend = (actionBar: HTMLElement, button: HTMLElement | Element) => actionBar.appendChild(button)
 
 const deckActionInsert = (actionBar: HTMLElement, button: HTMLElement | Element) => {
   actionBar.insertBefore(button, actionBar.childNodes[7])

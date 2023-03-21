@@ -1,4 +1,4 @@
 export enum Action {
   Download,
-  Refresh
+  Refresh,
 }

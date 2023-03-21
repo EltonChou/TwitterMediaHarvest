@@ -8,8 +8,8 @@ const defaultFilenameSetting: FilenameSettings = {
   no_subdirectory: false,
   filename_pattern: {
     account: true,
-    serial: FilenameSerialRule.Order
-  }
+    serial: FilenameSerialRule.Order,
+  },
 }
 const VIDEO_URL_BASE = 'https://pbs.twimg.com/tw_video/'
 const IMAGE_URL_BASE = 'https://pbs.twimg.com/media/'
@@ -17,7 +17,6 @@ const tweetInfo: TweetInfo = {
   screenName: 'twitter_user',
   tweetId: 'tweetId',
 }
-
 
 describe('Test TwitterMediaFile usage.', () => {
   const pngFile = new TwitterMediaFile(tweetInfo, IMAGE_URL_BASE.concat('cool.png'))
@@ -39,7 +38,7 @@ describe('Test TwitterMediaFile usage.', () => {
       filename: path.format({
         dir: DEFAULT_DIRECTORY,
         name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-01`,
-        ext: '.jpg'
+        ext: '.jpg',
       }),
       conflictAction: 'overwrite',
       saveAs: false,
@@ -55,10 +54,10 @@ describe('Test TwitterMediaFile usage.', () => {
       filename: path.format({
         dir: DEFAULT_DIRECTORY,
         name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-01`,
-        ext: '.mp4'
+        ext: '.mp4',
       }),
       referrer: `https://twitter.com/i/web/status/${tweetInfo.tweetId}`,
-      options: {}
+      options: {},
     }
 
     const theConfig = mp4File.makeDownloadConfigBySetting(defaultFilenameSetting, DownloadMode.Aria2)
@@ -72,20 +71,15 @@ describe('Test TwitterMediaFile usage.', () => {
     expect(
       TwitterMediaFile.isValidFileUrl('https://video.twimg.com/ext_tw_video/30754565/pu/vid/720x1018/asdf.mp4?tag=21')
     ).toBeFalsy()
-    expect(
-      TwitterMediaFile.isValidFileUrl('https://pbs.twimg.com/media/safdzh.jpg')
-    ).toBeTruthy()
-    expect(
-      TwitterMediaFile.isValidFileUrl('https://pbs.twimg.com/media/safdzhzh.jpg:orig')
-    ).toBeFalsy()
+    expect(TwitterMediaFile.isValidFileUrl('https://pbs.twimg.com/media/safdzh.jpg')).toBeTruthy()
+    expect(TwitterMediaFile.isValidFileUrl('https://pbs.twimg.com/media/safdzhzh.jpg:orig')).toBeFalsy()
     expect(
       TwitterMediaFile.isValidFileUrl(
-        'https://video.twimg.com/amplify_video/5465465465415/vid/1440x720/adsfasdfasdf.mp4')
+        'https://video.twimg.com/amplify_video/5465465465415/vid/1440x720/adsfasdfasdf.mp4'
+      )
     ).toBeTruthy()
   })
 })
-
-
 
 describe('Test different filename pattern.', () => {
   const fileExt = '.jpg'
@@ -93,11 +87,7 @@ describe('Test different filename pattern.', () => {
   const filename = basename.concat(fileExt)
   const fileIndex = 3
   const makeSetting = jest.fn(
-    (
-      needAccount: boolean,
-      serial: FilenameSerialRule,
-      no_sub_dir: boolean
-    ): FilenameSettings => {
+    (needAccount: boolean, serial: FilenameSerialRule, no_sub_dir: boolean): FilenameSettings => {
       return {
         directory: DEFAULT_DIRECTORY,
         no_subdirectory: no_sub_dir,
@@ -114,7 +104,7 @@ describe('Test different filename pattern.', () => {
     const thisFilename = path.format({
       dir: `${DEFAULT_DIRECTORY}`,
       name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-0${fileIndex + 1}`,
-      ext: fileExt
+      ext: fileExt,
     })
     const patternSetting = makeSetting(true, FilenameSerialRule.Order, false)
     const fileName = twitterMediaFile.makeFileFullPathBySetting(patternSetting)
