@@ -114,7 +114,7 @@ const getSampleButton = (article: HTMLElement): HTMLElement => {
   const shareSvg = select('[role="group"] [dir="ltr"] [data-testid$="iconOutgoing"]', article)
   const sampleButton = shareSvg
     ? (shareSvg.closest('[role="button"] > div') as HTMLElement)
-    : select.all('[role="group"] [role="button"] > div', article).pop()
+    : select('[data-testid="reply"] > div', article)
 
   if (!sampleButton) throw new Error('Cannot get sample button.')
   return sampleButton

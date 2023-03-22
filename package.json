@@ -54,8 +54,8 @@
   },
   "scripts": {
     "test": "jest --env=node --coverage",
-    "build": "yarn build:chrome & yarn build:edge & yarn build:firefox",
-    "build:all:dev": "yarn build:chrome:dev & yarn build:edge:dev & yarn build:firefox:dev",
+    "build": "yarn build:chrome && yarn build:edge && yarn build:firefox",
+    "build:all:dev": "yarn build:chrome:dev && yarn build:edge:dev && yarn build:firefox:dev",
     "build:dev": "webpack --mode=development --progress --color --env target=chrome",
     "build:chrome": "webpack --mode=production --progress --color --env target=chrome",
     "build:edge": "webpack --mode=production --progress --color --env target=edge",
