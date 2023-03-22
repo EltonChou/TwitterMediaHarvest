@@ -1,10 +1,11 @@
 import browser from 'webextension-polyfill'
-import { ARIA2_ID } from '../../constants'
 import { storageConfig } from '../configurations'
 import { HarvestError } from '../errors'
 import type { DownloadItemRecorder } from './downloadItemRecorder'
 import { downloadItemRecorder } from './downloadItemRecorder'
 import TwitterMediaFile, { DownloadMode } from './TwitterMediaFile'
+
+const ARIA2_ID = 'mpkodccbngfoacfalldjimigbofkhgjn'
 
 export default class MediaDownloader {
   readonly tweetInfo: TweetInfo

@@ -1,5 +1,4 @@
 import browser from 'webextension-polyfill'
-import { TWITTER_AUTH_TOKEN } from '../../constants'
 import { TwitterTokenRepository } from '../cookie/repository'
 import { NotFound, TooManyRequest, TwitterApiError, Unauthorized, UnknownError } from '../errors'
 
@@ -31,6 +30,9 @@ type TweetDetail = {
     }
   }
 }
+
+const TWITTER_AUTH_TOKEN =
+  'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
 
 const twitterTokenRepo = new TwitterTokenRepository()
 
