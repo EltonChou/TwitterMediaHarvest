@@ -5,7 +5,7 @@
   "description": "__MSG_appDesc__",
   "version": "__MANIFEST_RELEASE_VERSION__",
   "version_name": "__MANIFEST_VERSION_NAME__",
-  "minimum_chrome_version": "88",
+  "minimum_chrome_version": "100",
   "default_locale": "en",
   "icons": {
     "16": "assets/icons/icon16.png",

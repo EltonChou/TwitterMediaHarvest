@@ -11,6 +11,7 @@ Sentry.init({
     'Extension context invalidated',
     '(intermediate value)(intermediate value)(intermediate value).querySelector is not a function',
     'Error: A listener indicated an asynchronous response by returning true',
+    'The message port closed before a response was received.',
   ],
   release: process.env.RELEASE,
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
