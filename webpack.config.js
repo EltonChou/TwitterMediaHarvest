@@ -94,17 +94,27 @@ const config = {
 }
 
 module.exports = (env, argv) => {
-  const chromeManifestCopyPlugin = new CopyPlugin({
+  let versionStage = 'beta'
+  if (argv.mode === 'development') versionStage = 'dev'
+  if (argv.mode === 'production') versionStage = 'prod'
+
+  const versionName = `${version}.${versionStage} (${env.target})`
+
+  const chromiumManifestCopyPlugin = new CopyPlugin({
     patterns: [
       {
         from: 'manifest.json',
         context: 'src',
         to: '[name][ext]',
-        transform: content =>
-          content
-            .toString()
-            .replace('__MANIFEST_RELEASE_VERSION__', version)
-            .replace('__PUBLIC_KEY__', PublicKey[env.target]),
+        transform: content => {
+          const contentJson = JSON.parse(content.toString())
+          contentJson['version'] = version
+          contentJson['version_name'] = versionName
+          if (env.target === 'chrome' || (env.target === 'edge' && argv.mode === 'development')) {
+            contentJson['key'] = PublicKey[env.target]
+          }
+          return Buffer.from(JSON.stringify(contentJson))
+        },
       },
     ],
   })
@@ -115,7 +125,11 @@ module.exports = (env, argv) => {
         from: 'manifest_firefox.json',
         context: 'src',
         to: 'manifest[ext]',
-        transform: content => content.toString().replace('__MANIFEST_RELEASE_VERSION__', version),
+        transform: content =>
+          content
+            .toString()
+            .replace('__MANIFEST_RELEASE_VERSION__', version)
+            .replace('__MANIFEST_VERSION_NAME__', versionName),
       },
     ],
   })
@@ -127,7 +141,7 @@ module.exports = (env, argv) => {
   }
 
   config.plugins.push(
-    env.target === 'firefox' ? firefoxManifestCopyPlugin : chromeManifestCopyPlugin,
+    env.target === 'firefox' ? firefoxManifestCopyPlugin : chromiumManifestCopyPlugin,
     new webpack.EnvironmentPlugin({
       RELEASE: env.RELEASE_NAME || PACKAGE.name + '(' + env.target + ')' + '@' + version,
       TARGET: env.target,

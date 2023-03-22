@@ -3,7 +3,8 @@
   "name": "__MSG_appName__",
   "short_name": "MediaHarvest",
   "description": "__MSG_appDesc__",
-  "version": "3.2.8",
+  "version": "__MANIFEST_RELEASE_VERSION__",
+  "version_name": "__MANIFEST_VERSION_NAME__",
   "default_locale": "en",
   "icons": {
     "16": "assets/icons/icon16.png",
