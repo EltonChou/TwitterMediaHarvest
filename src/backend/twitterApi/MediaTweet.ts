@@ -1,5 +1,4 @@
 import browser from 'webextension-polyfill'
-import { TWITTER_AUTH_TOKEN } from '../../constants'
 import { TwitterTokenRepository } from '../cookie/repository'
 import { NotFound, TooManyRequest, TwitterApiError, Unauthorized, UnknownError } from '../errors'
 
@@ -31,6 +30,9 @@ type TweetDetail = {
     }
   }
 }
+
+const TWITTER_AUTH_TOKEN =
+  'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
 
 const twitterTokenRepo = new TwitterTokenRepository()
 
@@ -93,7 +95,7 @@ export const fetchMediaCatalog = async (tweetId: string): Promise<TweetMediaCata
       videos: [],
     }
 
-    if (medias.length) {
+    if (medias) {
       mediaCatalog.images = parseImage(medias)
       mediaCatalog.videos = parseVideo(medias)
     }
@@ -117,7 +119,7 @@ const makeTweetEndpoint = (tweetId: string) =>
 
 const getMediaFromDetailByTweetId =
   (detail: TweetDetail) =>
-  (tweetId: string): TweetMedia[] | null =>
+  (tweetId: string): TweetMedia[] | undefined =>
     detail?.globalObjects?.tweets[tweetId]?.extended_entities?.media
 
 const getVideoInfo = (tweetMedia: TweetMedia): VideoInfo | null => tweetMedia?.video_info
@@ -147,7 +149,7 @@ const parseVideoInfo = (video_info: VideoInfo): string => {
     // bitrate will be 0 if video is made from gif.
     // variants contains m3u8 info.
     const isHigherBitrate = bitrate > hiRes || bitrate === 0
-    if (typeof bitrate !== 'undefined' && isHigherBitrate) {
+    if (bitrate !== undefined && isHigherBitrate) {
       hiRes = bitrate
       targetUrl = cleanUrl(new URL(url))
     }

@@ -16,7 +16,7 @@ const getActionBarQuery = (article: HTMLElement) => {
     return isArticleInDetail(article) ? '.tweet-detail-actions' : '.tweet-actions'
   }
 
-  return isArticleInStatus(article) ? '.r-18u37iz[role="group"]' : '[role="group"][aria-label]'
+  return isArticleInStatus(article) ? '.r-18u37iz[role="group"][id^="id__"]' : '[role="group"][aria-label]'
 }
 
 const twitterActionAppend = (actionBar: HTMLElement, button: HTMLElement | Element) => actionBar.appendChild(button)
