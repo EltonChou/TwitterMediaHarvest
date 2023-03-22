@@ -1,4 +1,4 @@
-export class HarvestError extends Error {}
+export class HarvestError extends Error { }
 
 export class TwitterApiError extends HarvestError {
   public reason: FetchErrorReason
@@ -9,7 +9,7 @@ export class TwitterApiError extends HarvestError {
   }
 }
 
-export class TooManyRequest extends TwitterApiError {}
-export class NotFound extends TwitterApiError {}
-export class UnknownError extends TwitterApiError {}
-export class Unauthorized extends TwitterApiError {}
+export class TooManyRequest extends TwitterApiError { }
+export class NotFound extends TwitterApiError { }
+export class UnknownError extends TwitterApiError { }
+export class Unauthorized extends TwitterApiError { }

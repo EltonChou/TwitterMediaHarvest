@@ -1,4 +1,9 @@
-import type { Storage } from 'webextension-polyfill'
+import {
+  BrowserStorageFetcher,
+  BrowserStorageSetter,
+  storageFetcher,
+  storageSetter
+} from '../../libs/chromeApi'
 
 export enum StatisticsKey {
   SuccessDownloadCount = 'successDownloadCount',
@@ -24,22 +29,21 @@ export interface IStatisticsRepository {
 }
 
 export default class StatisticsRepository implements IStatisticsRepository {
-  readonly storageArea: Storage.StorageArea
+  private fetchStorage: BrowserStorageFetcher
+  private setStorage: BrowserStorageSetter
 
-  constructor(storageArea: Storage.StorageArea) {
-    this.storageArea = storageArea
+  constructor(storageArea: chrome.storage.StorageArea) {
+    this.fetchStorage = storageFetcher(storageArea)
+    this.setStorage = storageSetter(storageArea)
   }
 
-  async getStatistics(): Promise<DownloadStatistic> {
-    const stats = await this.storageArea.get(defaultStatistic)
-    return stats
-  }
-
-  async getStatisticsCount(key: StatisticsKey): Promise<number> {
+  async getStatisticsCount(
+    key: StatisticsKey
+  ): Promise<number> {
     const downloadStatistic: DownloadStatistic = {}
     downloadStatistic[key] = 0
 
-    const count = await this.storageArea.get(downloadStatistic)
+    const count = await this.fetchStorage(downloadStatistic)
     return count[key]
   }
 
@@ -48,10 +52,10 @@ export default class StatisticsRepository implements IStatisticsRepository {
     const downloadCount: DownloadStatistic = {}
     downloadCount[key] = count + 1
 
-    await this.storageArea.set(downloadCount)
+    await this.setStorage(downloadCount)
   }
 
-  async setDefaultStatistics(defaultStats: DownloadStatistic = defaultStatistic): Promise<void> {
-    await this.storageArea.set(defaultStats)
+  async setDefaultStatistics(): Promise<void> {
+    await this.setStorage(defaultStatistic)
   }
 }

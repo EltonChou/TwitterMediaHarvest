@@ -1,10 +1,10 @@
-import browser from 'webextension-polyfill'
+
 import { ARIA2_ID } from '../../constants'
-import { storageConfig } from '../configurations'
-import { HarvestError } from '../errors'
-import type { DownloadItemRecorder } from './downloadItemRecorder'
-import { downloadItemRecorder } from './downloadItemRecorder'
 import TwitterMediaFile, { DownloadMode } from './TwitterMediaFile'
+import { downloadItemRecorder } from './downloadItemRecorder'
+import { HarvestError } from '../errors'
+import { storageConfig } from '../configurations'
+
 
 export default class MediaDownloader {
   readonly tweetInfo: TweetInfo
@@ -13,7 +13,11 @@ export default class MediaDownloader {
   readonly mode: DownloadMode
   private record_config: DownloadItemRecorder
 
-  constructor(tweetInfo: TweetInfo, filenameSettings: FilenameSettings, downloadSettings: DownloadSettings) {
+  constructor(
+    tweetInfo: TweetInfo,
+    filenameSettings: FilenameSettings,
+    downloadSettings: DownloadSettings,
+  ) {
     this.tweetInfo = tweetInfo
     this.filenameSettings = filenameSettings
     this.downloadSettings = downloadSettings
@@ -28,17 +32,25 @@ export default class MediaDownloader {
   }
 
   private async downloadMedia(media_url: string, index: number): Promise<void> {
-    if (!TwitterMediaFile.isValidFileUrl(media_url)) throw new HarvestError(`Invalid url: ${media_url}`)
+    if (
+      !TwitterMediaFile.isValidFileUrl(media_url)
+    ) throw new HarvestError(`Invalid url: ${media_url}`)
 
-    if (!this.downloadSettings.includeVideoThumbnail && media_url.includes('video_thumb')) return
+    if (
+      !this.downloadSettings.includeVideoThumbnail &&
+      media_url.includes('video_thumb')
+    ) return
 
     const mediaFile = new TwitterMediaFile(this.tweetInfo, media_url, index)
-    const config = mediaFile.makeDownloadConfigBySetting(this.filenameSettings, this.mode)
+    const config = mediaFile.makeDownloadConfigBySetting(
+      this.filenameSettings,
+      this.mode
+    )
 
     const downloadCallback = this.record_config(config)
     this.mode === DownloadMode.Aria2
-      ? browser.runtime.sendMessage(ARIA2_ID, config)
-      : browser.downloads.download(config).then(downloadCallback)
+      ? chrome.runtime.sendMessage(ARIA2_ID, config)
+      : chrome.downloads.download(config, downloadCallback)
   }
 
   downloadMediasByMediaCatalog(mediaCatalog: TweetMediaCatalog) {

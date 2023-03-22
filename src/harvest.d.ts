@@ -1,5 +1,8 @@
 type TweetMode = 'photo' | 'status' | 'stream'
 type DownloadRecordId = `dl_${number}`
+type DownloadItemRecorder = (
+  config: chrome.downloads.DownloadOptions
+) => (downloadId: number) => void
 
 type HarvestMessage = {
   action: number
@@ -28,6 +31,7 @@ type DownloadSettings = {
   includeVideoThumbnail: boolean
   aggressive_mode: boolean
 }
+
 
 type Aria2DownloadOption = {
   url: string

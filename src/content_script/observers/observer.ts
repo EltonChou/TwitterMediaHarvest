@@ -14,7 +14,10 @@ export const observeElement = (
   options: MutationObserverInit = { childList: true }
 ): MutationObserver => {
   const observer = new MutationObserver(observerCallback)
-  const observeElement = element instanceof HTMLElement ? element : select(element)
+  const observeElement = element instanceof HTMLElement
+    ? element
+    : typeof element === 'string' && select.exists(element)
+      ? select(element) : null
 
   if (observeElement && !isElementObserved(observeElement)) {
     observer.observe(observeElement, options)

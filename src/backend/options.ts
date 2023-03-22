@@ -1,11 +1,11 @@
 import sanitize from 'sanitize-filename'
 import select from 'select-dom'
-import browser from 'webextension-polyfill'
-import { Action } from '../typings'
+import StatisticsRepository, { StatisticsKey } from './statistics/repositories'
+import { clearLocalStorage, clearSyncStorage } from '../libs/chromeApi'
+import { Action, } from '../typings'
+import { FilenameSerialRule } from './downloads/TwitterMediaFile'
 import { initStorage } from './commands/storage'
 import { storageConfig } from './configurations'
-import { FilenameSerialRule } from './downloads/TwitterMediaFile'
-import { StatisticsKey } from './statistics/repositories'
 
 const filenameSettingsRepo = storageConfig.filenameSettingsRepo
 const downloadSettingsRepo = storageConfig.downloadSettingsRepo
@@ -45,24 +45,27 @@ const initializeForm = async () => {
   const downloadSettings = await downloadSettingsRepo.getSettings()
   directoryInput.value = filenameSettings.directory
   noSubDirCheckBox.checked = filenameSettings.no_subdirectory
+  if (noSubDirCheckBox.checked) {
+    disableDirectoryInput()
+  }
   accountCheckBox.checked = filenameSettings.filename_pattern.account
   aria2Control.checked = downloadSettings.enableAria2
   videoThumbnailControl.checked = downloadSettings.includeVideoThumbnail
   aggressiveModeControl.checked = downloadSettings.aggressive_mode
-  if (noSubDirCheckBox.checked) disableDirectoryInput()
   const options = select.all('option')
-  options.forEach(option => {
+  for (const option of options) {
     option.selected = option.value === filenameSettings.filename_pattern.serial
-  })
+  }
 }
 
 const initializeStatistics = async () => {
   const statisticsQuery = '[data-category="statistics"]'
   const statisticsItems = select.all(statisticsQuery)
-  statisticsItems.forEach(async item => {
-    const count = await storageConfig.statisticsRepo.getStatisticsCount(item.dataset.type as StatisticsKey)
+  const statisticsRepo = new StatisticsRepository(chrome.storage.local)
+  for (const item of statisticsItems) {
+    const count = await statisticsRepo.getStatisticsCount(item.dataset.type as StatisticsKey)
     item.textContent = count.toLocaleString()
-  })
+  }
 }
 
 const disableSubmit = () => {
@@ -72,11 +75,11 @@ const allowSubmit = () => {
   updatePreview()
   submitButton.disabled = false
   submitButton.classList.remove('is-success')
-  submitButton.innerText = browser.i18n.getMessage('submitButtonText')
+  submitButton.innerText = chrome.i18n.getMessage('submitButtonText')
 }
 const submitSuccess = () => {
   submitButton.classList.add('is-success')
-  submitButton.innerText = browser.i18n.getMessage('submitButtonSuccessText')
+  submitButton.innerText = chrome.i18n.getMessage('submitButtonSuccessText')
   disableSubmit()
 }
 
@@ -97,29 +100,30 @@ noSubDirCheckBox.addEventListener('change', () => {
   allowSubmit()
 })
 
-browser.runtime.onMessage.addListener((msg: HarvestMessage) => {
+chrome.runtime.onMessage.addListener((msg: HarvestMessage, sender, sendResponse) => {
   if (msg.action === Action.Refresh) {
     initializeStatistics()
   }
+  sendResponse(true)
 })
 
 directoryInput.addEventListener('input', function () {
   const filenameReg = new RegExp('^[\\w-_]+$')
   const sanitizedValue = sanitize(this.value)
-  const isFileNameAllowed = filenameReg.test(this.value) && sanitizedValue === this.value
+  const isFileNameAllowed =
+    filenameReg.test(this.value) && sanitizedValue === this.value
 
   if (isFileNameAllowed) {
     allowSubmit()
     directoryInputHelp.classList.add('is-hidden')
     this.classList.remove('is-danger')
     this.classList.add('is-success')
-    return
+  } else {
+    disableSubmit()
+    directoryInputHelp.classList.remove('is-hidden')
+    this.classList.add('is-danger')
+    this.classList.remove('is-success')
   }
-
-  disableSubmit()
-  directoryInputHelp.classList.remove('is-hidden')
-  this.classList.add('is-danger')
-  this.classList.remove('is-success')
 })
 
 /* eslint-disable no-console */
@@ -129,7 +133,7 @@ settingsForm.addEventListener('submit', async function (e) {
   const downloadSettings: DownloadSettings = {
     enableAria2: Boolean(aria2Control.ariaChecked),
     includeVideoThumbnail: Boolean(videoThumbnailControl.checked),
-    aggressive_mode: Boolean(aggressiveModeControl.checked),
+    aggressive_mode: Boolean(aggressiveModeControl.checked)
   }
 
   const filenameSetting: FilenameSettings = {
@@ -138,7 +142,7 @@ settingsForm.addEventListener('submit', async function (e) {
     filename_pattern: {
       account: accountCheckBox.checked,
       serial: serialSelect.value as FilenameSerialRule,
-    },
+    }
   }
 
   const saveDownloadSettings = downloadSettingsRepo.saveSettings(downloadSettings)
@@ -153,29 +157,21 @@ settingsForm.addEventListener('submit', async function (e) {
 /* eslint-enable no-console */
 
 resetStorageButton.addEventListener('click', async () => {
-  const stats = await storageConfig.statisticsRepo.getStatistics()
-  await browser.storage.local.clear()
-  await browser.storage.sync.clear()
+  await clearLocalStorage()
+  await clearSyncStorage()
   await initStorage()
-  await storageConfig.statisticsRepo.setDefaultStatistics(stats)
-  await initializeForm()
-  await initializeStatistics()
-  updatePreview()
+  location.reload()
 })
 
 async function localize() {
   const localeObjects = select.all('[data-action="localize"]')
-  localeObjects.forEach(localeObject => {
-    const tag = localeObject.innerHTML
+  for (const localObject of localeObjects) {
+    const tag = localObject.innerHTML
     const localized = tag.replace(/__MSG_(\w+)__/g, (match, v1) => {
-      return v1 ? browser.i18n.getMessage(v1) : ''
+      return v1 ? chrome.i18n.getMessage(v1) : ''
     })
-    localeObject.innerHTML = localized
-  })
+    localObject.innerHTML = localized
+  }
 }
 
-aggressiveModeControl.disabled = process.env.TARGET === 'firefox'
-aria2Control.disabled = process.env.TARGET === 'firefox'
-
-const inits = [localize, initializeForm, initializeStatistics]
-Promise.all(inits.map(async init => await init())).then(updatePreview)
+localize().then(initializeForm).then(initializeStatistics).then(updatePreview)

@@ -6,11 +6,20 @@ const deckStreamHasMedia = (addedNode: Node) => {
   const hasMedia =
     select.exists('.media-preview', addedNode as unknown as ParentNode) ||
     select.exists('[rel="mediaPreview"]', addedNode as unknown as ParentNode) ||
-    select.exists('.media-preview-container', addedNode as unknown as ParentNode)
+    select.exists(
+      '.media-preview-container',
+      addedNode as unknown as ParentNode
+    )
 
-  const notQuoted = !select.exists('.quoted-tweet', addedNode as unknown as ParentNode)
+  const notQuoted = !select.exists(
+    '.quoted-tweet',
+    addedNode as unknown as ParentNode
+  )
 
-  const notYoutube = !select.exists('[rel="mediaPreview"][href*="youtube.com"]', addedNode as unknown as ParentNode)
+  const notYoutube = !select.exists(
+    '[rel="mediaPreview"][href*="youtube.com"]',
+    addedNode as unknown as ParentNode
+  )
 
   return hasMedia && notQuoted && notYoutube
 }
@@ -45,7 +54,10 @@ const observeModal = () => {
   const modalCallback: MutationCallback = mutations => {
     for (const mutation of mutations) {
       if (mutation.addedNodes.length) {
-        const article = select('.tweet', mutation.addedNodes[0] as unknown as ParentNode)
+        const article = select(
+          '.tweet',
+          mutation.addedNodes[0] as unknown as ParentNode
+        )
         makeHarvester(article)
       }
     }
@@ -83,7 +95,7 @@ const observeColumns = () => {
 const observeDetail = (tweetDetail: HTMLElement) => {
   const detailOptions: MutationObserverInit = {
     childList: true,
-    subtree: true,
+    subtree: true
   }
 
   const detailCallback: MutationCallback = mutations => {
@@ -94,10 +106,16 @@ const observeDetail = (tweetDetail: HTMLElement) => {
 
     for (const mutation of mutations) {
       if (!before_replies) {
-        before_replies = select('.js-replies-before', mutation.target as unknown as ParentNode)
+        before_replies = select(
+          '.js-replies-before',
+          mutation.target as unknown as ParentNode
+        )
       }
       if (!after_replies) {
-        after_replies = select('.replies-after', mutation.target as unknown as ParentNode)
+        after_replies = select(
+          '.replies-after',
+          mutation.target as unknown as ParentNode
+        )
       }
     }
     if (after_replies) observeDetailReplies(after_replies)

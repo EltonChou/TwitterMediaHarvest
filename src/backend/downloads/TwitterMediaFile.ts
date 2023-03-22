@@ -1,9 +1,8 @@
 import path from 'path'
-import type { Downloads } from 'webextension-polyfill'
 
 export const enum FilenameSerialRule {
   Order = 'order',
-  Filename = 'filename',
+  Filename = 'filename'
 }
 
 export const enum DownloadMode {
@@ -33,7 +32,9 @@ export default class TwitterMediaFile {
   }
 
   makeFilenameBySetting(setting: FilenameSettings) {
-    const accountPart = setting.filename_pattern.account ? this.screenName.concat('-') : ''
+    const accountPart = setting.filename_pattern.account
+      ? this.screenName.concat('-')
+      : ''
 
     let serialPart: string
     if (setting.filename_pattern.serial === FilenameSerialRule.Order) serialPart = makeSerialOrder(this.order)
@@ -48,25 +49,31 @@ export default class TwitterMediaFile {
     return path.format({
       dir: directory,
       name: fileName,
-      ext: this.ext,
+      ext: this.ext
     })
   }
 
-  makeDownloadConfigBySetting(setting: FilenameSettings, mode: DownloadMode.Aria2): Aria2DownloadOption
+  makeDownloadConfigBySetting(
+    setting: FilenameSettings,
+    mode: DownloadMode.Aria2
+  ): Aria2DownloadOption
 
-  makeDownloadConfigBySetting(setting: FilenameSettings, mode: DownloadMode.Browser): Downloads.DownloadOptionsType
+  makeDownloadConfigBySetting(
+    setting: FilenameSettings,
+    mode: DownloadMode.Browser
+  ): chrome.downloads.DownloadOptions
 
   makeDownloadConfigBySetting(
     setting: FilenameSettings,
     mode: DownloadMode
-  ): Downloads.DownloadOptionsType | Aria2DownloadOption
+  ): chrome.downloads.DownloadOptions | Aria2DownloadOption
   /**
    * Create download config
    */
   makeDownloadConfigBySetting(
     setting: FilenameSettings,
     mode: DownloadMode
-  ): Downloads.DownloadOptionsType | Aria2DownloadOption {
+  ): chrome.downloads.DownloadOptions | Aria2DownloadOption {
     const url = this.src
     const fileFullPath = this.makeFileFullPathBySetting(setting)
     const tweetReferer = `https://twitter.com/i/web/status/${this.tweetId}`
@@ -83,7 +90,9 @@ export default class TwitterMediaFile {
   }
 }
 
-export const makeDirectoryBySetting = (setting: FilenameSettings) => (setting.no_subdirectory ? '' : setting.directory)
+
+export const makeDirectoryBySetting = (setting: FilenameSettings) =>
+  setting.no_subdirectory ? '' : setting.directory
 
 /** Make original quality source of tweet media from media url */
 export const makeImageOrigSrc = (url: string): string => `${url}:orig`
@@ -101,7 +110,10 @@ export const makeSerialOrder = (order: number): string => String(order).padStart
  * @param url
  * @param fileName
  */
-export const makeBrowserDownloadConfig = (url: string, fileName: string): Downloads.DownloadOptionsType => {
+export const makeBrowserDownloadConfig = (
+  url: string,
+  fileName: string
+): chrome.downloads.DownloadOptions => {
   return {
     url: url,
     filename: fileName,

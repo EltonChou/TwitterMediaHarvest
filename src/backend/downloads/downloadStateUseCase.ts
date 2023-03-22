@@ -1,19 +1,21 @@
 import * as Sentry from '@sentry/browser'
-import type { Downloads } from 'webextension-polyfill'
-import { storageConfig } from '../configurations'
-import { IDownloadRecordsRepository } from '../downloadRecords/repository'
-import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCase'
-import StatisticsUseCases from '../statistics/useCases'
-import InterruptReason from './InterruptReason'
 import { downloadIsCompleted, downloadIsInterrupted } from './utils/downloadState'
+import { IDownloadRecordsRepository } from '../downloadRecords/repository'
+import StatisticsUseCases from '../statistics/useCases'
+import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCase'
+import { storageConfig } from '../configurations'
+import InterruptReason from './InterruptReason'
 
 const statisticsUseCase = new StatisticsUseCases(storageConfig.statisticsRepo)
 
 export default class DownloadStateUseCase {
-  readonly downloadDelta: Downloads.OnChangedDownloadDeltaType
+  readonly downloadDelta: chrome.downloads.DownloadDelta
   private downloadRecordRepo: IDownloadRecordsRepository
 
-  constructor(downloadDelta: Downloads.OnChangedDownloadDeltaType, downloadRecordRepo: IDownloadRecordsRepository) {
+  constructor(
+    downloadDelta: chrome.downloads.DownloadDelta,
+    downloadRecordRepo: IDownloadRecordsRepository
+  ) {
     this.downloadDelta = downloadDelta
     this.downloadRecordRepo = downloadRecordRepo
   }

@@ -9,52 +9,59 @@ Sentry.init({
   release: process.env.RELEASE,
 })
 
-import browser from 'webextension-polyfill'
+
+import StatisticsUseCases from './statistics/useCases'
+import {
+  getExtensionId,
+  openOptionsPage,
+} from '../libs/chromeApi'
+import {
+  isDownloadedBySelf,
+  isInvalidInfo,
+} from './utils/checker'
+import { initStorage } from './commands/storage'
 import { Action } from '../typings'
 import { showUpdateMessageInConsole } from './commands/console'
-import { initStorage } from './commands/storage'
-import { storageConfig } from './configurations'
-import DownloadActionUseCase from './downloads/downloadActionUseCase'
+import NotificationUseCase from './notifications/notificationIdUseCase'
 import DownloadStateUseCase from './downloads/downloadStateUseCase'
 import { HarvestError } from './errors'
-import { chromium_init, firefox_init } from './initialization'
-import NotificationUseCase from './notifications/notificationIdUseCase'
-import StatisticsUseCases from './statistics/useCases'
-import { isDownloadedBySelf, isInvalidInfo } from './utils/checker'
+import { storageConfig } from './configurations'
+import DownloadActionUseCase from './downloads/downloadActionUseCase'
+
 
 const enum InstallReason {
   Install = 'install',
   Update = 'update',
 }
 
-browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender) => {
+chrome.runtime.onMessage.addListener((message: HarvestMessage, sender, sendRespone) => {
   const statisticsUsecases = new StatisticsUseCases(storageConfig.statisticsRepo)
   if (message.action === Action.Download) {
     if (isInvalidInfo(message.data)) {
       console.error('Invalid tweetInfo.')
       statisticsUsecases.addErrorCount()
-      return { status: 'error', data: new HarvestError(`Invalid tweetInfo. ${message.data}`) }
+      sendRespone({ status: 'error', data: new HarvestError(`Invalid tweetInfo. ${message.data}`) })
+      return
     }
 
     const usecase = new DownloadActionUseCase(message.data as TweetInfo)
-    try {
-      await usecase.processDownload()
-      return { status: 'success' }
-    } catch (error) {
-      return { status: 'error', data: error }
-    }
+    const onSuccess = () => sendRespone({ status: 'success' })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const onError = (err: Error) => sendRespone({ status: 'error', data: err })
+    usecase.processDownload(onSuccess, onError)
+    return true // keep message channel open
   }
   return false
 })
 
-browser.runtime.onInstalled.addListener(async details => {
+chrome.runtime.onInstalled.addListener(async details => {
   if (details.reason === InstallReason.Install) await initStorage()
   if (details.reason === InstallReason.Update) showUpdateMessageInConsole(details.previousVersion)
-  browser.runtime.openOptionsPage()
+  openOptionsPage()
 })
 
-browser.downloads.onChanged.addListener(async downloadDelta => {
-  if (!(await isDownloadedBySelf(downloadDelta.id))) return false
+chrome.downloads.onChanged.addListener(async downloadDelta => {
+  if (! await isDownloadedBySelf(downloadDelta.id)) return false
 
   Sentry.addBreadcrumb({
     category: 'download',
@@ -63,31 +70,86 @@ browser.downloads.onChanged.addListener(async downloadDelta => {
   })
 
   if ('state' in downloadDelta) {
-    const downloadStateUseCase = new DownloadStateUseCase(downloadDelta, storageConfig.downloadRecordRepo)
+    const downloadStateUseCase = new DownloadStateUseCase(
+      downloadDelta,
+      storageConfig.downloadRecordRepo,
+    )
     await downloadStateUseCase.process()
   }
 })
 
-browser.notifications.onClosed.addListener(notifficationId => {
+chrome.notifications.onClosed.addListener(notifficationId => {
   const notificationUseCase = new NotificationUseCase(notifficationId)
   notificationUseCase.handle_close()
+
 })
 
-browser.notifications.onClicked.addListener(notifficationId => {
+chrome.notifications.onClicked.addListener(notifficationId => {
   const notificationUseCase = new NotificationUseCase(notifficationId)
   notificationUseCase.handle_click()
 })
 
-browser.notifications.onButtonClicked.addListener((notifficationId, buttonIndex) => {
-  const notificationUseCase = new NotificationUseCase(notifficationId)
-  notificationUseCase.handle_button(buttonIndex)
-})
+chrome.notifications.onButtonClicked.addListener(
+  (notifficationId, buttonIndex) => {
+    const notificationUseCase = new NotificationUseCase(notifficationId)
+    notificationUseCase.handle_button(buttonIndex)
+  }
+)
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-process.env.TARGET === 'firefox'
-  ? browser.browserAction.onClicked.addListener(() => browser.runtime.openOptionsPage())
-  : browser.action.onClicked.addListener(() => browser.runtime.openOptionsPage())
+// @ts-expect-error
+chrome.action.onClicked.addListener(openOptionsPage)
 
-process.env.TARGET === 'firefox'
-  ? firefox_init()
-  : chromium_init(storageConfig.downloadSettingsRepo, storageConfig.downloadRecordRepo)
+const ensureFilename = (
+  downloadItem: chrome.downloads.DownloadItem,
+  suggest: (suggestion?: chrome.downloads.DownloadFilenameSuggestion) => void
+) => {
+  const { byExtensionId } = downloadItem
+  const runtimeId = getExtensionId()
+
+  if (byExtensionId && byExtensionId === runtimeId) {
+    storageConfig.downloadRecordRepo
+      .getById(downloadItem.id)
+      .then(record => {
+        const { downloadConfig } = record
+        suggest(downloadConfig as chrome.downloads.DownloadFilenameSuggestion)
+      })
+    return true
+  } else if (byExtensionId && byExtensionId !== runtimeId) {
+    return true
+  }
+  // if extensionId is undefined, it was trigger by the browser.
+  suggest()
+}
+
+
+const removeSuggestion = () => {
+  if (chrome.downloads.onDeterminingFilename.hasListener(ensureFilename)) {
+    chrome.downloads.onDeterminingFilename.removeListener(ensureFilename)
+  }
+  console.log('Disable suggestion.')
+}
+
+const addSuggestion = () => {
+  if (!chrome.downloads.onDeterminingFilename.hasListener(ensureFilename)) {
+    chrome.downloads.onDeterminingFilename.addListener(ensureFilename)
+  }
+  console.log('Enable suggestion')
+}
+
+chrome.storage.onChanged.addListener(
+  (changes, areaName) => {
+    const AggressiveModeKey = 'aggressive_mode'
+    if (AggressiveModeKey in changes) {
+      changes[AggressiveModeKey].newValue ?
+        addSuggestion() :
+        removeSuggestion()
+    }
+  }
+)
+
+storageConfig.downloadSettingsRepo.getSettings().then(
+  (downloadSettings) => {
+    if (downloadSettings.aggressive_mode) addSuggestion()
+  }
+)

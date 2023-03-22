@@ -8,17 +8,14 @@
     "@sentry/tracing": "^7.1.1",
     "path-browserify": "^1.0.1",
     "sanitize-filename": "^1.6.3",
-    "select-dom": "^7.1.1",
-    "webextension-polyfill": "^0.10.0"
+    "select-dom": "^7.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
-    "@babel/plugin-transform-runtime": "^7.21.0",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-typescript": "^7.16.7",
     "@babel/runtime": "^7.6.3",
     "@types/jest": "^28.1.1",
-    "@types/webextension-polyfill": "^0.10.0",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.28.0",
     "babel-jest": "^28.1.1",
@@ -54,15 +51,12 @@
   },
   "scripts": {
     "test": "jest --env=node --coverage",
-    "build": "yarn build:chrome & yarn build:edge & yarn build:firefox",
-    "build:all:dev": "yarn build:chrome:dev & yarn build:edge:dev & yarn build:firefox:dev",
+    "build": "yarn build:chrome & yarn build:edge",
     "build:dev": "webpack --mode=development --progress --color --env target=chrome",
     "build:chrome": "webpack --mode=production --progress --color --env target=chrome",
     "build:edge": "webpack --mode=production --progress --color --env target=edge",
     "build:chrome:dev": "webpack --mode=development --progress --color --env target=chrome",
     "build:edge:dev": "webpack --mode=development --progress --color --env target=edge",
-    "build:firefox": "webpack --mode=production --progress --color --env target=firefox",
-    "build:firefox:dev": "webpack --mode=development --progress --color --env target=firefox",
     "lint": "eslint --color --quiet --ext .js --ext .ts src/ --fix"
   },
   "jest": {

@@ -1,7 +1,8 @@
+import './main.sass'
 import * as Sentry from '@sentry/browser'
 import { BrowserTracing } from '@sentry/tracing'
 import { SENTRY_DSN } from '../constants'
-import './main.sass'
+
 
 Sentry.init({
   dsn: SENTRY_DSN,
@@ -9,17 +10,17 @@ Sentry.init({
   ignoreErrors: [
     'ResizeObserver loop limit exceeded',
     'Extension context invalidated',
-    '(intermediate value)(intermediate value)(intermediate value).querySelector is not a function',
+    '(intermediate value)(intermediate value)(intermediate value).querySelector is not a function'
   ],
   release: process.env.RELEASE,
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
-  environment: process.env.NODE_ENV,
+  environment: process.env.NODE_ENV
 })
 
-import { TweetDeckKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
-import TweetDeckObserver from './observers/TweetDeckObserver'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
+import TweetDeckObserver from './observers/TweetDeckObserver'
 import { isTweetDeck } from './utils/checker'
+import { TweetDeckKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
 
 const observer = isTweetDeck() ? new TweetDeckObserver() : new TwitterMediaObserver()
 const keyboardMonitor = isTweetDeck() ? new TweetDeckKeyboardMonitor() : new TwitterKeyboardMonitor()

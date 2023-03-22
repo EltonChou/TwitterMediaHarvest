@@ -1,5 +1,6 @@
 import { IStatisticsRepository, StatisticsKey } from './repositories'
 
+
 export interface IStatisticsUseCase {
   getSuccessDownloadCount(): Promise<number>
   getFailedDownloadCount(): Promise<number>

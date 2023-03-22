@@ -1,11 +1,20 @@
 import * as Sentry from '@sentry/browser'
-import { NotFound, TooManyRequest, TwitterApiError, Unauthorized } from '../errors'
-import { FetchErrorNotificationUseCase, InternalErrorNotificationUseCase } from '../notifications/notifyUseCase'
-import { fetchMediaCatalog } from '../twitterApi/MediaTweet'
 import MediaDownloader from './MediaDownloader'
+import { fetchMediaCatalog } from '../twitterApi/MediaTweet'
+import { TwitterApiError, Unauthorized } from '../errors'
+import {
+  FetchErrorNotificationUseCase,
+  InternalErrorNotificationUseCase
+} from '../notifications/notifyUseCase'
+import { NotFound, TooManyRequest } from '../errors'
+
 
 const sentryCapture = (err: Error) => {
-  if (err instanceof NotFound || err instanceof TooManyRequest || err instanceof Unauthorized) return
+  if (
+    err instanceof NotFound ||
+    err instanceof TooManyRequest ||
+    err instanceof Unauthorized
+  ) return
 
   Sentry.captureException(err)
 }
@@ -32,14 +41,14 @@ export default class DownloadActionUseCase {
     mediaDownloader.downloadMediasByMediaCatalog(mediaCatelog)
   }
 
-  async processDownload(): Promise<void> {
+  async processDownload(onSuccess: CallableFunction, onError: (err: Error) => void): Promise<void> {
     try {
       await this.process()
-      // onSuccess()
+      onSuccess()
     } catch (err) {
       console.error('Error reason: ', err)
       this.handleError(err)
-      throw err
+      onError(err)
     }
   }
   /* eslint-disable no-console */

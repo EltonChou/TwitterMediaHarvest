@@ -1,5 +1,5 @@
-import browser from 'webextension-polyfill'
 import { TWITTER_AUTH_TOKEN } from '../../constants'
+import { i18nLocalize } from '../../libs/chromeApi'
 import { TwitterTokenRepository } from '../cookie/repository'
 import { NotFound, TooManyRequest, TwitterApiError, Unauthorized, UnknownError } from '../errors'
 
@@ -10,14 +10,14 @@ type VideoInfo = {
 }
 
 type TweetMedia = {
-  media_url: string
-  media_url_https: string
+  media_url: string,
+  media_url_https: string,
   video_info?: VideoInfo
 }
 
 type TweetVideoVariant = {
-  bitrate: number
-  url: string
+  bitrate: number,
+  url: string,
 }
 
 type TweetDetail = {
@@ -26,15 +26,13 @@ type TweetDetail = {
       [key: string]: {
         extended_entities?: {
           media?: TweetMedia[]
-        }
+        },
       }
     }
   }
 }
 
-const twitterTokenRepo = new TwitterTokenRepository()
-
-const i18nLocalize = (kw: string) => browser.i18n.getMessage(kw)
+const twitterTokenRepo = new TwitterTokenRepository
 
 const getFetchError = (statusCode: number): TwitterApiError => {
   if (statusCode === 429) {
@@ -44,6 +42,7 @@ const getFetchError = (statusCode: number): TwitterApiError => {
       message: i18nLocalize('fetchFailedTooManyRequestsMessage'),
     }
     return new TooManyRequest(reason)
+
   }
 
   if (statusCode === 404) {
@@ -90,21 +89,26 @@ export const fetchMediaCatalog = async (tweetId: string): Promise<TweetMediaCata
     const medias = getMediaFromDetailByTweetId(detail)(tweetId)
     const mediaCatalog: TweetMediaCatalog = {
       images: [],
-      videos: [],
+      videos: []
     }
 
-    if (medias.length) {
-      mediaCatalog.images = parseImage(medias)
-      mediaCatalog.videos = parseVideo(medias)
+    if (medias) {
+      const image_list = parseImage(medias)
+      const video_list = parseVideo(medias)
+      mediaCatalog.images = image_list
+      mediaCatalog.videos = video_list
+      return mediaCatalog
+    } else {
+      return mediaCatalog
     }
-
-    return mediaCatalog
   }
 
   const err = getFetchError(mediaResponse.status)
   throw err
 }
 
+
+const VIDEO_INFO = 'video_info'
 /**
  * Clean all searchParams
  */
@@ -115,24 +119,35 @@ const cleanUrl = (url: URL): URL => {
 const makeTweetEndpoint = (tweetId: string) =>
   `https://api.twitter.com/2/timeline/conversation/${tweetId}.json?tweet_mode=extended`
 
-const getMediaFromDetailByTweetId =
-  (detail: TweetDetail) =>
-  (tweetId: string): TweetMedia[] | null =>
-    detail?.globalObjects?.tweets[tweetId]?.extended_entities?.media
+const getMediaFromDetailByTweetId = (detail: TweetDetail) =>
+  (tweetId: string): TweetMedia[] | null => {
+    const tweet_obj = detail.globalObjects.tweets[tweetId]
+    if ('extended_entities' in tweet_obj) {
+      const entities = tweet_obj.extended_entities
+      if ('media' in entities) {
+        return entities.media
+      }
+    }
+    return null
+  }
 
-const getVideoInfo = (tweetMedia: TweetMedia): VideoInfo | null => tweetMedia?.video_info
+const isVideo = (media: TweetMedia) => VIDEO_INFO in media
+
+const getVideoInfo = (tweetMedia: TweetMedia): VideoInfo | null => (
+  isVideo(tweetMedia) ? tweetMedia.video_info : null
+)
 
 const parseImage = (medias: TweetMedia[]): string[] =>
   medias.map(media => cleanUrl(new URL(media.media_url_https)).href)
 
 const parseVideo = (medias: TweetMedia[]): string[] => {
   const mediaList: string[] = []
-  medias.forEach(media => {
+  for (const media of medias) {
     const videoInfo = getVideoInfo(media)
     if (videoInfo) {
       mediaList.push(parseVideoInfo(videoInfo))
     }
-  })
+  }
   return mediaList
 }
 
@@ -142,19 +157,21 @@ const parseVideoInfo = (video_info: VideoInfo): string => {
   let hiRes = 0
   let targetUrl: URL
 
-  variants.forEach(variant => {
+  for (const variant of variants) {
     const { bitrate, url } = variant
     // bitrate will be 0 if video is made from gif.
     // variants contains m3u8 info.
     const isHigherBitrate = bitrate > hiRes || bitrate === 0
     if (typeof bitrate !== 'undefined' && isHigherBitrate) {
       hiRes = bitrate
-      targetUrl = cleanUrl(new URL(url))
+      targetUrl = new URL(url)
+      targetUrl = cleanUrl(targetUrl)
     }
-  })
+  }
 
   return targetUrl.href
 }
+
 
 const initHeaders = (tweetId: string, csrfToken: string, guestToken?: string) =>
   new Headers([
@@ -164,5 +181,7 @@ const initHeaders = (tweetId: string, csrfToken: string, guestToken?: string) =>
     ['cache-control', 'no-cache'],
     ['x-twitter-active-user', 'yes'],
     ['x-csrf-token', csrfToken],
-    guestToken ? ['x-guest-token', guestToken] : ['x-twitter-auth-type', 'OAuth2Session'],
+    guestToken ?
+      ['x-guest-token', guestToken] :
+      ['x-twitter-auth-type', 'OAuth2Session'],
   ])

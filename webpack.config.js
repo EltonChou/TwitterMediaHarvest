@@ -39,9 +39,9 @@ const config = {
         exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
-          // options: {
-          //   presets: ['@babel/preset-env'],
-          // },
+          options: {
+            presets: ['@babel/preset-env'],
+          },
         },
       },
       {
@@ -50,7 +50,7 @@ const config = {
         use: [
           {
             loader: 'babel-loader',
-            // options: { presets: ['@babel/preset-env'] },
+            options: { presets: ['@babel/preset-env'] },
           },
           { loader: 'ts-loader' },
         ],
@@ -94,32 +94,6 @@ const config = {
 }
 
 module.exports = (env, argv) => {
-  const chromeManifestCopyPlugin = new CopyPlugin({
-    patterns: [
-      {
-        from: 'manifest.json',
-        context: 'src',
-        to: '[name][ext]',
-        transform: content =>
-          content
-            .toString()
-            .replace('__MANIFEST_RELEASE_VERSION__', version)
-            .replace('__PUBLIC_KEY__', PublicKey[env.target]),
-      },
-    ],
-  })
-
-  const firefoxManifestCopyPlugin = new CopyPlugin({
-    patterns: [
-      {
-        from: 'manifest_firefox.json',
-        context: 'src',
-        to: 'manifest[ext]',
-        transform: content => content.toString().replace('__MANIFEST_RELEASE_VERSION__', version),
-      },
-    ],
-  })
-
   config.output = {
     filename: '[name].js',
     path: path.join(__dirname, 'build', env.target),
@@ -127,10 +101,23 @@ module.exports = (env, argv) => {
   }
 
   config.plugins.push(
-    env.target === 'firefox' ? firefoxManifestCopyPlugin : chromeManifestCopyPlugin,
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'manifest.json',
+          context: 'src',
+          to: '[name][ext]',
+          transform: content =>
+            content
+              .toString()
+              .replace('__MANIFEST_RELEASE_VERSION__', version)
+              .replace('__PUBLIC_KEY__', PublicKey[env.target])
+          ,
+        },
+      ],
+    }),
     new webpack.EnvironmentPlugin({
-      RELEASE: env.RELEASE_NAME || PACKAGE.name + '(' + env.target + ')' + '@' + version,
-      TARGET: env.target,
+      RELEASE: env.RELEASE_NAME || PACKAGE.name + '('+ env.target + ')' + '@' + version,
     })
   )
 
@@ -149,30 +136,8 @@ module.exports = (env, argv) => {
             mkdir: ['dist'],
             archive: [
               {
-                source: `build/${env.target}`,
+                source: 'build',
                 destination: `dist/${env.target}-TwitterMediaHarvest-v${version}.zip`,
-                options: {
-                  zlib: { level: 9 },
-                  globOptions: {
-                    ignore: ['*.map'],
-                  },
-                },
-              },
-            ],
-          },
-        },
-      })
-    )
-  } else if (env.target === 'firefox') {
-    config.plugins.push(
-      new FileManagerPlugin({
-        events: {
-          onEnd: {
-            mkdir: ['dist'],
-            archive: [
-              {
-                source: `build/${env.target}`,
-                destination: `dist/${env.target}-TwitterMediaHarvest-v${version}-dev.zip`,
                 options: {
                   zlib: { level: 9 },
                   globOptions: {

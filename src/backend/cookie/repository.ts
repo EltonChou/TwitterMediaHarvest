@@ -1,13 +1,14 @@
-import browser from 'webextension-polyfill'
+import { fetchCookie } from '../../libs/chromeApi'
 
 interface ITwitterTokenRepository {
   getCsrfToken(): Promise<string | null>
   getGuestToken(): Promise<string | null>
 }
 
+
 export class TwitterTokenRepository implements ITwitterTokenRepository {
   async getCsrfToken(): Promise<string | null> {
-    const cookie = await browser.cookies.get({
+    const cookie = await fetchCookie({
       url: 'https://twitter.com',
       name: 'ct0',
     })
@@ -16,7 +17,7 @@ export class TwitterTokenRepository implements ITwitterTokenRepository {
   }
 
   async getGuestToken(): Promise<string | null> {
-    const cookie = await browser.cookies.get({
+    const cookie = await fetchCookie({
       url: 'https://twitter.com',
       name: 'gt',
     })

@@ -1,8 +1,9 @@
 import select from 'select-dom'
 
+
 enum DownloadKeyCode {
   Twitter = 'KeyD',
-  TweetDeck = 'KeyO',
+  TweetDeck = 'KeyO'
 }
 
 interface IKeyboardMonitor {
@@ -10,10 +11,17 @@ interface IKeyboardMonitor {
   handleKeyUp(e: KeyboardEvent): void
 }
 
+
 abstract class GeneralKeyboardMonitor implements IKeyboardMonitor {
   readonly downloadKeyCode: DownloadKeyCode
   private buttonQuery: string
   private _focusing: Element
+
+  constructor(buttonQuery: string, downloadKeyCOde: DownloadKeyCode) {
+    this.buttonQuery = buttonQuery
+    this.downloadKeyCode = downloadKeyCOde
+    this._focusing = document.activeElement
+  }
 
   get focusing() {
     return this._focusing
@@ -21,12 +29,6 @@ abstract class GeneralKeyboardMonitor implements IKeyboardMonitor {
 
   set focusing(target: Element) {
     this._focusing = target
-  }
-
-  constructor(buttonQuery: string, downloadKeyCOde: DownloadKeyCode) {
-    this.buttonQuery = buttonQuery
-    this.downloadKeyCode = downloadKeyCOde
-    this.focusing = document.activeElement
   }
 
   getButton(target: Element): HTMLElement | null {
@@ -75,3 +77,5 @@ export class TwitterKeyboardMonitor extends GeneralKeyboardMonitor {
     this.focusing = e.target
   }
 }
+
+
