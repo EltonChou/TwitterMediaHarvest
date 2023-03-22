@@ -64,6 +64,5 @@
   ],
   "content_security_policy": {
     "extension_page": "connect-src 'self' https://o1169684.ingest.sentry.io; object-src 'self';"
-  },
-  "key": "__PUBLIC_KEY__"
+  }
 }
