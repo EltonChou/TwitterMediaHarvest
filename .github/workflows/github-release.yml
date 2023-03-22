@@ -14,11 +14,6 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        target: [
-          "chrome",
-          "edge",
-          "firefox"
-        ]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -48,17 +43,13 @@ jobs:
     - run: yarn install
     - run: yarn lint
     - run: yarn test
-    - run: 'yarn build:${{ matrix.target }}'
+    - run: yarn build
 
-    - name: Create Sentry release
-      uses: getsentry/action-release@v1
-      env:
-        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-        SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-        # SENTRY_URL: https://sentry.io/
+    - name: Create Repository Release
+      uses: ncipollo/release-action@v1
       with:
-        version: ${{ env.RELEASE_NAME }}
-        url_prefix: '~/'
-        environment: production
-        sourcemaps: './build/${{ matrix.target }}'
+        name: 'TwitterMediaHarvest ${{ env.RELEASE_VERSION }}'
+        artifacts: './dist/*.zip'
+        token: ${{ secrets.GITHUB_TOKEN }}
+        generateReleaseNotes: true
+        bodyFile: ${{ steps.release_note.outputs.body_file }}
