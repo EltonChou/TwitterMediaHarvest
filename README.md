@@ -22,6 +22,8 @@
 
 [![Chrome web store](assets/chrome-badge.jpg)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok)
 
+[![Microsoft store](assets/microsoft-badge.png)](https://microsoftedge.microsoft.com/addons/detail/media-harvest-twitter-m/mmijhjnobkeodfgoobnlmnpjllmlibkb)
+
 [![Firefox - Get the add-ons](assets/firefox-badge.png)](https://addons.mozilla.org/zh-TW/firefox/addon/media-harvest/)
 
 ## Support the project
