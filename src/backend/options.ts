@@ -7,6 +7,8 @@ import { storageConfig } from './configurations'
 import { FilenameSerialRule } from './downloads/TwitterMediaFile'
 import { StatisticsKey } from './statistics/repositories'
 
+select('html').lang = browser.i18n.getMessage('@@ui_locale')
+
 const filenameSettingsRepo = storageConfig.filenameSettingsRepo
 const downloadSettingsRepo = storageConfig.downloadSettingsRepo
 const featureSettingsRepo = storageConfig.featureSettingsRepo

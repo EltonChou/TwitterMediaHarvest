@@ -38,11 +38,18 @@
   "notificationDLFailedTitle": {
     "message": "下載失敗"
   },
-  "notificationDLFailedMessageFirst": {
-    "message": "於 "
-  },
-  "notificationDLFailedMessageLast": {
-    "message": " 的多媒體下載失敗。"
+  "notificationDLFailedMessage": {
+    "message": "於 $ACCOUNT$($TWEETID$) 的多媒體下載失敗。",
+    "placeholders": {
+      "account": {
+        "content": "$1",
+        "example": "TweetAccount"
+      },
+      "tweetid": {
+        "content": "$2",
+        "example": "1253677247493337088"
+      }
+    }
   },
   "notificationDLFailedButton1": {
     "message": "查看"
@@ -79,5 +86,17 @@
   },
   "internalError": {
     "message": "內部錯誤"
+  },
+  "additionalOptions": {
+    "message": "額外設定"
+  },
+  "downloadVideoThumbnail": {
+    "message": "下載影片縮圖"
+  },
+  "aggressiveMode": {
+    "message": "激進模式"
+  },
+  "autoRevealNsfw": {
+    "message": "敏感內容自動開圖"
   }
 }

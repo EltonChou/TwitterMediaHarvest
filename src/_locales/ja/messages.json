@@ -38,11 +38,18 @@
   "notificationDLFailedTitle": {
     "message": "ダウンロード失敗しました"
   },
-  "notificationDLFailedMessageFirst": {
-    "message": ""
-  },
-  "notificationDLFailedMessageLast": {
-    "message": " のメディアがダウンロード失敗しました。"
+  "notificationDLFailedMessage": {
+    "message": "$ACCOUNT$($TWEETID$) のメディアがダウンロード失敗しました。",
+    "placeholders": {
+      "account": {
+        "content": "$1",
+        "example": "TweetAccount"
+      },
+      "tweetid": {
+        "content": "$2",
+        "example": "1253677247493337088"
+      }
+    }
   },
   "notificationDLFailedButton1": {
     "message": "ツイッターへ"
@@ -79,5 +86,17 @@
   },
   "internalError": {
     "message": "内部エラー"
+  },
+  "additionalOptions": {
+    "message": "追加オプション"
+  },
+  "downloadVideoThumbnail": {
+    "message": "動画サムネイルをダウンロードする"
+  },
+  "aggressiveMode": {
+    "message": "積極的なモード"
+  },
+  "autoRevealNsfw": {
+    "message": "センシティブな内容を自動で表示する"
   }
 }

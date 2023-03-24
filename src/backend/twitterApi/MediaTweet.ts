@@ -1,6 +1,6 @@
-import browser from 'webextension-polyfill'
 import { TwitterTokenRepository } from '../cookie/repository'
 import { NotFound, TooManyRequest, TwitterApiError, Unauthorized, UnknownError } from '../errors'
+import { i18nLocalize } from '../utils/i18n'
 
 type VideoInfo = {
   aspect_ratio: number[]
@@ -35,8 +35,6 @@ const TWITTER_AUTH_TOKEN =
   'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
 
 const twitterTokenRepo = new TwitterTokenRepository()
-
-const i18nLocalize = (kw: string) => browser.i18n.getMessage(kw)
 
 const getFetchError = (statusCode: number): TwitterApiError => {
   if (statusCode === 429) {
