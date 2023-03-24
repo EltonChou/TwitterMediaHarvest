@@ -2,6 +2,7 @@
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
 const FileManagerPlugin = require('filemanager-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const PACKAGE = require('./package.json')
 const PublicKey = require('./public_key.json')
 const webpack = require('webpack')
@@ -152,6 +153,7 @@ module.exports = (env, argv) => {
     config.optimization.minimize = false
     config.stats = 'errors-warnings'
     config.devtool = 'inline-source-map'
+    config.plugins.push(new BundleAnalyzerPlugin())
   }
 
   if (argv.mode === 'production') {

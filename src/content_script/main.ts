@@ -1,11 +1,11 @@
 import * as Sentry from '@sentry/browser'
-import { BrowserTracing } from '@sentry/tracing'
+// import { BrowserTracing } from '@sentry/tracing'
 import { SENTRY_DSN } from '../constants'
 import './main.sass'
 
 Sentry.init({
   dsn: SENTRY_DSN,
-  integrations: [new BrowserTracing()],
+  // integrations: [new BrowserTracing()],
   ignoreErrors: [
     'ResizeObserver loop limit exceeded',
     'Extension context invalidated',
