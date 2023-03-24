@@ -4,19 +4,22 @@ import DownloadSettingsRepository from './settings/downloadSettings/repository'
 import FilenameSettingsRepository from './settings/filenameSettings/repository'
 import { ISettingsRepository } from './settings/repository'
 import StatisticsRepository, { IStatisticsRepository } from './statistics/repositories'
+import { FeaturesRepository } from './settings/featureSettings/repository'
 
 interface IStorageConfiguration {
-  downloadRecordRepo: IDownloadRecordsRepository
-  statisticsRepo: IStatisticsRepository
-  filenameSettingsRepo: ISettingsRepository<FilenameSettings>
-  downloadSettingsRepo: ISettingsRepository<DownloadSettings>
+  readonly downloadRecordRepo: IDownloadRecordsRepository
+  readonly statisticsRepo: IStatisticsRepository
+  readonly filenameSettingsRepo: ISettingsRepository<FilenameSettings>
+  readonly downloadSettingsRepo: ISettingsRepository<DownloadSettings>
+  readonly featureSettingsRepo: ISettingsRepository<FeatureSettings>
 }
 
 class StorageConfiguration implements IStorageConfiguration {
-  public downloadRecordRepo = new StorageAreaDownloadRecordsRepository(browser.storage.local)
-  public statisticsRepo = new StatisticsRepository(browser.storage.local)
-  public filenameSettingsRepo = new FilenameSettingsRepository(browser.storage.sync)
-  public downloadSettingsRepo = new DownloadSettingsRepository(browser.storage.local)
+  readonly downloadRecordRepo = new StorageAreaDownloadRecordsRepository(browser.storage.local)
+  readonly statisticsRepo = new StatisticsRepository(browser.storage.local)
+  readonly filenameSettingsRepo = new FilenameSettingsRepository(browser.storage.sync)
+  readonly downloadSettingsRepo = new DownloadSettingsRepository(browser.storage.local)
+  readonly featureSettingsRepo = new FeaturesRepository(browser.storage.local)
 }
 
 export const storageConfig = new StorageConfiguration()

@@ -10,7 +10,7 @@ const defaultFeature: FeatureSettings = {
 
 export class FeaturesRepository implements IFeaturesRepository {
   async isRevealNsfw(): Promise<boolean> {
-    const feature = (await browser.storage.local.get(defaultFeature)) as FeatureSettings
-    return feature.autoRevealNsfw
+    const data = (await browser.storage.local.get(defaultFeature)) as FeatureSettings
+    return data.autoRevealNsfw
   }
 }

@@ -23,9 +23,8 @@ export default class FilenameSettingsRepository implements ISettingsRepository<F
     return settings as FilenameSettings
   }
 
-  async saveSettings(settings: FilenameSettings): Promise<FilenameSettings> {
+  async saveSettings(settings: FilenameSettings): Promise<void> {
     await this.storageArea.set(settings)
-    return settings
   }
 
   async setDefaultSettings(): Promise<void> {
