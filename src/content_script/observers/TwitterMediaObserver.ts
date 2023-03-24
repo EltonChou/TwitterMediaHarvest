@@ -22,11 +22,7 @@ const revealNsfw = (article: HTMLElement) => {
 }
 
 export default class TwitterMediaObserver implements HarvestObserver {
-  readonly autoRevealNsfw: boolean
-
-  constructor(autoRevealNsfw = false) {
-    this.autoRevealNsfw = autoRevealNsfw
-  }
+  constructor(readonly autoRevealNsfw = false) {}
 
   observeRoot() {
     const options: MutationObserverInit = {

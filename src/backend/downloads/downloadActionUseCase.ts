@@ -11,11 +11,7 @@ const sentryCapture = (err: Error) => {
 }
 
 export default class DownloadActionUseCase {
-  readonly tweetInfo: TweetInfo
-
-  constructor(tweetInfo: TweetInfo) {
-    this.tweetInfo = tweetInfo
-  }
+  constructor(readonly tweetInfo: TweetInfo) {}
 
   /* eslint-disable no-console */
   private async process(): Promise<void> {

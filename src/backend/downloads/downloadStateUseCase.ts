@@ -10,13 +10,10 @@ import { downloadIsCompleted, downloadIsInterrupted } from './utils/downloadStat
 const statisticsUseCase = new StatisticsUseCases(storageConfig.statisticsRepo)
 
 export default class DownloadStateUseCase {
-  readonly downloadDelta: Downloads.OnChangedDownloadDeltaType
-  private downloadRecordRepo: IDownloadRecordsRepository
-
-  constructor(downloadDelta: Downloads.OnChangedDownloadDeltaType, downloadRecordRepo: IDownloadRecordsRepository) {
-    this.downloadDelta = downloadDelta
-    this.downloadRecordRepo = downloadRecordRepo
-  }
+  constructor(
+    readonly downloadDelta: Downloads.OnChangedDownloadDeltaType,
+    private downloadRecordRepo: IDownloadRecordsRepository
+  ) {}
 
   async process(): Promise<void> {
     if (downloadIsInterrupted(this.downloadDelta.state)) await this.handle_interrupted()

@@ -12,11 +12,7 @@ const defaultFilenameSettings: FilenameSettings = {
 }
 
 export default class FilenameSettingsRepository implements ISettingsRepository<FilenameSettings> {
-  readonly storageArea: Storage.StorageArea
-
-  constructor(storageArea: Storage.StorageArea) {
-    this.storageArea = storageArea
-  }
+  constructor(readonly storageArea: Storage.StorageArea) {}
 
   async getSettings(): Promise<FilenameSettings> {
     const settings = await this.storageArea.get(defaultFilenameSettings)

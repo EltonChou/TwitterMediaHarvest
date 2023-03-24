@@ -6,11 +6,7 @@ const defaultFeature: FeatureSettings = {
 }
 
 export class FeaturesRepository implements ISettingsRepository<FeatureSettings> {
-  readonly storageArea: Storage.StorageArea
-
-  constructor(storageArea: Storage.StorageArea) {
-    this.storageArea = storageArea
-  }
+  constructor(readonly storageArea: Storage.StorageArea) {}
 
   async getSettings(): Promise<FeatureSettings> {
     const settings = (await this.storageArea.get(defaultFeature)) as FeatureSettings

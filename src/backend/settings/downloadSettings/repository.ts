@@ -8,11 +8,7 @@ const defaultFilenameSettings: DownloadSettings = {
 }
 
 export default class DownloadSettingsRepository implements ISettingsRepository<DownloadSettings> {
-  readonly storageArea: Storage.StorageArea
-
-  constructor(storageArea: Storage.StorageArea) {
-    this.storageArea = storageArea
-  }
+  constructor(readonly storageArea: Storage.StorageArea) {}
 
   async getSettings(): Promise<DownloadSettings> {
     const settings = await this.storageArea.get(defaultFilenameSettings)

@@ -13,15 +13,7 @@ interface IKeyboardMonitor {
 abstract class GeneralKeyboardMonitor implements IKeyboardMonitor {
   readonly downloadKeyCode: DownloadKeyCode
   private buttonQuery: string
-  private _focusing: Element
-
-  get focusing() {
-    return this._focusing
-  }
-
-  set focusing(target: Element) {
-    this._focusing = target
-  }
+  protected focusing: Element
 
   constructor(buttonQuery: string, downloadKeyCOde: DownloadKeyCode) {
     this.buttonQuery = buttonQuery
