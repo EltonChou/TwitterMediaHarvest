@@ -2,15 +2,15 @@ import select from 'select-dom'
 import observeElement from './observer'
 import makeHarvester from '../core'
 
-const deckStreamHasMedia = (addedNode: Node) => {
+const deckStreamHasMedia = (addedNode: ParentNode) => {
   const hasMedia =
-    select.exists('.media-preview', addedNode as unknown as ParentNode) ||
-    select.exists('[rel="mediaPreview"]', addedNode as unknown as ParentNode) ||
-    select.exists('.media-preview-container', addedNode as unknown as ParentNode)
+    select.exists('.media-preview', addedNode) ||
+    select.exists('[rel="mediaPreview"]', addedNode) ||
+    select.exists('.media-preview-container', addedNode)
 
-  const notQuoted = !select.exists('.quoted-tweet', addedNode as unknown as ParentNode)
+  const notQuoted = !select.exists('.quoted-tweet', addedNode)
 
-  const notYoutube = !select.exists('[rel="mediaPreview"][href*="youtube.com"]', addedNode as unknown as ParentNode)
+  const notYoutube = !select.exists('[rel="mediaPreview"][href*="youtube.com"]', addedNode)
 
   return hasMedia && notQuoted && notYoutube
 }
@@ -31,8 +31,8 @@ const observeDetailReplies = (replies: HTMLElement) => {
     for (const mutation of mutations) {
       processRootTweets()
       for (const addedNode of mutation.addedNodes) {
-        if (deckStreamHasMedia(addedNode)) {
-          makeHarvester(addedNode as unknown as HTMLElement)
+        if (deckStreamHasMedia(addedNode as ParentNode)) {
+          makeHarvester(addedNode as HTMLElement)
         }
       }
     }
@@ -45,7 +45,7 @@ const observeModal = () => {
   const modalCallback: MutationCallback = mutations => {
     for (const mutation of mutations) {
       if (mutation.addedNodes.length) {
-        const article = select('.tweet', mutation.addedNodes[0] as unknown as ParentNode)
+        const article = select('.tweet', mutation.addedNodes[0] as ParentNode)
         makeHarvester(article)
       }
     }
@@ -115,7 +115,7 @@ const observeStreamContainer = (streamContainer: HTMLElement) => {
   const streamCallback: MutationCallback = mutations => {
     for (const mutation of mutations) {
       for (const addedNode of mutation.addedNodes) {
-        if (deckStreamHasMedia(addedNode)) {
+        if (deckStreamHasMedia(addedNode as ParentNode)) {
           makeHarvester(addedNode as HTMLElement)
         }
       }
