@@ -8,6 +8,9 @@ const webpack = require('webpack')
 const version = PACKAGE.version
 
 const config = {
+  experiments: {
+    topLevelAwait: true,
+  },
   mode: 'production',
   stats: 'errors-only',
   devtool: 'source-map',
