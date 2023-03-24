@@ -84,9 +84,9 @@ browser.notifications.onButtonClicked.addListener((notifficationId, buttonIndex)
 })
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-process.env.TARGET === 'firefox'
-  ? browser.browserAction.onClicked.addListener(() => browser.runtime.openOptionsPage())
-  : browser.action.onClicked.addListener(() => browser.runtime.openOptionsPage())
+// process.env.TARGET === 'firefox'
+//   ? browser.browserAction.onClicked.addListener(() => browser.runtime.openOptionsPage())
+//   : browser.action.onClicked.addListener(() => browser.runtime.openOptionsPage())
 
 process.env.TARGET === 'firefox'
   ? firefox_init()

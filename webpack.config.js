@@ -13,6 +13,7 @@ const config = {
     topLevelAwait: true,
   },
   mode: 'production',
+  target: 'web',
   stats: 'errors-only',
   devtool: 'source-map',
   resolve: {
@@ -26,6 +27,8 @@ const config = {
     main: path.resolve('./src/content_script/main.ts'),
     sw: path.resolve('./src/backend/sw.ts'),
     options: path.resolve('./src/backend/options.ts'),
+    index: path.resolve('./src/pages/index.tsx'),
+    popup: path.resolve('./src/pages/popup.tsx'),
   },
   output: {
     filename: '[name].js',
@@ -49,7 +52,7 @@ const config = {
         },
       },
       {
-        test: /\.ts$/,
+        test: /\.(ts|tsx)$/,
         exclude: /(node_modules)/,
         use: [
           {
@@ -83,6 +86,11 @@ const config = {
           to: 'assets/icons/[name][ext]',
         },
         {
+          from: 'pages/*.html',
+          context: 'src',
+          to: '[name][ext]',
+        },
+        {
           from: 'backend/pages/*',
           context: 'src',
           to: '[name][ext]',
@@ -95,6 +103,16 @@ const config = {
       ],
     }),
   ],
+  devServer: {
+    port: '9000',
+    static: {
+      directory: path.join(__dirname, 'build/chrome'),
+    },
+    open: true,
+    hot: true,
+    liveReload: true,
+    compress: true,
+  },
 }
 
 module.exports = (env, argv) => {
@@ -154,6 +172,11 @@ module.exports = (env, argv) => {
     config.stats = 'errors-warnings'
     config.devtool = 'inline-source-map'
     config.plugins.push(new BundleAnalyzerPlugin())
+    config.performance = {
+      hints: false,
+      maxAssetSize: 1000000,
+      maxEntrypointSize: 400000,
+    }
   }
 
   if (argv.mode === 'production') {

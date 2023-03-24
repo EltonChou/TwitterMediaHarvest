@@ -8,6 +8,7 @@
     "coverage"
   ],
   "compilerOptions": {
+    "jsx": "react",
     "outDir": "./build",
     "rootDir": "./src",
     "noImplicitAny": true,
