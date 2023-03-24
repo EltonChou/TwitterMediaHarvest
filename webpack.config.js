@@ -94,11 +94,7 @@ const config = {
 }
 
 module.exports = (env, argv) => {
-  let versionStage = 'beta'
-  if (argv.mode === 'development') versionStage = 'dev'
-  if (argv.mode === 'production') versionStage = 'prod'
-
-  const versionName = `${version}.${versionStage} (${env.target})`
+  const versionName = `${version} (${env.target})`
 
   const chromiumManifestCopyPlugin = new CopyPlugin({
     patterns: [
