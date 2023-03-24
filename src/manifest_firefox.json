@@ -56,7 +56,8 @@
   ],
   "browser_specific_settings": {
     "gecko": {
-      "id": "mediaharvest@addons.mozilla.org"
+      "id": "mediaharvest@addons.mozilla.org",
+      "strict_min_version": "90.0"
     }
   }
 }
