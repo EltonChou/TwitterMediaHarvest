@@ -8,11 +8,7 @@ export interface IDownloadRecordsRepository {
 }
 
 export class StorageAreaDownloadRecordsRepository implements IDownloadRecordsRepository {
-  readonly storageArea: Storage.StorageArea
-
-  constructor(storageArea: Storage.StorageArea) {
-    this.storageArea = storageArea
-  }
+  constructor(readonly storageArea: Storage.StorageArea) {}
 
   async save(downloadRecord: DownloadRecord): Promise<void> {
     await this.storageArea.set({

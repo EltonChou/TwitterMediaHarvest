@@ -1,5 +1,6 @@
 import type { Notifications } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
+import { i18nLocalize } from '../utils/i18n'
 
 enum TemplateType {
   Basic = 'basic',
@@ -8,7 +9,6 @@ enum TemplateType {
   Progress = 'progress',
 }
 
-const i18nLocalize = (kw: string) => browser.i18n.getMessage(kw)
 const notificationIconUrl = browser.runtime.getURL('assets/icons/icon128.png')
 const contextMessage = 'Media Harvest'
 
@@ -28,16 +28,13 @@ class NotificationButton {
 
 export class NotificationConfig {
   static downloadError(tweetInfo: TweetInfo, eventTime: number): Notifications.CreateNotificationOptions {
-    const prevMsg = i18nLocalize('notificationDLFailedMessageFirst')
-    const lastMsg = i18nLocalize('notificationDLFailedMessageLast')
-    const message =
-      `${prevMsg}${tweetInfo.screenName}(${tweetInfo.tweetId})${lastMsg}` + `${i18nLocalize('userCanceledMessage')}`
+    const info = i18nLocalize('notificationDLFailedMessage', [tweetInfo.screenName, tweetInfo.tweetId])
 
     return {
       type: TemplateType.Basic,
       iconUrl: notificationIconUrl,
       title: i18nLocalize('notificationDLFailedTitle'),
-      message: message,
+      message: info,
       contextMessage: contextMessage,
       buttons: [NotificationButton.viewTweet(), NotificationButton.retryDownload()],
       eventTime: eventTime,
@@ -49,9 +46,7 @@ export class NotificationConfig {
     tweetInfo: TweetInfo,
     { title, message }: FetchErrorReason
   ): Notifications.CreateNotificationOptions {
-    const prevMsg = i18nLocalize('notificationDLFailedMessageFirst')
-    const lastMsg = i18nLocalize('notificationDLFailedMessageLast')
-    const info = `${prevMsg}${tweetInfo.screenName}(${tweetInfo.tweetId})${lastMsg} ${message}`
+    const info = i18nLocalize('notificationDLFailedMessage', [tweetInfo.screenName, tweetInfo.tweetId])
 
     return {
       type: TemplateType.Basic,

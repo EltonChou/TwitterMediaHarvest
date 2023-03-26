@@ -5,11 +5,7 @@ import { NotificationConfig } from './helpers'
 import { makeDownloadFailedNotificationId, makeFetchErrorNotificationId } from './utils/notificationId'
 
 export class FetchErrorNotificationUseCase {
-  readonly tweetInfo: TweetInfo
-
-  constructor(tweetInfo: TweetInfo) {
-    this.tweetInfo = tweetInfo
-  }
+  constructor(readonly tweetInfo: TweetInfo) {}
 
   notify(err: TwitterApiError): void {
     let notiConf = NotificationConfig.unknownFetchError(err.reason)
@@ -22,11 +18,7 @@ export class FetchErrorNotificationUseCase {
 }
 
 export class InternalErrorNotificationUseCase {
-  readonly tweetInfo: TweetInfo
-
-  constructor(tweetInfo: TweetInfo) {
-    this.tweetInfo = tweetInfo
-  }
+  constructor(readonly tweetInfo: TweetInfo) {}
 
   notify(err: Error) {
     const notiConf = NotificationConfig.internalError(err.message)

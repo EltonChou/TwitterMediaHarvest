@@ -1,11 +1,11 @@
 import * as Sentry from '@sentry/browser'
-import { BrowserTracing } from '@sentry/tracing'
+// import { BrowserTracing } from '@sentry/tracing'
 import { SENTRY_DSN } from '../constants'
 import './main.sass'
 
 Sentry.init({
   dsn: SENTRY_DSN,
-  integrations: [new BrowserTracing()],
+  // integrations: [new BrowserTracing()],
   ignoreErrors: [
     'ResizeObserver loop limit exceeded',
     'Extension context invalidated',
@@ -22,8 +22,11 @@ import { TweetDeckKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMoni
 import TweetDeckObserver from './observers/TweetDeckObserver'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
 import { isTweetDeck } from './utils/checker'
+import { FeaturesRepository } from './features/repository'
 
-const observer = isTweetDeck() ? new TweetDeckObserver() : new TwitterMediaObserver()
+const featureRepo = new FeaturesRepository()
+
+const observer = isTweetDeck() ? new TweetDeckObserver() : new TwitterMediaObserver(await featureRepo.isRevealNsfw())
 const keyboardMonitor = isTweetDeck() ? new TweetDeckKeyboardMonitor() : new TwitterKeyboardMonitor()
 
 window.addEventListener('keydown', keyboardMonitor.handleKeyDown.bind(keyboardMonitor))

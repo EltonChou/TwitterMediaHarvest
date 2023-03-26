@@ -12,7 +12,18 @@ enum Query {
   Timeline = '[data-testid="primaryColumn"] [aria-label]',
 }
 
+const revealNsfw = (article: HTMLElement) => {
+  if (!article || article.dataset['autoReveal']) return
+  const revealButton = select('[style*="blur"]', article)
+  if (revealButton) {
+    article.dataset['autoReveal'] = 'true'
+    revealButton.click()
+  }
+}
+
 export default class TwitterMediaObserver implements HarvestObserver {
+  constructor(readonly autoRevealNsfw = false) {}
+
   observeRoot() {
     const options: MutationObserverInit = {
       childList: true,
@@ -40,19 +51,23 @@ export default class TwitterMediaObserver implements HarvestObserver {
 
     const articles = select.all('article')
     for (const article of articles) {
+      if (this.autoRevealNsfw) revealNsfw(article)
       if (articleHasMedia(article)) makeHarvester(article)
     }
   }
 
   observeStream() {
-    observeElement(Query.Stream, mutations => {
+    const mutaionCb: MutationCallback = mutations => {
       for (const mutation of mutations) {
         for (const addedNode of mutation.addedNodes) {
           const article = select('article', addedNode as ParentNode)
+          if (this.autoRevealNsfw) revealNsfw(article)
           if (articleHasMedia(article)) makeHarvester(article)
         }
       }
-    })
+    }
+
+    observeElement(Query.Stream, mutaionCb)
   }
 
   observeTimeline() {

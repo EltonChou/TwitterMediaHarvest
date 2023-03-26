@@ -113,7 +113,7 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
 const getSampleButton = (article: HTMLElement): HTMLElement => {
   const shareSvg = select('[role="group"] [dir="ltr"] [data-testid$="iconOutgoing"]', article)
   const sampleButton = shareSvg
-    ? (shareSvg.closest('[role="button"] > div') as HTMLElement)
+    ? (shareSvg.closest('[role="like"] > div') as HTMLElement)
     : select('[data-testid="reply"] > div', article)
 
   if (!sampleButton) throw new Error('Cannot get sample button.')

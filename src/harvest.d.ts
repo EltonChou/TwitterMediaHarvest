@@ -29,6 +29,10 @@ type DownloadSettings = {
   aggressive_mode: boolean
 }
 
+type FeatureSettings = {
+  autoRevealNsfw: boolean
+}
+
 type Aria2DownloadOption = {
   url: string
   filename: string

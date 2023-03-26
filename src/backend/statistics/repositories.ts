@@ -24,11 +24,7 @@ export interface IStatisticsRepository {
 }
 
 export default class StatisticsRepository implements IStatisticsRepository {
-  readonly storageArea: Storage.StorageArea
-
-  constructor(storageArea: Storage.StorageArea) {
-    this.storageArea = storageArea
-  }
+  constructor(readonly storageArea: Storage.StorageArea) {}
 
   async getStatistics(): Promise<DownloadStatistic> {
     const stats = await this.storageArea.get(defaultStatistic)

@@ -10,11 +10,7 @@ export interface IStatisticsUseCase {
 }
 
 export default class StatisticsUseCases implements IStatisticsUseCase {
-  statisticsRepo: IStatisticsRepository
-
-  constructor(repo: IStatisticsRepository) {
-    this.statisticsRepo = repo
-  }
+  constructor(readonly statisticsRepo: IStatisticsRepository) {}
 
   async getSuccessDownloadCount(): Promise<number> {
     const count = await this.statisticsRepo.getStatisticsCount(StatisticsKey.SuccessDownloadCount)

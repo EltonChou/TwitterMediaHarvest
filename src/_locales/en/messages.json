@@ -38,11 +38,18 @@
   "notificationDLFailedTitle": {
     "message": "Download failed"
   },
-  "notificationDLFailedMessageFirst": {
-    "message": "Media in "
-  },
-  "notificationDLFailedMessageLast": {
-    "message": " download failed."
+  "notificationDLFailedMessage": {
+    "message": "Media in $ACCOUNT$($TWEETID$) download failed.",
+    "placeholders": {
+      "account": {
+        "content": "$1",
+        "example": "TweetAccount"
+      },
+      "tweetid": {
+        "content": "$2",
+        "example": "1253677247493337088"
+      }
+    }
   },
   "notificationDLFailedButton1": {
     "message": "View"
@@ -79,5 +86,17 @@
   },
   "internalError": {
     "message": "Internal Error"
+  },
+  "additionalOptions": {
+    "message": "Additional Options"
+  },
+  "downloadVideoThumbnail": {
+    "message": "Download video thumbnail"
+  },
+  "aggressiveMode": {
+    "message": "Aggressive Mode"
+  },
+  "autoRevealNsfw": {
+    "message": "Auto-reveal sensitive content"
   }
 }

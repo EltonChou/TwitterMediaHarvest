@@ -49,13 +49,7 @@ export default class NotificationUseCase implements INotificationUseCase {
 const tweetUrl = (tweetId: string) => `https://twitter.com/i/web/status/${tweetId}`
 
 class DownloadNotificationUseCase implements INotificationUseCase {
-  readonly downloadRecordRepo: IDownloadRecordsRepository
-  private downloadItemId: number
-
-  constructor(downloadItemId: number, downloadRecordRepo: IDownloadRecordsRepository) {
-    this.downloadItemId = downloadItemId
-    this.downloadRecordRepo = downloadRecordRepo
-  }
+  constructor(readonly downloadItemId: number, private downloadRecordRepo: IDownloadRecordsRepository) {}
 
   async handle_button(buttonIndex: number): Promise<void> {
     if (buttonIndex === 0) await this.openFailedTweetInNewTab()
@@ -90,11 +84,7 @@ class DownloadNotificationUseCase implements INotificationUseCase {
 }
 
 class FetchErrorNotificationUseCase implements INotificationUseCase {
-  private tweetId: string
-
-  constructor(tweetId: string) {
-    this.tweetId = tweetId
-  }
+  constructor(private readonly tweetId: string) {}
 
   async handle_button(buttonIndex: number): Promise<void> {
     if (buttonIndex === 0) await this.openFailedTweetInNewTab()

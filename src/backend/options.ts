@@ -7,8 +7,11 @@ import { storageConfig } from './configurations'
 import { FilenameSerialRule } from './downloads/TwitterMediaFile'
 import { StatisticsKey } from './statistics/repositories'
 
+select('html').lang = browser.i18n.getMessage('@@ui_locale')
+
 const filenameSettingsRepo = storageConfig.filenameSettingsRepo
 const downloadSettingsRepo = storageConfig.downloadSettingsRepo
+const featureSettingsRepo = storageConfig.featureSettingsRepo
 
 const noSubDirCheckBox: HTMLInputElement = select('#no_subdirectory')
 const accountCheckBox: HTMLInputElement = select('#account')
@@ -17,6 +20,7 @@ const serialSelect: HTMLSelectElement = select('select')
 const aria2Control: HTMLInputElement = select('#aria2')
 const videoThumbnailControl: HTMLInputElement = select('#videoThumbnail')
 const aggressiveModeControl: HTMLInputElement = select('#aggressiveMode')
+const autoRevealNsfwControl: HTMLInputElement = select('#autoRevealNsfw')
 const settingsForm: HTMLFormElement = select('#settings')
 const submitButton: HTMLButtonElement = select('#submit')
 const resetStorageButton: HTMLInputElement = select('#reset_storage')
@@ -43,12 +47,16 @@ const updatePreview = () => {
 const initializeForm = async () => {
   const filenameSettings = await filenameSettingsRepo.getSettings()
   const downloadSettings = await downloadSettingsRepo.getSettings()
+  const featureSettings = await featureSettingsRepo.getSettings()
+
   directoryInput.value = filenameSettings.directory
   noSubDirCheckBox.checked = filenameSettings.no_subdirectory
   accountCheckBox.checked = filenameSettings.filename_pattern.account
   aria2Control.checked = downloadSettings.enableAria2
   videoThumbnailControl.checked = downloadSettings.includeVideoThumbnail
   aggressiveModeControl.checked = downloadSettings.aggressive_mode
+  autoRevealNsfwControl.checked = featureSettings.autoRevealNsfw
+
   if (noSubDirCheckBox.checked) disableDirectoryInput()
   const options = select.all('option')
   options.forEach(option => {
@@ -92,6 +100,7 @@ accountCheckBox.addEventListener('change', allowSubmit)
 aria2Control.addEventListener('change', allowSubmit)
 videoThumbnailControl.addEventListener('change', allowSubmit)
 aggressiveModeControl.addEventListener('change', allowSubmit)
+autoRevealNsfwControl.addEventListener('change', allowSubmit)
 noSubDirCheckBox.addEventListener('change', () => {
   noSubDirCheckBox.checked ? disableDirectoryInput() : enableDirectoryInput()
   allowSubmit()
@@ -141,10 +150,15 @@ settingsForm.addEventListener('submit', async function (e) {
     },
   }
 
-  const saveDownloadSettings = downloadSettingsRepo.saveSettings(downloadSettings)
-  const saveFilenameSetting = filenameSettingsRepo.saveSettings(filenameSetting)
+  const featureSettings: FeatureSettings = {
+    autoRevealNsfw: autoRevealNsfwControl.checked,
+  }
 
-  Promise.all([saveDownloadSettings, saveFilenameSetting]).then(() => {
+  Promise.all([
+    downloadSettingsRepo.saveSettings(downloadSettings),
+    filenameSettingsRepo.saveSettings(filenameSetting),
+    featureSettingsRepo.saveSettings(featureSettings),
+  ]).then(() => {
     console.info('Save settings.')
     console.table(filenameSetting)
     submitSuccess()
