@@ -3,7 +3,6 @@ import type { Storage } from 'webextension-polyfill'
 
 const defaultFilenameSettings: DownloadSettings = {
   enableAria2: false,
-  includeVideoThumbnail: false,
   aggressive_mode: false,
 }
 

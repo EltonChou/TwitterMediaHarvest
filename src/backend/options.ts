@@ -53,7 +53,7 @@ const initializeForm = async () => {
   noSubDirCheckBox.checked = filenameSettings.no_subdirectory
   accountCheckBox.checked = filenameSettings.filename_pattern.account
   aria2Control.checked = downloadSettings.enableAria2
-  videoThumbnailControl.checked = downloadSettings.includeVideoThumbnail
+  videoThumbnailControl.checked = featureSettings.includeVideoThumbnail
   aggressiveModeControl.checked = downloadSettings.aggressive_mode
   autoRevealNsfwControl.checked = featureSettings.autoRevealNsfw
 
@@ -137,7 +137,6 @@ settingsForm.addEventListener('submit', async function (e) {
 
   const downloadSettings: DownloadSettings = {
     enableAria2: Boolean(aria2Control.ariaChecked),
-    includeVideoThumbnail: Boolean(videoThumbnailControl.checked),
     aggressive_mode: Boolean(aggressiveModeControl.checked),
   }
 
@@ -152,6 +151,7 @@ settingsForm.addEventListener('submit', async function (e) {
 
   const featureSettings: FeatureSettings = {
     autoRevealNsfw: autoRevealNsfwControl.checked,
+    includeVideoThumbnail: Boolean(videoThumbnailControl.checked),
   }
 
   Promise.all([

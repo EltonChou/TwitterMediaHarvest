@@ -25,12 +25,12 @@ type FilenameSettings = {
 
 type DownloadSettings = {
   enableAria2: boolean
-  includeVideoThumbnail: boolean
   aggressive_mode: boolean
 }
 
 type FeatureSettings = {
   autoRevealNsfw: boolean
+  includeVideoThumbnail: boolean
 }
 
 type Aria2DownloadOption = {
@@ -60,3 +60,6 @@ interface HarvestObserver {
   observeRoot: () => void
   initialize: () => void
 }
+
+type SyncStorageSchema = FilenameSettings
+type LocalStorageSchema = FeatureSettings & DownloadSettings

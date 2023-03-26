@@ -2,7 +2,7 @@
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
 const FileManagerPlugin = require('filemanager-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const PACKAGE = require('./package.json')
 const PublicKey = require('./public_key.json')
 const webpack = require('webpack')
@@ -19,6 +19,10 @@ const config = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     fallback: { path: require.resolve('path-browserify') },
+    alias: {
+      '@backend': path.resolve(__dirname, 'src/backend/'),
+      '@pages': path.resolve(__dirname, 'src/pages/'),
+    },
   },
   optimization: {
     minimize: true,
@@ -28,7 +32,6 @@ const config = {
     sw: path.resolve('./src/backend/sw.ts'),
     options: path.resolve('./src/backend/options.ts'),
     index: path.resolve('./src/pages/index.tsx'),
-    popup: path.resolve('./src/pages/popup.tsx'),
   },
   output: {
     filename: '[name].js',
@@ -171,7 +174,7 @@ module.exports = (env, argv) => {
     config.optimization.minimize = false
     config.stats = 'errors-warnings'
     config.devtool = 'inline-source-map'
-    config.plugins.push(new BundleAnalyzerPlugin())
+    // config.plugins.push(new BundleAnalyzerPlugin())
     config.performance = {
       hints: false,
       maxAssetSize: 1000000,

@@ -50,7 +50,7 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender) =>
 browser.runtime.onInstalled.addListener(async details => {
   if (details.reason === InstallReason.Install) await initStorage()
   if (details.reason === InstallReason.Update) showUpdateMessageInConsole(details.previousVersion)
-  browser.runtime.openOptionsPage()
+  // browser.runtime.openOptionsPage()
 })
 
 browser.downloads.onChanged.addListener(async downloadDelta => {
