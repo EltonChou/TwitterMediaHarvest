@@ -5,7 +5,8 @@ import type { DownloadItemRecorder } from './downloadItemRecorder'
 import { downloadItemRecorder } from './downloadItemRecorder'
 import TwitterMediaFile, { DownloadMode } from './TwitterMediaFile'
 
-const ARIA2_ID = 'mpkodccbngfoacfalldjimigbofkhgjn'
+const ARIA2_ID =
+  process.env.TARGET === 'chrome' ? 'mpkodccbngfoacfalldjimigbofkhgjn' : 'jjfgljkjddpcpfapejfkelkbjbehagbh'
 
 export default class MediaDownloader {
   readonly tweetInfo: TweetInfo

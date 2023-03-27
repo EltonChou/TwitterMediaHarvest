@@ -33,7 +33,10 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender) =>
     if (isInvalidInfo(message.data)) {
       console.error('Invalid tweetInfo.')
       statisticsUsecases.addErrorCount()
-      return { status: 'error', data: new HarvestError(`Invalid tweetInfo. ${message.data}`) }
+      return {
+        status: 'error',
+        data: new HarvestError(`Invalid tweetInfo. ${message.data}`),
+      }
     }
 
     const usecase = new DownloadActionUseCase(message.data as TweetInfo)

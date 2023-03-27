@@ -14,7 +14,7 @@ export default class DownloadSettingsRepository implements ISettingsRepository<D
     return settings as DownloadSettings
   }
 
-  async saveSettings(settings: DownloadSettings): Promise<void> {
+  async saveSettings(settings: Partial<DownloadSettings>): Promise<void> {
     await this.storageArea.set(settings)
   }
 

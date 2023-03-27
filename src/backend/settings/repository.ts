@@ -1,5 +1,5 @@
 export interface ISettingsRepository<S> {
   getSettings(): Promise<S>
-  saveSettings(settings: S): Promise<void>
+  saveSettings(settings: Partial<S>): Promise<void>
   setDefaultSettings(): Promise<void>
 }
