@@ -11,6 +11,53 @@ const defaultFilenameSettings: FilenameSettings = {
   },
 }
 
+enum PatternToken {
+  account = '{account}',
+  tweetId = '{tweetId}',
+  serial = '{serial}',
+  hash = '{serial}',
+  date = '{date}',
+}
+
+const defaultV4FilenameSettings: V4FilenameSettings = {
+  directory: DEFAULT_DIRECTORY,
+  noSubDirectory: false,
+  filenamePattern: [PatternToken.account, PatternToken.tweetId, PatternToken.serial],
+}
+
+export class V4FilenameSettingsRepository implements ISettingsRepository<V4FilenameSettings> {
+  constructor(readonly storageArea: Storage.StorageArea) {}
+
+  async getSettings(): Promise<V4FilenameSettings> {
+    const settings = await this.storageArea.get({
+      ...defaultV4FilenameSettings,
+      filenamePattern: defaultV4FilenameSettings.filenamePattern.join('-'),
+    })
+
+    return {
+      directory: settings.directory,
+      noSubDirectory: settings.noSubDirectory,
+      filenamePattern: settings.filenamePattern.split('-'),
+    }
+  }
+
+  async saveSettings(settings: Partial<V4FilenameSettings>): Promise<void> {
+    await this.storageArea.set({
+      directory: settings.directory,
+      noSubDirectory: settings.noSubDirectory,
+      filenamePattern: settings.filenamePattern.join('-'),
+    })
+  }
+
+  async setDefaultSettings(): Promise<void> {
+    await this.saveSettings(defaultV4FilenameSettings)
+  }
+
+  getDefaultSettings(): V4FilenameSettings {
+    return defaultV4FilenameSettings
+  }
+}
+
 export default class FilenameSettingsRepository implements ISettingsRepository<FilenameSettings> {
   constructor(readonly storageArea: Storage.StorageArea) {}
 
@@ -24,6 +71,10 @@ export default class FilenameSettingsRepository implements ISettingsRepository<F
   }
 
   async setDefaultSettings(): Promise<void> {
-    await this.storageArea.set(defaultFilenameSettings)
+    await this.saveSettings(defaultFilenameSettings)
+  }
+
+  getDefaultSettings(): FilenameSettings {
+    return defaultFilenameSettings
   }
 }

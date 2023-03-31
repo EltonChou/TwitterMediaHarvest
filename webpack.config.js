@@ -166,6 +166,7 @@ module.exports = (env, argv) => {
     new webpack.EnvironmentPlugin({
       RELEASE: env.RELEASE_NAME || PACKAGE.name + '(' + env.target + ')' + '@' + version,
       TARGET: env.target,
+      VERSION_NAME: versionName,
     })
   )
 
@@ -195,7 +196,7 @@ module.exports = (env, argv) => {
                 options: {
                   zlib: { level: 9 },
                   globOptions: {
-                    ignore: ['*.map'],
+                    ignore: ['*.map', '*.txt'],
                   },
                 },
               },
@@ -227,6 +228,7 @@ module.exports = (env, argv) => {
       })
     )
   }
+  // config.plugins.push(new BundleAnalyzerPlugin())
 
   return config
 }

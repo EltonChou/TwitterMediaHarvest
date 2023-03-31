@@ -15,7 +15,8 @@
     "sourceType": "module"
   },
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "react-hooks"
   ],
   "rules": {
     "max-len": [
@@ -66,6 +67,8 @@
         ],
         "allowSeparatedGroups": false
       }
-    ]
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

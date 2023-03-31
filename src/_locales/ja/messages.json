@@ -98,5 +98,8 @@
   },
   "autoRevealNsfw": {
     "message": "センシティブな内容を自動で表示する"
+  },
+  "autoRevealNsfwShort": {
+    "message": "Auto-reveal NSFW"
   }
 }

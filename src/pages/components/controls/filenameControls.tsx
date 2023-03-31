@@ -1,27 +1,43 @@
-import { Checkbox, CheckboxGroup, Input } from '@chakra-ui/react'
 import { DEFAULT_DIRECTORY } from '@backend/constants'
-import React, { useState } from 'react'
+import { Checkbox, FormControl, Input } from '@chakra-ui/react'
+import React, { memo, useCallback, useState } from 'react'
 import browser from 'webextension-polyfill'
 
-const SubDirectoryControl = () => {
-  const [hasSubDir, setHasSubDir] = useState(true)
-  return (
-    <div>
-      <Input placeholder={DEFAULT_DIRECTORY} isDisabled={!hasSubDir}></Input>
-      <Checkbox checked={!hasSubDir} onChange={() => setHasSubDir(!hasSubDir)}>
-        {browser.i18n.getMessage('noSubDirectory')}
-      </Checkbox>
-    </div>
-  )
-}
+export const SubDirectoryControl = memo(
+  ({ directory, hasSub, isValidDir, handleCheckBox, handleInput }: SubDirectoryControlProps) => {
+    const [isDirChanged, setDirIsChanged] = useState(false)
 
-const FilenameControlForm = () => {
-  return (
-    <div>
-      Filename Control
-      <SubDirectoryControl />
-    </div>
-  )
-}
+    const handleDirInput = useCallback(
+      (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDirIsChanged(true)
+        handleInput(event.target.value)
+      },
+      [handleInput]
+    )
 
-export default FilenameControlForm
+    return (
+      <FormControl>
+        <Checkbox isChecked={!hasSub} onChange={handleCheckBox}>
+          {browser.i18n.getMessage('noSubDirectory')}
+        </Checkbox>
+        <Input
+          placeholder={DEFAULT_DIRECTORY}
+          isDisabled={!hasSub}
+          focusBorderColor={isDirChanged ? (isValidDir ? 'green.300' : 'red.300') : 'blue.300'}
+          value={directory}
+          onInput={handleDirInput}
+          onChange={handleDirInput}
+          isInvalid={!isValidDir}
+        />
+      </FormControl>
+    )
+  }
+)
+
+type SubDirectoryControlProps = {
+  directory: string
+  hasSub: boolean
+  isValidDir: boolean
+  handleInput: (v: string) => void
+  handleCheckBox: () => void
+}

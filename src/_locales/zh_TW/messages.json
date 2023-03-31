@@ -98,5 +98,8 @@
   },
   "autoRevealNsfw": {
     "message": "敏感內容自動開圖"
+  },
+  "autoRevealNsfwShort": {
+    "message": "Auto-reveal NSFW"
   }
 }

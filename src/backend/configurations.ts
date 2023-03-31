@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill'
 import { IDownloadRecordsRepository, StorageAreaDownloadRecordsRepository } from './downloadRecords/repository'
 import DownloadSettingsRepository from './settings/downloadSettings/repository'
-import FilenameSettingsRepository from './settings/filenameSettings/repository'
+import FilenameSettingsRepository, { V4FilenameSettingsRepository } from './settings/filenameSettings/repository'
 import { ISettingsRepository } from './settings/repository'
 import StatisticsRepository, { IStatisticsRepository } from './statistics/repositories'
 import { FeaturesRepository } from './settings/featureSettings/repository'
@@ -20,6 +20,7 @@ class StorageConfiguration implements IStorageConfiguration {
   readonly filenameSettingsRepo = new FilenameSettingsRepository(browser.storage.sync)
   readonly downloadSettingsRepo = new DownloadSettingsRepository(browser.storage.local)
   readonly featureSettingsRepo = new FeaturesRepository(browser.storage.local)
+  readonly v4FilenameSettingsRepo = new V4FilenameSettingsRepository(browser.storage.local)
 }
 
 export const storageConfig = new StorageConfiguration()

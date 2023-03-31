@@ -12,7 +12,7 @@ const html = document.getElementsByTagName('html')[0]
 
 switch (params.get('tab')) {
   case 'popup':
-    html.setAttribute('style', 'width:500px;height:600px;')
+    html.setAttribute('style', 'width:300px; height:500px;')
     root.render(<Popup />)
     break
   default:

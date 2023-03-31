@@ -21,4 +21,8 @@ export class FeaturesRepository implements ISettingsRepository<FeatureSettings> 
   async setDefaultSettings(): Promise<void> {
     await this.storageArea.set(defaultFeature)
   }
+
+  getDefaultSettings(): FeatureSettings {
+    return defaultFeature
+  }
 }

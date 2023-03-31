@@ -1,9 +1,10 @@
 {
   "name": "twitter-media-harvest",
-  "version": "3.2.9",
+  "version": "4.0.0",
   "description": "The easiest way to get media from twitter-timeline.",
   "main": "./src/main.js",
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.17",
     "@chakra-ui/react": "^2.5.3",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -12,6 +13,7 @@
     "path-browserify": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0",
     "sanitize-filename": "^1.6.3",
     "select-dom": "^7.1.1",
     "webextension-polyfill": "^0.10.0"
@@ -39,6 +41,7 @@
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "file-loader": "^6.1.1",
     "filemanager-webpack-plugin": "^7.0.0",
     "jest": "^28.1.1",
@@ -76,6 +79,7 @@
     "build:edge:dev": "webpack --mode=development --progress --color --env target=edge",
     "build:firefox": "webpack --mode=production --progress --color --env target=firefox",
     "build:firefox:dev": "webpack --mode=development --progress --color --env target=firefox",
+    "watch": "yarn build:dev --watch",
     "lint": "eslint --color --quiet --ext .js --ext .ts src/ --fix"
   },
   "jest": {

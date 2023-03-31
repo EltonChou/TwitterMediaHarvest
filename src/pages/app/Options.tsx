@@ -1,21 +1,24 @@
 import { ChakraProvider, FormLabel } from '@chakra-ui/react'
-import FeatureSettingsControls from '@pages/components/controls/featureControls'
-import FilenameControlForm from '@pages/components/controls/filenameControls'
-import IntegrationControls from '@pages/components/controls/integrartionControls'
+import FeatureControlBlock from '@pages/components/FeatureControlBlock'
+import IntegrationControlBlock from '@pages/components/IntegrationControlBlock'
+import FilenameControlBlock from '@pages/components/FilenameControlBlock'
 import React from 'react'
 
 const App = () => {
   return (
     <ChakraProvider>
-      <FilenameControlForm />
       <FormLabel as="legend" htmlFor={null}>
-        Feature Options
+        Sub-directory
       </FormLabel>
-      <FeatureSettingsControls />
+      <FilenameControlBlock />
       <FormLabel as="legend" htmlFor={null}>
-        Integration Options
+        Features
       </FormLabel>
-      <IntegrationControls />
+      <FeatureControlBlock />
+      <FormLabel as="legend" htmlFor={null}>
+        Integrations
+      </FormLabel>
+      <IntegrationControlBlock />
     </ChakraProvider>
   )
 }
