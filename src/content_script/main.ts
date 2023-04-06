@@ -7,6 +7,9 @@ Sentry.init({
   dsn: SENTRY_DSN,
   // integrations: [new BrowserTracing()],
   ignoreErrors: [
+    'abs.twimg.com',
+    'ApiError',
+    'ResizeObserver loop completed with undelivered notifications.',
     'ResizeObserver loop limit exceeded',
     'Extension context invalidated',
     '(intermediate value)(intermediate value)(intermediate value).querySelector is not a function',
