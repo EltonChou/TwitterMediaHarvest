@@ -10,7 +10,7 @@ const ARIA2_ID =
 
 export default class MediaDownloader {
   readonly tweetInfo: TweetInfo
-  readonly filenameSettings: FilenameSettings
+  readonly filenameSettings: V4FilenameSettings
   readonly downloadSettings: DownloadSettings
   readonly featureSettings: FeatureSettings
   readonly mode: DownloadMode
@@ -18,7 +18,7 @@ export default class MediaDownloader {
 
   constructor(
     tweetInfo: TweetInfo,
-    filenameSettings: FilenameSettings,
+    filenameSettings: V4FilenameSettings,
     downloadSettings: DownloadSettings,
     featureSettings: FeatureSettings
   ) {
@@ -31,7 +31,7 @@ export default class MediaDownloader {
   }
 
   static async build(tweetInfo: TweetInfo) {
-    const fileNameSettings = await storageConfig.filenameSettingsRepo.getSettings()
+    const fileNameSettings = await storageConfig.v4FilenameSettingsRepo.getSettings()
     const downloadSettings = await storageConfig.downloadSettingsRepo.getSettings()
     const featureSettings = await storageConfig.featureSettingsRepo.getSettings()
     return new MediaDownloader(tweetInfo, fileNameSettings, downloadSettings, featureSettings)

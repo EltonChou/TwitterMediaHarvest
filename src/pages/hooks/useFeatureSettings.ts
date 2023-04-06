@@ -1,9 +1,5 @@
+import { useCallback, useEffect, useReducer } from 'react'
 import { storageConfig } from '@backend/configurations'
-import type { StackProps } from '@chakra-ui/react'
-import { Box, Flex, FormControl, SimpleGrid, Stack, VStack } from '@chakra-ui/react'
-import React, { useCallback, useEffect, useReducer } from 'react'
-import browser from 'webextension-polyfill'
-import { FeatureSwitch } from './controls/featureControls'
 
 const defaultFeatureSettings: FeatureSettings = storageConfig.featureSettingsRepo.getDefaultSettings()
 
@@ -29,7 +25,10 @@ function reducer(
   }
 }
 
-const FeatureControlBlock = (props: StackProps) => {
+type RevealNsfwToggler = () => Promise<void>
+type ThumbnailToggler = () => Promise<void>
+
+const useFeatureSettings = (): [FeatureSettings, RevealNsfwToggler, ThumbnailToggler] => {
   const [featureSettings, dispatch] = useReducer(reducer, defaultFeatureSettings)
 
   const initSettings = useCallback(() => {
@@ -59,22 +58,7 @@ const FeatureControlBlock = (props: StackProps) => {
     dispatch({ type: 'toggleThumbnail' })
   }, [featureSettings.includeVideoThumbnail])
 
-  return (
-    <Stack direction={'column'} {...props}>
-      <FeatureSwitch
-        controlId="auto-reveal-nsfw"
-        isOn={featureSettings.autoRevealNsfw}
-        handleChange={toggleRevealNsfw}
-        labelContent={browser.i18n.getMessage('autoRevealNsfwShort')}
-      />
-      <FeatureSwitch
-        controlId="thumbnail"
-        isOn={featureSettings.includeVideoThumbnail}
-        handleChange={toggleThumbnail}
-        labelContent={browser.i18n.getMessage('downloadVideoThumbnail')}
-      />
-    </Stack>
-  )
+  return [featureSettings, toggleRevealNsfw, toggleThumbnail]
 }
 
-export default FeatureControlBlock
+export default useFeatureSettings

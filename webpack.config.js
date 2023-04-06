@@ -30,7 +30,6 @@ const config = {
   entry: {
     main: path.resolve('./src/content_script/main.ts'),
     sw: path.resolve('./src/backend/sw.ts'),
-    options: path.resolve('./src/backend/options.ts'),
     index: path.resolve('./src/pages/index.tsx'),
   },
   output: {
@@ -90,11 +89,6 @@ const config = {
         },
         {
           from: 'pages/*.html',
-          context: 'src',
-          to: '[name][ext]',
-        },
-        {
-          from: 'backend/pages/*',
           context: 'src',
           to: '[name][ext]',
         },

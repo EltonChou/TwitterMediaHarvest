@@ -1,15 +1,11 @@
 import path from 'path'
-import { jest } from '@jest/globals'
-import TwitterMediaFile, { DownloadMode, FilenameSerialRule } from '../backend/downloads/TwitterMediaFile'
+import TwitterMediaFile, { DownloadMode } from '../backend/downloads/TwitterMediaFile'
 
 const DEFAULT_DIRECTORY = 'twitter_media_harvest'
-const defaultFilenameSetting: FilenameSettings = {
+const defaultFilenameSetting: V4FilenameSettings = {
   directory: DEFAULT_DIRECTORY,
-  no_subdirectory: false,
-  filename_pattern: {
-    account: true,
-    serial: FilenameSerialRule.Order,
-  },
+  noSubDirectory: false,
+  filenamePattern: ['{account}', '{tweetId}', '{serial}'],
 }
 const VIDEO_URL_BASE = 'https://pbs.twimg.com/tw_video/'
 const IMAGE_URL_BASE = 'https://pbs.twimg.com/media/'
@@ -78,85 +74,5 @@ describe('Test TwitterMediaFile usage.', () => {
         'https://video.twimg.com/amplify_video/5465465465415/vid/1440x720/adsfasdfasdf.mp4'
       )
     ).toBeTruthy()
-  })
-})
-
-describe('Test different filename pattern.', () => {
-  const fileExt = '.jpg'
-  const basename = 'sss'
-  const filename = basename.concat(fileExt)
-  const fileIndex = 3
-  const makeSetting = jest.fn(
-    (needAccount: boolean, serial: FilenameSerialRule, no_sub_dir: boolean): FilenameSettings => {
-      return {
-        directory: DEFAULT_DIRECTORY,
-        no_subdirectory: no_sub_dir,
-        filename_pattern: {
-          account: needAccount,
-          serial: serial,
-        },
-      }
-    }
-  )
-  const twitterMediaFile = new TwitterMediaFile(tweetInfo, IMAGE_URL_BASE.concat(filename), fileIndex)
-
-  it('can be account with serial in order (by default).', () => {
-    const thisFilename = path.format({
-      dir: `${DEFAULT_DIRECTORY}`,
-      name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-0${fileIndex + 1}`,
-      ext: fileExt,
-    })
-    const patternSetting = makeSetting(true, FilenameSerialRule.Order, false)
-    const fileName = twitterMediaFile.makeFileFullPathBySetting(patternSetting)
-
-    expect(fileName).toBe(thisFilename)
-  })
-
-  it('can be account with serial in original filename', () => {
-    const thisFilename = path.format({
-      dir: `${DEFAULT_DIRECTORY}`,
-      name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-${basename}`,
-      ext: fileExt,
-    })
-    const patternSetting = makeSetting(true, FilenameSerialRule.Filename, false)
-    const fileName = twitterMediaFile.makeFileFullPathBySetting(patternSetting)
-
-    expect(fileName).toBe(thisFilename)
-  })
-
-  it('can be serial in order without account', () => {
-    const thisFilename = path.format({
-      dir: `${DEFAULT_DIRECTORY}`,
-      name: `${tweetInfo.tweetId}-0${fileIndex + 1}`,
-      ext: fileExt,
-    })
-    const patternSetting = makeSetting(false, FilenameSerialRule.Order, false)
-    const fileName = twitterMediaFile.makeFileFullPathBySetting(patternSetting)
-
-    expect(fileName).toBe(thisFilename)
-  })
-
-  it('can be serial in file basename without account', async () => {
-    const thisFilename = path.format({
-      dir: `${DEFAULT_DIRECTORY}`,
-      name: `${tweetInfo.tweetId}-${basename}`,
-      ext: fileExt,
-    })
-    const patternSetting = makeSetting(false, FilenameSerialRule.Filename, false)
-    const fileName = twitterMediaFile.makeFileFullPathBySetting(patternSetting)
-
-    expect(fileName).toBe(thisFilename)
-  })
-
-  it('can be no-subdirectory', async () => {
-    const thisFilename = path.format({
-      root: '',
-      name: `${tweetInfo.tweetId}-${basename}`,
-      ext: fileExt,
-    })
-    const patternSetting = makeSetting(false, FilenameSerialRule.Filename, true)
-    const fileName = twitterMediaFile.makeFileFullPathBySetting(patternSetting)
-
-    expect(fileName).toBe(thisFilename)
   })
 })

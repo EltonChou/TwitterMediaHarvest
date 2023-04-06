@@ -1,16 +1,16 @@
 import { ISettingsRepository } from '../repository'
 import type { Storage } from 'webextension-polyfill'
 
-const defaultFilenameSettings: DownloadSettings = {
+const defaultIntegrationSettings: DownloadSettings = {
   enableAria2: false,
-  aggressive_mode: false,
+  aggressiveMode: false,
 }
 
 export default class DownloadSettingsRepository implements ISettingsRepository<DownloadSettings> {
   constructor(readonly storageArea: Storage.StorageArea) {}
 
   async getSettings(): Promise<DownloadSettings> {
-    const settings = await this.storageArea.get(defaultFilenameSettings)
+    const settings = await this.storageArea.get(defaultIntegrationSettings)
     return settings as DownloadSettings
   }
 
@@ -19,10 +19,10 @@ export default class DownloadSettingsRepository implements ISettingsRepository<D
   }
 
   async setDefaultSettings(): Promise<void> {
-    await this.storageArea.set(defaultFilenameSettings)
+    await this.storageArea.set(defaultIntegrationSettings)
   }
 
   getDefaultSettings(): DownloadSettings {
-    return defaultFilenameSettings
+    return defaultIntegrationSettings
   }
 }

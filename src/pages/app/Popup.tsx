@@ -3,7 +3,6 @@ import StatisticsUseCases from '@backend/statistics/useCases'
 import {
   Box,
   Center,
-  ChakraProvider,
   ColorProps,
   Flex,
   HStack,
@@ -15,7 +14,7 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import FeatureControlBlock from '@pages/components/FeatureControlBlock'
+import PopupFeatureBlock from '@pages/components/PopupFeatureBlock'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { BiCoffeeTogo, BiFile } from 'react-icons/bi'
 import { FaGithub } from 'react-icons/fa'
@@ -23,7 +22,6 @@ import { IoMdSettings } from 'react-icons/io'
 import type { IconType } from 'react-icons/lib'
 import { MdOutlineSentimentDissatisfied, MdOutlineSentimentSatisfied } from 'react-icons/md'
 import browser from 'webextension-polyfill'
-import theme from '@pages/themes'
 
 const versionName = 'v' + browser.runtime.getManifest().version_name
 
@@ -37,8 +35,8 @@ const NavBar = () => {
         variant="ghost"
         bg="transparent"
         color="white"
-        _hover={{ bg: 'rgba(0, 0, 0, 0.33)' }}
-        _active={{ bg: 'rgba(0, 0, 0, 0.66)' }}
+        _hover={{ bg: 'rgba(255, 255, 255, 0.33)' }}
+        _active={{ bg: 'rgba(255, 255, 255, 0.66)' }}
         icon={<Icon boxSize={settingsSize} as={IoMdSettings} />}
         onClick={() => window.open(browser.runtime.getURL('index.html'), '_blank')}
       />
@@ -63,7 +61,7 @@ const Stats = () => {
     <Box>
       <Center>
         <Text as="span" fontSize={'4rem'} fontWeight={600}>
-          {count > 10000 ? calcStats(count, 1) : count} K
+          {count > 10000 ? calcStats(count, 1) + 'K' : count}
         </Text>
       </Center>
       <Center>
@@ -77,7 +75,7 @@ const Stats = () => {
 
 type ReactionProps = {
   icon: IconType
-  iconColor: ColorProps['color'] | string
+  iconColor: ColorProps['color']
   name: string
 }
 
@@ -111,7 +109,7 @@ const ReactionsBlock = () => {
       <Link href={storeLink} target="_blank">
         <Reaction name={'Rate it!'} iconColor="rgb(0, 186, 124)" icon={MdOutlineSentimentSatisfied} />
       </Link>
-      <Link href={storeLink} target="_blank">
+      <Link href={'https://github.com/EltonChou/TwitterMediaHarvest/issues'} target="_blank">
         <Reaction name={'Report issues'} iconColor="#DD277E" icon={MdOutlineSentimentDissatisfied} />
       </Link>
     </Box>
@@ -151,22 +149,14 @@ const Footer = () => {
   const resetInfo = useCallback(() => setInfo(versionName), [])
   return (
     <Flex bg="#404040" position="absolute" bottom="0" w="100%" h="50px" pl={5} pr={5} justify="center" align="center">
-      <Box fontSize={'md'} color="white">
+      <Box fontSize={'md'} ml="8px" mr="8px" color="white">
         {info}
       </Box>
       <Spacer />
       <FooterActionButton
-        icon={BiCoffeeTogo}
-        label="Donate"
-        info="Buy me a coffee!"
-        link="https://ko-fi.com/eltonhy"
-        setInfo={setInfo}
-        infoReseter={resetInfo}
-      />
-      <FooterActionButton
         icon={BiFile}
         label="Change-log"
-        info="Change log"
+        info="Changelog"
         link="https://github.com/EltonChou/TwitterMediaHarvest"
         setInfo={setInfo}
         infoReseter={resetInfo}
@@ -174,8 +164,16 @@ const Footer = () => {
       <FooterActionButton
         icon={FaGithub}
         label="Github"
-        info="Github page"
+        info="Github"
         link="https://github.com/EltonChou/TwitterMediaHarvest"
+        setInfo={setInfo}
+        infoReseter={resetInfo}
+      />
+      <FooterActionButton
+        icon={BiCoffeeTogo}
+        label="Donate"
+        info="Buy me a coffee!"
+        link="https://ko-fi.com/eltonhy"
         setInfo={setInfo}
         infoReseter={resetInfo}
       />
@@ -186,17 +184,17 @@ const Footer = () => {
 const Popup = () => {
   const featureP = '50px'
   return (
-    <ChakraProvider theme={theme}>
+    <>
       <NavBar />
       <Stack spacing={4} height="375">
         <Stats />
-        <FeatureControlBlock spacing={2.5} justify="center" flex={1} pl={featureP} pr={featureP} fontSize={'lg'} />
+        <PopupFeatureBlock spacing={2.5} justify="center" flex={1} pl={featureP} pr={featureP} fontSize={'lg'} />
         <VStack align={'center'} flex="1">
           <ReactionsBlock />
         </VStack>
       </Stack>
       <Footer />
-    </ChakraProvider>
+    </>
   )
 }
 

@@ -1,10 +1,6 @@
+import V4FilenameSettingsUsecase from '@backend/settings/filenameSettings/usecase'
 import path from 'path'
 import type { Downloads } from 'webextension-polyfill'
-
-export const enum FilenameSerialRule {
-  Order = 'order',
-  Filename = 'filename',
-}
 
 export const enum DownloadMode {
   Aria2 = 'aria2',
@@ -32,43 +28,31 @@ export default class TwitterMediaFile {
     return this.ext === '.mp4'
   }
 
-  makeFilenameBySetting(setting: FilenameSettings) {
-    const accountPart = setting.filename_pattern.account ? this.screenName.concat('-') : ''
+  makeDownloadConfigBySetting(setting: V4FilenameSettings, mode: DownloadMode.Aria2): Aria2DownloadOption
 
-    let serialPart: string
-    if (setting.filename_pattern.serial === FilenameSerialRule.Order) serialPart = makeSerialOrder(this.order)
-    if (setting.filename_pattern.serial === FilenameSerialRule.Filename) serialPart = this.name
-
-    return accountPart.concat(this.tweetId, '-', serialPart)
-  }
-
-  makeFileFullPathBySetting(setting: FilenameSettings) {
-    const directory = makeDirectoryBySetting(setting)
-    const fileName = this.makeFilenameBySetting(setting)
-    return path.format({
-      dir: directory,
-      name: fileName,
-      ext: this.ext,
-    })
-  }
-
-  makeDownloadConfigBySetting(setting: FilenameSettings, mode: DownloadMode.Aria2): Aria2DownloadOption
-
-  makeDownloadConfigBySetting(setting: FilenameSettings, mode: DownloadMode.Browser): Downloads.DownloadOptionsType
+  makeDownloadConfigBySetting(setting: V4FilenameSettings, mode: DownloadMode.Browser): Downloads.DownloadOptionsType
 
   makeDownloadConfigBySetting(
-    setting: FilenameSettings,
+    setting: V4FilenameSettings,
     mode: DownloadMode
   ): Downloads.DownloadOptionsType | Aria2DownloadOption
   /**
    * Create download config
    */
   makeDownloadConfigBySetting(
-    setting: FilenameSettings,
+    setting: V4FilenameSettings,
     mode: DownloadMode
   ): Downloads.DownloadOptionsType | Aria2DownloadOption {
+    const filenameSettingsUseCase = new V4FilenameSettingsUsecase(setting)
     const url = this.src
-    const fileFullPath = this.makeFileFullPathBySetting(setting)
+    const filename = filenameSettingsUseCase.makeFilename({
+      account: this.screenName,
+      tweetId: this.tweetId,
+      serial: this.order,
+      hash: this.name,
+      date: new Date(),
+    })
+    const fileFullPath = filenameSettingsUseCase.makeFullPathWithFilenameAndExt(filename, this.ext)
     const tweetReferer = `https://twitter.com/i/web/status/${this.tweetId}`
     const makeConfig = selectConfigMakerByMode(mode)
     const config = makeConfig(url, fileFullPath, tweetReferer)
@@ -83,8 +67,6 @@ export default class TwitterMediaFile {
   }
 }
 
-export const makeDirectoryBySetting = (setting: FilenameSettings) => (setting.no_subdirectory ? '' : setting.directory)
-
 /** Make original quality source of tweet media from media url */
 export const makeImageOrigSrc = (url: string): string => `${url}:orig`
 
@@ -92,8 +74,6 @@ export const selectConfigMakerByMode = (modeName: DownloadMode) => {
   if (modeName === DownloadMode.Aria2) return makeAria2DownloadConfig
   if (modeName === DownloadMode.Browser) return makeBrowserDownloadConfig
 }
-
-export const makeSerialOrder = (order: number): string => String(order).padStart(2, '0')
 
 /**
  * Create browser download config object.

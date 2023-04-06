@@ -12,12 +12,12 @@ Sentry.init({
 import browser from 'webextension-polyfill'
 import { Action } from '../typings'
 import { showUpdateMessageInConsole } from './commands/console'
-import { initStorage } from './commands/storage'
+import { initStorage, migrateStorageToV4 } from './commands/storage'
 import { storageConfig } from './configurations'
 import DownloadActionUseCase from './downloads/downloadActionUseCase'
 import DownloadStateUseCase from './downloads/downloadStateUseCase'
 import { HarvestError } from './errors'
-import { chromium_init, firefox_init } from './initialization'
+import { chromiumInit, firefoxInit } from './initialization'
 import NotificationUseCase from './notifications/notificationIdUseCase'
 import StatisticsUseCases from './statistics/useCases'
 import { isDownloadedBySelf, isInvalidInfo } from './utils/checker'
@@ -52,7 +52,10 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender) =>
 
 browser.runtime.onInstalled.addListener(async details => {
   if (details.reason === InstallReason.Install) await initStorage()
-  if (details.reason === InstallReason.Update) showUpdateMessageInConsole(details.previousVersion)
+  if (details.reason === InstallReason.Update) {
+    await migrateStorageToV4()
+    showUpdateMessageInConsole(details.previousVersion)
+  }
   // browser.runtime.openOptionsPage()
 })
 
@@ -86,11 +89,6 @@ browser.notifications.onButtonClicked.addListener((notifficationId, buttonIndex)
   notificationUseCase.handle_button(buttonIndex)
 })
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// process.env.TARGET === 'firefox'
-//   ? browser.browserAction.onClicked.addListener(() => browser.runtime.openOptionsPage())
-//   : browser.action.onClicked.addListener(() => browser.runtime.openOptionsPage())
-
 process.env.TARGET === 'firefox'
-  ? firefox_init()
-  : chromium_init(storageConfig.downloadSettingsRepo, storageConfig.downloadRecordRepo)
+  ? firefoxInit()
+  : chromiumInit(storageConfig.downloadSettingsRepo, storageConfig.downloadRecordRepo)

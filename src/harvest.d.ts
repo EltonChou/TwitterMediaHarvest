@@ -23,9 +23,19 @@ type FilenameSettings = {
   filename_pattern: FilenamePatternOption
 }
 
+type FilenamePatternToken = '{account}' | '{tweetId}' | '{serial}' | '{hash}' | '{date}'
+
+type V4FilenamePattern = FilenamePatternToken[]
+
+type V4FilenameSettings = {
+  directory: string
+  noSubDirectory: boolean
+  filenamePattern: V4FilenamePattern
+}
+
 type DownloadSettings = {
   enableAria2: boolean
-  aggressive_mode: boolean
+  aggressiveMode: boolean
 }
 
 type FeatureSettings = {

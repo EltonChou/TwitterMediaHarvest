@@ -31,13 +31,13 @@ export class V4FilenameSettingsRepository implements ISettingsRepository<V4Filen
   async getSettings(): Promise<V4FilenameSettings> {
     const settings = await this.storageArea.get({
       ...defaultV4FilenameSettings,
-      filenamePattern: defaultV4FilenameSettings.filenamePattern.join('-'),
+      filenamePattern: defaultV4FilenameSettings.filenamePattern,
     })
 
     return {
       directory: settings.directory,
       noSubDirectory: settings.noSubDirectory,
-      filenamePattern: settings.filenamePattern.split('-'),
+      filenamePattern: settings.filenamePattern,
     }
   }
 
@@ -45,7 +45,7 @@ export class V4FilenameSettingsRepository implements ISettingsRepository<V4Filen
     await this.storageArea.set({
       directory: settings.directory,
       noSubDirectory: settings.noSubDirectory,
-      filenamePattern: settings.filenamePattern.join('-'),
+      filenamePattern: settings.filenamePattern,
     })
   }
 
