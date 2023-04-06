@@ -47,7 +47,9 @@ export const checkModeOfArticle = (article: HTMLElement): TweetMode => {
 export const articleHasMedia = (article: HTMLElement) => {
   if (!article) return false
   const hasVideo =
-    select.exists('[role="progressbar"]', article) || select.exists('[data-testid="videoPlayer"]', article)
+    select.exists('[role="progressbar"]', article) ||
+    select.exists('[data-testid="videoPlayer"]', article) ||
+    select.exists('[data-testid="playButton"]', article)
 
   let hasPhoto: boolean
   const photoEle = select('[data-testid="tweetPhoto"]', article)
