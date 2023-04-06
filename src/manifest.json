@@ -23,7 +23,7 @@
     "default_popup": "index.html?tab=popup"
   },
   "options_ui": {
-    "page": "options.html",
+    "page": "index.html",
     "open_in_tab": true
   },
   "background": {
