@@ -1,9 +1,11 @@
+import React from 'react'
+
 import { Container, Flex, Heading, Stack } from '@chakra-ui/react'
 import FeatureOptions from '@pages/components/FeatureOptions'
 import IntegrationOptions from '@pages/components/IntegrationOptions'
 import GeneralOptions from '@pages/components/GeneralOptions'
 import SideMenu from '@pages/components/SideMenu'
-import React from 'react'
+import About from '@pages/components/About'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 
 type ContentProps = {
@@ -54,7 +56,14 @@ const App = () => {
           />
           <Route path="/history" element={<Content title="History" />} />
           <Route path="/statistics" element={<Content title="Statistics" />} />
-          <Route path="/about" element={<Content title="About" />} />
+          <Route
+            path="/about"
+            element={
+              <Content title="About">
+                <About />
+              </Content>
+            }
+          />
         </Routes>
       </HashRouter>
     </Flex>

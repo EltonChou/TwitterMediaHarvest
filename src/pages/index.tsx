@@ -10,10 +10,10 @@ const root = ReactDOMClient.createRoot(document.getElementById('root'))
 
 // Initial render: Render an element to the root.
 const params = new URLSearchParams(window.location.search)
-const html = document.getElementsByTagName('html')[0]
+const body = document.getElementsByTagName('body')[0]
+
 switch (params.get('tab')) {
   case 'popup':
-    html.setAttribute('style', 'width:300px; height:500px;')
     root.render(
       <ChakraProvider theme={theme}>
         <Popup />
@@ -21,6 +21,7 @@ switch (params.get('tab')) {
     )
     break
   default:
+    body.removeAttribute('style')
     root.render(
       <ChakraProvider theme={theme}>
         <Options />

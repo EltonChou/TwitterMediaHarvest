@@ -23,8 +23,8 @@ const Nav = () => {
       <NavItem name="General" target="/" />
       <NavItem name="Features" target="/features" />
       <NavItem name="Integrations" target="/integrations" />
-      <NavItem name="History" target="/history" />
-      <NavItem name="Statistics" target="/statistics" />
+      {/* <NavItem name="History" target="/history" />
+      <NavItem name="Statistics" target="/statistics" /> */}
       <NavItem name="About" target="/about" />
     </VStack>
   )

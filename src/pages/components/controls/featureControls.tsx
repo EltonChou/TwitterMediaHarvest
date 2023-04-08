@@ -30,9 +30,9 @@ type RichFeatureSwithProps = {
   desc: string | JSX.Element
   isOn?: boolean
   handleClick?: () => void
-  RichContent?: JSX.Element
   isDisable?: boolean
   message?: HelperMessage
+  children?: JSX.Element
 }
 
 type HelperTextProps = {
@@ -55,9 +55,9 @@ export const RichFeatureSwitch = ({
   desc,
   isOn,
   handleClick,
-  RichContent,
   isDisable,
   message,
+  children,
 }: RichFeatureSwithProps) => {
   const id = useId()
   return (
@@ -76,7 +76,7 @@ export const RichFeatureSwitch = ({
             ) : (
               <HStack height={'1em'}></HStack>
             )}
-            {RichContent}
+            {children}
           </Stack>
           {handleClick && (
             <Box alignSelf={'stretch'}>
