@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Container, Heading, HStack, Stack, useBreakpointValue } from '@chakra-ui/react'
+import { Container, Heading, HStack, Stack } from '@chakra-ui/react'
 import FeatureOptions from '@pages/components/FeatureOptions'
 import IntegrationOptions from '@pages/components/IntegrationOptions'
 import GeneralOptions from '@pages/components/GeneralOptions'
@@ -26,15 +26,6 @@ const Content = (props: ContentProps) => {
 }
 
 const App = () => {
-  const footbarPl = useBreakpointValue(
-    {
-      base: 'unset',
-      lg: '240px',
-    },
-    {
-      fallback: 'unset',
-    }
-  )
   return (
     <HStack flex={1} spacing={0}>
       <HashRouter>

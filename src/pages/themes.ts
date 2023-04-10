@@ -42,6 +42,7 @@ const theme = extendTheme({
         800: '#bc2975',
         900: '#bc2975',
       },
+      bg: '#1E1E1E',
     },
     token: {
       default: 'white',

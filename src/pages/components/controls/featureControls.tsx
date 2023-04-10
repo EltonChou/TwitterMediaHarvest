@@ -11,7 +11,7 @@ import {
   SlideFade,
   Stack,
   Switch,
-  Text
+  Text,
 } from '@chakra-ui/react'
 
 type FeatureSwitchPros = {
@@ -80,6 +80,7 @@ export const RichFeatureSwitch = ({
           spacing={8}
           p={'1.5rem'}
           _hover={{ bg: 'rgba(255,255,255,0.05)' }}
+          _active={{ bg: 'rgba(255, 255, 255, 0.1)' }}
           style={{ transition: 'background 300ms' }}
         >
           <Stack flex={1}>
