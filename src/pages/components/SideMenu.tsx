@@ -6,11 +6,12 @@ import { Link as RouterLink } from 'react-router-dom'
 type MenuItemProps = {
   name: string
   target: string
+  closeMenu: () => void
 }
 
 const NavItem = (props: MenuItemProps) => {
   return (
-    <Link to={props.target} as={RouterLink}>
+    <Link to={props.target} as={RouterLink} onClick={props.closeMenu}>
       <Box
         pl="12"
         _hover={{ bg: 'rgba(255, 255, 255, 0.33)', textDecoration: 'none' }}
@@ -22,15 +23,19 @@ const NavItem = (props: MenuItemProps) => {
   )
 }
 
-const Nav = () => {
+type NavProps = {
+  closeMenu: () => void
+}
+
+const Nav = ({ closeMenu }: NavProps) => {
   return (
     <VStack spacing={6} align="normal">
-      <NavItem name="General" target="/" />
-      <NavItem name="Features" target="/features" />
-      <NavItem name="Integrations" target="/integrations" />
+      <NavItem name="General" target="/" closeMenu={closeMenu} />
+      <NavItem name="Features" target="/features" closeMenu={closeMenu} />
+      <NavItem name="Integrations" target="/integrations" closeMenu={closeMenu} />
       {/* <NavItem name="History" target="/history" />
       <NavItem name="Statistics" target="/statistics" /> */}
-      <NavItem name="About" target="/about" />
+      <NavItem name="About" target="/about" closeMenu={closeMenu} />
     </VStack>
   )
 }
@@ -87,7 +92,7 @@ const SideMenu = () => {
         }}
       >
         <Box height="150px" />
-        <Nav />
+        <Nav closeMenu={setActive.off} />
       </Flex>
     </>
   )
