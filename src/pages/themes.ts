@@ -5,11 +5,48 @@ const config: ThemeConfig = {
   initialColorMode: 'dark',
   useSystemColorMode: false,
 }
+
 const theme = extendTheme({
   config,
   fonts: {
     heading: '"Homenaje", "Open Sans", sans-serif',
     body: '"Homenaje", "Raleway", sans-serif',
+  },
+  colors: {
+    brand: {
+      green: 'rgb(0, 186, 124)',
+      red: '#DD277E',
+      blue: '#414CE0',
+      // yellow: '#F1BA1D',
+      yellow: {
+        50: '#F1BA1D',
+        100: '#F1BA1D',
+        200: '#F1BA1D',
+        300: '#d8a40d',
+        400: '#d8a40d',
+        500: '#d8a40d',
+        600: '#d8a40d',
+        700: '#d8a40d',
+        800: '#d8a40d',
+        900: '#d8a40d',
+      },
+      pink: {
+        50: '#d6438e',
+        100: '#d6438e',
+        200: '#d6438e',
+        300: '#bc2975',
+        400: '#bc2975',
+        500: '#bc2975',
+        600: '#bc2975',
+        700: '#bc2975',
+        800: '#bc2975',
+        900: '#bc2975',
+      },
+    },
+    token: {
+      default: 'white',
+      active: '#5AEDD2',
+    },
   },
   styles: {
     global: (props: StyleFunctionProps) => ({

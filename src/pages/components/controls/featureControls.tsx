@@ -1,6 +1,18 @@
+import React, { useId } from 'react'
+
 import { InfoIcon, WarningTwoIcon } from '@chakra-ui/icons'
-import { Box, FormControl, FormHelperText, FormLabel, HStack, Icon, Stack, Switch, Text } from '@chakra-ui/react'
-import React, { memo, useId } from 'react'
+import {
+  Box,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  HStack,
+  Icon,
+  SlideFade,
+  Stack,
+  Switch,
+  Text
+} from '@chakra-ui/react'
 
 type FeatureSwitchPros = {
   isOn: boolean
@@ -8,17 +20,17 @@ type FeatureSwitchPros = {
   labelContent: string
 }
 
-export const FeatureSwitch = memo(({ isOn, handleChange, labelContent }: FeatureSwitchPros) => {
+export const FeatureSwitch = ({ isOn, handleChange, labelContent }: FeatureSwitchPros) => {
   const controlId = useId()
   return (
     <HStack>
       <FormLabel htmlFor={controlId} mb="0" flex={1} cursor="pointer" fontSize={'x-large'}>
         {labelContent}
       </FormLabel>
-      <Switch id={controlId} isChecked={isOn} onChange={handleChange} colorScheme="teal" />
+      <Switch id={controlId} isChecked={isOn} onChange={handleChange} colorScheme="cyan" />
     </HStack>
   )
-})
+}
 
 export type HelperMessage = {
   type: 'info' | 'error'
@@ -36,11 +48,12 @@ type RichFeatureSwithProps = {
 }
 
 type HelperTextProps = {
-  message: HelperMessage
+  message?: HelperMessage
 }
 
 const HelperText = ({ message }: HelperTextProps) => {
-  const color = message.type === 'info' ? 'green.200' : 'red.200'
+  if (!message) return <> </>
+  const color = message.type === 'info' ? 'brand.green' : 'brand.red'
   const icon = message.type === 'info' ? InfoIcon : WarningTwoIcon
   return (
     <>
@@ -63,24 +76,27 @@ export const RichFeatureSwitch = ({
   return (
     <FormControl label={name} isDisabled={isDisable}>
       <FormLabel htmlFor={id} cursor={isDisable ? 'not-allowed' : 'pointer'} marginInlineEnd={0} fontSize={'1em'}>
-        <HStack spacing={8} p={'1.5rem'} _hover={{ bg: 'rgba(255,255,255,0.05)' }}>
+        <HStack
+          spacing={8}
+          p={'1.5rem'}
+          _hover={{ bg: 'rgba(255,255,255,0.05)' }}
+          style={{ transition: 'background 300ms' }}
+        >
           <Stack flex={1}>
-            <Text fontSize={'1.5em'} lineHeight={1}>
+            <Text fontSize={'1.5em'} lineHeight={'none'}>
               {name}
             </Text>
             <Text color={'gray.400'}>{desc}</Text>
-            {message ? (
-              <HStack>
+            <SlideFade offsetY={'10px'} in={Boolean(message)} reverse>
+              <HStack height={'1em'}>
                 <HelperText message={message} />
               </HStack>
-            ) : (
-              <HStack height={'1em'}></HStack>
-            )}
+            </SlideFade>
             {children}
           </Stack>
           {handleClick && (
             <Box alignSelf={'stretch'}>
-              <Switch id={id} isChecked={isOn} onChange={handleClick} />
+              <Switch id={id} isChecked={isOn} onChange={handleClick} colorScheme={'cyan'} />
             </Box>
           )}
         </HStack>

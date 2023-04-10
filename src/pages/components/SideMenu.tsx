@@ -1,6 +1,6 @@
 import { Box, Flex, Link, VStack } from '@chakra-ui/react'
-import { Link as RouterLink } from 'react-router-dom'
 import React from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 
 type MenuItemProps = {
   name: string
@@ -10,7 +10,7 @@ type MenuItemProps = {
 const NavItem = (props: MenuItemProps) => {
   return (
     <Link to={props.target} as={RouterLink}>
-      <Box pl="12" _hover={{ bg: 'rgba(255, 255, 255, 0.33)' }}>
+      <Box pl="12" _hover={{ bg: 'rgba(255, 255, 255, 0.33)' }} style={{ transition: 'background 300ms' }}>
         {props.name}
       </Box>
     </Link>
@@ -37,9 +37,10 @@ const SideMenu = () => {
       direction="column"
       width="240px"
       borderRight="1px solid gray"
-      left="0"
+      left={['-240px', '-240px', '-240px', '0', '0']}
       top="0"
-      position="relative"
+      position={['fixed', 'fixed', 'fixed', 'relative', 'relative']}
+      height={'full'}
     >
       <Box height="150px" />
       <Nav />

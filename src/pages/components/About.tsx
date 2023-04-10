@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Link, Stack, Text } from '@chakra-ui/react'
+import ExtLinks from '@pages/links'
 import browser from 'webextension-polyfill'
 
 const ProductInformation = () => {
@@ -15,16 +16,16 @@ const ProductInformation = () => {
 const Links = () => {
   return (
     <Stack>
-      <Link isExternal referrerPolicy="no-referrer" href="#">
+      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.website}>
         Official website
       </Link>
-      <Link isExternal referrerPolicy="no-referrer" href="#">
+      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.privacy}>
         Privacy policy
       </Link>
-      <Link isExternal referrerPolicy="no-referrer" href="#">
+      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.changelog}>
         Changelog
       </Link>
-      <Link isExternal referrerPolicy="no-referrer" href="https://github.com/EltonChou/TwitterMediaHarvest">
+      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.github}>
         Github
       </Link>
     </Stack>

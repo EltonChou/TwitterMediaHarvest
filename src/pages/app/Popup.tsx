@@ -15,6 +15,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import PopupFeatureBlock from '@pages/components/PopupFeatureBlock'
+import Links from '@pages/links'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { BiCoffeeTogo, BiFile } from 'react-icons/bi'
 import { FaGithub } from 'react-icons/fa'
@@ -86,31 +87,14 @@ const Reaction = (props: ReactionProps) => (
   </HStack>
 )
 
-const getStoreLink = () => {
-  switch (process.env.TARGET) {
-    case 'firefox':
-      return 'https://addons.mozilla.org/firefox/addon/media-harvest/'
-
-    case 'edge':
-      return (
-        'https://microsoftedge.microsoft.com/addons/detail/' +
-        'media-harvest-twitter-m/mmijhjnobkeodfgoobnlmnpjllmlibkb'
-      )
-
-    default:
-      return 'https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok'
-  }
-}
-
 const ReactionsBlock = () => {
-  const storeLink = getStoreLink()
   return (
     <Box fontSize={'lg'}>
-      <Link href={storeLink} target="_blank">
-        <Reaction name={'Rate it!'} iconColor="rgb(0, 186, 124)" icon={MdOutlineSentimentSatisfied} />
+      <Link href={Links.store} target="_blank">
+        <Reaction name={'Rate it!'} iconColor={'brand.green'} icon={MdOutlineSentimentSatisfied} />
       </Link>
-      <Link href={'https://github.com/EltonChou/TwitterMediaHarvest/issues'} target="_blank">
-        <Reaction name={'Report issues'} iconColor="#DD277E" icon={MdOutlineSentimentDissatisfied} />
+      <Link href={Links.issues} target="_blank">
+        <Reaction name={'Report issues'} iconColor={'brand.red'} icon={MdOutlineSentimentDissatisfied} />
       </Link>
     </Box>
   )
@@ -120,7 +104,7 @@ type FooterActionButtonProps = {
   icon: IconType
   label: string
   info: string
-  link: `https://${string}`
+  link: string
   setInfo: (info: string) => void
   infoReseter: () => void
 }
@@ -157,7 +141,7 @@ const Footer = () => {
         icon={BiFile}
         label="Change-log"
         info="Changelog"
-        link="https://github.com/EltonChou/TwitterMediaHarvest"
+        link={Links.changelog}
         setInfo={setInfo}
         infoReseter={resetInfo}
       />
@@ -165,7 +149,7 @@ const Footer = () => {
         icon={FaGithub}
         label="Github"
         info="Github"
-        link="https://github.com/EltonChou/TwitterMediaHarvest"
+        link={Links.github}
         setInfo={setInfo}
         infoReseter={resetInfo}
       />
@@ -173,7 +157,7 @@ const Footer = () => {
         icon={BiCoffeeTogo}
         label="Donate"
         info="Buy me a coffee!"
-        link="https://ko-fi.com/eltonhy"
+        link={Links.koFi}
         setInfo={setInfo}
         infoReseter={resetInfo}
       />

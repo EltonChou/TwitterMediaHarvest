@@ -1,11 +1,12 @@
 import React from 'react'
 
-import { Container, Flex, Heading, Stack } from '@chakra-ui/react'
+import { Container, Heading, HStack, Stack, useBreakpointValue } from '@chakra-ui/react'
 import FeatureOptions from '@pages/components/FeatureOptions'
 import IntegrationOptions from '@pages/components/IntegrationOptions'
 import GeneralOptions from '@pages/components/GeneralOptions'
 import SideMenu from '@pages/components/SideMenu'
 import About from '@pages/components/About'
+import FootBar from '@pages/components/FootBar'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 
 type ContentProps = {
@@ -15,7 +16,7 @@ type ContentProps = {
 
 const Content = (props: ContentProps) => {
   return (
-    <Container fontSize={{ base: 'md', lg: 'lg' }} pt={10}>
+    <Container fontSize={{ base: 'md', lg: 'lg' }} pt={10} pb={10} flex={1}>
       <Stack>
         <Heading p={'1.5rem'}>{props.title}</Heading>
         {props.children}
@@ -25,48 +26,60 @@ const Content = (props: ContentProps) => {
 }
 
 const App = () => {
+  const footbarPl = useBreakpointValue(
+    {
+      base: 'unset',
+      lg: '240px',
+    },
+    {
+      fallback: 'unset',
+    }
+  )
   return (
-    <Flex height="full">
+    <HStack flex={1} spacing={0}>
       <HashRouter>
         <SideMenu />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Content title="General">
-                <GeneralOptions />
-              </Content>
-            }
-          />
-          <Route
-            path="/features"
-            element={
-              <Content title="Features">
-                <FeatureOptions />
-              </Content>
-            }
-          />
-          <Route
-            path="/integrations"
-            element={
-              <Content title="Integrations">
-                <IntegrationOptions />
-              </Content>
-            }
-          />
-          <Route path="/history" element={<Content title="History" />} />
-          <Route path="/statistics" element={<Content title="Statistics" />} />
-          <Route
-            path="/about"
-            element={
-              <Content title="About">
-                <About />
-              </Content>
-            }
-          />
-        </Routes>
+        <Stack flex={1} height={'full'}>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Content title="General">
+                  <GeneralOptions />
+                </Content>
+              }
+            />
+            <Route
+              path="/features"
+              element={
+                <Content title="Features">
+                  <FeatureOptions />
+                </Content>
+              }
+            />
+            <Route
+              path="/integrations"
+              element={
+                <Content title="Integrations">
+                  <IntegrationOptions />
+                </Content>
+              }
+            />
+            <Route path="/history" element={<Content title="History" />} />
+            <Route path="/statistics" element={<Content title="Statistics" />} />
+            <Route
+              path="/about"
+              element={
+                <Content title="About">
+                  <About />
+                </Content>
+              }
+            />
+          </Routes>
+          <FootBar />
+        </Stack>
       </HashRouter>
-    </Flex>
+    </HStack>
   )
 }
 

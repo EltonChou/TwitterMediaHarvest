@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import { DEFAULT_DIRECTORY } from '@backend/constants'
+import V4FilenameSettingsUsecase from '@backend/settings/filenameSettings/usecase'
 import { Button, Flex, HStack, Input, VStack } from '@chakra-ui/react'
 import useFilenameSettingsForm from '@pages/hooks/useFilenameSettingsForm'
 import { RichFeatureSwitch } from './controls/featureControls'
 import { PatternToken } from './controls/filenameControls'
-import V4FilenameSettingsUsecase from '@backend/settings/filenameSettings/usecase'
 
 type TokenPanelProps = {
   handleTokenToggle: (token: FilenamePatternToken, state: boolean) => void
@@ -13,20 +13,35 @@ type TokenPanelProps = {
   previewFilename: string
 }
 
-const fp: V4FilenamePattern = ['{account}', '{tweetId}', '{hash}', '{serial}', '{date}']
+const fp: [string, FilenamePatternToken][] = [
+  ['Account', '{account}'],
+  ['Tweet ID', '{tweetId}'],
+  ['Hash', '{hash}'],
+  ['Serial', '{serial}'],
+  ['Date', '{date}'],
+]
 
-const TokenPanel = ({ handleTokenToggle, pattern, previewFilename }: TokenPanelProps) => {
+const TokenPanel = memo(({ handleTokenToggle, pattern, previewFilename }: TokenPanelProps) => {
+  const Tokens = fp.map(([name, token]) => (
+    <PatternToken
+      key={Math.random()}
+      tokenName={name}
+      isOn={pattern.includes(token)}
+      handleChange={s => handleTokenToggle(token, s)}
+    />
+  ))
+
   return (
     <>
       <Flex justifyContent={'flex-start'} gap={'2'} flexWrap={'wrap'}>
-        {fp.map(p => (
-          <PatternToken key={p} tokenName={p} isOn={pattern.includes(p)} handleChange={s => handleTokenToggle(p, s)} />
-        ))}
+        {Tokens}
       </Flex>
-      <Flex height={'1em'}>{previewFilename}</Flex>
+      <Flex mt={'2em'} minH={'1.5em'} fontSize="1.2em">
+        {previewFilename}
+      </Flex>
     </>
   )
-}
+})
 
 const GeneralOptions = () => {
   const [filenameSettings, formStatus, formMsg, formHandler] = useFilenameSettingsForm()
@@ -35,7 +50,7 @@ const GeneralOptions = () => {
   const filenameUsecase = new V4FilenameSettingsUsecase(filenameSettings)
   const previewFilename = filenameUsecase.makeFilename({
     account: 'tweetUser',
-    tweetId: '1145141919816',
+    tweetId: '1145141919810',
     serial: 2,
     hash: '2vfn8shkjvd98892pR',
     date: new Date(),
@@ -75,8 +90,10 @@ const GeneralOptions = () => {
           />
         </RichFeatureSwitch>
         <HStack>
-          <Button type="reset">Reset</Button>
-          <Button type="submit" isDisabled={!Object.values(formStatus).every(v => v)}>
+          <Button type="reset" colorScheme={'red'} variant={'outline'}>
+            Reset
+          </Button>
+          <Button type="submit" colorScheme={'green'} isDisabled={!Object.values(formStatus).every(v => v)}>
             Save
           </Button>
         </HStack>

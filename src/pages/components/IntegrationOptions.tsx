@@ -2,20 +2,17 @@ import React from 'react'
 
 import { Link, VStack } from '@chakra-ui/react'
 import useIntegrationSettings from '@pages/hooks/useIntegrationSettings'
-import { type HelperMessage, RichFeatureSwitch } from './controls/featureControls'
+import Links from '@pages/links'
+import type { HelperMessage } from './controls/featureControls'
+import { RichFeatureSwitch } from './controls/featureControls'
 
 const Aria2Description = () => {
   if (process.env.TARGET === 'firefox') return <>Transfer the download to Aria2 via Aria2-Explorer</>
 
-  const aria2Link =
-    process.env.TARGET === 'chrome'
-      ? 'https://chrome.google.com/webstore/detail/' + 'mpkodccbngfoacfalldjimigbofkhgjn'
-      : 'https://microsoftedge.microsoft.com/addons/detail/' + 'jjfgljkjddpcpfapejfkelkbjbehagbh'
-
   return (
     <>
       Transfer the download to Aria2 via{' '}
-      <Link href={aria2Link} target="_blank" color={'blue.400'}>
+      <Link href={Links.aria2Explorer} target="_blank" color={'blue.400'}>
         Aria2-Explorer
       </Link>
       .
