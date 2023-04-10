@@ -1,6 +1,11 @@
 import { storageConfig } from '../configurations'
 import browser from 'webextension-polyfill'
 
+interface StorageMigrateCommand {
+  readonly version: string
+  execute(): Promise<void>
+}
+
 /* eslint-disable no-console */
 export const initStorage = async () => {
   console.groupCollapsed('Initialization')
@@ -19,12 +24,10 @@ export const initStorage = async () => {
 }
 /* eslint-enable no-console */
 
-export const migrateStorageToV4 = async () => {
-  let v = await browser.storage.sync.get('version')
-  if (!('version' in v)) {
-    console.groupCollapsed('Migrate storage to v4')
+export class MigrateStorageToV4 implements StorageMigrateCommand {
+  readonly version: string = '4.0.0'
 
-    // Migrate sync area
+  async migrateAsyncData() {
     console.info('Migrate sync')
     const v3Settings = await storageConfig.filenameSettingsRepo.getSettings()
     const filenamePattern: V4FilenamePattern = []
@@ -40,18 +43,26 @@ export const migrateStorageToV4 = async () => {
 
     await browser.storage.sync.remove(Object.keys(v3Settings))
     await storageConfig.v4FilenameSettingsRepo.saveSettings(v4Settings)
-    await browser.storage.sync.set({ version: '4.0.0' })
+    await browser.storage.sync.set({ version: this.version })
   }
 
-  // Migrate local area
-  v = await browser.storage.local.get('version')
-  if (!('version' in v)) {
+  async migrateLocalData() {
     console.info('Migrate local')
     const s = await browser.storage.local.get({ aggressive_mode: false })
     await browser.storage.local.set({ aggressiveMode: s.aggressive_mode })
-    await browser.storage.local.set({ version: '4.0.0' })
+    await browser.storage.local.set({ version: this.version })
     await browser.storage.local.remove('aggressive_mode')
   }
 
-  console.groupEnd()
+  async execute(): Promise<void> {
+    console.groupCollapsed('Migrate storage to v4')
+
+    const localVersion = await browser.storage.local.get('version')
+    if (!('version' in localVersion)) await this.migrateLocalData()
+
+    const syncVersion = await browser.storage.sync.get('version')
+    if (!('version' in syncVersion)) await this.migrateLocalData()
+
+    console.groupEnd()
+  }
 }

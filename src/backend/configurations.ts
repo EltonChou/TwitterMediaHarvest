@@ -20,7 +20,7 @@ class StorageConfiguration implements IStorageConfiguration {
   readonly filenameSettingsRepo = new FilenameSettingsRepository(browser.storage.sync)
   readonly downloadSettingsRepo = new DownloadSettingsRepository(browser.storage.local)
   readonly featureSettingsRepo = new FeaturesRepository(browser.storage.local)
-  readonly v4FilenameSettingsRepo = new V4FilenameSettingsRepository(browser.storage.local)
+  readonly v4FilenameSettingsRepo = new V4FilenameSettingsRepository(browser.storage.sync)
 }
 
 export const storageConfig = new StorageConfiguration()

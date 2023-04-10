@@ -12,7 +12,7 @@ Sentry.init({
 import browser from 'webextension-polyfill'
 import { Action } from '../typings'
 import { showUpdateMessageInConsole } from './commands/console'
-import { initStorage, migrateStorageToV4 } from './commands/storage'
+import { initStorage, MigrateStorageToV4 } from './commands/storage'
 import { storageConfig } from './configurations'
 import DownloadActionUseCase from './downloads/downloadActionUseCase'
 import DownloadStateUseCase from './downloads/downloadStateUseCase'
@@ -53,10 +53,10 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender) =>
 browser.runtime.onInstalled.addListener(async details => {
   if (details.reason === InstallReason.Install) await initStorage()
   if (details.reason === InstallReason.Update) {
-    await migrateStorageToV4()
+    const migrateCommand = new MigrateStorageToV4()
+    await migrateCommand.execute()
     showUpdateMessageInConsole(details.previousVersion)
   }
-  // browser.runtime.openOptionsPage()
 })
 
 browser.downloads.onChanged.addListener(async downloadDelta => {
