@@ -1,6 +1,8 @@
+import React from 'react'
+
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { Box, Flex, IconButton, Link, useBoolean, useBreakpointValue, VStack } from '@chakra-ui/react'
-import React from 'react'
+import { i18n } from '@pages/utils'
 import { Link as RouterLink } from 'react-router-dom'
 
 type MenuItemProps = {
@@ -30,12 +32,12 @@ type NavProps = {
 const Nav = ({ closeMenu }: NavProps) => {
   return (
     <VStack spacing={6} align="normal">
-      <NavItem name="General" target="/" closeMenu={closeMenu} />
-      <NavItem name="Features" target="/features" closeMenu={closeMenu} />
-      <NavItem name="Integrations" target="/integrations" closeMenu={closeMenu} />
+      <NavItem name={i18n('options_sidemenu_general')} target="/" closeMenu={closeMenu} />
+      <NavItem name={i18n('options_sidemenu_features')} target="/features" closeMenu={closeMenu} />
+      <NavItem name={i18n('options_sidemenu_integrations')} target="/integrations" closeMenu={closeMenu} />
       {/* <NavItem name="History" target="/history" />
       <NavItem name="Statistics" target="/statistics" /> */}
-      <NavItem name="About" target="/about" closeMenu={closeMenu} />
+      <NavItem name={i18n('options_sidemenu_about')} target="/about" closeMenu={closeMenu} />
     </VStack>
   )
 }
@@ -72,6 +74,7 @@ const SideMenu = () => {
           width={'full'}
           pos={'fixed'}
           bg={'blackAlpha.600'}
+          style={{ transition: 'background 300ms' }}
           hidden={!isActive}
           onClick={() => setActive.off()}
         ></Box>

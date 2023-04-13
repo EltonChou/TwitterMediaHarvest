@@ -5,35 +5,8 @@
   "appDesc": {
     "message": " twitter や TweetDeck のビデオと画像、ワンクリックでダウンロードできる。"
   },
-  "downloadsDirectoryLabel": {
-    "message": "保存先"
-  },
-  "downloadsDirectoryHelp": {
-    "message": "無効なディレクトリ"
-  },
-  "filenamePatternLabel": {
-    "message": "ファイル名仕様"
-  },
-  "filenamePatternAccount": {
-    "message": "アカウント"
-  },
-  "filenameSerialStyleLabel": {
-    "message": "シリアル番号仕様"
-  },
-  "filenameSerialStyleFileOrder": {
-    "message": "ファイル順"
-  },
-  "filenameSerialStyleFileName": {
-    "message": "ランダムファイル名"
-  },
-  "filenamePreviewLabel": {
-    "message": "プレビュー"
-  },
   "submitButtonText": {
     "message": "保存"
-  },
-  "submitButtonSuccessText": {
-    "message": "保存成功"
   },
   "notificationDLFailedTitle": {
     "message": "ダウンロード失敗しました"
@@ -78,8 +51,8 @@
   "noSubDirectory": {
     "message": "サブディレクトリを作成しません"
   },
-  "resetStorageButtonText": {
-    "message": "リセット設定"
+  "resetButtonText": {
+    "message": "リセット"
   },
   "userCanceledMessage": {
     "message": "[ファイルごとに保存する場所を確認する] をオフしてください。"
@@ -87,19 +60,124 @@
   "internalError": {
     "message": "内部エラー"
   },
-  "additionalOptions": {
-    "message": "追加オプション"
+  "options_sidemenu_general": {
+    "message": "一般"
   },
-  "downloadVideoThumbnail": {
-    "message": "動画サムネイルをダウンロードする"
+  "options_sidemenu_features": {
+    "message": "機能"
   },
-  "aggressiveMode": {
+  "options_sidemenu_integrations": {
+    "message": "統合"
+  },
+  "options_sidemenu_about": {
+    "message": "Media Harvest について"
+  },
+  "popup_features_revealNsfw": {
+    "message": "センシティブ自動表示"
+  },
+  "popup_features_downloadVideoThumbnail": {
+    "message": "ビテオサムネ"
+  },
+  "popup_reactions_rate": {
+    "message": "評価する"
+  },
+  "popup_reactions_report": {
+    "message": "不具合を報告する"
+  },
+  "options_integrations_notCompatibble": {
+    "message": "$TARGET$ には適用されていません ",
+    "placeholders": {
+      "target": {
+        "content": "$1",
+        "example": "Firefox"
+      }
+    }
+  },
+  "options_integrations_dispatchToAria2": {
+    "message": "ダウンロードを Aria2 に転送"
+  },
+  "options_integrations_dispatchToAria2_desc": {
+    "message": "Aria2-Explorer 経由ダウンロードを Aria2 に転送すること。"
+  },
+  "options_integrations_aggressiveMode": {
     "message": "積極的なモード"
   },
-  "autoRevealNsfw": {
-    "message": "センシティブな内容を自動で表示する"
+  "options_integrations_aggressiveMode_desc": {
+    "message": "ファイルネームを確保すること。このモードは他の拡張と競合する可能性があります。"
   },
-  "autoRevealNsfwShort": {
-    "message": "Auto-reveal NSFW"
+  "options_general_subDirectory": {
+    "message": "サブディレクトリの作成"
+  },
+  "options_general_subDirectory_desc": {
+    "message": "ディフォルトディレクトリの下にサブディレクトリを作成します"
+  },
+  "options_general_filenamePattern": {
+    "message": "ファイルネームパターン"
+  },
+  "options_general_filenamePattern_desc": {
+    "message": "ツイートの情報をファイルネームに含める。"
+  },
+  "options_general_filenamePattern_token_account": {
+    "message": "アカウント"
+  },
+  "options_general_filenamePattern_token_tweetId": {
+    "message": "ツイート ID"
+  },
+  "options_general_filenamePattern_token_hash": {
+    "message": "ハッシュ"
+  },
+  "options_general_filenamePattern_token_serial": {
+    "message": "シリアル"
+  },
+  "options_general_filenamePattern_token_date": {
+    "message": "日付"
+  },
+  "options_general_filenameSettings_message_dir": {
+    "message": "ディレクトリ名に次の文字は使えません <>:\"/\\|?*"
+  },
+  "options_general_filenameSettings_message_pattern": {
+    "message": "無効なパータン。 `ツイート ID` + `シリアル` や `ハッシュ` を含めてください."
+  },
+  "options_features_revealNsfw": {
+    "message": "センシティブ内容の自動表示"
+  },
+  "options_features_revealNsfw_desc": {
+    "message": "ツイートをセンシティブな内容として設定されている際、センシティブ内容を自動的に表示すること。"
+  },
+  "options_features_downloadVideoThumbnail": {
+    "message": "ビテオのサムネイルをダウンロードする"
+  },
+  "options_features_downloadVideoThumbnail_desc": {
+    "message": "メディアはビテオの時、サムネイルをダウンロードする。"
+  },
+  "options_about_officialWebsite": {
+    "message": "公式サイト"
+  },
+  "options_about_privacyPolicy": {
+    "message": "プライバシーポリシー"
+  },
+  "options_about_changeLog": {
+    "message": "更新履歴"
+  },
+  "options_about_version": {
+    "message": "バージョン"
+  },
+  "popup_changeLog": {
+    "message": "更新履歴"
+  },
+  "popup_buyMeCoffee": {
+    "message": "コーヒーおごって"
+  },
+  "footbar_doYouLike": {
+    "message": "Media Harvest を気に入っていますか？"
+  },
+  "footbar_rate": {
+    "message": "評価する"
+  },
+  "footbar_buyMeCoffee": {
+    "message": "コーヒーおごって"
+  },
+  "footbar_or": {
+    "message": "それとも"
   }
 }

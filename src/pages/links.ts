@@ -5,13 +5,10 @@ const getStoreLink = () => {
       return 'https://addons.mozilla.org/firefox/addon/media-harvest/'
 
     case 'edge':
-      return (
-        'https://microsoftedge.microsoft.com/addons/detail/' +
-        'media-harvest-twitter-m/mmijhjnobkeodfgoobnlmnpjllmlibkb'
-      )
+      return 'https://microsoftedge.microsoft.com/addons/detail/mmijhjnobkeodfgoobnlmnpjllmlibkb'
 
     default:
-      return 'https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok'
+      return 'https://chrome.google.com/webstore/detail/hpcgabhdlnapolkkjpejieegfpehfdok'
   }
 }
 
@@ -19,10 +16,10 @@ const getAria2ExplorerLink = () => {
   const TARGET = process.env.TARGET
   switch (TARGET) {
     case 'edge':
-      return 'https://microsoftedge.microsoft.com/addons/detail/' + 'jjfgljkjddpcpfapejfkelkbjbehagbh'
+      return 'https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh'
 
     default:
-      return 'https://chrome.google.com/webstore/detail/' + 'mpkodccbngfoacfalldjimigbofkhgjn'
+      return 'https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn'
   }
 }
 

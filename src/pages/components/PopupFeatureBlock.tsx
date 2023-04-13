@@ -2,8 +2,8 @@ import type { StackProps } from '@chakra-ui/react'
 import { Stack } from '@chakra-ui/react'
 import useFeatureSettings from '@pages/hooks/useFeatureSettings'
 import React from 'react'
-import browser from 'webextension-polyfill'
 import { FeatureSwitch } from './controls/featureControls'
+import { i18n } from '@pages/utils'
 
 const PopupFeatureBlock = (props: StackProps) => {
   const [featureSettings, nsfwToggler, thumbnailToggler] = useFeatureSettings()
@@ -13,12 +13,12 @@ const PopupFeatureBlock = (props: StackProps) => {
       <FeatureSwitch
         isOn={featureSettings.autoRevealNsfw}
         handleChange={nsfwToggler}
-        labelContent={browser.i18n.getMessage('autoRevealNsfwShort')}
+        labelContent={i18n('popup_features_revealNsfw')}
       />
       <FeatureSwitch
         isOn={featureSettings.includeVideoThumbnail}
         handleChange={thumbnailToggler}
-        labelContent={browser.i18n.getMessage('downloadVideoThumbnail')}
+        labelContent={i18n('popup_features_downloadVideoThumbnail')}
       />
     </Stack>
   )

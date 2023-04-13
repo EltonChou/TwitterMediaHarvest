@@ -7,6 +7,7 @@ import GeneralOptions from '@pages/components/GeneralOptions'
 import SideMenu from '@pages/components/SideMenu'
 import About from '@pages/components/About'
 import FootBar from '@pages/components/FootBar'
+import { i18n } from '@pages/utils'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 
 type ContentProps = {
@@ -35,7 +36,7 @@ const App = () => {
             <Route
               path="/"
               element={
-                <Content title="General">
+                <Content title={i18n('options_sidemenu_general')}>
                   <GeneralOptions />
                 </Content>
               }
@@ -43,7 +44,7 @@ const App = () => {
             <Route
               path="/features"
               element={
-                <Content title="Features">
+                <Content title={i18n('options_sidemenu_features')}>
                   <FeatureOptions />
                 </Content>
               }
@@ -51,7 +52,7 @@ const App = () => {
             <Route
               path="/integrations"
               element={
-                <Content title="Integrations">
+                <Content title={i18n('options_sidemenu_integrations')}>
                   <IntegrationOptions />
                 </Content>
               }
@@ -61,7 +62,7 @@ const App = () => {
             <Route
               path="/about"
               element={
-                <Content title="About">
+                <Content title={i18n('options_sidemenu_about')}>
                   <About />
                 </Content>
               }

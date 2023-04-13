@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react'
 import PopupFeatureBlock from '@pages/components/PopupFeatureBlock'
 import Links from '@pages/links'
+import { i18n } from '@pages/utils'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { BiCoffeeTogo, BiFile } from 'react-icons/bi'
 import { FaGithub } from 'react-icons/fa'
@@ -91,10 +92,10 @@ const ReactionsBlock = () => {
   return (
     <Box fontSize={'lg'}>
       <Link href={Links.store} target="_blank">
-        <Reaction name={'Rate it!'} iconColor={'brand.green'} icon={MdOutlineSentimentSatisfied} />
+        <Reaction name={i18n('popup_reactions_rate')} iconColor={'brand.green'} icon={MdOutlineSentimentSatisfied} />
       </Link>
       <Link href={Links.issues} target="_blank">
-        <Reaction name={'Report issues'} iconColor={'brand.red'} icon={MdOutlineSentimentDissatisfied} />
+        <Reaction name={i18n('popup_reactions_report')} iconColor={'brand.red'} icon={MdOutlineSentimentDissatisfied} />
       </Link>
     </Box>
   )
@@ -139,8 +140,8 @@ const Footer = () => {
       <Spacer />
       <FooterActionButton
         icon={BiFile}
-        label="Change-log"
-        info="Changelog"
+        label="Changelog"
+        info={i18n('popup_changeLog')}
         link={Links.changelog}
         setInfo={setInfo}
         infoReseter={resetInfo}
@@ -156,7 +157,7 @@ const Footer = () => {
       <FooterActionButton
         icon={BiCoffeeTogo}
         label="Donate"
-        info="Buy me a coffee!"
+        info={i18n('popup_buyMeCoffee')}
         link={Links.koFi}
         setInfo={setInfo}
         infoReseter={resetInfo}

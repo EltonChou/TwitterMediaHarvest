@@ -5,35 +5,8 @@
   "appDesc": {
     "message": "一鍵從 twitter 或 TweetDeck 下載影片和圖片。"
   },
-  "downloadsDirectoryLabel": {
-    "message": "下載資料夾"
-  },
-  "downloadsDirectoryHelp": {
-    "message": "無效的資料夾名稱"
-  },
-  "filenamePatternLabel": {
-    "message": "檔案名稱樣式"
-  },
-  "filenamePatternAccount": {
-    "message": "帳號"
-  },
-  "filenameSerialStyleLabel": {
-    "message": "檔案序號樣式"
-  },
-  "filenameSerialStyleFileOrder": {
-    "message": "檔案順序"
-  },
-  "filenameSerialStyleFileName": {
-    "message": "檔案原始名"
-  },
-  "filenamePreviewLabel": {
-    "message": "預覽"
-  },
   "submitButtonText": {
     "message": "保存"
-  },
-  "submitButtonSuccessText": {
-    "message": "保存成功"
   },
   "notificationDLFailedTitle": {
     "message": "下載失敗"
@@ -78,8 +51,8 @@
   "noSubDirectory": {
     "message": "不新增子資料夾"
   },
-  "resetStorageButtonText": {
-    "message": "重置設定"
+  "resetButtonText": {
+    "message": "重置"
   },
   "userCanceledMessage": {
     "message": "請取消 [下載每個檔案前先詢問儲存位置] 的設定。"
@@ -87,19 +60,124 @@
   "internalError": {
     "message": "內部錯誤"
   },
-  "additionalOptions": {
-    "message": "額外設定"
+  "options_sidemenu_general": {
+    "message": "通用"
   },
-  "downloadVideoThumbnail": {
+  "options_sidemenu_features": {
+    "message": "功能"
+  },
+  "options_sidemenu_integrations": {
+    "message": "整合"
+  },
+  "options_sidemenu_about": {
+    "message": "關於"
+  },
+  "popup_features_revealNsfw": {
+    "message": "顯示敏感內容"
+  },
+  "popup_features_downloadVideoThumbnail": {
     "message": "下載影片縮圖"
   },
-  "aggressiveMode": {
-    "message": "激進模式"
+  "popup_reactions_rate": {
+    "message": "給評價"
   },
-  "autoRevealNsfw": {
-    "message": "敏感內容自動開圖"
+  "popup_reactions_report": {
+    "message": "回報錯誤"
   },
-  "autoRevealNsfwShort": {
-    "message": "Auto-reveal NSFW"
+  "options_integrations_notCompatibble": {
+    "message": "$TARGET$ 瀏覽器不支援此項功能",
+    "placeholders": {
+      "target": {
+        "content": "$1",
+        "example": "Firefox"
+      }
+    }
+  },
+  "options_integrations_dispatchToAria2": {
+    "message": "傳送下載任務到 Aria2 "
+  },
+  "options_integrations_dispatchToAria2_desc": {
+    "message": "透過 Aria2-Explorer 傳送下載任務到 Aria2。 "
+  },
+  "options_integrations_aggressiveMode": {
+    "message": "積極模式"
+  },
+  "options_integrations_aggressiveMode_desc": {
+    "message": "防止檔案名稱被其他擴充功能修改。此功能可能與其他下載管理擴充功能衝突。"
+  },
+  "options_general_subDirectory": {
+    "message": "新增子資料夾"
+  },
+  "options_general_subDirectory_desc": {
+    "message": "在預設下載資料夾中新增一個子資料夾。"
+  },
+  "options_general_filenamePattern": {
+    "message": "檔案名稱樣式"
+  },
+  "options_general_filenamePattern_desc": {
+    "message": "選擇需要哪些資訊包含在檔案名稱。"
+  },
+  "options_general_filenamePattern_token_account": {
+    "message": "帳號"
+  },
+  "options_general_filenamePattern_token_tweetId": {
+    "message": "推特 ID"
+  },
+  "options_general_filenamePattern_token_hash": {
+    "message": "雜湊值"
+  },
+  "options_general_filenamePattern_token_serial": {
+    "message": "序列號"
+  },
+  "options_general_filenamePattern_token_date": {
+    "message": "日期"
+  },
+  "options_general_filenameSettings_message_dir": {
+    "message": "無效的資料夾名稱。不能含有 <>:\"/\\|?*"
+  },
+  "options_general_filenameSettings_message_pattern": {
+    "message": "無效的樣式。 必須包含 `推特 ID` + `序列號` 或 `雜湊值`。"
+  },
+  "options_features_revealNsfw": {
+    "message": "自動顯示敏感內容"
+  },
+  "options_features_revealNsfw_desc": {
+    "message": "當推特內容被標註為敏感性內容時，自動顯示內容。"
+  },
+  "options_features_downloadVideoThumbnail": {
+    "message": "下載影片縮圖"
+  },
+  "options_features_downloadVideoThumbnail_desc": {
+    "message": "檔案為影片時，自動下載縮圖。"
+  },
+  "options_about_officialWebsite": {
+    "message": "官方網站"
+  },
+  "options_about_privacyPolicy": {
+    "message": "隱私權政策"
+  },
+  "options_about_changeLog": {
+    "message": "更新日誌"
+  },
+  "options_about_version": {
+    "message": "版本"
+  },
+  "popup_changeLog": {
+    "message": "更新日誌"
+  },
+  "popup_buyMeCoffee": {
+    "message": "請作者喝杯咖啡!"
+  },
+  "footbar_doYouLike": {
+    "message": "喜歡 Media Harvest 嗎？"
+  },
+  "footbar_rate": {
+    "message": "給評價"
+  },
+  "footbar_buyMeCoffee": {
+    "message": "請作者喝杯咖啡"
+  },
+  "footbar_or": {
+    "message": "或"
   }
 }

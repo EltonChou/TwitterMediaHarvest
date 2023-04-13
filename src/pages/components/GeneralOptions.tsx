@@ -4,6 +4,7 @@ import { DEFAULT_DIRECTORY } from '@backend/constants'
 import V4FilenameSettingsUsecase from '@backend/settings/filenameSettings/usecase'
 import { Button, Flex, HStack, Input, VStack } from '@chakra-ui/react'
 import useFilenameSettingsForm from '@pages/hooks/useFilenameSettingsForm'
+import { i18n } from '@pages/utils'
 import { RichFeatureSwitch } from './controls/featureControls'
 import { PatternToken } from './controls/filenameControls'
 
@@ -14,11 +15,11 @@ type TokenPanelProps = {
 }
 
 const fp: [string, FilenamePatternToken][] = [
-  ['Account', '{account}'],
-  ['Tweet ID', '{tweetId}'],
-  ['Hash', '{hash}'],
-  ['Serial', '{serial}'],
-  ['Date', '{date}'],
+  [i18n('options_general_filenamePattern_token_account'), '{account}'],
+  [i18n('options_general_filenamePattern_token_tweetId'), '{tweetId}'],
+  [i18n('options_general_filenamePattern_token_hash'), '{hash}'],
+  [i18n('options_general_filenamePattern_token_serial'), '{serial}'],
+  [i18n('options_general_filenamePattern_token_date'), '{date}'],
 ]
 
 const TokenPanel = memo(({ handleTokenToggle, pattern, previewFilename }: TokenPanelProps) => {
@@ -60,8 +61,8 @@ const GeneralOptions = () => {
     <form onReset={formHandler.reset} onSubmit={formHandler.submit}>
       <VStack>
         <RichFeatureSwitch
-          name="Filename pattern"
-          desc="Create sub-directory under the default download directory."
+          name={i18n('options_general_filenamePattern')}
+          desc={i18n('options_general_filenamePattern_desc')}
           message={formMsg.filenamePattern}
         >
           <TokenPanel
@@ -71,9 +72,9 @@ const GeneralOptions = () => {
           />
         </RichFeatureSwitch>
         <RichFeatureSwitch
-          name="Create sub-directory"
+          name={i18n('options_general_subDirectory')}
           message={formMsg.directory}
-          desc="Create sub-directory under the default download directory."
+          desc={i18n('options_general_subDirectory_desc')}
           isOn={!filenameSettings.noSubDirectory}
           handleClick={formHandler.directorySwitch}
         >
@@ -91,10 +92,10 @@ const GeneralOptions = () => {
         </RichFeatureSwitch>
         <HStack>
           <Button type="reset" colorScheme={'red'} variant={'outline'}>
-            Reset
+            {i18n('resetButtonText')}
           </Button>
           <Button type="submit" colorScheme={'green'} isDisabled={!Object.values(formStatus).every(v => v)}>
-            Save
+            {i18n('submitButtonText')}
           </Button>
         </HStack>
       </VStack>

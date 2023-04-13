@@ -1,5 +1,6 @@
 import { storageConfig } from '@backend/configurations'
 import type { HelperMessage } from '@pages/components/controls/featureControls'
+import { i18n } from '@pages/utils'
 import { useCallback, useEffect, useReducer, useState } from 'react'
 import sanitize from 'sanitize-filename'
 
@@ -157,12 +158,10 @@ const useFilenameSettingsForm = (): [V4FilenameSettings, FormStatus, FormMessage
     formStatusDispatch(isDirectoryValid ? 'directoryIsValid' : 'directoryIsInvalid')
     formStatusDispatch(isPatternValid ? 'filenamePatternIsValid' : 'filenamePatternIsInvalid')
     setDirectoryMessage(
-      isDirectoryValid ? null : { type: 'error', content: 'Invalid directory name. Cannot contain <>:"/\\|?*' }
+      isDirectoryValid ? null : { type: 'error', content: i18n('options_general_filenameSettings_message_dir') }
     )
     setPatternMessage(
-      isPatternValid
-        ? null
-        : { type: 'error', content: 'Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`.' }
+      isPatternValid ? null : { type: 'error', content: i18n('options_general_filenameSettings_message_pattern') }
     )
   }, [filenameSettings])
 

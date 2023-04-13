@@ -5,17 +5,25 @@ import useIntegrationSettings from '@pages/hooks/useIntegrationSettings'
 import Links from '@pages/links'
 import type { HelperMessage } from './controls/featureControls'
 import { RichFeatureSwitch } from './controls/featureControls'
+import { i18n } from '@pages/utils'
 
 const Aria2Description = () => {
-  if (process.env.TARGET === 'firefox') return <>Transfer the download to Aria2 via Aria2-Explorer</>
+  const desc = i18n('options_integrations_dispatchToAria2_desc')
+  const [pre, post] = desc.split('Aria2-Explorer')
+  if (process.env.TARGET === 'firefox')
+    return (
+      <>
+        {pre} Aria2-Explorer {post}
+      </>
+    )
 
   return (
     <>
-      Transfer the download to Aria2 via{' '}
+      {pre}
       <Link href={Links.aria2Explorer} target="_blank" color={'blue.400'}>
         Aria2-Explorer
       </Link>
-      .
+      {post}
     </>
   )
 }
@@ -26,13 +34,13 @@ const IntegrationOptions = () => {
   const isFirefox = process.env.TARGET === 'firefox'
   const message: HelperMessage = isFirefox && {
     type: 'info',
-    content: 'This integration is not compatible with Firefox',
+    content: i18n('options_integrations_notCompatibble', 'Firefox'),
   }
 
   return (
     <VStack>
       <RichFeatureSwitch
-        name="Dispatch download to Aria2"
+        name={i18n('options_integrations_dispatchToAria2')}
         desc={<Aria2Description />}
         isOn={integrationSettings.enableAria2}
         handleClick={toggleAria2}
@@ -40,11 +48,8 @@ const IntegrationOptions = () => {
         message={message}
       />
       <RichFeatureSwitch
-        name="Aggressive mode"
-        desc={
-          'Ensure the filename not to be modified by other extensions. ' +
-          'This mode might be conflicted with other download management extensions.'
-        }
+        name={i18n('options_integrations_aggressiveMode')}
+        desc={i18n('options_integrations_aggressiveMode_desc')}
         isOn={integrationSettings.aggressiveMode}
         handleClick={toggleAggressive}
         isDisable={isFirefox}

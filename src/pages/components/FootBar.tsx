@@ -3,22 +3,23 @@ import React from 'react'
 import { StarIcon } from '@chakra-ui/icons'
 import { Box, BoxProps, Button, HStack, Link, Text } from '@chakra-ui/react'
 import Links from '@pages/links'
+import { i18n } from '@pages/utils'
 import { BiCoffeeTogo } from 'react-icons/bi'
 
 const FootBar = (props: BoxProps) => {
   return (
     <Box {...props} fontSize={['1rem', '1rem', '1.5rem']} p={'0.5em'} bg={'brand.blue'}>
       <HStack justify={'center'} spacing={[4, 4, 4, 8]}>
-        <Text>Do you like Media Harvest ?</Text>
+        <Text>{i18n('footbar_doYouLike')}</Text>
         <Link href={Links.store} isExternal>
           <Button colorScheme={'brand.yellow'} color={'white'} rightIcon={<StarIcon />}>
-            Rate it
+            {i18n('footbar_rate')}
           </Button>
         </Link>
-        <Text>or</Text>
+        <Text>{i18n('footbar_or')}</Text>
         <Link href={Links.koFi} isExternal>
           <Button colorScheme={'brand.pink'} color={'white'} rightIcon={<BiCoffeeTogo />}>
-            Buy me a coffee
+            {i18n('footbar_buyMeCoffee')}
           </Button>
         </Link>
       </HStack>

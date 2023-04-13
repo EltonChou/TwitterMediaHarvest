@@ -5,35 +5,8 @@
   "appDesc": {
     "message": "Download videos and images from twitter or TweetDeck with only one click."
   },
-  "downloadsDirectoryLabel": {
-    "message": "Downloads directory"
-  },
-  "downloadsDirectoryHelp": {
-    "message": "This directory is invalid"
-  },
-  "filenamePatternLabel": {
-    "message": "Filename pattern"
-  },
-  "filenamePatternAccount": {
-    "message": "Account"
-  },
-  "filenameSerialStyleLabel": {
-    "message": "Serial style"
-  },
-  "filenameSerialStyleFileOrder": {
-    "message": "file order"
-  },
-  "filenameSerialStyleFileName": {
-    "message": "file name"
-  },
-  "filenamePreviewLabel": {
-    "message": "Preview"
-  },
   "submitButtonText": {
     "message": "Save"
-  },
-  "submitButtonSuccessText": {
-    "message": "Success"
   },
   "notificationDLFailedTitle": {
     "message": "Download failed"
@@ -78,8 +51,8 @@
   "noSubDirectory": {
     "message": "Don't create subdirectory."
   },
-  "resetStorageButtonText": {
-    "message": "Reset settings"
+  "resetButtonText": {
+    "message": "Reset"
   },
   "userCanceledMessage": {
     "message": "Please disable [Ask where to save each file before downloading]."
@@ -87,19 +60,124 @@
   "internalError": {
     "message": "Internal Error"
   },
-  "additionalOptions": {
-    "message": "Additional Options"
+  "options_sidemenu_general": {
+    "message": "General"
   },
-  "downloadVideoThumbnail": {
+  "options_sidemenu_features": {
+    "message": "Features"
+  },
+  "options_sidemenu_integrations": {
+    "message": "Integrations"
+  },
+  "options_sidemenu_about": {
+    "message": "About"
+  },
+  "popup_features_revealNsfw": {
+    "message": "Auto-reveal NSFW"
+  },
+  "popup_features_downloadVideoThumbnail": {
     "message": "Video thumbnail"
   },
-  "aggressiveMode": {
+  "popup_reactions_rate": {
+    "message": "Rate it"
+  },
+  "popup_reactions_report": {
+    "message": "Report issues"
+  },
+  "options_integrations_notCompatibble": {
+    "message": "This integration is not compatible with $TARGET$",
+    "placeholders": {
+      "target": {
+        "content": "$1",
+        "example": "Firefox"
+      }
+    }
+  },
+  "options_integrations_dispatchToAria2": {
+    "message": "Dispatch download to Aria2"
+  },
+  "options_integrations_dispatchToAria2_desc": {
+    "message": "Transfer the download to Aria2 via Aria2-Explorer."
+  },
+  "options_integrations_aggressiveMode": {
     "message": "Aggressive Mode"
   },
-  "autoRevealNsfw": {
+  "options_integrations_aggressiveMode_desc": {
+    "message": "Ensure the filename not to be modified by other extensions. This mode might be conflicted with other download management extensions."
+  },
+  "options_general_subDirectory": {
+    "message": "Create sub-directory"
+  },
+  "options_general_subDirectory_desc": {
+    "message": "Create sub-directory under the default download directory."
+  },
+  "options_general_filenamePattern": {
+    "message": "Filename pattern"
+  },
+  "options_general_filenamePattern_desc": {
+    "message": "You can choose what info to be included in the filename."
+  },
+  "options_general_filenamePattern_token_account": {
+    "message": "Account"
+  },
+  "options_general_filenamePattern_token_tweetId": {
+    "message": "Tweet ID"
+  },
+  "options_general_filenamePattern_token_hash": {
+    "message": "Hash"
+  },
+  "options_general_filenamePattern_token_serial": {
+    "message": "Serial"
+  },
+  "options_general_filenamePattern_token_date": {
+    "message": "Date"
+  },
+  "options_general_filenameSettings_message_dir": {
+    "message": "Invalid directory name. Cannot contain <>:\"/\\|?*"
+  },
+  "options_general_filenameSettings_message_pattern": {
+    "message": "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+  },
+  "options_features_revealNsfw": {
     "message": "Auto-reveal sensitive content"
   },
-  "autoRevealNsfwShort": {
-    "message": "Auto-reveal NSFW"
+  "options_features_revealNsfw_desc": {
+    "message": "When the tweet was flagged as sensitive content, this feature can show the blured content automatically."
+  },
+  "options_features_downloadVideoThumbnail": {
+    "message": "Download video thumbnail"
+  },
+  "options_features_downloadVideoThumbnail_desc": {
+    "message": "Download the thumbnail when the media is video."
+  },
+  "options_about_officialWebsite": {
+    "message": "Official website"
+  },
+  "options_about_privacyPolicy": {
+    "message": "Privacy policy"
+  },
+  "options_about_changeLog": {
+    "message": "Changelog"
+  },
+  "options_about_version": {
+    "message": "Version"
+  },
+  "popup_changeLog": {
+    "message": "Changelog"
+  },
+  "popup_buyMeCoffee": {
+    "message": "Buy me a coffee!"
+  },
+  "footbar_doYouLike": {
+    "message": "Do you like Media Harvest?"
+  },
+  "footbar_rate": {
+    "message": "Rate it"
+  },
+  "footbar_buyMeCoffee": {
+    "message": "Buy me a coffee"
+  },
+  "footbar_or": {
+    "message": "or"
   }
 }
