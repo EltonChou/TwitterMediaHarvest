@@ -199,28 +199,6 @@ module.exports = (env, argv) => {
         },
       })
     )
-  } else if (env.target === 'firefox') {
-    config.plugins.push(
-      new FileManagerPlugin({
-        events: {
-          onEnd: {
-            mkdir: ['dist'],
-            archive: [
-              {
-                source: `build/${env.target}`,
-                destination: `dist/${env.target}-TwitterMediaHarvest-v${version}-dev.zip`,
-                options: {
-                  zlib: { level: 9 },
-                  globOptions: {
-                    ignore: ['*.map'],
-                  },
-                },
-              },
-            ],
-          },
-        },
-      })
-    )
   }
   // config.plugins.push(new BundleAnalyzerPlugin())
 
