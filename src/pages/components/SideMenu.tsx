@@ -2,6 +2,7 @@ import React from 'react'
 
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { Box, Flex, IconButton, Link, useBoolean, useBreakpointValue, VStack } from '@chakra-ui/react'
+import useLocaleVariables from '@pages/hooks/useLocaleVariables'
 import { i18n } from '@pages/utils'
 import { Link as RouterLink } from 'react-router-dom'
 
@@ -13,10 +14,10 @@ type MenuItemProps = {
 
 const NavItem = (props: MenuItemProps) => {
   return (
-    <Link to={props.target} as={RouterLink} onClick={props.closeMenu}>
+    <Link to={props.target} as={RouterLink} onClick={props.closeMenu} _hover={{ textDecoration: 'none' }}>
       <Box
-        pl="12"
-        _hover={{ bg: 'rgba(255, 255, 255, 0.33)', textDecoration: 'none' }}
+        p="0.5em 0 0.5em 1.5em"
+        _hover={{ bg: 'rgba(255, 255, 255, 0.33)' }}
         style={{ transition: 'background 300ms' }}
       >
         {props.name}
@@ -52,6 +53,10 @@ const SideMenu = () => {
     base: 'unset',
     lg: '1px solid gray',
   })
+  const navFontSize = useLocaleVariables({
+    base: '1.5rem',
+    en: '2rem',
+  })
 
   return (
     <>
@@ -80,7 +85,7 @@ const SideMenu = () => {
         ></Box>
       </Box>
       <Flex
-        fontSize="2rem"
+        fontSize={navFontSize}
         direction="column"
         width="240px"
         bg="brand.bg"

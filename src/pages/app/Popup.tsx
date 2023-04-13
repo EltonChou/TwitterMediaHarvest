@@ -15,6 +15,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import PopupFeatureBlock from '@pages/components/PopupFeatureBlock'
+import useLocaleVariables from '@pages/hooks/useLocaleVariables'
 import Links from '@pages/links'
 import { i18n } from '@pages/utils'
 import React, { memo, useCallback, useEffect, useState } from 'react'
@@ -62,7 +63,7 @@ const Stats = () => {
   return (
     <Box>
       <Center>
-        <Text as="span" fontSize={'4rem'} fontWeight={600}>
+        <Text as="span" fontSize={'4rem'} fontWeight={600} lineHeight="shorter">
           {count > 10000 ? calcStats(count, 1) + 'K' : count}
         </Text>
       </Center>
@@ -90,14 +91,14 @@ const Reaction = (props: ReactionProps) => (
 
 const ReactionsBlock = () => {
   return (
-    <Box fontSize={'lg'}>
+    <Stack spacing={2} fontSize={'0.8em'}>
       <Link href={Links.store} target="_blank">
         <Reaction name={i18n('popup_reactions_rate')} iconColor={'brand.green'} icon={MdOutlineSentimentSatisfied} />
       </Link>
       <Link href={Links.issues} target="_blank">
         <Reaction name={i18n('popup_reactions_report')} iconColor={'brand.red'} icon={MdOutlineSentimentDissatisfied} />
       </Link>
-    </Box>
+    </Stack>
   )
 }
 
@@ -133,7 +134,7 @@ const Footer = () => {
   const [info, setInfo] = useState(versionName)
   const resetInfo = useCallback(() => setInfo(versionName), [])
   return (
-    <Flex bg="#404040" position="absolute" bottom="0" w="100%" h="50px" pl={5} pr={5} justify="center" align="center">
+    <Flex bg="#404040" bottom="0" w="100%" h="50px" pl={5} pr={5} justify="center" align="center">
       <Box fontSize={'md'} ml="8px" mr="8px" color="white">
         {info}
       </Box>
@@ -167,18 +168,20 @@ const Footer = () => {
 }
 
 const Popup = () => {
-  const featureP = '50px'
+  const featurePadding = useLocaleVariables({ base: '50px', ja: '40px' })
+  const baseFontSize = useLocaleVariables({ base: '1.5rem', ja: '1rem', zh: '1.2rem' })
+
   return (
     <>
       <NavBar />
-      <Stack spacing={4} height="375">
+      <Stack spacing={4} height="375px" fontSize={baseFontSize} flexGrow={1}>
         <Stats />
-        <PopupFeatureBlock spacing={2.5} justify="center" flex={1} pl={featureP} pr={featureP} fontSize={'lg'} />
-        <VStack align={'center'} flex="1">
+        <PopupFeatureBlock spacing={3} justify="center" flex={1} pl={featurePadding} pr={featurePadding} />
+        <VStack align={'center'} flex="1" spacing={3}>
           <ReactionsBlock />
         </VStack>
+        <Footer />
       </Stack>
-      <Footer />
     </>
   )
 }

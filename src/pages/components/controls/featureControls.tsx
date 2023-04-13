@@ -13,6 +13,7 @@ import {
   Switch,
   Text,
 } from '@chakra-ui/react'
+import useLocaleVariables from '@pages/hooks/useLocaleVariables'
 
 type FeatureSwitchPros = {
   isOn: boolean
@@ -22,12 +23,13 @@ type FeatureSwitchPros = {
 
 export const FeatureSwitch = ({ isOn, handleChange, labelContent }: FeatureSwitchPros) => {
   const controlId = useId()
+  const switchMb = useLocaleVariables({ base: 'unset', ja: '4px !important', zh: '4px !important' })
   return (
     <HStack>
-      <FormLabel htmlFor={controlId} mb="0" flex={1} cursor="pointer" fontSize={'x-large'}>
+      <FormLabel htmlFor={controlId} mb="0" flex={1} cursor="pointer" fontSize={'inherit'}>
         {labelContent}
       </FormLabel>
-      <Switch id={controlId} isChecked={isOn} onChange={handleChange} colorScheme="cyan" />
+      <Switch id={controlId} isChecked={isOn} onChange={handleChange} colorScheme="cyan" mb={switchMb} />
     </HStack>
   )
 }
@@ -97,7 +99,7 @@ export const RichFeatureSwitch = ({
           </Stack>
           {handleClick && (
             <Box alignSelf={'stretch'}>
-              <Switch id={id} isChecked={isOn} onChange={handleClick} colorScheme={'cyan'} />
+              <Switch id={id} isChecked={isOn} onChange={handleClick} colorScheme={'cyan'} size={'md'} />
             </Box>
           )}
         </HStack>

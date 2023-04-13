@@ -11,13 +11,13 @@ const FootBar = (props: BoxProps) => {
     <Box {...props} fontSize={['1rem', '1rem', '1.5rem']} p={'0.5em'} bg={'brand.blue'}>
       <HStack justify={'center'} spacing={[4, 4, 4, 8]}>
         <Text>{i18n('footbar_doYouLike')}</Text>
-        <Link href={Links.store} isExternal>
+        <Link href={Links.store} _hover={{ textDecoration: 'none' }} isExternal>
           <Button colorScheme={'brand.yellow'} color={'white'} rightIcon={<StarIcon />}>
             {i18n('footbar_rate')}
           </Button>
         </Link>
         <Text>{i18n('footbar_or')}</Text>
-        <Link href={Links.koFi} isExternal>
+        <Link href={Links.koFi} _hover={{ textDecoration: 'none' }} isExternal>
           <Button colorScheme={'brand.pink'} color={'white'} rightIcon={<BiCoffeeTogo />}>
             {i18n('footbar_buyMeCoffee')}
           </Button>

@@ -17,7 +17,7 @@ type ContentProps = {
 
 const Content = (props: ContentProps) => {
   return (
-    <Container fontSize={{ base: 'md', lg: 'lg' }} pt={10} pb={10} flex={1}>
+    <Container fontSize={'lg'} pt={10} pb={10} flex={1} maxW={'80ch'}>
       <Stack>
         <Heading p={'1.5rem'}>{props.title}</Heading>
         {props.children}
