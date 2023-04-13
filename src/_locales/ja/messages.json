@@ -70,13 +70,13 @@
     "message": "統合"
   },
   "options_sidemenu_about": {
-    "message": "Media Harvest について"
+    "message": "拡張について"
   },
   "popup_features_revealNsfw": {
-    "message": "センシティブ自動表示"
+    "message": "センシティブ内容表示"
   },
   "popup_features_downloadVideoThumbnail": {
-    "message": "ビテオサムネ"
+    "message": "ビデオサムネ"
   },
   "popup_reactions_rate": {
     "message": "評価する"
@@ -97,7 +97,7 @@
     "message": "ダウンロードを Aria2 に転送"
   },
   "options_integrations_dispatchToAria2_desc": {
-    "message": "Aria2-Explorer 経由ダウンロードを Aria2 に転送すること。"
+    "message": "Aria2-Explorer 経由ダウンロードを Aria2 に転送します。"
   },
   "options_integrations_aggressiveMode": {
     "message": "積極的なモード"
@@ -109,13 +109,13 @@
     "message": "サブディレクトリの作成"
   },
   "options_general_subDirectory_desc": {
-    "message": "ディフォルトディレクトリの下にサブディレクトリを作成します"
+    "message": "ディフォルトディレクトリの下にサブディレクトリを作成します。"
   },
   "options_general_filenamePattern": {
     "message": "ファイルネームパターン"
   },
   "options_general_filenamePattern_desc": {
-    "message": "ツイートの情報をファイルネームに含める。"
+    "message": "ツイートの情報をファイルネームに含めます。"
   },
   "options_general_filenamePattern_token_account": {
     "message": "アカウント"
@@ -142,13 +142,13 @@
     "message": "センシティブ内容の自動表示"
   },
   "options_features_revealNsfw_desc": {
-    "message": "ツイートをセンシティブな内容として設定されている際、センシティブ内容を自動的に表示すること。"
+    "message": "ツイートをセンシティブな内容として設定されている際、センシティブ内容を自動的に表示します。"
   },
   "options_features_downloadVideoThumbnail": {
-    "message": "ビテオのサムネイルをダウンロードする"
+    "message": "ビデオサムネイルのダウンロード"
   },
   "options_features_downloadVideoThumbnail_desc": {
-    "message": "メディアはビテオの時、サムネイルをダウンロードする。"
+    "message": "メディアはビデオの時、サムネイルをダウンロードします。"
   },
   "options_about_officialWebsite": {
     "message": "公式サイト"
