@@ -86,7 +86,6 @@ export const makeBrowserDownloadConfig = (url: string, fileName: string): Downlo
     url: url,
     filename: fileName,
     conflictAction: 'overwrite',
-    saveAs: false,
   }
 }
 

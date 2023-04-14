@@ -37,7 +37,6 @@ describe('Test TwitterMediaFile usage.', () => {
         ext: '.jpg',
       }),
       conflictAction: 'overwrite',
-      saveAs: false,
     }
 
     const theConfig = jpgFile.makeDownloadConfigBySetting(defaultFilenameSetting, DownloadMode.Browser)
