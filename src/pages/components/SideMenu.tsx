@@ -2,7 +2,6 @@ import React from 'react'
 
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { Box, Flex, IconButton, Link, useBoolean, useBreakpointValue, VStack } from '@chakra-ui/react'
-import useLocaleVariables from '@pages/hooks/useLocaleVariables'
 import { i18n } from '@pages/utils'
 import { Link as RouterLink } from 'react-router-dom'
 
@@ -45,35 +44,23 @@ const Nav = ({ closeMenu }: NavProps) => {
 
 const SideMenu = () => {
   const [isActive, setActive] = useBoolean(false)
-  const menuL = useBreakpointValue({
-    base: isActive ? '0px' : '-240px',
-    lg: '0px',
-  })
-  const menuBoarder = useBreakpointValue({
-    base: 'unset',
-    lg: '1px solid gray',
-  })
-  const navFontSize = useLocaleVariables({
-    base: '1.5rem',
-    en: '2rem',
-  })
 
   return (
     <>
       <Box pos="fixed" top={0} zIndex={'overlay'}>
-        <IconButton
-          aria-label="Side menu"
-          size={'lg'}
-          variant="ghost"
-          bg="transparent"
-          color="white"
-          _hover={{ bg: 'rgba(255, 255, 255, 0.05)' }}
-          _active={{ bg: 'rgba(255, 255, 255, 0.2)' }}
-          icon={<HamburgerIcon />}
-          onClick={() => setActive.on()}
-          pos={'absolute'}
-          top={0}
-        />
+        <Flex pos={'fixed'} top={0} width={'full'} bg={'brand.bg'}>
+          <IconButton
+            aria-label="Side menu"
+            size={'lg'}
+            variant="ghost"
+            bg="transparent"
+            color="white"
+            _hover={{ bg: 'rgba(255, 255, 255, 0.05)' }}
+            _active={{ bg: 'rgba(255, 255, 255, 0.2)' }}
+            icon={<HamburgerIcon />}
+            onClick={() => setActive.on()}
+          />
+        </Flex>
         <Box
           height={'full'}
           width={'full'}
@@ -85,12 +72,18 @@ const SideMenu = () => {
         ></Box>
       </Box>
       <Flex
-        fontSize={navFontSize}
+        fontSize={'1.5rem'}
         direction="column"
         width="240px"
         bg="brand.bg"
-        left={menuL}
-        borderRight={menuBoarder}
+        left={useBreakpointValue({
+          base: isActive ? '0px' : '-240px',
+          lg: '0px',
+        })}
+        borderRight={useBreakpointValue({
+          base: 'unset',
+          lg: '1px solid gray',
+        })}
         top="0"
         position={['fixed', 'fixed', 'fixed', 'relative', 'relative']}
         height={'full'}
@@ -98,6 +91,8 @@ const SideMenu = () => {
         style={{
           transition: 'left 200ms',
         }}
+        overflowX={'hidden'}
+        overflowY={'auto'}
       >
         <Box height="150px" />
         <Nav closeMenu={setActive.off} />

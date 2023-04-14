@@ -76,7 +76,7 @@
     "message": "センシティブ内容表示"
   },
   "popup_features_downloadVideoThumbnail": {
-    "message": "ビデオサムネ"
+    "message": "ビデオサムネイル"
   },
   "popup_reactions_rate": {
     "message": "評価する"
@@ -175,7 +175,7 @@
     "message": "評価する"
   },
   "footbar_buyMeCoffee": {
-    "message": "コーヒーおごって"
+    "message": "コーヒーをおごって"
   },
   "footbar_or": {
     "message": "それとも"

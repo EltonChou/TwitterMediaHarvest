@@ -58,7 +58,7 @@ const theme = extendTheme({
         bg: props.colorMode === 'dark' ? '#1E1E1E' : 'inherit',
         color: props.colorMode === 'dark' ? 'white' : 'inherit',
         height: '100%',
-        overflowY: 'scroll',
+        overflowY: 'auto',
       },
       '#root': {
         display: 'flex',
