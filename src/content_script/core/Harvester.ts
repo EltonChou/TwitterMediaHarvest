@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser'
+import { addBreadcrumb } from '@sentry/browser'
 import select from 'select-dom'
 import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
 import { checkModeOfArticle, isArticleInStatus, isArticlePhotoMode } from '../utils/checker'
@@ -55,7 +55,7 @@ const parseMagicLink = (article: HTMLElement): string => {
       return v.href
     })
 
-    Sentry.addBreadcrumb({
+    addBreadcrumb({
       category: 'parse',
       message: 'Cannott get magic-link element.',
       level: 'info',
@@ -81,7 +81,7 @@ const parseMagicLink = (article: HTMLElement): string => {
  * @param article A valid tweet element.
  */
 export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
-  Sentry.addBreadcrumb({
+  addBreadcrumb({
     category: 'parse',
     message: 'Parse tweet info.',
     level: 'info',
@@ -89,7 +89,7 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
 
   const magicLink: string = parseMagicLink(article)
 
-  Sentry.addBreadcrumb({
+  addBreadcrumb({
     category: 'parse',
     message: `Magic link: ${magicLink}`,
     level: 'info',

@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser'
+import { addBreadcrumb } from '@sentry/browser'
 import type { Downloads } from 'webextension-polyfill'
 import { storageConfig } from '../configurations'
 import { IDownloadRecordsRepository } from '../downloadRecords/repository'
@@ -24,7 +24,7 @@ export default class DownloadStateUseCase {
     // eslint-disable-next-line no-console
     const { id, error } = this.downloadDelta
     console.log('Download was interrupted.', this.downloadDelta)
-    Sentry.addBreadcrumb({
+    addBreadcrumb({
       category: 'download',
       message: `Download interupted reason. (current: ${error.current}, previous: ${error.previous})`,
       level: 'info',

@@ -15,6 +15,7 @@ export const chromiumInit = (
 
     if (byExtensionId && byExtensionId === runtimeId) {
       downloadRecordRepo.getById(downloadItem.id).then(record => {
+        if (!record) return false
         const { downloadConfig } = record
         suggest(downloadConfig as chrome.downloads.DownloadFilenameSuggestion)
       })

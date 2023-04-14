@@ -1,12 +1,13 @@
 /* eslint-disable no-console */
-import * as Sentry from '@sentry/browser'
+import { addBreadcrumb, init as SentryInit } from '@sentry/browser'
 import { SENTRY_DSN } from '../constants'
 
-Sentry.init({
+SentryInit({
   dsn: SENTRY_DSN,
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
   environment: process.env.NODE_ENV,
   release: process.env.RELEASE,
+  ignoreErrors: ['Failed to fetch'],
 })
 
 import browser from 'webextension-polyfill'
@@ -25,6 +26,7 @@ import { isDownloadedBySelf, isInvalidInfo } from './utils/checker'
 const enum InstallReason {
   Install = 'install',
   Update = 'update',
+  BrowserUpdate = 'browser_update',
 }
 
 browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender) => {
@@ -51,6 +53,7 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender) =>
 })
 
 browser.runtime.onInstalled.addListener(async details => {
+  if (details.reason === InstallReason.BrowserUpdate) return
   if (details.reason === InstallReason.Install) await initStorage()
   if (details.reason === InstallReason.Update) {
     const migrateCommand = new MigrateStorageToV4()
@@ -62,7 +65,7 @@ browser.runtime.onInstalled.addListener(async details => {
 browser.downloads.onChanged.addListener(async downloadDelta => {
   if (!(await isDownloadedBySelf(downloadDelta.id))) return false
 
-  Sentry.addBreadcrumb({
+  addBreadcrumb({
     category: 'download',
     message: `Download state changed. (delta: ${downloadDelta})`,
     level: 'info',

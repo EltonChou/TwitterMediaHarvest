@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser'
+import { captureException } from '@sentry/browser'
 import browser from 'webextension-polyfill'
 import { Action } from '../../typings'
 
@@ -55,7 +55,7 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
         action: Action.Refresh,
       })
     } catch (error) {
-      Sentry.captureException(error)
+      captureException(error)
       console.error(error)
     }
   })
