@@ -56,11 +56,10 @@ const getFetchError = (statusCode: number): TwitterApiError => {
   }
 
   if (statusCode === 401) {
-    // TODO: i18n
     const reason: FetchErrorReason = {
       status: statusCode,
-      title: 'Unauthorized',
-      message: 'Please check your login session or your permission to read this tweet.',
+      title: i18nLocalize('backend_notification_title_unauth'),
+      message: i18nLocalize('backend_notification_message_unauth'),
     }
     return new Unauthorized(reason)
   }

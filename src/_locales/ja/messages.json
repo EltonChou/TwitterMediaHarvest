@@ -179,5 +179,11 @@
   },
   "footbar_or": {
     "message": "それとも"
+  },
+  "backend_notification_title_unauth": {
+    "message": "無許可"
+  },
+  "backend_notification_message_unauth": {
+    "message": "ログイン状態やツイートの閲覧権限を確認してください。"
   }
 }

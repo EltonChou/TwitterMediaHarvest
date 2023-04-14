@@ -179,5 +179,11 @@
   },
   "footbar_or": {
     "message": "or"
+  },
+  "backend_notification_title_unauth": {
+    "message": "Unauthorized"
+  },
+  "backend_notification_message_unauth": {
+    "message": "Please check your login session or your permission to read this tweet."
   }
 }
