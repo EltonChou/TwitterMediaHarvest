@@ -1,13 +1,14 @@
 import { addBreadcrumb } from '@sentry/browser'
 import type { Downloads } from 'webextension-polyfill'
+import Browser from 'webextension-polyfill'
 import { storageConfig } from '../configurations'
 import { IDownloadRecordsRepository } from '../downloadRecords/repository'
 import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCase'
-import StatisticsUseCases from '../statistics/usecases'
+import { V4StatsUseCase } from '../statistics/useCases'
 import InterruptReason from './InterruptReason'
 import { downloadIsCompleted, downloadIsInterrupted } from './utils/downloadState'
 
-const statisticsUseCase = new StatisticsUseCases(storageConfig.statisticsRepo)
+const statisticsUseCase = new V4StatsUseCase(storageConfig.statisticsRepo)
 
 export default class DownloadStateUseCase {
   constructor(
@@ -36,7 +37,6 @@ export default class DownloadStateUseCase {
       return
     }
 
-    await statisticsUseCase.addFailedDownloadCount()
     const downloadRecord = await this.downloadRecordRepo.getById(id)
     if (downloadRecord) {
       const { tweetInfo } = downloadRecord
@@ -50,7 +50,9 @@ export default class DownloadStateUseCase {
   async handle_completed(): Promise<void> {
     // eslint-disable-next-line no-console
     console.log('Download was completed.', this.downloadDelta)
-    await statisticsUseCase.addSuccessDownloadCount()
+    const [item] = await Browser.downloads.search({ id: this.downloadDelta.id })
+    if (item) await statisticsUseCase.addTraffic(item.fileSize)
+    await statisticsUseCase.addDownloadCount()
     await this.downloadRecordRepo.removeById(this.downloadDelta.id)
   }
 }

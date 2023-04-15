@@ -1,4 +1,5 @@
 import { IStatisticsRepository, IStatisticsRepositoryV4, StatisticsKey } from './repositories'
+import Browser from 'webextension-polyfill'
 
 /**
  * @deprecated The method should not be used
@@ -13,9 +14,9 @@ export interface IStatisticsUseCase {
 }
 
 /**
- * @deprecated Use {@link V4StatsUsecase} instead
+ * @deprecated Use {@link V4StatsUseCase} instead
  */
-export default class StatisticsUseCases implements IStatisticsUseCase {
+export class StatisticsUseCases implements IStatisticsUseCase {
   constructor(readonly statisticsRepo: IStatisticsRepository) {}
 
   async getSuccessDownloadCount(): Promise<number> {
@@ -46,12 +47,13 @@ export default class StatisticsUseCases implements IStatisticsUseCase {
   }
 }
 
-export class V4StatsUsecase {
+export class V4StatsUseCase {
   constructor(readonly statisticsRepo: IStatisticsRepositoryV4) {}
 
-  async addDownloadCount(): Promise<void> {
+  async addDownloadCount(amount?: number): Promise<void> {
+    if (amount && amount <= 0) return
     const stats = await this.statisticsRepo.getStats()
-    stats.downloadCount += 1
+    stats.downloadCount += amount || 1
     await this.statisticsRepo.saveStats(stats)
   }
 
@@ -60,5 +62,32 @@ export class V4StatsUsecase {
     const stats = await this.statisticsRepo.getStats()
     stats.trafficUsage += amount
     await this.statisticsRepo.saveStats(stats)
+  }
+
+  async getStatByKey(key: keyof V4Statistics): Promise<number> {
+    const stats = await this.statisticsRepo.getStats()
+    return stats[key]
+  }
+
+  async syncWithDownloadHistory(): Promise<void> {
+    const pastItems = await Browser.downloads.search({ limit: 0 })
+    const stats = await this.statisticsRepo.getStats()
+    const syncStats = pastItems.reduce(
+      (stats, curr) => {
+        if (curr.byExtensionId === Browser.runtime.id) {
+          stats.downloadCount += 1
+          stats.trafficUsage += curr.fileSize
+        }
+        return stats
+      },
+      {
+        downloadCount: 0,
+        trafficUsage: 0,
+      } as V4Statistics
+    )
+
+    if (syncStats.downloadCount > stats.downloadCount && syncStats.trafficUsage > stats.trafficUsage) {
+      await this.statisticsRepo.saveStats(stats)
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { storageConfig } from '@backend/configurations'
-import StatisticsUseCases from '@backend/statistics/usecases'
+import { V4StatsUseCase } from '@backend/statistics/useCases'
 import {
   Box,
   Center,
@@ -56,15 +56,15 @@ const Stats = () => {
   const [count, setCount] = useState(0)
 
   useEffect(() => {
-    const useCase = new StatisticsUseCases(storageConfig.statisticsRepo)
-    useCase.getSuccessDownloadCount().then(num => setCount(num))
+    const useCase = new V4StatsUseCase(storageConfig.statisticsRepo)
+    useCase.getStatByKey('downloadCount').then(num => setCount(num))
   }, [])
 
   return (
     <Box>
       <Center>
         <Text as="span" fontSize={'4rem'} fontWeight={600} lineHeight="shorter">
-          {count > 10000 ? calcStats(count, 1) + 'K' : count}
+          {count > 10000 ? calcStats(count, 1) + ' K' : count}
         </Text>
       </Center>
       <Center>

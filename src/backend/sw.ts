@@ -20,7 +20,7 @@ import DownloadStateUseCase from './downloads/downloadStateUseCase'
 import { HarvestError } from './errors'
 import { chromiumInit, firefoxInit } from './initialization'
 import NotificationUseCase from './notifications/notificationIdUseCase'
-import StatisticsUseCases from './statistics/usecases'
+import { V4StatsUseCase } from './statistics/useCases'
 import { isDownloadedBySelf, isInvalidInfo } from './utils/checker'
 
 const enum InstallReason {
@@ -30,11 +30,9 @@ const enum InstallReason {
 }
 
 browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender) => {
-  const statisticsUsecases = new StatisticsUseCases(storageConfig.statisticsRepo)
   if (message.action === Action.Download) {
     if (isInvalidInfo(message.data)) {
       console.error('Invalid tweetInfo.')
-      statisticsUsecases.addErrorCount()
       return {
         status: 'error',
         data: new HarvestError(`Invalid tweetInfo. ${message.data}`),
@@ -56,6 +54,8 @@ browser.runtime.onInstalled.addListener(async details => {
   if (details.reason === InstallReason.BrowserUpdate) return
   if (details.reason === InstallReason.Install) await initStorage()
   if (details.reason === InstallReason.Update) {
+    const statsUseCase = new V4StatsUseCase(storageConfig.statisticsRepo)
+    await statsUseCase.syncWithDownloadHistory()
     const migrateCommand = new MigrateStorageToV4()
     await migrateCommand.execute()
     showUpdateMessageInConsole(details.previousVersion)

@@ -1,4 +1,5 @@
 import { storageConfig } from '../configurations'
+import { V4StatsUseCase } from '@backend/statistics/useCases'
 import browser from 'webextension-polyfill'
 
 interface StorageMigrateCommand {
@@ -11,8 +12,10 @@ export const initStorage = async () => {
   console.groupCollapsed('Initialization')
   console.info('Initializing storage...')
 
+  const statsUseCase = new V4StatsUseCase(storageConfig.statisticsRepo)
+  await statsUseCase.syncWithDownloadHistory()
+
   await storageConfig.downloadSettingsRepo.setDefaultSettings()
-  await storageConfig.statisticsRepo.setDefaultStatistics()
   await storageConfig.v4FilenameSettingsRepo.setDefaultSettings()
   await storageConfig.featureSettingsRepo.setDefaultSettings()
 

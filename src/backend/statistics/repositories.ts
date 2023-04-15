@@ -39,7 +39,7 @@ export interface IStatisticsRepositoryV4 {
 /**
  * @deprecated
  */
-export default class StatisticsRepository implements IStatisticsRepository {
+export class StatisticsRepository implements IStatisticsRepository {
   constructor(readonly storageArea: Storage.StorageArea) {}
 
   async getStatistics(): Promise<DownloadStatistic> {
