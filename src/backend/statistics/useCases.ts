@@ -76,7 +76,7 @@ export class V4StatsUseCase {
       (stats, curr) => {
         if (curr.byExtensionId === Browser.runtime.id) {
           stats.downloadCount += 1
-          stats.trafficUsage += curr.fileSize
+          stats.trafficUsage += curr.fileSize < 0 ? 0 : curr.fileSize
         }
         return stats
       },

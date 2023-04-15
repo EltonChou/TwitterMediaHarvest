@@ -1,5 +1,3 @@
-import { storageConfig } from '@backend/configurations'
-import { V4StatsUseCase } from '@backend/statistics/useCases'
 import {
   Box,
   Center,
@@ -16,17 +14,16 @@ import {
 } from '@chakra-ui/react'
 import PopupFeatureBlock from '@pages/components/PopupFeatureBlock'
 import useLocaleVariables from '@pages/hooks/useLocaleVariables'
+import useStatsStore from '@pages/hooks/useStatsStore'
 import Links from '@pages/links'
 import { i18n } from '@pages/utils'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { BiCoffeeTogo, BiFile } from 'react-icons/bi'
 import { FaGithub } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import type { IconType } from 'react-icons/lib'
 import { MdOutlineSentimentDissatisfied, MdOutlineSentimentSatisfied } from 'react-icons/md'
 import browser from 'webextension-polyfill'
-
-const versionName = 'v' + browser.runtime.getManifest().version_name
 
 const NavBar = () => {
   const settingsSize = 6
@@ -47,24 +44,20 @@ const NavBar = () => {
   )
 }
 
-const calcStats = (count: number, fix: number) => {
-  const base = Math.pow(10, fix)
-  return Math.round(((count + Number.EPSILON) / 1000) * base) / base
-}
+// const calcStats = (count: number, fix: number) => {
+//   const base = Math.pow(10, fix)
+//   return Math.round(((count + Number.EPSILON) / 1000) * base) / base
+// }
 
 const Stats = () => {
-  const [count, setCount] = useState(0)
-
-  useEffect(() => {
-    const useCase = new V4StatsUseCase(storageConfig.statisticsRepo)
-    useCase.getStatByKey('downloadCount').then(num => setCount(num))
-  }, [])
+  const { downloadCount: count } = useStatsStore()
 
   return (
     <Box>
       <Center>
         <Text as="span" fontSize={'4rem'} fontWeight={600} lineHeight="shorter">
-          {count > 10000 ? calcStats(count, 1) + ' K' : count}
+          {/* {count > 100000 ? calcStats(count, 1) + ' K' : count} */}
+          {count}
         </Text>
       </Center>
       <Center>
@@ -129,6 +122,8 @@ const FooterActionButton = memo((props: FooterActionButtonProps) => {
     />
   )
 })
+
+const versionName = 'v' + browser.runtime.getManifest().version_name
 
 const Footer = () => {
   const [info, setInfo] = useState(versionName)
