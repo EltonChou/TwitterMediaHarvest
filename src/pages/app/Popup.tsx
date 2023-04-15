@@ -1,5 +1,5 @@
 import { storageConfig } from '@backend/configurations'
-import StatisticsUseCases from '@backend/statistics/useCases'
+import StatisticsUseCases from '@backend/statistics/usecases'
 import {
   Box,
   Center,

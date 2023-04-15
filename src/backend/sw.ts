@@ -20,7 +20,7 @@ import DownloadStateUseCase from './downloads/downloadStateUseCase'
 import { HarvestError } from './errors'
 import { chromiumInit, firefoxInit } from './initialization'
 import NotificationUseCase from './notifications/notificationIdUseCase'
-import StatisticsUseCases from './statistics/useCases'
+import StatisticsUseCases from './statistics/usecases'
 import { isDownloadedBySelf, isInvalidInfo } from './utils/checker'
 
 const enum InstallReason {

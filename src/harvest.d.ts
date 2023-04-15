@@ -73,3 +73,8 @@ interface HarvestObserver {
 
 type SyncStorageSchema = FilenameSettings
 type LocalStorageSchema = FeatureSettings & DownloadSettings
+
+type V4Statistics = {
+  downloadCount: number
+  trafficUsage: number
+}

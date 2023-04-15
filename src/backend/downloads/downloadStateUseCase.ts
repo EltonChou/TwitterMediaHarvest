@@ -3,7 +3,7 @@ import type { Downloads } from 'webextension-polyfill'
 import { storageConfig } from '../configurations'
 import { IDownloadRecordsRepository } from '../downloadRecords/repository'
 import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCase'
-import StatisticsUseCases from '../statistics/useCases'
+import StatisticsUseCases from '../statistics/usecases'
 import InterruptReason from './InterruptReason'
 import { downloadIsCompleted, downloadIsInterrupted } from './utils/downloadState'
 

@@ -1,5 +1,8 @@
-import { IStatisticsRepository, StatisticsKey } from './repositories'
+import { IStatisticsRepository, IStatisticsRepositoryV4, StatisticsKey } from './repositories'
 
+/**
+ * @deprecated The method should not be used
+ */
 export interface IStatisticsUseCase {
   getSuccessDownloadCount(): Promise<number>
   getFailedDownloadCount(): Promise<number>
@@ -9,6 +12,9 @@ export interface IStatisticsUseCase {
   addErrorCount(): Promise<void>
 }
 
+/**
+ * @deprecated Use {@link V4StatsUsecase} instead
+ */
 export default class StatisticsUseCases implements IStatisticsUseCase {
   constructor(readonly statisticsRepo: IStatisticsRepository) {}
 
@@ -37,5 +43,22 @@ export default class StatisticsUseCases implements IStatisticsUseCase {
 
   async addErrorCount(): Promise<void> {
     await this.statisticsRepo.addStatisticsCount(StatisticsKey.ErrorCount)
+  }
+}
+
+export class V4StatsUsecase {
+  constructor(readonly statisticsRepo: IStatisticsRepositoryV4) {}
+
+  async addDownloadCount(): Promise<void> {
+    const stats = await this.statisticsRepo.getStats()
+    stats.downloadCount += 1
+    await this.statisticsRepo.saveStats(stats)
+  }
+
+  async addTraffic(amount: number): Promise<void> {
+    if (amount <= 0) return
+    const stats = await this.statisticsRepo.getStats()
+    stats.trafficUsage += amount
+    await this.statisticsRepo.saveStats(stats)
   }
 }
