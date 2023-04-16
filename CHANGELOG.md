@@ -14,3 +14,4 @@
 ### Fixed
 
 - Prevent triggering download when the user is composing tweet.
+- Fixed download button color in reply-restricted tweet.
