@@ -64,6 +64,7 @@ const GeneralOptions = () => {
           name={i18n('options_general_filenamePattern')}
           desc={i18n('options_general_filenamePattern_desc')}
           message={formMsg.filenamePattern}
+          cursor="default"
         >
           <TokenPanel
             pattern={filenameSettings.filenamePattern}

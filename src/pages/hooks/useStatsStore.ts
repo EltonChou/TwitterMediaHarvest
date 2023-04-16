@@ -5,8 +5,6 @@ import createStatsStore from '@pages/stores/StatsStore'
 
 const { getSnapShot, subscribe, setStats } = createStatsStore()
 
-console.log('Is singleton?', createStatsStore() === createStatsStore())
-
 const useStatsStore = () => {
   const stats = useSyncExternalStore(subscribe, getSnapShot)
 

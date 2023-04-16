@@ -47,6 +47,7 @@ type RichFeatureSwithProps = {
   isDisable?: boolean
   message?: HelperMessage
   children?: JSX.Element
+  cursor?: 'default' | 'pointer'
 }
 
 type HelperTextProps = {
@@ -60,7 +61,7 @@ const HelperText = ({ message }: HelperTextProps) => {
   return (
     <>
       <Icon as={icon} color={color} />
-      <FormHelperText color={color}>{message.content}</FormHelperText>
+      <FormHelperText color={color}>{'' || message.content}</FormHelperText>
     </>
   )
 }
@@ -73,16 +74,16 @@ export const RichFeatureSwitch = ({
   isDisable,
   message,
   children,
+  cursor = 'pointer',
 }: RichFeatureSwithProps) => {
   const id = useId()
   return (
     <FormControl label={name} isDisabled={isDisable}>
-      <FormLabel htmlFor={id} cursor={isDisable ? 'not-allowed' : 'pointer'} marginInlineEnd={0} fontSize={'1em'}>
+      <FormLabel htmlFor={id} cursor={isDisable ? 'not-allowed' : cursor} marginInlineEnd={0} fontSize={'1em'}>
         <HStack
           spacing={8}
           p={'1.5rem'}
           _hover={{ bg: 'rgba(255,255,255,0.05)' }}
-          _active={{ bg: 'rgba(255, 255, 255, 0.1)' }}
           style={{ transition: 'background 300ms' }}
         >
           <Stack flex={1}>
@@ -90,7 +91,7 @@ export const RichFeatureSwitch = ({
               {name}
             </Text>
             <Text color={'gray.400'}>{desc}</Text>
-            <SlideFade offsetY={'10px'} in={Boolean(message)} reverse>
+            <SlideFade offsetY={'10px'} in={Boolean(message)} reverse={true}>
               <HStack height={'1em'}>
                 <HelperText message={message} />
               </HStack>

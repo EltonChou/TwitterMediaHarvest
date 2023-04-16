@@ -19,6 +19,7 @@ export const PatternToken = memo(({ tokenName, isOn, handleChange }: PatternToke
       color={'gray.900'}
       borderRadius={'full'}
       bg={state ? 'token.active' : 'white'}
+      cursor="pointer"
       onClick={() => {
         setState.toggle()
         handleChange(!state)
