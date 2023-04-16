@@ -149,6 +149,8 @@ class Harvester {
     const icon = createElementFromHTML(downloadButtonSVG)
 
     icon.setAttribute('class', this.svgStyle)
+    // Icon use reply icon as sample, this style can prevent the appearance changed when the reply is restricted.
+    icon.setAttribute('style', 'opacity: unset !important;')
 
     const buttonWrapper = createElementFromHTML(`
       <div class="css-1dbjc4n harvester ${mode}">
