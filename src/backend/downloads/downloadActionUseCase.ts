@@ -1,7 +1,7 @@
+import { MediaTweetUseCases } from '@backend/twitterApi/usecases'
 import { addBreadcrumb, captureException } from '@sentry/browser'
 import { NotFound, TooManyRequest, TwitterApiError, Unauthorized } from '../errors'
 import { FetchErrorNotificationUseCase, InternalErrorNotificationUseCase } from '../notifications/notifyUseCase'
-import { fetchMediaCatalog } from '../twitterApi/MediaTweet'
 import MediaDownloader from './MediaDownloader'
 
 const sentryCapture = (err: Error) => {
@@ -23,8 +23,9 @@ export default class DownloadActionUseCase {
     })
 
     const mediaDownloader = await MediaDownloader.build(this.tweetInfo)
+    const tweetUseCase = new MediaTweetUseCases(this.tweetInfo.tweetId)
     console.info(`Fetching media info (tweetId: ${this.tweetInfo.tweetId})...`)
-    const mediaCatelog = await fetchMediaCatalog(this.tweetInfo.tweetId)
+    const mediaCatelog = await tweetUseCase.fetchMediaCatalog()
     mediaDownloader.downloadMediasByMediaCatalog(mediaCatelog)
   }
 

@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill'
 
-interface ITwitterTokenRepository {
+export interface ITwitterTokenRepository {
   getCsrfToken(): Promise<string | null>
   getGuestToken(): Promise<string | null>
 }
