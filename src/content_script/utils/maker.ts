@@ -38,7 +38,6 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
     const article: HTMLElement = this.closest('[data-harvest-article]')
     if (!article) return false
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
     try {
       const tweetInfo: TweetInfo = infoParser(article)
       const message: HarvestMessage = {
@@ -50,10 +49,6 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
       const { status } = resp
       this.classList.remove('downloading', 'success', 'error')
       this.classList.add(status)
-
-      await browser.runtime.sendMessage({
-        action: Action.Refresh,
-      })
     } catch (error) {
       captureException(error)
       console.error(error)

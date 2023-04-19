@@ -2,35 +2,6 @@ import { TwitterTokenRepository } from '../cookie/repository'
 import { NotFound, TooManyRequest, TwitterApiError, Unauthorized, UnknownError } from '../errors'
 import { i18nLocalize } from '../utils/i18n'
 
-type VideoInfo = {
-  aspect_ratio: number[]
-  duration_millis: number
-  variants: TweetVideoVariant[]
-}
-
-type TweetMedia = {
-  media_url: string
-  media_url_https: string
-  video_info?: VideoInfo
-}
-
-type TweetVideoVariant = {
-  bitrate: number
-  url: string
-}
-
-type TweetDetail = {
-  globalObjects: {
-    tweets: {
-      [key: string]: {
-        extended_entities?: {
-          media?: TweetMedia[]
-        }
-      }
-    }
-  }
-}
-
 const TWITTER_AUTH_TOKEN =
   'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
 
@@ -81,12 +52,11 @@ export const fetchMediaCatalog = async (tweetId: string): Promise<TweetMediaCata
     method: 'GET',
     headers: initHeaders(tweetId, csrfToken, guestToken),
     mode: 'cors',
-    cache: 'no-cache',
   })
 
   if (mediaResponse.status === 200) {
-    const detail: TweetDetail = await mediaResponse.json()
-    const medias = getMediaFromDetailByTweetId(detail)(tweetId)
+    const tweet: Tweet = await mediaResponse.json()
+    const medias = getMediaFromTweet(tweet)
 
     let mediaCatalog: TweetMediaCatalog = {
       images: [],
@@ -120,13 +90,9 @@ const cleanUrl = (url: string): string => {
   return cleanedUrl.href
 }
 
-const makeTweetEndpoint = (tweetId: string) =>
-  `https://api.twitter.com/2/timeline/conversation/${tweetId}.json?tweet_mode=extended`
+const makeTweetEndpoint = (tweetId: string) => `https://api.twitter.com/1.1/statuses/show.json?id=${tweetId}`
 
-const getMediaFromDetailByTweetId =
-  (detail: TweetDetail) =>
-  (tweetId: string): TweetMedia[] | undefined =>
-    detail?.globalObjects?.tweets[tweetId]?.extended_entities?.media
+const getMediaFromTweet = (tweet: Tweet) => tweet?.extended_entities?.media
 
 const parseVideoInfo = (video_info: VideoInfo): string => {
   const { variants } = video_info
@@ -147,7 +113,6 @@ const initHeaders = (tweetId: string, csrfToken: string, guestToken?: string) =>
     ['Authorization', TWITTER_AUTH_TOKEN],
     ['User-Agent', navigator.userAgent],
     ['Referer', `https://twitter.com/i/web/status/${tweetId}`],
-    ['cache-control', 'no-cache'],
     ['x-twitter-active-user', 'yes'],
     ['x-csrf-token', csrfToken],
     guestToken ? ['x-guest-token', guestToken] : ['x-twitter-auth-type', 'OAuth2Session'],
