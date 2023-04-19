@@ -2,6 +2,7 @@ import select from 'select-dom'
 
 export const isArticleInDetail = (article: HTMLElement) => select.exists('.tweet-detail', article)
 
+const TweetStatusRegEx = /^.*\/\/.*twitter.com\/.*\/status\/\d+.*(?<!photo\/\d)$/
 /**
  * <article role="article" data-focusable="true" tabindex="0" class="css-1dbjc4n r-18u37iz r-1ny4l3l r-1udh08x r-1yt7n81 r-ry3cjt">
  *
@@ -10,10 +11,7 @@ export const isArticleInDetail = (article: HTMLElement) => select.exists('.tweet
 export const isArticleInStatus = (article: HTMLElement) => {
   const articleClassLength = article.classList.length
   const isMagicLength = articleClassLength === 3 || articleClassLength === 7 || articleClassLength === 6
-  const testStatus = /^.*\/\/.*twitter.com\/.*\/status\/\d+.*(?<!photo\/\d)$/
-  const url = window.location.href
-
-  return Boolean(url.match(testStatus)) && isMagicLength
+  return Boolean(window.location.href.match(TweetStatusRegEx)) && isMagicLength
 }
 
 /**
@@ -47,9 +45,7 @@ export const checkModeOfArticle = (article: HTMLElement): TweetMode => {
 export const articleHasMedia = (article: HTMLElement) => {
   if (!article) return false
   const hasVideo =
-    select.exists('[role="progressbar"]', article) ||
-    select.exists('[data-testid="videoPlayer"]', article) ||
-    select.exists('[data-testid="playButton"]', article)
+    select.exists('[data-testid="videoPlayer"]', article) || select.exists('[data-testid="playButton"]', article)
 
   let hasPhoto: boolean
   const photoEle = select('[data-testid="tweetPhoto"]', article)
@@ -88,14 +84,18 @@ export const isTwitter = (): boolean => {
   return host === 'twitter.com' || host === 'mobile.twitter.com'
 }
 
+const ComposeTweetRegEx = /\/compose\/tweet\/?.*/
+const IntentTweetRegEx = /\/intent\/tweet\/?.*/
+const TweetListRegEx = /\/i\/lists\/add_member/
+
 /**
  * Check user is composing tweet or not.
  * @returns {boolean}
  */
 export const isComposingTweet = (): boolean =>
-  Boolean(window.location.pathname.match(/\/compose\/tweet\/?.*/)) ||
-  Boolean(window.location.pathname.match(/\/intent\/tweet\/?.*/))
+  Boolean(window.location.pathname.match(ComposeTweetRegEx)) ||
+  Boolean(window.location.pathname.match(IntentTweetRegEx))
 
-export const isNotFunctionPath = (): boolean => Boolean(window.location.pathname.match(/\/i\/lists\/add_member/))
+export const isNotFunctionPath = (): boolean => Boolean(window.location.pathname.match(TweetListRegEx))
 
-export const isInTweetStatus = (): boolean => Boolean(window.location.pathname.match(/\/status\//))
+export const isInTweetStatus = (): boolean => Boolean(window.location.pathname.match(TweetStatusRegEx))
