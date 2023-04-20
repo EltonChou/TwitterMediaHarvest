@@ -1,8 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { chrome } from 'jest-chrome'
-
 import { DownloadRecordIdHelper } from '../../backend/downloadRecords/helpers'
 
 describe('Test DownloadRecordUtil', () => {

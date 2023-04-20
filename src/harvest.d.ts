@@ -23,14 +23,24 @@ type FilenameSettings = {
   filename_pattern: FilenamePatternOption
 }
 
+type FilenamePatternToken = '{account}' | '{tweetId}' | '{serial}' | '{hash}' | '{date}'
+
+type V4FilenamePattern = FilenamePatternToken[]
+
+type V4FilenameSettings = {
+  directory: string
+  noSubDirectory: boolean
+  filenamePattern: V4FilenamePattern
+}
+
 type DownloadSettings = {
   enableAria2: boolean
-  includeVideoThumbnail: boolean
-  aggressive_mode: boolean
+  aggressiveMode: boolean
 }
 
 type FeatureSettings = {
   autoRevealNsfw: boolean
+  includeVideoThumbnail: boolean
 }
 
 type Aria2DownloadOption = {
@@ -59,4 +69,12 @@ interface FetchErrorReason {
 interface HarvestObserver {
   observeRoot: () => void
   initialize: () => void
+}
+
+type SyncStorageSchema = FilenameSettings
+type LocalStorageSchema = FeatureSettings & DownloadSettings
+
+type V4Statistics = {
+  downloadCount: number
+  trafficUsage: number
 }

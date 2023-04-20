@@ -2,7 +2,7 @@
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
 const FileManagerPlugin = require('filemanager-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const PACKAGE = require('./package.json')
 const PublicKey = require('./public_key.json')
 const webpack = require('webpack')
@@ -13,11 +13,16 @@ const config = {
     topLevelAwait: true,
   },
   mode: 'production',
+  target: 'web',
   stats: 'errors-only',
   devtool: 'source-map',
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     fallback: { path: require.resolve('path-browserify') },
+    alias: {
+      '@backend': path.resolve(__dirname, 'src/backend/'),
+      '@pages': path.resolve(__dirname, 'src/pages/'),
+    },
   },
   optimization: {
     minimize: true,
@@ -25,7 +30,7 @@ const config = {
   entry: {
     main: path.resolve('./src/content_script/main.ts'),
     sw: path.resolve('./src/backend/sw.ts'),
-    options: path.resolve('./src/backend/options.ts'),
+    index: path.resolve('./src/pages/index.tsx'),
   },
   output: {
     filename: '[name].js',
@@ -49,7 +54,7 @@ const config = {
         },
       },
       {
-        test: /\.ts$/,
+        test: /\.(ts|tsx)$/,
         exclude: /(node_modules)/,
         use: [
           {
@@ -83,7 +88,7 @@ const config = {
           to: 'assets/icons/[name][ext]',
         },
         {
-          from: 'backend/pages/*',
+          from: 'pages/*.html',
           context: 'src',
           to: '[name][ext]',
         },
@@ -95,6 +100,16 @@ const config = {
       ],
     }),
   ],
+  devServer: {
+    port: '9000',
+    static: {
+      directory: path.join(__dirname, 'build/chrome'),
+    },
+    open: true,
+    hot: true,
+    liveReload: true,
+    compress: true,
+  },
 }
 
 module.exports = (env, argv) => {
@@ -145,6 +160,7 @@ module.exports = (env, argv) => {
     new webpack.EnvironmentPlugin({
       RELEASE: env.RELEASE_NAME || PACKAGE.name + '(' + env.target + ')' + '@' + version,
       TARGET: env.target,
+      VERSION_NAME: versionName,
     })
   )
 
@@ -153,7 +169,12 @@ module.exports = (env, argv) => {
     config.optimization.minimize = false
     config.stats = 'errors-warnings'
     config.devtool = 'inline-source-map'
-    config.plugins.push(new BundleAnalyzerPlugin())
+    // config.plugins.push(new BundleAnalyzerPlugin())
+    config.performance = {
+      hints: false,
+      maxAssetSize: 1000000,
+      maxEntrypointSize: 400000,
+    }
   }
 
   if (argv.mode === 'production') {
@@ -169,29 +190,7 @@ module.exports = (env, argv) => {
                 options: {
                   zlib: { level: 9 },
                   globOptions: {
-                    ignore: ['*.map'],
-                  },
-                },
-              },
-            ],
-          },
-        },
-      })
-    )
-  } else if (env.target === 'firefox') {
-    config.plugins.push(
-      new FileManagerPlugin({
-        events: {
-          onEnd: {
-            mkdir: ['dist'],
-            archive: [
-              {
-                source: `build/${env.target}`,
-                destination: `dist/${env.target}-TwitterMediaHarvest-v${version}-dev.zip`,
-                options: {
-                  zlib: { level: 9 },
-                  globOptions: {
-                    ignore: ['*.map'],
+                    ignore: ['*.map', '*.txt'],
                   },
                 },
               },
@@ -201,6 +200,7 @@ module.exports = (env, argv) => {
       })
     )
   }
+  // config.plugins.push(new BundleAnalyzerPlugin())
 
   return config
 }

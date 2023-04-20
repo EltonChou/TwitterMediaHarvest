@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser'
+import { captureException } from '@sentry/browser'
 import select from 'select-dom'
 import DeckHarvester from './DeckHarvester'
 import Harvester from './Harvester'
@@ -60,7 +60,7 @@ const makeHarvester = (article: HTMLElement) => {
           }
         }
       } catch (error) {
-        Sentry.captureException(error)
+        captureException(error)
       }
     }
   }

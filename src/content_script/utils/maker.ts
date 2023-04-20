@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser'
+import { captureException } from '@sentry/browser'
 import browser from 'webextension-polyfill'
 import { Action } from '../../typings'
 
@@ -38,7 +38,6 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
     const article: HTMLElement = this.closest('[data-harvest-article]')
     if (!article) return false
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
     try {
       const tweetInfo: TweetInfo = infoParser(article)
       const message: HarvestMessage = {
@@ -50,12 +49,8 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
       const { status } = resp
       this.classList.remove('downloading', 'success', 'error')
       this.classList.add(status)
-
-      await browser.runtime.sendMessage({
-        action: Action.Refresh,
-      })
     } catch (error) {
-      Sentry.captureException(error)
+      captureException(error)
       console.error(error)
     }
   })

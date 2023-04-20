@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser'
+import { addBreadcrumb } from '@sentry/browser'
 import select from 'select-dom'
 import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
 import { checkModeOfArticle, isArticleInStatus, isArticlePhotoMode } from '../utils/checker'
@@ -16,7 +16,7 @@ type MagicLinkElement = {
 }
 
 const getMagicLinkEle = (article: HTMLElement): MagicLinkElement => {
-  const magicLink: MagicLinkElement = {
+  let magicLink: MagicLinkElement = {
     element: null,
     query: undefined,
   }
@@ -34,14 +34,14 @@ const getMagicLinkEle = (article: HTMLElement): MagicLinkElement => {
     'a[href*="status"][dir="auto"][role="link"]',
   ]
 
-  let linkEle: HTMLAnchorElement
-  for (const query of querys) {
-    magicLink.query = query
-    linkEle = select(query, article)
+  magicLink = querys.reduce((magicLink, currQuery) => {
+    magicLink.query = currQuery
+    const linkEle: HTMLAnchorElement = select(currQuery, article)
     if (linkEle) {
       magicLink.element = linkEle
     }
-  }
+    return magicLink
+  }, magicLink)
 
   return magicLink
 }
@@ -50,14 +50,12 @@ const parseMagicLink = (article: HTMLElement): string => {
   const magicLink: MagicLinkElement = getMagicLinkEle(article)
 
   if (!magicLink.element) {
-    const links: string[] = []
-    const anchor_elements = select.all('a[href]', article)
-    anchor_elements.forEach(v => {
-      links.push(v.href)
+    const links: string[] = select.all('a[href]', article).map(v => {
       if (v.href.match(featureRegEx.id) && !magicLink.element) magicLink.element = v
+      return v.href
     })
 
-    Sentry.addBreadcrumb({
+    addBreadcrumb({
       category: 'parse',
       message: 'Cannott get magic-link element.',
       level: 'info',
@@ -83,7 +81,7 @@ const parseMagicLink = (article: HTMLElement): string => {
  * @param article A valid tweet element.
  */
 export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
-  Sentry.addBreadcrumb({
+  addBreadcrumb({
     category: 'parse',
     message: 'Parse tweet info.',
     level: 'info',
@@ -91,7 +89,7 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
 
   const magicLink: string = parseMagicLink(article)
 
-  Sentry.addBreadcrumb({
+  addBreadcrumb({
     category: 'parse',
     message: `Magic link: ${magicLink}`,
     level: 'info',
@@ -151,6 +149,8 @@ class Harvester {
     const icon = createElementFromHTML(downloadButtonSVG)
 
     icon.setAttribute('class', this.svgStyle)
+    // Icon use reply icon as sample, this style can prevent the appearance changed when the reply is restricted.
+    icon.setAttribute('style', 'opacity: unset !important;')
 
     const buttonWrapper = createElementFromHTML(`
       <div class="css-1dbjc4n harvester ${mode}">

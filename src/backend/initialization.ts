@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill'
 import type { IDownloadRecordsRepository } from './downloadRecords/repository'
 import type { ISettingsRepository } from './settings/repository'
 
-export const chromium_init = (
+export const chromiumInit = (
   downloadSettingsRepo: ISettingsRepository<DownloadSettings>,
   downloadRecordRepo: IDownloadRecordsRepository
 ) => {
@@ -15,6 +15,7 @@ export const chromium_init = (
 
     if (byExtensionId && byExtensionId === runtimeId) {
       downloadRecordRepo.getById(downloadItem.id).then(record => {
+        if (!record) return false
         const { downloadConfig } = record
         suggest(downloadConfig as chrome.downloads.DownloadFilenameSuggestion)
       })
@@ -41,17 +42,17 @@ export const chromium_init = (
   }
 
   browser.storage.onChanged.addListener((changes, areaName) => {
-    const AggressiveModeKey = 'aggressive_mode'
+    const AggressiveModeKey = 'aggressiveMode'
     if (AggressiveModeKey in changes) {
       changes[AggressiveModeKey].newValue ? addSuggestion() : removeSuggestion()
     }
   })
 
   downloadSettingsRepo.getSettings().then(downloadSettings => {
-    if (downloadSettings.aggressive_mode) addSuggestion()
+    if (downloadSettings.aggressiveMode) addSuggestion()
   })
 }
 
-export const firefox_init = () => {
+export const firefoxInit = () => {
   /**pass */
 }

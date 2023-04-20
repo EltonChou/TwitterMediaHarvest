@@ -6,6 +6,7 @@ interface IFeaturesRepository {
 
 const defaultFeature: FeatureSettings = {
   autoRevealNsfw: false,
+  includeVideoThumbnail: false,
 }
 
 export class FeaturesRepository implements IFeaturesRepository {

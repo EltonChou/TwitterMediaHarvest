@@ -3,6 +3,7 @@ import { ISettingsRepository } from '../repository'
 
 const defaultFeature: FeatureSettings = {
   autoRevealNsfw: false,
+  includeVideoThumbnail: false,
 }
 
 export class FeaturesRepository implements ISettingsRepository<FeatureSettings> {
@@ -13,11 +14,15 @@ export class FeaturesRepository implements ISettingsRepository<FeatureSettings> 
     return settings
   }
 
-  async saveSettings(settings: FeatureSettings): Promise<void> {
+  async saveSettings(settings: Partial<FeatureSettings>): Promise<void> {
     await this.storageArea.set(settings)
   }
 
   async setDefaultSettings(): Promise<void> {
     await this.storageArea.set(defaultFeature)
+  }
+
+  getDefaultSettings(): FeatureSettings {
+    return defaultFeature
   }
 }

@@ -8,8 +8,9 @@
     "coverage"
   ],
   "compilerOptions": {
+    "jsx": "react",
     "outDir": "./build",
-    "rootDir": "./src",
+    "baseUrl": "./src",
     "noImplicitAny": true,
     "module": "ESNEXT",
     "target": "ESNEXT",
@@ -29,5 +30,13 @@
       "ES6"
     ],
     "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@backend/*": [
+        "./backend/*"
+      ],
+      "@pages/*": [
+        "./pages/*"
+      ],
+    }
   }
 }
