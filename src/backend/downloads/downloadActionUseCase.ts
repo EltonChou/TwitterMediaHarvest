@@ -1,4 +1,4 @@
-import { MediaTweetUseCases } from '@backend/twitterApi/usecases'
+import { MediaTweetUseCases } from '@backend/twitterApi/useCases'
 import { addBreadcrumb, captureException } from '@sentry/browser'
 import { NotFound, TooManyRequest, TwitterApiError, Unauthorized } from '../errors'
 import { FetchErrorNotificationUseCase, InternalErrorNotificationUseCase } from '../notifications/notifyUseCase'
