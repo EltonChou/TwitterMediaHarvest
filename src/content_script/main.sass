@@ -7,6 +7,7 @@ $harvest-yellow: rgb(241, 185, 26)
     transform: rotate(360deg)
 
 =loading-spin
+  fill: rgb(29, 161, 242)
   animation-name: spin
   animation-duration: 800ms
   animation-iteration-count: infinite
@@ -66,12 +67,12 @@ $harvest-yellow: rgb(241, 185, 26)
     // padding-right: 0.85rem;
 
 .photoColor
-  color: rgb(255, 255, 255)
+  color: rgb(255, 255, 255) !important
   // color: rgb(241, 185, 26)
 
 .statusColor, .streamColor
   // color: rgb(29, 161, 242)
-  color: $harvest-yellow
+  color: $harvest-yellow !important
 
 .photoBG
   &.hover
