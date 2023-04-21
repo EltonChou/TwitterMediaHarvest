@@ -19,9 +19,12 @@ const parseTweetInfo = (article: HTMLElement): TweetInfo => {
 
 class DeckHarvester {
   public isInDetail: boolean
+  readonly actionBar: HTMLElement
 
   constructor(article: HTMLElement) {
     this.isInDetail = isArticleInDetail(article)
+    const actionBarQuery = this.isInDetail ? '.tweet-detail-actions' : '.tweet-actions'
+    this.actionBar = select(actionBarQuery, article)
   }
 
   get button() {
@@ -51,6 +54,11 @@ class DeckHarvester {
     `)
 
     return wrapper
+  }
+
+  appendButton(): void {
+    this.actionBar.insertBefore(this.button, this.actionBar.childNodes[7])
+    if (this.isInDetail) this.actionBar.classList.add('deck-harvest-actions')
   }
 }
 

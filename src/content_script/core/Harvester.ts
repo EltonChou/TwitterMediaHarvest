@@ -122,9 +122,12 @@ class Harvester {
   public mode: TweetMode
   private ltrStyle: string
   private svgStyle: string
+  readonly actionBar: HTMLElement
 
   constructor(article: HTMLElement) {
     this.mode = checkModeOfArticle(article)
+    this.actionBar =
+      select('[role="group"][aria-label]', article) || select('.r-18u37iz[role="group"][id^="id__"]', article)
 
     const sampleButton = getSampleButton(article)
     this.ltrStyle = sampleButton.classList.value
@@ -200,6 +203,10 @@ class Harvester {
     buttonWrapper.addEventListener('mousedown', clickBG)
 
     return buttonWrapper
+  }
+
+  appendButton(): void {
+    this.actionBar.appendChild(this.button)
   }
 }
 

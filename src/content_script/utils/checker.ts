@@ -2,7 +2,7 @@ import select from 'select-dom'
 
 export const isArticleInDetail = (article: HTMLElement) => select.exists('.tweet-detail', article)
 
-const TweetStatusRegEx = /^.*\/\/.*twitter.com\/.*\/status\/\d+.*(?<!photo\/\d)$/
+const TweetStatusRegEx = /\/.*\/status\/\d+/
 /**
  * <article role="article" data-focusable="true" tabindex="0" class="css-1dbjc4n r-18u37iz r-1ny4l3l r-1udh08x r-1yt7n81 r-ry3cjt">
  *
@@ -11,7 +11,7 @@ const TweetStatusRegEx = /^.*\/\/.*twitter.com\/.*\/status\/\d+.*(?<!photo\/\d)$
 export const isArticleInStatus = (article: HTMLElement) => {
   const articleClassLength = article.classList.length
   const isMagicLength = articleClassLength === 3 || articleClassLength === 7 || articleClassLength === 6
-  return Boolean(window.location.href.match(TweetStatusRegEx)) && isMagicLength
+  return Boolean(window.location.pathname.match(TweetStatusRegEx)) && isMagicLength
 }
 
 /**
