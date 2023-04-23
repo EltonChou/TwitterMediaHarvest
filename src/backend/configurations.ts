@@ -1,10 +1,11 @@
 import browser from 'webextension-polyfill'
 import { IDownloadRecordsRepository, StorageAreaDownloadRecordsRepository } from './downloadRecords/repository'
 import DownloadSettingsRepository from './settings/downloadSettings/repository'
+import { FeaturesRepository } from './settings/featureSettings/repository'
 import FilenameSettingsRepository, { V4FilenameSettingsRepository } from './settings/filenameSettings/repository'
 import { ISettingsRepository } from './settings/repository'
+import { TwitterApiSettingsRepository } from './settings/twitterApiSettings/repository'
 import { IStatisticsRepositoryV4, V4StatisticsRepository } from './statistics/repositories'
-import { FeaturesRepository } from './settings/featureSettings/repository'
 
 interface IStorageConfiguration {
   readonly downloadRecordRepo: IDownloadRecordsRepository
@@ -21,6 +22,7 @@ class StorageConfiguration implements IStorageConfiguration {
   readonly downloadSettingsRepo = new DownloadSettingsRepository(browser.storage.local)
   readonly featureSettingsRepo = new FeaturesRepository(browser.storage.local)
   readonly v4FilenameSettingsRepo = new V4FilenameSettingsRepository(browser.storage.sync)
+  readonly twitterApiSettingsRepo = new TwitterApiSettingsRepository(browser.storage.local)
 }
 
 export const storageConfig = new StorageConfiguration()

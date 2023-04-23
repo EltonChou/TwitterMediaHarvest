@@ -45,7 +45,7 @@ const initHeaders = (tweetId: string, csrfToken: string, guestToken?: string) =>
     guestToken ? ['x-guest-token', guestToken] : ['x-twitter-auth-type', 'OAuth2Session'],
   ])
 
-interface ITweetUseCase {
+export interface ITweetUseCase {
   fetchTweet(): Promise<TweetVO>
 }
 

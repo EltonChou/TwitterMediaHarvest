@@ -78,3 +78,9 @@ type V4Statistics = {
   downloadCount: number
   trafficUsage: number
 }
+
+type TwitterApiVersion = 'v1' | 'v2' | 'gql'
+
+type TwitterApiSettings = {
+  version: TwitterApiVersion
+}
