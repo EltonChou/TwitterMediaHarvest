@@ -18,9 +18,9 @@ const sentryCapture = (err: Error) => {
 }
 
 const selectTweetUseCase = async (tweetId: string): Promise<ITweetUseCase> => {
-  const { version } = await storageConfig.twitterApiSettingsRepo.getSettings()
+  const { twitterApiVersion } = await storageConfig.twitterApiSettingsRepo.getSettings()
 
-  switch (version) {
+  switch (twitterApiVersion) {
     case 'v1':
       return new V1TweetUseCase(tweetId)
 

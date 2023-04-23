@@ -82,5 +82,5 @@ type V4Statistics = {
 type TwitterApiVersion = 'v1' | 'v2' | 'gql'
 
 type TwitterApiSettings = {
-  version: TwitterApiVersion
+  twitterApiVersion: TwitterApiVersion
 }

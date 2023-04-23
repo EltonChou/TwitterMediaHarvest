@@ -2,7 +2,7 @@ import type { Storage } from 'webextension-polyfill'
 import { ISettingsRepository } from '../repository'
 
 const defaultSettings: TwitterApiSettings = {
-  version: 'v2',
+  twitterApiVersion: 'v2',
 }
 
 export class TwitterApiSettingsRepository implements ISettingsRepository<TwitterApiSettings> {
@@ -12,7 +12,7 @@ export class TwitterApiSettingsRepository implements ISettingsRepository<Twitter
     const settings = await this.storageArea.get(defaultSettings)
 
     return {
-      version: settings.version,
+      twitterApiVersion: settings.twitterApiVersion,
     }
   }
 
