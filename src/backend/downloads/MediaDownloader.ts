@@ -52,12 +52,12 @@ export default class MediaDownloader {
   }
 
   downloadMediasByMediaCatalog(mediaCatalog: TweetMediaCatalog) {
-    for (const [category, items] of Object.entries(mediaCatalog)) {
+    Object.entries(mediaCatalog).forEach(([category, items]) => {
       if (items.length) {
         items.forEach((media_url, index) => {
           this.downloadMedia(media_url, index)
         })
       }
-    }
+    })
   }
 }
