@@ -45,20 +45,18 @@ const initHeaders = (tweetId: string, csrfToken: string, guestToken?: string) =>
     guestToken ? ['x-guest-token', guestToken] : ['x-twitter-auth-type', 'OAuth2Session'],
   ])
 
+interface ITweetUseCase {
+  fetchTweet(): Promise<TweetVO>
+}
+
 const twitterTokenRepo = new TwitterTokenRepository()
 
-abstract class TweetUseCase {
+abstract class TweetUseCase implements ITweetUseCase {
+  protected tokenRepo: ITwitterTokenRepository = twitterTokenRepo
   protected tweet: TweetVO = undefined
 
-  constructor(readonly tweetId: string, protected tokenRepo: ITwitterTokenRepository) {}
+  constructor(readonly tweetId: string) {}
 
-  /**
-   * Though the v1.1 api has shorter response time,
-   * the legacy api might be deprecated soon.
-   *
-   * - V1.1 API endpoint: {@link makeV1TweetEndpoint}
-   * - V2 API endpoint: {@link makeV2TweetEndpoint}
-   */
   async fetchTweet(): Promise<TweetVO> {
     if (this.tweet) return this.tweet
 
@@ -87,7 +85,7 @@ abstract class TweetUseCase {
 /**
  * V1 has faster response time and higer rate limit about 1000,  but it might be deprecated soon.
  */
-class V1TweetUseCase extends TweetUseCase {
+export class V1TweetUseCase extends TweetUseCase {
   makeEndpoint(): string {
     return `https://api.twitter.com/1.1/statuses/show.json?id=${this.tweetId}?trim_user=true`
   }
@@ -101,7 +99,7 @@ class V1TweetUseCase extends TweetUseCase {
 /**
  * V2 has larger body, and lower rate limit about 190.
  */
-class V2TweetUseCase extends TweetUseCase {
+export class V2TweetUseCase extends TweetUseCase {
   makeEndpoint(): string {
     return `https://api.twitter.com/2/timeline/conversation/${this.tweetId}.json?tweet_mode=extended&trim_user=true`
   }
@@ -144,7 +142,10 @@ const graphQlFeatures: TwitterGraphQLFeatures = {
   responsive_web_enhance_cards_enabled: false,
 }
 
-class GraphQLTweetUseCase extends TweetUseCase {
+/**
+ * GraphQL experiment implement.
+ */
+export class GraphQLTweetUseCase extends TweetUseCase {
   makeEndpoint(): string {
     const endpoint = new URL('https://twitter.com/i/api/graphql/BbCrSoXIR7z93lLCVFlQ2Q/TweetDetail')
     endpoint.searchParams.append('variables', JSON.stringify(makeGraphQlVars(this.tweetId)))
@@ -161,13 +162,11 @@ class GraphQLTweetUseCase extends TweetUseCase {
   }
 }
 
-export class MediaTweetUseCases extends GraphQLTweetUseCase {
-  constructor(tweetId: string) {
-    super(tweetId, twitterTokenRepo)
-  }
+export class MediaTweetUseCases {
+  constructor(readonly tweetUseCase: ITweetUseCase) {}
 
   async fetchMediaCatalog(): Promise<TweetMediaCatalog> {
-    const tweet = await this.fetchTweet()
+    const tweet = await this.tweetUseCase.fetchTweet()
     const medias = tweet.getMedias()
 
     let mediaCatalog: TweetMediaCatalog = {
