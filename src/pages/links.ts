@@ -1,6 +1,5 @@
 const getStoreLink = () => {
-  const TARGET = process.env.TARGET
-  switch (TARGET) {
+  switch (process.env.TARGET) {
     case 'firefox':
       return 'https://addons.mozilla.org/firefox/addon/media-harvest/'
 
@@ -13,8 +12,7 @@ const getStoreLink = () => {
 }
 
 const getAria2ExplorerLink = () => {
-  const TARGET = process.env.TARGET
-  switch (TARGET) {
+  switch (process.env.TARGET) {
     case 'edge':
       return 'https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh'
 
@@ -29,8 +27,8 @@ const Links = {
   issues: 'https://github.com/EltonChou/TwitterMediaHarvest/issues',
   store: getStoreLink(),
   aria2Explorer: getAria2ExplorerLink(),
-  changelog: 'https://github.com/EltonChou/TwitterMediaHarvest',
-  privacy: 'https://github.com/EltonChou/TwitterMediaHarvest',
+  changelog: 'https://github.com/EltonChou/TwitterMediaHarvest/blob/main/CHANGELOG.md',
+  privacy: 'https://github.com/EltonChou/TwitterMediaHarvest/blob/main/PRIVACY_POLICY.md',
   website: 'https://github.com/EltonChou/TwitterMediaHarvest',
 }
 
