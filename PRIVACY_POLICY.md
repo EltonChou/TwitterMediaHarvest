@@ -6,7 +6,6 @@ This Privacy Policy describes how Media Harvest ("we" or "us") collects, uses, a
 
 We may collect personal information about you when you interact with the App, such as when you create an account, fill out a form, or use certain features. The types of personal information we may collect include:
 
-- Login credentials (such as username and password)
 - Device information (such as device type, operating system, and browser type)
 - Usage information (such as how you use the App and the features you use)
 
