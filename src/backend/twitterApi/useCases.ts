@@ -156,7 +156,11 @@ export class GraphQLTweetUseCase extends TweetUseCase {
   parseBody(object: any): TweetVO {
     const tweet =
       object.data.threaded_conversation_with_injections_v2.instructions[0].entries[0].content.itemContent.tweet_results
-        .result.legacy
+        .result.legacy ||
+      object.data.threaded_conversation_with_injections_v2.instructions[0].entries[0].content.itemContent.tweet_results
+        .result.tweet.legacy
+
+    if (!tweet) throw getFetchError(404)
 
     return new TweetVO(tweet)
   }
