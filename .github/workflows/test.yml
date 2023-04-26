@@ -56,10 +56,11 @@ jobs:
       - id: generate_artifact
         name: Create Artifact
         if: ${{ inputs.generate_artifact }}
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.info.outputs.artifact_name }}
           path: |
             dist/
             build/
-          retention-days: 3
+          if-no-files-found: error
+          retention-days: 7
