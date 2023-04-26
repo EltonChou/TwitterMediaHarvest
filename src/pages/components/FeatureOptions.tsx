@@ -1,23 +1,23 @@
 import React from 'react'
 
-import { HStack, Kbd, Text, VStack } from '@chakra-ui/react'
+import { Kbd, Text, VStack } from '@chakra-ui/react'
 import useFeatureSettings from '@pages/hooks/useFeatureSettings'
 import { i18n } from '@pages/utils'
 import { RichFeatureSwitch } from './controls/featureControls'
 
 const KeyboardShortcutDesc = () => {
   return (
-    <>
+    <Text as={'span'}>
       {i18n('options_features_keyboardShortcut_desc')}
-      <HStack>
-        <Text>
-          twitter: <Kbd>D</Kbd>
-        </Text>
-        <Text>
-          tweetdeck: <Kbd>O</Kbd>
-        </Text>
-      </HStack>
-    </>
+      <br />
+      <Text as={'span'}>
+        twitter: <Kbd>D</Kbd>
+      </Text>
+      <br />
+      <Text as={'span'}>
+        tweetdeck: <Kbd>O</Kbd>
+      </Text>
+    </Text>
   )
 }
 
