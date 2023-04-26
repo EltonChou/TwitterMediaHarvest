@@ -43,7 +43,7 @@ jobs:
 
       - name: Rollback Release
         if: failure() && steps.create_release.outputs.id != ''
-        uses: author/action-rollback@1.0.0
+        uses: author/action-rollback@stable
         with:
           id: ${{ steps.create_release.id }}
           tag: ${{ github.ref_name }}
@@ -54,6 +54,7 @@ jobs:
     name: Create Sentry Release
     runs-on: ubuntu-latest
     needs: build
+    if: ${{ needs.build.outputs.artifact_name }}
     strategy:
       matrix:
         target: ['chrome', 'edge', 'firefox']
