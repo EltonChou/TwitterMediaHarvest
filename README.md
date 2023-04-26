@@ -12,7 +12,7 @@
 [![Media Harvest : Twitter Media Downloader](https://img.shields.io/chrome-web-store/users/hpcgabhdlnapolkkjpejieegfpehfdok?style=for-the-badge&color=007bc2)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok)
 [![Chrome web store rating](https://img.shields.io/chrome-web-store/stars/hpcgabhdlnapolkkjpejieegfpehfdok?style=for-the-badge)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok)
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EltonChou/TwitterMediaHarvest/ci.yml?branch=main&style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EltonChou/TwitterMediaHarvest/test.yml?branch=main&style=flat-square)
 
 # TwitterMediaHarvest
 **Gather medias with just one-click.**
