@@ -185,5 +185,11 @@
   },
   "backend_notification_message_unauth": {
     "message": "ログイン状態やツイートの閲覧権限を確認してください。"
+  },
+  "options_features_keyboardShortcut": {
+    "message": "キーボードショートカット"
+  },
+  "options_features_keyboardShortcut_desc": {
+    "message": "キーボードショートカットキーを利用してメディアをダウンロードします。"
   }
 }

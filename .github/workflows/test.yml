@@ -1,0 +1,65 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Run test
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_call:
+    inputs:
+      generate_artifact:
+        type: boolean
+        description: 'True to generate and upload artifact.'
+        default: false
+    outputs:
+      artifact_name:
+        value: ${{ jobs.test_and_build.outputs.artifact_name }}
+
+jobs:
+  test_and_build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    outputs:
+      artifact_name: ${{ steps.info.outputs.artifact_name }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Outputs
+        id: info
+        run: |
+          echo "artifact_name=pkg" >> $GITHUB_OUTPUT
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - run: yarn install
+      - run: yarn lint
+      - run: yarn test
+      - run: yarn build
+
+      - id: generate_artifact
+        name: Create Artifact
+        if: ${{ inputs.generate_artifact }}
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ steps.info.outputs.artifact_name }}
+          path: |
+            dist/
+            build/
+          retention-days: 3

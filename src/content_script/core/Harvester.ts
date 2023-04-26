@@ -120,14 +120,20 @@ const getSampleButton = (article: HTMLElement): HTMLElement => {
 
 class Harvester {
   public mode: TweetMode
-  private ltrStyle: string
+  private buttonWrapperClassList: string
+  private buttonWrapperStyle: string
   private svgStyle: string
+  readonly actionBar: HTMLElement
 
   constructor(article: HTMLElement) {
     this.mode = checkModeOfArticle(article)
+    this.actionBar =
+      select('[role="group"][aria-label]', article) || select('.r-18u37iz[role="group"][id^="id__"]', article)
 
     const sampleButton = getSampleButton(article)
-    this.ltrStyle = sampleButton.classList.value
+    this.buttonWrapperClassList = sampleButton.classList.value
+    this.buttonWrapperStyle = sampleButton.style.cssText
+
     this.svgStyle = select('svg', sampleButton).classList.value
   }
 
@@ -139,11 +145,6 @@ class Harvester {
     return button
   }
 
-  /**
-   * FIXME: WTF is this shit.
-   *
-   * FIXME: Need to use different style in `stream`, `status`, `photo`
-   */
   createButtonByMode() {
     const mode = this.mode
     const icon = createElementFromHTML(downloadButtonSVG)
@@ -157,7 +158,7 @@ class Harvester {
         <div aria-haspopup="true" aria-label="Media Harvest" role="button" data-focusable="true" tabindex="0"
           class="css-18t94o4 css-1dbjc4n r-1777fci r-11cpok1 r-1ny4l3l r-bztko3 r-lrvibr">
           <div
-            class="${this.ltrStyle}">
+            class="${this.buttonWrapperClassList}" style="${this.buttonWrapperStyle}">
             <div class="css-1dbjc4n r-xoduu5">
               <div class="\
               css-1dbjc4n r-sdzlij r-1p0dtai r-xoduu5 r-1d2f490 r-xf4iuw r-u8s1d r-zchlnj r-ipm5af r-o7ynqc r-6416eg\
@@ -200,6 +201,10 @@ class Harvester {
     buttonWrapper.addEventListener('mousedown', clickBG)
 
     return buttonWrapper
+  }
+
+  appendButton(): void {
+    this.actionBar.appendChild(this.button)
   }
 }
 

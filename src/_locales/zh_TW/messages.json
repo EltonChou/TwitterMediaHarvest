@@ -185,5 +185,11 @@
   },
   "backend_notification_message_unauth": {
     "message": "請確認登入狀態或是查看此推文的權限。"
+  },
+  "options_features_keyboardShortcut": {
+    "message": "鍵盤快捷鍵"
+  },
+  "options_features_keyboardShortcut_desc": {
+    "message": "使用鍵盤快捷鍵來觸發下載。"
   }
 }

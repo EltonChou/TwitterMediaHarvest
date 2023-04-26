@@ -1,24 +1,29 @@
+import ValueObject from '@backend/valueObject'
 import { ITwitterTokenRepository, TwitterTokenRepository } from '../cookie/repository'
 import { getFetchError } from './utils'
 
-const searchParamsToClean = ['tag']
+class TweetVO extends ValueObject<Tweet> {
+  constructor(tweet: Tweet) {
+    super(tweet)
+  }
 
-const cleanUrl = (url: string): string => {
-  const cleanedUrl = new URL(url)
-  searchParamsToClean.forEach(v => cleanedUrl.searchParams.delete(v))
-  return cleanedUrl.href
+  getMedias(): Medum2[] {
+    return this.props?.extended_entities?.media
+  }
 }
 
-const makeTweetEndpoint = (tweetId: string) => `https://api.twitter.com/1.1/statuses/show.json?id=${tweetId}`
+const searchParamsToClean = ['tag']
 
-const getMediaFromTweet = (tweet: Tweet) => tweet?.extended_entities?.media
+const cleanUrl = (url: string): string =>
+  searchParamsToClean.reduce((url, tag) => {
+    url.searchParams.delete(tag)
+    return url
+  }, new URL(url)).href
 
-const parseVideoInfo = (video_info: VideoInfo): string => {
-  const { variants } = video_info
-
+const getBestQualityVideoUrl = (video_info: VideoInfo): string => {
   // bitrate will be fixed to 0 if video is made from gif.
   // variants contains m3u8 info.
-  const hiResUrl = variants.reduce((prevV, currV) => {
+  const hiResUrl = video_info.variants.reduce((prevV, currV) => {
     if (!prevV?.bitrate) return currV
     if (!currV?.bitrate) return prevV
     return prevV.bitrate < currV.bitrate || currV.bitrate === 0 ? currV : prevV
@@ -27,12 +32,12 @@ const parseVideoInfo = (video_info: VideoInfo): string => {
   return cleanUrl(hiResUrl)
 }
 
-const TWITTER_AUTH_TOKEN =
-  'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
-
 const initHeaders = (tweetId: string, csrfToken: string, guestToken?: string) =>
   new Headers([
-    ['Authorization', TWITTER_AUTH_TOKEN],
+    [
+      'Authorization',
+      'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
+    ],
     ['User-Agent', navigator.userAgent],
     ['Referer', `https://twitter.com/i/web/status/${tweetId}`],
     ['x-twitter-active-user', 'yes'],
@@ -40,19 +45,24 @@ const initHeaders = (tweetId: string, csrfToken: string, guestToken?: string) =>
     guestToken ? ['x-guest-token', guestToken] : ['x-twitter-auth-type', 'OAuth2Session'],
   ])
 
+export interface ITweetUseCase {
+  fetchTweet(): Promise<TweetVO>
+}
+
 const twitterTokenRepo = new TwitterTokenRepository()
 
-class TweetUseCases {
-  protected tweet: Tweet = undefined
+abstract class TweetUseCase implements ITweetUseCase {
+  protected tokenRepo: ITwitterTokenRepository = twitterTokenRepo
+  protected tweet: TweetVO = undefined
 
-  constructor(readonly tweetId: string, protected tokenRepo: ITwitterTokenRepository) {}
+  constructor(readonly tweetId: string) {}
 
-  async fetchTweet(): Promise<Tweet> {
+  async fetchTweet(): Promise<TweetVO> {
     if (this.tweet) return this.tweet
 
     const csrfToken = await twitterTokenRepo.getCsrfToken()
     const guestToken = await twitterTokenRepo.getGuestToken()
-    const endpoint = makeTweetEndpoint(this.tweetId)
+    const endpoint = this.makeEndpoint()
     const resp = await fetch(endpoint, {
       method: 'GET',
       headers: initHeaders(this.tweetId, csrfToken, guestToken),
@@ -60,23 +70,108 @@ class TweetUseCases {
     })
 
     if (resp.status === 200) {
-      const tweet: Tweet = await resp.json()
-      this.tweet = tweet
+      const body = await resp.json()
+      this.tweet = this.parseBody(body)
       return this.tweet
     }
 
     throw getFetchError(resp.status)
   }
+
+  abstract makeEndpoint(): string
+  abstract parseBody(object: any): TweetVO
 }
 
-export class MediaTweetUseCases extends TweetUseCases {
-  constructor(tweetId: string) {
-    super(tweetId, twitterTokenRepo)
+/**
+ * V1 has faster response time and higer rate limit about 1000,  but it might be deprecated soon.
+ */
+export class V1TweetUseCase extends TweetUseCase {
+  makeEndpoint(): string {
+    return `https://api.twitter.com/1.1/statuses/show.json?id=${this.tweetId}?trim_user=true`
   }
 
+  parseBody(object: any): TweetVO {
+    object as Tweet
+    return new TweetVO(object)
+  }
+}
+
+/**
+ * V2 has larger body, and lower rate limit about 190.
+ */
+export class V2TweetUseCase extends TweetUseCase {
+  makeEndpoint(): string {
+    return `https://api.twitter.com/2/timeline/conversation/${this.tweetId}.json?tweet_mode=extended&trim_user=true`
+  }
+
+  parseBody(object: any): TweetVO {
+    return new TweetVO(object.globalObjects.tweets[this.tweetId])
+  }
+}
+
+const makeGraphQlVars = (tweetId: string): TwitterGraphQLVariables => ({
+  focalTweetId: tweetId,
+  with_rux_injections: false,
+  includePromotedContent: false,
+  withCommunity: false,
+  withQuickPromoteEligibilityTweetFields: false,
+  withBirdwatchNotes: false,
+  withVoice: false,
+  withV2Timeline: true,
+})
+
+const graphQlFeatures: TwitterGraphQLFeatures = {
+  blue_business_profile_image_shape_enabled: false,
+  responsive_web_graphql_exclude_directive_enabled: false,
+  verified_phone_label_enabled: false,
+  responsive_web_graphql_timeline_navigation_enabled: false,
+  responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
+  tweetypie_unmention_optimization_enabled: false,
+  vibe_api_enabled: false,
+  responsive_web_edit_tweet_api_enabled: false,
+  graphql_is_translatable_rweb_tweet_is_translatable_enabled: false,
+  view_counts_everywhere_api_enabled: false,
+  longform_notetweets_consumption_enabled: false,
+  tweet_awards_web_tipping_enabled: false,
+  freedom_of_speech_not_reach_fetch_enabled: false,
+  standardized_nudges_misinfo: false,
+  tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled: false,
+  interactive_text_enabled: false,
+  responsive_web_text_conversations_enabled: false,
+  longform_notetweets_rich_text_read_enabled: false,
+  responsive_web_enhance_cards_enabled: false,
+}
+
+/**
+ * GraphQL experiment implement.
+ */
+export class GraphQLTweetUseCase extends TweetUseCase {
+  makeEndpoint(): string {
+    const endpoint = new URL('https://twitter.com/i/api/graphql/BbCrSoXIR7z93lLCVFlQ2Q/TweetDetail')
+    endpoint.searchParams.append('variables', JSON.stringify(makeGraphQlVars(this.tweetId)))
+    endpoint.searchParams.append('features', JSON.stringify(graphQlFeatures))
+    return endpoint.href
+  }
+
+  parseBody(object: any): TweetVO {
+    const tweet =
+      object.data.threaded_conversation_with_injections_v2.instructions[0].entries[0].content.itemContent.tweet_results
+        .result.legacy ||
+      object.data.threaded_conversation_with_injections_v2.instructions[0].entries[0].content.itemContent.tweet_results
+        .result.tweet.legacy
+
+    if (!tweet) throw getFetchError(404)
+
+    return new TweetVO(tweet)
+  }
+}
+
+export class MediaTweetUseCases {
+  constructor(readonly tweetUseCase: ITweetUseCase) {}
+
   async fetchMediaCatalog(): Promise<TweetMediaCatalog> {
-    const tweet: Tweet = await this.fetchTweet()
-    const medias = getMediaFromTweet(tweet)
+    const tweet = await this.tweetUseCase.fetchTweet()
+    const medias = tweet.getMedias()
 
     let mediaCatalog: TweetMediaCatalog = {
       images: [],
@@ -86,10 +181,7 @@ export class MediaTweetUseCases extends TweetUseCases {
     if (medias !== undefined) {
       mediaCatalog = medias.reduce((catalog, media) => {
         catalog.images.push(cleanUrl(media.media_url_https))
-
-        const videoInfo = media?.video_info
-        if (videoInfo) catalog.videos.push(parseVideoInfo(videoInfo))
-
+        media?.video_info && catalog.videos.push(getBestQualityVideoUrl(media.video_info))
         return catalog
       }, mediaCatalog)
     }

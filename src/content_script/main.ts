@@ -34,12 +34,13 @@ import { FeaturesRepository } from './features/repository'
 
 const featureRepo = new FeaturesRepository()
 
+if (await featureRepo.isEnableKeyboardShortcut()) {
+  const keyboardMonitor = isTweetDeck() ? new TweetDeckKeyboardMonitor() : new TwitterKeyboardMonitor()
+  window.addEventListener('keydown', keyboardMonitor.handleKeyDown.bind(keyboardMonitor))
+  window.addEventListener('keyup', keyboardMonitor.handleKeyUp.bind(keyboardMonitor))
+}
+
 const observer = isTweetDeck() ? new TweetDeckObserver() : new TwitterMediaObserver(await featureRepo.isRevealNsfw())
-const keyboardMonitor = isTweetDeck() ? new TweetDeckKeyboardMonitor() : new TwitterKeyboardMonitor()
-
-window.addEventListener('keydown', keyboardMonitor.handleKeyDown.bind(keyboardMonitor))
-window.addEventListener('keyup', keyboardMonitor.handleKeyUp.bind(keyboardMonitor))
-
 // Ensure observing when the tab is focused.
 let hasFocused = false
 window.addEventListener('focus', () => {

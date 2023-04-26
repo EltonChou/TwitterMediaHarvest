@@ -155,10 +155,12 @@ module.exports = (env, argv) => {
     clean: true,
   }
 
+  const release_name = env.RELEASE_NAME || PACKAGE.name + '(' + env.target + ')' + '@' + version
+
   config.plugins.push(
     env.target === 'firefox' ? firefoxManifestCopyPlugin : chromiumManifestCopyPlugin,
     new webpack.EnvironmentPlugin({
-      RELEASE: env.RELEASE_NAME || PACKAGE.name + '(' + env.target + ')' + '@' + version,
+      RELEASE: release_name,
       TARGET: env.target,
       VERSION_NAME: versionName,
     })

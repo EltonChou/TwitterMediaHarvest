@@ -24,6 +24,7 @@ export const initStorage = async () => {
   await storageConfig.downloadSettingsRepo.setDefaultSettings()
   await storageConfig.v4FilenameSettingsRepo.setDefaultSettings()
   await storageConfig.featureSettingsRepo.setDefaultSettings()
+  await storageConfig.twitterApiSettingsRepo.setDefaultSettings()
 
   await Browser.storage.sync.set({ version: '4.0.0' })
   await Browser.storage.local.set({ version: '4.0.0' })

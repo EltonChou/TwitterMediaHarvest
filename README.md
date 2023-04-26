@@ -1,3 +1,5 @@
+![TwitterMediaHarvest](./assets/open-graph.png)
+
 [![Edge add-on version](https://img.shields.io/badge/dynamic/json?label=edge%20add-on&prefix=v&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fmmijhjnobkeodfgoobnlmnpjllmlibkb&style=for-the-badge&color=00acee)](https://microsoftedge.microsoft.com/addons/detail/media-harvest-twitter-m/mmijhjnobkeodfgoobnlmnpjllmlibkb)
 [![Edge add-on users](https://img.shields.io/badge/dynamic/json?label=users&query=%24.activeInstallCount&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fmmijhjnobkeodfgoobnlmnpjllmlibkb&style=for-the-badge&color=007bc2)](https://microsoftedge.microsoft.com/addons/detail/media-harvest-twitter-m/mmijhjnobkeodfgoobnlmnpjllmlibkb)
 [![Edge add-on rating](https://img.shields.io/badge/dynamic/json?label=rating&suffix=/5&query=%24.averageRating&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fmmijhjnobkeodfgoobnlmnpjllmlibkb&style=for-the-badge&color=00ce36)](https://microsoftedge.microsoft.com/addons/detail/media-harvest-twitter-m/mmijhjnobkeodfgoobnlmnpjllmlibkb)
@@ -12,8 +14,6 @@
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EltonChou/TwitterMediaHarvest/ci.yml?branch=main&style=flat-square)
 
-![TwitterMediaHarvest](./src/assets/icons/icon128.png)
-
 # TwitterMediaHarvest
 **Gather medias with just one-click.**
 
@@ -24,7 +24,7 @@
 - [x] One-click to get GIF.
 - [x] Auto-reveal sensitive content. (optinal)
 - [x] Support [TweetDeck](https://tweetdeck.twitter.com/)
-- [x] Integrate with [Aria2 for Chrome](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn)
+- [x] Integrate with [Aria2 Explorer](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn)
 
 
 ## Installation

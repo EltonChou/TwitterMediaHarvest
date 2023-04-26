@@ -22,6 +22,8 @@ function checkUseCase(notificationId: string): INotificationUseCase {
       storageConfig.downloadRecordRepo
     )
   }
+
+  return new NullNotificationUseCase()
 }
 
 export default class NotificationUseCase implements INotificationUseCase {
@@ -47,6 +49,20 @@ export default class NotificationUseCase implements INotificationUseCase {
 }
 
 const tweetUrl = (tweetId: string) => `https://twitter.com/i/web/status/${tweetId}`
+
+class NullNotificationUseCase implements INotificationUseCase {
+  async handle_button(buttonIndex: number): Promise<void> {
+    return
+  }
+
+  async handle_click(): Promise<void> {
+    return
+  }
+
+  async handle_close(): Promise<void> {
+    return
+  }
+}
 
 class DownloadNotificationUseCase implements INotificationUseCase {
   constructor(readonly downloadItemId: number, private downloadRecordRepo: IDownloadRecordsRepository) {}

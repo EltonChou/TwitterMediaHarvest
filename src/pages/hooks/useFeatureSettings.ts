@@ -5,7 +5,7 @@ const defaultFeatureSettings: FeatureSettings = storageConfig.featureSettingsRep
 
 function reducer(
   settings: FeatureSettings,
-  action: PureAction<'toggleNsfw' | 'toggleThumbnail'> | DataInitAction<FeatureSettings>
+  action: PureAction<'toggleNsfw' | 'toggleThumbnail' | 'toggleKeyboardShortcut'> | DataInitAction<FeatureSettings>
 ): FeatureSettings {
   switch (action.type) {
     case 'toggleNsfw':
@@ -17,6 +17,12 @@ function reducer(
         includeVideoThumbnail: !settings.includeVideoThumbnail,
       }
 
+    case 'toggleKeyboardShortcut':
+      return {
+        ...settings,
+        keyboardShortcut: !settings.keyboardShortcut,
+      }
+
     case 'init':
       return action.payload
 
@@ -25,10 +31,9 @@ function reducer(
   }
 }
 
-type RevealNsfwToggler = () => Promise<void>
-type ThumbnailToggler = () => Promise<void>
+type Toggler = Record<'nsfw' | 'thumbnail' | 'keyboardShortcut', () => Promise<void>>
 
-const useFeatureSettings = (): [FeatureSettings, RevealNsfwToggler, ThumbnailToggler] => {
+const useFeatureSettings = (): [FeatureSettings, Toggler] => {
   const [featureSettings, dispatch] = useReducer(reducer, defaultFeatureSettings)
 
   const initSettings = useCallback(() => {
@@ -58,7 +63,21 @@ const useFeatureSettings = (): [FeatureSettings, RevealNsfwToggler, ThumbnailTog
     dispatch({ type: 'toggleThumbnail' })
   }, [featureSettings.includeVideoThumbnail])
 
-  return [featureSettings, toggleRevealNsfw, toggleThumbnail]
+  const toggleKeyboardShortcut = useCallback(async () => {
+    await storageConfig.featureSettingsRepo.saveSettings({
+      keyboardShortcut: !featureSettings.keyboardShortcut,
+    })
+    dispatch({ type: 'toggleKeyboardShortcut' })
+  }, [featureSettings.keyboardShortcut])
+
+  return [
+    featureSettings,
+    {
+      nsfw: toggleRevealNsfw,
+      thumbnail: toggleThumbnail,
+      keyboardShortcut: toggleKeyboardShortcut,
+    },
+  ]
 }
 
 export default useFeatureSettings

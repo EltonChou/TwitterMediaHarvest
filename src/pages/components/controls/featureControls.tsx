@@ -17,7 +17,7 @@ import useLocaleVariables from '@pages/hooks/useLocaleVariables'
 
 type FeatureSwitchPros = {
   isOn: boolean
-  handleChange: () => void
+  handleChange: () => void | Promise<void>
   labelContent: string
 }
 
@@ -39,17 +39,6 @@ export type HelperMessage = {
   content: string
 }
 
-type RichFeatureSwithProps = {
-  name: string
-  desc: string | JSX.Element
-  isOn?: boolean
-  handleClick?: () => void
-  isDisable?: boolean
-  message?: HelperMessage
-  children?: JSX.Element
-  cursor?: 'default' | 'pointer'
-}
-
 type HelperTextProps = {
   message?: HelperMessage
 }
@@ -64,6 +53,17 @@ const HelperText = ({ message }: HelperTextProps) => {
       <FormHelperText color={color}>{'' || message.content}</FormHelperText>
     </>
   )
+}
+
+type RichFeatureSwithProps = {
+  name: string
+  desc: string | JSX.Element
+  isOn?: boolean
+  handleClick?: () => void
+  isDisable?: boolean
+  message?: HelperMessage
+  children?: JSX.Element
+  cursor?: 'default' | 'pointer'
 }
 
 export const RichFeatureSwitch = ({

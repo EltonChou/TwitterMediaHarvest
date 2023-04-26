@@ -41,6 +41,7 @@ type DownloadSettings = {
 type FeatureSettings = {
   autoRevealNsfw: boolean
   includeVideoThumbnail: boolean
+  keyboardShortcut: boolean
 }
 
 type Aria2DownloadOption = {
@@ -77,4 +78,10 @@ type LocalStorageSchema = FeatureSettings & DownloadSettings
 type V4Statistics = {
   downloadCount: number
   trafficUsage: number
+}
+
+type TwitterApiVersion = 'v1' | 'v2' | 'gql'
+
+type TwitterApiSettings = {
+  twitterApiVersion: TwitterApiVersion
 }

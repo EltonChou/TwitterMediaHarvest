@@ -1,4 +1,11 @@
-import { MediaTweetUseCases } from '@backend/twitterApi/useCases'
+import { storageConfig } from '@backend/configurations'
+import {
+  GraphQLTweetUseCase,
+  ITweetUseCase,
+  MediaTweetUseCases,
+  V1TweetUseCase,
+  V2TweetUseCase,
+} from '@backend/twitterApi/useCases'
 import { addBreadcrumb, captureException } from '@sentry/browser'
 import { NotFound, TooManyRequest, TwitterApiError, Unauthorized } from '../errors'
 import { FetchErrorNotificationUseCase, InternalErrorNotificationUseCase } from '../notifications/notifyUseCase'
@@ -8,6 +15,24 @@ const sentryCapture = (err: Error) => {
   if (err instanceof NotFound || err instanceof TooManyRequest || err instanceof Unauthorized) return
 
   captureException(err)
+}
+
+const selectTweetUseCase = async (tweetId: string): Promise<ITweetUseCase> => {
+  const { twitterApiVersion } = await storageConfig.twitterApiSettingsRepo.getSettings()
+
+  switch (twitterApiVersion) {
+    case 'v1':
+      return new V1TweetUseCase(tweetId)
+
+    case 'v2':
+      return new V2TweetUseCase(tweetId)
+
+    case 'gql':
+      return new GraphQLTweetUseCase(tweetId)
+
+    default:
+      return new V2TweetUseCase(tweetId)
+  }
 }
 
 export default class DownloadActionUseCase {
@@ -23,9 +48,10 @@ export default class DownloadActionUseCase {
     })
 
     const mediaDownloader = await MediaDownloader.build(this.tweetInfo)
-    const tweetUseCase = new MediaTweetUseCases(this.tweetInfo.tweetId)
+    const tweetUseCase = await selectTweetUseCase(this.tweetInfo.tweetId)
+    const mediaTweetUseCase = new MediaTweetUseCases(tweetUseCase)
     console.info(`Fetching media info (tweetId: ${this.tweetInfo.tweetId})...`)
-    const mediaCatelog = await tweetUseCase.fetchMediaCatalog()
+    const mediaCatelog = await mediaTweetUseCase.fetchMediaCatalog()
     mediaDownloader.downloadMediasByMediaCatalog(mediaCatelog)
   }
 

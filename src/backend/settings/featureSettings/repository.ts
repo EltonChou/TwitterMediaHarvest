@@ -4,6 +4,7 @@ import { ISettingsRepository } from '../repository'
 const defaultFeature: FeatureSettings = {
   autoRevealNsfw: false,
   includeVideoThumbnail: false,
+  keyboardShortcut: true,
 }
 
 export class FeaturesRepository implements ISettingsRepository<FeatureSettings> {
