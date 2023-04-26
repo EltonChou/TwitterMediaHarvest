@@ -10,7 +10,7 @@ const useStatsStore = () => {
 
   useEffect(() => {
     storageConfig.statisticsRepo.getStats().then(initStats => setStats(initStats))
-  })
+  }, [])
 
   return stats
 }
