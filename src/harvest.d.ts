@@ -41,6 +41,7 @@ type DownloadSettings = {
 type FeatureSettings = {
   autoRevealNsfw: boolean
   includeVideoThumbnail: boolean
+  keyboardShortcut: boolean
 }
 
 type Aria2DownloadOption = {

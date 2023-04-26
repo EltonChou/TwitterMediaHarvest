@@ -1,3 +1,5 @@
+import Browser from 'webextension-polyfill'
+
 const getStoreLink = () => {
   switch (process.env.TARGET) {
     case 'firefox':
@@ -27,7 +29,8 @@ const Links = {
   issues: 'https://github.com/EltonChou/TwitterMediaHarvest/issues',
   store: getStoreLink(),
   aria2Explorer: getAria2ExplorerLink(),
-  changelog: 'https://github.com/EltonChou/TwitterMediaHarvest/blob/main/CHANGELOG.md',
+  changelog:
+    'https://github.com/EltonChou/TwitterMediaHarvest/blob/main/CHANGELOG.md#' + Browser.runtime.getManifest().version,
   privacy: 'https://github.com/EltonChou/TwitterMediaHarvest/blob/main/PRIVACY_POLICY.md',
   website: 'https://github.com/EltonChou/TwitterMediaHarvest',
 }
