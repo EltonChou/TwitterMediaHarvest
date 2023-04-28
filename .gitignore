@@ -9,9 +9,11 @@ temp/
 *.zip
 /*.html
 *.psd
+*.ai
 *.clip
 *.exe
 public_keys/
+src/assets/icons/Legacy
 
 # Logs
 logs
