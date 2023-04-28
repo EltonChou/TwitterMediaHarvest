@@ -87,7 +87,7 @@ export class V4StatsUseCase {
     )
 
     if (syncStats.downloadCount > stats.downloadCount && syncStats.trafficUsage > stats.trafficUsage) {
-      await this.statisticsRepo.saveStats(stats)
+      await this.statisticsRepo.saveStats(syncStats)
     }
   }
 }
