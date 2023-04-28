@@ -39,7 +39,6 @@ jobs:
           artifacts: ${{ format('{0}/dist/*.zip', steps.download_artifact.outputs.download-path) }}
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ steps.changelog.outputs.release }}
-          draft: true
 
       - name: Rollback Release
         if: failure() && steps.create_release.outputs.id != ''
