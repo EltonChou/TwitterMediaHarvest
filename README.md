@@ -22,7 +22,7 @@
 - [x] One-click to get original-size image.
 - [x] One-click to get video.
 - [x] One-click to get GIF.
-- [x] Auto-reveal sensitive content. (optinal)
+- [x] Auto-reveal sensitive content. (optional)
 - [x] Support [TweetDeck](https://tweetdeck.twitter.com/)
 - [x] Integrate with [Aria2 Explorer](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn)
 
