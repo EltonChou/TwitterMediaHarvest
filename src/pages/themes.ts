@@ -9,8 +9,8 @@ const config: ThemeConfig = {
 const theme = extendTheme({
   config,
   fonts: {
-    heading: '"Homenaje", "Open Sans", sans-serif',
-    body: '"Homenaje", "Raleway", sans-serif',
+    heading: '"Homenaje", "Noto Sans JP", "Noto Sans TC", "Open Sans", sans-serif',
+    body: '"Homenaje", "Noto Sans JP", "Noto Sans TC", sans-serif',
   },
   colors: {
     brand: {
