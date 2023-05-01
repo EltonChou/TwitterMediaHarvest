@@ -1,5 +1,5 @@
 import { captureException } from '@sentry/browser'
-import { isArticleCanBeAppend, isComposingTweet, isTweetDeck, isTwitter } from '../utils/checker'
+import { isArticleCanBeAppend, isBetaTweetDeck, isComposingTweet, isTweetDeck, isTwitter } from '../utils/checker'
 import DeckHarvester from './DeckHarvester'
 import Harvester from './Harvester'
 
@@ -20,11 +20,12 @@ const makeHarvester = (article: HTMLElement) => {
       }
 
       if (isTweetDeck()) {
-        const harvester = new DeckHarvester(article)
+        const harvester = isBetaTweetDeck() ? new Harvester(article) : new DeckHarvester(article)
         harvester.appendButton()
       }
     } catch (error) {
       captureException(error)
+      console.error(error)
     }
   }
 }

@@ -31,12 +31,12 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
 ): T => {
   button.addEventListener('click', async function (e) {
     e.stopImmediatePropagation()
-    if (this.classList.contains('downloading')) return false
+    const article: HTMLElement = this.closest('[data-harvest-article]')
+
+    if (this.classList.contains('downloading') || !article) return
     this.classList.remove('success', 'error')
     this.classList.add('downloading')
 
-    const article: HTMLElement = this.closest('[data-harvest-article]')
-    if (!article) return false
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     try {
       const tweetInfo: TweetInfo = infoParser(article)

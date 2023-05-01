@@ -29,7 +29,7 @@ const enum InstallReason {
   BrowserUpdate = 'browser_update',
 }
 
-browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender) => {
+browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender, sendResponse) => {
   if (message.action === Action.Download) {
     if (isInvalidInfo(message.data)) {
       console.error('Invalid tweetInfo.')
@@ -47,7 +47,13 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender) =>
       return { status: 'error', data: error }
     }
   }
-  return false
+
+  sendResponse()
+
+  return {
+    status: 'error',
+    data: new HarvestError(`Invalid message. ${message}`),
+  }
 })
 
 browser.runtime.onInstalled.addListener(async details => {
