@@ -3,7 +3,8 @@ import { isTwitter } from '../utils/checker'
 
 enum DownloadKey {
   Twitter = 'd',
-  TweetDeck = 'o',
+  LegacyTweetDeck = 'o',
+  BetaTweetDeck = 'p',
 }
 
 interface IKeyboardMonitor {
@@ -52,9 +53,9 @@ abstract class GeneralKeyboardMonitor implements IKeyboardMonitor {
   abstract updateFocusing(e: KeyboardEvent): void
 }
 
-export class TweetDeckKeyboardMonitor extends GeneralKeyboardMonitor {
+export class TweetDeckLegacyKeyboardMonitor extends GeneralKeyboardMonitor {
   constructor() {
-    super('.deck-harvester', DownloadKey.TweetDeck)
+    super('.deck-harvester', DownloadKey.LegacyTweetDeck)
   }
 
   updateFocusing(e: KeyboardEvent): void {
@@ -66,6 +67,17 @@ export class TweetDeckKeyboardMonitor extends GeneralKeyboardMonitor {
 export class TwitterKeyboardMonitor extends GeneralKeyboardMonitor {
   constructor() {
     super('.harvester', DownloadKey.Twitter)
+  }
+
+  updateFocusing(e: KeyboardEvent): void {
+    if (!(e.target instanceof Element)) return
+    this.focusing = e.target
+  }
+}
+
+export class TweetDeckBetaKeyboardMonitor extends GeneralKeyboardMonitor {
+  constructor() {
+    super('.harvester', DownloadKey.BetaTweetDeck)
   }
 
   updateFocusing(e: KeyboardEvent): void {

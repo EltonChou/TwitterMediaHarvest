@@ -100,4 +100,4 @@ export const isNotFunctionPath = (): boolean => Boolean(window.location.pathname
 
 export const isInTweetStatus = (): boolean => Boolean(window.location.pathname.match(TweetStatusRegEx))
 
-export const isBetaTweetDeck = (): boolean => select.exists('#react-root')
+export const isBetaTweetDeck = (): boolean => isTweetDeck() && select.exists('#react-root')

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { init as SentryInit } from '@sentry/browser'
 // import { BrowserTracing } from '@sentry/tracing'
 import { SENTRY_DSN } from '../constants'
@@ -27,26 +28,34 @@ SentryInit({
 })
 
 import { FeaturesRepository } from './features/repository'
-import { TweetDeckKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
+import { TweetDeckBetaKeyboardMonitor, TweetDeckLegacyKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
 import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
 import TweetDeckLegacyObserver from './observers/TweetDeckLegacyObserver'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
-import { isBetaTweetDeck, isTweetDeck } from './utils/checker'
+import { isBetaTweetDeck, isTwitter } from './utils/checker'
 
 const featureRepo = new FeaturesRepository()
+const isRevealNsfw = await featureRepo.isRevealNsfw()
+
+const useObserver = () => {
+  if (isTwitter()) return new TwitterMediaObserver(isRevealNsfw)
+  if (isBetaTweetDeck()) return new TweetDeckBetaObserver(isRevealNsfw)
+  return new TweetDeckLegacyObserver()
+}
+
+const useKeboardMonitor = () => {
+  if (isTwitter()) return new TwitterKeyboardMonitor()
+  if (isBetaTweetDeck()) return new TweetDeckBetaKeyboardMonitor()
+  return new TweetDeckLegacyKeyboardMonitor()
+}
 
 if (await featureRepo.isEnableKeyboardShortcut()) {
-  const keyboardMonitor = isTweetDeck() ? new TweetDeckKeyboardMonitor() : new TwitterKeyboardMonitor()
+  const keyboardMonitor = useKeboardMonitor()
   window.addEventListener('keydown', keyboardMonitor.handleKeyDown.bind(keyboardMonitor))
   window.addEventListener('keyup', keyboardMonitor.handleKeyUp.bind(keyboardMonitor))
 }
 
-const isRevealNsfw = await featureRepo.isRevealNsfw()
-const observer = isTweetDeck()
-  ? isBetaTweetDeck()
-    ? new TweetDeckBetaObserver(isRevealNsfw)
-    : new TweetDeckLegacyObserver()
-  : new TwitterMediaObserver(isRevealNsfw)
+const observer = useObserver()
 
 // Ensure observing when the tab is focused.
 let hasFocused = false
