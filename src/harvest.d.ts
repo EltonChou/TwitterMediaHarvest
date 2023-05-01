@@ -72,6 +72,10 @@ interface HarvestObserver {
   initialize: () => void
 }
 
+interface Harvester {
+  appendButton: () => void
+}
+
 type SyncStorageSchema = FilenameSettings
 type LocalStorageSchema = FeatureSettings & DownloadSettings
 

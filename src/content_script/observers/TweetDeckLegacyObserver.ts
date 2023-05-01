@@ -16,7 +16,7 @@ const deckStreamHasMedia = (addedNode: ParentNode) => {
 }
 
 const processRootTweets = () => {
-  const rootTweets = select.all('.js-detail-content article')
+  const rootTweets = select.all('article.stream-item')
   for (const tweet of rootTweets) {
     if (deckStreamHasMedia(tweet)) makeHarvester(tweet)
   }
@@ -38,7 +38,7 @@ const observeDetailReplies = (replies: HTMLElement) => {
     }
   }
 
-  observeElement(replies, repliesCallback, options)
+  observeElement('Replies', replies, repliesCallback, options)
 }
 
 const observeModal = () => {
@@ -55,29 +55,25 @@ const observeModal = () => {
     childList: true,
   }
 
-  observeElement('#open-modal', modalCallback, options)
+  observeElement('Modal', '#open-modal', modalCallback, options)
 }
 
 const observeColumns = () => {
-  const columnContainer = select('.app-columns')
-
   const observerOptions: MutationObserverInit = {
     childList: true,
   }
 
-  observeElement(
-    columnContainer,
-    mutations => {
-      for (const mutation of mutations) {
-        for (const addedNode of mutation.addedNodes as unknown as HTMLCollection) {
-          if (addedNode.classList.contains('column')) {
-            initColumnObserver(addedNode as HTMLElement)
-          }
+  const cb: MutationCallback = mutations => {
+    for (const mutation of mutations) {
+      for (const addedNode of mutation.addedNodes as unknown as HTMLCollection) {
+        if (addedNode.classList.contains('column')) {
+          initColumnObserver(addedNode as HTMLElement)
         }
       }
-    },
-    observerOptions
-  )
+    }
+  }
+
+  observeElement('Column Container', '.app-columns', cb, observerOptions)
 }
 
 const observeDetail = (tweetDetail: HTMLElement) => {
@@ -104,7 +100,7 @@ const observeDetail = (tweetDetail: HTMLElement) => {
     if (before_replies) observeDetailReplies(before_replies)
   }
 
-  observeElement(tweetDetail, detailCallback, detailOptions)
+  observeElement('Tweet Detail', tweetDetail, detailCallback, detailOptions)
 }
 
 const observeStreamContainer = (streamContainer: HTMLElement) => {
@@ -122,7 +118,7 @@ const observeStreamContainer = (streamContainer: HTMLElement) => {
     }
   }
 
-  observeElement(streamContainer, streamCallback, options)
+  observeElement('Stream Container', streamContainer, streamCallback, options)
 }
 
 const initColumnObserver = (column: HTMLElement) => {
@@ -132,33 +128,30 @@ const initColumnObserver = (column: HTMLElement) => {
   observeStreamContainer(tweetContainer)
 }
 
-class TweetDeckObserver implements HarvestObserver {
+class TweetDeckLegacyObserver implements HarvestObserver {
+  readonly observers: MutationObserver[] = []
+
   observeRoot() {
     const options: MutationObserverInit = {
       childList: true,
+      subtree: true,
     }
 
-    observeElement(
-      '.application',
-      (_, this_observer) => {
-        if (select.exists('.app-columns')) {
-          this.initialize()
-          observeColumns()
-          observeModal()
-          this_observer.disconnect()
-        }
-      },
-      options
-    )
+    const cb: MutationCallback = (_, observer) => {
+      processRootTweets()
+      if (select.exists('#container')) {
+        observeColumns()
+        observeModal()
+        // observer.disconnect()
+      }
+    }
+
+    observeElement('Application', '.application', cb, options)
   }
 
   initialize() {
-    const columns = select.all('section.column')
-
-    for (const column of columns) {
-      initColumnObserver(column)
-    }
+    processRootTweets()
   }
 }
 
-export default TweetDeckObserver
+export default TweetDeckLegacyObserver

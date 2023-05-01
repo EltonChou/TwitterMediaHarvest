@@ -40,13 +40,13 @@ export default class TwitterMediaObserver implements HarvestObserver {
         observer.disconnect()
       }
     }
-    observeElement(Query.Root, rootMutationCallback, options)
+    observeElement('Root', Query.Root, rootMutationCallback, options)
   }
 
   initialize() {
     if (select.exists(Query.Modal) && isInTweetStatus()) {
       const modal = select(Query.Modal)
-      makeHarvester(modal)
+      if (!select.exists('[aria-label="Loading"]')) makeHarvester(modal)
     }
 
     const articles = select.all('article')
@@ -67,11 +67,12 @@ export default class TwitterMediaObserver implements HarvestObserver {
       }
     }
 
-    observeElement(Query.Stream, mutaionCb)
+    observeElement('Stream', Query.Stream, mutaionCb)
   }
 
   observeTimeline() {
     observeElement(
+      'timeline',
       Query.Timeline,
       () => {
         this.initialize()
@@ -91,7 +92,8 @@ export default class TwitterMediaObserver implements HarvestObserver {
       this.observeRoot()
       this.observeTimeline()
     }
-    observeElement('head', titleMutationCallback, options)
+
+    observeElement('Head', 'head', titleMutationCallback, options)
   }
 
   observeModal() {
@@ -110,10 +112,10 @@ export default class TwitterMediaObserver implements HarvestObserver {
       const modalThread = select(Query.ModalThread)
 
       if (modalThread) {
-        observeElement(modalThread, threadCallback)
+        observeElement('Modal Thread', modalThread, threadCallback)
       }
     }
 
-    observeElement(Query.ModalWrapper, modalMutationCallback, options)
+    observeElement('Modal', Query.ModalWrapper, modalMutationCallback, options)
   }
 }

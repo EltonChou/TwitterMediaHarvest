@@ -64,7 +64,7 @@ export const articleHasMedia = (article: HTMLElement) => {
  * @param {HTMLElement} article
  */
 export const isArticleCanBeAppend = (article: HTMLElement) =>
-  isTweetDeck() ? !select.exists('.deck-harvester', article) : !select.exists('.harvester', article)
+  !(select.exists('.deck-harvester', article) || select.exists('.harvester', article))
 
 export const isStreamLoaded = () => select.exists('[role="region"]') && select.exists('article')
 
@@ -99,3 +99,5 @@ export const isComposingTweet = (): boolean =>
 export const isNotFunctionPath = (): boolean => Boolean(window.location.pathname.match(TweetListRegEx))
 
 export const isInTweetStatus = (): boolean => Boolean(window.location.pathname.match(TweetStatusRegEx))
+
+export const isBetaTweetDeck = (): boolean => select.exists('#react-root')

@@ -26,11 +26,12 @@ SentryInit({
   environment: process.env.NODE_ENV,
 })
 
-import { TweetDeckKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
-import TweetDeckObserver from './observers/TweetDeckObserver'
-import TwitterMediaObserver from './observers/TwitterMediaObserver'
-import { isTweetDeck } from './utils/checker'
 import { FeaturesRepository } from './features/repository'
+import { TweetDeckKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
+import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
+import TweetDeckLegacyObserver from './observers/TweetDeckLegacyObserver'
+import TwitterMediaObserver from './observers/TwitterMediaObserver'
+import { isBetaTweetDeck, isTweetDeck } from './utils/checker'
 
 const featureRepo = new FeaturesRepository()
 
@@ -40,7 +41,13 @@ if (await featureRepo.isEnableKeyboardShortcut()) {
   window.addEventListener('keyup', keyboardMonitor.handleKeyUp.bind(keyboardMonitor))
 }
 
-const observer = isTweetDeck() ? new TweetDeckObserver() : new TwitterMediaObserver(await featureRepo.isRevealNsfw())
+const isRevealNsfw = await featureRepo.isRevealNsfw()
+const observer = isTweetDeck()
+  ? isBetaTweetDeck()
+    ? new TweetDeckBetaObserver(isRevealNsfw)
+    : new TweetDeckLegacyObserver()
+  : new TwitterMediaObserver(isRevealNsfw)
+
 // Ensure observing when the tab is focused.
 let hasFocused = false
 window.addEventListener('focus', () => {
