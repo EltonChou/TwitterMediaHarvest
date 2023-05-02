@@ -24,11 +24,10 @@ export default class TweetDeckBetaObserver implements HarvestObserver {
       if (!select.exists('[aria-label="Loading"]')) makeHarvester(modal)
     }
 
-    const articles = select.all('article')
-    for (const article of articles) {
+    select.all('article').forEach(article => {
       if (this.autoRevealNsfw) revealNsfw(article)
       if (articleHasMedia(article)) makeHarvester(article)
-    }
+    })
   }
 
   observeModal() {
@@ -50,10 +49,12 @@ export default class TweetDeckBetaObserver implements HarvestObserver {
       subtree: true,
     }
 
-    const rootMutationCallback: MutationCallback = (_, observer) => {
+    const rootMutationCallback: MutationCallback = () => {
+      // TODO: When to disconnect the observer?
       this.initialize()
       this.observeStream()
       this.observeModal()
+      this.observeColumns()
     }
 
     observeElement('root', '#react-root', rootMutationCallback, options)
@@ -61,19 +62,30 @@ export default class TweetDeckBetaObserver implements HarvestObserver {
 
   observeStream() {
     const mutaionCb: MutationCallback = mutations => {
-      for (const mutation of mutations) {
-        for (const addedNode of mutation.addedNodes) {
-          const article = select('article', addedNode as ParentNode)
+      mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(node => {
+          const article = select('article', node as ParentNode)
           if (this.autoRevealNsfw) revealNsfw(article)
           if (articleHasMedia(article)) makeHarvester(article)
-        }
-      }
+        })
+      })
     }
 
-    const streams = select.all('section[role="region"] > div[aria-label] > div')
-
+    const streams = select.all(
+      '[data-testid="multi-column-layout-column-content"] > section[role="region"] > div[aria-label] > div'
+    )
     streams.forEach(stream => {
-      observeElement('stream', stream, mutaionCb)
+      observeElement('Stream', stream, mutaionCb)
     })
+  }
+
+  observeColumns() {
+    const cb: MutationCallback = mutations => {
+      mutations.forEach(mutation => {
+        if (mutation.addedNodes.length) this.observeStream()
+      })
+    }
+
+    observeElement('Columns', 'main[role="main"] > div > div > div', cb, { childList: true })
   }
 }
