@@ -24,19 +24,17 @@ const fp: [string, FilenamePatternToken][] = [
 ]
 
 const TokenPanel = memo(({ handleTokenToggle, pattern, previewFilename }: TokenPanelProps) => {
-  const Tokens = fp.map(([name, token]) => (
-    <PatternToken
-      key={Math.random()}
-      tokenName={name}
-      isOn={pattern.includes(token)}
-      handleChange={s => handleTokenToggle(token, s)}
-    />
-  ))
-
   return (
     <>
       <Flex justifyContent={'flex-start'} gap={'2'} flexWrap={'wrap'}>
-        {Tokens}
+        {fp.map(([name, token]) => (
+          <PatternToken
+            key={token}
+            tokenName={name}
+            isOn={pattern.includes(token)}
+            handleChange={s => handleTokenToggle(token, s)}
+          />
+        ))}
       </Flex>
       <Flex mt={'2em'} minH={'1.5em'} fontSize="1.2em">
         {previewFilename}
