@@ -21,9 +21,10 @@ export const observeElement = (
   if (observeElement && !isElementObserved(observeElement)) {
     observer.observe(observeElement, options)
     observeElement.dataset.harvestObserveTag = dataTag
+    return observer
   }
 
-  return observer
+  return undefined
 }
 
 export default observeElement
