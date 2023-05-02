@@ -3,6 +3,7 @@ import React from 'react'
 import { Kbd, Text, VStack } from '@chakra-ui/react'
 import useFeatureSettings from '@pages/hooks/useFeatureSettings'
 import { i18n } from '@pages/utils'
+import { DownloadKey } from '../../typings'
 import { RichFeatureSwitch } from './controls/featureControls'
 
 const KeyboardShortcutDesc = () => {
@@ -11,11 +12,15 @@ const KeyboardShortcutDesc = () => {
       {i18n('options_features_keyboardShortcut_desc')}
       <br />
       <Text as={'span'}>
-        twitter: <Kbd>D</Kbd>
+        twitter: <Kbd>{DownloadKey.Twitter}</Kbd>
       </Text>
       <br />
       <Text as={'span'}>
-        tweetdeck: <Kbd>O</Kbd>
+        TweetDeck (Legacy UI): <Kbd>{DownloadKey.LegacyTweetDeck}</Kbd>
+      </Text>
+      <br />
+      <Text as={'span'}>
+        TweetDeck (Beta UI): <Kbd>{DownloadKey.BetaTweetDeck}</Kbd>
       </Text>
     </Text>
   )
