@@ -15,9 +15,9 @@ const tweetInfo: TweetInfo = {
 }
 
 describe('Test TwitterMediaFile usage.', () => {
-  const pngFile = new TwitterMediaFile(tweetInfo, IMAGE_URL_BASE.concat('cool.png'))
-  const jpgFile = new TwitterMediaFile(tweetInfo, IMAGE_URL_BASE.concat('cool.jpg'))
-  const mp4File = new TwitterMediaFile(tweetInfo, VIDEO_URL_BASE.concat('hq.mp4'))
+  const pngFile = new TwitterMediaFile(tweetInfo, IMAGE_URL_BASE.concat('cool.png'), 0, false)
+  const jpgFile = new TwitterMediaFile(tweetInfo, IMAGE_URL_BASE.concat('cool.jpg'), 0, false)
+  const mp4File = new TwitterMediaFile(tweetInfo, VIDEO_URL_BASE.concat('hq.mp4'), 0, false)
 
   it('can detect the file is video', () => {
     expect(mp4File.isVideo()).toBeTruthy()
@@ -73,5 +73,12 @@ describe('Test TwitterMediaFile usage.', () => {
         'https://video.twimg.com/amplify_video/5465465465415/vid/1440x720/adsfasdfasdf.mp4'
       )
     ).toBeTruthy()
+  })
+
+  it('can make different download options in firefox', () => {
+    process.env.TARGET = 'firefox'
+
+    const dlOptions = pngFile.makeDownloadConfigBySetting(defaultFilenameSetting, DownloadMode.Browser)
+    expect(dlOptions).toHaveProperty('saveAs')
   })
 })

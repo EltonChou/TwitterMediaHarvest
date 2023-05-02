@@ -14,14 +14,16 @@ export default class TwitterMediaFile {
   readonly ext: string
   readonly name: string
   readonly order: number
+  readonly askPath: boolean
 
-  constructor(tweetInfo: TweetInfo, url: string, index = 0) {
+  constructor(tweetInfo: TweetInfo, url: string, index = 0, askPath: boolean) {
     this.screenName = tweetInfo.screenName
     this.tweetId = tweetInfo.tweetId
     this.ext = path.extname(url)
     this.src = this.isVideo() ? url : makeImageOrigSrc(url)
     this.name = path.basename(url, this.ext)
     this.order = index + 1
+    this.askPath = askPath
   }
 
   isVideo(): boolean {
@@ -54,10 +56,10 @@ export default class TwitterMediaFile {
     })
     const fileFullPath = filenameSettingsUseCase.makeFullPathWithFilenameAndExt(filename, this.ext)
     const tweetReferer = `https://twitter.com/i/web/status/${this.tweetId}`
-    const makeConfig = selectConfigMakerByMode(mode)
-    const config = makeConfig(url, fileFullPath, tweetReferer)
 
-    return config
+    return mode === DownloadMode.Aria2
+      ? makeAria2DownloadConfig(url, fileFullPath, tweetReferer)
+      : makeBrowserDownloadConfig(url, fileFullPath, this.askPath)
   }
 
   static isValidFileUrl(url: string): boolean {
@@ -70,23 +72,23 @@ export default class TwitterMediaFile {
 /** Make original quality source of tweet media from media url */
 export const makeImageOrigSrc = (url: string): string => `${url}:orig`
 
-export const selectConfigMakerByMode = (modeName: DownloadMode) => {
-  if (modeName === DownloadMode.Aria2) return makeAria2DownloadConfig
-  if (modeName === DownloadMode.Browser) return makeBrowserDownloadConfig
-}
-
 /**
  * Create browser download config object.
  *
  * @param url
  * @param fileName
  */
-export const makeBrowserDownloadConfig = (url: string, fileName: string): Downloads.DownloadOptionsType => {
-  return {
+export const makeBrowserDownloadConfig = (
+  url: string,
+  fileName: string,
+  askPath: boolean
+): Downloads.DownloadOptionsType => {
+  const options: Downloads.DownloadOptionsType = {
     url: url,
     filename: fileName,
     conflictAction: 'overwrite',
   }
+  return process.env.TARGET === 'firefox' ? { ...options, saveAs: askPath } : options
 }
 
 /**

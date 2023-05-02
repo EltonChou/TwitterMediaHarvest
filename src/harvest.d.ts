@@ -36,6 +36,7 @@ type V4FilenameSettings = {
 type DownloadSettings = {
   enableAria2: boolean
   aggressiveMode: boolean
+  askWhereToSave: boolean
 }
 
 type FeatureSettings = {

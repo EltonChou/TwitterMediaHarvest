@@ -4,6 +4,7 @@ import type { Storage } from 'webextension-polyfill'
 const defaultIntegrationSettings: DownloadSettings = {
   enableAria2: false,
   aggressiveMode: false,
+  askWhereToSave: false,
 }
 
 export default class DownloadSettingsRepository implements ISettingsRepository<DownloadSettings> {

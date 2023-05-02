@@ -1,5 +1,18 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- Add `Ask where to save` in firefox version.
+- Add TweetDeck (beta) compatiablity.
+
+### Fixed
+
+- Fix TweetDeck (legacy) bugs.
+- Fix logic when the tweet is in photo mode.
+
+
 ## [4.0.0] - 2023-04-28
 
 ### Added
