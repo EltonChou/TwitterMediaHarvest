@@ -64,8 +64,8 @@ const GeneralOptions = () => {
     <>
       {process.env.TARGET === 'firefox' && (
         <RichFeatureSwitch
-          name={'Ask where to save file'}
-          desc={'Ask where to save file'}
+          name={i18n('options_general_askWhereToSave')}
+          desc={i18n('options_general_askWhereToSave_desc')}
           isOn={downloadSettings.askWhereToSave}
           handleClick={toggler.askWhereToSave}
         />

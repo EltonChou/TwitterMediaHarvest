@@ -191,5 +191,11 @@
   },
   "options_features_keyboardShortcut_desc": {
     "message": "キーボードショートカットキーを利用してメディアをダウンロードします。"
+  },
+  "options_general_askWhereToSave": {
+    "message": "ファイルごとに保存先を指定します"
+  },
+  "options_general_askWhereToSave_desc": {
+    "message": "ファイルごとに保存先を指定します。推奨：オフ"
   }
 }
