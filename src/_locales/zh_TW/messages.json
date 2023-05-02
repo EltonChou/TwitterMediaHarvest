@@ -191,5 +191,11 @@
   },
   "options_features_keyboardShortcut_desc": {
     "message": "使用鍵盤快捷鍵來觸發下載。"
+  },
+  "options_general_askWhereToSave": {
+    "message": "詢問檔案存放位置"
+  },
+  "options_general_askWhereToSave_desc": {
+    "message": "每次下載都詢問檔案存放位置。 推薦關閉此設定。"
   }
 }

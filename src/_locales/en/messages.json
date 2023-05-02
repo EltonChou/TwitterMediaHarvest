@@ -191,5 +191,11 @@
   },
   "options_features_keyboardShortcut_desc": {
     "message": "Use keyboard shortcut to trigger download."
+  },
+  "options_general_askWhereToSave": {
+    "message": "Ask where to save file."
+  },
+  "options_general_askWhereToSave_desc": {
+    "message": "Show the file chooser or not when download was triggered. Recommend to disable this option."
   }
 }

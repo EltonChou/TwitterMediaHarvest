@@ -42,7 +42,7 @@ export default class MediaDownloader {
 
     if (!this.featureSettings.includeVideoThumbnail && media_url.includes('video_thumb')) return
 
-    const mediaFile = new TwitterMediaFile(this.tweetInfo, media_url, index)
+    const mediaFile = new TwitterMediaFile(this.tweetInfo, media_url, index, this.downloadSettings.askWhereToSave)
     const config = mediaFile.makeDownloadConfigBySetting(this.filenameSettings, this.mode)
 
     const downloadCallback = this.record_config(config)

@@ -2,7 +2,7 @@ import { storageConfig } from '@backend/configurations'
 import { useEffect, useReducer } from 'react'
 
 type IntegrationAction = {
-  type: 'toggleAria2' | 'toggleAggressive'
+  type: 'toggleAria2' | 'toggleAggressive' | 'toggleAskWhere'
 }
 
 type IntegrationInitAction = {
@@ -16,6 +16,8 @@ function reducer(settings: DownloadSettings, action: IntegrationAction | Integra
       return { ...settings, aggressiveMode: !settings.aggressiveMode }
     case 'toggleAria2':
       return { ...settings, enableAria2: !settings.enableAria2 }
+    case 'toggleAskWhere':
+      return { ...settings, askWhereToSave: !settings.askWhereToSave }
     case 'init':
       return action.payload
     default:
@@ -25,11 +27,10 @@ function reducer(settings: DownloadSettings, action: IntegrationAction | Integra
 
 const defaultIntegrationSettings = storageConfig.downloadSettingsRepo.getDefaultSettings()
 
-type AggressiveModeToggler = () => Promise<void>
-type Aria2Toggler = () => Promise<void>
+type Toggler = Record<keyof DownloadSettings, () => Promise<void>>
 
-const useIntegrationSettings = (): [DownloadSettings, Aria2Toggler, AggressiveModeToggler] => {
-  const [integrationSettings, dispatch] = useReducer(reducer, defaultIntegrationSettings)
+const useDownloadSettings = (): [DownloadSettings, Toggler] => {
+  const [downloadSettings, dispatch] = useReducer(reducer, defaultIntegrationSettings)
   useEffect(() => {
     storageConfig.downloadSettingsRepo.getSettings().then(settings => {
       dispatch({
@@ -40,23 +41,33 @@ const useIntegrationSettings = (): [DownloadSettings, Aria2Toggler, AggressiveMo
   }, [])
 
   const toggleAria2 = async () => {
-    if (integrationSettings.enableAria2 === false) {
+    if (downloadSettings.enableAria2 === false) {
       /* TODO: Test aria2 connection */
     }
     await storageConfig.downloadSettingsRepo.saveSettings({
-      enableAria2: !integrationSettings.enableAria2,
+      enableAria2: !downloadSettings.enableAria2,
     })
     dispatch({ type: 'toggleAria2' })
   }
 
   const toggleAggressive = async () => {
     await storageConfig.downloadSettingsRepo.saveSettings({
-      aggressiveMode: !integrationSettings.aggressiveMode,
+      aggressiveMode: !downloadSettings.aggressiveMode,
     })
     dispatch({ type: 'toggleAggressive' })
   }
 
-  return [integrationSettings, toggleAria2, toggleAggressive]
+  const toggleAskWhereToSave = async () => {
+    await storageConfig.downloadSettingsRepo.saveSettings({
+      askWhereToSave: !downloadSettings.askWhereToSave,
+    })
+    dispatch({ type: 'toggleAskWhere' })
+  }
+
+  return [
+    downloadSettings,
+    { enableAria2: toggleAria2, aggressiveMode: toggleAggressive, askWhereToSave: toggleAskWhereToSave },
+  ]
 }
 
-export default useIntegrationSettings
+export default useDownloadSettings
