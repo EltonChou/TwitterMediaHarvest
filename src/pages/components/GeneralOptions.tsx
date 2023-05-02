@@ -62,7 +62,7 @@ const GeneralOptions = () => {
 
   return (
     <>
-      {process.env.TARGET === 'firefox' && (
+      {process.env.TARGET === 'firefox' && !downloadSettings.enableAria2 && (
         <RichFeatureSwitch
           name={i18n('options_general_askWhereToSave')}
           desc={i18n('options_general_askWhereToSave_desc')}
