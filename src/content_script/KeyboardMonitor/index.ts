@@ -1,11 +1,6 @@
 import select from 'select-dom'
+import { DownloadKey } from '../../typings'
 import { isTwitter } from '../utils/checker'
-
-enum DownloadKey {
-  Twitter = 'd',
-  LegacyTweetDeck = 'o',
-  BetaTweetDeck = 'p',
-}
 
 interface IKeyboardMonitor {
   handleKeyDown(e: KeyboardEvent): void
