@@ -7,6 +7,13 @@ type HarvestMessage = {
   data?: any
 }
 
+type ResponseStatus = 'success' | 'error'
+
+type HarvestResponse = {
+  status: ResponseStatus
+  data?: unknown
+}
+
 type TweetInfo = {
   screenName: string
   tweetId: string
@@ -68,12 +75,12 @@ interface FetchErrorReason {
   message: string
 }
 
-interface HarvestObserver {
+interface IHarvestObserver {
   observeRoot: () => void
   initialize: () => void
 }
 
-interface Harvester {
+interface IHarvester {
   appendButton: () => void
 }
 
@@ -90,3 +97,5 @@ type TwitterApiVersion = 'v1' | 'v2' | 'gql'
 type TwitterApiSettings = {
   twitterApiVersion: TwitterApiVersion
 }
+
+type ButtonStatus = 'downloading' | 'success' | 'error'

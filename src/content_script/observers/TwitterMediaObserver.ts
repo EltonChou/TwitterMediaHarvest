@@ -21,7 +21,7 @@ const revealNsfw = (article: HTMLElement) => {
   }
 }
 
-export default class TwitterMediaObserver implements HarvestObserver {
+export default class TwitterMediaObserver implements IHarvestObserver {
   constructor(readonly autoRevealNsfw = false) {}
 
   observeRoot() {

@@ -18,7 +18,7 @@ const parseTweetInfo = (article: HTMLElement): TweetInfo => {
   }
 }
 
-class DeckHarvester implements Harvester {
+class DeckHarvester implements IHarvester {
   public isInDetail: boolean
   readonly actionBar: HTMLElement
 

@@ -15,17 +15,21 @@ const body = document.getElementsByTagName('body')[0]
 switch (params.get('tab')) {
   case 'popup':
     root.render(
-      <ChakraProvider theme={theme}>
-        <Popup />
-      </ChakraProvider>
+      <React.StrictMode>
+        <ChakraProvider theme={theme}>
+          <Popup />
+        </ChakraProvider>
+      </React.StrictMode>
     )
     break
   default:
     body.removeAttribute('style')
     root.render(
-      <ChakraProvider theme={theme}>
-        <Options />
-      </ChakraProvider>
+      <React.StrictMode>
+        <ChakraProvider theme={theme}>
+          <Options />
+        </ChakraProvider>
+      </React.StrictMode>
     )
     break
 }

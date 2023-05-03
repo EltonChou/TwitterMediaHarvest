@@ -14,7 +14,7 @@ const revealNsfw = (article: HTMLElement) => {
   }
 }
 
-export default class TweetDeckBetaObserver implements HarvestObserver {
+export default class TweetDeckBetaObserver implements IHarvestObserver {
   constructor(public autoRevealNsfw: boolean) {}
 
   initialize() {

@@ -128,7 +128,7 @@ const initColumnObserver = (column: HTMLElement) => {
   observeStreamContainer(tweetContainer)
 }
 
-class TweetDeckLegacyObserver implements HarvestObserver {
+class TweetDeckLegacyObserver implements IHarvestObserver {
   readonly observers: MutationObserver[] = []
 
   observeRoot() {

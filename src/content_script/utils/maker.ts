@@ -22,6 +22,15 @@ export const makeButtonWithData = (button: HTMLElement, data: TweetInfo): HTMLEl
   return button
 }
 
+const setButtonStatus = (button: HTMLElement, status: ButtonStatus) => {
+  if (!button) return button
+  button.classList.remove('downloading', 'success', 'error')
+  button.classList.add(status)
+  return button
+}
+
+const isButtonDownloading = (button: HTMLElement) => button.classList.contains('downloading')
+
 /**
  * @param button harvestButton
  */
@@ -33,9 +42,8 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
     e.stopImmediatePropagation()
     const article: HTMLElement = this.closest('[data-harvest-article]')
 
-    if (this.classList.contains('downloading') || !article) return
-    this.classList.remove('success', 'error')
-    this.classList.add('downloading')
+    if (isButtonDownloading(this) || !article) return
+    setButtonStatus(this, 'downloading')
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     try {
@@ -45,10 +53,8 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
         data: tweetInfo,
       }
       console.log('Send message to service worker.', message)
-      const resp = await browser.runtime.sendMessage(message)
-      const { status } = resp
-      this.classList.remove('downloading', 'success', 'error')
-      this.classList.add(status)
+      const resp: HarvestResponse = await browser.runtime.sendMessage(message)
+      setButtonStatus(this, resp.status)
     } catch (error) {
       captureException(error)
       console.error(error)

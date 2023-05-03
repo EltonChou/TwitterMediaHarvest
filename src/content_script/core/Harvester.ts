@@ -118,7 +118,7 @@ const getSampleButton = (article: HTMLElement): HTMLElement => {
   return sampleButton
 }
 
-class Harvester implements Harvester {
+class Harvester implements IHarvester {
   public mode: TweetMode
   private buttonWrapperClassList: string
   private buttonWrapperStyle: string
