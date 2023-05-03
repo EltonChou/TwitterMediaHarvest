@@ -83,3 +83,101 @@ jobs:
           url_prefix: '~/'
           environment: production
           sourcemaps: ${{ format('{0}/build/{1}', steps.download_artifact.outputs.download-path, matrix.target) }}
+
+  chrome_release:
+    name: Release to Chrome Web Store
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - sentry_release
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download Artifact
+        id: download_artifact
+        uses: actions/download-artifact@master
+        with:
+          name: ${{ needs.build.outputs.artifact_name }}
+
+      - name: Get file path
+        id: get_filepath
+        run: |
+          echo "zip_file=$(ls ${{ steps.download_artifact.outputs.download-path }}/dist/*chrome*)" >> $GITHUB_OUTPUT
+
+      - name: Upload to Chrome Web Store
+        uses: mobilefirstllc/cws-publish@latest
+        with:
+          action: 'upload'
+          client_id: ${{ secrets.CWS_CLIENT }}
+          client_secret: ${{ secrets.CWS_SECRET }}
+          refresh_token: ${{ secrets.CWS_TOKEN }}
+          extension_id: hpcgabhdlnapolkkjpejieegfpehfdok
+          zip_file: ${{ steps.get_filepath.outputs.zip_file }}
+
+  firefox_release:
+    name: Release to Firefox Addons Store
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - sentry_release
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download Artifact
+        id: download_artifact
+        uses: actions/download-artifact@master
+        with:
+          name: ${{ needs.build.outputs.artifact_name }}
+
+      - name: Get file path
+        id: get_filepath
+        run: |
+          echo "zip_file=$(ls ${{ steps.download_artifact.outputs.download-path }}/dist/*firefox*)" >> $GITHUB_OUTPUT
+
+      - name: Archive source code
+        id: archive_source_code
+        run: |
+          ZIP_NAME=source.zip
+          git archive --format zip -o $ZIP_NAME HEAD
+          echo "zip_file=$ZIP_NAME" >> $GITHUB_OUTPUT
+
+      - name: Upload to Firefox addons store
+        uses: cardinalby/webext-buildtools-firefox-addons-action@v1
+        with:
+          zipFilePath: ${{ steps.get_filepath.outputs.zip_file }}
+          extensionId: 'mediaharvest@addons.mozilla.org'
+          jwtIssuer: ${{ secrets.FF_JWT_ISSUER }}
+          jwtSecret: ${{ secrets.FF_JWT_SECRET }}
+          sourcesZipFilePath: ${{ steps.archive_source_code.outputs.zip_file }}
+
+  edge_release:
+    name: Release to Edge Add-ons Store
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - sentry_release
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download Artifact
+        id: download_artifact
+        uses: actions/download-artifact@master
+        with:
+          name: ${{ needs.build.outputs.artifact_name }}
+
+      - name: Get file path
+        id: get_filepath
+        run: |
+          echo "zip_file=$(ls ${{ steps.download_artifact.outputs.download-path }}/dist/*edge*)" >> $GITHUB_OUTPUT
+
+      - name: Upload to Edge Add-ons Store
+        uses: wdzeng/edge-addon@v1
+        with:
+          product-id: ${{ secrets.EDGE_PRODUCT_ID }}
+          zip-path: ${{ steps.get_filepath.outputs.zip_file }}
+          client-id: ${{ secrets.EDGE_CLIENT_ID }}
+          client-secret: ${{ secrets.EDGE_CLIENT_SECRET }}
+          access-token-url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
