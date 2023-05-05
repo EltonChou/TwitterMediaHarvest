@@ -1,5 +1,5 @@
 import { captureException } from '@sentry/browser'
-import { isArticleCanBeAppend, isBetaTweetDeck, isComposingTweet, isTweetDeck, isTwitter } from '../utils/checker'
+import { isArticleCanBeAppend, isBetaTweetDeck, isFunctionablePath, isTweetDeck, isTwitter } from '../utils/checker'
 import DeckHarvester from './DeckHarvester'
 import Harvester from './Harvester'
 
@@ -10,7 +10,7 @@ const setTargetArticle = (article: HTMLElement) => {
 }
 
 const makeHarvester = (article: HTMLElement) => {
-  if (isArticleCanBeAppend(article) && !isComposingTweet()) {
+  if (isFunctionablePath() && isArticleCanBeAppend(article)) {
     setTargetArticle(article)
 
     try {

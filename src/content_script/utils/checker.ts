@@ -87,6 +87,8 @@ export const isTwitter = (): boolean => {
 const ComposeTweetRegEx = /\/compose\/tweet\/?.*/
 const IntentTweetRegEx = /\/intent\/tweet\/?.*/
 const TweetListRegEx = /\/i\/lists\/add_member/
+const RetweetsListRegEx = /\/\d+\/retweets$/
+const LikessListRegEx = /\/\d+\/likes$/
 
 /**
  * Check user is composing tweet or not.
@@ -96,7 +98,13 @@ export const isComposingTweet = (): boolean =>
   Boolean(window.location.pathname.match(ComposeTweetRegEx)) ||
   Boolean(window.location.pathname.match(IntentTweetRegEx))
 
-export const isNotFunctionPath = (): boolean => Boolean(window.location.pathname.match(TweetListRegEx))
+export const isFunctionablePath = (): boolean =>
+  !(
+    Boolean(window.location.pathname.match(TweetListRegEx)) ||
+    Boolean(window.location.pathname.match(RetweetsListRegEx)) ||
+    Boolean(window.location.pathname.match(LikessListRegEx)) ||
+    isComposingTweet()
+  )
 
 export const isInTweetStatus = (): boolean => Boolean(window.location.pathname.match(TweetStatusRegEx))
 
