@@ -105,10 +105,10 @@ jobs:
         run: |
           echo "zip_file=$(ls ${{ steps.download_artifact.outputs.download-path }}/dist/*chrome*)" >> $GITHUB_OUTPUT
 
-      - name: Upload to Chrome Web Store
+      - name: Publish to Chrome Web Store
         uses: mobilefirstllc/cws-publish@latest
         with:
-          action: 'upload'
+          action: 'publish'
           client_id: ${{ secrets.CWS_CLIENT }}
           client_secret: ${{ secrets.CWS_SECRET }}
           refresh_token: ${{ secrets.CWS_TOKEN }}
