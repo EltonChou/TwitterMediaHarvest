@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- Improve functional path checking.
+
+### Changed
+
+- Change keyboard shorcut visual.
+-
+
 ## [4.0.1] - 2023-05-04
 
 ### Added
