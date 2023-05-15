@@ -197,5 +197,8 @@
   },
   "options_general_askWhereToSave_desc": {
     "message": "ファイルごとに保存先を指定します。推奨：オフ"
+  },
+  "options_about_issues": {
+    "message": "不具合を報告する"
   }
 }

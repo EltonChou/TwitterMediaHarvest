@@ -197,5 +197,8 @@
   },
   "options_general_askWhereToSave_desc": {
     "message": "Show the file chooser or not when download was triggered. Recommend to disable this option."
+  },
+  "options_about_issues": {
+    "message": "Report issues"
   }
 }

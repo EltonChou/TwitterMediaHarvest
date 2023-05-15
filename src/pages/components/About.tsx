@@ -25,6 +25,9 @@ const Links = () => {
       <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.privacy}>
         {i18n('options_about_privacyPolicy')}
       </Link>
+      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.issues}>
+        {i18n('options_about_issues')}
+      </Link>
       <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.changelog}>
         {i18n('options_about_changeLog')}
       </Link>

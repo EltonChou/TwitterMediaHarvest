@@ -197,5 +197,8 @@
   },
   "options_general_askWhereToSave_desc": {
     "message": "每次下載都詢問檔案存放位置。 推薦關閉此設定。"
+  },
+  "options_about_issues": {
+    "message": "問題回報"
   }
 }
