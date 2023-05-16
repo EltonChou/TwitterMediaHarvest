@@ -12,6 +12,7 @@ SentryInit({
 
 import browser from 'webextension-polyfill'
 import { Action } from '../typings'
+import { ClientInfoUseCase } from './client/useCases'
 import { showUpdateMessageInConsole } from './commands/console'
 import { initStorage, MigrateStorageToV4 } from './commands/storage'
 import { storageConfig } from './configurations'
@@ -59,11 +60,11 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender, se
 browser.runtime.onInstalled.addListener(async details => {
   if (details.reason === InstallReason.BrowserUpdate) return
   if (details.reason === InstallReason.Install) {
-    const credentails = await storageConfig.credentialsRepo.getCredential()
+    const credentials = await storageConfig.credentialsRepo.getCredential()
     await initStorage()
   }
   if (details.reason === InstallReason.Update) {
-    const credentails = await storageConfig.credentialsRepo.getCredential()
+    const credentials = await storageConfig.credentialsRepo.getCredential()
     const statsUseCase = new V4StatsUseCase(storageConfig.statisticsRepo)
     await statsUseCase.syncWithDownloadHistory()
     const migrateCommand = new MigrateStorageToV4()
@@ -83,7 +84,9 @@ browser.downloads.onChanged.addListener(async downloadDelta => {
 
   if ('state' in downloadDelta) {
     const downloadStateUseCase = new DownloadStateUseCase(downloadDelta, storageConfig.downloadRecordRepo)
+    const clientInfoUseCase = new ClientInfoUseCase(storageConfig.clientInfoRepo, storageConfig.statisticsRepo)
     await downloadStateUseCase.process()
+    await clientInfoUseCase.sync()
   }
 })
 

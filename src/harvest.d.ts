@@ -99,3 +99,13 @@ type TwitterApiSettings = {
 }
 
 type ButtonStatus = 'downloading' | 'success' | 'error'
+
+type ClientTokenResponse = {
+  token: string
+}
+
+type ClientInfo = {
+  uuid: string
+  csrfToken: string
+  syncedAt: number
+}

@@ -1,4 +1,4 @@
-import { CognitoIdentityCredentials, Storage } from '@aws-sdk/credential-provider-cognito-identity'
+import type { CognitoIdentityCredentials, Storage } from '@aws-sdk/credential-provider-cognito-identity'
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers'
 import Browser from 'webextension-polyfill'
 
