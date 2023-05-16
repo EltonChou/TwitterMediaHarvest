@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
 const FileManagerPlugin = require('filemanager-webpack-plugin')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const PACKAGE = require('./package.json')
@@ -80,6 +81,7 @@ const config = {
     ],
   },
   plugins: [
+    new Dotenv(),
     new CopyPlugin({
       patterns: [
         {

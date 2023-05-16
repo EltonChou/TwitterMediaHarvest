@@ -58,8 +58,12 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender, se
 
 browser.runtime.onInstalled.addListener(async details => {
   if (details.reason === InstallReason.BrowserUpdate) return
-  if (details.reason === InstallReason.Install) await initStorage()
+  if (details.reason === InstallReason.Install) {
+    const credentails = await storageConfig.credentialsRepo.getCredential()
+    await initStorage()
+  }
   if (details.reason === InstallReason.Update) {
+    const credentails = await storageConfig.credentialsRepo.getCredential()
     const statsUseCase = new V4StatsUseCase(storageConfig.statisticsRepo)
     await statsUseCase.syncWithDownloadHistory()
     const migrateCommand = new MigrateStorageToV4()
