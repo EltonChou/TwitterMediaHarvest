@@ -84,7 +84,7 @@ browser.downloads.onChanged.addListener(async downloadDelta => {
 
   if ('state' in downloadDelta) {
     const downloadStateUseCase = new DownloadStateUseCase(downloadDelta, storageConfig.downloadRecordRepo)
-    const clientInfoUseCase = new ClientInfoUseCase(storageConfig.clientInfoRepo, storageConfig.statisticsRepo)
+    const clientInfoUseCase = new ClientInfoUseCase(storageConfig.clientInfoRepo)
     await downloadStateUseCase.process()
     await clientInfoUseCase.sync()
   }

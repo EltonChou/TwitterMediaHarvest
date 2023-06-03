@@ -26,7 +26,10 @@ class StorageConfiguration implements IStorageConfiguration {
   readonly v4FilenameSettingsRepo = new V4FilenameSettingsRepository(browser.storage.sync)
   readonly twitterApiSettingsRepo = new TwitterApiSettingsRepository(browser.storage.local)
   readonly credentialsRepo = new CredentialRepository()
-  readonly clientInfoRepo = new ClientInfoRepository(browser.storage.local, this.credentialsRepo.getCredential)
+  readonly clientInfoRepo = new ClientInfoRepository(browser.storage.local, {
+    credentialProvider: this.credentialsRepo.getCredential,
+    statsProvider: this.statisticsRepo.getStats,
+  })
 }
 
 export const storageConfig = new StorageConfiguration()

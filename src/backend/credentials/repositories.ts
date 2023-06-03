@@ -2,7 +2,7 @@ import type { CognitoIdentityCredentials, Storage } from '@aws-sdk/credential-pr
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers'
 import Browser from 'webextension-polyfill'
 
-interface ICredentialRepository {
+export interface ICredentialRepository {
   getCredential(): Promise<CognitoIdentityCredentials>
 }
 
