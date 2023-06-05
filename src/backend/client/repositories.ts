@@ -55,12 +55,13 @@ export class ClientInfoRepository implements IClientInfoRepository {
 
     const handler = new ClientApiHandler()
     const response = await handler.send(HttpMethod.Post, '/clients', {}, initStats, credential)
+    const bodyStr = new TextDecoder().decode(await streamCollector(response.body))
 
     if (response.statusCode === 201) {
-      const bodyStr = new TextDecoder().decode(await streamCollector(response.body))
       return JSON.parse(bodyStr)
     }
-    throw new CreateClientFailed(response.statusCode, JSON.stringify(response.body))
+
+    throw new CreateClientFailed(response.statusCode, JSON.stringify(bodyStr))
   }
 
   async getInfo(options?: ProviderOptions): Promise<ClientInfoVO> {
@@ -101,7 +102,6 @@ export class ClientInfoRepository implements IClientInfoRepository {
       stats,
       credential
     )
-
     const bodyStr = new TextDecoder().decode(await streamCollector(response.body))
 
     if (response.statusCode === 200) {
