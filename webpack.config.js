@@ -19,7 +19,12 @@ const config = {
   devtool: 'source-map',
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
-    fallback: { path: require.resolve('path-browserify') },
+    fallback: {
+      path: require.resolve('path-browserify'),
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      util: require.resolve('util/'),
+    },
     alias: {
       '@backend': path.resolve(__dirname, 'src/backend/'),
       '@pages': path.resolve(__dirname, 'src/pages/'),

@@ -27,8 +27,8 @@ class StorageConfiguration implements IStorageConfiguration {
   readonly twitterApiSettingsRepo = new TwitterApiSettingsRepository(browser.storage.local)
   readonly credentialsRepo = new CredentialRepository()
   readonly clientInfoRepo = new ClientInfoRepository(browser.storage.local, {
-    credentialProvider: this.credentialsRepo.getCredential,
-    statsProvider: this.statisticsRepo.getStats,
+    credentialProvider: this.credentialsRepo.getCredential.bind(this.credentialsRepo),
+    statsProvider: this.statisticsRepo.getStats.bind(this.statisticsRepo),
   })
 }
 
