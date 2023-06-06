@@ -46,6 +46,25 @@ export interface IClientInfoRepository {
   updateStats(csrfToken: string, options?: ProviderOptions): Promise<void>
 }
 
+export class InfoSyncLock {
+  private lockCriteria = 'InfoUpdateLock'
+
+  constructor(readonly storageArea: Storage.StorageArea) {}
+
+  async isLocked(): Promise<boolean> {
+    const record = await this.storageArea.get(this.lockCriteria)
+    return Object.keys(record).includes(this.lockCriteria)
+  }
+
+  async release(): Promise<void> {
+    await this.storageArea.remove(this.lockCriteria)
+  }
+
+  async acquire(): Promise<void> {
+    await this.storageArea.set({ [this.lockCriteria]: 1 })
+  }
+}
+
 export class ClientInfoRepository implements IClientInfoRepository {
   constructor(readonly storageArea: Storage.StorageArea, private defaultOptions: ProviderOptions) {}
 
@@ -55,13 +74,13 @@ export class ClientInfoRepository implements IClientInfoRepository {
 
     const handler = new ClientApiHandler()
     const response = await handler.send(HttpMethod.Post, '/clients', {}, initStats, credential)
-    const bodyStr = new TextDecoder().decode(await streamCollector(response.body))
 
     if (response.statusCode === 201) {
-      return JSON.parse(bodyStr)
+      const body = JSON.parse(response.body)
+      return body
     }
 
-    throw new CreateClientFailed(response.statusCode, JSON.stringify(bodyStr))
+    throw new CreateClientFailed(response.statusCode, JSON.stringify(response.body))
   }
 
   async getInfo(options?: ProviderOptions): Promise<ClientInfoVO> {
@@ -102,18 +121,15 @@ export class ClientInfoRepository implements IClientInfoRepository {
       stats,
       credential
     )
-    const bodyStr = new TextDecoder().decode(await streamCollector(response.body))
 
-    if (response.statusCode === 200) {
-      const body = JSON.parse(bodyStr)
-      const clientInfo: UpdateInfo = {
-        csrfToken: body.token,
-        syncedAt: Date.now(),
-      }
-      await this.storageArea.set(clientInfo)
-      return
+    if (response.statusCode !== 200) throw new UpdateStatsFailed(response.statusCode, JSON.stringify(response.body))
+
+    const body = JSON.parse(response.body)
+    const clientInfo: UpdateInfo = {
+      csrfToken: body.token,
+      syncedAt: Date.now(),
     }
-    throw new UpdateStatsFailed(response.statusCode, JSON.stringify(bodyStr))
+    await this.storageArea.set(clientInfo)
   }
 }
 
@@ -157,6 +173,8 @@ class ClientApiHandler {
 
     const client = new FetchHttpHandler()
     const { response } = await client.handle(signedRequest as HttpRequest)
+
+    response.body = new TextDecoder().decode(await streamCollector(response.body))
     return response
   }
 }
