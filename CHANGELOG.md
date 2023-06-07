@@ -9,7 +9,7 @@
 ### Changed
 
 - Change keyboard shorcut visual.
--
+- Improve issue tracking.
 
 ## [4.0.1] - 2023-05-04
 
