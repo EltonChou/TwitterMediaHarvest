@@ -18,7 +18,7 @@ const defaultInfo: Readonly<ClientInfo> = {
 }
 
 class ClientInfoVO extends ValueObject<ClientInfo> {
-  private syncPeriod: number = 10 * 60 * 1000
+  private syncPeriod: number = (process.env.NODE_ENV === 'production' ? 30 : 10) * 60 * 1000
 
   constructor(info: ClientInfo) {
     super(info)
