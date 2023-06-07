@@ -22,6 +22,7 @@ class BrowserSyncStorageProxy implements Storage {
 }
 
 export class CredentialRepository implements ICredentialRepository {
+  // TODO: cache the credential, the cache only store identify id.
   async getCredential(): Promise<CognitoIdentityCredentials> {
     const credentials = await fromCognitoIdentityPool({
       identityPoolId: process.env.IDENTITY_POOL_ID,

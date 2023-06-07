@@ -8,6 +8,7 @@ SentryInit({
   environment: process.env.NODE_ENV,
   release: process.env.RELEASE,
   ignoreErrors: ['Failed to fetch'],
+  // TODO: Add some client info in `beforesend`.
 })
 
 import browser from 'webextension-polyfill'
@@ -58,6 +59,7 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender, se
 })
 
 browser.runtime.onInstalled.addListener(async details => {
+  // TODO: set uninstall url.
   if (details.reason === InstallReason.BrowserUpdate) return
   if (details.reason === InstallReason.Install) {
     const credentials = await storageConfig.credentialsRepo.getCredential()
