@@ -1,6 +1,32 @@
 import type { CognitoIdentityCredentials, Storage } from '@aws-sdk/credential-provider-cognito-identity'
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers'
+import ValueObject from '@backend/valueObject'
+import type { Storage as BrowserStorage } from 'webextension-polyfill'
 import Browser from 'webextension-polyfill'
+
+interface AWSCredentials extends Omit<CognitoIdentityCredentials, 'expiration'> {
+  expiration: number
+}
+
+class CredentialVO extends ValueObject<AWSCredentials> {
+  readonly expireTimeRedundancy: number = 3 * 60 * 1000
+
+  constructor(props: AWSCredentials) {
+    super(props)
+  }
+
+  get credential(): CognitoIdentityCredentials {
+    return { ...this.props, expiration: new Date(this.props.expiration) }
+  }
+
+  get isExpired(): boolean {
+    return this.props?.expiration ? this.props.expiration < Date.now() - this.expireTimeRedundancy : true
+  }
+
+  static fromCognitoIdentityCredentials(credential: CognitoIdentityCredentials): CredentialVO {
+    return new CredentialVO({ ...credential, expiration: credential?.expiration.getTime() })
+  }
+}
 
 export interface ICredentialRepository {
   getCredential(): Promise<CognitoIdentityCredentials>
@@ -22,9 +48,12 @@ class BrowserSyncStorageProxy implements Storage {
 }
 
 export class CredentialRepository implements ICredentialRepository {
-  // TODO: cache the credential, the cache only store identify id.
-  async getCredential(): Promise<CognitoIdentityCredentials> {
-    const credentials = await fromCognitoIdentityPool({
+  readonly credentialCriteria = 'awsCredential'
+
+  constructor(readonly storageArea: BrowserStorage.StorageArea) {}
+
+  private async fetchCredential(): Promise<CognitoIdentityCredentials> {
+    const credential = await fromCognitoIdentityPool({
       identityPoolId: process.env.IDENTITY_POOL_ID,
       cache: new BrowserSyncStorageProxy(),
       clientConfig: {
@@ -32,6 +61,16 @@ export class CredentialRepository implements ICredentialRepository {
       },
     })()
 
-    return credentials
+    const credentialVO = CredentialVO.fromCognitoIdentityCredentials(credential)
+    await this.storageArea.set({ [this.credentialCriteria]: credentialVO.props })
+    return credential
+  }
+
+  async getCredential(): Promise<CognitoIdentityCredentials> {
+    const credentialRecord = await this.storageArea.get(this.credentialCriteria)
+    if (Object.keys(credentialRecord).length === 0) return await this.fetchCredential()
+
+    const credentialsVO = new CredentialVO(credentialRecord[this.credentialCriteria])
+    return credentialsVO.isExpired ? await this.fetchCredential() : credentialsVO.credential
   }
 }

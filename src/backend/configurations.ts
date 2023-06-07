@@ -25,7 +25,7 @@ class StorageConfiguration implements IStorageConfiguration {
   readonly featureSettingsRepo = new FeaturesRepository(browser.storage.local)
   readonly v4FilenameSettingsRepo = new V4FilenameSettingsRepository(browser.storage.sync)
   readonly twitterApiSettingsRepo = new TwitterApiSettingsRepository(browser.storage.local)
-  readonly credentialsRepo = new CredentialRepository()
+  readonly credentialsRepo = new CredentialRepository(browser.storage.sync)
   readonly clientInfoRepo = new ClientInfoRepository(browser.storage.local, {
     credentialProvider: async () => await this.credentialsRepo.getCredential(),
     statsProvider: async () => await this.statisticsRepo.getStats(),
