@@ -1,15 +1,6 @@
 /* eslint-disable no-console */
-import { addBreadcrumb, init as SentryInit } from '@sentry/browser'
+import { addBreadcrumb, init as SentryInit, setUser as SentrySetUser, type User } from '@sentry/browser'
 import { SENTRY_DSN } from '../constants'
-
-SentryInit({
-  dsn: SENTRY_DSN,
-  tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
-  environment: process.env.NODE_ENV,
-  release: process.env.RELEASE,
-  ignoreErrors: ['Failed to fetch'],
-  // TODO: Add some client info in `beforesend`.
-})
 
 import browser from 'webextension-polyfill'
 import { Action } from '../typings'
@@ -25,11 +16,23 @@ import NotificationUseCase from './notifications/notificationIdUseCase'
 import { V4StatsUseCase } from './statistics/useCases'
 import { isDownloadedBySelf, isInvalidInfo } from './utils/checker'
 
+interface SentryUser extends User {
+  client_id: string
+}
+
 const enum InstallReason {
   Install = 'install',
   Update = 'update',
   BrowserUpdate = 'browser_update',
 }
+
+SentryInit({
+  dsn: SENTRY_DSN,
+  tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
+  environment: process.env.NODE_ENV,
+  release: process.env.RELEASE,
+  ignoreErrors: ['Failed to fetch'],
+})
 
 browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender, sendResponse) => {
   if (message.action === Action.Download) {
@@ -60,13 +63,21 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender, se
 
 browser.runtime.onInstalled.addListener(async details => {
   // TODO: set uninstall url.
+  const credential = await storageConfig.credentialsRepo.getCredential()
+  const clientInfo = await storageConfig.clientInfoRepo.getInfo()
+  const sentryUser: SentryUser = {
+    id: credential.identityId,
+    client_id: clientInfo.props.uuid,
+  }
+  SentrySetUser(sentryUser)
+
   if (details.reason === InstallReason.BrowserUpdate) return
+
   if (details.reason === InstallReason.Install) {
-    const credentials = await storageConfig.credentialsRepo.getCredential()
     await initStorage()
   }
+
   if (details.reason === InstallReason.Update) {
-    const credentials = await storageConfig.credentialsRepo.getCredential()
     const statsUseCase = new V4StatsUseCase(storageConfig.statisticsRepo)
     await statsUseCase.syncWithDownloadHistory()
     const migrateCommand = new MigrateStorageToV4()
