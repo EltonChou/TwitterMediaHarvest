@@ -6,7 +6,7 @@ export class ClientInfoUseCase {
 
   async initClient(callback?: (clientId: string) => void): Promise<void> {
     const info = await this.infoRepo.getInfo()
-    if(callback) callback(info.props.uuid)
+    if (callback) callback(info.props.uuid)
   }
 
   async sync(): Promise<void> {
