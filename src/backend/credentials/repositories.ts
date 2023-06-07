@@ -24,7 +24,11 @@ class CredentialVO extends ValueObject<AWSCredentials> {
   }
 
   static fromCognitoIdentityCredentials(credential: CognitoIdentityCredentials): CredentialVO {
-    return new CredentialVO({ ...credential, expiration: credential?.expiration.getTime() })
+    return new CredentialVO({
+      ...credential,
+      // ? Does it means the credential wouldn't expired if the expiration was undefined?
+      expiration: credential?.expiration ? credential.expiration.getTime() : 0,
+    })
   }
 }
 
