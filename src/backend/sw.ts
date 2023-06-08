@@ -30,6 +30,16 @@ SentryInit({
   environment: process.env.NODE_ENV,
   release: process.env.RELEASE,
   ignoreErrors: ['Failed to fetch'],
+  beforeSend: async (event, hint) => {
+    const credential = await storageConfig.credentialsRepo.getCredential()
+    const clientInfo = await storageConfig.clientInfoRepo.getInfo()
+    const sentryUser: SentryUser = {
+      id: credential.identityId,
+      client_id: clientInfo.props.uuid,
+    }
+    SentrySetUser(sentryUser)
+    return event
+  },
 })
 
 browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender, sendResponse) => {
@@ -61,13 +71,8 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender, se
 
 browser.runtime.onInstalled.addListener(async details => {
   // TODO: set uninstall url.
-  const credential = await storageConfig.credentialsRepo.getCredential()
-  const clientInfo = await storageConfig.clientInfoRepo.getInfo()
-  const sentryUser: SentryUser = {
-    id: credential.identityId,
-    client_id: clientInfo.props.uuid,
-  }
-  SentrySetUser(sentryUser)
+  await storageConfig.credentialsRepo.getCredential()
+  await storageConfig.clientInfoRepo.getInfo()
 
   if (details.reason === InstallReason.BrowserUpdate) return
 
