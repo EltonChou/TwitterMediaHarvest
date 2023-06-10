@@ -1,6 +1,7 @@
 export enum Action {
   Download,
   Refresh,
+  FetchUser,
 }
 
 export enum DownloadKey {

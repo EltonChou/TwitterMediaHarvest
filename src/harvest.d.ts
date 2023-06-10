@@ -1,17 +1,16 @@
 type TweetMode = 'photo' | 'status' | 'stream'
 type DownloadRecordId = `dl_${number}`
 
-type HarvestMessage = {
+type HarvestMessage<T> = {
   action: number
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data?: any
+  data?: T
 }
 
 type ResponseStatus = 'success' | 'error'
 
-type HarvestResponse = {
+type HarvestResponse<T> = {
   status: ResponseStatus
-  data?: unknown
+  data?: T
 }
 
 type TweetInfo = {

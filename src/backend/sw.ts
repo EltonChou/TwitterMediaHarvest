@@ -24,6 +24,16 @@ const enum InstallReason {
   BrowserUpdate = 'browser_update',
 }
 
+const fetchUser = async (): Promise<SentryUser> => {
+  const credential = await storageConfig.credentialsRepo.getCredential()
+  const clientInfo = await storageConfig.clientInfoRepo.getInfo()
+  const sentryUser: SentryUser = {
+    id: credential.identityId,
+    client_id: clientInfo.props.uuid,
+  }
+  return sentryUser
+}
+
 SentryInit({
   dsn: process.env.SENTRY_DSN,
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
@@ -31,20 +41,15 @@ SentryInit({
   release: process.env.RELEASE,
   ignoreErrors: ['Failed to fetch'],
   beforeSend: async (event, hint) => {
-    const credential = await storageConfig.credentialsRepo.getCredential()
-    const clientInfo = await storageConfig.clientInfoRepo.getInfo()
-    const sentryUser: SentryUser = {
-      id: credential.identityId,
-      client_id: clientInfo.props.uuid,
-    }
+    const sentryUser = await fetchUser()
     SentrySetUser(sentryUser)
     return event
   },
 })
 
-browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender, sendResponse) => {
+browser.runtime.onMessage.addListener(async (message: HarvestMessage<unknown>, sender, sendResponse) => {
   if (message.action === Action.Download) {
-    if (isInvalidInfo(message.data)) {
+    if (isInvalidInfo(message.data as TweetInfo)) {
       console.error('Invalid tweetInfo.')
       return {
         status: 'error',
@@ -59,6 +64,11 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender, se
     } catch (error) {
       return { status: 'error', data: error }
     }
+  }
+
+  if (message.action === Action.FetchUser) {
+    const user = await fetchUser()
+    return { status: 'success', data: user }
   }
 
   sendResponse()
