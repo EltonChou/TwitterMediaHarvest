@@ -34,8 +34,8 @@ const isEmptyInfo = (record: Record<string, unknown>) =>
   record['syncedAt'] === defaultInfo.syncedAt
 
 type ProviderOptions = {
-  credentialProvider?: Provider<CognitoIdentityCredentials>
-  statsProvider?: Provider<V4Statistics>
+  credentialProvider: Provider<CognitoIdentityCredentials>
+  statsProvider: Provider<V4Statistics>
 }
 
 export interface IClientInfoRepository {
@@ -80,7 +80,7 @@ export class ClientInfoRepository implements IClientInfoRepository {
     throw new CreateClientFailed(response.statusCode, JSON.stringify(response.body))
   }
 
-  async getInfo(options?: ProviderOptions): Promise<ClientInfoVO> {
+  async getInfo(options?: Partial<ProviderOptions>): Promise<ClientInfoVO> {
     const record: Record<keyof ClientInfo, unknown> = await this.storageArea.get(defaultInfo)
 
     if (!isEmptyInfo(record)) {
@@ -104,7 +104,7 @@ export class ClientInfoRepository implements IClientInfoRepository {
     return new ClientInfoVO(clientInfo)
   }
 
-  async updateStats(csrfToken: string, options?: ProviderOptions): Promise<void> {
+  async updateStats(csrfToken: string, options?: Partial<ProviderOptions>): Promise<void> {
     options = { ...this.defaultOptions, ...options }
 
     const stats = await options.statsProvider()
