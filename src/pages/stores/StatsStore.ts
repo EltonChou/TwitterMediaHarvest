@@ -12,9 +12,16 @@ const createStatsStore = (() => {
   let stats = { downloadCount: 0, trafficUsage: 0 }
   const listeners = new Set<() => void>()
 
+  const updateStats = (newStats: V4Statistics) => {
+    stats = { ...stats, ...newStats }
+    listeners.forEach(onChange => onChange())
+  }
+
   const handleChange = (changes: Storage.StorageAreaOnChangedChangesType) => {
     if ('downloadCount' in changes || 'trafficUsage' in changes) {
-      listeners.forEach(onChange => onChange())
+      storageConfig.statisticsRepo.getStats().then(newStats => {
+        updateStats(newStats)
+      })
     }
   }
 
@@ -36,10 +43,7 @@ const createStatsStore = (() => {
           }
         }
       },
-      setStats: (newStats: V4Statistics) => {
-        stats = { ...stats, ...newStats }
-        listeners.forEach(onChange => onChange())
-      },
+      setStats: updateStats,
     }
     return instance
   }
