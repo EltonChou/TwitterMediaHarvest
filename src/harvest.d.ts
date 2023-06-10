@@ -109,3 +109,11 @@ type ClientInfo = {
   csrfToken: string
   syncedAt: number
 }
+
+type Provider<T> = (() => T) | (() => Promise<T>)
+
+interface IProcessLock {
+  isLocked(): Promise<boolean>
+  acquire(): Promise<void>
+  release(): Promise<void>
+}

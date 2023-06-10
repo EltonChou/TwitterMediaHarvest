@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
 import { addBreadcrumb, init as SentryInit, setUser as SentrySetUser, type User } from '@sentry/browser'
-import { SENTRY_DSN } from '../constants'
-
 import browser from 'webextension-polyfill'
 import { Action } from '../typings'
 import { ClientInfoUseCase } from './client/useCases'
@@ -27,7 +25,7 @@ const enum InstallReason {
 }
 
 SentryInit({
-  dsn: SENTRY_DSN,
+  dsn: process.env.SENTRY_DSN,
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
   environment: process.env.NODE_ENV,
   release: process.env.RELEASE,

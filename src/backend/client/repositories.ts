@@ -8,7 +8,6 @@ import ValueObject from '@backend/valueObject'
 import jws from 'jws'
 import type { Storage } from 'webextension-polyfill'
 
-type ClientInfoKey = keyof ClientInfo
 type UpdateInfo = Pick<ClientInfo, 'csrfToken' | 'syncedAt'>
 
 const defaultInfo: Readonly<ClientInfo> = {
@@ -34,8 +33,6 @@ const isEmptyInfo = (record: Record<string, unknown>) =>
   record['csrfToken'] === defaultInfo.csrfToken ||
   record['syncedAt'] === defaultInfo.syncedAt
 
-type Provider<T> = (() => T) | (() => Promise<T>)
-
 type ProviderOptions = {
   credentialProvider?: Provider<CognitoIdentityCredentials>
   statsProvider?: Provider<V4Statistics>
@@ -46,7 +43,7 @@ export interface IClientInfoRepository {
   updateStats(csrfToken: string, options?: ProviderOptions): Promise<void>
 }
 
-export class InfoSyncLock {
+export class InfoSyncLock implements IProcessLock {
   private lockCriteria = 'InfoUpdateLock'
 
   constructor(readonly storageArea: Storage.StorageArea) {}
@@ -84,7 +81,7 @@ export class ClientInfoRepository implements IClientInfoRepository {
   }
 
   async getInfo(options?: ProviderOptions): Promise<ClientInfoVO> {
-    const record: Record<ClientInfoKey, unknown> = await this.storageArea.get(defaultInfo)
+    const record: Record<keyof ClientInfo, unknown> = await this.storageArea.get(defaultInfo)
 
     if (!isEmptyInfo(record)) {
       return new ClientInfoVO({
@@ -153,7 +150,7 @@ class ClientApiHandler {
       body: JSON.stringify(body),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.API_KEY,
+        'X-Api-Key': process.env.API_KEY,
         host: process.env.API_HOSTNAME,
         ...headers,
       },

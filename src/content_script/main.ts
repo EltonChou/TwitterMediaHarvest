@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { init as SentryInit } from '@sentry/browser'
 // import { BrowserTracing } from '@sentry/tracing'
-import { SENTRY_DSN } from '../constants'
 import './main.sass'
 
 SentryInit({
-  dsn: SENTRY_DSN,
+  dsn: process.env.SENTRY_DSN,
   // integrations: [new BrowserTracing()],
   ignoreErrors: [
     'abs.twimg.com',
