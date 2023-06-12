@@ -101,11 +101,13 @@ type ButtonStatus = 'downloading' | 'success' | 'error'
 
 type ClientTokenResponse = {
   token: string
+  uninstallCode: string
 }
 
 type ClientInfo = {
   uuid: string
   csrfToken: string
+  uninstallCode: string
   syncedAt: number
 }
 

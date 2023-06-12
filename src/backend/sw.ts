@@ -80,9 +80,9 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage<unknown>, s
 })
 
 browser.runtime.onInstalled.addListener(async details => {
-  // TODO: set uninstall url.
   await storageConfig.credentialsRepo.getCredential()
-  await storageConfig.clientInfoRepo.getInfo()
+  const info = await storageConfig.clientInfoRepo.getInfo()
+  browser.runtime.setUninstallURL(info.uninstallUrl)
 
   if (details.reason === InstallReason.BrowserUpdate) return
 

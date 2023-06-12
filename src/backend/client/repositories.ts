@@ -14,6 +14,7 @@ const defaultInfo: Readonly<ClientInfo> = {
   uuid: 'uuid',
   csrfToken: 'token',
   syncedAt: 0,
+  uninstallCode: 'code',
 }
 
 class ClientInfoVO extends ValueObject<ClientInfo> {
@@ -23,15 +24,29 @@ class ClientInfoVO extends ValueObject<ClientInfo> {
     super(info)
   }
 
+  get uuid(): string {
+    return this.props.uuid
+  }
+
   get needSync(): boolean {
     return Date.now() - this.props.syncedAt >= this.syncPeriod
+  }
+
+  get uninstallUrl(): string {
+    const url = new URL(
+      `/${process.env.API_STAGE}/clients/${this.uuid}/uninstall`,
+      `https://${process.env.API_HOSTNAME}`
+    )
+    url.searchParams.set('uninstallCode', this.props.uninstallCode)
+    return url.href
   }
 }
 
 const isEmptyInfo = (record: Record<string, unknown>) =>
   record['uuid'] === defaultInfo.uuid ||
   record['csrfToken'] === defaultInfo.csrfToken ||
-  record['syncedAt'] === defaultInfo.syncedAt
+  record['syncedAt'] === defaultInfo.syncedAt ||
+  record['uninstall'] === defaultInfo.uninstallCode
 
 type ProviderOptions = {
   credentialProvider: Provider<CognitoIdentityCredentials>
@@ -84,11 +99,13 @@ export class ClientInfoRepository implements IClientInfoRepository {
     const record: Record<keyof ClientInfo, unknown> = await this.storageArea.get(defaultInfo)
 
     if (!isEmptyInfo(record)) {
-      return new ClientInfoVO({
+      const info = new ClientInfoVO({
         uuid: record.uuid as string,
         csrfToken: record.csrfToken as string,
         syncedAt: record.syncedAt as number,
+        uninstallCode: record.uninstallCode as string,
       })
+      return info
     }
 
     const clientTokenResponse: ClientTokenResponse = await this.createClient({ ...this.defaultOptions, ...options })
@@ -97,6 +114,7 @@ export class ClientInfoRepository implements IClientInfoRepository {
       uuid: payload['uuid'],
       csrfToken: clientTokenResponse.token,
       syncedAt: Date.now(),
+      uninstallCode: clientTokenResponse.uninstallCode,
     }
 
     await this.storageArea.set(clientInfo)
@@ -107,13 +125,14 @@ export class ClientInfoRepository implements IClientInfoRepository {
   async updateStats(csrfToken: string, options?: Partial<ProviderOptions>): Promise<void> {
     options = { ...this.defaultOptions, ...options }
 
+    const { uuid } = await this.getInfo(options)
     const stats = await options.statsProvider()
     const credential = await options.credentialProvider()
 
     const handler = new ClientApiHandler()
     const response = await handler.send(
       HttpMethod.Put,
-      '/clients/stats',
+      '/clients/' + uuid + '/stats',
       { 'x-csrf-token': csrfToken },
       stats,
       credential
