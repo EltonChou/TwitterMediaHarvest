@@ -1,14 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
+import { storageConfig } from '@backend/configurations'
 import { Link, Stack, Text } from '@chakra-ui/react'
 import ExtLinks from '@pages/links'
 import { i18n } from '@pages/utils'
 import browser from 'webextension-polyfill'
 
 const ProductInformation = () => {
+  const [clientUuid, setClientUuid] = useState('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx')
+
+  useEffect(() => {
+    storageConfig.clientInfoRepo.getInfo().then(info => {
+      setClientUuid(info.uuid)
+    })
+  }, [])
+
   return (
     <Stack>
       <Text fontSize={'1.5em'}>{browser.runtime.getManifest().name}</Text>
+      <Text fontSize={'sm'} color={'gray.500'}>
+        {clientUuid}
+      </Text>
       <Text color={'gray.400'}>
         {i18n('options_about_version')} {browser.runtime.getManifest().version_name}
       </Text>

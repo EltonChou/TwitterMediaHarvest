@@ -26,6 +26,9 @@ const fp: [string, FilenamePatternToken][] = [
 const TokenPanel = memo(({ handleTokenToggle, pattern, previewFilename }: TokenPanelProps) => {
   return (
     <>
+      <Flex minH={'1.5em'} fontSize="1.2em">
+        {previewFilename}
+      </Flex>
       <Flex justifyContent={'flex-start'} gap={'2'} flexWrap={'wrap'}>
         {fp.map(([name, token]) => (
           <PatternToken
@@ -35,9 +38,6 @@ const TokenPanel = memo(({ handleTokenToggle, pattern, previewFilename }: TokenP
             handleChange={s => handleTokenToggle(token, s)}
           />
         ))}
-      </Flex>
-      <Flex mt={'2em'} minH={'1.5em'} fontSize="1.2em">
-        {previewFilename}
       </Flex>
     </>
   )
