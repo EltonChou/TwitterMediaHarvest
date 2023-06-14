@@ -175,7 +175,7 @@ class ClientApiHandler {
       },
       method: method,
       hostname: process.env.API_HOSTNAME,
-      path: process.env.API_STAGE + path,
+      path: (process.env.API_ROOT_PATH || '') + path,
     })
 
     const signer = new SignatureV4({
