@@ -1,17 +1,8 @@
 /* eslint-disable no-console */
-import { addBreadcrumb, init as SentryInit } from '@sentry/browser'
-import { SENTRY_DSN } from '../constants'
-
-SentryInit({
-  dsn: SENTRY_DSN,
-  tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
-  environment: process.env.NODE_ENV,
-  release: process.env.RELEASE,
-  ignoreErrors: ['Failed to fetch'],
-})
-
+import { addBreadcrumb, init as SentryInit, setUser as SentrySetUser, type User } from '@sentry/browser'
 import browser from 'webextension-polyfill'
 import { Action } from '../typings'
+import { ClientInfoUseCase } from './client/useCases'
 import { showUpdateMessageInConsole } from './commands/console'
 import { initStorage, MigrateStorageToV4 } from './commands/storage'
 import { storageConfig } from './configurations'
@@ -23,15 +14,42 @@ import NotificationUseCase from './notifications/notificationIdUseCase'
 import { V4StatsUseCase } from './statistics/useCases'
 import { isDownloadedBySelf, isInvalidInfo } from './utils/checker'
 
+interface SentryUser extends User {
+  client_id: string
+}
+
 const enum InstallReason {
   Install = 'install',
   Update = 'update',
   BrowserUpdate = 'browser_update',
 }
 
-browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender, sendResponse) => {
+const fetchUser = async (): Promise<SentryUser> => {
+  const credential = await storageConfig.credentialsRepo.getCredential()
+  const clientInfo = await storageConfig.clientInfoRepo.getInfo()
+  const sentryUser: SentryUser = {
+    id: credential.identityId,
+    client_id: clientInfo.props.uuid,
+  }
+  return sentryUser
+}
+
+SentryInit({
+  dsn: process.env.SENTRY_DSN,
+  tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
+  environment: process.env.NODE_ENV,
+  release: process.env.RELEASE,
+  ignoreErrors: ['Failed to fetch'],
+  beforeSend: async (event, hint) => {
+    const sentryUser = await fetchUser()
+    SentrySetUser(sentryUser)
+    return event
+  },
+})
+
+browser.runtime.onMessage.addListener(async (message: HarvestMessage<unknown>, sender, sendResponse) => {
   if (message.action === Action.Download) {
-    if (isInvalidInfo(message.data)) {
+    if (isInvalidInfo(message.data as TweetInfo)) {
       console.error('Invalid tweetInfo.')
       return {
         status: 'error',
@@ -48,6 +66,11 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender, se
     }
   }
 
+  if (message.action === Action.FetchUser) {
+    const user = await fetchUser()
+    return { status: 'success', data: user }
+  }
+
   sendResponse()
 
   return {
@@ -57,8 +80,16 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage, sender, se
 })
 
 browser.runtime.onInstalled.addListener(async details => {
+  await storageConfig.credentialsRepo.getCredential()
+  const info = await storageConfig.clientInfoRepo.getInfo()
+  browser.runtime.setUninstallURL(info.uninstallUrl)
+
   if (details.reason === InstallReason.BrowserUpdate) return
-  if (details.reason === InstallReason.Install) await initStorage()
+
+  if (details.reason === InstallReason.Install) {
+    await initStorage()
+  }
+
   if (details.reason === InstallReason.Update) {
     const statsUseCase = new V4StatsUseCase(storageConfig.statisticsRepo)
     await statsUseCase.syncWithDownloadHistory()
@@ -79,7 +110,9 @@ browser.downloads.onChanged.addListener(async downloadDelta => {
 
   if ('state' in downloadDelta) {
     const downloadStateUseCase = new DownloadStateUseCase(downloadDelta, storageConfig.downloadRecordRepo)
+    const clientInfoUseCase = new ClientInfoUseCase(storageConfig.clientInfoRepo)
     await downloadStateUseCase.process()
+    await clientInfoUseCase.sync()
   }
 })
 

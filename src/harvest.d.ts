@@ -1,17 +1,16 @@
 type TweetMode = 'photo' | 'status' | 'stream'
 type DownloadRecordId = `dl_${number}`
 
-type HarvestMessage = {
+type HarvestMessage<T> = {
   action: number
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data?: any
+  data?: T
 }
 
 type ResponseStatus = 'success' | 'error'
 
-type HarvestResponse = {
+type HarvestResponse<T> = {
   status: ResponseStatus
-  data?: unknown
+  data?: T
 }
 
 type TweetInfo = {
@@ -99,3 +98,23 @@ type TwitterApiSettings = {
 }
 
 type ButtonStatus = 'downloading' | 'success' | 'error'
+
+type ClientTokenResponse = {
+  token: string
+  uninstallCode: string
+}
+
+type ClientInfo = {
+  uuid: string
+  csrfToken: string
+  uninstallCode: string
+  syncedAt: number
+}
+
+type Provider<T> = (() => T) | (() => Promise<T>)
+
+interface IProcessLock {
+  isLocked(): Promise<boolean>
+  acquire(): Promise<void>
+  release(): Promise<void>
+}

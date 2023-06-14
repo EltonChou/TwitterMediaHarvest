@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
 const FileManagerPlugin = require('filemanager-webpack-plugin')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const PACKAGE = require('./package.json')
@@ -18,7 +19,12 @@ const config = {
   devtool: 'source-map',
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
-    fallback: { path: require.resolve('path-browserify') },
+    fallback: {
+      path: require.resolve('path-browserify'),
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      util: require.resolve('util/'),
+    },
     alias: {
       '@backend': path.resolve(__dirname, 'src/backend/'),
       '@pages': path.resolve(__dirname, 'src/pages/'),
@@ -80,6 +86,7 @@ const config = {
     ],
   },
   plugins: [
+    new Dotenv(),
     new CopyPlugin({
       patterns: [
         {

@@ -1,4 +1,6 @@
 import browser from 'webextension-polyfill'
+import { ClientInfoRepository } from './client/repositories'
+import { CredentialRepository } from './credentials/repositories'
 import { IDownloadRecordsRepository, StorageAreaDownloadRecordsRepository } from './downloadRecords/repository'
 import DownloadSettingsRepository from './settings/downloadSettings/repository'
 import { FeaturesRepository } from './settings/featureSettings/repository'
@@ -23,6 +25,11 @@ class StorageConfiguration implements IStorageConfiguration {
   readonly featureSettingsRepo = new FeaturesRepository(browser.storage.local)
   readonly v4FilenameSettingsRepo = new V4FilenameSettingsRepository(browser.storage.sync)
   readonly twitterApiSettingsRepo = new TwitterApiSettingsRepository(browser.storage.local)
+  readonly credentialsRepo = new CredentialRepository(browser.storage.sync)
+  readonly clientInfoRepo = new ClientInfoRepository(browser.storage.local, {
+    credentialProvider: async () => await this.credentialsRepo.getCredential(),
+    statsProvider: async () => await this.statisticsRepo.getStats(),
+  })
 }
 
 export const storageConfig = new StorageConfiguration()

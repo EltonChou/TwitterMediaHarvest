@@ -1,11 +1,16 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { init as SentryInit } from '@sentry/browser'
+import { init as SentryInit, setUser as SentrySetUser, type User } from '@sentry/browser'
+import Browser from 'webextension-polyfill'
 // import { BrowserTracing } from '@sentry/tracing'
-import { SENTRY_DSN } from '../constants'
+import { Action } from '../typings'
 import './main.sass'
 
+interface SentryUser extends User {
+  client_id: string
+}
+
 SentryInit({
-  dsn: SENTRY_DSN,
+  dsn: process.env.SENTRY_DSN,
   // integrations: [new BrowserTracing()],
   ignoreErrors: [
     'abs.twimg.com',
@@ -25,6 +30,16 @@ SentryInit({
   release: process.env.RELEASE,
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
   environment: process.env.NODE_ENV,
+  beforeSend: async (event, hint) => {
+    const message: HarvestMessage<undefined> = { action: Action.FetchUser }
+    try {
+      const resp: HarvestResponse<SentryUser> = await Browser.runtime.sendMessage(message)
+      SentrySetUser(resp.data)
+    } catch (error) {
+      /* pass */
+    }
+    return event
+  },
 })
 
 import { FeaturesRepository } from './features/repository'

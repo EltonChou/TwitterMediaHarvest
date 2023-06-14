@@ -48,12 +48,12 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     try {
       const tweetInfo: TweetInfo = infoParser(article)
-      const message: HarvestMessage = {
+      const message: HarvestMessage<TweetInfo> = {
         action: Action.Download,
         data: tweetInfo,
       }
       console.log('Send message to service worker.', message)
-      const resp: HarvestResponse = await browser.runtime.sendMessage(message)
+      const resp: HarvestResponse<unknown> = await browser.runtime.sendMessage(message)
       setButtonStatus(this, resp.status)
     } catch (error) {
       captureException(error)
