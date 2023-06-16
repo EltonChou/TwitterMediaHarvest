@@ -15,13 +15,11 @@ export class ClientInfoUseCase {
     await lock.acquire()
 
     let err: Error = undefined
-    const info = await this.infoRepo.getInfo()
-    if (info.needSync) {
-      try {
-        await this.infoRepo.updateStats(info.props.csrfToken)
-      } catch (error) {
-        err = error
-      }
+    try {
+      const info = await this.infoRepo.getInfo()
+      if (info.needSync) await this.infoRepo.updateStats(info.props.csrfToken)
+    } catch (error) {
+      err = error
     }
 
     await lock.release()
