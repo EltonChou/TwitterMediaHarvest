@@ -19,9 +19,14 @@ export class Unauthorized extends TwitterApiError {}
 
 // Client API
 export class ClientApiError extends ApiError {
-  constructor(statusCode: number, message: string) {
-    const msg = message + `(statusCode: ${statusCode})`
+  constructor(statusCode: number, message: string, header: Record<string, string>) {
+    const xInfo = ClientApiError.extractHeader(header)
+    const msg = message + `(statusCode: ${statusCode})\n` + `X-Headers:\n${JSON.stringify(xInfo)})`
     super(msg)
+  }
+
+  static extractHeader(header: Record<string, string>): Record<string, string> {
+    return Object.fromEntries(Object.entries(header).filter(([k, v]) => k.toLowerCase().startsWith('x-')))
   }
 }
 

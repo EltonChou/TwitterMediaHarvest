@@ -34,7 +34,7 @@ class ClientInfoVO extends ValueObject<ClientInfo> {
 
   get uninstallUrl(): string {
     const url = new URL(
-      `${process.env.API_ROOT_PATH}clients/${this.uuid}/uninstall`,
+      `${process.env.API_ROOT_PATH}/clients/${this.uuid}/uninstall`,
       `https://${process.env.API_HOSTNAME}`
     )
     url.searchParams.set('uninstallCode', this.props.uninstallCode)
@@ -92,7 +92,7 @@ export class ClientInfoRepository implements IClientInfoRepository {
       return body
     }
 
-    throw new CreateClientFailed(response.statusCode, JSON.stringify(response.body))
+    throw new CreateClientFailed(response.statusCode, JSON.stringify(response.body), response.headers)
   }
 
   async getInfo(options?: Partial<ProviderOptions>): Promise<ClientInfoVO> {
@@ -138,7 +138,8 @@ export class ClientInfoRepository implements IClientInfoRepository {
       credential
     )
 
-    if (response.statusCode !== 200) throw new UpdateStatsFailed(response.statusCode, JSON.stringify(response.body))
+    if (response.statusCode !== 200)
+      throw new UpdateStatsFailed(response.statusCode, JSON.stringify(response.body), response.headers)
 
     const body = JSON.parse(response.body)
     const clientInfo: UpdateInfo = {

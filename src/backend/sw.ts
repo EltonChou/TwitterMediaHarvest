@@ -34,6 +34,8 @@ const fetchUser = async (): Promise<SentryUser> => {
   return sentryUser
 }
 
+const clientInfoUseCase = new ClientInfoUseCase(storageConfig.clientInfoRepo)
+
 SentryInit({
   dsn: process.env.SENTRY_DSN,
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
@@ -110,7 +112,6 @@ browser.downloads.onChanged.addListener(async downloadDelta => {
 
   if ('state' in downloadDelta) {
     const downloadStateUseCase = new DownloadStateUseCase(downloadDelta, storageConfig.downloadRecordRepo)
-    const clientInfoUseCase = new ClientInfoUseCase(storageConfig.clientInfoRepo)
     await downloadStateUseCase.process()
     await clientInfoUseCase.sync()
   }
