@@ -8,3 +8,8 @@ export function showUpdateMessageInConsole(previous: string) {
   console.info('Current version:', current)
   console.groupEnd()
 }
+
+export function showClientInfoInConsole(info: ClientInfo) {
+  console.group('Client Information')
+  console.info('Client UUID:', info.uuid)
+}

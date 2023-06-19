@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
-import { addBreadcrumb, init as SentryInit, setUser as SentrySetUser, type User } from '@sentry/browser'
+import { addBreadcrumb, captureException, init as SentryInit, setUser as SentrySetUser, type User } from '@sentry/node'
 import browser from 'webextension-polyfill'
 import { Action } from '../typings'
 import { ClientInfoUseCase } from './client/useCases'
-import { showUpdateMessageInConsole } from './commands/console'
+import { showClientInfoInConsole, showUpdateMessageInConsole } from './commands/console'
 import { initStorage, MigrateStorageToV4 } from './commands/storage'
 import { storageConfig } from './configurations'
 import DownloadActionUseCase from './downloads/downloadActionUseCase'
@@ -82,9 +82,14 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage<unknown>, s
 })
 
 browser.runtime.onInstalled.addListener(async details => {
-  await storageConfig.credentialsRepo.getCredential()
-  const info = await storageConfig.clientInfoRepo.getInfo()
-  browser.runtime.setUninstallURL(info.uninstallUrl)
+  try {
+    const info = await storageConfig.clientInfoRepo.getInfo()
+    browser.runtime.setUninstallURL(info.uninstallUrl)
+    showClientInfoInConsole(info.props)
+  } catch (error) {
+    captureException(error)
+    console.error()
+  }
 
   if (details.reason === InstallReason.BrowserUpdate) return
 
