@@ -1,5 +1,11 @@
 /* eslint-disable no-console */
-import { addBreadcrumb, captureException, init as SentryInit, setUser as SentrySetUser, type User } from '@sentry/node'
+import {
+  addBreadcrumb,
+  captureException,
+  init as SentryInit,
+  setUser as SentrySetUser,
+  type User,
+} from '@sentry/browser'
 import browser from 'webextension-polyfill'
 import { Action } from '../typings'
 import { ClientInfoUseCase } from './client/useCases'
@@ -88,7 +94,7 @@ browser.runtime.onInstalled.addListener(async details => {
     showClientInfoInConsole(info.props)
   } catch (error) {
     captureException(error)
-    console.error()
+    console.error(error)
   }
 
   if (details.reason === InstallReason.BrowserUpdate) return

@@ -14,7 +14,6 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@sentry/browser": "^7.1.1",
-    "@sentry/node": "^7.56.0",
     "aws-signature-v4": "^1.4.0",
     "crypto-browserify": "^3.12.0",
     "framer-motion": "^10.9.1",
