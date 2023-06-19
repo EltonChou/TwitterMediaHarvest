@@ -31,12 +31,21 @@ const enum InstallReason {
 }
 
 const fetchUser = async (): Promise<SentryUser> => {
-  const credential = await storageConfig.credentialsRepo.getCredential()
-  const clientInfo = await storageConfig.clientInfoRepo.getInfo()
   const sentryUser: SentryUser = {
-    id: credential.identityId,
-    client_id: clientInfo.props.uuid,
+    id: 'NULL_ID',
+    client_id: 'NULL_UUID',
   }
+
+  try {
+    const credential = await storageConfig.credentialsRepo.getCredential()
+    const clientInfo = await storageConfig.clientInfoRepo.getInfo()
+
+    sentryUser.id = credential.identityId
+    sentryUser.client_id = clientInfo.props.uuid
+  } catch (error) {
+    console.error(error)
+  }
+
   return sentryUser
 }
 
