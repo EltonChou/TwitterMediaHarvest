@@ -12,4 +12,5 @@ export function showUpdateMessageInConsole(previous: string) {
 export function showClientInfoInConsole(info: ClientInfo) {
   console.group('Client Information')
   console.info('Client UUID:', info.uuid)
+  console.groupEnd()
 }
