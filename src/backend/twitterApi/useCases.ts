@@ -154,11 +154,13 @@ export class GraphQLTweetUseCase extends TweetUseCase {
   }
 
   parseBody(object: any): TweetVO {
+    const entry = object.data.threaded_conversation_with_injections_v2.instructions
+      .filter((i: { type: string }) => i.type === 'TimelineAddEntries')[0]
+      .entries.filter((e: { entryId: string }) => e.entryId.includes(this.tweetId))[0]
+
     const tweet =
-      object.data.threaded_conversation_with_injections_v2.instructions[0].entries[0].content.itemContent.tweet_results
-        .result.legacy ||
-      object.data.threaded_conversation_with_injections_v2.instructions[0].entries[0].content.itemContent.tweet_results
-        .result.tweet.legacy
+      entry.content.itemContent.tweet_results.result.legacy ||
+      entry.content.itemContent.tweet_results.result.tweet.legacy
 
     if (!tweet) throw getFetchError(404)
 
