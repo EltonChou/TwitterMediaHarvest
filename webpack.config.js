@@ -86,7 +86,6 @@ const config = {
     ],
   },
   plugins: [
-    new Dotenv(),
     new CopyPlugin({
       patterns: [
         {
@@ -120,7 +119,15 @@ const config = {
 }
 
 module.exports = (env, argv) => {
+  const isProduction = argv.mode === 'production'
   const versionName = `${version} (${env.target})`
+  const release_name = env.RELEASE_NAME || PACKAGE.name + '(' + env.target + ')' + '@' + version
+
+  config.output = {
+    filename: '[name].js',
+    path: path.join(__dirname, 'build', env.target),
+    clean: true,
+  }
 
   const chromiumManifestCopyPlugin = new CopyPlugin({
     patterns: [
@@ -132,9 +139,13 @@ module.exports = (env, argv) => {
           const contentJson = JSON.parse(content.toString())
           contentJson['version'] = version
           contentJson['version_name'] = versionName
-          if (env.target === 'chrome' || (env.target === 'edge' && argv.mode === 'development')) {
+
+          if ((env.target === 'chrome' && isProduction) || (env.target === 'edge' && !isProduction)) {
             contentJson['key'] = PublicKey[env.target]
           }
+
+          if (!isProduction) contentJson['name'] = 'MH-Dev'
+
           return Buffer.from(JSON.stringify(contentJson))
         },
       },
@@ -156,14 +167,6 @@ module.exports = (env, argv) => {
     ],
   })
 
-  config.output = {
-    filename: '[name].js',
-    path: path.join(__dirname, 'build', env.target),
-    clean: true,
-  }
-
-  const release_name = env.RELEASE_NAME || PACKAGE.name + '(' + env.target + ')' + '@' + version
-
   config.plugins.push(
     env.target === 'firefox' ? firefoxManifestCopyPlugin : chromiumManifestCopyPlugin,
     new webpack.EnvironmentPlugin({
@@ -173,7 +176,7 @@ module.exports = (env, argv) => {
     })
   )
 
-  if (argv.mode === 'development') {
+  if (!isProduction) {
     config.mode = 'development'
     config.optimization.minimize = false
     config.stats = 'errors-warnings'
@@ -184,10 +187,12 @@ module.exports = (env, argv) => {
       maxAssetSize: 1000000,
       maxEntrypointSize: 400000,
     }
+    config.plugins.push(new Dotenv({ path: 'dev.env' }))
   }
 
-  if (argv.mode === 'production') {
+  if (isProduction) {
     config.plugins.push(
+      new Dotenv(),
       new FileManagerPlugin({
         events: {
           onEnd: {
