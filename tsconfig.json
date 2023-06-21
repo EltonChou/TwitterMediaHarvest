@@ -37,6 +37,12 @@
       "@pages/*": [
         "./pages/*"
       ],
+      "@libs/*": [
+        "./libs/*"
+      ],
+      "@schema": [
+        "types/schema.d.ts"
+      ]
     }
   }
 }
