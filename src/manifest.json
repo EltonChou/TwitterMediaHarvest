@@ -46,15 +46,10 @@
     }
   ],
   "host_permissions": [
-    "http://twitter.com/*",
-    "https://twitter.com/*",
-    "http://mobile.twitter.com/*",
-    "https://mobile.twitter.com/*",
-    "http://api.twitter.com/*",
-    "https://api.twitter.com/*",
-    "http://tweetdeck.twitter.com/*",
-    "https://tweetdeck.twitter.com/*",
-    "https://o1169684.ingest.sentry.io/*"
+    "*://twitter.com/*",
+    "*://mobile.twitter.com/*",
+    "*://api.twitter.com/*",
+    "*://tweetdeck.twitter.com/*"
   ],
   "permissions": [
     "activeTab",
@@ -64,6 +59,6 @@
     "notifications"
   ],
   "content_security_policy": {
-    "extension_page": "connect-src 'self' https://o1169684.ingest.sentry.io; object-src 'self';"
+    "extension_page": "default-src 'self' connect-src 'self' https://o1169684.ingest.sentry.io https://api.webext.prod.mediaharvest.app; object-src 'self';"
   }
 }
