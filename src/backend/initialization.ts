@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill'
-import type { IDownloadRecordsRepository } from './downloadRecords/repository'
+import type { IDownloadRecordsRepository } from './downloads/repository'
 import type { ISettingsRepository } from './settings/repository'
 
 export const chromiumInit = (

@@ -6,11 +6,13 @@
 
 - Improve functional path checking.
 - Fix stats refresh issue in popup.
+- Fix twitter graphQL api parsing.
 
 ### Changed
 
-- Change keyboard shorcut visual.
+- Change keyboard shorcut visual in options page.
 - Improve issue tracking.
+- Improve download record storage with IndexedDB (if supported).
 
 
 ## [4.0.1] - 2023-05-04

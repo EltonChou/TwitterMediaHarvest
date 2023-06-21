@@ -1,4 +1,4 @@
-import { IDownloadRecordsRepository } from '../downloadRecords/repository'
+import { IDownloadRecordsRepository } from '../downloads/repository'
 import { downloadItemRecorder } from '../downloads/downloadItemRecorder'
 import { storageConfig } from '../configurations'
 import browser from 'webextension-polyfill'

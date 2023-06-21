@@ -2,10 +2,10 @@ import { addBreadcrumb } from '@sentry/browser'
 import type { Downloads } from 'webextension-polyfill'
 import Browser from 'webextension-polyfill'
 import { storageConfig } from '../configurations'
-import { IDownloadRecordsRepository } from '../downloadRecords/repository'
 import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCase'
 import { V4StatsUseCase } from '../statistics/useCases'
 import InterruptReason from './InterruptReason'
+import { IDownloadRecordsRepository } from './repository'
 import { downloadIsCompleted, downloadIsInterrupted } from './utils/downloadState'
 
 const statisticsUseCase = new V4StatsUseCase(storageConfig.statisticsRepo)

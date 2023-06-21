@@ -28,6 +28,7 @@ const config = {
     alias: {
       '@backend': path.resolve(__dirname, 'src/backend/'),
       '@pages': path.resolve(__dirname, 'src/pages/'),
+      '@libs': path.resolve(__dirname, 'src/libs/'),
     },
   },
   optimization: {

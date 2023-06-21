@@ -17,6 +17,7 @@
     "aws-signature-v4": "^1.4.0",
     "crypto-browserify": "^3.12.0",
     "framer-motion": "^10.9.1",
+    "idb": "^7.1.1",
     "jws": "^4.0.0",
     "path-browserify": "^1.0.1",
     "react": "^18.2.0",
@@ -110,7 +111,8 @@
       "./jest.setup.js"
     ],
     "moduleNameMapper": {
-      "@backend/(.*)$": "<rootDir>/src/backend/$1"
+      "@backend/(.*)$": "<rootDir>/src/backend/$1",
+      "@libs/(.*)$": "<rootDir>/src/libs/$1"
     }
   },
   "repository": {

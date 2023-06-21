@@ -1,6 +1,6 @@
-import { storageConfig } from '../configurations'
-import DownloadRecord from '../downloadRecords/models'
 import type { Downloads } from 'webextension-polyfill'
+import { storageConfig } from '../configurations'
+import DownloadRecord from './models'
 
 export type DownloadItemRecorder = (config: Downloads.DownloadOptionsType) => (downloadId: number) => void
 

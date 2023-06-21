@@ -1,10 +1,29 @@
-import DownloadRecord from './models'
+import type { DownloadDBSchema } from '@schema'
+import type { IDBPDatabase } from 'idb'
 import type { Storage } from 'webextension-polyfill'
+import DownloadRecord from './models'
 
 export interface IDownloadRecordsRepository {
   getById(downloadItemId: number): Promise<DownloadRecord | null>
   save(downloadRecord: DownloadRecord): Promise<void>
   removeById(downloadItemId: number): Promise<void>
+}
+
+export class IndexedDBDownloadRecordsRepository implements IDownloadRecordsRepository {
+  constructor(readonly client: IDBPDatabase<DownloadDBSchema>) {}
+
+  async save(downloadRecord: DownloadRecord): Promise<void> {
+    await this.client.put('record', downloadRecord.toJson())
+  }
+
+  async getById(downloadItemId: number): Promise<DownloadRecord | null> {
+    const record = await this.client.get('record', downloadItemId)
+    return record ? DownloadRecord.fromJson(record) : null
+  }
+
+  async removeById(downloadItemId: number): Promise<void> {
+    await this.client.delete('record', downloadItemId)
+  }
 }
 
 export class StorageAreaDownloadRecordsRepository implements IDownloadRecordsRepository {

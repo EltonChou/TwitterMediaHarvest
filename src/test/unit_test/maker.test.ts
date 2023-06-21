@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { DownloadRecordIdHelper } from '../../backend/downloadRecords/helpers'
+import { DownloadRecordIdHelper } from '../../backend/downloads/helpers'
 
 describe('Test DownloadRecordUtil', () => {
   it('can valid DownloadRecord id', () => {

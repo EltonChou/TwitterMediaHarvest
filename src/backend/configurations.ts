@@ -1,24 +1,20 @@
+import { downloadDB } from '@libs/indexedDB'
 import browser from 'webextension-polyfill'
 import { ClientInfoRepository } from './client/repositories'
 import { CredentialRepository } from './credentials/repositories'
-import { IDownloadRecordsRepository, StorageAreaDownloadRecordsRepository } from './downloadRecords/repository'
+import { IndexedDBDownloadRecordsRepository, StorageAreaDownloadRecordsRepository } from './downloads/repository'
 import DownloadSettingsRepository from './settings/downloadSettings/repository'
 import { FeaturesRepository } from './settings/featureSettings/repository'
 import FilenameSettingsRepository, { V4FilenameSettingsRepository } from './settings/filenameSettings/repository'
-import { ISettingsRepository } from './settings/repository'
 import { TwitterApiSettingsRepository } from './settings/twitterApiSettings/repository'
-import { IStatisticsRepositoryV4, V4StatisticsRepository } from './statistics/repositories'
+import { V4StatisticsRepository } from './statistics/repositories'
 
-interface IStorageConfiguration {
-  readonly downloadRecordRepo: IDownloadRecordsRepository
-  readonly statisticsRepo: IStatisticsRepositoryV4
-  readonly filenameSettingsRepo: ISettingsRepository<FilenameSettings>
-  readonly downloadSettingsRepo: ISettingsRepository<DownloadSettings>
-  readonly featureSettingsRepo: ISettingsRepository<FeatureSettings>
-}
+const downloadDBClient = downloadDB.isSupported ? await downloadDB.connect() : undefined
 
-class StorageConfiguration implements IStorageConfiguration {
-  readonly downloadRecordRepo = new StorageAreaDownloadRecordsRepository(browser.storage.local)
+class StorageConfiguration {
+  readonly downloadRecordRepo = downloadDBClient
+    ? new IndexedDBDownloadRecordsRepository(downloadDBClient)
+    : new StorageAreaDownloadRecordsRepository(browser.storage.local)
   readonly statisticsRepo = new V4StatisticsRepository(browser.storage.local)
   readonly filenameSettingsRepo = new FilenameSettingsRepository(browser.storage.sync)
   readonly downloadSettingsRepo = new DownloadSettingsRepository(browser.storage.local)
