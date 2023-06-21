@@ -9,11 +9,9 @@ import FilenameSettingsRepository, { V4FilenameSettingsRepository } from './sett
 import { TwitterApiSettingsRepository } from './settings/twitterApiSettings/repository'
 import { V4StatisticsRepository } from './statistics/repositories'
 
-const downloadDBClient = downloadDB.isSupported ? await downloadDB.connect() : undefined
-
 class StorageConfiguration {
-  readonly downloadRecordRepo = downloadDBClient
-    ? new IndexedDBDownloadRecordsRepository(downloadDBClient)
+  readonly downloadRecordRepo = downloadDB.isSupported
+    ? new IndexedDBDownloadRecordsRepository(async () => await downloadDB.connect())
     : new StorageAreaDownloadRecordsRepository(browser.storage.local)
   readonly statisticsRepo = new V4StatisticsRepository(browser.storage.local)
   readonly filenameSettingsRepo = new FilenameSettingsRepository(browser.storage.sync)

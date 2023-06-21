@@ -5,7 +5,7 @@ import { openDB } from 'idb'
 abstract class BaseDB<SchemaType> {
   abstract databaseName: string
 
-  constructor(readonly version: number, private callbacks?: OpenDBCallbacks<SchemaType>) {}
+  constructor(readonly version: number, private callbacks: OpenDBCallbacks<SchemaType> = {}) {}
 
   get isSupported(): boolean {
     return Boolean((typeof window !== 'undefined' && window.indexedDB) || indexedDB)
@@ -41,7 +41,7 @@ class DownloadDB extends BaseDB<DownloadDBSchema> {
 }
 
 export const downloadDB = new DownloadDB(1).onUpgrade((database, oldVersion, newVersion, transaction, event) => {
-  console.log('Upgrading', database.name, 'from', oldVersion, 'to', newVersion)
+  console.log('Upgrading IndexedDB', '(' + database.name + ')', 'from', oldVersion, 'to', newVersion)
 
   if (newVersion === 1) {
     database.createObjectStore('record', { keyPath: 'id' })

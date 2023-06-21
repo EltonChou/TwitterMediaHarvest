@@ -10,19 +10,22 @@ export interface IDownloadRecordsRepository {
 }
 
 export class IndexedDBDownloadRecordsRepository implements IDownloadRecordsRepository {
-  constructor(readonly client: IDBPDatabase<DownloadDBSchema>) {}
+  constructor(readonly clientProvider: Provider<IDBPDatabase<DownloadDBSchema>>) {}
 
   async save(downloadRecord: DownloadRecord): Promise<void> {
-    await this.client.put('record', downloadRecord.toJson())
+    const client = await this.clientProvider()
+    await client.put('record', downloadRecord.toJson())
   }
 
   async getById(downloadItemId: number): Promise<DownloadRecord | null> {
-    const record = await this.client.get('record', downloadItemId)
+    const client = await this.clientProvider()
+    const record = await client.get('record', downloadItemId)
     return record ? DownloadRecord.fromJson(record) : null
   }
 
   async removeById(downloadItemId: number): Promise<void> {
-    await this.client.delete('record', downloadItemId)
+    const client = await this.clientProvider()
+    await client.delete('record', downloadItemId)
   }
 }
 
