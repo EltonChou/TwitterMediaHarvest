@@ -30,7 +30,7 @@ on:
 jobs:
   test_and_build:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.build_environment }}
+    environment: ${{ inputs.build_environment || 'test' }}
     strategy:
       matrix:
         node-version: [20.x]
