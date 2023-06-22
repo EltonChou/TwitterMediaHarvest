@@ -1,7 +1,7 @@
 import select from 'select-dom'
 import makeHarvester from '../core'
-import observeElement from './observer'
 import { articleHasMedia, isInTweetStatus, isStreamLoaded } from '../utils/checker'
+import observeElement from './observer'
 
 enum Query {
   Root = '#react-root',

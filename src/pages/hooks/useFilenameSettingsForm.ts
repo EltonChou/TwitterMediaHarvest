@@ -1,6 +1,7 @@
 import { storageConfig } from '@backend/configurations'
 import type { HelperMessage } from '@pages/components/controls/featureControls'
 import { i18n } from '@pages/utils'
+import type { FilenamePatternToken, V4FilenamePattern, V4FilenameSettings } from '@schema'
 import { useCallback, useEffect, useReducer, useState } from 'react'
 import sanitize from 'sanitize-filename'
 

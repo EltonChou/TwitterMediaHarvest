@@ -1,3 +1,4 @@
+import type { TwitterApiSettings } from '@schema'
 import type { Storage } from 'webextension-polyfill'
 import { ISettingsRepository } from '../repository'
 

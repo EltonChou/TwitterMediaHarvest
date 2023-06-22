@@ -1,5 +1,6 @@
 import path from 'path'
 import TwitterMediaFile, { DownloadMode } from '../backend/downloads/TwitterMediaFile'
+import type { V4FilenameSettings } from '@schema'
 
 const DEFAULT_DIRECTORY = 'twitter_media_harvest'
 const defaultFilenameSetting: V4FilenameSettings = {

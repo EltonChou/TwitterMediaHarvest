@@ -1,3 +1,4 @@
+import type { V4FilenameSettings } from '@schema'
 import path from 'path'
 
 export type FileInfo = {

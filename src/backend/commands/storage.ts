@@ -1,4 +1,5 @@
 import { V4StatsUseCase } from '@backend/statistics/useCases'
+import type { V4FilenamePattern, V4FilenameSettings } from '@schema'
 import Browser from 'webextension-polyfill'
 import { storageConfig } from '../configurations'
 

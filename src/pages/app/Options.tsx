@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { Container, Heading, HStack, Stack } from '@chakra-ui/react'
-import FeatureOptions from '@pages/components/FeatureOptions'
-import IntegrationOptions from '@pages/components/IntegrationOptions'
-import GeneralOptions from '@pages/components/GeneralOptions'
-import SideMenu from '@pages/components/SideMenu'
 import About from '@pages/components/About'
+import FeatureOptions from '@pages/components/FeatureOptions'
 import FootBar from '@pages/components/FootBar'
+import GeneralOptions from '@pages/components/GeneralOptions'
+import IntegrationOptions from '@pages/components/IntegrationOptions'
+import SideMenu from '@pages/components/SideMenu'
 import { i18n } from '@pages/utils'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 

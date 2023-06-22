@@ -1,5 +1,6 @@
-import { IStatisticsRepositoryV4 } from './repositories'
+import type { V4Statistics } from '@schema'
 import Browser from 'webextension-polyfill'
+import { IStatisticsRepositoryV4 } from './repositories'
 
 export class V4StatsUseCase {
   constructor(readonly statisticsRepo: IStatisticsRepositoryV4) {}

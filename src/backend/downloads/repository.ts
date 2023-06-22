@@ -1,4 +1,4 @@
-import type { DownloadDBSchema } from '@schema'
+import type { DownloadDBSchema, DownloadRecordId } from '@schema'
 import type { IDBPDatabase } from 'idb'
 import type { Storage } from 'webextension-polyfill'
 import DownloadRecord from './models'

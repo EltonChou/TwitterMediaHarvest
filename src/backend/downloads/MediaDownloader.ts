@@ -1,3 +1,4 @@
+import type { DownloadSettings, FeatureSettings, V4FilenameSettings } from '@schema'
 import browser from 'webextension-polyfill'
 import { storageConfig } from '../configurations'
 import { HarvestError } from '../errors'

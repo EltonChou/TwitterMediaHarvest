@@ -1,3 +1,4 @@
+import type { DownloadSettings } from '@schema'
 import browser from 'webextension-polyfill'
 import type { IDownloadRecordsRepository } from './downloads/repository'
 import type { ISettingsRepository } from './settings/repository'

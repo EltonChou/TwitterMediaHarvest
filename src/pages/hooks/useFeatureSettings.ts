@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useReducer } from 'react'
 import { storageConfig } from '@backend/configurations'
+import type { FeatureSettings } from '@schema'
+import { useCallback, useEffect, useReducer } from 'react'
 
 const defaultFeatureSettings: FeatureSettings = storageConfig.featureSettingsRepo.getDefaultSettings()
 

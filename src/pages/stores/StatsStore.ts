@@ -1,4 +1,5 @@
 import { storageConfig } from '@backend/configurations'
+import type { V4Statistics } from '@schema'
 import { Storage } from 'webextension-polyfill'
 import { IExternalStore } from './base'
 

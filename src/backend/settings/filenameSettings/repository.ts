@@ -1,6 +1,16 @@
+import type { V4FilenameSettings } from '@schema'
 import type { Storage } from 'webextension-polyfill'
 import { DEFAULT_DIRECTORY } from '../../../constants'
 import { ISettingsRepository } from '../repository'
+
+type FilenameSettings = {
+  directory: string
+  no_subdirectory: boolean
+  filename_pattern: {
+    account: boolean
+    serial: 'order' | 'filename'
+  }
+}
 
 const defaultFilenameSettings: FilenameSettings = {
   directory: DEFAULT_DIRECTORY,

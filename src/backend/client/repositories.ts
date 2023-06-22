@@ -5,6 +5,7 @@ import { HttpRequest } from '@aws-sdk/protocol-http'
 import { SignatureV4 } from '@aws-sdk/signature-v4'
 import { CreateClientFailed, UpdateStatsFailed } from '@backend/errors'
 import ValueObject from '@backend/valueObject'
+import type { ClientInfo, V4Statistics } from '@schema'
 import jws from 'jws'
 import type { Storage } from 'webextension-polyfill'
 

@@ -1,3 +1,4 @@
+import type { V4Statistics } from '@schema'
 import type { Storage } from 'webextension-polyfill'
 
 const defaultV4Stats: V4Statistics = {

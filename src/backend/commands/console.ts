@@ -1,3 +1,4 @@
+import type { ClientInfo } from '@schema'
 import browser from 'webextension-polyfill'
 
 /* eslint-disable no-console */

@@ -1,4 +1,5 @@
 import { storageConfig } from '@backend/configurations'
+import type { DownloadSettings } from '@schema'
 import { useEffect, useReducer } from 'react'
 
 type IntegrationAction = {

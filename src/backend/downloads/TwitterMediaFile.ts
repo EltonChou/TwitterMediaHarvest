@@ -1,4 +1,5 @@
 import V4FilenameSettingsUsecase from '@backend/settings/filenameSettings/usecase'
+import type { V4FilenameSettings } from '@schema'
 import path from 'path'
 import type { Downloads } from 'webextension-polyfill'
 

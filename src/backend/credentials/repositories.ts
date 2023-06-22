@@ -1,12 +1,9 @@
 import type { CognitoIdentityCredentials, Storage } from '@aws-sdk/credential-provider-cognito-identity'
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers'
 import ValueObject from '@backend/valueObject'
+import type { AWSCredentials } from '@schema'
 import type { Storage as BrowserStorage } from 'webextension-polyfill'
 import Browser from 'webextension-polyfill'
-
-interface AWSCredentials extends Omit<CognitoIdentityCredentials, 'expiration'> {
-  expiration: number
-}
 
 class CredentialVO extends ValueObject<AWSCredentials> {
   readonly expireTimeRedundancy: number = 3 * 60 * 1000

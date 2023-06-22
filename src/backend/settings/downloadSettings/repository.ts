@@ -1,5 +1,6 @@
-import { ISettingsRepository } from '../repository'
+import type { DownloadSettings } from '@schema'
 import type { Storage } from 'webextension-polyfill'
+import { ISettingsRepository } from '../repository'
 
 const defaultIntegrationSettings: DownloadSettings = {
   enableAria2: false,

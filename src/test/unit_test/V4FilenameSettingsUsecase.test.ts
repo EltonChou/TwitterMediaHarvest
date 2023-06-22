@@ -1,5 +1,6 @@
 import V4FilenameSettingsUsecase, { type FileInfo } from '@backend/settings/filenameSettings/usecase'
 import path from 'path'
+import type { V4FilenameSettings } from '@schema'
 
 describe('Filename usecase unit test', () => {
   const fileInfo: FileInfo = {

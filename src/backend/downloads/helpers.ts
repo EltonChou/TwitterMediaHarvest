@@ -1,3 +1,5 @@
+import type { DownloadRecordId } from '@schema'
+
 const downloadRecordIdPattern = /^dl_(\d+)/
 
 export class DownloadRecordIdHelper {

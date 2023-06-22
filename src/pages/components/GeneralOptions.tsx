@@ -6,6 +6,7 @@ import { Button, Flex, HStack, Input, VStack } from '@chakra-ui/react'
 import useDownloadSettings from '@pages/hooks/useDownloadSettings'
 import useFilenameSettingsForm from '@pages/hooks/useFilenameSettingsForm'
 import { i18n } from '@pages/utils'
+import type { FilenamePatternToken, V4FilenamePattern } from '@schema'
 import { RichFeatureSwitch } from './controls/featureControls'
 import { PatternToken } from './controls/filenameControls'
 

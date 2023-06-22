@@ -1,7 +1,7 @@
-import { IDownloadRecordsRepository } from '../downloads/repository'
-import { downloadItemRecorder } from '../downloads/downloadItemRecorder'
-import { storageConfig } from '../configurations'
 import browser from 'webextension-polyfill'
+import { storageConfig } from '../configurations'
+import { downloadItemRecorder } from '../downloads/downloadItemRecorder'
+import { IDownloadRecordsRepository } from '../downloads/repository'
 
 interface INotificationUseCase {
   handle_close(): Promise<void>

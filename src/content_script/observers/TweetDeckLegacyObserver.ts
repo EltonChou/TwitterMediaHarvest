@@ -1,6 +1,6 @@
 import select from 'select-dom'
-import observeElement from './observer'
 import makeHarvester from '../core'
+import observeElement from './observer'
 
 const deckStreamHasMedia = (addedNode: ParentNode) => {
   const hasMedia =

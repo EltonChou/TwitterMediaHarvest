@@ -1,3 +1,4 @@
+import type { FeatureSettings } from '@schema'
 import browser from 'webextension-polyfill'
 
 interface IFeaturesRepository {
