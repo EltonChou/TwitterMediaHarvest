@@ -24,6 +24,10 @@ class ClientInfoVO extends ValueObject<ClientInfo> {
     super(info)
   }
 
+  get csrfToken(): string {
+    return this.props.csrfToken
+  }
+
   get uuid(): string {
     return this.props.uuid
   }
@@ -55,7 +59,7 @@ type ProviderOptions = {
 
 export interface IClientInfoRepository {
   getInfo(options?: ProviderOptions): Promise<ClientInfoVO>
-  updateStats(csrfToken: string, options?: ProviderOptions): Promise<void>
+  updateStats(options?: ProviderOptions): Promise<void>
 }
 
 export class InfoSyncLock implements IProcessLock {
@@ -122,10 +126,10 @@ export class ClientInfoRepository implements IClientInfoRepository {
     return new ClientInfoVO(clientInfo)
   }
 
-  async updateStats(csrfToken: string, options?: Partial<ProviderOptions>): Promise<void> {
+  async updateStats(options?: Partial<ProviderOptions>): Promise<void> {
     options = { ...this.defaultOptions, ...options }
 
-    const { uuid } = await this.getInfo(options)
+    const { uuid, csrfToken } = await this.getInfo(options)
     const stats = await options.statsProvider()
     const credential = await options.credentialProvider()
 

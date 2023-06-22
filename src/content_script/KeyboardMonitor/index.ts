@@ -1,5 +1,5 @@
 import select from 'select-dom'
-import { DownloadKey } from '../../typings'
+import { DownloadKey } from '../../enums'
 import { isTwitter } from '../utils/checker'
 
 interface IKeyboardMonitor {

@@ -1,6 +1,6 @@
 import { captureException } from '@sentry/browser'
 import browser from 'webextension-polyfill'
-import { Action } from '../../typings'
+import { Action } from '../../enums'
 
 /**
  * Create HTMLElement from html string.

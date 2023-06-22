@@ -2,7 +2,7 @@
 import { init as SentryInit, setUser as SentrySetUser, type User } from '@sentry/browser'
 import Browser from 'webextension-polyfill'
 // import { BrowserTracing } from '@sentry/tracing'
-import { Action } from '../typings'
+import { Action } from '../enums'
 import './main.sass'
 
 interface SentryUser extends User {

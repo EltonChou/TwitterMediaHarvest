@@ -7,7 +7,7 @@ import {
   type User,
 } from '@sentry/browser'
 import browser from 'webextension-polyfill'
-import { Action } from '../typings'
+import { Action } from '../enums'
 import { ClientInfoUseCase } from './client/useCases'
 import { showClientInfoInConsole, showUpdateMessageInConsole } from './commands/console'
 import { initStorage, MigrateStorageToV4 } from './commands/storage'

@@ -65,8 +65,7 @@ export class CredentialRepository implements ICredentialRepository {
       },
     })()
 
-    const credentialVO = CredentialVO.fromCognitoIdentityCredentials(credential)
-    await this.storageArea.set({ [this.credentialCriteria]: credentialVO.props })
+    await this.storageArea.set({ [this.credentialCriteria]: credential })
     return credential
   }
 
