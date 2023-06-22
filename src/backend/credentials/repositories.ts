@@ -57,6 +57,8 @@ export class CredentialRepository implements ICredentialRepository {
   constructor(readonly storageArea: BrowserStorage.StorageArea) {}
 
   private async fetchCredential(): Promise<CognitoIdentityCredentials> {
+    // ! Data in storage is `AWSCredential` not `CognitoIdentityCredentials`
+    // TODO: Need to define the schema of storage area.
     const credential = await fromCognitoIdentityPool({
       identityPoolId: process.env.IDENTITY_POOL_ID,
       cache: new BrowserSyncStorageProxy(),
@@ -65,7 +67,8 @@ export class CredentialRepository implements ICredentialRepository {
       },
     })()
 
-    await this.storageArea.set({ [this.credentialCriteria]: credential })
+    const credentialVO = CredentialVO.fromCognitoIdentityCredentials(credential)
+    await this.storageArea.set({ [this.credentialCriteria]: credentialVO.props })
     return credential
   }
 
