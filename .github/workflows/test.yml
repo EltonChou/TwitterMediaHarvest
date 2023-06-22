@@ -53,13 +53,19 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
 
-      - run: yarn install
-      - run: yarn lint
-      - run: yarn test
-      - run: |
+      - name: Install deps and Run test
+        run: |
+          yarn install
+          yarn lint
+          yarn test
+
+      - name: Check env file
+        run: |
           echo "${{ secrets.ENV_FILE }}" | base64 -d >> .env
           cat .env | grep "DSN" -q || exit 1
-          yarn build
+
+      - name: Build the application
+        run: yarn build
 
       - id: generate_artifact
         name: Create Artifact
