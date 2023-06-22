@@ -57,7 +57,8 @@ jobs:
       - run: yarn lint
       - run: yarn test
       - run: |
-          base64 -d ${{ secrets.ENV_FILE }} >> .env
+          echo "${{ secrets.ENV_FILE }}" | base64 -d >> .env
+          cat .env | grep "DSN" -q || exit 1
           yarn build
 
       - id: generate_artifact
