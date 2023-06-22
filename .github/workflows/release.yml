@@ -2,13 +2,15 @@ name: Release
 
 on:
   push:
-    tags: [v*.*.*]
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   build:
     uses: ./.github/workflows/test.yml
     with:
       generate_artifact: true
+      build_environment: release
 
   github_release:
     name: Create Github Release

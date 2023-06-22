@@ -15,6 +15,10 @@ on:
 
   workflow_call:
     inputs:
+      build_environment:
+        type: string
+        description: 'Environment to build the release'
+        default: test
       generate_artifact:
         type: boolean
         description: 'True to generate and upload artifact.'
@@ -26,6 +30,7 @@ on:
 jobs:
   test_and_build:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.build_environment }}
     strategy:
       matrix:
         node-version: [20.x]
@@ -51,7 +56,9 @@ jobs:
       - run: yarn install
       - run: yarn lint
       - run: yarn test
-      - run: yarn build
+      - run: |
+          base64 -d ${{ secrets.ENV_FILE }} >> .env
+          yarn build
 
       - id: generate_artifact
         name: Create Artifact
