@@ -10,7 +10,7 @@ jobs:
     uses: ./.github/workflows/test.yml
     with:
       generate_artifact: true
-      build_environment: release
+      build_environment: 'release'
 
   github_release:
     name: Create Github Release
