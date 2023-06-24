@@ -40,6 +40,9 @@ jobs:
       artifact_name: ${{ steps.info.outputs.artifact_name }}
 
     steps:
+      - run: |
+          echo 'Environment: ${{ inputs.build_environment }}'
+
       - uses: actions/checkout@v2
 
       - name: Set Outputs
