@@ -52,7 +52,6 @@
     "*://tweetdeck.twitter.com/*"
   ],
   "permissions": [
-    "activeTab",
     "downloads",
     "cookies",
     "storage",

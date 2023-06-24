@@ -48,7 +48,6 @@
     "*://mobile.twitter.com/*",
     "*://api.twitter.com/*",
     "*://tweetdeck.twitter.com/*",
-    "activeTab",
     "downloads",
     "cookies",
     "storage",
