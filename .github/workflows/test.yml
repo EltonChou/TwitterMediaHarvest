@@ -30,7 +30,8 @@ on:
 jobs:
   test_and_build:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.build_environment || 'test' }}
+    environment:
+      name: ${{ github.event_name == 'workflow_call' && inputs.build_environment || 'test' }}
     strategy:
       matrix:
         node-version: [20.x]
@@ -40,9 +41,6 @@ jobs:
       artifact_name: ${{ steps.info.outputs.artifact_name }}
 
     steps:
-      - run: |
-          echo 'Environment: ${{ inputs.build_environment }}'
-
       - uses: actions/checkout@v2
 
       - name: Set Outputs
