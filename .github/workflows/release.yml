@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: release
     steps:
+      - uses: actions/checkout@v2
       - uses: ./.github/workflows/test.yml
         with:
           generate_artifact: true
