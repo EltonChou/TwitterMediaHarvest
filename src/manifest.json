@@ -58,6 +58,6 @@
     "notifications"
   ],
   "content_security_policy": {
-    "extension_page": "default-src 'self' connect-src 'self' https://o1169684.ingest.sentry.io https://api.webext.prod.mediaharvest.app; object-src 'self';"
+    "extension_page": "default-src 'self' connect-src 'self' https://o1169684.ingest.sentry.io https://api.webext.prod.mediaharvest.app https://cognito-identity.ap-northeast-1.amazonaws.com/; object-src 'self';"
   }
 }
