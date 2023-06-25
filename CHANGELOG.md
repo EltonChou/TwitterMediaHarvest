@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.1] - 2023-06-25
+
+### Fixed
+
+- Fix Content Security Policy.
+
+
 ## [4.1.0] - 2023-06-25
 
 ### Fixed
