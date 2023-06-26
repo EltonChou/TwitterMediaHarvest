@@ -181,6 +181,7 @@ class ClientApiHandler {
       headers: {
         'Content-Type': 'application/json',
         'X-Api-Key': process.env.API_KEY,
+        'X-MediaHarvest-Version': process.env.VERSION_NAME,
         host: process.env.API_HOSTNAME,
         ...headers,
       },
