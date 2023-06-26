@@ -42,7 +42,7 @@ export default class DownloadStateUseCase {
       const { tweetInfo } = downloadRecord
       if (tweetInfo) {
         const notifyUseCase = new DownwloadFailedNotificationUseCase(tweetInfo)
-        notifyUseCase.notify(this.downloadDelta)
+        await notifyUseCase.notify(this.downloadDelta)
       }
     }
   }

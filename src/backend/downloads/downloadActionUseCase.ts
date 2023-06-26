@@ -59,23 +59,23 @@ export default class DownloadActionUseCase {
     try {
       await this.process()
     } catch (err) {
-      this.handleError(err)
+      await this.handleError(err)
       throw err
     }
   }
   /* eslint-disable no-console */
 
-  private handleError(err: Error): Promise<void> {
+  private async handleError(err: Error): Promise<void> {
     console.error('Error reason: ', err)
     sentryCapture(err)
 
     if (err instanceof TwitterApiError) {
       const fetchErrorUseCase = new FetchErrorNotificationUseCase(this.tweetInfo)
-      fetchErrorUseCase.notify(err)
+      await fetchErrorUseCase.notify(err)
       return
     }
 
     const internalErrorNotifyUseCase = new InternalErrorNotificationUseCase(this.tweetInfo)
-    internalErrorNotifyUseCase.notify(err)
+    await internalErrorNotifyUseCase.notify(err)
   }
 }

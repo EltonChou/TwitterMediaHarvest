@@ -7,22 +7,22 @@ import { makeDownloadFailedNotificationId, makeFetchErrorNotificationId } from '
 export class FetchErrorNotificationUseCase {
   constructor(readonly tweetInfo: TweetInfo) {}
 
-  notify(err: TwitterApiError): void {
+  async notify(err: TwitterApiError): Promise<void> {
     let notiConf = NotificationConfig.unknownFetchError(err.reason)
     if (err instanceof TooManyRequest) {
       notiConf = NotificationConfig.tooManyRequests(this.tweetInfo, err.reason)
     }
 
-    browser.notifications.create(makeFetchErrorNotificationId(this.tweetInfo.tweetId), notiConf)
+    await browser.notifications.create(makeFetchErrorNotificationId(this.tweetInfo.tweetId), notiConf)
   }
 }
 
 export class InternalErrorNotificationUseCase {
   constructor(readonly tweetInfo: TweetInfo) {}
 
-  notify(err: Error) {
+  async notify(err: Error) {
     const notiConf = NotificationConfig.internalError(err.message)
-    browser.notifications.create(makeFetchErrorNotificationId(this.tweetInfo.tweetId), notiConf)
+    await browser.notifications.create(makeFetchErrorNotificationId(this.tweetInfo.tweetId), notiConf)
   }
 }
 
@@ -33,10 +33,10 @@ export class DownwloadFailedNotificationUseCase {
     this.tweetInfo = tweetInfo
   }
 
-  notify(downloadDelta: Downloads.OnChangedDownloadDeltaType): void {
+  async notify(downloadDelta: Downloads.OnChangedDownloadDeltaType): Promise<void> {
     const notiConf = NotificationConfig.downloadError(this.tweetInfo, getDownloadDeltaEventTime(downloadDelta))
 
-    browser.notifications.create(makeDownloadFailedNotificationId(downloadDelta.id), notiConf)
+    await browser.notifications.create(makeDownloadFailedNotificationId(downloadDelta.id), notiConf)
   }
 }
 
