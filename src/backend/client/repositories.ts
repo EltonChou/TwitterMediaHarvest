@@ -61,6 +61,7 @@ type ProviderOptions = {
 export interface IClientInfoRepository {
   getInfo(options?: ProviderOptions): Promise<ClientInfoVO>
   updateStats(options?: ProviderOptions): Promise<void>
+  resetInfo(): Promise<void>
 }
 
 export class InfoSyncLock implements IProcessLock {
@@ -152,6 +153,10 @@ export class ClientInfoRepository implements IClientInfoRepository {
       syncedAt: Date.now(),
     }
     await this.storageArea.set(clientInfo)
+  }
+
+  async resetInfo(): Promise<void> {
+    await this.storageArea.set(defaultInfo)
   }
 }
 

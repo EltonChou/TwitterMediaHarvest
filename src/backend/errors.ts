@@ -1,6 +1,8 @@
 export class HarvestError extends Error {}
 
-export class ApiError extends HarvestError {}
+export class ApiError extends HarvestError {
+  statusCode: number
+}
 
 // Twitter API
 export class TwitterApiError extends ApiError {
@@ -21,8 +23,9 @@ export class Unauthorized extends TwitterApiError {}
 export class ClientApiError extends ApiError {
   constructor(statusCode: number, message: string, header: Record<string, string>) {
     const xInfo = ClientApiError.extractHeader(header)
-    const msg = message + `(statusCode: ${statusCode})\n` + `X-Headers:\n${JSON.stringify(xInfo)})`
+    const msg = message + `(statusCode: ${statusCode})\n` + 'X-Headers:\n' + JSON.stringify(xInfo)
     super(msg)
+    this.statusCode = statusCode
   }
 
   static extractHeader(header: Record<string, string>): Record<string, string> {

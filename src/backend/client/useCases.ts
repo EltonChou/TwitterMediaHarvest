@@ -1,3 +1,4 @@
+import { ClientApiError } from '@backend/errors'
 import Browser from 'webextension-polyfill'
 import { IClientInfoRepository, InfoSyncLock } from './repositories'
 
@@ -19,6 +20,9 @@ export class ClientInfoUseCase {
       const info = await this.infoRepo.getInfo()
       if (info.needSync) await this.infoRepo.updateStats()
     } catch (error) {
+      if (error instanceof ClientApiError) {
+        if (error.statusCode === 404) await this.infoRepo.resetInfo()
+      }
       err = error
     }
 
