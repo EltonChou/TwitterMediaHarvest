@@ -4,11 +4,11 @@ import { FetchHttpHandler, streamCollector } from '@aws-sdk/fetch-http-handler'
 import { HttpRequest } from '@aws-sdk/protocol-http'
 import { SignatureV4 } from '@aws-sdk/signature-v4'
 import { CreateClientFailed, UpdateStatsFailed } from '@backend/errors'
-import ValueObject from '@backend/valueObject'
 import type { ClientInfo, V4Statistics } from '@schema'
 import jws from 'jws'
 import type { Storage } from 'webextension-polyfill'
 import Browser from 'webextension-polyfill'
+import { ClientInfoVO } from './valueObjects'
 
 type UpdateInfo = Pick<ClientInfo, 'csrfToken' | 'syncedAt'>
 
@@ -17,35 +17,6 @@ const defaultInfo: Readonly<ClientInfo> = {
   csrfToken: 'token',
   syncedAt: 0,
   uninstallCode: 'code',
-}
-
-class ClientInfoVO extends ValueObject<ClientInfo> {
-  private syncPeriod: number = (process.env.NODE_ENV === 'production' ? 30 : 10) * 60 * 1000
-
-  constructor(info: ClientInfo) {
-    super(info)
-  }
-
-  get csrfToken(): string {
-    return this.props.csrfToken
-  }
-
-  get uuid(): string {
-    return this.props.uuid
-  }
-
-  get needSync(): boolean {
-    return Date.now() - this.props.syncedAt >= this.syncPeriod
-  }
-
-  get uninstallUrl(): string {
-    const url = new URL(
-      `${process.env.API_ROOT_PATH}/clients/${this.uuid}/uninstall`,
-      `https://${process.env.API_HOSTNAME}`
-    )
-    url.searchParams.set('uninstallCode', this.props.uninstallCode)
-    return url.href
-  }
 }
 
 const isEmptyInfo = (record: Record<string, unknown>) =>
