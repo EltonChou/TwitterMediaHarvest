@@ -99,7 +99,6 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage<unknown>, s
 browser.runtime.onInstalled.addListener(async details => {
   try {
     const info = await storageConfig.clientInfoRepo.getInfo()
-    browser.runtime.setUninstallURL(info.uninstallUrl)
     showClientInfoInConsole(info.props)
   } catch (error) {
     captureException(error)

@@ -8,6 +8,7 @@ import ValueObject from '@backend/valueObject'
 import type { ClientInfo, V4Statistics } from '@schema'
 import jws from 'jws'
 import type { Storage } from 'webextension-polyfill'
+import Browser from 'webextension-polyfill'
 
 type UpdateInfo = Pick<ClientInfo, 'csrfToken' | 'syncedAt'>
 
@@ -103,29 +104,31 @@ export class ClientInfoRepository implements IClientInfoRepository {
 
   async getInfo(options?: Partial<ProviderOptions>): Promise<ClientInfoVO> {
     const record: Record<keyof ClientInfo, unknown> = await this.storageArea.get(defaultInfo)
+    let info: ClientInfoVO
 
-    if (!isEmptyInfo(record)) {
-      const info = new ClientInfoVO({
+    if (isEmptyInfo(record)) {
+      const clientTokenResponse: ClientTokenResponse = await this.createClient({ ...this.defaultOptions, ...options })
+      const { payload } = jws.decode(clientTokenResponse.token, { json: true })
+      const clientInfo: ClientInfo = {
+        uuid: payload['uuid'],
+        csrfToken: clientTokenResponse.token,
+        syncedAt: Date.now(),
+        uninstallCode: clientTokenResponse.uninstallCode,
+      }
+
+      info = new ClientInfoVO(clientInfo)
+      await this.storageArea.set(info.props)
+      await Browser.runtime.setUninstallURL(info.uninstallUrl)
+    } else {
+      info = new ClientInfoVO({
         uuid: record.uuid as string,
         csrfToken: record.csrfToken as string,
         syncedAt: record.syncedAt as number,
         uninstallCode: record.uninstallCode as string,
       })
-      return info
     }
 
-    const clientTokenResponse: ClientTokenResponse = await this.createClient({ ...this.defaultOptions, ...options })
-    const { payload } = jws.decode(clientTokenResponse.token, { json: true })
-    const clientInfo: ClientInfo = {
-      uuid: payload['uuid'],
-      csrfToken: clientTokenResponse.token,
-      syncedAt: Date.now(),
-      uninstallCode: clientTokenResponse.uninstallCode,
-    }
-
-    await this.storageArea.set(clientInfo)
-
-    return new ClientInfoVO(clientInfo)
+    return info
   }
 
   async updateStats(options?: Partial<ProviderOptions>): Promise<void> {
