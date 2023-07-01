@@ -1,10 +1,12 @@
 # Changelog
 
-## [Unreleased]
+## [4.1.2] - 2023-07-01
 
 ### Fixed
 
-- Fix issue about notification failed.
+- Fix notification failure.
+- Fix the button style cannot be initialized in some situation.
+
 
 ## [4.1.1] - 2023-06-25
 
