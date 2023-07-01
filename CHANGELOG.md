@@ -1,5 +1,13 @@
 # Changelog
 
+
+## [Unreleased]
+
+### Fixed
+
+- Fix modal checking.
+
+
 ## [4.1.2] - 2023-07-01
 
 ### Fixed

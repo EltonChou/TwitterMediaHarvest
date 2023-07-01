@@ -44,8 +44,8 @@ export default class TwitterMediaObserver implements IHarvestObserver {
   }
 
   initialize() {
-    if (select.exists(Query.Modal) && isInTweetStatus()) {
-      const modal = select(Query.Modal)
+    const modal = select(Query.Modal)
+    if (modal && isInTweetStatus() && select.exists('[data-testid="tweet"]', modal)) {
       if (!select.exists('[aria-label="Loading"]')) makeHarvester(modal)
     }
 
