@@ -21,12 +21,15 @@ export class ClientInfoUseCase {
       if (info.needSync) await this.infoRepo.updateStats()
     } catch (error) {
       if (error instanceof ClientApiError) {
-        if (error.statusCode === 404) await this.infoRepo.resetInfo()
+        console.error(error.message)
+        // if (error.statusCode === 404) await this.infoRepo.resetInfo()
+      } else {
+        err = error
       }
-      err = error
+    } finally {
+      await lock.release()
     }
 
-    await lock.release()
     if (err) throw err
   }
 }
