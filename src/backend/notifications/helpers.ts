@@ -9,7 +9,7 @@ enum TemplateType {
   Progress = 'progress',
 }
 
-const notificationIconUrl = browser.runtime.getURL('assets/icons/icon128.png')
+const notificationIconUrl = browser.runtime.getURL('assets/icons/icon@128.png')
 const contextMessage = 'Media Harvest'
 
 class NotificationButton {

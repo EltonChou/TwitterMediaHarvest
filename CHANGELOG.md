@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- Fix issue about notification failed.
+
 ## [4.1.1] - 2023-06-25
 
 ### Fixed
