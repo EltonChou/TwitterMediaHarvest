@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { init as SentryInit, setUser as SentrySetUser, type User } from '@sentry/browser'
+import { init as SentryInit, type User } from '@sentry/browser'
 import Browser from 'webextension-polyfill'
 // import { BrowserTracing } from '@sentry/tracing'
 import { Action } from '../enums'
@@ -34,7 +34,8 @@ SentryInit({
     const message: HarvestMessage<undefined> = { action: Action.FetchUser }
     try {
       const resp: HarvestResponse<SentryUser> = await Browser.runtime.sendMessage(message)
-      SentrySetUser(resp.data)
+      event.user.id = resp.data.id
+      event.user.client_id = resp.data.client_id
     } catch (error) {
       /* pass */
     }

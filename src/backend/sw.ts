@@ -1,11 +1,5 @@
 /* eslint-disable no-console */
-import {
-  addBreadcrumb,
-  captureException,
-  init as SentryInit,
-  setUser as SentrySetUser,
-  type User,
-} from '@sentry/browser'
+import { addBreadcrumb, captureException, init as SentryInit, type User } from '@sentry/browser'
 import browser from 'webextension-polyfill'
 import { Action } from '../enums'
 import { ClientInfoUseCase } from './client/useCases'
@@ -56,10 +50,11 @@ SentryInit({
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
   environment: process.env.NODE_ENV,
   release: process.env.RELEASE,
-  ignoreErrors: ['Failed to fetch'],
+  ignoreErrors: ['Failed to fetch', 'Unable to download all specified images.'],
   beforeSend: async (event, hint) => {
     const sentryUser = await fetchUser()
-    SentrySetUser(sentryUser)
+    event.user.id = sentryUser.id
+    event.user.client_id = sentryUser.client_id
     return event
   },
 })
