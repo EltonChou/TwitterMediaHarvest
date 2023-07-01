@@ -24,8 +24,8 @@ const getBestQualityVideoUrl = (video_info: VideoInfo): string => {
   // bitrate will be fixed to 0 if video is made from gif.
   // variants contains m3u8 info.
   const hiResUrl = video_info.variants.reduce((prevV, currV) => {
-    if (!prevV?.bitrate) return currV
-    if (!currV?.bitrate) return prevV
+    if (prevV?.bitrate === undefined) return currV
+    if (currV?.bitrate === undefined) return prevV
     return prevV.bitrate < currV.bitrate || currV.bitrate === 0 ? currV : prevV
   }).url
 
