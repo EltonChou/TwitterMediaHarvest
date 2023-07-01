@@ -108,13 +108,12 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
   }
 }
 
-const getSampleButton = (article: HTMLElement): HTMLElement => {
+const getSampleButton = (article: HTMLElement): HTMLElement | undefined => {
   const shareSvg = select('[role="group"] [dir="ltr"] [data-testid$="iconOutgoing"]', article)
   const sampleButton = shareSvg
     ? (shareSvg.closest('[role="like"] > div') as HTMLElement)
     : select('[data-testid="reply"] > div', article)
 
-  if (!sampleButton) throw new Error('Cannot get sample button.')
   return sampleButton
 }
 
@@ -131,10 +130,15 @@ class Harvester implements IHarvester {
       select('[role="group"][aria-label]', article) || select('.r-18u37iz[role="group"][id^="id__"]', article)
 
     const sampleButton = getSampleButton(article)
-    this.buttonWrapperClassList = sampleButton.classList.value
-    this.buttonWrapperStyle = sampleButton.style.cssText
+    this.buttonWrapperClassList = sampleButton
+      ? sampleButton.classList.value
+      : 'css-901oao r-1awozwy r-1bwzh9t r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md' +
+        ' r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0'
+    this.buttonWrapperStyle = sampleButton ? sampleButton.style.cssText : ''
 
-    this.svgStyle = select('svg', sampleButton).classList.value
+    this.svgStyle =
+      select('svg', sampleButton)?.classList.value ||
+      'r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi'
   }
 
   get button() {

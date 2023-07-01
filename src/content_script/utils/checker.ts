@@ -88,7 +88,7 @@ const ComposeTweetRegEx = /\/compose\/tweet\/?.*/
 const IntentTweetRegEx = /\/intent\/tweet\/?.*/
 const TweetListRegEx = /\/i\/lists\/add_member/
 const RetweetsListRegEx = /\/\d+\/retweets$/
-const LikessListRegEx = /\/\d+\/likes$/
+const LikesListRegEx = /\/\d+\/likes$/
 
 /**
  * Check user is composing tweet or not.
@@ -102,7 +102,7 @@ export const isFunctionablePath = (): boolean =>
   !(
     Boolean(window.location.pathname.match(TweetListRegEx)) ||
     Boolean(window.location.pathname.match(RetweetsListRegEx)) ||
-    Boolean(window.location.pathname.match(LikessListRegEx)) ||
+    Boolean(window.location.pathname.match(LikesListRegEx)) ||
     isComposingTweet()
   )
 
