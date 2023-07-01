@@ -119,7 +119,11 @@ export class ClientInfoRepository implements IClientInfoRepository {
     )
 
     if (response.statusCode !== 200)
-      throw new UpdateStatsFailed(response.statusCode, JSON.stringify(response.body), response.headers)
+      throw new UpdateStatsFailed(
+        response.statusCode,
+        response.body?.message || JSON.stringify(response.body),
+        response.headers
+      )
 
     const body = JSON.parse(response.body)
     const clientInfo: UpdateInfo = {
