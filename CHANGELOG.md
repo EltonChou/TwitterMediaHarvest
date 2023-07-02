@@ -1,11 +1,17 @@
 # Changelog
 
 
-## [Unreleased]
+## [4.1.3] - 2023-07-02
+
+### Changed
+
+- Change default api version to `gql`. (#73)
+- Change notification content.
 
 ### Fixed
 
 - Fix modal checking.
+- Fix download button bugs.
 
 
 ## [4.1.2] - 2023-07-01
