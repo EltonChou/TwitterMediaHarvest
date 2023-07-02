@@ -31,10 +31,10 @@
     "message": "重試"
   },
   "fetchFailedTooManyRequestsTitle": {
-    "message": "短時間發出過多請求"
+    "message": "已超過 Twitter 速率限制。"
   },
   "fetchFailedTooManyRequestsMessage": {
-    "message": "請稍等後再試。"
+    "message": "短時間發出過多請求"
   },
   "fetchFailedUnknownTitle": {
     "message": "未知錯誤:"

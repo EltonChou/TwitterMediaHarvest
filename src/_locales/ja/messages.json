@@ -31,10 +31,10 @@
     "message": "やり直し"
   },
   "fetchFailedTooManyRequestsTitle": {
-    "message": "リクエストが頻繁に行われました"
+    "message": "回数制限を超えました"
   },
   "fetchFailedTooManyRequestsMessage": {
-    "message": "しばらくしてからもう一度お試しください。"
+    "message": "リクエストが頻繁に行われました。"
   },
   "fetchFailedUnknownTitle": {
     "message": "不明なエラー："

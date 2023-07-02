@@ -31,10 +31,10 @@
     "message": "Retry"
   },
   "fetchFailedTooManyRequestsTitle": {
-    "message": "Too many requests."
+    "message": "Twitter Rate limit exceeded."
   },
   "fetchFailedTooManyRequestsMessage": {
-    "message": "Please wait for a while."
+    "message": "Too many requests."
   },
   "fetchFailedUnknownTitle": {
     "message": "Unknown Error:"
