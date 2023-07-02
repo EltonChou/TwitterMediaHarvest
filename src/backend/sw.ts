@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { addBreadcrumb, captureException, init as SentryInit, type User } from '@sentry/browser'
+import { addBreadcrumb, captureException, init as SentryInit, setUser, type User } from '@sentry/browser'
 import browser from 'webextension-polyfill'
 import { Action } from '../enums'
 import { ClientInfoUseCase } from './client/useCases'
@@ -51,13 +51,9 @@ SentryInit({
   environment: process.env.NODE_ENV,
   release: process.env.RELEASE,
   ignoreErrors: ['Failed to fetch'],
-  beforeSend: async (event, hint) => {
-    const sentryUser = await fetchUser()
-    event.user.id = sentryUser.id
-    event.user.client_id = sentryUser.client_id
-    return event
-  },
 })
+
+fetchUser().then(user => setUser(user))
 
 browser.runtime.onMessage.addListener(async (message: HarvestMessage<unknown>, sender, sendResponse) => {
   if (message.action === Action.Download) {

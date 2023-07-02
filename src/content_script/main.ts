@@ -1,13 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { init as SentryInit, type User } from '@sentry/browser'
+import { init as SentryInit, setUser } from '@sentry/browser'
 import Browser from 'webextension-polyfill'
 // import { BrowserTracing } from '@sentry/tracing'
 import { Action } from '../enums'
 import './main.sass'
-
-interface SentryUser extends User {
-  client_id: string
-}
 
 SentryInit({
   dsn: process.env.SENTRY_DSN,
@@ -30,18 +26,9 @@ SentryInit({
   release: process.env.RELEASE,
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
   environment: process.env.NODE_ENV,
-  beforeSend: async (event, hint) => {
-    const message: HarvestMessage<undefined> = { action: Action.FetchUser }
-    try {
-      const resp: HarvestResponse<SentryUser> = await Browser.runtime.sendMessage(message)
-      event.user.id = resp.data.id
-      event.user.client_id = resp.data.client_id
-    } catch (error) {
-      /* pass */
-    }
-    return event
-  },
 })
+
+Browser.runtime.sendMessage({ action: Action.FetchUser }).then(user => setUser(user))
 
 import { FeaturesRepository } from './features/repository'
 import { TweetDeckBetaKeyboardMonitor, TweetDeckLegacyKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
