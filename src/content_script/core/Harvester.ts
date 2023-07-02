@@ -208,7 +208,7 @@ class Harvester implements IHarvester {
   }
 
   appendButton(): void {
-    this.actionBar.appendChild(this.button)
+    this.actionBar && this.actionBar.appendChild(this.button)
   }
 }
 
