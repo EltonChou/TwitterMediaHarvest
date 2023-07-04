@@ -70,7 +70,11 @@ export class ClientInfoRepository implements IClientInfoRepository {
       return body
     }
 
-    throw new CreateClientFailed(response.statusCode, JSON.stringify(response.body), response.headers)
+    throw new CreateClientFailed(
+      response.statusCode,
+      response.body?.message || JSON.stringify(response.body),
+      response.headers
+    )
   }
 
   async getInfo(options?: Partial<ProviderOptions>): Promise<ClientInfoVO> {
