@@ -5,7 +5,7 @@
 ### Fixed
 
 - Fix filename pattern `date` incorrect month issue.
--
+- Fix CSP.
 
 
 ## [4.1.3] - 2023-07-02

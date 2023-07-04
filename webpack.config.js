@@ -159,11 +159,18 @@ module.exports = (env, argv) => {
         from: 'manifest_firefox.json',
         context: 'src',
         to: 'manifest[ext]',
-        transform: content =>
-          content
+        transform: content => {
+          let contentStr = content
             .toString()
             .replace('__MANIFEST_RELEASE_VERSION__', version)
-            .replace('__MANIFEST_VERSION_NAME__', versionName),
+            .replace('__MANIFEST_VERSION_NAME__', versionName)
+
+          if (!isProduction) {
+            contentStr = contentStr.replace('mediaharvest@addons.mozilla.org', 'mediaharvest@test')
+          }
+
+          return Buffer.from(contentStr)
+        },
       },
     ],
   })
