@@ -53,7 +53,7 @@
     "storage",
     "notifications"
   ],
-  "content_security_policy": "default-src 'self'; connect-src 'self' https://o1169684.ingest.sentry.io https://*.mediaharvest.app https://cognito-identity.ap-northeast-1.amazonaws.com https://*.twitter.com https://twitter.com; style-src https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com",
+  "content_security_policy": "default-src 'self'; connect-src 'self' https://o1169684.ingest.sentry.io https://*.mediaharvest.app https://cognito-identity.ap-northeast-1.amazonaws.com https://*.twitter.com https://twitter.com ; style-src https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com",
   "browser_specific_settings": {
     "gecko": {
       "id": "mediaharvest@addons.mozilla.org",

@@ -16,7 +16,7 @@ interface V4Statistics {
   trafficUsage: number
 }
 
-type TwitterApiVersion = 'v1' | 'v2' | 'gql'
+type TwitterApiVersion = 'v1' | 'gql'
 
 interface TwitterApiSettings {
   twitterApiVersion: TwitterApiVersion
@@ -40,7 +40,19 @@ interface FeatureSettings {
   includeVideoThumbnail: boolean
   keyboardShortcut: boolean
 }
-type FilenamePatternToken = '{account}' | '{tweetId}' | '{serial}' | '{hash}' | '{date}'
+
+type FilenamePatternToken =
+  | '{account}'
+  | '{tweetId}'
+  | '{serial}'
+  | '{hash}'
+  | '{date}'
+  | '{datetime}'
+  | '{tweetDate}'
+  | '{tweetDatetime}'
+// | '{timestamp}'
+// | '{tweet-timestamp}'
+
 type V4FilenamePattern = FilenamePatternToken[]
 
 interface V4FilenameSettings {

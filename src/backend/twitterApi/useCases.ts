@@ -1,14 +1,36 @@
 import ValueObject from '@backend/valueObject'
+import type { Medum2, Tweet, VideoInfo } from 'types/twitter/tweet'
+import type { TweetUser } from 'types/twitter/user'
 import { ITwitterTokenRepository, TwitterTokenRepository } from '../cookie/repository'
 import { getFetchError } from './utils'
 
-class TweetVO extends ValueObject<Tweet> {
-  constructor(tweet: Tweet) {
-    super(tweet)
+class TweetVO extends ValueObject<{ tweet: Tweet; user: TweetUser }> {
+  constructor(tweet: Tweet, tweetUser: TweetUser) {
+    super({ tweet: tweet, user: tweetUser })
   }
 
-  getMedias(): Medum2[] {
-    return this.props?.extended_entities?.media
+  get medias(): Medum2[] {
+    return this.props?.tweet.extended_entities?.media
+  }
+
+  get id(): string {
+    return this.props.tweet.id_str
+  }
+
+  get authorName(): string {
+    return this.props.user.legacy.name
+  }
+
+  get authorScreenName(): string {
+    return this.props.user.legacy.screen_name
+  }
+
+  get authorId(): string {
+    return this.props.user.rest_id
+  }
+
+  get createdAt(): Date {
+    return new Date(Date.parse(this.props.tweet.created_at))
   }
 }
 
@@ -92,20 +114,21 @@ export class V1TweetUseCase extends TweetUseCase {
 
   parseBody(object: any): TweetVO {
     object as Tweet
-    return new TweetVO(object)
+    return new TweetVO(object, {} as TweetUser)
   }
 }
 
 /**
  * V2 has larger body, and lower rate limit about 190.
+ * @deprecated
  */
-export class V2TweetUseCase extends TweetUseCase {
+class V2TweetUseCase extends TweetUseCase {
   makeEndpoint(): string {
     return `https://api.twitter.com/2/timeline/conversation/${this.tweetId}.json?tweet_mode=extended&trim_user=true`
   }
 
   parseBody(object: any): TweetVO {
-    return new TweetVO(object.globalObjects.tweets[this.tweetId])
+    return new TweetVO(object.globalObjects.tweets[this.tweetId], {} as TweetUser)
   }
 }
 
@@ -119,6 +142,39 @@ const makeGraphQlVars = (tweetId: string): TwitterGraphQLVariables => ({
   withVoice: false,
   withV2Timeline: true,
 })
+
+interface TwitterGraphQLFeatures {
+  blue_business_profile_image_shape_enabled: boolean
+  responsive_web_graphql_exclude_directive_enabled: boolean
+  verified_phone_label_enabled: boolean
+  responsive_web_graphql_timeline_navigation_enabled: boolean
+  responsive_web_graphql_skip_user_profile_image_extensions_enabled: boolean
+  tweetypie_unmention_optimization_enabled: boolean
+  vibe_api_enabled: boolean
+  responsive_web_edit_tweet_api_enabled: boolean
+  graphql_is_translatable_rweb_tweet_is_translatable_enabled: boolean
+  view_counts_everywhere_api_enabled: boolean
+  longform_notetweets_consumption_enabled: boolean
+  tweet_awards_web_tipping_enabled: boolean
+  freedom_of_speech_not_reach_fetch_enabled: boolean
+  standardized_nudges_misinfo: boolean
+  tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled: boolean
+  interactive_text_enabled: boolean
+  responsive_web_text_conversations_enabled: boolean
+  longform_notetweets_rich_text_read_enabled: boolean
+  responsive_web_enhance_cards_enabled: boolean
+}
+
+interface TwitterGraphQLVariables {
+  focalTweetId: string
+  with_rux_injections: boolean
+  includePromotedContent: boolean
+  withCommunity: boolean
+  withQuickPromoteEligibilityTweetFields: boolean
+  withBirdwatchNotes: boolean
+  withVoice: boolean
+  withV2Timeline: boolean
+}
 
 const graphQlFeatures: TwitterGraphQLFeatures = {
   blue_business_profile_image_shape_enabled: false,
@@ -164,7 +220,7 @@ export class GraphQLTweetUseCase extends TweetUseCase {
 
     if (!tweet) throw getFetchError(404)
 
-    return new TweetVO(tweet)
+    return new TweetVO(tweet, entry.content.itemContent.tweet_results.result.core.user_results.result)
   }
 }
 
@@ -173,7 +229,7 @@ export class MediaTweetUseCases {
 
   async fetchMediaCatalog(): Promise<TweetMediaCatalog> {
     const tweet = await this.tweetUseCase.fetchTweet()
-    const medias = tweet.getMedias()
+    const medias = tweet.medias
 
     let mediaCatalog: TweetMediaCatalog = {
       images: [],
