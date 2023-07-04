@@ -61,6 +61,6 @@ describe('Filename usecase unit test', () => {
     s.filenamePattern = ['{date}']
     const usecase = new V4FilenameSettingsUsecase(s)
     const filename = usecase.makeFilename(fileInfo)
-    expect(filename).toBe('22220202')
+    expect(filename).toBe('22220302')
   })
 })

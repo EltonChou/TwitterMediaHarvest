@@ -22,7 +22,9 @@ export default class V4FilenameSettingsUsecase {
 
   makeFilename({ account, tweetId, serial, hash, date }: FileInfo): string {
     const dateString =
-      String(date.getFullYear()) + String(date.getMonth()).padStart(2, '0') + String(date.getDate()).padStart(2, '0')
+      String(date.getFullYear()) +
+      String(date.getMonth() + 1).padStart(2, '0') +
+      String(date.getDate()).padStart(2, '0')
 
     const filename = this.settings.filenamePattern
       .join('-')
