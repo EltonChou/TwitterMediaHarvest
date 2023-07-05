@@ -3,9 +3,14 @@ import path from 'path'
 import type { V4FilenameSettings } from '@schema'
 
 describe('Filename usecase unit test', () => {
+  const tweetDetail: TweetDetail = {
+    id: 'tweetId',
+    displayName: 'display',
+    userId: '123',
+    createdAt: new Date(),
+    screenName: 'screen_name',
+  }
   const fileInfo: FileInfo = {
-    account: 'user',
-    tweetId: '123456',
     serial: 3,
     hash: '14y8vn8',
     date: new Date(2222, 2, 2),
@@ -28,23 +33,23 @@ describe('Filename usecase unit test', () => {
     const s = settings()
     s.filenamePattern = ['{account}']
     const usecase = new V4FilenameSettingsUsecase(s)
-    const filename = usecase.makeFilename(fileInfo)
-    expect(filename).toBe(fileInfo.account)
+    const filename = usecase.makeFilename(tweetDetail, fileInfo)
+    expect(filename).toBe(tweetDetail.screenName)
   })
 
   it('can make file name with tweetId', () => {
     const s = settings()
     s.filenamePattern = ['{tweetId}']
     const usecase = new V4FilenameSettingsUsecase(s)
-    const filename = usecase.makeFilename(fileInfo)
-    expect(filename).toBe(fileInfo.tweetId)
+    const filename = usecase.makeFilename(tweetDetail, fileInfo)
+    expect(filename).toBe(tweetDetail.id)
   })
 
   it('can make file name with serial', () => {
     const s = settings()
     s.filenamePattern = ['{serial}']
     const usecase = new V4FilenameSettingsUsecase(s)
-    const filename = usecase.makeFilename(fileInfo)
+    const filename = usecase.makeFilename(tweetDetail, fileInfo)
     expect(filename).toBe(String(fileInfo.serial).padStart(2, '0'))
   })
 
@@ -52,7 +57,7 @@ describe('Filename usecase unit test', () => {
     const s = settings()
     s.filenamePattern = ['{hash}']
     const usecase = new V4FilenameSettingsUsecase(s)
-    const filename = usecase.makeFilename(fileInfo)
+    const filename = usecase.makeFilename(tweetDetail, fileInfo)
     expect(filename).toBe(fileInfo.hash)
   })
 
@@ -60,7 +65,7 @@ describe('Filename usecase unit test', () => {
     const s = settings()
     s.filenamePattern = ['{date}']
     const usecase = new V4FilenameSettingsUsecase(s)
-    const filename = usecase.makeFilename(fileInfo)
+    const filename = usecase.makeFilename(tweetDetail, fileInfo)
     expect(filename).toBe('22220302')
   })
 })

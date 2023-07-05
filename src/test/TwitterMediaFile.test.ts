@@ -10,15 +10,18 @@ const defaultFilenameSetting: V4FilenameSettings = {
 }
 const VIDEO_URL_BASE = 'https://pbs.twimg.com/tw_video/'
 const IMAGE_URL_BASE = 'https://pbs.twimg.com/media/'
-const tweetInfo: TweetInfo = {
+const tweetDetail: TweetDetail = {
+  id: 'tweetId',
+  displayName: 'displayName',
   screenName: 'twitter_user',
-  tweetId: 'tweetId',
+  userId: 'userId',
+  createdAt: new Date(),
 }
 
 describe('Test TwitterMediaFile usage.', () => {
-  const pngFile = new TwitterMediaFile(tweetInfo, IMAGE_URL_BASE.concat('cool.png'), 0, false)
-  const jpgFile = new TwitterMediaFile(tweetInfo, IMAGE_URL_BASE.concat('cool.jpg'), 0, false)
-  const mp4File = new TwitterMediaFile(tweetInfo, VIDEO_URL_BASE.concat('hq.mp4'), 0, false)
+  const pngFile = new TwitterMediaFile(tweetDetail, IMAGE_URL_BASE.concat('cool.png'), 0, false)
+  const jpgFile = new TwitterMediaFile(tweetDetail, IMAGE_URL_BASE.concat('cool.jpg'), 0, false)
+  const mp4File = new TwitterMediaFile(tweetDetail, VIDEO_URL_BASE.concat('hq.mp4'), 0, false)
 
   it('can detect the file is video', () => {
     expect(mp4File.isVideo()).toBeTruthy()
@@ -34,7 +37,7 @@ describe('Test TwitterMediaFile usage.', () => {
       url: IMAGE_URL_BASE.concat('cool.jpg:orig'),
       filename: path.format({
         dir: DEFAULT_DIRECTORY,
-        name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-01`,
+        name: `${tweetDetail.screenName}-${tweetDetail.id}-01`,
         ext: '.jpg',
       }),
       conflictAction: 'overwrite',
@@ -49,10 +52,10 @@ describe('Test TwitterMediaFile usage.', () => {
       url: VIDEO_URL_BASE.concat('hq.mp4'),
       filename: path.format({
         dir: DEFAULT_DIRECTORY,
-        name: `${tweetInfo.screenName}-${tweetInfo.tweetId}-01`,
+        name: `${tweetDetail.screenName}-${tweetDetail.id}-01`,
         ext: '.mp4',
       }),
-      referrer: `https://twitter.com/i/web/status/${tweetInfo.tweetId}`,
+      referrer: `https://twitter.com/i/web/status/${tweetDetail.id}`,
       options: {},
     }
 

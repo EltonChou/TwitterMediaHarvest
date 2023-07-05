@@ -132,13 +132,16 @@ type FormHandler = {
   patternTokenToggle: (t: FilenamePatternToken, s: boolean) => void
 }
 
-const patternWeight: Record<FilenamePatternToken, number> = {
-  '{account}': 1,
-  '{tweetId}': 2,
-  '{hash}': 3,
-  '{serial}': 4,
-  '{date}': 5,
-}
+// const patternWeight: Record<FilenamePatternToken, number> = {
+//   '{account}': 1,
+//   '{tweetId}': 2,
+//   '{hash}': 3,
+//   '{serial}': 4,
+//   '{date}': 5,
+//   '{datetime}': 6,
+//   '{tweetDate}': 7,
+//   '{tweetDatetime}': 8,
+// }
 
 const useFilenameSettingsForm = (): [V4FilenameSettings, FormStatus, FormMessage, FormHandler] => {
   const [filenameSettings, settingsDispatch] = useReducer(settingReducer, defaultFilenameSettings)
@@ -196,7 +199,7 @@ const useFilenameSettingsForm = (): [V4FilenameSettings, FormStatus, FormMessage
   const handleTokenToggle = useCallback(
     (t: FilenamePatternToken, state: boolean) => {
       const newPattern = state
-        ? [...filenameSettings.filenamePattern, t].sort((a, b) => patternWeight[a] - patternWeight[b])
+        ? [...filenameSettings.filenamePattern, t]
         : [...filenameSettings.filenamePattern].filter(v => v !== t)
 
       formStatusDispatch('formIsChanged')

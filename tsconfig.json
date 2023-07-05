@@ -42,7 +42,7 @@
       ],
       "@schema": [
         "types/schema.d.ts"
-      ]
+      ],
     }
   }
 }

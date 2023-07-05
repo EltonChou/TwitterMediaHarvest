@@ -64,3 +64,11 @@ type Aria2DownloadOption = {
   referrer: string
   options?: object
 }
+
+interface TweetDetail {
+  id: string
+  userId: string
+  displayName: string
+  screenName: string
+  createdAt: Date
+}

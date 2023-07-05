@@ -9,17 +9,15 @@ export const enum DownloadMode {
 }
 
 export default class TwitterMediaFile {
-  readonly screenName: string
-  readonly tweetId: string
+  readonly tweetDetail: TweetDetail
   readonly src: string
   readonly ext: string
   readonly name: string
   readonly order: number
   readonly askPath: boolean
 
-  constructor(tweetInfo: TweetInfo, url: string, index = 0, askPath: boolean) {
-    this.screenName = tweetInfo.screenName
-    this.tweetId = tweetInfo.tweetId
+  constructor(tweetDetail: TweetDetail, url: string, index = 0, askPath: boolean) {
+    this.tweetDetail = tweetDetail
     this.ext = path.extname(url)
     this.src = this.isVideo() ? url : makeImageOrigSrc(url)
     this.name = path.basename(url, this.ext)
@@ -47,20 +45,17 @@ export default class TwitterMediaFile {
     mode: DownloadMode
   ): Downloads.DownloadOptionsType | Aria2DownloadOption {
     const filenameSettingsUseCase = new V4FilenameSettingsUsecase(setting)
-    const url = this.src
-    const filename = filenameSettingsUseCase.makeFilename({
-      account: this.screenName,
-      tweetId: this.tweetId,
+    const filename = filenameSettingsUseCase.makeFilename(this.tweetDetail, {
       serial: this.order,
       hash: this.name,
       date: new Date(),
     })
     const fileFullPath = filenameSettingsUseCase.makeFullPathWithFilenameAndExt(filename, this.ext)
-    const tweetReferer = `https://twitter.com/i/web/status/${this.tweetId}`
+    const tweetReferer = `https://twitter.com/i/web/status/${this.tweetDetail.id}`
 
     return mode === DownloadMode.Aria2
-      ? makeAria2DownloadConfig(url, fileFullPath, tweetReferer)
-      : makeBrowserDownloadConfig(url, fileFullPath, this.askPath)
+      ? makeAria2DownloadConfig(this.src, fileFullPath, tweetReferer)
+      : makeBrowserDownloadConfig(this.src, fileFullPath, this.askPath)
   }
 
   static isValidFileUrl(url: string): boolean {

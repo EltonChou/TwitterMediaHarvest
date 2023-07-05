@@ -18,10 +18,14 @@ type TokenPanelProps = {
 
 const fp: [string, FilenamePatternToken][] = [
   [i18n('options_general_filenamePattern_token_account'), '{account}'],
+  [i18n('options_general_filenamePattern_token_accountId'), '{accountId}'],
   [i18n('options_general_filenamePattern_token_tweetId'), '{tweetId}'],
   [i18n('options_general_filenamePattern_token_hash'), '{hash}'],
   [i18n('options_general_filenamePattern_token_serial'), '{serial}'],
   [i18n('options_general_filenamePattern_token_date'), '{date}'],
+  [i18n('options_general_filenamePattern_token_tweetDate'), '{tweetDate}'],
+  [i18n('options_general_filenamePattern_token_tweetDatetime'), '{tweetDatetime}'],
+  // [i18n('options_general_filenamePattern_token_datetime'), '{datetime}'],
 ]
 
 const TokenPanel = memo(({ handleTokenToggle, pattern, previewFilename }: TokenPanelProps) => {
@@ -51,13 +55,20 @@ const GeneralOptions = () => {
   if (!formStatus.isLoaded) return <></>
 
   const filenameUsecase = new V4FilenameSettingsUsecase(filenameSettings)
-  const previewFilename = filenameUsecase.makeFilename({
-    account: 'tweetUser',
-    tweetId: '1145141919810',
-    serial: 2,
-    hash: '2vfn8shkjvd98892pR',
-    date: new Date(),
-  })
+  const previewFilename = filenameUsecase.makeFilename(
+    {
+      id: '1145141919810',
+      screenName: 'tweetUser',
+      userId: '306048589',
+      createdAt: new Date(2222, 1, 2, 12, 5, 38),
+      displayName: 'NickName',
+    },
+    {
+      serial: 2,
+      hash: '2vfn8shkjvd98892pR',
+      date: new Date(),
+    }
+  )
 
   return (
     <>

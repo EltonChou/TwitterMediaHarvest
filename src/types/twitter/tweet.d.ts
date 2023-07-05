@@ -1,32 +1,24 @@
-interface Tweet {
+export interface Tweet {
+  bookmark_count: number
+  bookmarked: boolean
   created_at: string
-  id: number
-  id_str: string
-  text: string
-  truncated: boolean
+  conversation_id_str: string
+  display_text_range: number[]
   entities: Entities
   extended_entities: ExtendedEntities
-  source: string
-  in_reply_to_status_id: any
-  in_reply_to_status_id_str: any
-  in_reply_to_user_id: any
-  in_reply_to_user_id_str: any
-  in_reply_to_screen_name: any
-  user: User
-  geo: any
-  coordinates: any
-  place: Place
-  contributors: any
-  is_quote_status: boolean
-  retweet_count: number
   favorite_count: number
   favorited: boolean
-  retweeted: boolean
-  possibly_sensitive: boolean
-  possibly_sensitive_appealable: boolean
-  possibly_sensitive_editable: boolean
+  full_text: string
+  is_quote_status: boolean
   lang: string
-  supplemental_language: any
+  possibly_sensitive: boolean
+  possibly_sensitive_editable: boolean
+  quote_count: number
+  reply_count: number
+  retweet_count: number
+  retweeted: boolean
+  user_id_str: string
+  id_str: string
 }
 
 interface Entities {
