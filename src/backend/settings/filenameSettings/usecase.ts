@@ -1,3 +1,4 @@
+import { PatternToken } from '@backend/enums'
 import type { V4FilenameSettings } from '@schema'
 import path from 'path'
 
@@ -5,20 +6,6 @@ export type FileInfo = {
   serial: number
   hash: string
   date: Date
-}
-
-enum PatternToken {
-  Account = '{account}',
-  AccountId = '{accountId}',
-  TweetId = '{tweetId}',
-  Serial = '{serial}',
-  Hash = '{hash}',
-  Date = '{date}',
-  Datetime = '{datetime}',
-  Timestamp = '{timestamp}',
-  TweetDate = '{tweetDate}',
-  TweetDatetime = '{tweetDatetime}',
-  TweetTimestamp = '{tweetTimestamp}',
 }
 
 // YYYYMMDDHHMMSS

@@ -1,3 +1,4 @@
+import { PatternToken } from '@backend/enums'
 import type { V4FilenameSettings } from '@schema'
 import type { Storage } from 'webextension-polyfill'
 import { DEFAULT_DIRECTORY } from '../../../constants'
@@ -21,18 +22,10 @@ const defaultFilenameSettings: FilenameSettings = {
   },
 }
 
-enum PatternToken {
-  account = '{account}',
-  tweetId = '{tweetId}',
-  serial = '{serial}',
-  hash = '{serial}',
-  date = '{date}',
-}
-
 const defaultV4FilenameSettings: V4FilenameSettings = {
   directory: DEFAULT_DIRECTORY,
   noSubDirectory: false,
-  filenamePattern: [PatternToken.account, PatternToken.tweetId, PatternToken.serial],
+  filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
 }
 
 export class V4FilenameSettingsRepository implements ISettingsRepository<V4FilenameSettings> {
