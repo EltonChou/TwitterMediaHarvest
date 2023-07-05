@@ -13,7 +13,7 @@ enum Query {
 }
 
 const revealNsfw = (article: HTMLElement) => {
-  if (!article || article.dataset['autoReveal']) return
+  if (!article || article.dataset['autoReveal'] || Boolean(article.closest('[data-testid="placementTracking"]'))) return
   const revealButton = select('[style*="blur"]', article)
   if (revealButton) {
     article.dataset['autoReveal'] = 'true'
