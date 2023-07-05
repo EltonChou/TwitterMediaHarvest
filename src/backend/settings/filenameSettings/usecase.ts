@@ -9,6 +9,7 @@ export type FileInfo = {
 
 enum PatternToken {
   Account = '{account}',
+  AccountId = '{accountId}',
   TweetId = '{tweetId}',
   Serial = '{serial}',
   Hash = '{hash}',
@@ -47,6 +48,7 @@ export default class V4FilenameSettingsUsecase {
       .replace(PatternToken.Datetime, makeDatetimeString(date))
       .replace(PatternToken.TweetDate, makeDateString(tweetDetail.createdAt))
       .replace(PatternToken.TweetDatetime, makeDatetimeString(tweetDetail.createdAt))
+      .replace(PatternToken.AccountId, tweetDetail.userId)
 
     return filename
   }

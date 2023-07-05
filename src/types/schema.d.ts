@@ -50,6 +50,7 @@ type FilenamePatternToken =
   | '{datetime}'
   | '{tweetDate}'
   | '{tweetDatetime}'
+  | '{accountId}'
 // | '{timestamp}'
 // | '{tweet-timestamp}'
 
