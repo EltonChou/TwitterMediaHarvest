@@ -1,8 +1,13 @@
 import ValueObject from '@backend/valueObject'
 import type { Medum2, Tweet, VideoInfo } from 'types/twitter/tweet'
-import type { TweetUser } from 'types/twitter/user'
 import { ITwitterTokenRepository, TwitterTokenRepository } from '../cookie/repository'
 import { getFetchError } from './utils'
+
+type TweetUser = {
+  name: string
+  screen_name: string
+  rest_id: string
+}
 
 class TweetVO extends ValueObject<{ tweet: Tweet; user: TweetUser }> {
   constructor(tweet: Tweet, tweetUser: TweetUser) {
@@ -18,11 +23,11 @@ class TweetVO extends ValueObject<{ tweet: Tweet; user: TweetUser }> {
   }
 
   get authorName(): string {
-    return this.props.user.legacy.name
+    return this.props.user.name
   }
 
   get authorScreenName(): string {
-    return this.props.user.legacy.screen_name
+    return this.props.user.screen_name
   }
 
   get authorId(): string {
@@ -114,7 +119,11 @@ export class V1TweetUseCase extends TweetUseCase {
 
   parseBody(object: any): TweetVO {
     object as Tweet
-    return new TweetVO(object, {} as TweetUser)
+    return new TweetVO(object, {
+      name: object.user.name,
+      screen_name: object.user.screen_name,
+      rest_id: object.user.id_str,
+    })
   }
 }
 
@@ -218,9 +227,15 @@ export class GraphQLTweetUseCase extends TweetUseCase {
       entry.content.itemContent.tweet_results.result.legacy ||
       entry.content.itemContent.tweet_results.result.tweet.legacy
 
+    const user = entry.content.itemContent.tweet_results.result.core.user_results.result
+
     if (!tweet) throw getFetchError(404)
 
-    return new TweetVO(tweet, entry.content.itemContent.tweet_results.result.core.user_results.result)
+    return new TweetVO(tweet, {
+      screen_name: user.legacy.screen_name,
+      name: user.legacy.name,
+      rest_id: user.rest_id,
+    })
   }
 }
 
