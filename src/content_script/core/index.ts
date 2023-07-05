@@ -1,6 +1,5 @@
 import { captureException } from '@sentry/browser'
-import { isArticleCanBeAppend, isBetaTweetDeck, isFunctionablePath, isTweetDeck, isTwitter } from '../utils/checker'
-import DeckHarvester from './DeckHarvester'
+import { isArticleCanBeAppend, isFunctionablePath } from '../utils/checker'
 import Harvester from './Harvester'
 
 const setTargetArticle = (article: HTMLElement) => {
@@ -14,15 +13,8 @@ const makeHarvester = (article: HTMLElement) => {
     setTargetArticle(article)
 
     try {
-      if (isTwitter()) {
-        const harvester = new Harvester(article)
-        harvester.appendButton()
-      }
-
-      if (isTweetDeck()) {
-        const harvester = isBetaTweetDeck() ? new Harvester(article) : new DeckHarvester(article)
-        harvester.appendButton()
-      }
+      const harvester = new Harvester(article)
+      harvester.appendButton()
     } catch (error) {
       captureException(error)
       console.error(error)

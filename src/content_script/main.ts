@@ -31,9 +31,8 @@ SentryInit({
 Browser.runtime.sendMessage({ action: Action.FetchUser }).then(user => setUser(user))
 
 import { FeaturesRepository } from './features/repository'
-import { TweetDeckBetaKeyboardMonitor, TweetDeckLegacyKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
+import { TweetDeckBetaKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
 import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
-import TweetDeckLegacyObserver from './observers/TweetDeckLegacyObserver'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
 import { isBetaTweetDeck, isTwitter } from './utils/checker'
 
@@ -43,19 +42,21 @@ const isRevealNsfw = await featureRepo.isRevealNsfw()
 const useObserver = () => {
   if (isTwitter()) return new TwitterMediaObserver(isRevealNsfw)
   if (isBetaTweetDeck()) return new TweetDeckBetaObserver(isRevealNsfw)
-  return new TweetDeckLegacyObserver()
+  return new TwitterMediaObserver(isRevealNsfw)
 }
 
 const useKeboardMonitor = () => {
   if (isTwitter()) return new TwitterKeyboardMonitor()
   if (isBetaTweetDeck()) return new TweetDeckBetaKeyboardMonitor()
-  return new TweetDeckLegacyKeyboardMonitor()
+  return undefined
 }
 
 if (await featureRepo.isEnableKeyboardShortcut()) {
   const keyboardMonitor = useKeboardMonitor()
-  window.addEventListener('keydown', keyboardMonitor.handleKeyDown.bind(keyboardMonitor))
-  window.addEventListener('keyup', keyboardMonitor.handleKeyUp.bind(keyboardMonitor))
+  if (keyboardMonitor) {
+    window.addEventListener('keydown', keyboardMonitor.handleKeyDown.bind(keyboardMonitor))
+    window.addEventListener('keyup', keyboardMonitor.handleKeyUp.bind(keyboardMonitor))
+  }
 }
 
 const observer = useObserver()

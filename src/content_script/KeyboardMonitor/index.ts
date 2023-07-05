@@ -48,17 +48,6 @@ abstract class GeneralKeyboardMonitor implements IKeyboardMonitor {
   abstract updateFocusing(e: KeyboardEvent): void
 }
 
-export class TweetDeckLegacyKeyboardMonitor extends GeneralKeyboardMonitor {
-  constructor() {
-    super('.deck-harvester', DownloadKey.LegacyTweetDeck)
-  }
-
-  updateFocusing(e: KeyboardEvent): void {
-    if (!(e.target instanceof Element)) return
-    this.focusing = select('.is-selected-tweet', e.target)
-  }
-}
-
 export class TwitterKeyboardMonitor extends GeneralKeyboardMonitor {
   constructor() {
     super('.harvester', DownloadKey.Twitter)

@@ -6,6 +6,5 @@ export enum Action {
 
 export enum DownloadKey {
   Twitter = 'd',
-  LegacyTweetDeck = 'o',
   BetaTweetDeck = 'p',
 }

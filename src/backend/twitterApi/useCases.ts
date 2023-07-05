@@ -127,20 +127,6 @@ export class V1TweetUseCase extends TweetUseCase {
   }
 }
 
-/**
- * V2 has larger body, and lower rate limit about 190.
- * @deprecated
- */
-class V2TweetUseCase extends TweetUseCase {
-  makeEndpoint(): string {
-    return `https://api.twitter.com/2/timeline/conversation/${this.tweetId}.json?tweet_mode=extended&trim_user=true`
-  }
-
-  parseBody(object: any): TweetVO {
-    return new TweetVO(object.globalObjects.tweets[this.tweetId], {} as TweetUser)
-  }
-}
-
 const makeGraphQlVars = (tweetId: string): TwitterGraphQLVariables => ({
   focalTweetId: tweetId,
   with_rux_injections: false,
