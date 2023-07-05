@@ -132,6 +132,15 @@
   "options_general_filenamePattern_token_date": {
     "message": "日期"
   },
+  "options_general_filenamePattern_token_accountId": {
+    "message": "帳號 ID"
+  },
+  "options_general_filenamePattern_token_tweetDate": {
+    "message": "推特日期"
+  },
+  "options_general_filenamePattern_token_tweetDatetime": {
+    "message": "推特日期時間"
+  },
   "options_general_filenameSettings_message_dir": {
     "message": "無效的資料夾名稱。不能含有 <>:\"/\\|?*"
   },
