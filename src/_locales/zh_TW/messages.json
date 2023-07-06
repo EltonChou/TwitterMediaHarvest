@@ -129,8 +129,11 @@
   "options_general_filenamePattern_token_serial": {
     "message": "序列號"
   },
-  "options_general_filenamePattern_token_date": {
-    "message": "日期"
+  "options_general_filenamePattern_token_downloadDate": {
+    "message": "下載日期"
+  },
+  "options_general_filenamePattern_token_downloadDatetime": {
+    "message": "下載日期時間"
   },
   "options_general_filenamePattern_token_accountId": {
     "message": "帳號 ID"

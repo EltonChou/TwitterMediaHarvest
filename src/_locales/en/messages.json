@@ -129,8 +129,11 @@
   "options_general_filenamePattern_token_serial": {
     "message": "Serial"
   },
-  "options_general_filenamePattern_token_date": {
-    "message": "Date"
+  "options_general_filenamePattern_token_downloadDate": {
+    "message": "Download Date"
+  },
+  "options_general_filenamePattern_token_downloadDatetime": {
+    "message": "Download Datetime"
   },
   "options_general_filenamePattern_token_accountId": {
     "message": "Account ID"

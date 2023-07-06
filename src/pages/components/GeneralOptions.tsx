@@ -22,7 +22,7 @@ const fp: [string, FilenamePatternToken][] = [
   [i18n('options_general_filenamePattern_token_tweetId'), '{tweetId}'],
   [i18n('options_general_filenamePattern_token_hash'), '{hash}'],
   [i18n('options_general_filenamePattern_token_serial'), '{serial}'],
-  [i18n('options_general_filenamePattern_token_date'), '{date}'],
+  [i18n('options_general_filenamePattern_token_downloadDate'), '{date}'],
   [i18n('options_general_filenamePattern_token_tweetDate'), '{tweetDate}'],
   [i18n('options_general_filenamePattern_token_tweetDatetime'), '{tweetDatetime}'],
   // [i18n('options_general_filenamePattern_token_datetime'), '{datetime}'],

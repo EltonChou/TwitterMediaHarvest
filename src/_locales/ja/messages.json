@@ -129,17 +129,20 @@
   "options_general_filenamePattern_token_serial": {
     "message": "シリアル"
   },
-  "options_general_filenamePattern_token_date": {
-    "message": "日付"
+  "options_general_filenamePattern_token_downloadDate": {
+    "message": "ダウンロード日付"
+  },
+  "options_general_filenamePattern_token_downloadDatetime": {
+    "message": "ダウンロード日時"
   },
   "options_general_filenamePattern_token_accountId": {
     "message": "アカウント ID"
   },
   "options_general_filenamePattern_token_tweetDate": {
-    "message": "ツイート 日付"
+    "message": "ツイート日付"
   },
   "options_general_filenamePattern_token_tweetDatetime": {
-    "message": "ツイート 日時"
+    "message": "ツイート日時"
   },
   "options_general_filenameSettings_message_dir": {
     "message": "ディレクトリ名に次の文字は使えません <>:\"/\\|?*"
