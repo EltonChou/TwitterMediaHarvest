@@ -55,6 +55,7 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
       console.log('Send message to service worker.', message)
       const resp: HarvestResponse<unknown> = await browser.runtime.sendMessage(message)
       setButtonStatus(this, resp.status)
+      console.log(JSON.stringify(resp))
     } catch (error) {
       captureException(error)
       console.error(error)

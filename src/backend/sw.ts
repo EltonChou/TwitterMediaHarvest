@@ -70,6 +70,7 @@ browser.runtime.onMessage.addListener(async (message: HarvestMessage<unknown>, s
       await usecase.processDownload()
       return { status: 'success' }
     } catch (error) {
+      console.error(error)
       return { status: 'error', data: error }
     }
   }
