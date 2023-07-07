@@ -43,7 +43,7 @@
     "message": "開発者に問い合わせてください。"
   },
   "fetchFailedNotFoundTitle": {
-    "message": " 要求されたデータを取得できませんでした"
+    "message": "要求されたデータを取得できませんでした"
   },
   "fetchFailedNotFoundMessage": {
     "message": "該当のツイートがすでに削除された。"
@@ -124,10 +124,10 @@
     "message": "ツイート ID"
   },
   "options_general_filenamePattern_token_hash": {
-    "message": "ハッシュ"
+    "message": "ハッシュ値"
   },
   "options_general_filenamePattern_token_serial": {
-    "message": "シリアル"
+    "message": "シリアル番号"
   },
   "options_general_filenamePattern_token_downloadDate": {
     "message": "ダウンロード日付"
@@ -148,7 +148,7 @@
     "message": "ディレクトリ名に次の文字は使えません <>:\"/\\|?*"
   },
   "options_general_filenameSettings_message_pattern": {
-    "message": "無効なパータン。 `ツイート ID` + `シリアル` や `ハッシュ` を含めてください."
+    "message": "無効なパータン。 `ツイート ID` + `シリアル番号` や `ハッシュ` を含めてください."
   },
   "options_features_revealNsfw": {
     "message": "センシティブ内容の自動表示"
