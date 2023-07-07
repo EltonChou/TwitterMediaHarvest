@@ -1,14 +1,14 @@
 # Changelog
 
-## [4.1.5]
+## [4.1.5] - 2023-07-07
 
 ### Added
 
-- Add more filename pattern tokens. (#78)
+- Added more filename pattern tokens. (#78)
 
 ### Fixed
 
-- Fix bug that ad-tweet would be open when enable auto-revealing nsfw. (#79)
+- Fixex bug that ad-tweet would be open when enable auto-revealing nsfw. (#79)
 
 ### Changed
 
