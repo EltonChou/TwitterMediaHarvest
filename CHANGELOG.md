@@ -1,5 +1,25 @@
 # Changelog
 
+## [4.1.5]
+
+### Added
+
+- Add more filename pattern tokens. (#78)
+
+### Fixed
+
+- Fix bug that ad-tweet would be open when enable auto-revealing nsfw. (#79)
+
+### Changed
+
+- Changed some i18n.
+
+### Removed
+
+- Removed v2 endpoint support.
+- Removed Legacy tweetdeck support
+
+
 ## [4.1.4] - 2023-07-04
 
 ### Fixed
