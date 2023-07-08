@@ -1,14 +1,14 @@
 # Changelog
 
-## [4.1.6]
+## [4.1.6] - 2023-07-09
 
 ### Added
 
-- Add fallback api usecase.
+- Added fallback api usecase. The extension will try to save api quota if you set `twitterApiVersion` to `v1`.
 
 ### Fixed
 
-- Fixed api parsing.
+- Fixed api tweet user parsing.
 
 
 ## [4.1.5] - 2023-07-07
