@@ -7,6 +7,7 @@ export class ApiError extends HarvestError {
 export class ParserError extends HarvestError {}
 export class TweetParsingError extends ParserError {}
 export class TweetUserParsingError extends ParserError {}
+export class TweetMediaParsingError extends ParserError {}
 
 // Twitter API
 export class TwitterApiError extends ApiError {

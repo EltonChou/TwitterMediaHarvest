@@ -1,5 +1,13 @@
 import { storageConfig } from '@backend/configurations'
-import { GraphQLTweetUseCase, ITweetUseCase, MediaTweetUseCases, V1TweetUseCase } from '@backend/twitterApi/useCases'
+import {
+  FallbackGraphQLTweetUseCase,
+  ITweetUseCase,
+  LatestGraphQLTweetUseCase,
+  MediaTweetUseCases,
+  TweetVO,
+  V1TweetUseCase,
+} from '@backend/twitterApi/useCases'
+import { TwitterApiVersion } from '@schema'
 import { addBreadcrumb, captureException } from '@sentry/browser'
 import { NotFound, TooManyRequest, TwitterApiError, Unauthorized } from '../errors'
 import { FetchErrorNotificationUseCase, InternalErrorNotificationUseCase } from '../notifications/notifyUseCase'
@@ -11,26 +19,27 @@ const sentryCapture = (err: Error) => {
   captureException(err)
 }
 
-const selectTweetUseCase = async (tweetId: string): Promise<ITweetUseCase> => {
-  const { twitterApiVersion } = await storageConfig.twitterApiSettingsRepo.getSettings()
+const makeSortedUseCases = async (
+  useCases: ITweetUseCase[],
+  priorityVersion: TwitterApiVersion
+): Promise<ITweetUseCase[]> =>
+  [...useCases].sort((a, b) => {
+    if (a.version === priorityVersion) return -1
+    if (b.version === priorityVersion) return 1
+    return 0
+  })
 
-  switch (twitterApiVersion) {
-    case 'v1':
-      return new V1TweetUseCase(tweetId)
-
-    case 'gql':
-      return new GraphQLTweetUseCase(tweetId)
-
-    default:
-      return new GraphQLTweetUseCase(tweetId)
-  }
-}
+const checkInfo = (tweet: TweetVO | undefined, catalog: TweetMediaCatalog): boolean =>
+  Boolean(tweet) && Object.values(catalog).flat(1).length !== 0
 
 export default class DownloadActionUseCase {
   constructor(readonly tweetInfo: TweetInfo) {}
 
   /* eslint-disable no-console */
   private async process(): Promise<void> {
+    let tweet: TweetVO
+    let mediaCatalog: TweetMediaCatalog
+
     console.info('Processing download. Info:', this.tweetInfo)
     addBreadcrumb({
       category: 'download',
@@ -38,11 +47,34 @@ export default class DownloadActionUseCase {
       level: 'info',
     })
 
-    const tweetUseCase = await selectTweetUseCase(this.tweetInfo.tweetId)
-    const mediaTweetUseCase = new MediaTweetUseCases(tweetUseCase)
-    console.info(`Fetching media info (tweetId: ${this.tweetInfo.tweetId})...`)
-    const mediaCatelog = await mediaTweetUseCase.fetchMediaCatalog()
-    const tweet = await tweetUseCase.fetchTweet()
+    const { twitterApiVersion } = await storageConfig.twitterApiSettingsRepo.getSettings()
+    const tweetApiUseCases = [
+      new V1TweetUseCase(this.tweetInfo.tweetId),
+      new LatestGraphQLTweetUseCase(this.tweetInfo.tweetId),
+      new FallbackGraphQLTweetUseCase(this.tweetInfo.tweetId),
+    ]
+    const tweetUseCases = await makeSortedUseCases(tweetApiUseCases, twitterApiVersion)
+
+    let err: Error = undefined
+    let isInfoFetched = false
+    while (tweetUseCases.length > 0 && !isInfoFetched) {
+      const tweetUseCase = tweetUseCases.shift()
+      const mediaTweetUseCase = new MediaTweetUseCases(tweetUseCase)
+      console.info(`Fetching media info. (${tweetUseCase.version})\n`, {
+        tweetId: this.tweetInfo.tweetId,
+      })
+
+      try {
+        tweet = await mediaTweetUseCase.fetchTweet()
+        mediaCatalog = await mediaTweetUseCase.fetchMediaCatalog()
+      } catch (error) {
+        err = error
+        if (tweetUseCases.length === 0 && err) throw error
+      }
+
+      isInfoFetched = checkInfo(tweet, mediaCatalog)
+    }
+
     const tweetDetail: TweetDetail = {
       id: tweet.id,
       userId: tweet.authorId,
@@ -51,7 +83,7 @@ export default class DownloadActionUseCase {
       screenName: tweet.authorScreenName,
     }
     const mediaDownloader = await MediaDownloader.build(tweetDetail)
-    mediaDownloader.downloadMediasByMediaCatalog(mediaCatelog)
+    mediaDownloader.downloadMediasByMediaCatalog(mediaCatalog)
   }
 
   async processDownload(): Promise<void> {

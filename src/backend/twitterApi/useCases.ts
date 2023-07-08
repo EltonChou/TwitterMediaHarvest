@@ -1,8 +1,9 @@
+import { TweetMediaParsingError, TweetParsingError, TweetUserParsingError } from '@backend/errors'
 import ValueObject from '@backend/valueObject'
+import { TwitterApiVersion } from '@schema'
 import type { Medum2, Tweet, VideoInfo } from 'types/twitter/tweet'
 import { ITwitterTokenRepository, TwitterTokenRepository } from '../cookie/repository'
 import { getFetchError } from './utils'
-import { TweetParsingError, TweetUserParsingError } from '@backend/errors'
 
 type TweetUser = {
   name: string
@@ -10,7 +11,7 @@ type TweetUser = {
   rest_id: string
 }
 
-class TweetVO extends ValueObject<{ tweet: Tweet; user: TweetUser }> {
+export class TweetVO extends ValueObject<{ tweet: Tweet; user: TweetUser }> {
   constructor(tweet: Tweet, tweetUser: TweetUser) {
     super({ tweet: tweet, user: tweetUser })
   }
@@ -74,12 +75,15 @@ const initHeaders = (tweetId: string, csrfToken: string, guestToken?: string) =>
   ])
 
 export interface ITweetUseCase {
+  version: TwitterApiVersion
   fetchTweet(): Promise<TweetVO>
 }
 
 const twitterTokenRepo = new TwitterTokenRepository()
 
 abstract class TweetUseCase implements ITweetUseCase {
+  abstract version: TwitterApiVersion
+
   protected tokenRepo: ITwitterTokenRepository = twitterTokenRepo
   protected tweet: TweetVO = undefined
 
@@ -114,6 +118,8 @@ abstract class TweetUseCase implements ITweetUseCase {
  * V1 has faster response time and higer rate limit about 1000,  but it might be deprecated soon.
  */
 export class V1TweetUseCase extends TweetUseCase {
+  version: TwitterApiVersion = 'v1'
+
   makeEndpoint(): string {
     return `https://api.twitter.com/1.1/statuses/show.json?id=${this.tweetId}?trim_user=true`
   }
@@ -139,28 +145,6 @@ const makeGraphQlVars = (tweetId: string): TwitterGraphQLVariables => ({
   withV2Timeline: true,
 })
 
-interface TwitterGraphQLFeatures {
-  blue_business_profile_image_shape_enabled: boolean
-  responsive_web_graphql_exclude_directive_enabled: boolean
-  verified_phone_label_enabled: boolean
-  responsive_web_graphql_timeline_navigation_enabled: boolean
-  responsive_web_graphql_skip_user_profile_image_extensions_enabled: boolean
-  tweetypie_unmention_optimization_enabled: boolean
-  vibe_api_enabled: boolean
-  responsive_web_edit_tweet_api_enabled: boolean
-  graphql_is_translatable_rweb_tweet_is_translatable_enabled: boolean
-  view_counts_everywhere_api_enabled: boolean
-  longform_notetweets_consumption_enabled: boolean
-  tweet_awards_web_tipping_enabled: boolean
-  freedom_of_speech_not_reach_fetch_enabled: boolean
-  standardized_nudges_misinfo: boolean
-  tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled: boolean
-  interactive_text_enabled: boolean
-  responsive_web_text_conversations_enabled: boolean
-  longform_notetweets_rich_text_read_enabled: boolean
-  responsive_web_enhance_cards_enabled: boolean
-}
-
 interface TwitterGraphQLVariables {
   focalTweetId: string
   with_rux_injections: boolean
@@ -172,38 +156,10 @@ interface TwitterGraphQLVariables {
   withV2Timeline: boolean
 }
 
-const graphQlFeatures: TwitterGraphQLFeatures = {
-  blue_business_profile_image_shape_enabled: false,
-  responsive_web_graphql_exclude_directive_enabled: true,
-  verified_phone_label_enabled: false,
-  responsive_web_graphql_timeline_navigation_enabled: false,
-  responsive_web_graphql_skip_user_profile_image_extensions_enabled: true,
-  tweetypie_unmention_optimization_enabled: false,
-  vibe_api_enabled: false,
-  responsive_web_edit_tweet_api_enabled: false,
-  graphql_is_translatable_rweb_tweet_is_translatable_enabled: false,
-  view_counts_everywhere_api_enabled: false,
-  longform_notetweets_consumption_enabled: false,
-  tweet_awards_web_tipping_enabled: false,
-  freedom_of_speech_not_reach_fetch_enabled: false,
-  standardized_nudges_misinfo: false,
-  tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled: true,
-  interactive_text_enabled: false,
-  responsive_web_text_conversations_enabled: false,
-  longform_notetweets_rich_text_read_enabled: false,
-  responsive_web_enhance_cards_enabled: false,
-}
+abstract class GraphQLTweetUseCase extends TweetUseCase {
+  version: TwitterApiVersion = 'gql'
 
-/**
- * GraphQL experiment implement.
- */
-export class GraphQLTweetUseCase extends TweetUseCase {
-  makeEndpoint(): string {
-    const endpoint = new URL('https://twitter.com/i/api/graphql/BbCrSoXIR7z93lLCVFlQ2Q/TweetDetail')
-    endpoint.searchParams.append('variables', JSON.stringify(makeGraphQlVars(this.tweetId)))
-    endpoint.searchParams.append('features', JSON.stringify(graphQlFeatures))
-    return endpoint.href
-  }
+  abstract makeEndpoint(): string
 
   parseBody(object: any): TweetVO {
     const entry = object.data.threaded_conversation_with_injections_v2.instructions
@@ -227,11 +183,84 @@ export class GraphQLTweetUseCase extends TweetUseCase {
   }
 }
 
+/**
+ * Works fine for few months, but who knows.
+ */
+export class FallbackGraphQLTweetUseCase extends GraphQLTweetUseCase {
+  makeEndpoint(): string {
+    const endpoint = new URL('https://twitter.com/i/api/graphql/BbCrSoXIR7z93lLCVFlQ2Q/TweetDetail')
+    endpoint.searchParams.append('variables', JSON.stringify(makeGraphQlVars(this.tweetId)))
+    endpoint.searchParams.append(
+      'features',
+      JSON.stringify({
+        blue_business_profile_image_shape_enabled: false,
+        responsive_web_graphql_exclude_directive_enabled: true,
+        verified_phone_label_enabled: false,
+        responsive_web_graphql_timeline_navigation_enabled: false,
+        responsive_web_graphql_skip_user_profile_image_extensions_enabled: true,
+        tweetypie_unmention_optimization_enabled: false,
+        vibe_api_enabled: false,
+        responsive_web_edit_tweet_api_enabled: false,
+        graphql_is_translatable_rweb_tweet_is_translatable_enabled: false,
+        view_counts_everywhere_api_enabled: false,
+        longform_notetweets_consumption_enabled: false,
+        tweet_awards_web_tipping_enabled: false,
+        freedom_of_speech_not_reach_fetch_enabled: false,
+        standardized_nudges_misinfo: false,
+        tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled: true,
+        interactive_text_enabled: false,
+        responsive_web_text_conversations_enabled: false,
+        longform_notetweets_rich_text_read_enabled: false,
+        responsive_web_enhance_cards_enabled: false,
+      })
+    )
+    return endpoint.href
+  }
+}
+
+export class LatestGraphQLTweetUseCase extends GraphQLTweetUseCase {
+  makeEndpoint(): string {
+    const endpoint = new URL('https://twitter.com/i/api/graphql/NmCeCgkVlsRGS1cAwqtgmw/TweetDetail')
+    endpoint.searchParams.append('variables', JSON.stringify(makeGraphQlVars(this.tweetId)))
+    endpoint.searchParams.append(
+      'features',
+      JSON.stringify({
+        rweb_lists_timeline_redesign_enabled: true,
+        responsive_web_graphql_exclude_directive_enabled: true,
+        verified_phone_label_enabled: false,
+        creator_subscriptions_tweet_preview_api_enabled: false,
+        responsive_web_graphql_timeline_navigation_enabled: false,
+        responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
+        tweetypie_unmention_optimization_enabled: true,
+        responsive_web_edit_tweet_api_enabled: false,
+        graphql_is_translatable_rweb_tweet_is_translatable_enabled: false,
+        view_counts_everywhere_api_enabled: false,
+        longform_notetweets_consumption_enabled: false,
+        responsive_web_twitter_article_tweet_consumption_enabled: false,
+        tweet_awards_web_tipping_enabled: false,
+        freedom_of_speech_not_reach_fetch_enabled: false,
+        standardized_nudges_misinfo: false,
+        tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled: true,
+        longform_notetweets_rich_text_read_enabled: false,
+        longform_notetweets_inline_media_enabled: false,
+        responsive_web_media_download_video_enabled: false,
+        responsive_web_enhance_cards_enabled: false,
+      })
+    )
+    endpoint.searchParams.append('fieldToggles', JSON.stringify({ withArticleRichContentState: false }))
+    return endpoint.href
+  }
+}
+
 export class MediaTweetUseCases {
   constructor(readonly tweetUseCase: ITweetUseCase) {}
 
+  async fetchTweet(): Promise<TweetVO> {
+    return await this.tweetUseCase.fetchTweet()
+  }
+
   async fetchMediaCatalog(): Promise<TweetMediaCatalog> {
-    const tweet = await this.tweetUseCase.fetchTweet()
+    const tweet = await this.fetchTweet()
     const medias = tweet.medias
 
     let mediaCatalog: TweetMediaCatalog = {
@@ -247,6 +276,11 @@ export class MediaTweetUseCases {
       }, mediaCatalog)
     }
 
+    if (isEmptyMediaCatalog(mediaCatalog))
+      throw new TweetMediaParsingError('Cannot parse media from tweet. ' + JSON.stringify({ tweetId: tweet.id }))
+
     return mediaCatalog
   }
 }
+
+const isEmptyMediaCatalog = (catalog: TweetMediaCatalog) => Object.values(catalog).flat(1).length === 0
