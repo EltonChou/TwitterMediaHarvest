@@ -37,7 +37,7 @@ export default class DownloadActionUseCase {
     let tweet: TweetVO
     let mediaCatalog: TweetMediaCatalog
 
-    console.info('Processing download. Info:', this.tweetInfo)
+    console.info('Processing download.\n', this.tweetInfo)
     addBreadcrumb({
       category: 'download',
       message: 'Process download.',
