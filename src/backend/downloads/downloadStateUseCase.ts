@@ -2,10 +2,10 @@ import { addBreadcrumb } from '@sentry/browser'
 import type { Downloads } from 'webextension-polyfill'
 import Browser from 'webextension-polyfill'
 import { storageConfig } from '../configurations'
-import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCase'
+import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCases'
 import { V4StatsUseCase } from '../statistics/useCases'
 import InterruptReason from './InterruptReason'
-import { IDownloadRecordsRepository } from './repository'
+import { IDownloadRecordsRepository } from './repositories'
 import { downloadIsCompleted, downloadIsInterrupted } from './utils/downloadState'
 
 const statisticsUseCase = new V4StatsUseCase(storageConfig.statisticsRepo)
@@ -24,7 +24,7 @@ export default class DownloadStateUseCase {
   async handle_interrupted(): Promise<void> {
     // eslint-disable-next-line no-console
     const { id, error } = this.downloadDelta
-    console.log('Download was interrupted.', this.downloadDelta)
+    console.log('Download was interrupted.\n', this.downloadDelta)
     addBreadcrumb({
       category: 'download',
       message: `Download interupted reason. (current: ${error.current}, previous: ${error.previous})`,
@@ -49,7 +49,7 @@ export default class DownloadStateUseCase {
 
   async handle_completed(): Promise<void> {
     // eslint-disable-next-line no-console
-    console.log('Download was completed.', this.downloadDelta)
+    console.log('Download was completed.\n', this.downloadDelta)
     const [item] = await Browser.downloads.search({ id: this.downloadDelta.id })
     if (item) await statisticsUseCase.addTraffic(item.fileSize)
     await statisticsUseCase.addDownloadCount()

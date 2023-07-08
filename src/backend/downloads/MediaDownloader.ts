@@ -2,9 +2,9 @@ import type { DownloadSettings, FeatureSettings, V4FilenameSettings } from '@sch
 import browser from 'webextension-polyfill'
 import { storageConfig } from '../configurations'
 import { HarvestError } from '../errors'
+import TwitterMediaFile, { DownloadMode } from './TwitterMediaFile'
 import type { DownloadItemRecorder } from './downloadItemRecorder'
 import { downloadItemRecorder } from './downloadItemRecorder'
-import TwitterMediaFile, { DownloadMode } from './TwitterMediaFile'
 
 const ARIA2_ID =
   process.env.TARGET === 'chrome' ? 'mpkodccbngfoacfalldjimigbofkhgjn' : 'jjfgljkjddpcpfapejfkelkbjbehagbh'
@@ -51,12 +51,10 @@ export default class MediaDownloader {
       : browser.downloads.download(config).then(downloadId => this.record_config(config)(downloadId))
   }
 
-  downloadMediasByMediaCatalog(mediaCatalog: TweetMediaCatalog) {
-    Object.entries(mediaCatalog).forEach(([category, items]) => {
+  async downloadMediasByMediaCatalog(mediaCatalog: TweetMediaCatalog) {
+    Object.entries(mediaCatalog).forEach(async ([category, items]) => {
       if (items.length) {
-        items.forEach((media_url, index) => {
-          this.downloadMedia(media_url, index)
-        })
+        items.forEach(async (media_url, index) => await this.downloadMedia(media_url, index))
       }
     })
   }

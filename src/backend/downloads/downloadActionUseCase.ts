@@ -4,13 +4,13 @@ import {
   ITweetUseCase,
   LatestGraphQLTweetUseCase,
   MediaTweetUseCases,
-  TweetVO,
   V1TweetUseCase,
 } from '@backend/twitterApi/useCases'
+import { TweetVO } from '@backend/twitterApi/valueObjects'
 import { TwitterApiVersion } from '@schema'
 import { addBreadcrumb, captureException } from '@sentry/browser'
 import { NotFound, TooManyRequest, TwitterApiError, Unauthorized } from '../errors'
-import { FetchErrorNotificationUseCase, InternalErrorNotificationUseCase } from '../notifications/notifyUseCase'
+import { FetchErrorNotificationUseCase, InternalErrorNotificationUseCase } from '../notifications/notifyUseCases'
 import MediaDownloader from './MediaDownloader'
 
 const sentryCapture = (err: Error) => {
@@ -28,9 +28,6 @@ const makeSortedUseCases = async (
     if (b.version === priorityVersion) return 1
     return 0
   })
-
-const checkInfo = (tweet: TweetVO | undefined, catalog: TweetMediaCatalog): boolean =>
-  Boolean(tweet) && Object.values(catalog).flat(1).length !== 0
 
 export default class DownloadActionUseCase {
   constructor(readonly tweetInfo: TweetInfo) {}
@@ -67,12 +64,11 @@ export default class DownloadActionUseCase {
       try {
         tweet = await mediaTweetUseCase.fetchTweet()
         mediaCatalog = await mediaTweetUseCase.fetchMediaCatalog()
+        isInfoFetched = true
       } catch (error) {
         err = error
         if (tweetUseCases.length === 0 && err) throw error
       }
-
-      isInfoFetched = checkInfo(tweet, mediaCatalog)
     }
 
     const tweetDetail: TweetDetail = {
@@ -83,7 +79,7 @@ export default class DownloadActionUseCase {
       screenName: tweet.authorScreenName,
     }
     const mediaDownloader = await MediaDownloader.build(tweetDetail)
-    mediaDownloader.downloadMediasByMediaCatalog(mediaCatalog)
+    await mediaDownloader.downloadMediasByMediaCatalog(mediaCatalog)
   }
 
   async processDownload(): Promise<void> {

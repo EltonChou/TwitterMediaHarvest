@@ -1,6 +1,6 @@
 import type { DownloadSettings } from '@schema'
 import browser from 'webextension-polyfill'
-import type { IDownloadRecordsRepository } from './downloads/repository'
+import type { IDownloadRecordsRepository } from './downloads/repositories'
 import type { ISettingsRepository } from './settings/repository'
 
 export const chromiumInit = (

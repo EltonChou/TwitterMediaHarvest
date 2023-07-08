@@ -10,7 +10,7 @@ import DownloadActionUseCase from './downloads/downloadActionUseCase'
 import DownloadStateUseCase from './downloads/downloadStateUseCase'
 import { HarvestError } from './errors'
 import { chromiumInit, firefoxInit } from './initialization'
-import NotificationUseCase from './notifications/notificationIdUseCase'
+import NotificationUseCase from './notifications/notificationIdUseCases'
 import { V4StatsUseCase } from './statistics/useCases'
 import { isDownloadedBySelf, isInvalidInfo } from './utils/checker'
 

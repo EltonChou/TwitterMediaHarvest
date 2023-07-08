@@ -1,45 +1,9 @@
 import { TweetMediaParsingError, TweetParsingError, TweetUserParsingError } from '@backend/errors'
-import ValueObject from '@backend/valueObject'
 import { TwitterApiVersion } from '@schema'
-import type { Medum2, Tweet, VideoInfo } from 'types/twitter/tweet'
-import { ITwitterTokenRepository, TwitterTokenRepository } from '../cookie/repository'
+import type { Tweet, VideoInfo } from 'types/twitter/tweet'
+import { ITwitterTokenRepository, TwitterTokenRepository } from '../cookie/repositories'
 import { getFetchError } from './utils'
-
-type TweetUser = {
-  name: string
-  screen_name: string
-  rest_id: string
-}
-
-export class TweetVO extends ValueObject<{ tweet: Tweet; user: TweetUser }> {
-  constructor(tweet: Tweet, tweetUser: TweetUser) {
-    super({ tweet: tweet, user: tweetUser })
-  }
-
-  get medias(): Medum2[] {
-    return this.props?.tweet.extended_entities?.media
-  }
-
-  get id(): string {
-    return this.props.tweet.id_str
-  }
-
-  get authorName(): string {
-    return this.props.user.name
-  }
-
-  get authorScreenName(): string {
-    return this.props.user.screen_name
-  }
-
-  get authorId(): string {
-    return this.props.user.rest_id
-  }
-
-  get createdAt(): Date {
-    return new Date(Date.parse(this.props.tweet.created_at))
-  }
-}
+import { TweetVO } from './valueObjects'
 
 const searchParamsToClean = ['tag']
 
@@ -283,4 +247,4 @@ export class MediaTweetUseCases {
   }
 }
 
-const isEmptyMediaCatalog = (catalog: TweetMediaCatalog) => Object.values(catalog).flat(1).length === 0
+const isEmptyMediaCatalog = (catalog: TweetMediaCatalog) => Object.values(catalog).every(medias => medias.length === 0)
