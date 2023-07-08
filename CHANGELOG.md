@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.1.6]
+
+### Added
+
+- Add fallback api usecase.
+
+### Fixed
+
+- Fixed api parsing.
+
+
 ## [4.1.5] - 2023-07-07
 
 ### Added
@@ -8,7 +19,7 @@
 
 ### Fixed
 
-- Fixex bug that ad-tweet would be open when enable auto-revealing nsfw. (#79)
+- Fixed bug that ad-tweet would be open when enable auto-revealing nsfw. (#79)
 
 ### Changed
 
