@@ -2,6 +2,7 @@ import ValueObject from '@backend/valueObject'
 import type { Medum2, Tweet, VideoInfo } from 'types/twitter/tweet'
 import { ITwitterTokenRepository, TwitterTokenRepository } from '../cookie/repository'
 import { getFetchError } from './utils'
+import { TweetParsingError, TweetUserParsingError } from '@backend/errors'
 
 type TweetUser = {
   name: string
@@ -173,10 +174,10 @@ interface TwitterGraphQLVariables {
 
 const graphQlFeatures: TwitterGraphQLFeatures = {
   blue_business_profile_image_shape_enabled: false,
-  responsive_web_graphql_exclude_directive_enabled: false,
+  responsive_web_graphql_exclude_directive_enabled: true,
   verified_phone_label_enabled: false,
   responsive_web_graphql_timeline_navigation_enabled: false,
-  responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
+  responsive_web_graphql_skip_user_profile_image_extensions_enabled: true,
   tweetypie_unmention_optimization_enabled: false,
   vibe_api_enabled: false,
   responsive_web_edit_tweet_api_enabled: false,
@@ -186,7 +187,7 @@ const graphQlFeatures: TwitterGraphQLFeatures = {
   tweet_awards_web_tipping_enabled: false,
   freedom_of_speech_not_reach_fetch_enabled: false,
   standardized_nudges_misinfo: false,
-  tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled: false,
+  tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled: true,
   interactive_text_enabled: false,
   responsive_web_text_conversations_enabled: false,
   longform_notetweets_rich_text_read_enabled: false,
@@ -209,13 +210,14 @@ export class GraphQLTweetUseCase extends TweetUseCase {
       .filter((i: { type: string }) => i.type === 'TimelineAddEntries')[0]
       .entries.filter((e: { entryId: string }) => e.entryId.includes(this.tweetId))[0]
 
-    const tweet =
-      entry.content.itemContent.tweet_results.result.legacy ||
-      entry.content.itemContent.tweet_results.result.tweet.legacy
+    const result =
+      entry.content.itemContent.tweet_results.result.tweet || entry.content.itemContent.tweet_results.result
 
-    const user = entry.content.itemContent.tweet_results.result.core.user_results.result
+    const tweet = result?.legacy || result
+    if (!tweet) throw new TweetParsingError('Cannot parse tweet from response.')
 
-    if (!tweet) throw getFetchError(404)
+    const user = result.core.user_results.result
+    if (!user) throw new TweetUserParsingError('Cannot parse tweet user from response.')
 
     return new TweetVO(tweet, {
       screen_name: user.legacy.screen_name,
