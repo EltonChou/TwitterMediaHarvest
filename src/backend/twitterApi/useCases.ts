@@ -91,6 +91,9 @@ export class V1TweetUseCase extends TweetUseCase {
   }
 
   parseBody(object: any): TweetVO {
+    if (!object) throw new TweetParsingError('Cannot parse tweet from response.')
+    if (!object.user) throw new TweetUserParsingError('Cannot parse tweet user from response.')
+
     return new TweetVO(object, {
       name: object.user.name,
       screen_name: object.user.screen_name,
@@ -108,7 +111,10 @@ export class V2TweetUseCase extends TweetUseCase {
 
   parseBody(object: any): TweetVO {
     const tweet = object.globalObjects.tweets[this.tweetId]
+    if (!tweet) throw new TweetParsingError('Cannot parse tweet from response.')
+
     const user = object.globalObjects.users[tweet.user_id_str]
+    if (!user) throw new TweetUserParsingError('Cannot parse tweet user from response.')
 
     return new TweetVO(tweet, {
       name: user.name,

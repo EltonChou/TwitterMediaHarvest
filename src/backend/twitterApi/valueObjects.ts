@@ -1,3 +1,4 @@
+import { ValidationError } from '@backend/errors'
 import ValueObject from '@backend/valueObject'
 import type { Medum2, Tweet } from 'types/twitter/tweet'
 
@@ -10,6 +11,7 @@ type TweetUser = {
 export class TweetVO extends ValueObject<{ tweet: Tweet; user: TweetUser }> {
   constructor(tweet: Tweet, tweetUser: TweetUser) {
     super({ tweet: tweet, user: tweetUser })
+    this.validate()
   }
 
   get medias(): Medum2[] {
@@ -34,5 +36,20 @@ export class TweetVO extends ValueObject<{ tweet: Tweet; user: TweetUser }> {
 
   get createdAt(): Date {
     return new Date(Date.parse(this.props.tweet.created_at))
+  }
+
+  validate(): TweetVO {
+    const isValid = [
+      this.props.tweet,
+      this.props.user,
+      this.props.user.name,
+      this.props.user.rest_id,
+      this.props.user.screen_name,
+      this.props.tweet?.created_at,
+      this.props.tweet?.extended_entities,
+    ].every(v => Boolean(v))
+
+    if (!isValid) throw new ValidationError('Cannot map tweet correctly')
+    return this
   }
 }

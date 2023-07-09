@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.1.8] - 2023-07-10
+
+### Fixed
+
+- Fixed twitter api parsing.
+
 
 ## [4.1.7] - 2023-07-09
 

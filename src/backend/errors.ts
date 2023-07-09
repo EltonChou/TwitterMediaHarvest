@@ -4,6 +4,8 @@ export class ApiError extends HarvestError {
   statusCode: number
 }
 
+export class ValidationError extends HarvestError {}
+
 export class ParserError extends HarvestError {}
 export class TweetParsingError extends ParserError {}
 export class TweetUserParsingError extends ParserError {}
