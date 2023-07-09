@@ -12,11 +12,15 @@ const KeyboardShortcutDesc = () => {
       {i18n('options_features_keyboardShortcut_desc')}
       <br />
       <Text as={'span'}>
-        Twitter: <Kbd>{DownloadKey.Twitter.toUpperCase()}</Kbd>
+        twitter: <Kbd>{DownloadKey.Twitter.toUpperCase()}</Kbd>
       </Text>
       <br />
       <Text as={'span'}>
-        TweetDeck: <Kbd>{DownloadKey.BetaTweetDeck.toUpperCase()}</Kbd>
+        TweetDeck (Legacy UI): <Kbd>{DownloadKey.LegacyTweetDeck.toUpperCase()}</Kbd>
+      </Text>
+      <br />
+      <Text as={'span'}>
+        TweetDeck (Beta UI): <Kbd>{DownloadKey.BetaTweetDeck.toUpperCase()}</Kbd>
       </Text>
     </Text>
   )
