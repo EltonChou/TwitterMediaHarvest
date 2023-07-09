@@ -87,7 +87,7 @@ export class V1TweetUseCase extends TweetUseCase {
   version: TwitterApiVersion = 'v1'
 
   makeEndpoint(): string {
-    return `https://api.twitter.com/1.1/statuses/show.json?id=${this.tweetId}?trim_user=true`
+    return `https://api.twitter.com/1.1/statuses/show.json?id=${this.tweetId}&tweet_mode=extended`
   }
 
   parseBody(object: any): TweetVO {
@@ -103,7 +103,7 @@ export class V2TweetUseCase extends TweetUseCase {
   version: TwitterApiVersion = 'v2'
 
   makeEndpoint(): string {
-    return `https://api.twitter.com/2/timeline/conversation/${this.tweetId}.json?tweet_mode=extended&trim_user=true`
+    return `https://api.twitter.com/2/timeline/conversation/${this.tweetId}.json?tweet_mode=extended`
   }
 
   parseBody(object: any): TweetVO {
