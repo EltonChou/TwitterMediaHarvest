@@ -55,7 +55,7 @@ export class TweetDeckLegacyKeyboardMonitor extends GeneralKeyboardMonitor {
 
   updateFocusing(e: KeyboardEvent): void {
     if (!(e.target instanceof Element)) return
-    this.focusing = select('.is-selected-tweet', e.target)
+    this.focusing = select('.is-selected-tweet')
   }
 }
 
