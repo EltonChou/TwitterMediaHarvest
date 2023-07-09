@@ -42,9 +42,9 @@ export class TweetVO extends ValueObject<{ tweet: Tweet; user: TweetUser }> {
     const isValid = [
       this.props.tweet,
       this.props.user,
-      this.props.user.name,
-      this.props.user.rest_id,
-      this.props.user.screen_name,
+      this.props.user?.name,
+      this.props.user?.rest_id,
+      this.props.user?.screen_name,
       this.props.tweet?.created_at,
       this.props.tweet?.extended_entities,
     ].every(v => Boolean(v))
