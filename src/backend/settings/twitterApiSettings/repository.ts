@@ -3,7 +3,7 @@ import type { Storage } from 'webextension-polyfill'
 import { ISettingsRepository } from '../repository'
 
 const defaultSettings: TwitterApiSettings = {
-  twitterApiVersion: 'gql',
+  twitterApiVersion: 'v1',
 }
 
 export class TwitterApiSettingsRepository implements ISettingsRepository<TwitterApiSettings> {

@@ -1,6 +1,6 @@
 import { TweetMediaParsingError, TweetParsingError, TweetUserParsingError } from '@backend/errors'
 import { TwitterApiVersion } from '@schema'
-import type { Tweet, VideoInfo } from 'types/twitter/tweet'
+import type { VideoInfo } from 'types/twitter/tweet'
 import { ITwitterTokenRepository, TwitterTokenRepository } from '../cookie/repositories'
 import { getFetchError } from './utils'
 import { TweetVO } from './valueObjects'
@@ -29,7 +29,9 @@ const initHeaders = (tweetId: string, csrfToken: string, guestToken?: string) =>
   new Headers([
     [
       'Authorization',
-      'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
+      'Bearer ' +
+        'AAAAAAAAAAAAAAAAAAAAAF7aAAAAAAAAS' +
+        'CiRjWvh7R5wxaKkFp7MM%2BhYBqM%3DbQ0JPmjU9F6ZoMhDfI4uTNAaQuTDm2uO9x3WFVr2xBZ2nhjdP0',
     ],
     ['User-Agent', navigator.userAgent],
     ['Referer', `https://twitter.com/i/web/status/${tweetId}`],
@@ -53,7 +55,7 @@ abstract class TweetUseCase implements ITweetUseCase {
 
   constructor(readonly tweetId: string) {}
 
-  async fetchTweet(): Promise<TweetVO> {
+  async fetchTweet(headers?: HeadersInit): Promise<TweetVO> {
     if (this.tweet) return this.tweet
 
     const csrfToken = await twitterTokenRepo.getCsrfToken()
@@ -61,7 +63,7 @@ abstract class TweetUseCase implements ITweetUseCase {
     const endpoint = this.makeEndpoint()
     const resp = await fetch(endpoint, {
       method: 'GET',
-      headers: initHeaders(this.tweetId, csrfToken, guestToken),
+      headers: headers || initHeaders(this.tweetId, csrfToken, guestToken),
       mode: 'cors',
     })
 
@@ -89,11 +91,29 @@ export class V1TweetUseCase extends TweetUseCase {
   }
 
   parseBody(object: any): TweetVO {
-    object as Tweet
     return new TweetVO(object, {
       name: object.user.name,
       screen_name: object.user.screen_name,
       rest_id: object.user.id_str,
+    })
+  }
+}
+
+export class V2TweetUseCase extends TweetUseCase {
+  version: TwitterApiVersion = 'v2'
+
+  makeEndpoint(): string {
+    return `https://api.twitter.com/2/timeline/conversation/${this.tweetId}.json?tweet_mode=extended&trim_user=true`
+  }
+
+  parseBody(object: any): TweetVO {
+    const tweet = object.globalObjects.tweets[this.tweetId]
+    const user = object.globalObjects.users[tweet.user_id_str]
+
+    return new TweetVO(tweet, {
+      name: user.name,
+      screen_name: user.screen_name,
+      rest_id: user.id_str,
     })
   }
 }

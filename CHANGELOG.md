@@ -1,5 +1,13 @@
 # Changelog
 
+
+## [4.1.7] - 2023-07-09
+
+### Added
+
+- Added legacy TweetDeck support.
+
+
 ## [4.1.6] - 2023-07-09
 
 ### Added

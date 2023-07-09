@@ -5,6 +5,7 @@ import {
   LatestGraphQLTweetUseCase,
   MediaTweetUseCases,
   V1TweetUseCase,
+  V2TweetUseCase,
 } from '@backend/twitterApi/useCases'
 import { TweetVO } from '@backend/twitterApi/valueObjects'
 import { TwitterApiVersion } from '@schema'
@@ -47,6 +48,7 @@ export default class DownloadActionUseCase {
     const { twitterApiVersion } = await storageConfig.twitterApiSettingsRepo.getSettings()
     const tweetApiUseCases = [
       new V1TweetUseCase(this.tweetInfo.tweetId),
+      new V2TweetUseCase(this.tweetInfo.tweetId),
       new LatestGraphQLTweetUseCase(this.tweetInfo.tweetId),
       new FallbackGraphQLTweetUseCase(this.tweetInfo.tweetId),
     ]
