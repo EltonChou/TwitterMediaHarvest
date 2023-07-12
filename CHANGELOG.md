@@ -1,5 +1,13 @@
 # Changelog
 
+
+## [4.1.9]
+
+### Fixed
+
+- Fixed the link in the embed video would be open by `Auto-Reveal NSFW` feature.
+
+
 ## [4.1.8] - 2023-07-10
 
 ### Fixed
