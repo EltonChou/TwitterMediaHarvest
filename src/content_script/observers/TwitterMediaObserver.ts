@@ -1,6 +1,7 @@
 import select from 'select-dom'
 import makeHarvester from '../core'
 import { articleHasMedia, isInTweetStatus, isStreamLoaded } from '../utils/checker'
+import { revealNsfw } from '../utils/helper'
 import observeElement from './observer'
 
 enum Query {
@@ -10,15 +11,6 @@ enum Query {
   ModalWrapper = '#layers',
   ModalThread = '[aria-labelledby="modal-header"] [aria-expanded="true"]',
   Timeline = '[data-testid="primaryColumn"] [aria-label]',
-}
-
-const revealNsfw = (article: HTMLElement) => {
-  if (!article || article.dataset['autoReveal'] || Boolean(article.closest('[data-testid="placementTracking"]'))) return
-  const revealButton = select('[style*="blur"]', article)
-  if (revealButton) {
-    article.dataset['autoReveal'] = 'true'
-    revealButton.click()
-  }
 }
 
 export default class TwitterMediaObserver implements IHarvestObserver {

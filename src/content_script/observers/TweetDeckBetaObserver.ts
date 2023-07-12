@@ -1,18 +1,10 @@
 import select from 'select-dom'
 import makeHarvester from '../core'
 import { articleHasMedia, isInTweetStatus } from '../utils/checker'
+import { revealNsfw } from '../utils/helper'
 import observeElement from './observer'
 
 const isColumnLoaded = () => !select.exists('[data-testid*="multi-column-layout-column-content"] [role="progressbar"]')
-
-const revealNsfw = (article: HTMLElement) => {
-  if (!article || article.dataset['autoReveal'] || Boolean(article.closest('[data-testid="placementTracking"]'))) return
-  const revealButton = select('[style*="blur"]', article)
-  if (revealButton) {
-    article.dataset['autoReveal'] = 'true'
-    revealButton.click()
-  }
-}
 
 export default class TweetDeckBetaObserver implements IHarvestObserver {
   constructor(public autoRevealNsfw: boolean) {}
