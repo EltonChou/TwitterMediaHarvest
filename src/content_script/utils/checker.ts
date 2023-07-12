@@ -109,3 +109,6 @@ export const isFunctionablePath = (): boolean =>
 export const isInTweetStatus = (): boolean => Boolean(window.location.pathname.match(TweetStatusRegEx))
 
 export const isBetaTweetDeck = (): boolean => isTweetDeck() && select.exists('#react-root')
+
+export const isBusinessRelatedTweet = (ele: HTMLElement): boolean =>
+  select.exists('[data-testid="placementTracking"]', ele) || Boolean(ele.closest('[data-testid="placementTracking"]'))
