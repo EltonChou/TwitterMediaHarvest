@@ -25,14 +25,9 @@ const getBestQualityVideoUrl = (video_info: VideoInfo): string => {
   return cleanUrl(hiResUrl)
 }
 
-const initHeaders = (tweetId: string, csrfToken: string, guestToken?: string) =>
+const initHeaders = (tweetId: string, bearerToken: string, csrfToken: string, guestToken?: string) =>
   new Headers([
-    [
-      'Authorization',
-      'Bearer ' +
-        'AAAAAAAAAAAAAAAAAAAAAF7aAAAAAAAAS' +
-        'CiRjWvh7R5wxaKkFp7MM%2BhYBqM%3DbQ0JPmjU9F6ZoMhDfI4uTNAaQuTDm2uO9x3WFVr2xBZ2nhjdP0',
-    ],
+    ['Authorization', 'Bearer ' + bearerToken],
     ['User-Agent', navigator.userAgent],
     ['Referer', `https://twitter.com/i/web/status/${tweetId}`],
     ['x-twitter-active-user', 'yes'],
@@ -52,6 +47,8 @@ abstract class TweetUseCase implements ITweetUseCase {
 
   protected tokenRepo: ITwitterTokenRepository = twitterTokenRepo
   protected tweet: TweetVO = undefined
+  protected bearerToken =
+    'AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
 
   constructor(readonly tweetId: string) {}
 
@@ -63,7 +60,7 @@ abstract class TweetUseCase implements ITweetUseCase {
     const endpoint = this.makeEndpoint()
     const resp = await fetch(endpoint, {
       method: 'GET',
-      headers: headers || initHeaders(this.tweetId, csrfToken, guestToken),
+      headers: headers || initHeaders(this.tweetId, this.bearerToken, csrfToken, guestToken),
       mode: 'cors',
     })
 
@@ -104,6 +101,10 @@ export class V1TweetUseCase extends TweetUseCase {
 
 export class V2TweetUseCase extends TweetUseCase {
   version: TwitterApiVersion = 'v2'
+
+  protected bearerToken =
+    'AAAAAAAAAAAAAAAAAAAAAF7aAAAAAAAAS' +
+    'CiRjWvh7R5wxaKkFp7MM%2BhYBqM%3DbQ0JPmjU9F6ZoMhDfI4uTNAaQuTDm2uO9x3WFVr2xBZ2nhjdP0'
 
   makeEndpoint(): string {
     return `https://api.twitter.com/2/timeline/conversation/${this.tweetId}.json?tweet_mode=extended`
