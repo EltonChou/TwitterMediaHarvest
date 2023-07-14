@@ -58,6 +58,7 @@ class DeckHarvester implements IHarvester {
   }
 
   appendButton(): void {
+    if (!this.actionBar) return
     this.actionBar.insertBefore(this.button, this.actionBar.childNodes[7])
     if (this.isInDetail) this.actionBar.classList.add('deck-harvest-actions')
   }
