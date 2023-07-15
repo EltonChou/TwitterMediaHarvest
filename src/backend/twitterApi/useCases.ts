@@ -211,7 +211,7 @@ export class FallbackGraphQLTweetUseCase extends GraphQLTweetUseCase {
 
 export class LatestGraphQLTweetUseCase extends GraphQLTweetUseCase {
   makeEndpoint(): string {
-    const endpoint = new URL('https://twitter.com/i/api/graphql/NmCeCgkVlsRGS1cAwqtgmw/TweetDetail')
+    const endpoint = new URL('https://twitter.com/i/api/graphql/-Ls3CrSQNo2fRKH6i6Na1A/TweetDetail')
     endpoint.searchParams.append('variables', JSON.stringify(makeGraphQlVars(this.tweetId)))
     endpoint.searchParams.append(
       'features',
@@ -238,7 +238,10 @@ export class LatestGraphQLTweetUseCase extends GraphQLTweetUseCase {
         responsive_web_enhance_cards_enabled: false,
       })
     )
-    endpoint.searchParams.append('fieldToggles', JSON.stringify({ withArticleRichContentState: false }))
+    endpoint.searchParams.append(
+      'fieldToggles',
+      JSON.stringify({ withArticleRichContentState: false, withAuxiliaryUserLabels: false })
+    )
     return endpoint.href
   }
 }
