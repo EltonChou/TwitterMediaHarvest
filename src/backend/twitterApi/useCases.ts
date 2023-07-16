@@ -178,6 +178,8 @@ abstract class GraphQLTweetUseCase extends TweetUseCase {
  * Works fine for few months, but who knows.
  */
 export class FallbackGraphQLTweetUseCase extends GraphQLTweetUseCase {
+  version: TwitterApiVersion = 'gql-f'
+
   makeEndpoint(): string {
     const endpoint = new URL('https://twitter.com/i/api/graphql/BbCrSoXIR7z93lLCVFlQ2Q/TweetDetail')
     endpoint.searchParams.append('variables', JSON.stringify(makeGraphQlVars(this.tweetId)))

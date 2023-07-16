@@ -16,7 +16,7 @@ interface V4Statistics {
   trafficUsage: number
 }
 
-type TwitterApiVersion = 'v1' | 'v2' | 'gql'
+type TwitterApiVersion = 'v1' | 'v2' | 'gql' | 'gql-f'
 
 interface TwitterApiSettings {
   twitterApiVersion: TwitterApiVersion
