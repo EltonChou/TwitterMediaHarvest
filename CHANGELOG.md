@@ -6,6 +6,8 @@
 ### Fixed
 
 - Fixed the link in the embed video would be open by `Auto-Reveal NSFW` feature.
+- Fixed that some tweet can't be parsed correctly due to the change of latest graphql api.
+- Fixed that undefined action bar cause error in legacy deck.
 
 
 ## [4.1.8] - 2023-07-10
