@@ -1,27 +1,13 @@
-import path from 'path'
-import TwitterMediaFile, { DownloadMode } from '../backend/downloads/TwitterMediaFile'
-import type { V4FilenameSettings } from '@schema'
+import { isValidTweetMediaFileUrl } from '@backend/downloads/utils/checker'
+import { TweetMediaFileVO } from '@backend/downloads/valueObjects'
 
-const DEFAULT_DIRECTORY = 'twitter_media_harvest'
-const defaultFilenameSetting: V4FilenameSettings = {
-  directory: DEFAULT_DIRECTORY,
-  noSubDirectory: false,
-  filenamePattern: ['{account}', '{tweetId}', '{serial}'],
-}
 const VIDEO_URL_BASE = 'https://pbs.twimg.com/tw_video/'
 const IMAGE_URL_BASE = 'https://pbs.twimg.com/media/'
-const tweetDetail: TweetDetail = {
-  id: 'tweetId',
-  displayName: 'displayName',
-  screenName: 'twitter_user',
-  userId: 'userId',
-  createdAt: new Date(),
-}
 
 describe('Test TwitterMediaFile usage.', () => {
-  const pngFile = new TwitterMediaFile(tweetDetail, IMAGE_URL_BASE.concat('cool.png'), 0, false)
-  const jpgFile = new TwitterMediaFile(tweetDetail, IMAGE_URL_BASE.concat('cool.jpg'), 0, false)
-  const mp4File = new TwitterMediaFile(tweetDetail, VIDEO_URL_BASE.concat('hq.mp4'), 0, false)
+  const pngFile = new TweetMediaFileVO(IMAGE_URL_BASE.concat('cool.png'), 0)
+  const jpgFile = new TweetMediaFileVO(IMAGE_URL_BASE.concat('cool.jpg'), 0)
+  const mp4File = new TweetMediaFileVO(VIDEO_URL_BASE.concat('hq.mp4'), 0)
 
   it('can detect the file is video', () => {
     expect(mp4File.isVideo()).toBeTruthy()
@@ -32,57 +18,17 @@ describe('Test TwitterMediaFile usage.', () => {
     expect(jpgFile.isVideo()).toBeFalsy()
   })
 
-  it('can make valid chrome download config', () => {
-    const expectConfig: chrome.downloads.DownloadOptions = {
-      url: IMAGE_URL_BASE.concat('cool.jpg:orig'),
-      filename: path.format({
-        dir: DEFAULT_DIRECTORY,
-        name: `${tweetDetail.screenName}-${tweetDetail.id}-01`,
-        ext: '.jpg',
-      }),
-      conflictAction: 'overwrite',
-    }
-
-    const theConfig = jpgFile.makeDownloadConfigBySetting(defaultFilenameSetting, DownloadMode.Browser)
-    expect(theConfig).toEqual(expectConfig)
-  })
-
-  it('can make valid aria2 download config', () => {
-    const expectConfig: Aria2DownloadOption = {
-      url: VIDEO_URL_BASE.concat('hq.mp4'),
-      filename: path.format({
-        dir: DEFAULT_DIRECTORY,
-        name: `${tweetDetail.screenName}-${tweetDetail.id}-01`,
-        ext: '.mp4',
-      }),
-      referrer: `https://twitter.com/i/web/status/${tweetDetail.id}`,
-      options: {},
-    }
-
-    const theConfig = mp4File.makeDownloadConfigBySetting(defaultFilenameSetting, DownloadMode.Aria2)
-    expect(theConfig).toEqual(expectConfig)
-  })
-
   it('can validate url', () => {
     expect(
-      TwitterMediaFile.isValidFileUrl('https://video.twimg.com/ext_tw_video/30754565/pu/vid/720x1018/asdf.mp4')
+      isValidTweetMediaFileUrl('https://video.twimg.com/ext_tw_video/30754565/pu/vid/720x1018/asdf.mp4')
     ).toBeTruthy()
     expect(
-      TwitterMediaFile.isValidFileUrl('https://video.twimg.com/ext_tw_video/30754565/pu/vid/720x1018/asdf.mp4?tag=21')
+      isValidTweetMediaFileUrl('https://video.twimg.com/ext_tw_video/30754565/pu/vid/720x1018/asdf.mp4?tag=21')
     ).toBeFalsy()
-    expect(TwitterMediaFile.isValidFileUrl('https://pbs.twimg.com/media/safdzh.jpg')).toBeTruthy()
-    expect(TwitterMediaFile.isValidFileUrl('https://pbs.twimg.com/media/safdzhzh.jpg:orig')).toBeFalsy()
+    expect(isValidTweetMediaFileUrl('https://pbs.twimg.com/media/safdzh.jpg')).toBeTruthy()
+    expect(isValidTweetMediaFileUrl('https://pbs.twimg.com/media/safdzhzh.jpg:orig')).toBeFalsy()
     expect(
-      TwitterMediaFile.isValidFileUrl(
-        'https://video.twimg.com/amplify_video/5465465465415/vid/1440x720/adsfasdfasdf.mp4'
-      )
+      isValidTweetMediaFileUrl('https://video.twimg.com/amplify_video/5465465465415/vid/1440x720/adsfasdfasdf.mp4')
     ).toBeTruthy()
-  })
-
-  it('can make different download options in firefox', () => {
-    process.env.TARGET = 'firefox'
-
-    const dlOptions = pngFile.makeDownloadConfigBySetting(defaultFilenameSetting, DownloadMode.Browser)
-    expect(dlOptions).toHaveProperty('saveAs')
   })
 })

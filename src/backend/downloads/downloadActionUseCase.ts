@@ -20,48 +20,59 @@ const sentryCapture = (err: Error) => {
   captureException(err)
 }
 
-const makeSortedUseCases = async (
-  useCases: ITweetUseCase[],
-  priorityVersion: TwitterApiVersion
-): Promise<ITweetUseCase[]> =>
-  [...useCases].sort((a, b) => {
-    if (a.version === priorityVersion) return -1
-    if (b.version === priorityVersion) return 1
-    return 0
+const sortUseCasesByVersion =
+  (priorityVersion: TwitterApiVersion) =>
+  async (useCases: ITweetUseCase[]): Promise<ITweetUseCase[]> =>
+    [...useCases].sort((a, b) => {
+      if (a.version === priorityVersion) return -1
+      if (b.version === priorityVersion) return 1
+      return 0
+    })
+
+const createAllApiUseCasesByTweetId = (tweetId: string): ITweetUseCase[] => [
+  new V1TweetUseCase(tweetId),
+  new V2TweetUseCase(tweetId),
+  new LatestGraphQLTweetUseCase(tweetId),
+  new FallbackGraphQLTweetUseCase(tweetId),
+]
+
+/* eslint-disable no-console */
+const logDownloadProcess = (tweetInfo: TweetInfo) => {
+  console.info('Processing download.\n', tweetInfo)
+  addBreadcrumb({
+    category: 'download',
+    message: 'Process download.',
+    level: 'info',
   })
+}
+
+const logMediaFetch = (apiVersion: TwitterApiVersion, tweetId: string) => {
+  console.info(`Fetching media info. (${apiVersion})\n`, {
+    tweetId: tweetId,
+  })
+}
+/* eslint-disable no-console */
 
 export default class DownloadActionUseCase {
   constructor(readonly tweetInfo: TweetInfo) {}
 
-  /* eslint-disable no-console */
   private async process(): Promise<void> {
-    let tweet: TweetVO
-    let mediaCatalog: TweetMediaCatalog
+    let tweet: TweetVO = undefined
+    let mediaCatalog: TweetMediaCatalog = undefined
 
-    console.info('Processing download.\n', this.tweetInfo)
-    addBreadcrumb({
-      category: 'download',
-      message: 'Process download.',
-      level: 'info',
-    })
+    logDownloadProcess(this.tweetInfo)
 
     const { twitterApiVersion } = await storageConfig.twitterApiSettingsRepo.getSettings()
-    const tweetApiUseCases = [
-      new V1TweetUseCase(this.tweetInfo.tweetId),
-      new V2TweetUseCase(this.tweetInfo.tweetId),
-      new LatestGraphQLTweetUseCase(this.tweetInfo.tweetId),
-      new FallbackGraphQLTweetUseCase(this.tweetInfo.tweetId),
-    ]
-    const tweetUseCases = await makeSortedUseCases(tweetApiUseCases, twitterApiVersion)
+    const tweetUseCases = await sortUseCasesByVersion(twitterApiVersion)(
+      createAllApiUseCasesByTweetId(this.tweetInfo.tweetId)
+    )
 
     let err: Error = undefined
     let isInfoFetched = false
     while (tweetUseCases.length > 0 && !isInfoFetched) {
       const tweetUseCase = tweetUseCases.shift()
       const mediaTweetUseCase = new MediaTweetUseCases(tweetUseCase)
-      console.info(`Fetching media info. (${tweetUseCase.version})\n`, {
-        tweetId: this.tweetInfo.tweetId,
-      })
+      logMediaFetch(tweetUseCase.version, this.tweetInfo.tweetId)
 
       try {
         tweet = await mediaTweetUseCase.fetchTweet()
@@ -80,8 +91,8 @@ export default class DownloadActionUseCase {
       displayName: tweet.authorName,
       screenName: tweet.authorScreenName,
     }
-    const mediaDownloader = await MediaDownloader.build(tweetDetail)
-    await mediaDownloader.downloadMediasByMediaCatalog(mediaCatalog)
+    const mediaDownloader = await MediaDownloader.build()
+    await mediaDownloader.downloadMediasByMediaCatalog(tweetDetail, mediaCatalog)
   }
 
   async processDownload(): Promise<void> {
@@ -92,7 +103,6 @@ export default class DownloadActionUseCase {
       throw err
     }
   }
-  /* eslint-disable no-console */
 
   private async handleError(err: Error): Promise<void> {
     console.error('Error reason: ', err)

@@ -1,61 +1,70 @@
+import { DownloadSettingsUseCase } from '@backend/settings/downloadSettings/usaCases'
+import V4FilenameSettingsUsecase from '@backend/settings/filenameSettings/usecase'
 import type { DownloadSettings, FeatureSettings, V4FilenameSettings } from '@schema'
-import browser from 'webextension-polyfill'
+import Browser from 'webextension-polyfill'
 import { storageConfig } from '../configurations'
-import { HarvestError } from '../errors'
-import TwitterMediaFile, { DownloadMode } from './TwitterMediaFile'
 import type { DownloadItemRecorder } from './downloadItemRecorder'
 import { downloadItemRecorder } from './downloadItemRecorder'
+import { isValidTweetMediaFileUrl } from './utils/checker'
+import { TweetMediaFileVO } from './valueObjects'
 
 const ARIA2_ID =
   process.env.TARGET === 'chrome' ? 'mpkodccbngfoacfalldjimigbofkhgjn' : 'jjfgljkjddpcpfapejfkelkbjbehagbh'
 
 export default class MediaDownloader {
-  readonly tweetDetail: TweetDetail
-  readonly filenameSettings: V4FilenameSettings
-  readonly downloadSettings: DownloadSettings
-  readonly featureSettings: FeatureSettings
-  readonly mode: DownloadMode
-  private record_config: DownloadItemRecorder
-
   constructor(
-    tweetDetail: TweetDetail,
-    filenameSettings: V4FilenameSettings,
-    downloadSettings: DownloadSettings,
-    featureSettings: FeatureSettings
-  ) {
-    this.tweetDetail = tweetDetail
-    this.filenameSettings = filenameSettings
-    this.downloadSettings = downloadSettings
-    this.featureSettings = featureSettings
-    this.mode = this.downloadSettings.enableAria2 ? DownloadMode.Aria2 : DownloadMode.Browser
-    this.record_config = downloadItemRecorder({ tweetId: tweetDetail.id, screenName: tweetDetail.screenName })
-  }
+    readonly filenameSettings: V4FilenameSettings,
+    readonly downloadSettings: DownloadSettings,
+    readonly featureSettings: FeatureSettings
+  ) {}
 
-  static async build(tweetInfo: TweetDetail) {
+  static async build() {
     const fileNameSettings = await storageConfig.v4FilenameSettingsRepo.getSettings()
     const downloadSettings = await storageConfig.downloadSettingsRepo.getSettings()
     const featureSettings = await storageConfig.featureSettingsRepo.getSettings()
-    return new MediaDownloader(tweetInfo, fileNameSettings, downloadSettings, featureSettings)
+    return new MediaDownloader(fileNameSettings, downloadSettings, featureSettings)
   }
 
-  private async downloadMedia(media_url: string, index: number): Promise<void> {
-    if (!TwitterMediaFile.isValidFileUrl(media_url)) throw new HarvestError(`Invalid url: ${media_url}`)
+  private async downloadMedia(
+    mediaFile: ITweetMediaFileDetail,
+    filePath: string,
+    recorder: DownloadItemRecorder
+  ): Promise<void> {
+    const downloadSettingsUseCase = new DownloadSettingsUseCase(this.downloadSettings)
+    const config = downloadSettingsUseCase.makeDownloadConfig(mediaFile.src, filePath)
 
-    if (!this.featureSettings.includeVideoThumbnail && media_url.includes('video_thumb')) return
-
-    const mediaFile = new TwitterMediaFile(this.tweetDetail, media_url, index, this.downloadSettings.askWhereToSave)
-    const config = mediaFile.makeDownloadConfigBySetting(this.filenameSettings, this.mode)
-
-    this.mode === DownloadMode.Aria2
-      ? browser.runtime.sendMessage(ARIA2_ID, config)
-      : browser.downloads.download(config).then(downloadId => this.record_config(config)(downloadId))
+    this.downloadSettings.enableAria2
+      ? Browser.runtime.sendMessage(ARIA2_ID, config)
+      : Browser.downloads.download(config).then(downloadId => recorder(config)(downloadId))
   }
 
-  async downloadMediasByMediaCatalog(mediaCatalog: TweetMediaCatalog) {
-    Object.entries(mediaCatalog).forEach(async ([category, items]) => {
-      if (items.length) {
-        items.forEach(async (media_url, index) => await this.downloadMedia(media_url, index))
-      }
-    })
+  async downloadMediasByMediaCatalog(tweetDetail: TweetDetail, mediaCatalog: TweetMediaCatalog) {
+    const recordConfig = downloadItemRecorder({ tweetId: tweetDetail.id, screenName: tweetDetail.screenName })
+    const filenameUseCase = new V4FilenameSettingsUsecase(this.filenameSettings)
+
+    const shouldBeDownloaded = (mediaUrl: string) =>
+      mediaUrl.includes('video_thumb')
+        ? !this.featureSettings.includeVideoThumbnail
+        : true && isValidTweetMediaFileUrl(mediaUrl)
+
+    const makeFilePath = (mediaFile: ITweetMediaFileDetail) => {
+      const filename = filenameUseCase.makeFilename(tweetDetail, {
+        serial: mediaFile.order,
+        hash: mediaFile.hashName,
+        date: new Date(),
+      })
+      const fileFullPath = filenameUseCase.makeFullPathWithFilenameAndExt(filename, mediaFile.ext)
+      return fileFullPath
+    }
+
+    const downloadMedias = async (mediaUrls: string[]) =>
+      mediaUrls
+        .filter(url => shouldBeDownloaded(url))
+        .forEach(async (url, i) => {
+          const mediaFile = new TweetMediaFileVO(url, i)
+          await this.downloadMedia(mediaFile, makeFilePath(mediaFile), recordConfig)
+        })
+
+    Object.entries(mediaCatalog).forEach(async ([category, medias]) => await downloadMedias(medias))
   }
 }

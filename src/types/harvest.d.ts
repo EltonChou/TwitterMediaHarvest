@@ -73,6 +73,18 @@ interface TweetDetail {
   createdAt: Date
 }
 
+type TweetMediaFileProps = {
+  url: string
+  order: number
+}
+
+interface ITweetMediaFileDetail {
+  src: string
+  ext: string
+  hashName: string
+  order: number
+}
+
 type Entries<T> = {
   [K in keyof T]: [K, T[K]]
 }[keyof T][]
