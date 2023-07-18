@@ -280,3 +280,19 @@ export class MediaTweetUseCases {
 }
 
 const isEmptyMediaCatalog = (catalog: TweetMediaCatalog) => Object.values(catalog).every(medias => medias.length === 0)
+
+export const createAllApiUseCasesByTweetId = (tweetId: string): ITweetUseCase[] => [
+  new V1TweetUseCase(tweetId),
+  new V2TweetUseCase(tweetId),
+  new LatestGraphQLTweetUseCase(tweetId),
+  new FallbackGraphQLTweetUseCase(tweetId),
+]
+
+export const sortUseCasesByVersion =
+  (priorityVersion: TwitterApiVersion) =>
+  async (useCases: ITweetUseCase[]): Promise<ITweetUseCase[]> =>
+    [...useCases].sort((a, b) => {
+      if (a.version === priorityVersion) return -1
+      if (b.version === priorityVersion) return 1
+      return 0
+    })

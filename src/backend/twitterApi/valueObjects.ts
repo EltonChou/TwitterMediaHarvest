@@ -8,7 +8,7 @@ type TweetUser = {
   rest_id: string
 }
 
-export class TweetVO extends ValueObject<{ tweet: Tweet; user: TweetUser }> {
+export class TweetVO extends ValueObject<{ tweet: Tweet; user: TweetUser }> implements TweetDetail {
   constructor(tweet: Tweet, tweetUser: TweetUser) {
     super({ tweet: tweet, user: tweetUser })
     this.validate()
@@ -22,15 +22,15 @@ export class TweetVO extends ValueObject<{ tweet: Tweet; user: TweetUser }> {
     return this.props.tweet.id_str
   }
 
-  get authorName(): string {
+  get displayName(): string {
     return this.props.user.name
   }
 
-  get authorScreenName(): string {
+  get screenName(): string {
     return this.props.user.screen_name
   }
 
-  get authorId(): string {
+  get userId(): string {
     return this.props.user.rest_id
   }
 

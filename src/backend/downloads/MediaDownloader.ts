@@ -25,13 +25,9 @@ export default class MediaDownloader {
     return new MediaDownloader(fileNameSettings, downloadSettings, featureSettings)
   }
 
-  private async downloadMedia(
-    mediaFile: ITweetMediaFileDetail,
-    filePath: string,
-    recorder: DownloadItemRecorder
-  ): Promise<void> {
+  private async downloadMedia(source: string, filePath: string, recorder: DownloadItemRecorder): Promise<void> {
     const downloadSettingsUseCase = new DownloadSettingsUseCase(this.downloadSettings)
-    const config = downloadSettingsUseCase.makeDownloadConfig(mediaFile.src, filePath)
+    const config = downloadSettingsUseCase.makeDownloadConfig(source, filePath)
 
     this.downloadSettings.enableAria2
       ? Browser.runtime.sendMessage(ARIA2_ID, config)
@@ -62,7 +58,7 @@ export default class MediaDownloader {
         .filter(url => shouldBeDownloaded(url))
         .forEach(async (url, i) => {
           const mediaFile = new TweetMediaFileVO(url, i)
-          await this.downloadMedia(mediaFile, makeFilePath(mediaFile), recordConfig)
+          await this.downloadMedia(mediaFile.src, makeFilePath(mediaFile), recordConfig)
         })
 
     Object.entries(mediaCatalog).forEach(async ([category, medias]) => await downloadMedias(medias))

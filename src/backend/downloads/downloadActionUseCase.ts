@@ -1,12 +1,5 @@
 import { storageConfig } from '@backend/configurations'
-import {
-  FallbackGraphQLTweetUseCase,
-  ITweetUseCase,
-  LatestGraphQLTweetUseCase,
-  MediaTweetUseCases,
-  V1TweetUseCase,
-  V2TweetUseCase,
-} from '@backend/twitterApi/useCases'
+import { createAllApiUseCasesByTweetId, MediaTweetUseCases, sortUseCasesByVersion } from '@backend/twitterApi/useCases'
 import { TweetVO } from '@backend/twitterApi/valueObjects'
 import { TwitterApiVersion } from '@schema'
 import { addBreadcrumb, captureException } from '@sentry/browser'
@@ -19,22 +12,6 @@ const sentryCapture = (err: Error) => {
 
   captureException(err)
 }
-
-const sortUseCasesByVersion =
-  (priorityVersion: TwitterApiVersion) =>
-  async (useCases: ITweetUseCase[]): Promise<ITweetUseCase[]> =>
-    [...useCases].sort((a, b) => {
-      if (a.version === priorityVersion) return -1
-      if (b.version === priorityVersion) return 1
-      return 0
-    })
-
-const createAllApiUseCasesByTweetId = (tweetId: string): ITweetUseCase[] => [
-  new V1TweetUseCase(tweetId),
-  new V2TweetUseCase(tweetId),
-  new LatestGraphQLTweetUseCase(tweetId),
-  new FallbackGraphQLTweetUseCase(tweetId),
-]
 
 /* eslint-disable no-console */
 const logDownloadProcess = (tweetInfo: TweetInfo) => {
@@ -68,8 +45,7 @@ export default class DownloadActionUseCase {
     )
 
     let err: Error = undefined
-    let isInfoFetched = false
-    while (tweetUseCases.length > 0 && !isInfoFetched) {
+    while (tweetUseCases.length > 0 && mediaCatalog === undefined) {
       const tweetUseCase = tweetUseCases.shift()
       const mediaTweetUseCase = new MediaTweetUseCases(tweetUseCase)
       logMediaFetch(tweetUseCase.version, this.tweetInfo.tweetId)
@@ -77,22 +53,15 @@ export default class DownloadActionUseCase {
       try {
         tweet = await mediaTweetUseCase.fetchTweet()
         mediaCatalog = await mediaTweetUseCase.fetchMediaCatalog()
-        isInfoFetched = true
       } catch (error) {
         err = error
-        if (tweetUseCases.length === 0 && err) throw error
       }
     }
 
-    const tweetDetail: TweetDetail = {
-      id: tweet.id,
-      userId: tweet.authorId,
-      createdAt: tweet.createdAt,
-      displayName: tweet.authorName,
-      screenName: tweet.authorScreenName,
-    }
+    if (mediaCatalog === undefined) throw err
+
     const mediaDownloader = await MediaDownloader.build()
-    await mediaDownloader.downloadMediasByMediaCatalog(tweetDetail, mediaCatalog)
+    await mediaDownloader.downloadMediasByMediaCatalog(tweet, mediaCatalog)
   }
 
   async processDownload(): Promise<void> {
