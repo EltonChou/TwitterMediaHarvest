@@ -38,11 +38,10 @@ import TwitterMediaObserver from './observers/TwitterMediaObserver'
 import { isBetaTweetDeck, isTwitter } from './utils/checker'
 
 const featureRepo = new FeaturesRepository()
-const isRevealNsfw = await featureRepo.isRevealNsfw()
 
-const useObserver = () => {
-  if (isTwitter()) return new TwitterMediaObserver(isRevealNsfw)
-  if (isBetaTweetDeck()) return new TweetDeckBetaObserver(isRevealNsfw)
+const useObserver = (revealNsfw: boolean) => {
+  if (isTwitter()) return new TwitterMediaObserver(revealNsfw)
+  if (isBetaTweetDeck()) return new TweetDeckBetaObserver(revealNsfw)
   return new TweetDeckLegacyObserver()
 }
 
@@ -52,22 +51,27 @@ const useKeboardMonitor = () => {
   return new TweetDeckLegacyKeyboardMonitor()
 }
 
-if (await featureRepo.isEnableKeyboardShortcut()) {
-  const keyboardMonitor = useKeboardMonitor()
-  window.addEventListener('keydown', keyboardMonitor.handleKeyDown.bind(keyboardMonitor))
-  window.addEventListener('keyup', keyboardMonitor.handleKeyUp.bind(keyboardMonitor))
-}
-
-const observer = useObserver()
-
-// Ensure observing when the tab is focused.
-let hasFocused = false
-window.addEventListener('focus', () => {
-  observer.initialize()
-  if (!hasFocused) {
-    observer.observeRoot()
-    hasFocused = true
-  }
+featureRepo.isEnableKeyboardShortcut().then(isMonitorKB => {
+  if (!isMonitorKB) return
+  const kbMonitor = useKeboardMonitor()
+  window.addEventListener('keyup', e => kbMonitor.handleKeyUp(e))
+  window.addEventListener('keydown', e => kbMonitor.handleKeyDown(e))
 })
 
-observer.observeRoot()
+let hasFocused = false
+
+featureRepo
+  .isRevealNsfw()
+  .then(revealNsfw => useObserver(revealNsfw))
+  .then(observer => {
+    // Ensure observing when the tab is focused.
+    window.addEventListener('focus', () => {
+      observer.initialize()
+      if (!hasFocused) {
+        observer.observeRoot()
+        hasFocused = true
+      }
+    })
+
+    observer.observeRoot()
+  })
