@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- Fixed thumbnail download options.
+
 
 ## [4.1.9] - 2023-07-19
 

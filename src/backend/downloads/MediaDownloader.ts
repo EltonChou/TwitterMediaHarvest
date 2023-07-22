@@ -38,11 +38,6 @@ export default class MediaDownloader {
     const recordConfig = downloadItemRecorder({ tweetId: tweetDetail.id, screenName: tweetDetail.screenName })
     const filenameUseCase = new V4FilenameSettingsUsecase(this.filenameSettings)
 
-    const shouldBeDownloaded = (mediaUrl: string) =>
-      mediaUrl.includes('video_thumb')
-        ? !this.featureSettings.includeVideoThumbnail
-        : true && isValidTweetMediaFileUrl(mediaUrl)
-
     const makeFilePath = (mediaFile: ITweetMediaFileDetail) => {
       const filename = filenameUseCase.makeFilename(tweetDetail, {
         serial: mediaFile.order,
@@ -53,14 +48,19 @@ export default class MediaDownloader {
       return fileFullPath
     }
 
-    const downloadMedias = async (mediaUrls: string[]) =>
-      mediaUrls
-        .filter(url => shouldBeDownloaded(url))
-        .forEach(async (url, i) => {
-          const mediaFile = new TweetMediaFileVO(url, i)
-          await this.downloadMedia(mediaFile.src, makeFilePath(mediaFile), recordConfig)
-        })
+    Array.from(mediaCatalog.videos)
+      .filter(url => isValidTweetMediaFileUrl(url))
+      .forEach(async (url, i) => {
+        const mediaFile = new TweetMediaFileVO(url, i)
+        await this.downloadMedia(mediaFile.src, makeFilePath(mediaFile), recordConfig)
+      })
 
-    Object.entries(mediaCatalog).forEach(async ([category, medias]) => await downloadMedias(medias))
+    Array.from(mediaCatalog.images)
+      .filter(url => isValidTweetMediaFileUrl(url))
+      .filter(url => (this.featureSettings.includeVideoThumbnail ? true : !url.includes('video_thumb')))
+      .forEach(async (url, i) => {
+        const mediaFile = new TweetMediaFileVO(url, i)
+        await this.downloadMedia(mediaFile.src, makeFilePath(mediaFile), recordConfig)
+      })
   }
 }

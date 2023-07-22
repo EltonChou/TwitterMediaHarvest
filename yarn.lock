@@ -3336,10 +3336,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/chrome@^0.0.114":
-  version "0.0.114"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.114.tgz#8ceb33fa261f4b9e307fa7344ba8182d8d410d4e"
-  integrity sha512-i7qRr74IrxHtbnrZSKUuP5Uvd5EOKwlwJq/yp7+yTPihOXnPhNQO4Z5bqb1XTnrjdbUKEJicaVVbhcgtRijmLA==
+"@types/chrome@^0.0.241":
+  version "0.0.241"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.241.tgz#c6274ef2377ace4e67713591aacc13d8e6c1dca6"
+  integrity sha512-3WxC2D8zhyDnCU1GxyznoyUulLH6ReLWUWQm5LSM7S1rvV9w+k8TUNbWrFavk6zz2E1ws05lNawnSa7rK5kY8Q==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
@@ -6346,13 +6346,6 @@ jest-changed-files@^29.5.0:
   dependencies:
     execa "^5.0.0"
     p-limit "^3.1.0"
-
-jest-chrome@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/jest-chrome/-/jest-chrome-0.8.0.tgz#f741f5cf49292326eb9a2507111b9a77a01a495d"
-  integrity sha512-39RR1GT9nI4e4jsuH1vIf4l5ApxxkcstjGJr+GsOURL8f4Db0UlbRnsZaM+ZRniaGtokqklUH5VFKGZZ6YztUg==
-  dependencies:
-    "@types/chrome" "^0.0.114"
 
 jest-circus@^29.5.0:
   version "29.5.0"
