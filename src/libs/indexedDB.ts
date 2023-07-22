@@ -8,7 +8,9 @@ abstract class BaseDB<SchemaType> {
   constructor(readonly version: number, private callbacks: OpenDBCallbacks<SchemaType> = {}) {}
 
   get isSupported(): boolean {
-    return Boolean((typeof window !== 'undefined' && window.indexedDB) || indexedDB)
+    return (
+      (typeof window !== 'undefined' && typeof window.indexedDB !== 'undefined') || typeof indexedDB !== 'undefined'
+    )
   }
 
   onUpgrade(handler: OpenDBCallbacks<SchemaType>['upgrade']) {
