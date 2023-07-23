@@ -1,8 +1,8 @@
 import type { CognitoIdentityCredentials, Storage } from '@aws-sdk/credential-provider-cognito-identity'
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers'
 import ValueObject from '@backend/valueObject'
-import type { AWSCredentials } from '@schema'
-import type { Storage as BrowserStorage } from 'webextension-polyfill'
+import type { IStorageProxy } from '@libs/proxy'
+import type { AWSCredentials, AWSCredentialsItem } from '@schema'
 import Browser from 'webextension-polyfill'
 
 class CredentialVO extends ValueObject<AWSCredentials> {
@@ -51,11 +51,10 @@ class BrowserSyncStorageProxy implements Storage {
 export class CredentialRepository implements ICredentialRepository {
   readonly credentialCriteria = 'awsCredential'
 
-  constructor(readonly storageArea: BrowserStorage.StorageArea) {}
+  constructor(readonly storageArea: IStorageProxy<AWSCredentialsItem>) {}
 
   private async fetchCredential(): Promise<CognitoIdentityCredentials> {
     // ! Data in storage is `AWSCredential` not `CognitoIdentityCredentials`
-    // TODO: Need to define the schema of storage area.
     const credential = await fromCognitoIdentityPool({
       identityPoolId: process.env.IDENTITY_POOL_ID,
       cache: new BrowserSyncStorageProxy(),
@@ -65,15 +64,15 @@ export class CredentialRepository implements ICredentialRepository {
     })()
 
     const credentialVO = CredentialVO.fromCognitoIdentityCredentials(credential)
-    await this.storageArea.set({ [this.credentialCriteria]: credentialVO.props })
+    await this.storageArea.setItem({ awsCredential: credentialVO.props })
     return credential
   }
 
   async getCredential(): Promise<CognitoIdentityCredentials> {
-    const credentialRecord = await this.storageArea.get(this.credentialCriteria)
-    if (Object.keys(credentialRecord).length === 0) return await this.fetchCredential()
+    const credentialRecord = await this.storageArea.getItemByKey(this.credentialCriteria)
+    if (!credentialRecord) return await this.fetchCredential()
 
-    const credentialsVO = new CredentialVO(credentialRecord[this.credentialCriteria])
+    const credentialsVO = new CredentialVO(credentialRecord.awsCredential)
     return credentialsVO.isExpired ? await this.fetchCredential() : credentialsVO.credential
   }
 }

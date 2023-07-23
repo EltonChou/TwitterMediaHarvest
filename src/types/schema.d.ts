@@ -66,6 +66,10 @@ interface AWSCredentials extends Omit<CognitoIdentityCredentials, 'expiration'> 
   expiration: number
 }
 
+interface AWSCredentialsItem {
+  awsCredential: AWSCredentials
+}
+
 type DownloadRecordId = `dl_${number}`
 
 interface DownloadRecord {
@@ -73,19 +77,12 @@ interface DownloadRecord {
   config: Downloads.DownloadOptionsType
 }
 
-interface StorageSchema {
-  [s: string]: unknown
-}
-
 interface LocalStorageSchema
-  extends StorageSchema,
-    FeatureSettings,
+  extends FeatureSettings,
     DownloadSettings,
     TwitterApiSettings,
     ClientInfo,
     TwitterApiSettings,
-    V4Statistics {
-  [downloadRecordKey: DownloadRecordId]: DownloadRecord
-}
+    V4Statistics {}
 
-interface SyncStorageSchema extends StorageSchema, AWSCredentials, V4FilenameSettings {}
+interface SyncStorageSchema extends AWSCredentialsItem, V4FilenameSettings {}

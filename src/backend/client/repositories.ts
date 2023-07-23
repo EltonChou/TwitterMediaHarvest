@@ -4,6 +4,7 @@ import { FetchHttpHandler, streamCollector } from '@aws-sdk/fetch-http-handler'
 import { HttpRequest } from '@aws-sdk/protocol-http'
 import { SignatureV4 } from '@aws-sdk/signature-v4'
 import { CreateClientFailed, UpdateStatsFailed } from '@backend/errors'
+import type { IStorageProxy } from '@libs/proxy'
 import type { ClientInfo, V4Statistics } from '@schema'
 import jws from 'jws'
 import type { Storage } from 'webextension-polyfill'
@@ -56,7 +57,7 @@ export class InfoSyncLock implements IProcessLock {
 }
 
 export class ClientInfoRepository implements IClientInfoRepository {
-  constructor(readonly storageArea: Storage.StorageArea, private defaultOptions: ProviderOptions) {}
+  constructor(readonly storageArea: IStorageProxy<ClientInfo>, private defaultOptions: ProviderOptions) {}
 
   private async createClient(options: ProviderOptions): Promise<ClientTokenResponse> {
     const initStats = await options.statsProvider()
@@ -78,7 +79,7 @@ export class ClientInfoRepository implements IClientInfoRepository {
   }
 
   async getInfo(options?: Partial<ProviderOptions>): Promise<ClientInfoVO> {
-    const record: Record<keyof ClientInfo, unknown> = await this.storageArea.get(defaultInfo)
+    const record: Record<keyof ClientInfo, unknown> = await this.storageArea.getItemByDefaults(defaultInfo)
     let info: ClientInfoVO
 
     if (isEmptyInfo(record)) {
@@ -92,7 +93,7 @@ export class ClientInfoRepository implements IClientInfoRepository {
       }
 
       info = new ClientInfoVO(clientInfo)
-      await this.storageArea.set(info.props)
+      await this.storageArea.setItem(info.props)
       await Browser.runtime.setUninstallURL(info.uninstallUrl)
     } else {
       info = new ClientInfoVO({
@@ -134,11 +135,11 @@ export class ClientInfoRepository implements IClientInfoRepository {
       csrfToken: body.token,
       syncedAt: Date.now(),
     }
-    await this.storageArea.set(clientInfo)
+    await this.storageArea.setItem(clientInfo)
   }
 
   async resetInfo(): Promise<void> {
-    await this.storageArea.set(defaultInfo)
+    await this.storageArea.setItem(defaultInfo)
   }
 }
 

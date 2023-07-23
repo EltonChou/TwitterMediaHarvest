@@ -3,8 +3,9 @@ import type { V4FilenameSettings } from '@schema'
 import type { Storage } from 'webextension-polyfill'
 import { DEFAULT_DIRECTORY } from '../../../constants'
 import { ISettingsRepository } from '../repository'
+import type { IStorageProxy } from '@libs/proxy'
 
-type FilenameSettings = {
+export type FilenameSettings = {
   directory: string
   no_subdirectory: boolean
   filename_pattern: {
@@ -29,10 +30,10 @@ const defaultV4FilenameSettings: V4FilenameSettings = {
 }
 
 export class V4FilenameSettingsRepository implements ISettingsRepository<V4FilenameSettings> {
-  constructor(readonly storageArea: Storage.StorageArea) {}
+  constructor(readonly storage: IStorageProxy<V4FilenameSettings>) {}
 
   async getSettings(): Promise<V4FilenameSettings> {
-    const settings = await this.storageArea.get({
+    const settings = await this.storage.getItemByDefaults({
       ...defaultV4FilenameSettings,
       filenamePattern: defaultV4FilenameSettings.filenamePattern,
     })
@@ -45,7 +46,7 @@ export class V4FilenameSettingsRepository implements ISettingsRepository<V4Filen
   }
 
   async saveSettings(settings: Partial<V4FilenameSettings>): Promise<void> {
-    await this.storageArea.set({
+    await this.storage.setItem({
       directory: settings.directory,
       noSubDirectory: settings.noSubDirectory,
       filenamePattern: settings.filenamePattern,
@@ -62,15 +63,15 @@ export class V4FilenameSettingsRepository implements ISettingsRepository<V4Filen
 }
 
 export default class FilenameSettingsRepository implements ISettingsRepository<FilenameSettings> {
-  constructor(readonly storageArea: Storage.StorageArea) {}
+  constructor(readonly storage: Storage.StorageArea) {}
 
   async getSettings(): Promise<FilenameSettings> {
-    const settings = await this.storageArea.get(defaultFilenameSettings)
+    const settings = await this.storage.get(defaultFilenameSettings)
     return settings as FilenameSettings
   }
 
   async saveSettings(settings: Partial<FilenameSettings>): Promise<void> {
-    await this.storageArea.set(settings)
+    await this.storage.set(settings)
   }
 
   async setDefaultSettings(): Promise<void> {

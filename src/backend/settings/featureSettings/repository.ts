@@ -1,6 +1,6 @@
 import type { FeatureSettings } from '@schema'
-import type { Storage } from 'webextension-polyfill'
 import { ISettingsRepository } from '../repository'
+import type { IStorageProxy } from '@libs/proxy'
 
 const defaultFeature: FeatureSettings = {
   autoRevealNsfw: false,
@@ -9,19 +9,19 @@ const defaultFeature: FeatureSettings = {
 }
 
 export class FeaturesRepository implements ISettingsRepository<FeatureSettings> {
-  constructor(readonly storageArea: Storage.StorageArea) {}
+  constructor(readonly storageArea: IStorageProxy<FeatureSettings>) {}
 
   async getSettings(): Promise<FeatureSettings> {
-    const settings = (await this.storageArea.get(defaultFeature)) as FeatureSettings
+    const settings = await this.storageArea.getItemByDefaults(defaultFeature)
     return settings
   }
 
   async saveSettings(settings: Partial<FeatureSettings>): Promise<void> {
-    await this.storageArea.set(settings)
+    await this.storageArea.setItem(settings)
   }
 
   async setDefaultSettings(): Promise<void> {
-    await this.storageArea.set(defaultFeature)
+    await this.saveSettings(defaultFeature)
   }
 
   getDefaultSettings(): FeatureSettings {

@@ -1,5 +1,5 @@
+import type { IStorageProxy } from '@libs/proxy'
 import type { V4Statistics } from '@schema'
-import type { Storage } from 'webextension-polyfill'
 
 const defaultV4Stats: V4Statistics = {
   downloadCount: 0,
@@ -12,14 +12,14 @@ export interface IStatisticsRepositoryV4 {
 }
 
 export class V4StatisticsRepository implements IStatisticsRepositoryV4 {
-  constructor(readonly storageArea: Storage.StorageArea) {}
+  constructor(readonly storage: IStorageProxy<V4Statistics>) {}
 
   async getStats(): Promise<V4Statistics> {
-    const stats = await this.storageArea.get(defaultV4Stats)
-    return stats as V4Statistics
+    const stats = await this.storage.getItemByDefaults(defaultV4Stats)
+    return stats
   }
 
   async saveStats(stats: V4Statistics): Promise<void> {
-    await this.storageArea.set(stats)
+    await this.storage.setItem(stats)
   }
 }
