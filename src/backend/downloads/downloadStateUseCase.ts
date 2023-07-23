@@ -27,8 +27,9 @@ export default class DownloadStateUseCase {
     console.log('Download was interrupted.\n', this.downloadDelta)
     addBreadcrumb({
       category: 'download',
-      message: `Download interupted reason. (current: ${error.current}, previous: ${error.previous})`,
+      message: 'Download interupted reason.',
       level: 'info',
+      data: error,
     })
 
     // If download was canceled by user (file location asking), remove the record and don't notify.

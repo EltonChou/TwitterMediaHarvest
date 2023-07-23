@@ -117,8 +117,11 @@ browser.downloads.onChanged.addListener(async downloadDelta => {
 
   addBreadcrumb({
     category: 'download',
-    message: `Download state changed. (delta: ${downloadDelta})`,
+    message: 'Download state changed.',
     level: 'info',
+    data: {
+      delta: downloadDelta,
+    },
   })
 
   if ('state' in downloadDelta) {

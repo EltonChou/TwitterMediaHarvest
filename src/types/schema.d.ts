@@ -70,8 +70,6 @@ interface AWSCredentialsItem {
   awsCredential: AWSCredentials
 }
 
-type DownloadRecordId = `dl_${number}`
-
 interface DownloadRecord {
   tweetInfo: TweetInfo
   config: Downloads.DownloadOptionsType

@@ -20,6 +20,7 @@ const logDownloadProcess = (tweetInfo: TweetInfo) => {
     category: 'download',
     message: 'Process download.',
     level: 'info',
+    data: tweetInfo,
   })
 }
 

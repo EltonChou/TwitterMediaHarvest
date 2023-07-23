@@ -1,4 +1,4 @@
-import type { DownloadDBSchema, DownloadRecordId } from '@schema'
+import type { DownloadDBSchema } from '@schema'
 import type { IDBPDatabase } from 'idb'
 import type { Storage } from 'webextension-polyfill'
 import DownloadRecord from './models'
@@ -28,6 +28,8 @@ export class IndexedDBDownloadRecordsRepository implements IDownloadRecordsRepos
     await client.delete('record', downloadItemId)
   }
 }
+
+type DownloadRecordId = `dl_${number}`
 
 export class StorageAreaDownloadRecordsRepository implements IDownloadRecordsRepository {
   constructor(readonly storageArea: Storage.StorageArea) {}
