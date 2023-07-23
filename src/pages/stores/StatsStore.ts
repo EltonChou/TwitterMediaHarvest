@@ -1,6 +1,7 @@
 import { storageConfig } from '@backend/configurations'
 import type { V4Statistics } from '@schema'
-import { Storage } from 'webextension-polyfill'
+import type { Storage } from 'webextension-polyfill'
+import Browser from 'webextension-polyfill'
 import { IExternalStore } from './base'
 
 interface StatsStore extends IExternalStore<V4Statistics> {
@@ -33,14 +34,14 @@ const createStatsStore = (() => {
       getSnapShot: () => stats,
       subscribe: (onStoreChange: () => void) => {
         listeners.add(onStoreChange)
-        if (!storageConfig.statisticsRepo.storageArea.onChanged.hasListener(handleChange)) {
-          storageConfig.statisticsRepo.storageArea.onChanged.addListener(handleChange)
+        if (!Browser.storage.local.onChanged.hasListener(handleChange)) {
+          Browser.storage.local.onChanged.addListener(handleChange)
         }
 
         return () => {
           listeners.delete(onStoreChange)
           if (listeners.size === 0) {
-            storageConfig.statisticsRepo.storageArea.onChanged.removeListener(handleChange)
+            Browser.storage.local.onChanged.removeListener(handleChange)
           }
         }
       },
