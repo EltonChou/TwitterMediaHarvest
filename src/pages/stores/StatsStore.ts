@@ -19,7 +19,7 @@ const createStatsStore = (() => {
     listeners.forEach(onChange => onChange())
   }
 
-  const handleChange = (changes: Storage.StorageAreaOnChangedChangesType) => {
+  const handleChange = (changes: Storage.StorageAreaOnChangedChangesType, areaName: string) => {
     if ('downloadCount' in changes || 'trafficUsage' in changes) {
       storageConfig.statisticsRepo.getStats().then(newStats => {
         updateStats(newStats)
@@ -34,14 +34,12 @@ const createStatsStore = (() => {
       getSnapShot: () => stats,
       subscribe: (onStoreChange: () => void) => {
         listeners.add(onStoreChange)
-        if (!Browser.storage.local.onChanged.hasListener(handleChange)) {
-          Browser.storage.local.onChanged.addListener(handleChange)
-        }
+        Browser.storage.onChanged.addListener(handleChange)
 
         return () => {
           listeners.delete(onStoreChange)
           if (listeners.size === 0) {
-            Browser.storage.local.onChanged.removeListener(handleChange)
+            Browser.storage.onChanged.removeListener(handleChange)
           }
         }
       },
