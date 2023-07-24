@@ -48,6 +48,8 @@
     "*://mobile.twitter.com/*",
     "*://api.twitter.com/*",
     "*://tweetdeck.twitter.com/*",
+    "*://x.com/*",
+    "*://*.x.com/*",
     "downloads",
     "cookies",
     "storage",

@@ -49,7 +49,9 @@
     "*://twitter.com/*",
     "*://mobile.twitter.com/*",
     "*://api.twitter.com/*",
-    "*://tweetdeck.twitter.com/*"
+    "*://tweetdeck.twitter.com/*",
+    "*://x.com/*",
+    "*://*.x.com/*"
   ],
   "permissions": [
     "downloads",
