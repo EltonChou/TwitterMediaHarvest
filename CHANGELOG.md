@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- Added host permission `x.com` for the future.
+
 ### Fixed
 
 - Fixed thumbnail download options.
