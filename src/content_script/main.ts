@@ -1,13 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { init as SentryInit, setUser } from '@sentry/browser'
 import Browser from 'webextension-polyfill'
-// import { BrowserTracing } from '@sentry/tracing'
 import { Action } from '../enums'
 import './main.sass'
 
 SentryInit({
   dsn: process.env.SENTRY_DSN,
-  // integrations: [new BrowserTracing()],
   ignoreErrors: [
     'abs.twimg.com',
     'ApiError',
@@ -30,14 +28,12 @@ SentryInit({
 
 Browser.runtime.sendMessage({ action: Action.FetchUser }).then(user => setUser(user))
 
-import { FeaturesRepository } from './features/repository'
 import { TweetDeckBetaKeyboardMonitor, TweetDeckLegacyKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
+import { featureRepo } from './configuration'
 import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
 import TweetDeckLegacyObserver from './observers/TweetDeckLegacyObserver'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
 import { isBetaTweetDeck, isTwitter } from './utils/checker'
-
-const featureRepo = new FeaturesRepository()
 
 const useObserver = (revealNsfw: boolean) => {
   if (isTwitter()) return new TwitterMediaObserver(revealNsfw)
@@ -51,20 +47,19 @@ const useKeboardMonitor = () => {
   return new TweetDeckLegacyKeyboardMonitor()
 }
 
-featureRepo.isEnableKeyboardShortcut().then(isMonitorKB => {
-  if (!isMonitorKB) return
-  const kbMonitor = useKeboardMonitor()
-  window.addEventListener('keyup', e => kbMonitor.handleKeyUp(e))
-  window.addEventListener('keydown', e => kbMonitor.handleKeyDown(e))
-})
-
 let hasFocused = false
 
 featureRepo
-  .isRevealNsfw()
-  .then(revealNsfw => useObserver(revealNsfw))
-  .then(observer => {
-    // Ensure observing when the tab is focused.
+  .getSettings()
+  .then(feature => {
+    if (!feature.keyboardShortcut) return
+    const kbMonitor = useKeboardMonitor()
+    window.addEventListener('keyup', e => kbMonitor.handleKeyUp(e))
+    window.addEventListener('keydown', e => kbMonitor.handleKeyDown(e))
+    return feature
+  })
+  .then(feature => {
+    const observer = useObserver(feature.autoRevealNsfw)
     window.addEventListener('focus', () => {
       observer.initialize()
       if (!hasFocused) {
@@ -74,4 +69,5 @@ featureRepo
     })
 
     observer.observeRoot()
+    return feature
   })
