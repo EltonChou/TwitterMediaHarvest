@@ -36,7 +36,7 @@ const config = {
   },
   entry: {
     main: path.resolve('./src/content_script/main.ts'),
-    sw: path.resolve('./src/backend/sw.ts'),
+    sw: path.resolve('./src/service_worker/sw.ts'),
     index: path.resolve('./src/pages/index.tsx'),
   },
   output: {

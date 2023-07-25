@@ -1,7 +1,7 @@
+import type { IDownloadRecordsRepository } from '@backend/downloads/repositories'
+import type { ISettingsRepository } from '@backend/settings/repository'
 import type { DownloadSettings } from '@schema'
 import browser from 'webextension-polyfill'
-import type { IDownloadRecordsRepository } from './downloads/repositories'
-import type { ISettingsRepository } from './settings/repository'
 
 export const chromiumInit = (
   downloadSettingsRepo: ISettingsRepository<DownloadSettings>,
@@ -29,16 +29,12 @@ export const chromiumInit = (
   }
 
   const removeSuggestion = () => {
-    if (chrome.downloads.onDeterminingFilename.hasListener(ensureFilename)) {
-      chrome.downloads.onDeterminingFilename.removeListener(ensureFilename)
-    }
+    chrome.downloads.onDeterminingFilename.removeListener(ensureFilename)
     console.log('Disable suggestion.')
   }
 
   const addSuggestion = () => {
-    if (!chrome.downloads.onDeterminingFilename.hasListener(ensureFilename)) {
-      chrome.downloads.onDeterminingFilename.addListener(ensureFilename)
-    }
+    chrome.downloads.onDeterminingFilename.addListener(ensureFilename)
     console.log('Enable suggestion')
   }
 

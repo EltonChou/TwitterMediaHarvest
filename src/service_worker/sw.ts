@@ -1,18 +1,18 @@
 /* eslint-disable no-console */
+import { ClientInfoUseCase } from '@backend/client/useCases'
+import { showClientInfoInConsole, showUpdateMessageInConsole } from '@backend/commands/console'
+import { initStorage, MigrateStorageToV4 } from '@backend/commands/storage'
+import { storageConfig } from '@backend/configurations'
+import DownloadActionUseCase from '@backend/downloads/downloadActionUseCase'
+import DownloadStateUseCase from '@backend/downloads/downloadStateUseCase'
+import { HarvestError } from '@backend/errors'
+import NotificationUseCase from '@backend/notifications/notificationIdUseCases'
+import { V4StatsUseCase } from '@backend/statistics/useCases'
+import { isDownloadedBySelf, isInvalidInfo } from '@backend/utils/checker'
 import { addBreadcrumb, captureException, init as SentryInit, setUser, type User } from '@sentry/browser'
 import browser from 'webextension-polyfill'
 import { Action } from '../enums'
-import { ClientInfoUseCase } from './client/useCases'
-import { showClientInfoInConsole, showUpdateMessageInConsole } from './commands/console'
-import { initStorage, MigrateStorageToV4 } from './commands/storage'
-import { storageConfig } from './configurations'
-import DownloadActionUseCase from './downloads/downloadActionUseCase'
-import DownloadStateUseCase from './downloads/downloadStateUseCase'
-import { HarvestError } from './errors'
 import { chromiumInit, firefoxInit } from './initialization'
-import NotificationUseCase from './notifications/notificationIdUseCases'
-import { V4StatsUseCase } from './statistics/useCases'
-import { isDownloadedBySelf, isInvalidInfo } from './utils/checker'
 
 interface SentryUser extends User {
   client_id: string
