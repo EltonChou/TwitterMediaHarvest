@@ -75,7 +75,7 @@ export default class DownloadActionUseCase {
   }
 
   private async handleError(err: Error): Promise<void> {
-    console.error('Error reason: ', err)
+    console.error(err)
     sentryCapture(err)
 
     if (err instanceof TwitterApiError) {
