@@ -4,9 +4,9 @@ import { downloadItemRecorder } from '../downloads/downloadItemRecorder'
 import { IDownloadRecordsRepository } from '../downloads/repositories'
 
 interface INotificationUseCase {
-  handle_close(): Promise<void>
-  handle_click(): Promise<void>
-  handle_button(buttonIndex: number): Promise<void>
+  handleClose(): Promise<void>
+  handleClick(): Promise<void>
+  handleButton(buttonIndex: number): Promise<void>
 }
 
 const FetchErrorIdPattern = /^tweet_(\d+)/
@@ -35,31 +35,31 @@ export default class NotificationUseCase implements INotificationUseCase {
     this.useCase = checkUseCase(notificationId)
   }
 
-  async handle_close(): Promise<void> {
-    await this.useCase.handle_close()
+  async handleClose(): Promise<void> {
+    await this.useCase.handleClose()
   }
 
-  async handle_click(): Promise<void> {
-    await this.useCase.handle_click()
+  async handleClick(): Promise<void> {
+    await this.useCase.handleClick()
   }
 
-  async handle_button(buttonIndex: number): Promise<void> {
-    await this.useCase.handle_button(buttonIndex)
+  async handleButton(buttonIndex: number): Promise<void> {
+    await this.useCase.handleButton(buttonIndex)
   }
 }
 
 const tweetUrl = (tweetId: string) => `https://twitter.com/i/web/status/${tweetId}`
 
 class NullNotificationUseCase implements INotificationUseCase {
-  async handle_button(buttonIndex: number): Promise<void> {
+  async handleButton(buttonIndex: number): Promise<void> {
     return
   }
 
-  async handle_click(): Promise<void> {
+  async handleClick(): Promise<void> {
     return
   }
 
-  async handle_close(): Promise<void> {
+  async handleClose(): Promise<void> {
     return
   }
 }
@@ -67,16 +67,16 @@ class NullNotificationUseCase implements INotificationUseCase {
 class DownloadNotificationUseCase implements INotificationUseCase {
   constructor(readonly downloadItemId: number, private downloadRecordRepo: IDownloadRecordsRepository) {}
 
-  async handle_button(buttonIndex: number): Promise<void> {
+  async handleButton(buttonIndex: number): Promise<void> {
     if (buttonIndex === 0) await this.openFailedTweetInNewTab()
     if (buttonIndex === 1) await this.retryDownload()
   }
 
-  async handle_click(): Promise<void> {
+  async handleClick(): Promise<void> {
     await this.openFailedTweetInNewTab()
   }
 
-  async handle_close(): Promise<void> {
+  async handleClose(): Promise<void> {
     await this.downloadRecordRepo.removeById(this.downloadItemId)
   }
 
@@ -102,15 +102,15 @@ class DownloadNotificationUseCase implements INotificationUseCase {
 class FetchErrorNotificationUseCase implements INotificationUseCase {
   constructor(private readonly tweetId: string) {}
 
-  async handle_button(buttonIndex: number): Promise<void> {
+  async handleButton(buttonIndex: number): Promise<void> {
     if (buttonIndex === 0) await this.openFailedTweetInNewTab()
   }
 
-  async handle_click(): Promise<void> {
+  async handleClick(): Promise<void> {
     await this.openFailedTweetInNewTab()
   }
 
-  async handle_close(): Promise<void> {
+  async handleClose(): Promise<void> {
     /*pass*/
   }
 

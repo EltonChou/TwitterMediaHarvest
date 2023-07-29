@@ -25,8 +25,15 @@ const logDownloadProcess = (tweetInfo: TweetInfo) => {
 }
 
 const logMediaFetch = (apiVersion: TwitterApiVersion, tweetId: string) => {
-  console.info(`Fetching media info. (${apiVersion})\n`, {
+  const data = {
     tweetId: tweetId,
+  }
+  console.info(`Fetching media info. (${apiVersion})\n`, data)
+  addBreadcrumb({
+    category: 'download',
+    message: 'Fetching media info.',
+    level: 'info',
+    data: data,
   })
 }
 /* eslint-disable no-console */

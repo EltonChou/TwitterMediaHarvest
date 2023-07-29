@@ -1,6 +1,5 @@
+import { Action, exchangeInternal } from '@libs/browser'
 import { captureException } from '@sentry/browser'
-import browser from 'webextension-polyfill'
-import { Action } from '../../enums'
 
 /**
  * Create HTMLElement from html string.
@@ -47,13 +46,13 @@ export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     try {
-      const tweetInfo: TweetInfo = infoParser(article)
-      const message: HarvestMessage<TweetInfo> = {
+      const tweetInfo = infoParser(article)
+      const exchange: Parameters<typeof exchangeInternal>[0] = {
         action: Action.Download,
         data: tweetInfo,
       }
-      console.log('Send message to service worker.', message)
-      const resp: HarvestResponse<unknown> = await browser.runtime.sendMessage(message)
+      console.log('Send message to service worker.', exchange)
+      const resp = await exchangeInternal(exchange)
       setButtonStatus(this, resp.status)
       console.log(JSON.stringify(resp))
     } catch (error) {

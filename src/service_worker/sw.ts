@@ -9,9 +9,9 @@ import { HarvestError } from '@backend/errors'
 import NotificationUseCase from '@backend/notifications/notificationIdUseCases'
 import { V4StatsUseCase } from '@backend/statistics/useCases'
 import { isDownloadedBySelf, isInvalidInfo } from '@backend/utils/checker'
+import { Action, type HandleExchange, type HarvestExchange, HarvestResponse } from '@libs/browser'
 import { addBreadcrumb, captureException, init as SentryInit, setUser, type User } from '@sentry/browser'
 import browser from 'webextension-polyfill'
-import { Action } from '../enums'
 import { chromiumInit, firefoxInit } from './initialization'
 
 interface SentryUser extends User {
@@ -55,37 +55,40 @@ SentryInit({
 
 fetchUser().then(user => setUser(user))
 
-browser.runtime.onMessage.addListener(async (message: HarvestMessage<unknown>, sender, sendResponse) => {
-  if (message.action === Action.Download) {
-    if (isInvalidInfo(message.data as TweetInfo)) {
-      console.error('Invalid tweetInfo.')
-      return {
-        status: 'error',
-        data: new HarvestError(`Invalid tweetInfo. ${message.data}`),
-      }
-    }
-
-    const usecase = new DownloadActionUseCase(message.data as TweetInfo)
-    try {
-      await usecase.processDownload()
-      return { status: 'success' }
-    } catch (error) {
-      return { status: 'error', data: error }
+const handleDownload: HandleExchange<Action.Download> = async exchange => {
+  if (isInvalidInfo(exchange.data)) {
+    console.error('Invalid tweetInfo.')
+    return {
+      status: 'error',
+      error: new HarvestError(`Invalid tweetInfo. ${exchange.data}`),
     }
   }
 
-  if (message.action === Action.FetchUser) {
-    const user = await fetchUser()
-    return { status: 'success', data: user }
+  const usecase = new DownloadActionUseCase(exchange.data)
+  try {
+    await usecase.processDownload()
+    return { status: 'success' }
+  } catch (error) {
+    return { status: 'error', error: error }
   }
+}
 
-  sendResponse()
+const handleUserFetch: HandleExchange<Action.FetchUser> = async exchange => {
+  const user = await fetchUser()
+  return { status: 'success', data: user }
+}
 
-  return {
-    status: 'error',
-    data: new HarvestError(`Invalid message. ${message}`),
+browser.runtime.onMessage.addListener(
+  async (message: HarvestExchange<Action>, sender, sendResponse): Promise<HarvestResponse<Action>> => {
+    if (message.action === Action.Download) return handleDownload(message)
+    if (message.action === Action.FetchUser) return handleUserFetch(message)
+    sendResponse()
+    return {
+      status: 'error',
+      error: new HarvestError(`Invalid message. ${message}`),
+    }
   }
-})
+)
 
 browser.runtime.onInstalled.addListener(async details => {
   try {
@@ -132,17 +135,17 @@ browser.downloads.onChanged.addListener(async downloadDelta => {
 
 browser.notifications.onClosed.addListener(notifficationId => {
   const notificationUseCase = new NotificationUseCase(notifficationId)
-  notificationUseCase.handle_close()
+  notificationUseCase.handleClose()
 })
 
 browser.notifications.onClicked.addListener(notifficationId => {
   const notificationUseCase = new NotificationUseCase(notifficationId)
-  notificationUseCase.handle_click()
+  notificationUseCase.handleClick()
 })
 
 browser.notifications.onButtonClicked.addListener((notifficationId, buttonIndex) => {
   const notificationUseCase = new NotificationUseCase(notifficationId)
-  notificationUseCase.handle_button(buttonIndex)
+  notificationUseCase.handleButton(buttonIndex)
 })
 
 process.env.TARGET === 'firefox'

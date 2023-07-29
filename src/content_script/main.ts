@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { Action, exchangeInternal } from '@libs/browser'
 import { init as SentryInit, setUser } from '@sentry/browser'
-import Browser from 'webextension-polyfill'
-import { Action } from '../enums'
 import './main.sass'
 
 SentryInit({
@@ -26,7 +25,7 @@ SentryInit({
   environment: process.env.NODE_ENV,
 })
 
-Browser.runtime.sendMessage({ action: Action.FetchUser }).then(user => setUser(user))
+exchangeInternal({ action: Action.FetchUser }).then(resp => resp.status === 'success' && setUser(resp.data))
 
 import { TweetDeckBetaKeyboardMonitor, TweetDeckLegacyKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
 import { featureRepo } from './configuration'

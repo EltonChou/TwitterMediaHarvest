@@ -6,18 +6,6 @@ declare module '*.svg' {
 
 type TweetMode = 'photo' | 'status' | 'stream'
 
-type HarvestMessage<T> = {
-  action: number
-  data?: T
-}
-
-type ResponseStatus = 'success' | 'error'
-
-type HarvestResponse<T> = {
-  status: ResponseStatus
-  data?: T
-}
-
 type TweetInfo = {
   screenName: string
   tweetId: string
