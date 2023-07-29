@@ -1,7 +1,7 @@
 import { addBreadcrumb } from '@sentry/browser'
 import select from 'select-dom'
 import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
-import { checkModeOfArticle, isArticleInStatus, isArticlePhotoMode } from '../utils/checker'
+import { checkModeOfArticle, isArticlePhotoMode } from '../utils/checker'
 import { createElementFromHTML, makeButtonListener } from '../utils/maker'
 
 const featureRegEx = Object.freeze({
@@ -10,70 +10,14 @@ const featureRegEx = Object.freeze({
   photoModeUrl: /\w+\/status\/\d+\/(photo|video)\/\d+/,
 })
 
-type MagicLinkElement = {
-  element: HTMLAnchorElement | null
-  query: string
-}
+const getLinksFromArticle = (article: HTMLElement): string[] =>
+  select.all('[data-testid="User-Name"] [href]', article).map((e: HTMLAnchorElement) => e.href)
 
-const getMagicLinkEle = (article: HTMLElement): MagicLinkElement => {
-  let magicLink: MagicLinkElement = {
-    element: null,
-    query: undefined,
-  }
+const getEleAt = <T>(arr: T[] | undefined | null, index: number): T | undefined =>
+  Array.isArray(arr) ? arr.at(index) : undefined
 
-  if (isArticlePhotoMode(article) || isArticleInStatus(article)) {
-    const tweetId = window.location.pathname.match(featureRegEx.id)[1]
-    const query = `a[href*="${tweetId}"][role="link"]`
-    magicLink.element = select(query, article) || null
-    magicLink.query = query
-    return magicLink
-  }
-
-  const querys: string[] = [
-    '[data-testid="User-Names"] a[href*="status"][dir="auto"][role="link"]',
-    'a[href*="status"][dir="auto"][role="link"]',
-  ]
-
-  magicLink = querys.reduce((magicLink, currQuery) => {
-    magicLink.query = currQuery
-    const linkEle: HTMLAnchorElement = select(currQuery, article)
-    if (linkEle) {
-      magicLink.element = linkEle
-    }
-    return magicLink
-  }, magicLink)
-
-  return magicLink
-}
-
-const parseMagicLink = (article: HTMLElement): string => {
-  const magicLink: MagicLinkElement = getMagicLinkEle(article)
-
-  if (!magicLink.element) {
-    const links: string[] = select.all('a[href]', article).map(v => {
-      if (v.href.match(featureRegEx.id) && !magicLink.element) magicLink.element = v
-      return v.href
-    })
-
-    addBreadcrumb({
-      category: 'parse',
-      message: 'Cannott get magic-link element.',
-      level: 'info',
-      data: {
-        query: magicLink.query,
-        links: links,
-      },
-    })
-
-    if (!magicLink.element) {
-      if (window.location.pathname.match(featureRegEx.photoModeUrl) && isArticlePhotoMode(article))
-        return window.location.href
-      throw new Error('Failed to parse magic-link.')
-    }
-  }
-
-  return magicLink.element.href
-}
+const getTweetIdFromLink = (link: string): string => getEleAt(link.match(featureRegEx.id), 1)
+const getScreenNameFromLink = (link: string): string => getEleAt(link.match(featureRegEx.screenName), 1)
 
 /**
  * Generate tweet information.
@@ -87,20 +31,20 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
     level: 'info',
   })
 
-  const magicLink: string = parseMagicLink(article)
+  const links = isArticlePhotoMode(article) ? [window.location.pathname] : getLinksFromArticle(article)
 
-  addBreadcrumb({
-    category: 'parse',
-    message: `Magic link: ${magicLink}`,
-    level: 'info',
-  })
+  const tweetId = links.reduce((tweetId, link) => (tweetId ? tweetId : getTweetIdFromLink(link)), undefined)
+  const screenName = links.reduce((name, link) => (name ? name : getScreenNameFromLink(link)), undefined)
 
-  if (!magicLink.match(featureRegEx.id).length) {
-    throw new Error('Failed to get valid magic link.')
+  if (![tweetId, screenName].every(v => Boolean(v))) {
+    addBreadcrumb({
+      category: 'parse',
+      message: 'Failed to parse tweet-info.',
+      level: 'error',
+      data: links,
+    })
+    throw new Error('Failed to parse tweet-info.')
   }
-
-  const tweetId = magicLink.match(featureRegEx.id)[1]
-  const screenName = magicLink.match(featureRegEx.screenName)[1]
 
   return {
     screenName: screenName,
@@ -123,9 +67,11 @@ class Harvester implements IHarvester {
   private buttonWrapperStyle: string
   private svgStyle: string
   readonly actionBar: HTMLElement
+  readonly infoProvider: Provider<TweetInfo>
 
   constructor(article: HTMLElement) {
     this.mode = checkModeOfArticle(article)
+    this.infoProvider = () => parseTweetInfo(article)
     this.actionBar =
       select('[role="group"][aria-label]', article) || select('.r-18u37iz[role="group"][id^="id__"]', article)
 
@@ -142,11 +88,7 @@ class Harvester implements IHarvester {
   }
 
   get button() {
-    const button = this.createButtonByMode()
-
-    makeButtonListener(button as HTMLElement, parseTweetInfo)
-
-    return button
+    return makeButtonListener(this.createButtonByMode() as HTMLElement, this.infoProvider)
   }
 
   createButtonByMode() {

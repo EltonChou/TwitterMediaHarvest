@@ -82,7 +82,6 @@ browser.runtime.onMessage.addListener(
   async (message: HarvestExchange<Action>, sender, sendResponse): Promise<HarvestResponse<Action>> => {
     if (message.action === Action.Download) return handleDownload(message)
     if (message.action === Action.FetchUser) return handleUserFetch(message)
-    sendResponse()
     return {
       status: 'error',
       error: new HarvestError(`Invalid message. ${message}`),

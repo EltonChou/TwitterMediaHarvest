@@ -21,18 +21,17 @@ const parseTweetInfo = (article: HTMLElement): TweetInfo => {
 class DeckHarvester implements IHarvester {
   public isInDetail: boolean
   readonly actionBar: HTMLElement
+  readonly tweetProvider: Provider<TweetInfo>
 
   constructor(article: HTMLElement) {
     this.isInDetail = isArticleInDetail(article)
     const actionBarQuery = this.isInDetail ? '.tweet-detail-actions' : '.tweet-actions'
     this.actionBar = select(actionBarQuery, article)
+    this.tweetProvider = () => parseTweetInfo(article)
   }
 
   get button() {
-    const button = this.createButton()
-    makeButtonListener(button as HTMLElement, parseTweetInfo)
-
-    return button
+    return makeButtonListener(this.createButton() as HTMLElement, this.tweetProvider)
   }
 
   createButton() {
