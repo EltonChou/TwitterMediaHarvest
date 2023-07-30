@@ -8,7 +8,7 @@ import DownloadStateUseCase from '@backend/downloads/downloadStateUseCase'
 import { HarvestError } from '@backend/errors'
 import NotificationUseCase from '@backend/notifications/notificationIdUseCases'
 import { V4StatsUseCase } from '@backend/statistics/useCases'
-import { isDownloadedBySelf, isInvalidInfo } from '@backend/utils/checker'
+import { isDownloadedBySelf, isValidInfo } from '@backend/utils/checker'
 import { Action, type HandleExchange, type HarvestExchange, HarvestResponse } from '@libs/browser'
 import { addBreadcrumb, captureException, init as SentryInit, setUser, type User } from '@sentry/browser'
 import browser from 'webextension-polyfill'
@@ -56,7 +56,7 @@ SentryInit({
 fetchUser().then(user => setUser(user))
 
 const handleDownload: HandleExchange<Action.Download> = async exchange => {
-  if (isInvalidInfo(exchange.data)) {
+  if (!isValidInfo(exchange.data)) {
     console.error('Invalid tweetInfo.')
     return {
       status: 'error',

@@ -112,3 +112,5 @@ export const isBetaTweetDeck = (): boolean => isTweetDeck() && select.exists('#r
 
 export const isBusinessRelatedTweet = (ele: HTMLElement): boolean =>
   select.exists('[data-testid="placementTracking"]', ele) || Boolean(ele.closest('[data-testid="placementTracking"]'))
+
+export const isDefined = (...parms: unknown[]): boolean => parms.every(v => v !== undefined)

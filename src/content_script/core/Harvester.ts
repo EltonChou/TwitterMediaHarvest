@@ -1,7 +1,7 @@
-import { addBreadcrumb } from '@sentry/browser'
+import { addBreadcrumb, captureMessage } from '@sentry/browser'
 import select from 'select-dom'
 import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
-import { checkModeOfArticle, isArticlePhotoMode } from '../utils/checker'
+import { checkModeOfArticle, isArticlePhotoMode, isDefined } from '../utils/checker'
 import { createElementFromHTML, makeButtonListener } from '../utils/maker'
 
 const featureRegEx = Object.freeze({
@@ -31,19 +31,20 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
     level: 'info',
   })
 
-  const links = isArticlePhotoMode(article) ? [window.location.pathname] : getLinksFromArticle(article)
+  const links = [window.location.pathname]
+  if (!isArticlePhotoMode(article)) links.push(...getLinksFromArticle(article))
 
   const tweetId = links.reduce((tweetId, link) => (tweetId ? tweetId : getTweetIdFromLink(link)), undefined)
   const screenName = links.reduce((name, link) => (name ? name : getScreenNameFromLink(link)), undefined)
 
-  if (![tweetId, screenName].every(v => Boolean(v))) {
+  if (!isDefined(tweetId, screenName)) {
     addBreadcrumb({
       category: 'parse',
       message: 'Failed to parse tweet-info.',
       level: 'error',
       data: links,
     })
-    throw new Error('Failed to parse tweet-info.')
+    captureMessage('Parse info error')
   }
 
   return {
@@ -61,11 +62,24 @@ const getSampleButton = (article: HTMLElement): HTMLElement | undefined => {
   return sampleButton
 }
 
+const removeButtonStatsText = (wrapper: HTMLElement) =>
+  select('[data-testid="app-text-transition-container"] > span > span', wrapper)?.remove()
+
+const makeButtonWrapper = (sampleButton?: HTMLElement) => (mode: TweetMode) => {
+  const wrapper = sampleButton.cloneNode(true) as HTMLElement
+
+  const svg = select('svg', wrapper)
+  svg?.previousElementSibling.classList.add(`${mode}BG`)
+  svg?.replaceWith(
+    makeButtonIcon(svg?.classList.value || 'r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi')
+  )
+  removeButtonStatsText(wrapper)
+  return wrapper
+}
+
 class Harvester implements IHarvester {
   public mode: TweetMode
-  private buttonWrapperClassList: string
-  private buttonWrapperStyle: string
-  private svgStyle: string
+  private buttonWrapper: HTMLElement
   readonly actionBar: HTMLElement
   readonly infoProvider: Provider<TweetInfo>
 
@@ -76,15 +90,7 @@ class Harvester implements IHarvester {
       select('[role="group"][aria-label]', article) || select('.r-18u37iz[role="group"][id^="id__"]', article)
 
     const sampleButton = getSampleButton(article)
-    this.buttonWrapperClassList = sampleButton
-      ? sampleButton.classList.value
-      : 'css-901oao r-1awozwy r-1bwzh9t r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md' +
-        ' r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0'
-    this.buttonWrapperStyle = sampleButton ? sampleButton.style.cssText : ''
-
-    this.svgStyle =
-      select('svg', sampleButton)?.classList.value ||
-      'r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi'
+    this.buttonWrapper = makeButtonWrapper(sampleButton)(this.mode)
   }
 
   get button() {
@@ -92,45 +98,32 @@ class Harvester implements IHarvester {
   }
 
   createButtonByMode() {
-    const mode = this.mode
-    const icon = createElementFromHTML(downloadButtonSVG)
-
-    icon.setAttribute('class', this.svgStyle)
-    // Icon use reply icon as sample, this style can prevent the appearance changed when the reply is restricted.
-    icon.setAttribute('style', 'opacity: unset !important;')
-
     const buttonWrapper = createElementFromHTML(`
-      <div class="css-1dbjc4n harvester ${mode}">
-        <div aria-haspopup="true" aria-label="Media Harvest" role="button" data-focusable="true" tabindex="0"
-          class="css-18t94o4 css-1dbjc4n r-1777fci r-11cpok1 r-1ny4l3l r-bztko3 r-lrvibr">
-          <div
-            class="${this.buttonWrapperClassList}" style="${this.buttonWrapperStyle}">
-            <div class="css-1dbjc4n r-xoduu5">
-              <div class="\
-              css-1dbjc4n r-sdzlij r-1p0dtai r-xoduu5 r-1d2f490 r-xf4iuw r-u8s1d r-zchlnj r-ipm5af r-o7ynqc r-6416eg\
-              ${mode}BG"\
-              ></div>
-              ${icon.outerHTML}
-            </div>
-          </div>
+      <div class="css-1dbjc4n harvester ${this.mode}">
+        <div aria-haspopup="true" aria-label="Media Harvest" role="button" data-focusable="true" tabindex="0" \
+        style="
+          dispaly: flex;
+          justify-content: center;
+        ">
+          ${this.buttonWrapper.outerHTML}
         </div>
       </div>
     `)
 
-    const bg = select(`.${mode}BG`, buttonWrapper)
+    const bg = select(`.${this.mode}BG`, buttonWrapper)
     const ltr = select('[role="button"] > div', buttonWrapper)
 
     const hoverBG = () => {
       if (!bg || !ltr) return
       bg.classList.add('hover')
-      ltr.classList.add(`${mode}Color`)
+      ltr.classList.add(`${this.mode}Color`)
       bg.classList.remove('click')
     }
 
     const hoverOutBG = () => {
       if (!bg || !ltr) return
       bg.classList.remove('hover')
-      ltr.classList.remove(`${mode}Color`)
+      ltr.classList.remove(`${this.mode}Color`)
       bg.classList.remove('click')
     }
 
@@ -152,6 +145,14 @@ class Harvester implements IHarvester {
   appendButton(): void {
     this.actionBar && this.actionBar.appendChild(this.button)
   }
+}
+
+const makeButtonIcon = (svgStyle: string) => {
+  const icon = createElementFromHTML(downloadButtonSVG)
+  icon.setAttribute('class', svgStyle)
+  // this style can prevent the appearance changed when the reply is restricted.
+  icon.setAttribute('style', 'opacity: unset !important;')
+  return icon
 }
 
 export default Harvester

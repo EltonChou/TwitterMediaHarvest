@@ -3,7 +3,7 @@ import browser from 'webextension-polyfill'
 /**
  * @param tweetInfo twitter information
  */
-export const isInvalidInfo = (tweetInfo: TweetInfo) => !tweetInfo.screenName.length || !tweetInfo.tweetId.length
+export const isValidInfo = (tweetInfo: TweetInfo) => Object.values(tweetInfo).every(v => v !== undefined)
 
 export async function isDownloadedBySelf(downloadId: number) {
   const runtimeId = browser.runtime.id
