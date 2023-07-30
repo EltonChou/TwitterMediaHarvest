@@ -28,10 +28,10 @@ const Content = (props: ContentProps) => {
 
 const App = () => {
   return (
-    <HStack flex={1} spacing={0}>
+    <HStack flex={1} spacing={0} overflow={'hidden'}>
       <HashRouter>
         <SideMenu />
-        <Stack flex={1} height={'full'}>
+        <Stack flex={1} height={'full'} overflow={'auto'}>
           <Routes>
             <Route
               path="/"
@@ -68,7 +68,12 @@ const App = () => {
               }
             />
           </Routes>
-          <FootBar />
+          <FootBar
+            style={{
+              position: 'sticky',
+              bottom: 0,
+            }}
+          />
         </Stack>
       </HashRouter>
     </HStack>

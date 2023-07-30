@@ -48,7 +48,16 @@ const SideMenu = () => {
   return (
     <>
       <Box pos="fixed" top={0} zIndex={'overlay'}>
-        <Flex pos={'fixed'} top={0} width={'full'} bg={'brand.bg'}>
+        <Flex
+          pos={'fixed'}
+          top={0}
+          bg={'brand.bg'}
+          width={'full'}
+          display={useBreakpointValue({
+            base: 'inherit',
+            lg: 'none',
+          })}
+        >
           <IconButton
             aria-label="Side menu"
             size={'lg'}
