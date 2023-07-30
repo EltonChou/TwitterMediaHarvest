@@ -48,8 +48,8 @@ export default class DownloadActionUseCase {
     logDownloadProcess(this.tweetInfo)
 
     const { twitterApiVersion } = await storageConfig.twitterApiSettingsRepo.getSettings()
-    const tweetUseCases = await sortUseCasesByVersion(twitterApiVersion)(
-      createAllApiUseCasesByTweetId(this.tweetInfo.tweetId)
+    const tweetUseCases = sortUseCasesByVersion(createAllApiUseCasesByTweetId(this.tweetInfo.tweetId))(
+      twitterApiVersion
     )
 
     let err: Error = undefined

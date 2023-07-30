@@ -7,11 +7,11 @@ import { TweetVO } from './valueObjects'
 
 const searchParamsToClean = ['tag']
 
-const cleanUrl = (url: string): string =>
-  searchParamsToClean.reduce((url, tag) => {
-    url.searchParams.delete(tag)
-    return url
-  }, new URL(url)).href
+const cleanUrl = (url: string): string => {
+  const theUrl = new URL(url)
+  searchParamsToClean.forEach(param => theUrl.searchParams.delete(param))
+  return theUrl.href
+}
 
 const getBestQualityVideoUrl = (video_info: VideoInfo): string => {
   // bitrate will be fixed to 0 if video is made from gif.
@@ -348,8 +348,8 @@ export const createAllApiUseCasesByTweetId = (tweetId: string): ITweetUseCase[] 
 ]
 
 export const sortUseCasesByVersion =
-  (priorityVersion: TwitterApiVersion) =>
-  async (useCases: ITweetUseCase[]): Promise<ITweetUseCase[]> =>
+  (useCases: ITweetUseCase[]) =>
+  (priorityVersion: TwitterApiVersion): ITweetUseCase[] =>
     [...useCases].sort((a, b) => {
       if (a.version === priorityVersion) return -1
       if (b.version === priorityVersion) return 1

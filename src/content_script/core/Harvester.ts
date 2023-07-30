@@ -102,7 +102,7 @@ class Harvester implements IHarvester {
       <div class="css-1dbjc4n harvester ${this.mode}">
         <div aria-haspopup="true" aria-label="Media Harvest" role="button" data-focusable="true" tabindex="0" \
         style="
-          dispaly: flex;
+          display: flex;
           justify-content: center;
         ">
           ${this.buttonWrapper.outerHTML}
