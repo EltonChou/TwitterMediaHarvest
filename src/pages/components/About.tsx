@@ -31,19 +31,19 @@ const ProductInformation = () => {
 const Links = () => {
   return (
     <Stack>
-      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.website}>
+      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.website} textTransform={'capitalize'}>
         {i18n('options_about_officialWebsite')}
       </Link>
-      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.privacy}>
+      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.privacy} textTransform={'capitalize'}>
         {i18n('options_about_privacyPolicy')}
       </Link>
-      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.issues}>
+      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.issues} textTransform={'capitalize'}>
         {i18n('options_about_issues')}
       </Link>
-      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.changelog}>
+      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.changelog} textTransform={'capitalize'}>
         {i18n('options_about_changeLog')}
       </Link>
-      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.github}>
+      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.github} textTransform={'capitalize'}>
         Github
       </Link>
     </Stack>

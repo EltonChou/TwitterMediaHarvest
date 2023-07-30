@@ -87,7 +87,7 @@ export const RichFeatureSwitch = ({
           style={{ transition: 'background 300ms' }}
         >
           <Stack flex={1}>
-            <Text fontSize={'1.5em'} lineHeight={'none'}>
+            <Text fontSize={'1.5em'} lineHeight={'none'} textTransform={'capitalize'}>
               {name}
             </Text>
             <Text color={'gray.400'}>{desc}</Text>
