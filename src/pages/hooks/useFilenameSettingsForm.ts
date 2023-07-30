@@ -123,7 +123,8 @@ function settingReducer(settings: V4FilenameSettings, action: FilenameSettingsAc
 }
 
 const dirNameRegEx = /^[^<>:"/\\|?*]+$/
-const validDir = (dir: string) => sanitize(dir) === dir && dirNameRegEx.test(dir)
+const validDir = (dir: string) =>
+  dir.split('/').every(dir => sanitize(dir) === dir && dirNameRegEx.test(dir)) && dir.length <= 512
 
 const validPattern = (p: V4FilenamePattern) =>
   p.includes('{hash}') || (p.includes('{tweetId}') && p.includes('{serial}'))
@@ -157,8 +158,7 @@ const useFilenameSettingsForm = (): [V4FilenameSettings, FormStatus, FormMessage
   }, [])
 
   useEffect(() => {
-    const isDirectoryValid =
-      filenameSettings.directory.split('/').every(dir => validDir(dir)) && filenameSettings.directory.length <= 512
+    const isDirectoryValid = validDir(filenameSettings.directory)
     const isPatternValid = validPattern(filenameSettings.filenamePattern)
     formStatusDispatch(isDirectoryValid ? 'directoryIsValid' : 'directoryIsInvalid')
     formStatusDispatch(isPatternValid ? 'filenamePatternIsValid' : 'filenamePatternIsInvalid')
