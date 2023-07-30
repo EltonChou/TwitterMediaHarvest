@@ -109,7 +109,13 @@
     "message": "Create sub-directory"
   },
   "options_general_subDirectory_desc": {
-    "message": "Create sub-directory under the default download directory."
+    "message": "Create sub-directory under the default download directory. Sub-directory can be seperated with \"/\"."
+  },
+  "options_general_fileAggregation": {
+    "message": "Group Files"
+  },
+  "options_general_fileAggregation_desc": {
+    "message": "Group files by the selected attribute."
   },
   "options_general_filenamePattern": {
     "message": "Filename pattern"
@@ -145,7 +151,7 @@
     "message": "Tweet Datetime"
   },
   "options_general_filenameSettings_message_dir": {
-    "message": "Invalid directory name. Cannot contain <>:\"/\\|?*"
+    "message": "Invalid directory name. Cannot contain <>:\"\\|?*"
   },
   "options_general_filenameSettings_message_pattern": {
     "message": "Invalid pattern. The pattern must includes `Tweet ID` + `Serial` or `Hash`."

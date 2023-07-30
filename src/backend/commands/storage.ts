@@ -76,6 +76,8 @@ export class MigrateStorageToV4 extends BaseStorageBackup implements StorageMigr
       noSubDirectory: v3Settings.no_subdirectory,
       directory: v3Settings.directory,
       filenamePattern: filenamePattern,
+      groupBy: '{account}',
+      fileAggregation: false,
     }
 
     await Browser.storage.sync.remove(Object.keys(v3Settings))

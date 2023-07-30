@@ -109,7 +109,13 @@
     "message": "新增子資料夾"
   },
   "options_general_subDirectory_desc": {
-    "message": "在預設下載資料夾中新增一個子資料夾。"
+    "message": "在預設下載資料夾中新增一個子資料夾。使用 \"/\" 區分多個子資料夾。"
+  },
+  "options_general_fileAggregation": {
+    "message": "群組檔案"
+  },
+  "options_general_fileAggregation_desc": {
+    "message": "使用選擇的屬性群組檔案。"
   },
   "options_general_filenamePattern": {
     "message": "檔案名稱樣式"
@@ -145,7 +151,7 @@
     "message": "推特日期時間"
   },
   "options_general_filenameSettings_message_dir": {
-    "message": "無效的資料夾名稱。不能含有 <>:\"/\\|?*"
+    "message": "無效的資料夾名稱。不能含有 <>:\"\\|?*"
   },
   "options_general_filenameSettings_message_pattern": {
     "message": "無效的樣式。 必須包含 `推特 ID` + `序列號` 或 `雜湊值`。"

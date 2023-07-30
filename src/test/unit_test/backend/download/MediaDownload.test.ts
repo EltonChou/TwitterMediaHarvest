@@ -30,6 +30,8 @@ describe('MediaDownloader Unit Test', () => {
     directory: 'dl',
     filenamePattern: ['{account}', '{tweetId}', '{tweetId}'],
     noSubDirectory: true,
+    groupBy: '{account}',
+    fileAggregation: false,
   }
   const downloadSettings: DownloadSettings = { aggressiveMode: false, askWhereToSave: false, enableAria2: false }
   const featureSettings: FeatureSettings = {

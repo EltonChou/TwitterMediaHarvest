@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 
 import { DEFAULT_DIRECTORY } from '@backend/constants'
 import V4FilenameSettingsUsecase from '@backend/settings/filenameSettings/usecase'
-import { Button, Flex, HStack, Input, VStack } from '@chakra-ui/react'
+import { Button, Flex, HStack, Input, Select, VStack } from '@chakra-ui/react'
 import useDownloadSettings from '@pages/hooks/useDownloadSettings'
 import useFilenameSettingsForm from '@pages/hooks/useFilenameSettingsForm'
 import { i18n } from '@pages/utils'
@@ -112,6 +112,17 @@ const GeneralOptions = () => {
               isDisabled={filenameSettings.noSubDirectory}
               isInvalid={!formStatus.directoryIsValid}
             />
+          </RichFeatureSwitch>
+          <RichFeatureSwitch
+            name={i18n('options_general_fileAggregation')}
+            desc={i18n('options_general_fileAggregation_desc')}
+            isOn={filenameSettings.fileAggregation}
+            handleClick={formHandler.aggregationToggle}
+            cursor="pointer"
+          >
+            <Select isDisabled={!filenameSettings.fileAggregation} onChange={formHandler.aggregationToggle}>
+              <option value="{account}">{i18n('options_general_filenamePattern_token_account')}</option>
+            </Select>
           </RichFeatureSwitch>
           <HStack>
             <Button type="reset" colorScheme={'red'} variant={'outline'}>

@@ -56,10 +56,14 @@ type FilenamePatternToken =
 
 type V4FilenamePattern = FilenamePatternToken[]
 
+type AggregationToken = '{account}'
+
 interface V4FilenameSettings {
   directory: string
   noSubDirectory: boolean
   filenamePattern: V4FilenamePattern
+  fileAggregation: boolean
+  groupBy: AggregationToken
 }
 
 interface AWSCredentials extends Omit<CognitoIdentityCredentials, 'expiration'> {

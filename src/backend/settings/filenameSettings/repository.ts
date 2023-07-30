@@ -27,30 +27,21 @@ const defaultV4FilenameSettings: V4FilenameSettings = {
   directory: DEFAULT_DIRECTORY,
   noSubDirectory: false,
   filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
+  groupBy: '{account}',
+  fileAggregation: false,
 }
 
 export class V4FilenameSettingsRepository implements ISettingsRepository<V4FilenameSettings> {
   constructor(readonly storage: IStorageProxy<V4FilenameSettings>) {}
 
   async getSettings(): Promise<V4FilenameSettings> {
-    const settings = await this.storage.getItemByDefaults({
-      ...defaultV4FilenameSettings,
-      filenamePattern: defaultV4FilenameSettings.filenamePattern,
-    })
+    const settings = await this.storage.getItemByDefaults(defaultV4FilenameSettings)
 
-    return {
-      directory: settings.directory,
-      noSubDirectory: settings.noSubDirectory,
-      filenamePattern: settings.filenamePattern,
-    }
+    return settings
   }
 
   async saveSettings(settings: Partial<V4FilenameSettings>): Promise<void> {
-    await this.storage.setItem({
-      directory: settings.directory,
-      noSubDirectory: settings.noSubDirectory,
-      filenamePattern: settings.filenamePattern,
-    })
+    await this.storage.setItem(settings)
   }
 
   async setDefaultSettings(): Promise<void> {
