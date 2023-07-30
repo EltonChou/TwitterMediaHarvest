@@ -111,6 +111,12 @@
   "options_general_subDirectory_desc": {
     "message": "ディフォルトディレクトリの下にサブディレクトリを作成します。\"/\" でサブディレクトリを分かれることができます。"
   },
+  "options_general_fileAggregation": {
+    "message": "ファイルをグループ化"
+  },
+  "options_general_fileAggregation_desc": {
+    "message": "選択した属性でファイルをグループ化します。"
+  },
   "options_general_filenamePattern": {
     "message": "ファイルネームパターン"
   },

@@ -111,6 +111,12 @@
   "options_general_subDirectory_desc": {
     "message": "Create sub-directory under the default download directory. Sub-directory can be seperated with \"/\"."
   },
+  "options_general_fileAggregation": {
+    "message": "Group Files"
+  },
+  "options_general_fileAggregation_desc": {
+    "message": "Group files by the selected attribute."
+  },
   "options_general_filenamePattern": {
     "message": "Filename pattern"
   },

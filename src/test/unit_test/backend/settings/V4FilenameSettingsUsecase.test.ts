@@ -20,6 +20,8 @@ describe('Filename usecase unit test', () => {
     directory: 'dir',
     noSubDirectory: false,
     filenamePattern: ['{account}', '{tweetId}', '{serial}'],
+    groupBy: '{account}',
+    fileAggregation: false,
   })
 
   it('can make fullpath of file', () => {

@@ -111,6 +111,12 @@
   "options_general_subDirectory_desc": {
     "message": "在預設下載資料夾中新增一個子資料夾。使用 \"/\" 區分多個子資料夾。"
   },
+  "options_general_fileAggregation": {
+    "message": "群組檔案"
+  },
+  "options_general_fileAggregation_desc": {
+    "message": "使用選擇的屬性群組檔案。"
+  },
   "options_general_filenamePattern": {
     "message": "檔案名稱樣式"
   },

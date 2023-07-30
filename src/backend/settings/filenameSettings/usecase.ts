@@ -40,9 +40,23 @@ export default class V4FilenameSettingsUsecase {
     return filename
   }
 
-  makeFullPathWithFilenameAndExt(filename: string, ext: string): string {
+  makeAggregationDirectory(tweetDetail: TweetDetail): string {
+    switch (this.settings.groupBy) {
+      case '{account}':
+        return tweetDetail.screenName
+
+      default:
+        return tweetDetail.screenName
+    }
+  }
+
+  makeFullPathWithFilenameAndExt(filename: string, ext: string, aggregationDir?: string): string {
+    let dir = this.settings.noSubDirectory ? '' : this.settings.directory
+    if (this.settings.fileAggregation && aggregationDir) {
+      dir = dir + '/' + aggregationDir
+    }
     return path.format({
-      dir: this.settings.noSubDirectory ? '' : this.settings.directory,
+      dir: dir,
       name: filename,
       ext: ext,
     })

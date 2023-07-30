@@ -44,7 +44,11 @@ export default class MediaDownloader {
         hash: mediaFile.hashName,
         date: new Date(),
       })
-      const fileFullPath = filenameUseCase.makeFullPathWithFilenameAndExt(filename, mediaFile.ext)
+      const fileFullPath = filenameUseCase.makeFullPathWithFilenameAndExt(
+        filename,
+        mediaFile.ext,
+        filenameUseCase.makeAggregationDirectory(tweetDetail)
+      )
       return fileFullPath
     }
 
