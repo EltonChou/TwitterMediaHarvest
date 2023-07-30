@@ -70,4 +70,15 @@ describe('Filename usecase unit test', () => {
     const filename = usecase.makeFilename(tweetDetail, fileInfo)
     expect(filename).toBe('22220302')
   })
+
+  it('can make aggregation directory', () => {
+    const s: V4FilenameSettings = {
+      ...settings(),
+      fileAggregation: true,
+      groupBy: '{account}',
+    }
+    const useCase = new V4FilenameSettingsUsecase(s)
+    const aggregationDir = useCase.makeAggregationDirectory(tweetDetail)
+    expect(aggregationDir).toBe(tweetDetail.screenName)
+  })
 })
