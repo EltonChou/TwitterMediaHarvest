@@ -132,17 +132,6 @@ type FormHandler = {
   patternTokenToggle: (t: FilenamePatternToken, s: boolean) => void
 }
 
-// const patternWeight: Record<FilenamePatternToken, number> = {
-//   '{account}': 1,
-//   '{tweetId}': 2,
-//   '{hash}': 3,
-//   '{serial}': 4,
-//   '{date}': 5,
-//   '{datetime}': 6,
-//   '{tweetDate}': 7,
-//   '{tweetDatetime}': 8,
-// }
-
 const useFilenameSettingsForm = (): [V4FilenameSettings, FormStatus, FormMessage, FormHandler] => {
   const [filenameSettings, settingsDispatch] = useReducer(settingReducer, defaultFilenameSettings)
   const [formStatus, formStatusDispatch] = useReducer(formStatusReducer, defaultFormStatus)
@@ -157,7 +146,8 @@ const useFilenameSettingsForm = (): [V4FilenameSettings, FormStatus, FormMessage
   }, [])
 
   useEffect(() => {
-    const isDirectoryValid = validDir(filenameSettings.directory)
+    const isDirectoryValid =
+      filenameSettings.directory.split('/').every(dir => validDir(dir)) && filenameSettings.directory.length <= 512
     const isPatternValid = validPattern(filenameSettings.filenamePattern)
     formStatusDispatch(isDirectoryValid ? 'directoryIsValid' : 'directoryIsInvalid')
     formStatusDispatch(isPatternValid ? 'filenamePatternIsValid' : 'filenamePatternIsInvalid')
