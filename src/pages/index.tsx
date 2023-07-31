@@ -3,6 +3,7 @@ import React from 'react'
 import * as ReactDOMClient from 'react-dom/client'
 import Options from './app/Options'
 import Popup from './app/Popup'
+import './main.sass'
 import theme from './themes'
 
 // Create a root.
