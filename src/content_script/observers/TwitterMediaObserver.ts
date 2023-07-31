@@ -37,8 +37,8 @@ export default class TwitterMediaObserver implements IHarvestObserver {
 
   initialize() {
     const modal = select(Query.Modal)
-    if (modal && isInTweetStatus() && select.exists('[data-testid="tweet"]', modal)) {
-      if (!select.exists('[aria-label="Loading"]')) makeHarvester(modal)
+    if (modal && isInTweetStatus() && select.exists('img[alt="Image"]', modal)) {
+      makeHarvester(modal)
     }
 
     const articles = select.all('article')
