@@ -10,14 +10,22 @@ const featureRegEx = Object.freeze({
   photoModeUrl: /\w+\/status\/\d+\/(photo|video)\/\d+/,
 })
 
-const getLinksFromArticle = (article: HTMLElement): string[] =>
-  select.all('[data-testid="User-Name"] [href]', article).map((e: HTMLAnchorElement) => e.href)
+const getLinksFromArticle = (article: HTMLElement): string[] => {
+  const anchorEles = select.all('[data-testid="User-Name"] [href]', article)
+  const timeEle = select('time', article)
+  if (timeEle?.parentElement) anchorEles.push(timeEle.parentElement)
+  return anchorEles.map((e: HTMLAnchorElement) => e.href)
+}
 
 const getEleAt = <T>(arr: T[] | undefined | null, index: number): T | undefined =>
   Array.isArray(arr) ? arr.at(index) : undefined
 
-const getTweetIdFromLink = (link: string): string => getEleAt(link.match(featureRegEx.id), 1)
-const getScreenNameFromLink = (link: string): string => getEleAt(link.match(featureRegEx.screenName), 1)
+const getTweetIdFromLink = (link: string) => getEleAt(link.match(featureRegEx.id), 1)
+const getScreenNameFromLink = (link: string) => getEleAt(link.match(featureRegEx.screenName), 1)
+const parseLinks = (links: string[]) => ({
+  withParser: (parser: (link: string) => string | undefined) =>
+    links.reduce((initV, v) => (initV ? initV : parser(v)), undefined),
+})
 
 /**
  * Generate tweet information.
@@ -31,11 +39,10 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
     level: 'info',
   })
 
-  const links = [window.location.pathname]
-  if (!isArticlePhotoMode(article)) links.push(...getLinksFromArticle(article))
+  const links = isArticlePhotoMode(article) ? [window.location.pathname] : getLinksFromArticle(article)
 
-  const tweetId = links.reduce((tweetId, link) => (tweetId ? tweetId : getTweetIdFromLink(link)), undefined)
-  const screenName = links.reduce((name, link) => (name ? name : getScreenNameFromLink(link)), undefined)
+  const tweetId = parseLinks(links).withParser(getTweetIdFromLink)
+  const screenName = parseLinks(links).withParser(getScreenNameFromLink)
 
   if (!isDefined(tweetId, screenName)) {
     addBreadcrumb({
