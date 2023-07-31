@@ -19,8 +19,8 @@ import type { ISettingsRepository } from './settings/repository'
 import { TwitterApiSettingsRepository } from './settings/twitterApiSettings/repository'
 import { IStatisticsRepositoryV4, V4StatisticsRepository } from './statistics/repositories'
 
-const localStorage = new LocalExtensionStorageProxy(browser.storage.local)
-const syncStorage = new SyncExtensionStorageProxy(browser.storage.sync)
+const localStorage = new LocalExtensionStorageProxy()
+const syncStorage = new SyncExtensionStorageProxy()
 
 const downloadRecordRepo = downloadDB.isSupported
   ? new IndexedDBDownloadRecordsRepository(async () => await downloadDB.connect())

@@ -1,5 +1,6 @@
 import type { LocalStorageSchema as LocalSchema, SyncStorageSchema as SyncSchema } from '@schema'
 import type { Storage } from 'webextension-polyfill'
+import Browser from 'webextension-polyfill'
 
 export type SchemaKey<T> = string extends T ? never : number extends T ? never : boolean extends T ? never : keyof T
 export type SchemaValue<T> = string extends T
@@ -12,7 +13,7 @@ export type SchemaValue<T> = string extends T
 
 export interface IStorageProxy<SchemaT extends Record<string, any>> {
   getItemByKey<Key extends SchemaKey<SchemaT>>(key: Key): Promise<Pick<SchemaT, Key>>
-  getItemByDefaults<DefaultsT extends Partial<SchemaT>>(defaults: DefaultsT): Promise<DefaultsT & SchemaT>
+  getItemByDefaults<Defaults extends Partial<SchemaT>>(defaults: Defaults): Promise<Defaults>
   setItem(item: Partial<SchemaT>): Promise<void>
   removeItem<Key extends SchemaKey<SchemaT>>(keys: Key | Key[]): Promise<void>
 }
@@ -35,21 +36,21 @@ abstract class ExtensionStorageProxy<T extends LocalSchema | SyncSchema> impleme
     return Object.keys(record).includes(strKey) ? (record as Pick<T, SchemaKey<T>>) : undefined
   }
 
-  async getItemByDefaults<Defaults extends Partial<T>>(defaults: Defaults): Promise<Defaults & T> {
+  async getItemByDefaults<Defaults extends Partial<T>>(defaults: Defaults): Promise<Defaults> {
     const record = await this.storageArea.get(defaults)
-    return { ...defaults, ...record } as Defaults & T
+    return { ...defaults, ...record }
   }
 }
 
 export class LocalExtensionStorageProxy extends ExtensionStorageProxy<LocalSchema> {
-  constructor(storageArea: Storage.StorageArea) {
-    super(storageArea)
+  constructor() {
+    super(Browser.storage.local)
   }
 }
 
 export class SyncExtensionStorageProxy extends ExtensionStorageProxy<SyncSchema> {
-  constructor(storageArea: Storage.StorageArea) {
-    super(storageArea)
+  constructor() {
+    super(Browser.storage.sync)
   }
 }
 
@@ -67,8 +68,8 @@ export class SimpleObjectStorageProxy<T extends LocalSchema | SyncSchema> implem
       : undefined
   }
 
-  async getItemByDefaults<DefaultsT extends Partial<T>>(defaults: DefaultsT): Promise<DefaultsT & T> {
-    return { ...defaults, ...this.storage } as DefaultsT & T
+  async getItemByDefaults<Defaults extends Partial<T>>(defaults: Defaults): Promise<Defaults> {
+    return { ...defaults, ...this.storage }
   }
 
   async removeItem<Key extends SchemaKey<T>>(keys: Key | Key[]): Promise<void> {
