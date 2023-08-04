@@ -39,36 +39,35 @@ export const checkModeOfArticle = (article: HTMLElement): TweetMode => {
   return 'stream'
 }
 
-/**
- * @param {ParentNode} article This should be article.
- */
-export const articleHasMedia = (article: HTMLElement) => {
-  if (!article) return false
-  const hasVideo =
-    select.exists('[data-testid="videoPlayer"]', article) || select.exists('[data-testid="playButton"]', article)
+export const isAritcleHasQuotedContent = (article: HTMLElement): boolean => select.all('time', article).length > 1
 
-  let hasPhoto: boolean
-  const photoEle = select('[data-testid="tweetPhoto"]', article)
-  if (photoEle) {
-    const closestAnchor: HTMLAnchorElement = photoEle.closest('[href*="status"]')
-    const articleAnchor: HTMLAnchorElement = select('[href*="status"]', article)
-    hasPhoto = closestAnchor?.href.startsWith(articleAnchor.href)
-  } else {
-    hasPhoto = false
-  }
-
-  return hasVideo || hasPhoto
+const aricleHasPhoto = (article: HTMLElement): boolean => {
+  const articleAnchor: HTMLAnchorElement = select('[href*="status"]', article)
+  const statusUrl = new URL(articleAnchor.href)
+  const photoUrl = statusUrl.pathname.includes('/photo/') ? statusUrl.pathname : `${statusUrl.pathname}/photo`
+  return select.exists(`[href^="${photoUrl}"]`, article)
 }
 
-/**
- * @param {HTMLElement} article
- */
+const articleHasVideo = (article: HTMLElement): boolean => {
+  const videoComponent =
+    select('[data-testid="videoPlayer"]', article) ||
+    select('[data-testid="playButton"]', article) ||
+    select('[data-testid="videoComponent"]', article)
+  return videoComponent ? !isInQuotedContent(videoComponent) : false
+}
+
+const isInQuotedContent = (ele: HTMLElement) => Boolean(ele.closest('[role="link"]'))
+
+export const articleHasMedia = (article: HTMLElement) =>
+  article ? articleHasVideo(article) || aricleHasPhoto(article) : false
+
 export const isArticleCanBeAppend = (article: HTMLElement) =>
   !(select.exists('.deck-harvester', article) || select.exists('.harvester', article))
 
 export const isStreamLoaded = () => select.exists('[role="region"]') && select.exists('article')
 
 const fetchHost = (): string => window.location.host
+
 /**
  * Check current page is in tweetdeck or not.
  * @returns {boolean}
