@@ -27,6 +27,7 @@ const getBestQualityVideoUrl = (video_info: VideoInfo): string => {
 
 const initHeaders = (tweetId: string, bearerToken: string, csrfToken: string, guestToken?: string) =>
   new Headers([
+    ['Content-Type', 'application/json'],
     ['Authorization', 'Bearer ' + bearerToken],
     ['User-Agent', navigator.userAgent],
     ['Referer', `https://twitter.com/i/web/status/${tweetId}`],
@@ -79,6 +80,7 @@ abstract class TweetUseCase implements ITweetUseCase {
 
 /**
  * V1 has faster response time and higer rate limit about 1000,  but it might be deprecated soon.
+ * @deprecated
  */
 export class V1TweetUseCase extends TweetUseCase {
   version: TwitterApiVersion = 'v1'
@@ -153,6 +155,8 @@ abstract class GraphQLTweetUseCase extends TweetUseCase {
   abstract makeEndpoint(): string
 
   parseBody(object: any): TweetVO {
+    if ('errors' in object) throw getFetchError(404)
+
     const entry = object.data.threaded_conversation_with_injections_v2.instructions
       .filter((i: { type: string }) => i.type === 'TimelineAddEntries')[0]
       .entries.filter((e: { entryId: string }) => e.entryId.includes(this.tweetId))[0]
@@ -163,7 +167,7 @@ abstract class GraphQLTweetUseCase extends TweetUseCase {
     const tweet = result?.legacy || result
     if (!tweet) throw new TweetParsingError('Cannot parse tweet from response.')
 
-    const user = result.core.user_results.result
+    const user = result?.core?.user_results?.result
     if (!user) throw new TweetUserParsingError('Cannot parse tweet user from response.')
 
     return new TweetVO(tweet, {
@@ -340,7 +344,6 @@ export class MediaTweetUseCases {
 const isEmptyMediaCatalog = (catalog: TweetMediaCatalog) => Object.values(catalog).every(medias => medias.length === 0)
 
 export const createAllApiUseCasesByTweetId = (tweetId: string): ITweetUseCase[] => [
-  new V1TweetUseCase(tweetId),
   new V2TweetUseCase(tweetId),
   new LatestGraphQLTweetUseCase(tweetId),
   new FallbackGraphQLTweetUseCase(tweetId),
