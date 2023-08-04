@@ -43,14 +43,14 @@ abstract class ExtensionStorageProxy<T extends LocalSchema | SyncSchema> impleme
 }
 
 export class LocalExtensionStorageProxy extends ExtensionStorageProxy<LocalSchema> {
-  constructor() {
-    super(Browser.storage.local)
+  constructor(storageArea?: Storage.StorageArea) {
+    super(storageArea || Browser.storage.local)
   }
 }
 
 export class SyncExtensionStorageProxy extends ExtensionStorageProxy<SyncSchema> {
-  constructor() {
-    super(Browser.storage.sync)
+  constructor(storageArea?: Storage.StorageArea) {
+    super(storageArea || Browser.storage.sync)
   }
 }
 
