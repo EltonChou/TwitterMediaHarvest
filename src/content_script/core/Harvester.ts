@@ -12,8 +12,8 @@ const featureRegEx = Object.freeze({
 
 const getLinksFromArticle = (article: HTMLElement): string[] => {
   const anchorEles = select.all('[data-testid="User-Name"] [href]', article)
-  const timeEle = select('time', article)
-  if (timeEle?.parentElement) anchorEles.push(timeEle.parentElement)
+  const timeEle = select('a > time', article)
+  if (timeEle?.parentElement?.tagName === 'A') anchorEles.push(timeEle.parentElement)
   return anchorEles.map((e: HTMLAnchorElement) => e.href)
 }
 
