@@ -1,10 +1,22 @@
 # Changelog
 
-## [Unreleases]
+## [Unreleased]
+
+### Added
+
+- Added deeper sub-directory Support.
+- Added file aggregation option.
 
 ### Fixed
 
+- Fixed media checker.
+- Fixed tweet information parsing.
 - Fixed process in guest mode.
+- Fixed photo mode download button disappearing issue.
+
+### Changed
+
+- Improve options page UI.
 
 
 ## [4.1.10] - 2023-07-24
