@@ -43,9 +43,10 @@ export const isAritcleHasQuotedContent = (article: HTMLElement): boolean => sele
 
 const aricleHasPhoto = (article: HTMLElement): boolean => {
   const articleAnchor: HTMLAnchorElement = select('[href*="status"]', article)
+  if (!articleAnchor) return false
   const statusUrl = new URL(articleAnchor.href)
   const photoUrl = statusUrl.pathname.includes('/photo/') ? statusUrl.pathname : `${statusUrl.pathname}/photo`
-  return select.exists(`[href^="${photoUrl}"]`, article)
+  return select.exists(`[href*="${photoUrl}"]`, article)
 }
 
 const articleHasVideo = (article: HTMLElement): boolean => {
