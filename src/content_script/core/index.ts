@@ -1,5 +1,6 @@
 import { captureException } from '@sentry/browser'
-import { isArticleCanBeAppend, isBetaTweetDeck, isFunctionablePath, isTweetDeck, isTwitter } from '../utils/checker'
+import { isArticleCanBeAppend } from '../utils/article'
+import { isBetaTweetDeck, isFunctionablePath, isTweetDeck, isTwitter } from '../utils/checker'
 import DeckHarvester from './DeckHarvester'
 import Harvester from './Harvester'
 

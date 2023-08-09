@@ -1,6 +1,6 @@
 import select from 'select-dom'
 import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
-import { isArticleInDetail } from '../utils/checker'
+import { isArticleInDetail } from '../utils/article'
 import { createElementFromHTML, makeButtonListener } from '../utils/maker'
 
 const fetchTweetId = (article: HTMLElement) =>

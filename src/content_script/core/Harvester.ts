@@ -1,7 +1,8 @@
 import { addBreadcrumb, captureMessage } from '@sentry/browser'
 import select from 'select-dom'
 import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
-import { checkModeOfArticle, isArticlePhotoMode, isDefined } from '../utils/checker'
+import { isArticlePhotoMode, selectArtcleMode } from '../utils/article'
+import { isDefined } from '../utils/checker'
 import { createElementFromHTML, makeButtonListener } from '../utils/maker'
 
 const featureRegEx = Object.freeze({
@@ -91,7 +92,7 @@ class Harvester implements IHarvester {
   readonly infoProvider: Provider<TweetInfo>
 
   constructor(article: HTMLElement) {
-    this.mode = checkModeOfArticle(article)
+    this.mode = selectArtcleMode(article)
     this.infoProvider = () => parseTweetInfo(article)
     this.actionBar =
       select('[role="group"][aria-label]', article) || select('.r-18u37iz[role="group"][id^="id__"]', article)

@@ -1,6 +1,7 @@
 import select from 'select-dom'
 import makeHarvester from '../core'
-import { articleHasMedia, isInTweetStatus } from '../utils/checker'
+import { articleHasMedia } from '../utils/article'
+import { isInTweetStatus } from '../utils/checker'
 import { revealNsfw } from '../utils/helper'
 import observeElement from './observer'
 
