@@ -18,20 +18,17 @@ const getLinksFromArticle = (article: HTMLElement): string[] => {
   return anchorEles.map((e: HTMLAnchorElement) => e.href)
 }
 
-const getEleAt = <T>(arr: T[] | undefined | null, index: number): T | undefined =>
-  Array.isArray(arr) ? arr.at(index) : undefined
-
-const getTweetIdFromLink = (link: string) => getEleAt(link.match(featureRegEx.id), 1)
-const getScreenNameFromLink = (link: string) => getEleAt(link.match(featureRegEx.screenName), 1)
+const getTweetIdFromLink = (link: string) => link.match(featureRegEx.id).at(1)
+const getScreenNameFromLink = (link: string) => link.match(featureRegEx.screenName).at(1)
 const parseLinks = (links: string[]) => ({
-  withParser: (parser: (link: string) => string | undefined) =>
+  with: (parser: (link: string) => string | undefined) =>
     links.reduce((initV, v) => (initV ? initV : parser(v)), undefined),
 })
 
 /**
- * Generate tweet information.
+ * Parse tweet information from tweet.
  *
- * @param article A valid tweet element.
+ * @param article A valid tweet element. It would be `ARTICLE` element at most of the time.
  */
 export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
   addBreadcrumb({
@@ -42,8 +39,8 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
 
   const links = isArticlePhotoMode(article) ? [window.location.pathname] : getLinksFromArticle(article)
 
-  const tweetId = parseLinks(links).withParser(getTweetIdFromLink)
-  const screenName = parseLinks(links).withParser(getScreenNameFromLink)
+  const tweetId = parseLinks(links).with(getTweetIdFromLink)
+  const screenName = parseLinks(links).with(getScreenNameFromLink)
 
   if (!isDefined(tweetId, screenName)) {
     addBreadcrumb({
@@ -61,7 +58,7 @@ export const parseTweetInfo = (article: HTMLElement): TweetInfo => {
   }
 }
 
-const getSampleButton = (article: HTMLElement): HTMLElement | undefined => {
+const getSampleButton = (article: HTMLElement): HTMLElement => {
   const shareSvg = select('[role="group"] [dir="ltr"] [data-testid$="iconOutgoing"]', article)
   const sampleButton = shareSvg
     ? (shareSvg.closest('[role="like"] > div') as HTMLElement)

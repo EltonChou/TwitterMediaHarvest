@@ -2,20 +2,20 @@ import select from 'select-dom'
 
 export const isStreamLoaded = () => select.exists('[role="region"]') && select.exists('article')
 
-const fetchHost = (): string => window.location.host
+const getHost = (): string => window.location.host
 
 /**
  * Check current page is in tweetdeck or not.
  * @returns {boolean}
  */
-export const isTweetDeck = (): boolean => fetchHost() === 'tweetdeck.twitter.com'
+export const isTweetDeck = (): boolean => getHost() === 'tweetdeck.twitter.com'
 
 /**
  * Check current page is in twitter or not.
  * @returns {boolean}
  */
 export const isTwitter = (): boolean => {
-  const host = fetchHost()
+  const host = getHost()
   return host === 'twitter.com' || host === 'mobile.twitter.com'
 }
 
@@ -24,6 +24,7 @@ const IntentTweetRegEx = /\/intent\/tweet\/?.*/
 const TweetListRegEx = /\/i\/lists\/add_member/
 const RetweetsListRegEx = /\/\d+\/retweets$/
 const LikesListRegEx = /\/\d+\/likes$/
+const TweetStatusRegEx = /\/.*\/status\/\d+/
 
 /**
  * Check user is composing tweet or not.
@@ -41,7 +42,6 @@ export const isFunctionablePath = (): boolean =>
     isComposingTweet()
   )
 
-const TweetStatusRegEx = /\/.*\/status\/\d+/
 export const isInTweetStatus = (): boolean => Boolean(window.location.pathname.match(TweetStatusRegEx))
 
 export const isBetaTweetDeck = (): boolean => isTweetDeck() && select.exists('#react-root')
