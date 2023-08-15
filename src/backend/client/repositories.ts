@@ -39,12 +39,13 @@ export interface IClientInfoRepository {
 
 export class InfoSyncLock implements IProcessLock {
   private lockCriteria = 'InfoUpdateLock'
+  private maxLockTime = 10 * 60 * 1000
 
   constructor(readonly storageArea: Storage.StorageArea) {}
 
   async isLocked(): Promise<boolean> {
     const record = await this.storageArea.get(this.lockCriteria)
-    return Object.keys(record).includes(this.lockCriteria)
+    return Object.keys(record).includes(this.lockCriteria) && record[this.lockCriteria] - Date.now() >= this.maxLockTime
   }
 
   async release(): Promise<void> {
@@ -52,7 +53,7 @@ export class InfoSyncLock implements IProcessLock {
   }
 
   async acquire(): Promise<void> {
-    await this.storageArea.set({ [this.lockCriteria]: 1 })
+    await this.storageArea.set({ [this.lockCriteria]: Date.now() })
   }
 }
 
@@ -78,33 +79,23 @@ export class ClientInfoRepository implements IClientInfoRepository {
     )
   }
 
-  async getInfo(options?: Partial<ProviderOptions>): Promise<ClientInfoVO> {
-    const record: Record<keyof ClientInfo, unknown> = await this.storageArea.getItemByDefaults(defaultInfo)
-    let info: ClientInfoVO
-
-    if (isEmptyInfo(record)) {
-      const clientTokenResponse: ClientTokenResponse = await this.createClient({ ...this.defaultOptions, ...options })
-      const { payload } = jws.decode(clientTokenResponse.token, { json: true })
-      const clientInfo: ClientInfo = {
-        uuid: payload['uuid'],
-        csrfToken: clientTokenResponse.token,
-        syncedAt: Date.now(),
-        uninstallCode: clientTokenResponse.uninstallCode,
-      }
-
-      info = new ClientInfoVO(clientInfo)
-      await this.storageArea.setItem(info.props)
-      await Browser.runtime.setUninstallURL(info.uninstallUrl)
-    } else {
-      info = new ClientInfoVO({
-        uuid: record.uuid as string,
-        csrfToken: record.csrfToken as string,
-        syncedAt: record.syncedAt as number,
-        uninstallCode: record.uninstallCode as string,
-      })
-    }
-
+  private async getNewInfo(options?: Partial<ProviderOptions>): Promise<ClientInfoVO> {
+    const clientTokenResponse: ClientTokenResponse = await this.createClient({ ...this.defaultOptions, ...options })
+    const { payload } = jws.decode(clientTokenResponse.token, { json: true })
+    const info = new ClientInfoVO({
+      uuid: payload['uuid'],
+      csrfToken: clientTokenResponse.token,
+      syncedAt: Date.now(),
+      uninstallCode: clientTokenResponse?.uninstallCode || payload['uninstallCode'],
+    })
+    await this.storageArea.setItem(info.props)
+    await Browser.runtime.setUninstallURL(info.uninstallUrl)
     return info
+  }
+
+  async getInfo(options?: Partial<ProviderOptions>): Promise<ClientInfoVO> {
+    const record = await this.storageArea.getItemByDefaults(defaultInfo)
+    return isEmptyInfo(record) ? this.getNewInfo(options) : new ClientInfoVO(record)
   }
 
   async updateStats(options?: Partial<ProviderOptions>): Promise<void> {
