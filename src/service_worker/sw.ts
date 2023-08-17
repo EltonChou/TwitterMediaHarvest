@@ -8,7 +8,7 @@ import DownloadStateUseCase from '@backend/downloads/downloadStateUseCase'
 import { HarvestError } from '@backend/errors'
 import NotificationUseCase from '@backend/notifications/notificationIdUseCases'
 import { V4StatsUseCase } from '@backend/statistics/useCases'
-import { isDownloadedBySelf, isValidInfo } from '@backend/utils/checker'
+import { isDownloadedBySelf } from '@backend/utils/checker'
 import { Action, type HandleExchange, type HarvestExchange, HarvestResponse } from '@libs/browser'
 import { addBreadcrumb, captureException, init as SentryInit, setUser, type User } from '@sentry/browser'
 import browser from 'webextension-polyfill'
@@ -55,27 +55,29 @@ SentryInit({
 
 fetchUser().then(user => setUser(user))
 
-const handleDownload: HandleExchange<Action.Download> = async exchange => {
-  if (!isValidInfo(exchange.data)) {
-    console.error('Invalid tweetInfo.')
-    return {
-      status: 'error',
-      error: new HarvestError(`Invalid tweetInfo. ${exchange.data}`),
-    }
-  }
-
-  const usecase = new DownloadActionUseCase(exchange.data)
-  try {
-    await usecase.processDownload()
-    return { status: 'success' }
-  } catch (error) {
-    return { status: 'error', error: error }
-  }
+const handleDownload: HandleExchange<Action.Download> = async ({ data }) => {
+  const usecase = new DownloadActionUseCase(data)
+  const result = await usecase.processDownload()
+  return { status: result }
 }
 
 const handleUserFetch: HandleExchange<Action.FetchUser> = async exchange => {
-  const user = await fetchUser()
-  return { status: 'success', data: user }
+  const sentryUser: SentryUser = {
+    id: 'NULL_ID',
+    client_id: 'NULL_UUID',
+  }
+
+  try {
+    const credential = await storageConfig.credentialsRepo.getCredential()
+    const clientInfo = await storageConfig.clientInfoRepo.getInfo()
+
+    sentryUser.id = credential.identityId
+    sentryUser.client_id = clientInfo.props.uuid
+  } catch (error) {
+    console.error(error)
+  }
+
+  return { status: 'success', data: sentryUser }
 }
 
 browser.runtime.onMessage.addListener(

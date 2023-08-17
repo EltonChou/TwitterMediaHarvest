@@ -25,10 +25,10 @@ export type HarvestResponse<T extends Action> =
       : {
           status: 'success'
         })
-  | { status: 'error'; error: Error }
+  | { status: 'error'; error?: string | Error }
 
 export type HandleExchange<T extends Action> = (exchange: HarvestExchange<T>) => Promise<HarvestResponse<T>>
 
 export const exchangeInternal = async <T extends Action>(exchange: HarvestExchange<T>): Promise<HarvestResponse<T>> => {
-  return await Browser.runtime.sendMessage(exchange)
+  return Browser.runtime.sendMessage(exchange)
 }

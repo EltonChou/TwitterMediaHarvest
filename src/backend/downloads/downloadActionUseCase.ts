@@ -72,12 +72,13 @@ export default class DownloadActionUseCase {
     await mediaDownloader.downloadMediasByMediaCatalog(tweet, mediaCatalog)
   }
 
-  async processDownload(): Promise<void> {
+  async processDownload(): Promise<'success' | 'error'> {
     try {
       await this.process()
+      return 'success'
     } catch (err) {
       await this.handleError(err)
-      throw err
+      return 'error'
     }
   }
 
