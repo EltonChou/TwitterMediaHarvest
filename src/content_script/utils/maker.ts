@@ -1,27 +1,23 @@
-import { Action, exchangeInternal } from '@libs/browser'
-import { captureException } from '@sentry/browser'
+import { FailedToParseTweetInfoNotifyUseCase } from '@backend/notifications/notifyUseCases'
+import { Action, exchangeInternal, HarvestExchange } from '@libs/browser'
+import { toError } from 'fp-ts/lib/Either'
+import { pipe } from 'fp-ts/lib/function'
+import { type IOEither } from 'fp-ts/lib/IOEither'
+import * as TE from 'fp-ts/lib/TaskEither'
+import { captureExceptionIO } from './helper'
 
 /**
  * Create HTMLElement from html string.
  *
  * @param htmlString A valid html string.
  */
-export const createElementFromHTML = (htmlString: string): Element => {
+export const createElementFromHTML = (htmlString: string): HTMLElement => {
   const wrapper = document.createElement('div')
   wrapper.innerHTML = htmlString.trim()
-  return wrapper.firstElementChild
+  return wrapper.firstElementChild as HTMLElement
 }
 
-/**
- * @param button
- * @param data
- */
-export const makeButtonWithData = (button: HTMLElement, data: TweetInfo): HTMLElement => {
-  Object.assign(button.dataset, data)
-  return button
-}
-
-const setButtonStatus = (button: HTMLElement, status: ButtonStatus) => {
+const setButtonStatus = (status: ButtonStatus) => (button: HTMLElement) => {
   if (!button) return button
   button.classList.remove('downloading', 'success', 'error')
   button.classList.add(status)
@@ -30,41 +26,36 @@ const setButtonStatus = (button: HTMLElement, status: ButtonStatus) => {
 
 const isButtonDownloading = (button: HTMLElement) => button.classList.contains('downloading')
 
-const sendDownloadExchange = async (button: HTMLElement, process: () => Promise<ButtonStatus>) => {
-  setButtonStatus(button, 'downloading')
-  try {
-    const status = await process()
-    setButtonStatus(button, status)
-  } catch (error) {
-    setButtonStatus(button, 'error')
-    captureException(error)
-    console.error(error)
-  }
-}
+const sendExchange = (exchange: HarvestExchange<Action.Download>) =>
+  TE.tryCatch(async () => exchangeInternal(exchange), toError)
 
-/**
- * @param button harvestButton
- */
-export const makeButtonListener = <T extends HTMLElement = HTMLElement>(
-  button: T,
-  infoProvider: Provider<TweetInfo>
-): T => {
-  button.addEventListener('click', async function (e) {
-    e.stopImmediatePropagation()
-    if (isButtonDownloading(this)) return
+const notifyInfoParserError = TE.tryCatch(async () => {
+  const useCase = new FailedToParseTweetInfoNotifyUseCase()
+  return await useCase.notify()
+}, toError)
 
-    await sendDownloadExchange(button, async () => {
-      const tweetInfo = await infoProvider()
-      const exchange: Parameters<typeof exchangeInternal>[0] = {
-        action: Action.Download,
-        data: tweetInfo,
-      }
+export const makeButtonListener =
+  <T extends HTMLElement>(infoProvider: IOEither<Error, TweetInfo>) =>
+  (button: T): T => {
+    button.addEventListener('click', async function (e) {
+      e.stopImmediatePropagation()
+      if (isButtonDownloading(this)) return
 
-      console.log('Send message to service worker.', exchange)
-      const resp = await exchangeInternal(exchange)
-      return resp.status
+      setButtonStatus('downloading')(button)
+
+      const status = await pipe(
+        TE.Do,
+        TE.bind('data', () => pipe(infoProvider, TE.fromIOEither)),
+        TE.tapError(e => pipe(e, captureExceptionIO, TE.fromIO, () => notifyInfoParserError)),
+        TE.tap(exchange => sendExchange({ action: Action.Download, data: exchange.data })),
+        TE.match(
+          () => 'error' as ButtonStatus,
+          () => 'success' as ButtonStatus
+        )
+      )()
+
+      setButtonStatus(status)(button)
     })
-  })
 
-  return button
-}
+    return button
+  }

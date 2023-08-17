@@ -1,3 +1,5 @@
+import { captureException, captureMessage } from '@sentry/browser'
+import type { IO } from 'fp-ts/lib/IO'
 import select from 'select-dom'
 import { isBusinessRelatedTweet } from './checker'
 
@@ -9,3 +11,17 @@ export const revealNsfw = (article: HTMLElement) => {
     revealButton.click()
   }
 }
+
+export const captureExceptionIO =
+  (e: Error): IO<void> =>
+  () => {
+    captureException(e)
+    console.error(e)
+  }
+
+export const captureMessageIO =
+  (message: string): IO<void> =>
+  () => {
+    captureMessage(message)
+    console.log(message)
+  }

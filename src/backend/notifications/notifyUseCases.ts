@@ -40,6 +40,14 @@ export class DownwloadFailedNotificationUseCase {
   }
 }
 
+export class FailedToParseTweetInfoNotifyUseCase {
+  async notify(): Promise<void> {
+    const notiConf = NotificationConfig.failedToParseTweetInfo()
+
+    await browser.notifications.create('none', notiConf)
+  }
+}
+
 function getDownloadDeltaEventTime(downloadDelta: Downloads.OnChangedDownloadDeltaType) {
   const eventTime =
     !downloadDelta.error && 'current' in downloadDelta.endTime ? Date.parse(downloadDelta.endTime.current) : Date.now()

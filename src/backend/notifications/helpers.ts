@@ -1,3 +1,4 @@
+import { isFirefox } from '@backend/utils/checker'
 import type { Notifications } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
 import { i18nLocalize } from '../utils/i18n'
@@ -36,10 +37,11 @@ export class NotificationConfig {
       title: i18nLocalize('notificationDLFailedTitle'),
       message: info,
       contextMessage: contextMessage,
-      buttons: [NotificationButton.viewTweet(), NotificationButton.retryDownload()],
       eventTime: eventTime,
-      requireInteraction: true,
-    } as Notifications.CreateNotificationOptions
+      ...(isFirefox()
+        ? {}
+        : { buttons: [NotificationButton.viewTweet(), NotificationButton.retryDownload()], requireInteraction: true }),
+    }
   }
 
   static tooManyRequests(
@@ -54,11 +56,11 @@ export class NotificationConfig {
       title: title,
       message: info,
       contextMessage: contextMessage,
-      buttons: [NotificationButton.viewTweet()],
       eventTime: Date.now(),
+      buttons: [NotificationButton.viewTweet()],
       requireInteraction: true,
-      silent: false,
-    } as Notifications.CreateNotificationOptions
+      ...(isFirefox() ? {} : { buttons: [NotificationButton.viewTweet()], requireInteraction: true }),
+    }
   }
 
   static unknownFetchError = ({ title, message }: FetchErrorReason): Notifications.CreateNotificationOptions => {
@@ -68,11 +70,9 @@ export class NotificationConfig {
       title: title,
       message: message,
       contextMessage: contextMessage,
-      buttons: [NotificationButton.viewTweet()],
       eventTime: Date.now(),
-      requireInteraction: true,
-      silent: false,
-    } as Notifications.CreateNotificationOptions
+      ...(isFirefox() ? {} : { buttons: [NotificationButton.viewTweet()], requireInteraction: true }),
+    }
   }
 
   static internalError = (message: string): Notifications.CreateNotificationOptions => {
@@ -82,10 +82,19 @@ export class NotificationConfig {
       title: i18nLocalize('internalError'),
       message: message,
       contextMessage: contextMessage,
-      buttons: [NotificationButton.viewTweet()],
       eventTime: Date.now(),
-      requireInteraction: true,
-      silent: false,
-    } as Notifications.CreateNotificationOptions
+      ...(isFirefox() ? {} : { buttons: [NotificationButton.viewTweet()], requireInteraction: true }),
+    }
+  }
+
+  static failedToParseTweetInfo = (): Notifications.CreateNotificationOptions => {
+    return {
+      type: TemplateType.Basic,
+      iconUrl: notificationIconUrl,
+      title: i18nLocalize('notification-failedToParseTweetInfo-title'),
+      message: i18nLocalize('notification-failedToParseTweetInfo-message'),
+      contextMessage: contextMessage,
+      eventTime: Date.now(),
+    }
   }
 }
