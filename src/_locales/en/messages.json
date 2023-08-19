@@ -210,10 +210,10 @@
   "backend_notification_message_forbidden": {
     "message": "Your login session might be expired, please refresh your page."
   },
-  "notification-failedToParseTweetInfo-title": {
+  "notification_failedToParseTweetInfo_title": {
     "message": "Failed to parse tweet information"
   },
-  "notification-failedToParseTweetInfo-message": {
+  "notification_failedToParseTweetInfo_message": {
     "message": "Failed to parse tweet information. Please report bug to developer."
   },
   "options_features_keyboardShortcut": {
