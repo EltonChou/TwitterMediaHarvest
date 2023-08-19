@@ -204,6 +204,12 @@
   "backend_notification_message_unauth": {
     "message": "請確認登入狀態或是查看此推文的權限。"
   },
+  "backend_notification_title_forbidden": {
+    "message": "存取遭拒絕"
+  },
+  "backend_notification_message_forbidden": {
+    "message": "你的登錄資訊可能已經過期，請重新整理頁面。"
+  },
   "options_features_keyboardShortcut": {
     "message": "鍵盤快捷鍵"
   },

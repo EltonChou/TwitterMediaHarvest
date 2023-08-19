@@ -13,6 +13,8 @@ export class TweetMediaParsingError extends ParserError {}
 
 // Twitter API
 export class TwitterApiError extends ApiError {
+  name = 'TwitterApiError'
+
   public reason: FetchErrorReason
 
   constructor(reason: FetchErrorReason) {
@@ -25,9 +27,12 @@ export class TooManyRequest extends TwitterApiError {}
 export class NotFound extends TwitterApiError {}
 export class UnknownError extends TwitterApiError {}
 export class Unauthorized extends TwitterApiError {}
+export class Forbidden extends TwitterApiError {}
 
 // Client API
 export class ClientApiError extends ApiError {
+  name = 'ClientApiError'
+
   constructor(statusCode: number, message: string, header: Record<string, string>) {
     const xInfo = ClientApiError.extractHeader(header)
     const msg = message + `(statusCode: ${statusCode})\n` + 'X-Headers:\n' + JSON.stringify(xInfo)

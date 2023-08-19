@@ -204,6 +204,12 @@
   "backend_notification_message_unauth": {
     "message": "ログイン状態やツイートの閲覧権限を確認してください。"
   },
+  "backend_notification_title_forbidden": {
+    "message": "読込み禁止されているになっています"
+  },
+  "backend_notification_message_forbidden": {
+    "message": "ログインセッションの有効期限が切れました、ページを更新してください。"
+  },
   "options_features_keyboardShortcut": {
     "message": "キーボードショートカット"
   },

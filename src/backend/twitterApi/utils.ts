@@ -1,4 +1,4 @@
-import { NotFound, TooManyRequest, TwitterApiError, Unauthorized, UnknownError } from '../errors'
+import { Forbidden, NotFound, TooManyRequest, TwitterApiError, Unauthorized, UnknownError } from '../errors'
 import { i18nLocalize } from '../utils/i18n'
 
 export const getFetchError = (statusCode: number): TwitterApiError => {
@@ -27,6 +27,15 @@ export const getFetchError = (statusCode: number): TwitterApiError => {
       message: i18nLocalize('backend_notification_message_unauth'),
     }
     return new Unauthorized(reason)
+  }
+
+  if (statusCode === 403) {
+    const reason: FetchErrorReason = {
+      status: statusCode,
+      title: i18nLocalize('backend_notification_title_forbidden'),
+      message: i18nLocalize('backend_notification_message_forbidden'),
+    }
+    return new Forbidden(reason)
   }
 
   const reason: FetchErrorReason = {

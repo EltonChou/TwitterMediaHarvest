@@ -204,6 +204,12 @@
   "backend_notification_message_unauth": {
     "message": "Please check your login session or your permission to read this tweet."
   },
+  "backend_notification_title_forbidden": {
+    "message": "Forbidden"
+  },
+  "backend_notification_message_forbidden": {
+    "message": "Your login session might be expired, please refresh your page."
+  },
   "options_features_keyboardShortcut": {
     "message": "Keyboard shortcut"
   },
