@@ -210,6 +210,12 @@
   "backend_notification_message_forbidden": {
     "message": "你的登錄資訊可能已經過期，請重新整理頁面。"
   },
+  "notification-failedToParseTweetInfo-title": {
+    "message": "推特資訊分析失敗"
+  },
+  "notification-failedToParseTweetInfo-message": {
+    "message": "推特資訊分析失敗。請向開發者回報錯誤。"
+  },
   "options_features_keyboardShortcut": {
     "message": "鍵盤快捷鍵"
   },

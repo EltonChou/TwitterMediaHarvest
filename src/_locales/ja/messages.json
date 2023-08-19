@@ -210,6 +210,12 @@
   "backend_notification_message_forbidden": {
     "message": "ログインセッションの有効期限が切れました、ページを更新してください。"
   },
+  "notification-failedToParseTweetInfo-title": {
+    "message": "ツイートの解析は失敗しました"
+  },
+  "notification-failedToParseTweetInfo-message": {
+    "message": "ツイートの解析は失敗しました。開発者に報告してください。"
+  },
   "options_features_keyboardShortcut": {
     "message": "キーボードショートカット"
   },
