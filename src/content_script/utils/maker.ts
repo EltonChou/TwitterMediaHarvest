@@ -4,6 +4,7 @@ import { toError } from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/function'
 import { type IOEither } from 'fp-ts/lib/IOEither'
 import * as TE from 'fp-ts/lib/TaskEither'
+import { ButtonStatus } from '../../enums'
 import { captureExceptionIO } from './helper'
 
 /**
@@ -37,24 +38,22 @@ const notifyInfoParserError = TE.tryCatch(async () => {
 export const makeButtonListener =
   <T extends HTMLElement>(infoProvider: IOEither<Error, TweetInfo>) =>
   (button: T): T => {
-    button.addEventListener('click', async function (e) {
+    button.addEventListener('click', function (e) {
       e.stopImmediatePropagation()
       if (isButtonDownloading(this)) return
 
-      setButtonStatus('downloading')(button)
+      setButtonStatus(ButtonStatus.Downloading)(button)
 
-      const status = await pipe(
+      pipe(
         TE.Do,
         TE.bind('data', () => pipe(infoProvider, TE.fromIOEither)),
         TE.tapError(e => pipe(e, captureExceptionIO, TE.fromIO, () => notifyInfoParserError)),
-        TE.tap(exchange => sendExchange({ action: Action.Download, data: exchange.data })),
+        TE.bind('response', exchange => sendExchange({ action: Action.Download, data: exchange.data })),
         TE.match(
-          () => 'error' as ButtonStatus,
-          () => 'success' as ButtonStatus
+          () => ButtonStatus.Error,
+          ({ response }) => (response.status === 'success' ? ButtonStatus.Success : ButtonStatus.Error)
         )
-      )()
-
-      setButtonStatus(status)(button)
+      )().then(status => setButtonStatus(status)(button))
     })
 
     return button
