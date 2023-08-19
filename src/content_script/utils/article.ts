@@ -46,7 +46,8 @@ const aricleHasPhoto = (article: HTMLElement): boolean => {
   if (!articleAnchor) return false
   const statusUrl = new URL(articleAnchor.href)
   const photoUrl = statusUrl.pathname.includes('/photo/') ? statusUrl.pathname : `${statusUrl.pathname}/photo`
-  return select.exists(`[href*="${photoUrl}"]`, article)
+  const photoEle = select(`[href*="${photoUrl}"]`, article)
+  return photoEle ? !isPhotoInQuotedContent(photoEle) : false
 }
 
 const articleHasVideo = (article: HTMLElement): boolean => {
@@ -54,10 +55,11 @@ const articleHasVideo = (article: HTMLElement): boolean => {
     select('[data-testid="videoPlayer"]', article) ||
     select('[data-testid="playButton"]', article) ||
     select('[data-testid="videoComponent"]', article)
-  return videoComponent ? !isInQuotedContent(videoComponent) : false
+  return videoComponent ? !isVideoInQuotedContent(videoComponent) : false
 }
 
-const isInQuotedContent = (ele: HTMLElement) => Boolean(ele.closest('[role="link"]'))
+const isVideoInQuotedContent = (ele: HTMLElement) => Boolean(ele?.closest('[role="link"]'))
+const isPhotoInQuotedContent = (ele: HTMLElement) => Boolean(ele?.closest('[id^="id"]:not([aria-labelledby])'))
 
 export const articleHasMedia = (article: HTMLElement) =>
   article ? articleHasVideo(article) || aricleHasPhoto(article) : false
