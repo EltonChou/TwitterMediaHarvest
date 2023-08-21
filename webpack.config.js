@@ -123,6 +123,7 @@ module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production'
   const versionName = `${version} (${env.target})`
   const release_name = env.RELEASE_NAME || PACKAGE.name + '(' + env.target + ')' + '@' + version
+  config.resolve.alias['@init'] = path.resolve(__dirname, `src/service_worker/${env.target}/initialization.ts`)
 
   config.output = {
     filename: '[name].js',

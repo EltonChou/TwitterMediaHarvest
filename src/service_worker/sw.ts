@@ -12,7 +12,7 @@ import { isDownloadedBySelf } from '@backend/utils/checker'
 import { Action, type HandleExchange, type HarvestExchange, HarvestResponse } from '@libs/browser'
 import { addBreadcrumb, captureException, init as SentryInit, setUser, type User } from '@sentry/browser'
 import browser from 'webextension-polyfill'
-import { chromiumInit, firefoxInit } from './initialization'
+import '@init'
 
 interface SentryUser extends User {
   client_id: string
@@ -148,7 +148,3 @@ browser.notifications.onButtonClicked.addListener((notifficationId, buttonIndex)
   const notificationUseCase = new NotificationUseCase(notifficationId)
   notificationUseCase.handleButton(buttonIndex)
 })
-
-process.env.TARGET === 'firefox'
-  ? firefoxInit()
-  : chromiumInit(storageConfig.downloadSettingsRepo, storageConfig.downloadRecordRepo)
