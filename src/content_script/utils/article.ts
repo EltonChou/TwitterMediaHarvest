@@ -41,20 +41,33 @@ export const selectArtcleMode = (article: HTMLElement): TweetMode => {
 
 export const isAritcleHasQuotedContent = (article: HTMLElement): boolean => select.all('time', article).length > 1
 
+const makePhotoUrlPattern = (statusHref: string): string => {
+  const statusUrl = new URL(statusHref)
+  return statusUrl.pathname.includes('/photo/') ? statusUrl.pathname : `${statusUrl.pathname}/photo`
+}
+
+const getPhotoElementByUrl =
+  (photoUrl: string) =>
+  (article: HTMLElement): HTMLElement | undefined =>
+    select(`[href*="${photoUrl}"]`, article)
+
+const getArticleAnchor = (article: HTMLElement): HTMLAnchorElement => select('[href*="status"]', article)
+
 const aricleHasPhoto = (article: HTMLElement): boolean => {
-  const articleAnchor: HTMLAnchorElement = select('[href*="status"]', article)
+  const articleAnchor = getArticleAnchor(article)
   if (!articleAnchor) return false
-  const statusUrl = new URL(articleAnchor.href)
-  const photoUrl = statusUrl.pathname.includes('/photo/') ? statusUrl.pathname : `${statusUrl.pathname}/photo`
-  const photoEle = select(`[href*="${photoUrl}"]`, article)
+  const photoUrl = makePhotoUrlPattern(articleAnchor.href)
+  const photoEle = getPhotoElementByUrl(photoUrl)(article)
   return photoEle ? !isPhotoInQuotedContent(photoEle) : false
 }
 
+const getVideoCompoent = (article: HTMLElement): HTMLElement | undefined =>
+  select('[data-testid="videoPlayer"]', article) ||
+  select('[data-testid="playButton"]', article) ||
+  select('[data-testid="videoComponent"]', article)
+
 const articleHasVideo = (article: HTMLElement): boolean => {
-  const videoComponent =
-    select('[data-testid="videoPlayer"]', article) ||
-    select('[data-testid="playButton"]', article) ||
-    select('[data-testid="videoComponent"]', article)
+  const videoComponent = getVideoCompoent(article)
   return videoComponent ? !isVideoInQuotedContent(videoComponent) : false
 }
 
