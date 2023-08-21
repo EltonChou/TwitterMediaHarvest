@@ -68,14 +68,15 @@ const getVideoCompoent = (article: HTMLElement): HTMLElement | undefined =>
 
 const articleHasVideo = (article: HTMLElement): boolean => {
   const videoComponent = getVideoCompoent(article)
-  return videoComponent ? !isVideoInQuotedContent(videoComponent) : false
+  return videoComponent && !isVideoInQuotedContent(videoComponent) && !isBelongsToCard(videoComponent)
 }
 
+const isBelongsToCard = (ele: HTMLElement): boolean => Boolean(ele?.closest('[data-testid="card.wrapper"]'))
 const isVideoInQuotedContent = (ele: HTMLElement) => Boolean(ele?.closest('[role="link"]'))
 const isPhotoInQuotedContent = (ele: HTMLElement) => Boolean(ele?.closest('[id^="id"]:not([aria-labelledby])'))
 
 export const articleHasMedia = (article: HTMLElement) =>
-  article ? articleHasVideo(article) || aricleHasPhoto(article) : false
+  article && (articleHasVideo(article) || aricleHasPhoto(article))
 
 export const isArticleCanBeAppend = (article: HTMLElement) =>
   !(select.exists('.deck-harvester', article) || select.exists('.harvester', article))
