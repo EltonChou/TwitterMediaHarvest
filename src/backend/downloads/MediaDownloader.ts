@@ -59,9 +59,13 @@ export default class MediaDownloader {
         await this.downloadMedia(mediaFile.src, makeFilePath(mediaFile), recordConfig)
       })
 
+    const shouldAllowThumbnail = this.featureSettings.includeVideoThumbnail
+      ? () => true
+      : (url: string) => !url.includes('video_thumb')
+
     Array.from(mediaCatalog.images)
-      .filter(url => isValidTweetMediaFileUrl(url))
-      .filter(url => (this.featureSettings.includeVideoThumbnail ? true : !url.includes('video_thumb')))
+      .filter(isValidTweetMediaFileUrl)
+      .filter(shouldAllowThumbnail)
       .forEach(async (url, i) => {
         const mediaFile = new TweetMediaFileVO(url, i)
         await this.downloadMedia(mediaFile.src, makeFilePath(mediaFile), recordConfig)
