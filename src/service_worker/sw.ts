@@ -50,7 +50,7 @@ SentryInit({
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
   environment: process.env.NODE_ENV,
   release: process.env.RELEASE,
-  ignoreErrors: ['Failed to fetch', 'network error'],
+  ignoreErrors: ['Failed to fetch', 'network error', 'Download canceled by the user'],
 })
 
 fetchUser().then(user => setUser(user))
