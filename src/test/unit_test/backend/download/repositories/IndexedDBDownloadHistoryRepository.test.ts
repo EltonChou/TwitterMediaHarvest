@@ -1,12 +1,8 @@
-import { IDBFactory } from 'fake-indexeddb'
-import 'fake-indexeddb/auto'
-
-global.indexedDB = new IDBFactory()
-
 import { TweetDownloadHistoryItem } from '@backend/downloads/models'
 import { IndexedDBDownloadHistoryRepository } from '@backend/downloads/repositories'
 import { faker } from '@faker-js/faker'
 import { downloadDB } from '@libs/indexedDB'
+import 'fake-indexeddb/auto'
 
 const makeHistoryItem = (): TweetDownloadHistoryItem =>
   TweetDownloadHistoryItem.build({
@@ -19,7 +15,9 @@ const makeHistoryItem = (): TweetDownloadHistoryItem =>
   })
 
 describe('IndexedDBDownloadHistoryRepository unit test', () => {
-  const repo = new IndexedDBDownloadHistoryRepository(async () => await downloadDB.connect())
+  const repo = new IndexedDBDownloadHistoryRepository(
+    async () => await downloadDB.connect()
+  )
 
   const generateFakeItems = async () => {
     const count = faker.number.int({ min: 50, max: 100 })

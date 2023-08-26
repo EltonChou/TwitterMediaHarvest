@@ -1,14 +1,14 @@
-import { addBreadcrumb } from '@sentry/browser'
-import type { Downloads } from 'webextension-polyfill'
-import Browser from 'webextension-polyfill'
-import { storageConfig } from '../configurations'
+import { statisticsRepo } from '../configurations'
 import { DownwloadFailedNotificationUseCase } from '../notifications/notifyUseCases'
 import { V4StatsUseCase } from '../statistics/useCases'
 import InterruptReason from './InterruptReason'
 import { IDownloadRecordsRepository } from './repositories'
 import { downloadIsCompleted, downloadIsInterrupted } from './utils/downloadState'
+import { addBreadcrumb } from '@sentry/browser'
+import type { Downloads } from 'webextension-polyfill'
+import Browser from 'webextension-polyfill'
 
-const statisticsUseCase = new V4StatsUseCase(storageConfig.statisticsRepo)
+const statisticsUseCase = new V4StatsUseCase(statisticsRepo)
 
 export default class DownloadStateUseCase {
   constructor(

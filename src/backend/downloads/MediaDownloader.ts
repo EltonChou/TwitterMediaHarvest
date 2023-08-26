@@ -1,4 +1,9 @@
-import { storageConfig } from '../configurations'
+import {
+  downloadRecordRepo,
+  downloadSettingsRepo,
+  featureSettingsRepo,
+  v4FilenameSettingsRepo,
+} from '../configurations'
 import type { DownloadItemRecorder } from './downloadItemRecorder'
 import { downloadItemRecorder } from './downloadItemRecorder'
 import { isValidTweetMediaFileUrl } from './utils/checker'
@@ -21,9 +26,9 @@ export default class MediaDownloader {
   ) {}
 
   static async build() {
-    const fileNameSettings = await storageConfig.v4FilenameSettingsRepo.getSettings()
-    const downloadSettings = await storageConfig.downloadSettingsRepo.getSettings()
-    const featureSettings = await storageConfig.featureSettingsRepo.getSettings()
+    const fileNameSettings = await v4FilenameSettingsRepo.getSettings()
+    const downloadSettings = await downloadSettingsRepo.getSettings()
+    const featureSettings = await featureSettingsRepo.getSettings()
     return new MediaDownloader(fileNameSettings, downloadSettings, featureSettings)
   }
 
@@ -37,12 +42,14 @@ export default class MediaDownloader {
 
     this.downloadSettings.enableAria2
       ? Browser.runtime.sendMessage(ARIA2_ID, config)
-      : Browser.downloads.download(config).then(recorder(config))
+      : Browser.downloads
+          .download(config)
+          .then(downloadId => recorder(config)(downloadId))
   }
 
   downloadMediasByMediaCatalog(tweetDetail: TweetDetail) {
     return async (mediaCatalog: TweetMediaCatalog) => {
-      const recordConfig = downloadItemRecorder({
+      const recordConfig = downloadItemRecorder(downloadRecordRepo)({
         tweetId: tweetDetail.id,
         screenName: tweetDetail.screenName,
       })

@@ -109,6 +109,9 @@
     "transform": {
       "\\.[jt]sx?$": "babel-jest"
     },
+    "setupFiles": [
+      "fake-indexeddb/auto"
+    ],
     "setupFilesAfterEnv": [
       "./jest.setup.js"
     ],

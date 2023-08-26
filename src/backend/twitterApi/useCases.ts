@@ -1,9 +1,13 @@
-import { TweetMediaParsingError, TweetParsingError, TweetUserParsingError } from '@backend/errors'
-import { TwitterApiVersion } from '@schema'
-import type { VideoInfo } from 'types/twitter/tweet'
 import { ITwitterTokenRepository, TwitterTokenRepository } from '../cookie/repositories'
 import { getFetchError } from './utils'
 import { TweetVO } from './valueObjects'
+import {
+  TweetMediaParsingError,
+  TweetParsingError,
+  TweetUserParsingError,
+} from '@backend/errors'
+import { TwitterApiVersion } from '@schema'
+import type { VideoInfo } from 'types/twitter/tweet'
 
 const searchParamsToClean = ['tag']
 
@@ -25,7 +29,12 @@ const getBestQualityVideoUrl = (video_info: VideoInfo): string => {
   return cleanUrl(hiResUrl)
 }
 
-const initHeaders = (tweetId: string, bearerToken: string, csrfToken: string, guestToken?: string) =>
+const initHeaders = (
+  tweetId: string,
+  bearerToken: string,
+  csrfToken: string,
+  guestToken?: string
+) =>
   new Headers([
     ['Content-Type', 'application/json'],
     ['Authorization', 'Bearer ' + bearerToken],
@@ -61,7 +70,8 @@ abstract class TweetUseCase implements ITweetUseCase {
     const endpoint = this.makeEndpoint()
     const resp = await fetch(endpoint, {
       method: 'GET',
-      headers: headers || initHeaders(this.tweetId, this.bearerToken, csrfToken, guestToken),
+      headers:
+        headers || initHeaders(this.tweetId, this.bearerToken, csrfToken, guestToken),
       mode: 'cors',
     })
 
@@ -91,7 +101,8 @@ export class V1TweetUseCase extends TweetUseCase {
 
   parseBody(object: any): TweetVO {
     if (!object) throw new TweetParsingError('Cannot parse tweet from response.')
-    if (!object.user) throw new TweetUserParsingError('Cannot parse tweet user from response.')
+    if (!object.user)
+      throw new TweetUserParsingError('Cannot parse tweet user from response.')
 
     return new TweetVO(object, {
       name: object.user.name,
@@ -162,7 +173,8 @@ abstract class GraphQLTweetUseCase extends TweetUseCase {
       .entries.filter((e: { entryId: string }) => e.entryId.includes(this.tweetId))[0]
 
     const result =
-      entry.content.itemContent.tweet_results.result.tweet || entry.content.itemContent.tweet_results.result
+      entry.content.itemContent.tweet_results.result.tweet ||
+      entry.content.itemContent.tweet_results.result
 
     const tweet = result?.legacy || result
     if (!tweet) throw new TweetParsingError('Cannot parse tweet from response.')
@@ -185,8 +197,13 @@ export class FallbackGraphQLTweetUseCase extends GraphQLTweetUseCase {
   version: TwitterApiVersion = 'gql-f'
 
   makeEndpoint(): string {
-    const endpoint = new URL('https://twitter.com/i/api/graphql/BbCrSoXIR7z93lLCVFlQ2Q/TweetDetail')
-    endpoint.searchParams.append('variables', JSON.stringify(makeGraphQlVars(this.tweetId)))
+    const endpoint = new URL(
+      'https://twitter.com/i/api/graphql/BbCrSoXIR7z93lLCVFlQ2Q/TweetDetail'
+    )
+    endpoint.searchParams.append(
+      'variables',
+      JSON.stringify(makeGraphQlVars(this.tweetId))
+    )
     endpoint.searchParams.append(
       'features',
       JSON.stringify({
@@ -217,8 +234,13 @@ export class FallbackGraphQLTweetUseCase extends GraphQLTweetUseCase {
 
 export class LatestGraphQLTweetUseCase extends GraphQLTweetUseCase {
   makeEndpoint(): string {
-    const endpoint = new URL('https://twitter.com/i/api/graphql/-Ls3CrSQNo2fRKH6i6Na1A/TweetDetail')
-    endpoint.searchParams.append('variables', JSON.stringify(makeGraphQlVars(this.tweetId)))
+    const endpoint = new URL(
+      'https://twitter.com/i/api/graphql/-Ls3CrSQNo2fRKH6i6Na1A/TweetDetail'
+    )
+    endpoint.searchParams.append(
+      'variables',
+      JSON.stringify(makeGraphQlVars(this.tweetId))
+    )
     endpoint.searchParams.append(
       'features',
       JSON.stringify({
@@ -246,7 +268,10 @@ export class LatestGraphQLTweetUseCase extends GraphQLTweetUseCase {
     )
     endpoint.searchParams.append(
       'fieldToggles',
-      JSON.stringify({ withArticleRichContentState: false, withAuxiliaryUserLabels: false })
+      JSON.stringify({
+        withArticleRichContentState: false,
+        withAuxiliaryUserLabels: false,
+      })
     )
     return endpoint.href
   }
@@ -254,7 +279,9 @@ export class LatestGraphQLTweetUseCase extends GraphQLTweetUseCase {
 
 export class GuestGraphQLTweetUseCase extends GraphQLTweetUseCase {
   makeEndpoint(): string {
-    const endpoint = new URL('https://twitter.com/i/api/graphql/0hWvDhmW8YQ-S_ib3azIrw/TweetResultByRestId')
+    const endpoint = new URL(
+      'https://twitter.com/i/api/graphql/0hWvDhmW8YQ-S_ib3azIrw/TweetResultByRestId'
+    )
     endpoint.searchParams.append(
       'variables',
       JSON.stringify({
@@ -290,7 +317,10 @@ export class GuestGraphQLTweetUseCase extends GraphQLTweetUseCase {
     )
     endpoint.searchParams.append(
       'fieldToggles',
-      JSON.stringify({ withArticleRichContentState: false, withAuxiliaryUserLabels: false })
+      JSON.stringify({
+        withArticleRichContentState: false,
+        withAuxiliaryUserLabels: false,
+      })
     )
     return endpoint.href
   }
@@ -335,13 +365,16 @@ export class MediaTweetUseCases {
     }
 
     if (isEmptyMediaCatalog(mediaCatalog))
-      throw new TweetMediaParsingError('Cannot parse media from tweet. ' + JSON.stringify({ tweetId: tweet.id }))
+      throw new TweetMediaParsingError(
+        'Cannot parse media from tweet. ' + JSON.stringify({ tweetId: tweet.id })
+      )
 
     return mediaCatalog
   }
 }
 
-const isEmptyMediaCatalog = (catalog: TweetMediaCatalog) => Object.values(catalog).every(medias => medias.length === 0)
+const isEmptyMediaCatalog = (catalog: TweetMediaCatalog) =>
+  Object.values(catalog).every(medias => medias.length === 0)
 
 export const createAllApiUseCasesByTweetId = (tweetId: string): ITweetUseCase[] => [
   new V2TweetUseCase(tweetId),

@@ -1,10 +1,13 @@
-import type { Downloads } from 'webextension-polyfill'
-import { storageConfig } from '../configurations'
 import { DownloadRecord } from './models'
+import type { IDownloadRecordsRepository } from './repositories'
+import type { Downloads } from 'webextension-polyfill'
 
-export type DownloadItemRecorder = (config: Downloads.DownloadOptionsType) => (downloadId: number) => void
+export type DownloadItemRecorder = (
+  config: Downloads.DownloadOptionsType
+) => (downloadId: number) => void
 
 export const downloadItemRecorder =
+  (recordRepo: IDownloadRecordsRepository) =>
   (tweetInfo: TweetInfo): DownloadItemRecorder =>
   config =>
   downloadId => {
@@ -13,5 +16,5 @@ export const downloadItemRecorder =
       downloadConfig: config,
     })
 
-    storageConfig.downloadRecordRepo.save(record)
+    recordRepo.save(record)
   }

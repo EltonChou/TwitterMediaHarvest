@@ -5,7 +5,7 @@ import {
 } from '../notifications/notifyUseCases'
 import MediaDownloader from './MediaDownloader'
 import { TweetDownloadHistoryItem } from './models'
-import { storageConfig } from '@backend/configurations'
+import { downloadHistoryRepo, twitterApiSettingsRepo } from '@backend/configurations'
 import {
   MediaTweetUseCases,
   createAllApiUseCasesByTweetId,
@@ -60,7 +60,7 @@ export default class DownloadActionUseCase {
 
     logDownloadProcess(this.tweetInfo)
 
-    const { twitterApiVersion } = await storageConfig.twitterApiSettingsRepo.getSettings()
+    const { twitterApiVersion } = await twitterApiSettingsRepo.getSettings()
     const tweetUseCases = sortUseCasesByVersion(
       createAllApiUseCasesByTweetId(this.tweetInfo.tweetId)
     )(twitterApiVersion)
@@ -84,7 +84,7 @@ export default class DownloadActionUseCase {
     const historyItem = makeDownloadHistoryItem(
       getMediaTypeFromMediaCatalog(mediaCatalog)
     )(tweet)
-    await storageConfig.downloadHistoryRepo.save(historyItem)
+    await downloadHistoryRepo.save(historyItem)
 
     const mediaDownloader = await MediaDownloader.build()
     await mediaDownloader.downloadMediasByMediaCatalog(tweet)(mediaCatalog)
