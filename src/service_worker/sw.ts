@@ -8,6 +8,7 @@ import { MigrateStorageToV4, initStorage } from '@backend/commands/storage'
 import {
   clientInfoRepo,
   credentialsRepo,
+  downloadHistoryRepo,
   downloadRecordRepo,
   statisticsRepo,
 } from '@backend/configurations'
@@ -20,17 +21,20 @@ import { isDownloadedBySelf } from '@backend/utils/checker'
 import '@init'
 import {
   Action,
+  HarvestResponse,
   type HandleExchange,
   type HarvestExchange,
-  HarvestResponse,
 } from '@libs/browser'
 import {
   init as SentryInit,
-  type User,
   addBreadcrumb,
   captureException,
   setUser,
+  type User,
 } from '@sentry/browser'
+import { toError } from 'fp-ts/lib/Either'
+import * as TE from 'fp-ts/lib/TaskEither'
+import { pipe } from 'fp-ts/lib/function'
 import browser from 'webextension-polyfill'
 
 interface SentryUser extends User {
@@ -99,6 +103,23 @@ const handleUserFetch: HandleExchange<Action.FetchUser> = async exchange => {
   return { status: 'success', data: sentryUser }
 }
 
+const handleCheckDlHistory: HandleExchange<
+  Action.CheckDownloadHistory
+> = async exchange => {
+  const isDownloaded = await pipe(
+    TE.tryCatch(() => downloadHistoryRepo.tweetHasDownloaded(exchange.data), toError),
+    TE.match(
+      () => false,
+      r => r
+    )
+  )()
+
+  return {
+    status: 'success',
+    data: isDownloaded,
+  }
+}
+
 browser.runtime.onMessage.addListener(
   async (
     message: HarvestExchange<Action>,
@@ -107,6 +128,8 @@ browser.runtime.onMessage.addListener(
   ): Promise<HarvestResponse<Action>> => {
     if (message.action === Action.Download) return handleDownload(message)
     if (message.action === Action.FetchUser) return handleUserFetch(message)
+    if (message.action === Action.CheckDownloadHistory)
+      return handleCheckDlHistory(message)
     return {
       status: 'error',
       error: new HarvestError(`Invalid message. ${message}`),
