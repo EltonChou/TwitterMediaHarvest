@@ -1,8 +1,8 @@
-import { storageConfig } from '@backend/configurations'
+import { IExternalStore } from './base'
+import { statisticsRepo } from '@backend/configurations'
 import type { V4Statistics } from '@schema'
 import type { Storage } from 'webextension-polyfill'
 import Browser from 'webextension-polyfill'
-import { IExternalStore } from './base'
 
 interface StatsStore extends IExternalStore<V4Statistics> {
   setStats: (initStats: V4Statistics) => void
@@ -19,9 +19,12 @@ const createStatsStore = (() => {
     listeners.forEach(onChange => onChange())
   }
 
-  const handleChange = (changes: Storage.StorageAreaOnChangedChangesType, areaName: string) => {
+  const handleChange = (
+    changes: Storage.StorageAreaOnChangedChangesType,
+    areaName: string
+  ) => {
     if ('downloadCount' in changes || 'trafficUsage' in changes) {
-      storageConfig.statisticsRepo.getStats().then(newStats => {
+      statisticsRepo.getStats().then(newStats => {
         updateStats(newStats)
       })
     }

@@ -1,18 +1,37 @@
 /* eslint-disable no-console */
 import { ClientInfoUseCase } from '@backend/client/useCases'
-import { showClientInfoInConsole, showUpdateMessageInConsole } from '@backend/commands/console'
-import { initStorage, MigrateStorageToV4 } from '@backend/commands/storage'
-import { storageConfig } from '@backend/configurations'
+import {
+  showClientInfoInConsole,
+  showUpdateMessageInConsole,
+} from '@backend/commands/console'
+import { MigrateStorageToV4, initStorage } from '@backend/commands/storage'
+import {
+  clientInfoRepo,
+  credentialsRepo,
+  downloadRecordRepo,
+  statisticsRepo,
+} from '@backend/configurations'
 import DownloadActionUseCase from '@backend/downloads/downloadActionUseCase'
 import DownloadStateUseCase from '@backend/downloads/downloadStateUseCase'
 import { HarvestError } from '@backend/errors'
 import NotificationUseCase from '@backend/notifications/notificationIdUseCases'
 import { V4StatsUseCase } from '@backend/statistics/useCases'
 import { isDownloadedBySelf } from '@backend/utils/checker'
-import { Action, type HandleExchange, type HarvestExchange, HarvestResponse } from '@libs/browser'
-import { addBreadcrumb, captureException, init as SentryInit, setUser, type User } from '@sentry/browser'
-import browser from 'webextension-polyfill'
 import '@init'
+import {
+  Action,
+  type HandleExchange,
+  type HarvestExchange,
+  HarvestResponse,
+} from '@libs/browser'
+import {
+  init as SentryInit,
+  type User,
+  addBreadcrumb,
+  captureException,
+  setUser,
+} from '@sentry/browser'
+import browser from 'webextension-polyfill'
 
 interface SentryUser extends User {
   client_id: string
@@ -31,8 +50,8 @@ const fetchUser = async (): Promise<SentryUser> => {
   }
 
   try {
-    const credential = await storageConfig.credentialsRepo.getCredential()
-    const clientInfo = await storageConfig.clientInfoRepo.getInfo()
+    const credential = await credentialsRepo.getCredential()
+    const clientInfo = await clientInfoRepo.getInfo()
 
     sentryUser.id = credential.identityId
     sentryUser.client_id = clientInfo.props.uuid
@@ -43,7 +62,7 @@ const fetchUser = async (): Promise<SentryUser> => {
   return sentryUser
 }
 
-const clientInfoUseCase = new ClientInfoUseCase(storageConfig.clientInfoRepo)
+const clientInfoUseCase = new ClientInfoUseCase(clientInfoRepo)
 
 SentryInit({
   dsn: process.env.SENTRY_DSN,
@@ -68,8 +87,8 @@ const handleUserFetch: HandleExchange<Action.FetchUser> = async exchange => {
   }
 
   try {
-    const credential = await storageConfig.credentialsRepo.getCredential()
-    const clientInfo = await storageConfig.clientInfoRepo.getInfo()
+    const credential = await credentialsRepo.getCredential()
+    const clientInfo = await clientInfoRepo.getInfo()
 
     sentryUser.id = credential.identityId
     sentryUser.client_id = clientInfo.props.uuid
@@ -81,7 +100,11 @@ const handleUserFetch: HandleExchange<Action.FetchUser> = async exchange => {
 }
 
 browser.runtime.onMessage.addListener(
-  async (message: HarvestExchange<Action>, sender, sendResponse): Promise<HarvestResponse<Action>> => {
+  async (
+    message: HarvestExchange<Action>,
+    sender,
+    sendResponse
+  ): Promise<HarvestResponse<Action>> => {
     if (message.action === Action.Download) return handleDownload(message)
     if (message.action === Action.FetchUser) return handleUserFetch(message)
     return {
@@ -93,7 +116,7 @@ browser.runtime.onMessage.addListener(
 
 browser.runtime.onInstalled.addListener(async details => {
   try {
-    const info = await storageConfig.clientInfoRepo.getInfo()
+    const info = await clientInfoRepo.getInfo()
     showClientInfoInConsole(info.props)
   } catch (error) {
     captureException(error)
@@ -107,7 +130,7 @@ browser.runtime.onInstalled.addListener(async details => {
   }
 
   if (details.reason === InstallReason.Update) {
-    const statsUseCase = new V4StatsUseCase(storageConfig.statisticsRepo)
+    const statsUseCase = new V4StatsUseCase(statisticsRepo)
     await statsUseCase.syncWithDownloadHistory()
     const migrateCommand = new MigrateStorageToV4()
     await migrateCommand.execute()
@@ -128,7 +151,10 @@ browser.downloads.onChanged.addListener(async downloadDelta => {
   })
 
   if ('state' in downloadDelta) {
-    const downloadStateUseCase = new DownloadStateUseCase(downloadDelta, storageConfig.downloadRecordRepo)
+    const downloadStateUseCase = new DownloadStateUseCase(
+      downloadDelta,
+      downloadRecordRepo
+    )
     await downloadStateUseCase.process()
     await clientInfoUseCase.sync()
   }

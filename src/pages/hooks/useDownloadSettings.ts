@@ -1,4 +1,4 @@
-import { storageConfig } from '@backend/configurations'
+import { downloadSettingsRepo } from '@backend/configurations'
 import type { DownloadSettings } from '@schema'
 import { useEffect, useReducer } from 'react'
 
@@ -26,14 +26,14 @@ function reducer(settings: DownloadSettings, action: IntegrationAction | Integra
   }
 }
 
-const defaultIntegrationSettings = storageConfig.downloadSettingsRepo.getDefaultSettings()
+const defaultIntegrationSettings = downloadSettingsRepo.getDefaultSettings()
 
 type Toggler = Record<keyof DownloadSettings, () => Promise<void>>
 
 const useDownloadSettings = (): [DownloadSettings, Toggler] => {
   const [downloadSettings, dispatch] = useReducer(reducer, defaultIntegrationSettings)
   useEffect(() => {
-    storageConfig.downloadSettingsRepo.getSettings().then(settings => {
+    downloadSettingsRepo.getSettings().then(settings => {
       dispatch({
         type: 'init',
         payload: settings,
@@ -45,21 +45,21 @@ const useDownloadSettings = (): [DownloadSettings, Toggler] => {
     if (downloadSettings.enableAria2 === false) {
       /* TODO: Test aria2 connection */
     }
-    await storageConfig.downloadSettingsRepo.saveSettings({
+    await downloadSettingsRepo.saveSettings({
       enableAria2: !downloadSettings.enableAria2,
     })
     dispatch({ type: 'toggleAria2' })
   }
 
   const toggleAggressive = async () => {
-    await storageConfig.downloadSettingsRepo.saveSettings({
+    await downloadSettingsRepo.saveSettings({
       aggressiveMode: !downloadSettings.aggressiveMode,
     })
     dispatch({ type: 'toggleAggressive' })
   }
 
   const toggleAskWhereToSave = async () => {
-    await storageConfig.downloadSettingsRepo.saveSettings({
+    await downloadSettingsRepo.saveSettings({
       askWhereToSave: !downloadSettings.askWhereToSave,
     })
     dispatch({ type: 'toggleAskWhere' })

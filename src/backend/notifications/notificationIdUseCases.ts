@@ -94,7 +94,8 @@ class DownloadNotificationUseCase implements INotificationUseCase {
       this.downloadItemId
     )
     await this.downloadRecordRepo.removeById(this.downloadItemId)
-    const downloadRecorder = downloadItemRecorder(tweetInfo)(downloadConfig)
+    const downloadRecorder =
+      downloadItemRecorder(downloadRecordRepo)(tweetInfo)(downloadConfig)
     const downloadId = await browser.downloads.download(downloadConfig)
     downloadRecorder(downloadId)
   }

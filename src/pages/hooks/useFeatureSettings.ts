@@ -1,12 +1,14 @@
-import { storageConfig } from '@backend/configurations'
+import { featureSettingsRepo } from '@backend/configurations'
 import type { FeatureSettings } from '@schema'
 import { useCallback, useEffect, useReducer } from 'react'
 
-const defaultFeatureSettings: FeatureSettings = storageConfig.featureSettingsRepo.getDefaultSettings()
+const defaultFeatureSettings: FeatureSettings = featureSettingsRepo.getDefaultSettings()
 
 function reducer(
   settings: FeatureSettings,
-  action: PureAction<'toggleNsfw' | 'toggleThumbnail' | 'toggleKeyboardShortcut'> | DataInitAction<FeatureSettings>
+  action:
+    | PureAction<'toggleNsfw' | 'toggleThumbnail' | 'toggleKeyboardShortcut'>
+    | DataInitAction<FeatureSettings>
 ): FeatureSettings {
   switch (action.type) {
     case 'toggleNsfw':
@@ -38,7 +40,7 @@ const useFeatureSettings = (): [FeatureSettings, Toggler] => {
   const [featureSettings, dispatch] = useReducer(reducer, defaultFeatureSettings)
 
   const initSettings = useCallback(() => {
-    storageConfig.featureSettingsRepo.getSettings().then(settings => {
+    featureSettingsRepo.getSettings().then(settings => {
       dispatch({
         type: 'init',
         payload: settings,
@@ -51,21 +53,21 @@ const useFeatureSettings = (): [FeatureSettings, Toggler] => {
   }, [initSettings])
 
   const toggleRevealNsfw = useCallback(async () => {
-    await storageConfig.featureSettingsRepo.saveSettings({
+    await featureSettingsRepo.saveSettings({
       autoRevealNsfw: !featureSettings.autoRevealNsfw,
     })
     dispatch({ type: 'toggleNsfw' })
   }, [featureSettings.autoRevealNsfw])
 
   const toggleThumbnail = useCallback(async () => {
-    await storageConfig.featureSettingsRepo.saveSettings({
+    await featureSettingsRepo.saveSettings({
       includeVideoThumbnail: !featureSettings.includeVideoThumbnail,
     })
     dispatch({ type: 'toggleThumbnail' })
   }, [featureSettings.includeVideoThumbnail])
 
   const toggleKeyboardShortcut = useCallback(async () => {
-    await storageConfig.featureSettingsRepo.saveSettings({
+    await featureSettingsRepo.saveSettings({
       keyboardShortcut: !featureSettings.keyboardShortcut,
     })
     dispatch({ type: 'toggleKeyboardShortcut' })
