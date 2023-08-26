@@ -9,6 +9,26 @@ interface DownloadDBSchema extends DBSchema {
       id: number
     } & DownloadRecord
   }
+  history: {
+    key: string
+    value: DownloadHistoryItem
+    indexes: {
+      byUserName: string[]
+      byTweetTime: Date
+      byDownloadTime: Date
+    }
+  }
+}
+
+type DownloadHistoryMediaType = 'image' | 'video' | 'mixed'
+
+type DownloadHistoryItem = {
+  tweetId: string
+  displayName: string
+  screenName: string
+  tweetTime: Date
+  downloadTime: Date
+  mediaType: DownloadHistoryMediaType
 }
 
 interface V4Statistics {

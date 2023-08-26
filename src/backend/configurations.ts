@@ -5,9 +5,10 @@ import browser from 'webextension-polyfill'
 import { ClientInfoRepository, IClientInfoRepository } from './client/repositories'
 import { CredentialRepository, ICredentialRepository } from './credentials/repositories'
 import {
-  IDownloadRecordsRepository,
+  IndexedDBDownloadHistoryRepository,
   IndexedDBDownloadRecordsRepository,
-  StorageAreaDownloadRecordsRepository,
+  type IDownloadHistoryRepository,
+  type IDownloadRecordsRepository,
 } from './downloads/repositories'
 import DownloadSettingsRepository from './settings/downloadSettings/repository'
 import { FeaturesRepository } from './settings/featureSettings/repository'
@@ -22,9 +23,8 @@ import { IStatisticsRepositoryV4, V4StatisticsRepository } from './statistics/re
 const localStorage = new LocalExtensionStorageProxy()
 const syncStorage = new SyncExtensionStorageProxy()
 
-const downloadRecordRepo = downloadDB.isSupported
-  ? new IndexedDBDownloadRecordsRepository(async () => await downloadDB.connect())
-  : new StorageAreaDownloadRecordsRepository(browser.storage.local)
+const downloadRecordRepo = new IndexedDBDownloadRecordsRepository(async () => await downloadDB.connect())
+const downloadHistoryRepo = new IndexedDBDownloadHistoryRepository(async () => await downloadDB.connect())
 const statisticsRepo = new V4StatisticsRepository(localStorage)
 const filenameSettingsRepo = new FilenameSettingsRepository(browser.storage.sync)
 const downloadSettingsRepo = new DownloadSettingsRepository(localStorage)
@@ -47,7 +47,8 @@ class StorageConfiguration {
     readonly v4FilenameSettingsRepo: ISettingsRepository<V4FilenameSettings>,
     readonly twitterApiSettingsRepo: ISettingsRepository<TwitterApiSettings>,
     readonly credentialsRepo: ICredentialRepository,
-    readonly clientInfoRepo: IClientInfoRepository
+    readonly clientInfoRepo: IClientInfoRepository,
+    readonly downloadHistoryRepo: IDownloadHistoryRepository
   ) {}
 }
 
@@ -60,5 +61,6 @@ export const storageConfig = new StorageConfiguration(
   v4FilenameSettingsRepo,
   twitterApiSettingsRepo,
   credentialsRepo,
-  clientInfoRepo
+  clientInfoRepo,
+  downloadHistoryRepo
 )

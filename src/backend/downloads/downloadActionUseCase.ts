@@ -1,11 +1,12 @@
 import { storageConfig } from '@backend/configurations'
 import { createAllApiUseCasesByTweetId, MediaTweetUseCases, sortUseCasesByVersion } from '@backend/twitterApi/useCases'
 import { TweetVO } from '@backend/twitterApi/valueObjects'
-import { TwitterApiVersion } from '@schema'
+import type { DownloadHistoryMediaType, TwitterApiVersion } from '@schema'
 import { addBreadcrumb, captureException } from '@sentry/browser'
 import { NotFound, TooManyRequest, TwitterApiError, Unauthorized } from '../errors'
 import { FetchErrorNotificationUseCase, InternalErrorNotificationUseCase } from '../notifications/notifyUseCases'
 import MediaDownloader from './MediaDownloader'
+import { TweetDownloadHistoryItem } from './models'
 
 const sentryCapture = (err: Error) => {
   if (err instanceof NotFound || err instanceof TooManyRequest || err instanceof Unauthorized) return
@@ -68,6 +69,9 @@ export default class DownloadActionUseCase {
 
     if (mediaCatalog === undefined) throw err
 
+    const historyItem = makeDownloadHistoryItem(getMediaTypeFromMediaCatalog(mediaCatalog))(tweet)
+    await storageConfig.downloadHistoryRepo.save(historyItem)
+
     const mediaDownloader = await MediaDownloader.build()
     await mediaDownloader.downloadMediasByMediaCatalog(tweet, mediaCatalog)
   }
@@ -95,4 +99,24 @@ export default class DownloadActionUseCase {
     const internalErrorNotifyUseCase = new InternalErrorNotificationUseCase(this.tweetInfo)
     await internalErrorNotifyUseCase.notify(err)
   }
+}
+
+const makeDownloadHistoryItem = (mediaType: DownloadHistoryMediaType) => (tweetDetail: TweetDetail) =>
+  TweetDownloadHistoryItem.build({
+    tweetId: tweetDetail.id,
+    screenName: tweetDetail.screenName,
+    displayName: tweetDetail.displayName,
+    tweetTime: tweetDetail.createdAt,
+    downloadTime: new Date(),
+    mediaType: mediaType,
+  })
+
+const getMediaTypeFromMediaCatalog = (catalog: TweetMediaCatalog): DownloadHistoryMediaType => {
+  const imgCount = catalog.images.length
+  const vidCount = catalog.videos.length
+
+  if (imgCount > 0 && vidCount > 0) return 'mixed'
+  if (imgCount > 0) return 'image'
+  if (imgCount > 0) return 'video'
+  return 'mixed'
 }
