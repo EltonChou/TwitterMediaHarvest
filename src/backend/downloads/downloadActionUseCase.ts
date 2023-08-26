@@ -1,15 +1,27 @@
+import { NotFound, TooManyRequest, TwitterApiError, Unauthorized } from '../errors'
+import {
+  FetchErrorNotificationUseCase,
+  InternalErrorNotificationUseCase,
+} from '../notifications/notifyUseCases'
+import MediaDownloader from './MediaDownloader'
+import { TweetDownloadHistoryItem } from './models'
 import { storageConfig } from '@backend/configurations'
-import { createAllApiUseCasesByTweetId, MediaTweetUseCases, sortUseCasesByVersion } from '@backend/twitterApi/useCases'
+import {
+  MediaTweetUseCases,
+  createAllApiUseCasesByTweetId,
+  sortUseCasesByVersion,
+} from '@backend/twitterApi/useCases'
 import { TweetVO } from '@backend/twitterApi/valueObjects'
 import type { DownloadHistoryMediaType, TwitterApiVersion } from '@schema'
 import { addBreadcrumb, captureException } from '@sentry/browser'
-import { NotFound, TooManyRequest, TwitterApiError, Unauthorized } from '../errors'
-import { FetchErrorNotificationUseCase, InternalErrorNotificationUseCase } from '../notifications/notifyUseCases'
-import MediaDownloader from './MediaDownloader'
-import { TweetDownloadHistoryItem } from './models'
 
 const sentryCapture = (err: Error) => {
-  if (err instanceof NotFound || err instanceof TooManyRequest || err instanceof Unauthorized) return
+  if (
+    err instanceof NotFound ||
+    err instanceof TooManyRequest ||
+    err instanceof Unauthorized
+  )
+    return
 
   captureException(err)
 }
@@ -49,9 +61,9 @@ export default class DownloadActionUseCase {
     logDownloadProcess(this.tweetInfo)
 
     const { twitterApiVersion } = await storageConfig.twitterApiSettingsRepo.getSettings()
-    const tweetUseCases = sortUseCasesByVersion(createAllApiUseCasesByTweetId(this.tweetInfo.tweetId))(
-      twitterApiVersion
-    )
+    const tweetUseCases = sortUseCasesByVersion(
+      createAllApiUseCasesByTweetId(this.tweetInfo.tweetId)
+    )(twitterApiVersion)
 
     let err: Error = undefined
     while (tweetUseCases.length > 0 && mediaCatalog === undefined) {
@@ -69,11 +81,13 @@ export default class DownloadActionUseCase {
 
     if (mediaCatalog === undefined) throw err
 
-    const historyItem = makeDownloadHistoryItem(getMediaTypeFromMediaCatalog(mediaCatalog))(tweet)
+    const historyItem = makeDownloadHistoryItem(
+      getMediaTypeFromMediaCatalog(mediaCatalog)
+    )(tweet)
     await storageConfig.downloadHistoryRepo.save(historyItem)
 
     const mediaDownloader = await MediaDownloader.build()
-    await mediaDownloader.downloadMediasByMediaCatalog(tweet, mediaCatalog)
+    await mediaDownloader.downloadMediasByMediaCatalog(tweet)(mediaCatalog)
   }
 
   async processDownload(): Promise<'success' | 'error'> {
@@ -96,22 +110,27 @@ export default class DownloadActionUseCase {
       return
     }
 
-    const internalErrorNotifyUseCase = new InternalErrorNotificationUseCase(this.tweetInfo)
+    const internalErrorNotifyUseCase = new InternalErrorNotificationUseCase(
+      this.tweetInfo
+    )
     await internalErrorNotifyUseCase.notify(err)
   }
 }
 
-const makeDownloadHistoryItem = (mediaType: DownloadHistoryMediaType) => (tweetDetail: TweetDetail) =>
-  TweetDownloadHistoryItem.build({
-    tweetId: tweetDetail.id,
-    screenName: tweetDetail.screenName,
-    displayName: tweetDetail.displayName,
-    tweetTime: tweetDetail.createdAt,
-    downloadTime: new Date(),
-    mediaType: mediaType,
-  })
+const makeDownloadHistoryItem =
+  (mediaType: DownloadHistoryMediaType) => (tweetDetail: TweetDetail) =>
+    TweetDownloadHistoryItem.build({
+      tweetId: tweetDetail.id,
+      screenName: tweetDetail.screenName,
+      displayName: tweetDetail.displayName,
+      tweetTime: tweetDetail.createdAt,
+      downloadTime: new Date(),
+      mediaType: mediaType,
+    })
 
-const getMediaTypeFromMediaCatalog = (catalog: TweetMediaCatalog): DownloadHistoryMediaType => {
+const getMediaTypeFromMediaCatalog = (
+  catalog: TweetMediaCatalog
+): DownloadHistoryMediaType => {
   const imgCount = catalog.images.length
   const vidCount = catalog.videos.length
 
