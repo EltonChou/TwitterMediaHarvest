@@ -81,9 +81,7 @@ export default class DownloadActionUseCase {
 
     if (mediaCatalog === undefined) throw err
 
-    const historyItem = makeDownloadHistoryItem(
-      getMediaTypeFromMediaCatalog(mediaCatalog)
-    )(tweet)
+    const historyItem = makeDownloadHistoryItem(mediaCatalog)(tweet)
     await downloadHistoryRepo.save(historyItem)
 
     const mediaDownloader = await MediaDownloader.build()
@@ -118,14 +116,15 @@ export default class DownloadActionUseCase {
 }
 
 const makeDownloadHistoryItem =
-  (mediaType: DownloadHistoryMediaType) => (tweetDetail: TweetDetail) =>
+  (catalog: TweetMediaCatalog) => (tweetDetail: TweetDetail) =>
     TweetDownloadHistoryItem.build({
       tweetId: tweetDetail.id,
       screenName: tweetDetail.screenName,
       displayName: tweetDetail.displayName,
       tweetTime: tweetDetail.createdAt,
       downloadTime: new Date(),
-      mediaType: mediaType,
+      mediaType: getMediaTypeFromMediaCatalog(catalog),
+      thumbnail: catalog.images.at(0),
     })
 
 const getMediaTypeFromMediaCatalog = (
@@ -136,6 +135,6 @@ const getMediaTypeFromMediaCatalog = (
 
   if (imgCount > 0 && vidCount > 0) return 'mixed'
   if (imgCount > 0) return 'image'
-  if (imgCount > 0) return 'video'
+  if (vidCount > 0) return 'video'
   return 'mixed'
 }

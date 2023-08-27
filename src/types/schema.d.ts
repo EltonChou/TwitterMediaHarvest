@@ -29,6 +29,7 @@ type DownloadHistoryItem = {
   tweetTime: Date
   downloadTime: Date
   mediaType: DownloadHistoryMediaType
+  thumbnail?: string
 }
 
 interface V4Statistics {
