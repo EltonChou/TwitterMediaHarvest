@@ -1,3 +1,4 @@
+import { ClientInfoVO } from './valueObjects'
 import { Sha256 } from '@aws-crypto/sha256-browser'
 import type { CognitoIdentityCredentials } from '@aws-sdk/credential-provider-cognito-identity'
 import { FetchHttpHandler, streamCollector } from '@aws-sdk/fetch-http-handler'
@@ -9,7 +10,6 @@ import type { ClientInfo, V4Statistics } from '@schema'
 import jws from 'jws'
 import type { Storage } from 'webextension-polyfill'
 import Browser from 'webextension-polyfill'
-import { ClientInfoVO } from './valueObjects'
 
 type UpdateInfo = Pick<ClientInfo, 'csrfToken' | 'syncedAt'>
 
@@ -45,7 +45,10 @@ export class InfoSyncLock implements IProcessLock {
 
   async isLocked(): Promise<boolean> {
     const record = await this.storageArea.get(this.lockCriteria)
-    return Object.keys(record).includes(this.lockCriteria) && record[this.lockCriteria] - Date.now() >= this.maxLockTime
+    return (
+      Object.keys(record).includes(this.lockCriteria) &&
+      record[this.lockCriteria] - Date.now() <= this.maxLockTime
+    )
   }
 
   async release(): Promise<void> {
@@ -58,14 +61,23 @@ export class InfoSyncLock implements IProcessLock {
 }
 
 export class ClientInfoRepository implements IClientInfoRepository {
-  constructor(readonly storageArea: IStorageProxy<ClientInfo>, private defaultOptions: ProviderOptions) {}
+  constructor(
+    readonly storageArea: IStorageProxy<ClientInfo>,
+    private defaultOptions: ProviderOptions
+  ) {}
 
   private async createClient(options: ProviderOptions): Promise<ClientTokenResponse> {
     const initStats = await options.statsProvider()
     const credential = await options.credentialProvider()
 
     const handler = new ClientApiHandler()
-    const response = await handler.send(HttpMethod.Post, '/clients', {}, initStats, credential)
+    const response = await handler.send(
+      HttpMethod.Post,
+      '/clients',
+      {},
+      initStats,
+      credential
+    )
 
     if (response.statusCode === 201) {
       const body = JSON.parse(response.body)
@@ -80,7 +92,10 @@ export class ClientInfoRepository implements IClientInfoRepository {
   }
 
   private async getNewInfo(options?: Partial<ProviderOptions>): Promise<ClientInfoVO> {
-    const clientTokenResponse: ClientTokenResponse = await this.createClient({ ...this.defaultOptions, ...options })
+    const clientTokenResponse: ClientTokenResponse = await this.createClient({
+      ...this.defaultOptions,
+      ...options,
+    })
     const { payload } = jws.decode(clientTokenResponse.token, { json: true })
     const info = new ClientInfoVO({
       uuid: payload['uuid'],
