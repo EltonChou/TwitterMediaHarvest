@@ -24,6 +24,7 @@ type DownloadHistoryMediaType = 'image' | 'video' | 'mixed'
 
 type DownloadHistoryItem = {
   tweetId: string
+  userId: string
   displayName: string
   screenName: string
   tweetTime: Date

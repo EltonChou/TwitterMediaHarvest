@@ -125,6 +125,7 @@ const makeDownloadHistoryItem =
       downloadTime: new Date(),
       mediaType: getMediaTypeFromMediaCatalog(catalog),
       thumbnail: catalog.images.at(0),
+      userId: tweetDetail.userId
     })
 
 const getMediaTypeFromMediaCatalog = (
