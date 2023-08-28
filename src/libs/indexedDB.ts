@@ -5,11 +5,15 @@ import { deleteDB, openDB } from 'idb'
 abstract class BaseDB<SchemaType> {
   abstract databaseName: string
 
-  constructor(readonly version: number, private callbacks: OpenDBCallbacks<SchemaType> = {}) {}
+  constructor(
+    readonly version: number,
+    private callbacks: OpenDBCallbacks<SchemaType> = {}
+  ) {}
 
   get isSupported(): boolean {
     return (
-      (typeof window !== 'undefined' && typeof window.indexedDB !== 'undefined') || typeof indexedDB !== 'undefined'
+      (typeof window !== 'undefined' && typeof window.indexedDB !== 'undefined') ||
+      typeof indexedDB !== 'undefined'
     )
   }
 
@@ -46,16 +50,18 @@ class DownloadDB extends BaseDB<DownloadDBSchema> {
   databaseName = 'download'
 }
 
-export const downloadDB = new DownloadDB(2).onUpgrade((database, oldVersion, newVersion, transaction, event) => {
-  if (newVersion === 1) {
-    database.createObjectStore('record', { keyPath: 'id' })
-  }
+export const downloadDB = new DownloadDB(2).onUpgrade(
+  (database, oldVersion, newVersion, transaction, event) => {
+    if (newVersion === 1) {
+      database.createObjectStore('record', { keyPath: 'id' })
+    }
 
-  if (newVersion === 2) {
-    database.createObjectStore('record', { keyPath: 'id' })
-    const historyStore = database.createObjectStore('history', { keyPath: 'tweetId' })
-    historyStore.createIndex('byUserName', ['displayName', 'screenName'])
-    historyStore.createIndex('byTweetTime', 'tweetTime')
-    historyStore.createIndex('byDownloadTime', 'downloadTime')
+    if (newVersion === 2) {
+      database.createObjectStore('record', { keyPath: 'id' })
+      const historyStore = database.createObjectStore('history', { keyPath: 'tweetId' })
+      historyStore.createIndex('byUserName', ['displayName', 'screenName'])
+      historyStore.createIndex('byTweetTime', 'tweetTime')
+      historyStore.createIndex('byDownloadTime', 'downloadTime')
+    }
   }
-})
+)
