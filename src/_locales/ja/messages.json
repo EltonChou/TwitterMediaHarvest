@@ -69,6 +69,9 @@
   "options_sidemenu_integrations": {
     "message": "統合"
   },
+  "options_sidemenu_history": {
+    "message": "ダウンロード履歴"
+  },
   "options_sidemenu_about": {
     "message": "拡張について"
   },
@@ -230,5 +233,20 @@
   },
   "options_about_issues": {
     "message": "不具合を報告する"
+  },
+  "options_history_table_thumbnail": {
+    "message": "サムネイル"
+  },
+  "options_history_table_user": {
+    "message": "ユーザー"
+  },
+  "options_history_table_tweetTime": {
+    "message": "投稿時間"
+  },
+  "options_history_table_downloadTime": {
+    "message": "ダウンロード時間"
+  },
+  "options_history_table_actions": {
+    "message": "操作"
   }
 }

@@ -69,6 +69,9 @@
   "options_sidemenu_integrations": {
     "message": "整合"
   },
+  "options_sidemenu_history": {
+    "message": "下載歷史"
+  },
   "options_sidemenu_about": {
     "message": "關於"
   },
@@ -230,5 +233,20 @@
   },
   "options_about_issues": {
     "message": "問題回報"
+  },
+  "options_history_table_thumbnail": {
+    "message": "縮圖"
+  },
+  "options_history_table_user": {
+    "message": "用戶"
+  },
+  "options_history_table_tweetTime": {
+    "message": "貼文時間"
+  },
+  "options_history_table_downloadTime": {
+    "message": "下載時間"
+  },
+  "options_history_table_actions": {
+    "message": "動作"
   }
 }
