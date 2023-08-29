@@ -1,4 +1,4 @@
-import { DownloadRecord, TweetDownloadHistoryItem } from './models'
+import { DownloadRecord, DownloadHistoryEntity } from './models'
 import type { DownloadDBSchema } from '@schema'
 import { type IDBPDatabase } from 'idb'
 import type { Storage } from 'webextension-polyfill'
@@ -65,21 +65,21 @@ function createId(downloadItemId: number): DownloadRecordId {
 }
 
 export interface IDownloadHistoryRepository {
-  save(item: TweetDownloadHistoryItem): Promise<void>
+  save(item: DownloadHistoryEntity): Promise<void>
   clear(): Promise<void>
   tweetHasDownloaded(tweetId: string): Promise<boolean>
-  getAll(): Promise<TweetDownloadHistoryItem[]>
-  getLatest(limit?: number): Promise<TweetDownloadHistoryItem[]>
-  getByTweetId(tweetId: string): Promise<TweetDownloadHistoryItem | undefined>
-  searchByUserName(userName: string, limit?: number): Promise<TweetDownloadHistoryItem[]>
+  getAll(): Promise<DownloadHistoryEntity[]>
+  getLatest(limit?: number): Promise<DownloadHistoryEntity[]>
+  getByTweetId(tweetId: string): Promise<DownloadHistoryEntity | undefined>
+  searchByUserName(userName: string, limit?: number): Promise<DownloadHistoryEntity[]>
   searchByTweetTime(
     timeRange: IDBKeyRange,
     limit?: number
-  ): Promise<TweetDownloadHistoryItem[]>
+  ): Promise<DownloadHistoryEntity[]>
   searchByDownloadTime(
     timeRange: IDBKeyRange,
     limit?: number
-  ): Promise<TweetDownloadHistoryItem[]>
+  ): Promise<DownloadHistoryEntity[]>
 }
 
 export class IndexedDBDownloadHistoryRepository
@@ -123,48 +123,48 @@ export class IndexedDBDownloadHistoryRepository
     await client.clear('history')
   }
 
-  async save(item: TweetDownloadHistoryItem): Promise<void> {
+  async save(item: DownloadHistoryEntity): Promise<void> {
     const client = await this.clientProvider()
-    await client.put('history', item.toJson())
+    await client.put('history', item.toDownloadHistoryItem())
   }
 
-  async getAll(): Promise<TweetDownloadHistoryItem[]> {
+  async getAll(): Promise<DownloadHistoryEntity[]> {
     const client = await this.clientProvider()
     const items = await client.getAll('history')
-    return items.map(TweetDownloadHistoryItem.build)
+    return items.map(DownloadHistoryEntity.build)
   }
 
-  async getLatest(limit = 10): Promise<TweetDownloadHistoryItem[]> {
+  async getLatest(limit = 10): Promise<DownloadHistoryEntity[]> {
     const collection = this.openCursor(null, 'prev', limit)('byDownloadTime')
-    return (await asyncGeneratorToArray(collection)).map(TweetDownloadHistoryItem.build)
+    return (await asyncGeneratorToArray(collection)).map(DownloadHistoryEntity.build)
   }
 
-  async getByTweetId(tweetId: string): Promise<TweetDownloadHistoryItem | undefined> {
+  async getByTweetId(tweetId: string): Promise<DownloadHistoryEntity | undefined> {
     const client = await this.clientProvider()
     const item = await client.get('history', tweetId)
-    return item ? TweetDownloadHistoryItem.build(item) : undefined
+    return item ? DownloadHistoryEntity.build(item) : undefined
   }
 
   async searchByDownloadTime(
     timeRange: IDBKeyRange,
     limit = 50
-  ): Promise<TweetDownloadHistoryItem[]> {
+  ): Promise<DownloadHistoryEntity[]> {
     const collection = this.openCursor(timeRange, 'prev', limit)('byDownloadTime')
-    return (await asyncGeneratorToArray(collection)).map(TweetDownloadHistoryItem.build)
+    return (await asyncGeneratorToArray(collection)).map(DownloadHistoryEntity.build)
   }
 
   async searchByTweetTime(
     timeRange: IDBKeyRange,
     limit = 50
-  ): Promise<TweetDownloadHistoryItem[]> {
+  ): Promise<DownloadHistoryEntity[]> {
     const collection = this.openCursor(timeRange, 'prev', limit)('byTweetTime')
-    return (await asyncGeneratorToArray(collection)).map(TweetDownloadHistoryItem.build)
+    return (await asyncGeneratorToArray(collection)).map(DownloadHistoryEntity.build)
   }
 
   async searchByUserName(
     userName: string,
     limit = 10
-  ): Promise<TweetDownloadHistoryItem[]> {
+  ): Promise<DownloadHistoryEntity[]> {
     const client = await this.clientProvider()
     const items = await client.getAll('history')
     const lowerCaseName = userName.toLowerCase()
@@ -174,7 +174,7 @@ export class IndexedDBDownloadHistoryRepository
           item.displayName.toLowerCase().includes(lowerCaseName) ||
           item.screenName.toLowerCase().includes(lowerCaseName)
       )
-      .map(TweetDownloadHistoryItem.build)
+      .map(DownloadHistoryEntity.build)
       .splice(0, limit)
   }
 }

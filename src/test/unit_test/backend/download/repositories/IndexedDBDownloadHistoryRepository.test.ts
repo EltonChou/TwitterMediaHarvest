@@ -1,11 +1,11 @@
-import { TweetDownloadHistoryItem } from '@backend/downloads/models'
+import { DownloadHistoryEntity } from '@backend/downloads/models'
 import { IndexedDBDownloadHistoryRepository } from '@backend/downloads/repositories'
 import { faker } from '@faker-js/faker'
 import { downloadDB } from '@libs/indexedDB'
 import 'fake-indexeddb/auto'
 
-const makeHistoryItem = (): TweetDownloadHistoryItem =>
-  TweetDownloadHistoryItem.build({
+const makeHistoryItem = (): DownloadHistoryEntity =>
+  DownloadHistoryEntity.build({
     tweetId: faker.string.numeric(13),
     userId: faker.string.numeric(13),
     displayName: faker.internet.displayName(),
@@ -20,7 +20,7 @@ describe('IndexedDBDownloadHistoryRepository unit test', () => {
     async () => await downloadDB.connect()
   )
 
-  const generateFakeItems = async (): Promise<[TweetDownloadHistoryItem[], number]> => {
+  const generateFakeItems = async (): Promise<[DownloadHistoryEntity[], number]> => {
     const count = faker.number.int({ min: 50, max: 100 })
     const items = []
     for (let i = 0; i < count; i++) {
@@ -72,7 +72,7 @@ describe('IndexedDBDownloadHistoryRepository unit test', () => {
 
   it('can get items by user name', async () => {
     const item = await generateFakeItem()
-    const { displayName, screenName } = item.toJson()
+    const { displayName, screenName } = item.toDownloadHistoryItem()
     const byDisplayName = await repo.searchByUserName(displayName)
     const byScreenName = await repo.searchByUserName(screenName)
     expect(byDisplayName.length).toBeGreaterThan(0)

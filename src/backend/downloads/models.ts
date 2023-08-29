@@ -1,6 +1,6 @@
+import Entity from '../entity'
 import type { DownloadHistoryItem } from '@schema'
 import type { Downloads } from 'webextension-polyfill'
-import Entity from '../entity'
 
 interface DownloadRecordProps {
   tweetInfo: TweetInfo
@@ -43,17 +43,20 @@ export class DownloadRecord extends Entity<number, DownloadRecordProps> {
   }
 }
 
-export class TweetDownloadHistoryItem extends Entity<string, Omit<DownloadHistoryItem, 'tweetId'>> {
+export class DownloadHistoryEntity extends Entity<
+  string,
+  Omit<DownloadHistoryItem, 'tweetId'>
+> {
   constructor(item: DownloadHistoryItem) {
     const { tweetId, ...props } = item
     super(tweetId, props)
   }
 
   static build(item: DownloadHistoryItem) {
-    return new TweetDownloadHistoryItem(item)
+    return new DownloadHistoryEntity(item)
   }
 
-  toJson(): DownloadHistoryItem {
+  toDownloadHistoryItem(): DownloadHistoryItem {
     return {
       tweetId: this.id,
       ...this.props,

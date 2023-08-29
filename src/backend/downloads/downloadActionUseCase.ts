@@ -4,7 +4,7 @@ import {
   InternalErrorNotificationUseCase,
 } from '../notifications/notifyUseCases'
 import MediaDownloader from './MediaDownloader'
-import { TweetDownloadHistoryItem } from './models'
+import { DownloadHistoryEntity } from './models'
 import { downloadHistoryRepo, twitterApiSettingsRepo } from '@backend/configurations'
 import {
   MediaTweetUseCases,
@@ -117,7 +117,7 @@ export default class DownloadActionUseCase {
 
 const makeDownloadHistoryItem =
   (catalog: TweetMediaCatalog) => (tweetDetail: TweetDetail) =>
-    TweetDownloadHistoryItem.build({
+    DownloadHistoryEntity.build({
       tweetId: tweetDetail.id,
       screenName: tweetDetail.screenName,
       displayName: tweetDetail.displayName,
