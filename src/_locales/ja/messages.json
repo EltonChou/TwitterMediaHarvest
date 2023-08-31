@@ -248,5 +248,17 @@
   },
   "options_history_table_actions": {
     "message": "操作"
+  },
+  "options_history_table_mediaType": {
+    "message": "タイプ"
+  },
+  "options_history_table_mediaType_image": {
+    "message": "画像"
+  },
+  "options_history_table_mediaType_video": {
+    "message": "ビデオ"
+  },
+  "options_history_table_mediaType_mixed": {
+    "message": "両方"
   }
 }

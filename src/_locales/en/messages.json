@@ -248,5 +248,17 @@
   },
   "options_history_table_actions": {
     "message": "actions"
+  },
+  "options_history_table_mediaType": {
+    "message": "type"
+  },
+  "options_history_table_mediaType_image": {
+    "message": "Image"
+  },
+  "options_history_table_mediaType_video": {
+    "message": "Video"
+  },
+  "options_history_table_mediaType_mixed": {
+    "message": "Mixed"
   }
 }

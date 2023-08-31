@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react'
 import { Action, exchangeInternal } from '@libs/browser'
 import { i18n } from '@pages/utils'
-import type { DownloadHistoryItem } from '@schema'
+import type { DownloadHistoryItem, DownloadHistoryMediaType } from '@schema'
 import React, { memo, useEffect, useState } from 'react'
 import { BiDownload, BiLinkExternal } from 'react-icons/bi'
 
@@ -28,7 +28,7 @@ type ItemActionsProps = {
   screenName: string
 }
 
-const ItemActions = memo((props: ItemActionsProps) => (
+const ItemActions = (props: ItemActionsProps) => (
   <HStack>
     <Box>
       <Link target="_blank" href={`https://x.com/i/web/status/${props.tweetId}`}>
@@ -46,7 +46,7 @@ const ItemActions = memo((props: ItemActionsProps) => (
       }
     />
   </HStack>
-))
+)
 
 type ItemThumbnailProps = {
   url: string
@@ -84,9 +84,7 @@ const ItemUser = memo((props: ItemUserProps) => {
 
   return (
     <Box>
-      <Text whiteSpace={'nowrap'} overflow={'hidden'} textOverflow={'ellipsis'}>
-        {props.name}
-      </Text>
+      <Text>{props.name}</Text>
       <Text mt={'1'}>
         <Link href={userUrl} target="_blank">
           {'@' + props.account}
@@ -100,18 +98,35 @@ type ItemRowProps = {
   item: DownloadHistoryItem
 }
 
+const convertMediaTypeToLocaleString = (mediaType: DownloadHistoryMediaType) => {
+  switch (mediaType) {
+    case 'image':
+      return i18n('options_history_table_mediaType_image')
+
+    case 'video':
+      return i18n('options_history_table_mediaType_video')
+
+    case 'mixed':
+      return i18n('options_history_table_mediaType_mixed')
+
+    default:
+      return i18n('options_history_table_mediaType_mixed')
+  }
+}
+
 const ItemRow = (props: ItemRowProps) => (
   <Tr>
     <Td>
       <ItemThumbnail url={props.item.thumbnail} />
     </Td>
-    <Td minW={'20ch'} maxW={'40ch'}>
+    <Td maxW={'40ch'}>
       <ItemUser
         id={props.item.userId}
         name={props.item.displayName}
         account={props.item.screenName}
       />
     </Td>
+    <Td>{convertMediaTypeToLocaleString(props.item.mediaType)}</Td>
     <Td>
       <ItemTimestamp datetime={props.item.tweetTime} />
     </Td>
@@ -128,6 +143,7 @@ const TableHeads = () => (
   <Tr>
     <Th>{i18n('options_history_table_thumbnail')}</Th>
     <Th maxW={'40%'}>{i18n('options_history_table_user')}</Th>
+    <Th>{i18n('options_history_table_mediaType')}</Th>
     <Th>{i18n('options_history_table_tweetTime')}</Th>
     <Th>{i18n('options_history_table_downloadTime')}</Th>
     <Th>{i18n('options_history_table_actions')}</Th>
@@ -146,6 +162,9 @@ const LoadingRow = () => (
       <Skeleton width={'15ch'} mt="1">
         <Text>Could be up to 15.</Text>
       </Skeleton>
+    </Td>
+    <Td>
+      <Skeleton>Media type</Skeleton>
     </Td>
     <Td>
       <Skeleton>{new Date().toLocaleString()}</Skeleton>
@@ -176,32 +195,30 @@ const HistoryTable = () => {
   const [historyEntities, setItems] = useState<DownloadHistoryEntity[]>([])
   const [isLoaded, setLoaded] = useState(false)
 
+  const loadLatest = (count: number) =>
+    downloadHistoryRepo.getLatest(count).then(setItems)
+
   useEffect(() => {
-    downloadHistoryRepo
-      .getLatest(50)
-      .then(setItems)
-      .then(() => setLoaded(true))
+    loadLatest(50).then(() => setLoaded(true))
   }, [])
 
   return (
-    <Box overflow={'auto'} maxH={'70vh'}>
-      <TableContainer>
-        <Table variant="striped" colorScheme="teal" size={'md'} width={'100%'}>
-          <Thead>
-            <TableHeads />
-          </Thead>
-          <Tbody>
-            {isLoaded ? (
-              historyEntities.map((entity, i) => (
-                <ItemRow key={i} item={entity.toDownloadHistoryItem()} />
-              ))
-            ) : (
-              <LoadingBody />
-            )}
-          </Tbody>
-        </Table>
-      </TableContainer>
-    </Box>
+    <TableContainer maxH={'70vh'} whiteSpace={'break-spaces'} overflowY={'auto'}>
+      <Table variant="striped" colorScheme="teal" size={'md'} width={'100%'}>
+        <Thead position={'sticky'} top={0} zIndex={99} background={'brand.bg'}>
+          <TableHeads />
+        </Thead>
+        <Tbody>
+          {isLoaded ? (
+            historyEntities.map((entity, i) => (
+              <ItemRow key={i} item={entity.toDownloadHistoryItem()} />
+            ))
+          ) : (
+            <LoadingBody />
+          )}
+        </Tbody>
+      </Table>
+    </TableContainer>
   )
 }
 
