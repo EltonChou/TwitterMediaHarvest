@@ -21,7 +21,7 @@ import { Action, exchangeInternal } from '@libs/browser'
 import { i18n } from '@pages/utils'
 import type { DownloadHistoryItem, DownloadHistoryMediaType } from '@schema'
 import React, { memo, useEffect, useState } from 'react'
-import { BiDownload, BiLinkExternal } from 'react-icons/bi'
+import { BiDownload, BiFilm, BiImage, BiLinkExternal } from 'react-icons/bi'
 
 type ItemActionsProps = {
   tweetId: string
@@ -114,6 +114,17 @@ const convertMediaTypeToLocaleString = (mediaType: DownloadHistoryMediaType) => 
   }
 }
 
+type ItemTypeIconProps = {
+  type: DownloadHistoryMediaType
+}
+
+const ItemTypeIcon = (props: ItemTypeIconProps) => (
+  <HStack gap={3}>
+    <Icon as={BiImage} boxSize={5} color={props.type === 'video' ? 'dimgray' : 'white'} />
+    <Icon as={BiFilm} boxSize={5} color={props.type === 'image' ? 'dimgray' : 'white'} />
+  </HStack>
+)
+
 const ItemRow = (props: ItemRowProps) => (
   <Tr>
     <Td>
@@ -126,7 +137,9 @@ const ItemRow = (props: ItemRowProps) => (
         account={props.item.screenName}
       />
     </Td>
-    <Td>{convertMediaTypeToLocaleString(props.item.mediaType)}</Td>
+    <Td>
+      <ItemTypeIcon type={props.item.mediaType} />
+    </Td>
     <Td>
       <ItemTimestamp datetime={props.item.tweetTime} />
     </Td>
@@ -156,7 +169,7 @@ const LoadingRow = () => (
       <Skeleton height={'90px'} width={'90px'} />
     </Td>
     <Td maxW={'40ch'} width={'40ch'}>
-      <Skeleton width={'30ch'}>
+      <Skeleton width={'100%'}>
         <Text>The user name could be up to 50 characters.</Text>
       </Skeleton>
       <Skeleton width={'15ch'} mt="1">
@@ -164,16 +177,18 @@ const LoadingRow = () => (
       </Skeleton>
     </Td>
     <Td>
-      <Skeleton>Media type</Skeleton>
+      <Skeleton height={'1em'} width={'6ch'}>
+        Media type
+      </Skeleton>
     </Td>
     <Td>
-      <Skeleton>{new Date().toLocaleString()}</Skeleton>
+      <Skeleton width={'18ch'}>{new Date().toLocaleString()}</Skeleton>
     </Td>
     <Td>
-      <Skeleton>{new Date().toLocaleString()}</Skeleton>
+      <Skeleton width={'18ch'}>{new Date().toLocaleString()}</Skeleton>
     </Td>
     <Td>
-      <Skeleton>
+      <Skeleton width={'6ch'}>
         <Icon as={BiDownload} />
         <Icon as={BiDownload} />
       </Skeleton>
@@ -205,7 +220,7 @@ const HistoryTable = () => {
   return (
     <TableContainer maxH={'70vh'} whiteSpace={'break-spaces'} overflowY={'auto'}>
       <Table variant="striped" colorScheme="teal" size={'md'} width={'100%'}>
-        <Thead position={'sticky'} top={0} zIndex={99} background={'brand.bg'}>
+        <Thead position={'sticky'} top={0} zIndex={99} background={'black'}>
           <TableHeads />
         </Thead>
         <Tbody>
