@@ -123,19 +123,18 @@ const makeDownloadHistoryItem =
       displayName: tweetDetail.displayName,
       tweetTime: tweetDetail.createdAt,
       downloadTime: new Date(),
-      mediaType: getMediaTypeFromMediaCatalog(catalog),
+      mediaType: parseMediaTypeFromMediaCatalog(catalog),
       thumbnail: catalog.images.at(0),
-      userId: tweetDetail.userId
+      userId: tweetDetail.userId,
     })
 
-const getMediaTypeFromMediaCatalog = (
+const parseMediaTypeFromMediaCatalog = (
   catalog: TweetMediaCatalog
 ): DownloadHistoryMediaType => {
   const imgCount = catalog.images.length
   const vidCount = catalog.videos.length
 
-  if (imgCount > 0 && vidCount > 0) return 'mixed'
-  if (imgCount > 0) return 'image'
-  if (vidCount > 0) return 'video'
+  if (vidCount === 0) return 'image'
+  if (vidCount > 0 && imgCount === 1) return 'video'
   return 'mixed'
 }
