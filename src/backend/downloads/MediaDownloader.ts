@@ -1,4 +1,4 @@
-import { DownloadSettingsUseCase } from '@backend/settings/downloadSettings/usaCases'
+import { DownloadSettingsUseCase } from '@backend/settings/downloadSettings/useCases'
 import V4FilenameSettingsUsecase from '@backend/settings/filenameSettings/usecase'
 import type { DownloadSettings, FeatureSettings, V4FilenameSettings } from '@schema'
 import Browser from 'webextension-polyfill'
