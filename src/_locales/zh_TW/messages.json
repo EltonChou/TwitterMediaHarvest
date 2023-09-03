@@ -259,7 +259,7 @@
     "message": "影片"
   },
   "options_history_table_mediaType_mixed": {
-    "message": "混和"
+    "message": "混合"
   },
   "options_history_table_input_placeholder_username": {
     "message": "使用者名稱"
@@ -284,5 +284,8 @@
   },
   "options_history_table_ariaLabel_refresh": {
     "message": "更新"
+  },
+  "options_history_table_select_title_mediaType": {
+    "message": "選擇媒體類型"
   }
 }

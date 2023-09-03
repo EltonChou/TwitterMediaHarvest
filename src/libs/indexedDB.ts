@@ -57,7 +57,7 @@ export const downloadDB = new DownloadDB(2).onUpgrade(
     }
 
     if (newVersion === 2) {
-      database.createObjectStore('record', { keyPath: 'id' })
+      if (oldVersion !== 1) database.createObjectStore('record', { keyPath: 'id' })
       const historyStore = database.createObjectStore('history', { keyPath: 'tweetId' })
       historyStore.createIndex('byUserName', ['displayName', 'screenName'])
       historyStore.createIndex('byTweetTime', 'tweetTime')

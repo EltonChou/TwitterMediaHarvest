@@ -259,7 +259,7 @@
     "message": "ビデオ"
   },
   "options_history_table_mediaType_mixed": {
-    "message": "両方"
+    "message": "画像 + ビデオ"
   },
   "options_history_table_input_placeholder_username": {
     "message": "ユーザー名"
@@ -274,7 +274,7 @@
     "message": "ビデオ"
   },
   "options_history_table_select_mediaType_mixed": {
-    "message": "両方"
+    "message": "画像 + ビデオ"
   },
   "options_history_table_ariaLabel_prevPage": {
     "message": "前のページ"
@@ -284,5 +284,8 @@
   },
   "options_history_table_ariaLabel_refresh": {
     "message": "更新"
+  },
+  "options_history_table_select_title_mediaType": {
+    "message": "メディアタイプ選択肢"
   }
 }

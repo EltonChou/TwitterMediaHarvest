@@ -30,7 +30,6 @@ import {
   BiImage,
   BiLinkExternal,
   BiRefresh,
-  BiSearch,
 } from 'react-icons/bi'
 
 type ItemActionsProps = {
@@ -65,10 +64,12 @@ type ItemThumbnailProps = {
 const ItemThumbnail = (props: ItemThumbnailProps) => (
   <Box>
     <Image
+      alt="Thumbnail"
       src={props.url + ':thumb'}
       fallbackSrc="https://via.placeholder.com/150"
       objectFit={'cover'}
       boxSize={'90'}
+      minW={'60px'}
     />
   </Box>
 )
@@ -222,6 +223,13 @@ const makeUsernamePredicate =
     item.displayName.toLowerCase().includes((name || '').toLowerCase()) ||
     item.screenName.toLowerCase().includes((name || '').toLowerCase())
 
+const enum MediaTypeSelectToken {
+  ALL = 'all',
+  IMAGE = 'image',
+  VIDEO = 'video',
+  MIXED = 'mixed',
+}
+
 const makeMediaTypePredicate = (mediaType: MediaTypeSelectToken): SearchPredicate => {
   switch (mediaType) {
     case MediaTypeSelectToken.ALL:
@@ -241,17 +249,11 @@ const makeMediaTypePredicate = (mediaType: MediaTypeSelectToken): SearchPredicat
   }
 }
 
-enum MediaTypeSelectToken {
-  ALL,
-  IMAGE,
-  VIDEO,
-  MIXED,
-}
-
 const HistoryTable = () => {
   const downloadHistory = useDownloadHistory(20)
   const usernameInputRef = useRef<HTMLInputElement>(null)
   const mediaTypeSelectRef = useRef<HTMLSelectElement>(null)
+  const formRef = useRef<HTMLFormElement>(null)
   const tableRef = useRef<HTMLTableElement>(null)
 
   const scrollTableToTop = () =>
@@ -265,6 +267,8 @@ const HistoryTable = () => {
   }
   const refresh = () => {
     downloadHistory.handler.refresh(scrollTableToTop)
+    formRef.current.reset()
+    search()
   }
 
   const search = () => {
@@ -279,54 +283,60 @@ const HistoryTable = () => {
   return (
     <>
       <HStack>
-        <Input
-          ref={usernameInputRef}
-          type="search"
-          name="username"
-          placeholder={i18n('options_history_table_input_placeholder_username')}
-          onInput={search}
-          onChange={search}
-          autoComplete="username"
-        />
-        <Select
-          ref={mediaTypeSelectRef}
-          name="mediaType"
-          onChange={search}
-          defaultValue={'all'}
-        >
-          <option value={MediaTypeSelectToken.ALL}>
-            {i18n('options_history_table_select_mediaType_all')}
-          </option>
-          <option value={MediaTypeSelectToken.IMAGE}>
-            {i18n('options_history_table_select_mediaType_image')}
-          </option>
-          <option value={MediaTypeSelectToken.VIDEO}>
-            {i18n('options_history_table_select_mediaType_video')}
-          </option>
-          <option value={MediaTypeSelectToken.MIXED}>
-            {i18n('options_history_table_select_mediaType_mixed')}
-          </option>
-        </Select>
-        <IconButton
-          aria-label={i18n('options_history_table_ariaLabel_prevPage')}
-          icon={<Icon boxSize={8} as={BiChevronLeft} />}
-          onClick={prevPage}
-          background={'transparent'}
-        />
-        <Box minW={'8ch'} textAlign={'center'}>
-          <Text>{`${downloadHistory.info.currentPage} / ${downloadHistory.info.totalPages}`}</Text>
-        </Box>
-        <IconButton
-          aria-label={i18n('options_history_table_ariaLabel_nextPage')}
-          icon={<Icon boxSize={8} as={BiChevronRight} />}
-          onClick={nextPage}
-          background={'transparent'}
-        />
-        <IconButton
-          aria-label={i18n('options_history_table_ariaLabel_refresh')}
-          icon={<Icon boxSize={5} as={BiRefresh} />}
-          onClick={refresh}
-        />
+        <form ref={formRef} style={{ display: 'flex', flex: 1, gap: '0.5rem' }}>
+          <Input
+            ref={usernameInputRef}
+            type="search"
+            name="username"
+            placeholder={i18n('options_history_table_input_placeholder_username')}
+            onInput={search}
+            onChange={search}
+            flexShrink={1}
+          />
+          <Select
+            ref={mediaTypeSelectRef}
+            title={i18n('options_history_table_select_title_mediaType')}
+            name="mediaType"
+            onChange={search}
+            defaultValue={MediaTypeSelectToken.ALL}
+            flexShrink={4}
+          >
+            <option value={MediaTypeSelectToken.ALL}>
+              {i18n('options_history_table_select_mediaType_all')}
+            </option>
+            <option value={MediaTypeSelectToken.IMAGE}>
+              {i18n('options_history_table_select_mediaType_image')}
+            </option>
+            <option value={MediaTypeSelectToken.VIDEO}>
+              {i18n('options_history_table_select_mediaType_video')}
+            </option>
+            <option value={MediaTypeSelectToken.MIXED}>
+              {i18n('options_history_table_select_mediaType_mixed')}
+            </option>
+          </Select>
+        </form>
+        <HStack>
+          <IconButton
+            aria-label={i18n('options_history_table_ariaLabel_prevPage')}
+            icon={<Icon boxSize={8} as={BiChevronLeft} />}
+            onClick={prevPage}
+            background={'transparent'}
+          />
+          <Box minW={'8ch'} textAlign={'center'}>
+            <Text>{`${downloadHistory.info.currentPage} / ${downloadHistory.info.totalPages}`}</Text>
+          </Box>
+          <IconButton
+            aria-label={i18n('options_history_table_ariaLabel_nextPage')}
+            icon={<Icon boxSize={8} as={BiChevronRight} />}
+            onClick={nextPage}
+            background={'transparent'}
+          />
+          <IconButton
+            aria-label={i18n('options_history_table_ariaLabel_refresh')}
+            icon={<Icon boxSize={5} as={BiRefresh} />}
+            onClick={refresh}
+          />
+        </HStack>
       </HStack>
       <TableContainer
         ref={tableRef}

@@ -284,5 +284,8 @@
   },
   "options_history_table_ariaLabel_refresh": {
     "message": "Refresh"
+  },
+  "options_history_table_select_title_mediaType": {
+    "message": "Select media type"
   }
 }
