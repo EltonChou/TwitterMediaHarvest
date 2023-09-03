@@ -1,4 +1,4 @@
-import { ButtonStatus } from '../../enums'
+import { ButtonStatus } from '../enums'
 import { captureExceptionIO } from './helper'
 import { FailedToParseTweetInfoNotifyUseCase } from '@backend/notifications/notifyUseCases'
 import { Action, HarvestExchange, HarvestResponse, exchangeInternal } from '@libs/browser'
@@ -37,6 +37,10 @@ const setButtonStatus = (status: ButtonStatus) => (button: HTMLElement) => {
 const isButtonDownloading = (button: HTMLElement) =>
   button.classList.contains('downloading')
 
+const convertHarvestResponseToButtonStatus = <T extends Action>(
+  resp: HarvestResponse<T>
+) => (resp.status === 'success' ? ButtonStatus.Success : ButtonStatus.Error)
+
 const sendExchange = <A extends Action>(
   exchange: HarvestExchange<A>
 ): TE.TaskEither<Error, HarvestResponse<A>> =>
@@ -44,8 +48,24 @@ const sendExchange = <A extends Action>(
 
 const notifyInfoParserError = TE.tryCatch(async () => {
   const useCase = new FailedToParseTweetInfoNotifyUseCase()
-  return await useCase.notify()
+  return useCase.notify()
 }, toError)
+
+type InfoProvider = IOEither<Error, TweetInfo>
+
+const sendDownloadRequest = (infoProvider: InfoProvider) =>
+  pipe(
+    TE.Do,
+    TE.bind('data', () => pipe(infoProvider, TE.fromIOEither)),
+    TE.tapError(e => pipe(e, captureExceptionIO, TE.fromIO, () => notifyInfoParserError)),
+    TE.bind('response', exchange =>
+      sendExchange({ action: Action.Download, data: exchange.data })
+    ),
+    TE.match(
+      () => ButtonStatus.Error,
+      ({ response }) => convertHarvestResponseToButtonStatus(response)
+    )
+  )
 
 const buttonClickHandler =
   <T extends HTMLElement>(infoProvider: IOEither<Error, TweetInfo>) =>
@@ -55,42 +75,25 @@ const buttonClickHandler =
     if (!button || isButtonDownloading(button)) return
 
     setButtonStatus(ButtonStatus.Downloading)(button)
-
-    const sendDownloadRequest = pipe(
-      TE.Do,
-      TE.bind('data', () => pipe(infoProvider, TE.fromIOEither)),
-      TE.tapError(e =>
-        pipe(e, captureExceptionIO, TE.fromIO, () => notifyInfoParserError)
-      ),
-      TE.bind('response', exchange =>
-        sendExchange({ action: Action.Download, data: exchange.data })
-      ),
-      TE.match(
-        () => ButtonStatus.Error,
-        ({ response }) =>
-          response.status === 'success' ? ButtonStatus.Success : ButtonStatus.Error
-      )
-    )
-
-    sendDownloadRequest().then(status => setButtonStatus(status)(button))
+    sendDownloadRequest(infoProvider)().then(status => setButtonStatus(status)(button))
   }
 
-const checkTweetHasDownloaded = (infoProvider: IOEither<Error, TweetInfo>) =>
+const convertCheckDownloadHistoryResponseToBoolean = (
+  resp: HarvestResponse<Action.CheckDownloadHistory>
+): boolean => (resp.status === 'error' ? false : resp.data)
+
+const checkTweetHasDownloaded = (infoProvider: InfoProvider) =>
   pipe(
     infoProvider,
     TE.fromIOEither,
     TE.chain(info =>
       sendExchange({ action: Action.CheckDownloadHistory, data: info.tweetId })
     ),
-    TE.map(resp => (resp.status === 'error' ? false : resp.data)),
-    TE.match(
-      () => false,
-      r => r
-    )
+    TE.match(() => false, convertCheckDownloadHistoryResponseToBoolean)
   )
 
 export const makeButtonListener =
-  <T extends HTMLElement>(infoProvider: IOEither<Error, TweetInfo>) =>
+  <T extends HTMLElement>(infoProvider: InfoProvider) =>
   (button: T): T => {
     button.addEventListener('click', buttonClickHandler(infoProvider)(button))
     checkTweetHasDownloaded(infoProvider)().then(isDownloaded => {
