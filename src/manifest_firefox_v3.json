@@ -5,7 +5,6 @@
   "description": "__MSG_appDesc__",
   "version": "__MANIFEST_RELEASE_VERSION__",
   "version_name": "__MANIFEST_VERSION_NAME__",
-  "minimum_chrome_version": "100",
   "default_locale": "en",
   "icons": {
     "16": "assets/icons/icon@16.png",
@@ -27,7 +26,9 @@
     "open_in_tab": true
   },
   "background": {
-    "service_worker": "sw.js"
+    "scripts": [
+      "sw.js"
+    ]
   },
   "content_scripts": [
     {
@@ -55,10 +56,15 @@
     "downloads",
     "cookies",
     "storage",
-    "notifications",
-    "unlimitedStorage"
+    "notifications"
   ],
   "content_security_policy": {
     "extension_page": "default-src 'self'; connect-src 'self' https://o1169684.ingest.sentry.io https://*.mediaharvest.app https://cognito-identity.ap-northeast-1.amazonaws.com https://twitter.com https://*.twitter.com; style-src https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; script-src 'self'; img-src https://via.placeholder.com https://pbs.twimg.com;"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "mediaharvest@addons.mozilla.org",
+      "strict_min_version": "90.0"
+    }
   }
 }

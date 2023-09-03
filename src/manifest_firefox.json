@@ -1,5 +1,5 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "__MSG_appName__",
   "short_name": "MediaHarvest",
   "description": "__MSG_appDesc__",
@@ -12,7 +12,7 @@
     "48": "assets/icons/icon@48.png",
     "128": "assets/icons/icon@128.png"
   },
-  "action": {
+  "browser_action": {
     "default_icon": {
       "16": "assets/icons/icon@16.png",
       "32": "assets/icons/icon@32.png",
@@ -35,8 +35,7 @@
       "matches": [
         "*://twitter.com/*",
         "*://mobile.twitter.com/*",
-        "*://tweetdeck.twitter.com/*",
-        "*://x.com/*"
+        "*://tweetdeck.twitter.com/*"
       ],
       "js": [
         "main.js"
@@ -44,23 +43,20 @@
       "run_at": "document_end"
     }
   ],
-  "host_permissions": [
+  "permissions": [
     "*://twitter.com/*",
     "*://mobile.twitter.com/*",
     "*://api.twitter.com/*",
     "*://tweetdeck.twitter.com/*",
     "*://x.com/*",
-    "*://*.x.com/*"
-  ],
-  "permissions": [
+    "*://*.x.com/*",
     "downloads",
     "cookies",
     "storage",
-    "notifications"
+    "notifications",
+    "unlimitedStorage"
   ],
-  "content_security_policy": {
-    "extension_page": "default-src 'self'; connect-src 'self' https://o1169684.ingest.sentry.io https://api.webext.prod.mediaharvest.app https://cognito-identity.ap-northeast-1.amazonaws.com https://twitter.com https://api.twitter.com; style-src https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'"
-  },
+  "content_security_policy": "default-src 'self'; connect-src 'self' https://o1169684.ingest.sentry.io https://api.webext.prod.mediaharvest.app https://cognito-identity.ap-northeast-1.amazonaws.com https://twitter.com https://api.twitter.com; style-src https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; script-src 'self'; img-src https://via.placeholder.com https://pbs.twimg.com;",
   "browser_specific_settings": {
     "gecko": {
       "id": "mediaharvest@addons.mozilla.org",
