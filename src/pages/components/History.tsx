@@ -1,12 +1,12 @@
-import { downloadHistoryRepo } from '@backend/configurations'
-import type { DownloadHistoryEntity } from '@backend/downloads/models'
 import {
   Box,
   HStack,
   Icon,
   IconButton,
   Image,
+  Input,
   Link,
+  Select,
   Skeleton,
   Table,
   TableContainer,
@@ -18,10 +18,20 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import { Action, exchangeInternal } from '@libs/browser'
+import useDownloadHistory, { type SearchPredicate } from '@pages/hooks/useDownloadHistory'
 import { i18n } from '@pages/utils'
 import type { DownloadHistoryItem, DownloadHistoryMediaType } from '@schema'
-import React, { memo, useEffect, useState } from 'react'
-import { BiDownload, BiFilm, BiImage, BiLinkExternal } from 'react-icons/bi'
+import React, { memo, useRef } from 'react'
+import {
+  BiChevronLeft,
+  BiChevronRight,
+  BiDownload,
+  BiFilm,
+  BiImage,
+  BiLinkExternal,
+  BiRefresh,
+  BiSearch,
+} from 'react-icons/bi'
 
 type ItemActionsProps = {
   tweetId: string
@@ -130,7 +140,7 @@ const ItemRow = (props: ItemRowProps) => (
     <Td>
       <ItemThumbnail url={props.item.thumbnail} />
     </Td>
-    <Td maxW={'40ch'}>
+    <Td w={'40ch'}>
       <ItemUser
         id={props.item.userId}
         name={props.item.displayName}
@@ -140,10 +150,10 @@ const ItemRow = (props: ItemRowProps) => (
     <Td>
       <ItemTypeIcon type={props.item.mediaType} />
     </Td>
-    <Td>
+    <Td w={'25ch'}>
       <ItemTimestamp datetime={props.item.tweetTime} />
     </Td>
-    <Td>
+    <Td w={'25ch'}>
       <ItemTimestamp datetime={props.item.downloadTime} />
     </Td>
     <Td>
@@ -155,7 +165,7 @@ const ItemRow = (props: ItemRowProps) => (
 const TableHeads = () => (
   <Tr>
     <Th>{i18n('options_history_table_thumbnail')}</Th>
-    <Th maxW={'40%'}>{i18n('options_history_table_user')}</Th>
+    <Th>{i18n('options_history_table_user')}</Th>
     <Th>{i18n('options_history_table_mediaType')}</Th>
     <Th>{i18n('options_history_table_tweetTime')}</Th>
     <Th>{i18n('options_history_table_downloadTime')}</Th>
@@ -168,9 +178,9 @@ const LoadingRow = () => (
     <Td>
       <Skeleton height={'90px'} width={'90px'} />
     </Td>
-    <Td maxW={'40ch'} width={'40ch'}>
+    <Td width={'20ch'}>
       <Skeleton width={'100%'}>
-        <Text>The user name could be up to 50 characters.</Text>
+        <Text>The user name.</Text>
       </Skeleton>
       <Skeleton width={'15ch'} mt="1">
         <Text>Could be up to 15.</Text>
@@ -206,34 +216,140 @@ const LoadingBody = () => (
   </>
 )
 
+const makeUsernamePredicate =
+  (name?: string): SearchPredicate =>
+  item =>
+    item.displayName.toLowerCase().includes((name || '').toLowerCase()) ||
+    item.screenName.toLowerCase().includes((name || '').toLowerCase())
+
+const makeMediaTypePredicate = (mediaType: MediaTypeSelectToken): SearchPredicate => {
+  switch (mediaType) {
+    case MediaTypeSelectToken.ALL:
+      return item => true
+
+    case MediaTypeSelectToken.IMAGE:
+      return item => item.mediaType === 'image'
+
+    case MediaTypeSelectToken.VIDEO:
+      return item => item.mediaType === 'video'
+
+    case MediaTypeSelectToken.MIXED:
+      return item => item.mediaType === 'mixed'
+
+    default:
+      return item => true
+  }
+}
+
+enum MediaTypeSelectToken {
+  ALL,
+  IMAGE,
+  VIDEO,
+  MIXED,
+}
+
 const HistoryTable = () => {
-  const [historyEntities, setItems] = useState<DownloadHistoryEntity[]>([])
-  const [isLoaded, setLoaded] = useState(false)
+  const downloadHistory = useDownloadHistory(20)
+  const usernameInputRef = useRef<HTMLInputElement>(null)
+  const mediaTypeSelectRef = useRef<HTMLSelectElement>(null)
+  const tableRef = useRef<HTMLTableElement>(null)
 
-  const loadLatest = (count: number) =>
-    downloadHistoryRepo.getLatest(count).then(setItems)
+  const scrollTableToTop = () =>
+    tableRef.current && tableRef.current.scrollTo({ top: 0, behavior: 'smooth' })
 
-  useEffect(() => {
-    loadLatest(50).then(() => setLoaded(true))
-  }, [])
+  const prevPage = () => {
+    downloadHistory.handler.prevPage(scrollTableToTop)
+  }
+  const nextPage = () => {
+    downloadHistory.handler.nextPage(scrollTableToTop)
+  }
+  const refresh = () => {
+    downloadHistory.handler.refresh(scrollTableToTop)
+  }
+
+  const search = () => {
+    downloadHistory.handler.search(
+      makeUsernamePredicate(usernameInputRef?.current?.value),
+      makeMediaTypePredicate(
+        mediaTypeSelectRef?.current?.value as unknown as MediaTypeSelectToken
+      )
+    )
+  }
 
   return (
-    <TableContainer maxH={'70vh'} whiteSpace={'break-spaces'} overflowY={'auto'}>
-      <Table variant="striped" colorScheme="teal" size={'md'} width={'100%'}>
-        <Thead position={'sticky'} top={0} zIndex={99} background={'black'}>
-          <TableHeads />
-        </Thead>
-        <Tbody>
-          {isLoaded ? (
-            historyEntities.map((entity, i) => (
-              <ItemRow key={i} item={entity.toDownloadHistoryItem()} />
-            ))
-          ) : (
-            <LoadingBody />
-          )}
-        </Tbody>
-      </Table>
-    </TableContainer>
+    <>
+      <HStack>
+        <Input
+          ref={usernameInputRef}
+          type="search"
+          name="username"
+          placeholder={i18n('options_history_table_input_placeholder_username')}
+          onInput={search}
+          onChange={search}
+          autoComplete="username"
+        />
+        <Select
+          ref={mediaTypeSelectRef}
+          name="mediaType"
+          onChange={search}
+          defaultValue={'all'}
+        >
+          <option value={MediaTypeSelectToken.ALL}>
+            {i18n('options_history_table_select_mediaType_all')}
+          </option>
+          <option value={MediaTypeSelectToken.IMAGE}>
+            {i18n('options_history_table_select_mediaType_image')}
+          </option>
+          <option value={MediaTypeSelectToken.VIDEO}>
+            {i18n('options_history_table_select_mediaType_video')}
+          </option>
+          <option value={MediaTypeSelectToken.MIXED}>
+            {i18n('options_history_table_select_mediaType_mixed')}
+          </option>
+        </Select>
+        <IconButton
+          aria-label={i18n('options_history_table_ariaLabel_prevPage')}
+          icon={<Icon boxSize={8} as={BiChevronLeft} />}
+          onClick={prevPage}
+          background={'transparent'}
+        />
+        <Box minW={'8ch'} textAlign={'center'}>
+          <Text>{`${downloadHistory.info.currentPage} / ${downloadHistory.info.totalPages}`}</Text>
+        </Box>
+        <IconButton
+          aria-label={i18n('options_history_table_ariaLabel_nextPage')}
+          icon={<Icon boxSize={8} as={BiChevronRight} />}
+          onClick={nextPage}
+          background={'transparent'}
+        />
+        <IconButton
+          aria-label={i18n('options_history_table_ariaLabel_refresh')}
+          icon={<Icon boxSize={5} as={BiRefresh} />}
+          onClick={refresh}
+        />
+      </HStack>
+      <TableContainer
+        ref={tableRef}
+        maxH={'65vh'}
+        whiteSpace={'break-spaces'}
+        overflowY={'auto'}
+      >
+        <Table variant="striped" colorScheme="teal" size={'md'} width={'100%'}>
+          <Thead position={'sticky'} top={0} zIndex={99} background={'black'}>
+            <TableHeads />
+          </Thead>
+          <Tbody>
+            {downloadHistory.info.isLoaded ? (
+              downloadHistory.entities.map((entity, i) => (
+                <ItemRow key={i} item={entity.toDownloadHistoryItem()} />
+              ))
+            ) : (
+              <LoadingBody />
+            )}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </>
   )
 }
 

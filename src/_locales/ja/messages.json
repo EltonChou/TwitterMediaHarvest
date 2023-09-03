@@ -260,5 +260,29 @@
   },
   "options_history_table_mediaType_mixed": {
     "message": "両方"
+  },
+  "options_history_table_input_placeholder_username": {
+    "message": "ユーザー名"
+  },
+  "options_history_table_select_mediaType_all": {
+    "message": "全種類"
+  },
+  "options_history_table_select_mediaType_image": {
+    "message": "画像"
+  },
+  "options_history_table_select_mediaType_video": {
+    "message": "ビデオ"
+  },
+  "options_history_table_select_mediaType_mixed": {
+    "message": "両方"
+  },
+  "options_history_table_ariaLabel_prevPage": {
+    "message": "前のページ"
+  },
+  "options_history_table_ariaLabel_nextPage": {
+    "message": "次のページ"
+  },
+  "options_history_table_ariaLabel_refresh": {
+    "message": "更新"
   }
 }

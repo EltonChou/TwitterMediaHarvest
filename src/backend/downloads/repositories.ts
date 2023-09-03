@@ -1,5 +1,5 @@
-import { DownloadRecord, DownloadHistoryEntity } from './models'
-import type { DownloadDBSchema } from '@schema'
+import { DownloadHistoryEntity, DownloadRecord } from './models'
+import type { DownloadDBSchema, DownloadHistoryItem } from '@schema'
 import { type IDBPDatabase } from 'idb'
 import type { Storage } from 'webextension-polyfill'
 
@@ -64,7 +64,10 @@ function createId(downloadItemId: number): DownloadRecordId {
   return `dl_${downloadItemId}`
 }
 
+export type DownloadItemPredicate = (item: DownloadHistoryItem) => boolean
+
 export interface IDownloadHistoryRepository {
+  count(): Promise<number>
   save(item: DownloadHistoryEntity): Promise<void>
   clear(): Promise<void>
   tweetHasDownloaded(tweetId: string): Promise<boolean>
@@ -72,14 +75,9 @@ export interface IDownloadHistoryRepository {
   getLatest(limit?: number): Promise<DownloadHistoryEntity[]>
   getByTweetId(tweetId: string): Promise<DownloadHistoryEntity | undefined>
   searchByUserName(userName: string, limit?: number): Promise<DownloadHistoryEntity[]>
-  searchByTweetTime(
-    timeRange: IDBKeyRange,
-    limit?: number
-  ): Promise<DownloadHistoryEntity[]>
-  searchByDownloadTime(
-    timeRange: IDBKeyRange,
-    limit?: number
-  ): Promise<DownloadHistoryEntity[]>
+  search(
+    ...predicates: DownloadItemPredicate[]
+  ): (limit?: number, skip?: number) => Promise<[DownloadHistoryEntity[], number]>
 }
 
 export class IndexedDBDownloadHistoryRepository
@@ -89,7 +87,8 @@ export class IndexedDBDownloadHistoryRepository
   private openCursor(
     range?: IDBKeyRange,
     direction?: IDBCursorDirection,
-    limit: number | 'inf' = 50
+    limit: number | 'inf' = 50,
+    offset: number = 0
   ) {
     const transaction = this.transaction()
     const shouldContinue = (count: number) => (limit === 'inf' ? true : count < limit)
@@ -97,6 +96,7 @@ export class IndexedDBDownloadHistoryRepository
     return async function* (indexKey: keyof DownloadDBSchema['history']['indexes']) {
       let cursor = await (await transaction).index(indexKey).openCursor(range, direction)
 
+      if (offset) cursor = await cursor.advance(offset)
       let count = 0
       while (cursor && shouldContinue(count)) {
         yield cursor.value
@@ -128,14 +128,19 @@ export class IndexedDBDownloadHistoryRepository
     await client.put('history', item.toDownloadHistoryItem())
   }
 
+  async count(): Promise<number> {
+    const client = await this.clientProvider()
+    return client.count('history')
+  }
+
   async getAll(): Promise<DownloadHistoryEntity[]> {
     const client = await this.clientProvider()
     const items = await client.getAll('history')
     return items.map(DownloadHistoryEntity.build)
   }
 
-  async getLatest(limit = 10): Promise<DownloadHistoryEntity[]> {
-    const collection = this.openCursor(null, 'prev', limit)('byDownloadTime')
+  async getLatest(limit = 10, offset = 0): Promise<DownloadHistoryEntity[]> {
+    const collection = this.openCursor(null, 'prev', limit, offset)('byDownloadTime')
     return (await asyncGeneratorToArray(collection)).map(DownloadHistoryEntity.build)
   }
 
@@ -145,26 +150,7 @@ export class IndexedDBDownloadHistoryRepository
     return item ? DownloadHistoryEntity.build(item) : undefined
   }
 
-  async searchByDownloadTime(
-    timeRange: IDBKeyRange,
-    limit = 50
-  ): Promise<DownloadHistoryEntity[]> {
-    const collection = this.openCursor(timeRange, 'prev', limit)('byDownloadTime')
-    return (await asyncGeneratorToArray(collection)).map(DownloadHistoryEntity.build)
-  }
-
-  async searchByTweetTime(
-    timeRange: IDBKeyRange,
-    limit = 50
-  ): Promise<DownloadHistoryEntity[]> {
-    const collection = this.openCursor(timeRange, 'prev', limit)('byTweetTime')
-    return (await asyncGeneratorToArray(collection)).map(DownloadHistoryEntity.build)
-  }
-
-  async searchByUserName(
-    userName: string,
-    limit = 10
-  ): Promise<DownloadHistoryEntity[]> {
+  async searchByUserName(userName: string, limit = 10): Promise<DownloadHistoryEntity[]> {
     const client = await this.clientProvider()
     const items = await client.getAll('history')
     const lowerCaseName = userName.toLowerCase()
@@ -176,6 +162,32 @@ export class IndexedDBDownloadHistoryRepository
       )
       .map(DownloadHistoryEntity.build)
       .splice(0, limit)
+  }
+
+  search(...predicates: DownloadItemPredicate[]) {
+    return async (
+      limit?: number,
+      skip?: number
+    ): Promise<[DownloadHistoryEntity[], number]> => {
+      const collection = this.openCursor(null, 'prev', 'inf')('byDownloadTime')
+      const result: DownloadHistoryEntity[] = []
+
+      let matchedCount = 0
+      const increaseCount = () => (matchedCount += 1)
+      for await (const v of collection) {
+        if (Array.from(predicates).every(predicate => predicate(v))) {
+          if (skip) {
+            skip -= 1
+            increaseCount()
+            continue
+          }
+          if (result.length < limit) result.push(DownloadHistoryEntity.build(v))
+          increaseCount()
+        }
+      }
+
+      return [result, matchedCount]
+    }
   }
 }
 

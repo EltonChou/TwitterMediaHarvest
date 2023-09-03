@@ -260,5 +260,29 @@
   },
   "options_history_table_mediaType_mixed": {
     "message": "Mixed"
+  },
+  "options_history_table_input_placeholder_username": {
+    "message": "Username"
+  },
+  "options_history_table_select_mediaType_all": {
+    "message": "All"
+  },
+  "options_history_table_select_mediaType_image": {
+    "message": "Image"
+  },
+  "options_history_table_select_mediaType_video": {
+    "message": "Video"
+  },
+  "options_history_table_select_mediaType_mixed": {
+    "message": "Mixed"
+  },
+  "options_history_table_ariaLabel_prevPage": {
+    "message": "Previous page"
+  },
+  "options_history_table_ariaLabel_nextPage": {
+    "message": "Next page"
+  },
+  "options_history_table_ariaLabel_refresh": {
+    "message": "Refresh"
   }
 }

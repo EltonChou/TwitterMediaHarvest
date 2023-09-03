@@ -260,5 +260,29 @@
   },
   "options_history_table_mediaType_mixed": {
     "message": "混和"
+  },
+  "options_history_table_input_placeholder_username": {
+    "message": "使用者名稱"
+  },
+  "options_history_table_select_mediaType_all": {
+    "message": "全部"
+  },
+  "options_history_table_select_mediaType_image": {
+    "message": "圖片"
+  },
+  "options_history_table_select_mediaType_video": {
+    "message": "影片"
+  },
+  "options_history_table_select_mediaType_mixed": {
+    "message": "混合"
+  },
+  "options_history_table_ariaLabel_prevPage": {
+    "message": "上一頁"
+  },
+  "options_history_table_ariaLabel_nextPage": {
+    "message": "下一頁"
+  },
+  "options_history_table_ariaLabel_refresh": {
+    "message": "更新"
   }
 }

@@ -64,6 +64,12 @@ describe('IndexedDBDownloadHistoryRepository unit test', () => {
     expect(items.length).toEqual(count)
   })
 
+  it('can get total count', async () => {
+    const [_, count] = await generateFakeItems()
+    const total = await repo.count()
+    expect(total).toEqual(count)
+  })
+
   // it('can get latest 10 items', async () => {
   //   const [items, count] = await generateFakeItems()
   //   const fetchedItems = await repo.getLatest(10)
