@@ -1,5 +1,5 @@
+import { downloadRecordRepo, downloadSettingsRepo } from '@backend/configurations'
 import browser from 'webextension-polyfill'
-import { storageConfig } from '@backend/configurations'
 
 const ensureFilename = (
   downloadItem: chrome.downloads.DownloadItem,
@@ -9,7 +9,7 @@ const ensureFilename = (
   const runtimeId = browser.runtime.id
 
   if (byExtensionId && byExtensionId === runtimeId) {
-    storageConfig.downloadRecordRepo.getById(downloadItem.id).then(record => {
+    downloadRecordRepo.getById(downloadItem.id).then(record => {
       if (!record) return false
       const { downloadConfig } = record
       suggest(downloadConfig as chrome.downloads.DownloadFilenameSuggestion)
@@ -39,6 +39,6 @@ browser.storage.onChanged.addListener((changes, areaName) => {
   }
 })
 
-storageConfig.downloadSettingsRepo.getSettings().then(downloadSettings => {
+downloadSettingsRepo.getSettings().then(downloadSettings => {
   if (downloadSettings.aggressiveMode) addSuggestion()
 })

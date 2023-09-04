@@ -6,6 +6,7 @@
 
 - Added deeper sub-directory Support.
 - Added file aggregation option.
+- Added download history.
 
 ### Fixed
 

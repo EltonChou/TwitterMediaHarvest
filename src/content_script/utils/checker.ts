@@ -1,6 +1,7 @@
 import select from 'select-dom'
 
-export const isStreamLoaded = () => select.exists('[role="region"]') && select.exists('article')
+export const isStreamLoaded = () =>
+  select.exists('[role="region"]') && select.exists('article')
 
 const getHost = (): string => window.location.host
 
@@ -42,11 +43,15 @@ export const isFunctionablePath = (): boolean =>
     isComposingTweet()
   )
 
-export const isInTweetStatus = (): boolean => Boolean(window.location.pathname.match(TweetStatusRegEx))
+export const isInTweetStatus = (): boolean =>
+  Boolean(window.location.pathname.match(TweetStatusRegEx))
 
-export const isBetaTweetDeck = (): boolean => isTweetDeck() && select.exists('#react-root')
+export const isBetaTweetDeck = (): boolean =>
+  isTweetDeck() && select.exists('#react-root')
 
 export const isBusinessRelatedTweet = (ele: HTMLElement): boolean =>
-  select.exists('[data-testid="placementTracking"]', ele) || Boolean(ele.closest('[data-testid="placementTracking"]'))
+  select.exists('[data-testid="placementTracking"]', ele) ||
+  Boolean(ele.closest('[data-testid="placementTracking"]'))
 
-export const isDefined = (...parms: unknown[]): boolean => parms.every(v => v !== undefined)
+export const isDefined = (...parms: unknown[]): boolean =>
+  parms.every(v => v !== undefined)

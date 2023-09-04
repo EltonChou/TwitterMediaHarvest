@@ -1,7 +1,7 @@
+import { i18nLocalize } from '../utils/i18n'
 import { isFirefox } from '@backend/utils/checker'
 import type { Notifications } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
-import { i18nLocalize } from '../utils/i18n'
 
 enum TemplateType {
   Basic = 'basic',
@@ -28,8 +28,14 @@ class NotificationButton {
 }
 
 export class NotificationConfig {
-  static downloadError(tweetInfo: TweetInfo, eventTime: number): Notifications.CreateNotificationOptions {
-    const info = i18nLocalize('notificationDLFailedMessage', [tweetInfo.screenName, tweetInfo.tweetId])
+  static downloadError(
+    tweetInfo: TweetInfo,
+    eventTime: number
+  ): Notifications.CreateNotificationOptions {
+    const info = i18nLocalize('notificationDLFailedMessage', [
+      tweetInfo.screenName,
+      tweetInfo.tweetId,
+    ])
 
     return {
       type: TemplateType.Basic,
@@ -40,7 +46,10 @@ export class NotificationConfig {
       eventTime: eventTime,
       ...(isFirefox()
         ? {}
-        : { buttons: [NotificationButton.viewTweet(), NotificationButton.retryDownload()], requireInteraction: true }),
+        : {
+            buttons: [NotificationButton.viewTweet(), NotificationButton.retryDownload()],
+            requireInteraction: true,
+          }),
     }
   }
 
@@ -48,7 +57,10 @@ export class NotificationConfig {
     tweetInfo: TweetInfo,
     { title, message }: FetchErrorReason
   ): Notifications.CreateNotificationOptions {
-    const info = i18nLocalize('notificationDLFailedMessage', [tweetInfo.screenName, tweetInfo.tweetId])
+    const info = i18nLocalize('notificationDLFailedMessage', [
+      tweetInfo.screenName,
+      tweetInfo.tweetId,
+    ])
 
     return {
       type: TemplateType.Basic,
@@ -59,11 +71,16 @@ export class NotificationConfig {
       eventTime: Date.now(),
       buttons: [NotificationButton.viewTweet()],
       requireInteraction: true,
-      ...(isFirefox() ? {} : { buttons: [NotificationButton.viewTweet()], requireInteraction: true }),
+      ...(isFirefox()
+        ? {}
+        : { buttons: [NotificationButton.viewTweet()], requireInteraction: true }),
     }
   }
 
-  static unknownFetchError = ({ title, message }: FetchErrorReason): Notifications.CreateNotificationOptions => {
+  static unknownFetchError = ({
+    title,
+    message,
+  }: FetchErrorReason): Notifications.CreateNotificationOptions => {
     return {
       type: TemplateType.Basic,
       iconUrl: notificationIconUrl,
@@ -71,7 +88,9 @@ export class NotificationConfig {
       message: message,
       contextMessage: contextMessage,
       eventTime: Date.now(),
-      ...(isFirefox() ? {} : { buttons: [NotificationButton.viewTweet()], requireInteraction: true }),
+      ...(isFirefox()
+        ? {}
+        : { buttons: [NotificationButton.viewTweet()], requireInteraction: true }),
     }
   }
 
@@ -83,7 +102,9 @@ export class NotificationConfig {
       message: message,
       contextMessage: contextMessage,
       eventTime: Date.now(),
-      ...(isFirefox() ? {} : { buttons: [NotificationButton.viewTweet()], requireInteraction: true }),
+      ...(isFirefox()
+        ? {}
+        : { buttons: [NotificationButton.viewTweet()], requireInteraction: true }),
     }
   }
 

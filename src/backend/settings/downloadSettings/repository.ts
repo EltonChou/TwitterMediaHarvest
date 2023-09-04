@@ -1,6 +1,6 @@
+import { ISettingsRepository } from '../repository'
 import type { IStorageProxy } from '@libs/proxy'
 import type { DownloadSettings } from '@schema'
-import { ISettingsRepository } from '../repository'
 
 const defaultIntegrationSettings: DownloadSettings = {
   enableAria2: false,
@@ -8,7 +8,9 @@ const defaultIntegrationSettings: DownloadSettings = {
   askWhereToSave: false,
 }
 
-export default class DownloadSettingsRepository implements ISettingsRepository<DownloadSettings> {
+export default class DownloadSettingsRepository
+  implements ISettingsRepository<DownloadSettings>
+{
   constructor(readonly storageArea: IStorageProxy<DownloadSettings>) {}
 
   async getSettings(): Promise<DownloadSettings> {

@@ -1,7 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import {
+  TweetDeckBetaKeyboardMonitor,
+  TweetDeckLegacyKeyboardMonitor,
+  TwitterKeyboardMonitor,
+} from './KeyboardMonitor'
+import { featureRepo } from './configuration'
+import './main.sass'
+import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
+import TweetDeckLegacyObserver from './observers/TweetDeckLegacyObserver'
+import TwitterMediaObserver from './observers/TwitterMediaObserver'
+import { isBetaTweetDeck, isTwitter } from './utils/checker'
 import { Action, exchangeInternal } from '@libs/browser'
 import { init as SentryInit, setUser } from '@sentry/browser'
-import './main.sass'
 
 SentryInit({
   dsn: process.env.SENTRY_DSN,
@@ -25,14 +35,9 @@ SentryInit({
   environment: process.env.NODE_ENV,
 })
 
-exchangeInternal({ action: Action.FetchUser }).then(resp => resp.status === 'success' && setUser(resp.data))
-
-import { TweetDeckBetaKeyboardMonitor, TweetDeckLegacyKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
-import { featureRepo } from './configuration'
-import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
-import TweetDeckLegacyObserver from './observers/TweetDeckLegacyObserver'
-import TwitterMediaObserver from './observers/TwitterMediaObserver'
-import { isBetaTweetDeck, isTwitter } from './utils/checker'
+exchangeInternal({ action: Action.FetchUser }).then(
+  resp => resp.status === 'success' && setUser(resp.data)
+)
 
 const useObserver = (revealNsfw: boolean) => {
   if (isTwitter()) return new TwitterMediaObserver(revealNsfw)
@@ -48,22 +53,30 @@ const useKeboardMonitor = () => {
 
 let hasFocused = false
 
+const isFocused = () => {
+  hasFocused = true
+}
+
+const monitorKeyboardByFlag = () => {
+  const kbMonitor = useKeboardMonitor()
+  window.addEventListener('keyup', e => kbMonitor.handleKeyUp(e))
+  window.addEventListener('keydown', e => kbMonitor.handleKeyDown(e))
+}
+
 featureRepo
   .getSettings()
   .then(feature => {
-    if (!feature.keyboardShortcut) return
-    const kbMonitor = useKeboardMonitor()
-    window.addEventListener('keyup', e => kbMonitor.handleKeyUp(e))
-    window.addEventListener('keydown', e => kbMonitor.handleKeyDown(e))
+    feature.keyboardShortcut && monitorKeyboardByFlag()
     return feature
   })
   .then(feature => {
     const observer = useObserver(feature.autoRevealNsfw)
     window.addEventListener('focus', () => {
+      feature.keyboardShortcut && monitorKeyboardByFlag()
       observer.initialize()
       if (!hasFocused) {
         observer.observeRoot()
-        hasFocused = true
+        isFocused()
       }
     })
 

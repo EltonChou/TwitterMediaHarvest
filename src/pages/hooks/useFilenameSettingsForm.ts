@@ -1,17 +1,30 @@
-import { storageConfig } from '@backend/configurations'
+import { v4FilenameSettingsRepo } from '@backend/configurations'
 import type { HelperMessage } from '@pages/components/controls/featureControls'
 import { i18n } from '@pages/utils'
-import type { AggregationToken, FilenamePatternToken, V4FilenamePattern, V4FilenameSettings } from '@schema'
+import type {
+  AggregationToken,
+  FilenamePatternToken,
+  V4FilenamePattern,
+  V4FilenameSettings,
+} from '@schema'
 import { useCallback, useEffect, useReducer, useState } from 'react'
 import sanitize from 'sanitize-filename'
 
 type DirectorySetAction = DataActionWithPayload<'setDirectory', string>
 
-type FilenamePatternSetAction = DataActionWithPayload<'setFilenamePattern', V4FilenamePattern>
+type FilenamePatternSetAction = DataActionWithPayload<
+  'setFilenamePattern',
+  V4FilenamePattern
+>
 
-type AggregationTokenSetAction = DataActionWithPayload<'setAggregationToken', AggregationToken>
+type AggregationTokenSetAction = DataActionWithPayload<
+  'setAggregationToken',
+  AggregationToken
+>
 
-type FilenameSettingsPureAction = PureAction<'toggleDirectory' | 'reset' | 'toggleFileAggregation'>
+type FilenameSettingsPureAction = PureAction<
+  'toggleDirectory' | 'reset' | 'toggleFileAggregation'
+>
 
 type FilenameSettingsAction =
   | FilenameSettingsPureAction
@@ -43,7 +56,7 @@ const defaultFormStatus: FormStatus = {
   isLoaded: false,
 }
 
-const defaultFilenameSettings = storageConfig.v4FilenameSettingsRepo.getDefaultSettings()
+const defaultFilenameSettings = v4FilenameSettingsRepo.getDefaultSettings()
 
 function formStatusReducer(formStatus: FormStatus, action: FormStatusAction): FormStatus {
   switch (action) {
@@ -94,7 +107,10 @@ function formStatusReducer(formStatus: FormStatus, action: FormStatusAction): Fo
   }
 }
 
-function settingReducer(settings: V4FilenameSettings, action: FilenameSettingsAction): V4FilenameSettings {
+function settingReducer(
+  settings: V4FilenameSettings,
+  action: FilenameSettingsAction
+): V4FilenameSettings {
   switch (action.type) {
     case 'toggleDirectory':
       return { ...settings, noSubDirectory: !settings.noSubDirectory }
@@ -124,7 +140,8 @@ function settingReducer(settings: V4FilenameSettings, action: FilenameSettingsAc
 
 const dirNameRegEx = /^[^<>:"/\\|?*]+$/
 const validDir = (dir: string) =>
-  dir.split('/').every(dir => sanitize(dir) === dir && dirNameRegEx.test(dir)) && dir.length <= 512
+  dir.split('/').every(dir => sanitize(dir) === dir && dirNameRegEx.test(dir)) &&
+  dir.length <= 512
 
 const validPattern = (p: V4FilenamePattern) =>
   p.includes('{hash}') || (p.includes('{tweetId}') && p.includes('{serial}'))
@@ -144,14 +161,25 @@ type FormHandler = {
   aggregationToggle: () => void
 }
 
-const useFilenameSettingsForm = (): [V4FilenameSettings, FormStatus, FormMessage, FormHandler] => {
-  const [filenameSettings, settingsDispatch] = useReducer(settingReducer, defaultFilenameSettings)
-  const [formStatus, formStatusDispatch] = useReducer(formStatusReducer, defaultFormStatus)
+const useFilenameSettingsForm = (): [
+  V4FilenameSettings,
+  FormStatus,
+  FormMessage,
+  FormHandler
+] => {
+  const [filenameSettings, settingsDispatch] = useReducer(
+    settingReducer,
+    defaultFilenameSettings
+  )
+  const [formStatus, formStatusDispatch] = useReducer(
+    formStatusReducer,
+    defaultFormStatus
+  )
   const [directoryMessage, setDirectoryMessage] = useState<null | HelperMessage>(null)
   const [patternMessage, setPatternMessage] = useState<null | HelperMessage>(null)
 
   useEffect(() => {
-    storageConfig.v4FilenameSettingsRepo.getSettings().then(settings => {
+    v4FilenameSettingsRepo.getSettings().then(settings => {
       settingsDispatch({ type: 'init', payload: settings })
       formStatusDispatch('init')
     })
@@ -161,19 +189,28 @@ const useFilenameSettingsForm = (): [V4FilenameSettings, FormStatus, FormMessage
     const isDirectoryValid = validDir(filenameSettings.directory)
     const isPatternValid = validPattern(filenameSettings.filenamePattern)
     formStatusDispatch(isDirectoryValid ? 'directoryIsValid' : 'directoryIsInvalid')
-    formStatusDispatch(isPatternValid ? 'filenamePatternIsValid' : 'filenamePatternIsInvalid')
+    formStatusDispatch(
+      isPatternValid ? 'filenamePatternIsValid' : 'filenamePatternIsInvalid'
+    )
     setDirectoryMessage(
-      isDirectoryValid ? null : { type: 'error', content: i18n('options_general_filenameSettings_message_dir') }
+      isDirectoryValid
+        ? null
+        : { type: 'error', content: i18n('options_general_filenameSettings_message_dir') }
     )
     setPatternMessage(
-      isPatternValid ? null : { type: 'error', content: i18n('options_general_filenameSettings_message_pattern') }
+      isPatternValid
+        ? null
+        : {
+            type: 'error',
+            content: i18n('options_general_filenameSettings_message_pattern'),
+          }
     )
   }, [filenameSettings])
 
   const submit = useCallback(
     async (e?: React.FormEvent<HTMLFormElement>) => {
       if (e) e.preventDefault()
-      await storageConfig.v4FilenameSettingsRepo.saveSettings(filenameSettings)
+      await v4FilenameSettingsRepo.saveSettings(filenameSettings)
       formStatusDispatch('formIsNotChanged')
     },
     [filenameSettings]
@@ -212,13 +249,16 @@ const useFilenameSettingsForm = (): [V4FilenameSettings, FormStatus, FormMessage
     [filenameSettings]
   )
 
-  const handleAggregationTokenChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    settingsDispatch({
-      type: 'setAggregationToken',
-      payload: e.target.value as AggregationToken,
-    })
-    formStatusDispatch('formIsChanged')
-  }, [])
+  const handleAggregationTokenChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      settingsDispatch({
+        type: 'setAggregationToken',
+        payload: e.target.value as AggregationToken,
+      })
+      formStatusDispatch('formIsChanged')
+    },
+    []
+  )
 
   const handleAggregationToggle = useCallback(() => {
     settingsDispatch({

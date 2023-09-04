@@ -1,24 +1,25 @@
-import React from 'react'
-
-import { Container, Heading, HStack, Stack } from '@chakra-ui/react'
+import { Container, ContainerProps, HStack, Heading, Stack } from '@chakra-ui/react'
 import About from '@pages/components/About'
 import FeatureOptions from '@pages/components/FeatureOptions'
 import FootBar from '@pages/components/FootBar'
 import GeneralOptions from '@pages/components/GeneralOptions'
+import HistoryTable from '@pages/components/History'
 import IntegrationOptions from '@pages/components/IntegrationOptions'
 import SideMenu from '@pages/components/SideMenu'
 import { i18n } from '@pages/utils'
+import React from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 
 type ContentProps = {
   title: string
   children?: JSX.Element
+  maxW?: ContainerProps['maxWidth']
 }
 
 const Content = (props: ContentProps) => {
   return (
-    <Container fontSize={'lg'} pt={10} pb={10} flex={1} maxW={'80ch'}>
-      <Stack>
+    <Container fontSize={'lg'} pt={10} pb={10} flex={1} maxW={props.maxW || '80ch'}>
+      <Stack maxH={'full'}>
         <Heading p={'1.5rem'}>{props.title}</Heading>
         {props.children}
       </Stack>
@@ -57,7 +58,14 @@ const App = () => {
                 </Content>
               }
             />
-            <Route path="/history" element={<Content title="History" />} />
+            <Route
+              path="/history"
+              element={
+                <Content title={i18n('options_sidemenu_history')} maxW={'150ch'}>
+                  <HistoryTable />
+                </Content>
+              }
+            />
             <Route path="/statistics" element={<Content title="Statistics" />} />
             <Route
               path="/about"
@@ -68,12 +76,7 @@ const App = () => {
               }
             />
           </Routes>
-          <FootBar
-            style={{
-              position: 'sticky',
-              bottom: 0,
-            }}
-          />
+          <FootBar position={'sticky'} bottom={0} width={'full'} />
         </Stack>
       </HashRouter>
     </HStack>

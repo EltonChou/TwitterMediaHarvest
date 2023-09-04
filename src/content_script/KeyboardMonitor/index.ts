@@ -1,6 +1,6 @@
-import select from 'select-dom'
-import { DownloadKey } from '../../enums'
+import { DownloadKey } from '../enums'
 import { isTwitter } from '../utils/checker'
+import select from 'select-dom'
 
 interface IKeyboardMonitor {
   handleKeyDown(e: KeyboardEvent): void
@@ -23,14 +23,20 @@ abstract class GeneralKeyboardMonitor implements IKeyboardMonitor {
   }
 
   handleKeyDown(e: KeyboardEvent): void {
-    if (!(e.target instanceof Element) || !this.#isValidTarget(e.target as Element)) return
+    if (!(e.target instanceof Element) || !this.#isValidTarget(e.target as Element))
+      return
     else if (e.key === this.downloadKey) {
       this.updateFocusing(e)
     }
   }
 
   handleKeyUp(e: KeyboardEvent): void {
-    if (!this.focusing || !(e.target instanceof Element) || !this.#isValidTarget(e.target as Element)) return
+    if (
+      !this.focusing ||
+      !(e.target instanceof Element) ||
+      !this.#isValidTarget(e.target as Element)
+    )
+      return
     else if (e.key === this.downloadKey) {
       const tweetCanBeHarvested = this.focusing.closest('[data-harvest-article]')
       if (tweetCanBeHarvested) {
@@ -41,7 +47,8 @@ abstract class GeneralKeyboardMonitor implements IKeyboardMonitor {
   }
 
   #isValidTarget(target: Element): boolean {
-    if (isTwitter() && 'classList' in target) return !target.classList.value.includes('Editor')
+    if (isTwitter() && 'classList' in target)
+      return !target.classList.value.includes('Editor')
     return true
   }
 

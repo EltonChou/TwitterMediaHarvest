@@ -1,15 +1,17 @@
-import * as IOE from 'fp-ts/lib/IOEither'
-import * as O from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/function'
-import select from 'select-dom'
 import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
 import { ParserError } from '../exceptions'
 import { isArticleInDetail } from '../utils/article'
 import { createElementFromHTML, makeButtonListener } from '../utils/maker'
+import * as IOE from 'fp-ts/lib/IOEither'
+import * as O from 'fp-ts/lib/Option'
+import { pipe } from 'fp-ts/lib/function'
+import select from 'select-dom'
 
 const getTweetIdFromArticle = (article: HTMLElement) =>
   pipe(
-    article.tagName === 'ARTICLE' ? article.dataset.tweetId : select('.js-tweet-box').dataset.key,
+    article.tagName === 'ARTICLE'
+      ? article.dataset.tweetId
+      : select('.js-tweet-box').dataset.key,
     O.fromNullable,
     IOE.fromOption(() => new ParserError('Failed to get tweet id.'))
   )

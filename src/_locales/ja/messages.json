@@ -69,6 +69,9 @@
   "options_sidemenu_integrations": {
     "message": "統合"
   },
+  "options_sidemenu_history": {
+    "message": "ダウンロード履歴"
+  },
   "options_sidemenu_about": {
     "message": "拡張について"
   },
@@ -230,5 +233,59 @@
   },
   "options_about_issues": {
     "message": "不具合を報告する"
+  },
+  "options_history_table_thumbnail": {
+    "message": "サムネイル"
+  },
+  "options_history_table_user": {
+    "message": "ユーザー"
+  },
+  "options_history_table_tweetTime": {
+    "message": "投稿時間"
+  },
+  "options_history_table_downloadTime": {
+    "message": "ダウンロード時間"
+  },
+  "options_history_table_actions": {
+    "message": "操作"
+  },
+  "options_history_table_mediaType": {
+    "message": "タイプ"
+  },
+  "options_history_table_mediaType_image": {
+    "message": "画像"
+  },
+  "options_history_table_mediaType_video": {
+    "message": "ビデオ"
+  },
+  "options_history_table_mediaType_mixed": {
+    "message": "画像 + ビデオ"
+  },
+  "options_history_table_input_placeholder_username": {
+    "message": "ユーザー名"
+  },
+  "options_history_table_select_mediaType_all": {
+    "message": "全種類"
+  },
+  "options_history_table_select_mediaType_image": {
+    "message": "画像"
+  },
+  "options_history_table_select_mediaType_video": {
+    "message": "ビデオ"
+  },
+  "options_history_table_select_mediaType_mixed": {
+    "message": "画像 + ビデオ"
+  },
+  "options_history_table_ariaLabel_prevPage": {
+    "message": "前のページ"
+  },
+  "options_history_table_ariaLabel_nextPage": {
+    "message": "次のページ"
+  },
+  "options_history_table_ariaLabel_refresh": {
+    "message": "更新"
+  },
+  "options_history_table_select_title_mediaType": {
+    "message": "メディアタイプ選択肢"
   }
 }

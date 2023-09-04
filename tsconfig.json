@@ -28,7 +28,7 @@
       "ESNEXT.Intl",
       "DOM.Iterable",
       "ES6",
-      "webworker"
+      "webworker",
     ],
     "forceConsistentCasingInFileNames": true,
     "paths": {

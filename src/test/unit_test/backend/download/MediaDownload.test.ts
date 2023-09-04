@@ -1,3 +1,6 @@
+import MediaDownloader from '@backend/downloads/MediaDownloader'
+import type { DownloadSettings, FeatureSettings, V4FilenameSettings } from '@schema'
+
 const mockDownload = jest.fn()
 const mockSendMessage = jest.fn(() => new Promise(resolve => resolve('123')))
 
@@ -22,9 +25,6 @@ jest.mock('webextension-polyfill', () => {
   }
 })
 
-import MediaDownloader from '@backend/downloads/MediaDownloader'
-import type { DownloadSettings, FeatureSettings, V4FilenameSettings } from '@schema'
-
 describe('MediaDownloader Unit Test', () => {
   const filenameSettings: V4FilenameSettings = {
     directory: 'dl',
@@ -33,7 +33,11 @@ describe('MediaDownloader Unit Test', () => {
     groupBy: '{account}',
     fileAggregation: false,
   }
-  const downloadSettings: DownloadSettings = { aggressiveMode: false, askWhereToSave: false, enableAria2: false }
+  const downloadSettings: DownloadSettings = {
+    aggressiveMode: false,
+    askWhereToSave: false,
+    enableAria2: false,
+  }
   const featureSettings: FeatureSettings = {
     autoRevealNsfw: false,
     includeVideoThumbnail: false,
@@ -60,11 +64,17 @@ describe('MediaDownloader Unit Test', () => {
   beforeEach(() => {
     mockDownload.mockReset()
     mockSendMessage.mockReset()
+    mockDownload.mockReturnValue(1)
+    mockDownload.mockResolvedValue(1)
   })
 
   it('can download medias from media catalog by browser download', async () => {
-    const downloader = new MediaDownloader(filenameSettings, downloadSettings, featureSettings)
-    await downloader.downloadMediasByMediaCatalog(tweetDetail, mediaCatalog)
+    const downloader = new MediaDownloader(
+      filenameSettings,
+      downloadSettings,
+      featureSettings
+    )
+    await downloader.downloadMediasByMediaCatalog(tweetDetail)(mediaCatalog)
     expect(mockDownload).toBeCalled()
   })
 
@@ -74,7 +84,7 @@ describe('MediaDownloader Unit Test', () => {
       { ...downloadSettings, enableAria2: true },
       featureSettings
     )
-    await downloader.downloadMediasByMediaCatalog(tweetDetail, mediaCatalog)
+    await downloader.downloadMediasByMediaCatalog(tweetDetail)(mediaCatalog)
     expect(mockSendMessage).toBeCalled()
   })
 
@@ -83,7 +93,7 @@ describe('MediaDownloader Unit Test', () => {
       ...featureSettings,
       includeVideoThumbnail: true,
     })
-    await downloader.downloadMediasByMediaCatalog(tweetDetail, mediaCatalog)
+    await downloader.downloadMediasByMediaCatalog(tweetDetail)(mediaCatalog)
     expect(mockDownload).toBeCalledTimes(4)
   })
 
@@ -92,7 +102,7 @@ describe('MediaDownloader Unit Test', () => {
       ...featureSettings,
       includeVideoThumbnail: false,
     })
-    await downloader.downloadMediasByMediaCatalog(tweetDetail, mediaCatalog)
+    await downloader.downloadMediasByMediaCatalog(tweetDetail)(mediaCatalog)
     expect(mockDownload).toBeCalledTimes(3)
   })
 })

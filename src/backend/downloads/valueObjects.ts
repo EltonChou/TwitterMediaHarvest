@@ -4,7 +4,10 @@ import path from 'path'
 /** Make original quality source of tweet media from media url */
 const makeImageOrigSrc = (url: string): string => `${url}:orig`
 
-export class TweetMediaFileVO extends ValueObject<TweetMediaFileProps> implements ITweetMediaFileDetail {
+export class TweetMediaFileVO
+  extends ValueObject<TweetMediaFileProps>
+  implements ITweetMediaFileDetail
+{
   constructor(url: string, index = 0) {
     super({ url: url, order: index })
   }

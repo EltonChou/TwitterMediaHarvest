@@ -1,5 +1,5 @@
-import React, { memo } from 'react'
-
+import { RichFeatureSwitch } from './controls/featureControls'
+import { PatternToken } from './controls/filenameControls'
 import { DEFAULT_DIRECTORY } from '@backend/constants'
 import V4FilenameSettingsUsecase from '@backend/settings/filenameSettings/usecase'
 import { Button, Flex, HStack, Input, Select, VStack } from '@chakra-ui/react'
@@ -7,8 +7,7 @@ import useDownloadSettings from '@pages/hooks/useDownloadSettings'
 import useFilenameSettingsForm from '@pages/hooks/useFilenameSettingsForm'
 import { i18n } from '@pages/utils'
 import type { FilenamePatternToken, V4FilenamePattern } from '@schema'
-import { RichFeatureSwitch } from './controls/featureControls'
-import { PatternToken } from './controls/filenameControls'
+import React, { memo } from 'react'
 
 type TokenPanelProps = {
   handleTokenToggle: (token: FilenamePatternToken, state: boolean) => void
@@ -28,25 +27,27 @@ const fp: [string, FilenamePatternToken][] = [
   // [i18n('options_general_filenamePattern_token_datetime'), '{datetime}'],
 ]
 
-const TokenPanel = memo(({ handleTokenToggle, pattern, previewFilename }: TokenPanelProps) => {
-  return (
-    <>
-      <Flex minH={'1.5em'} fontSize="1.2em">
-        {previewFilename}
-      </Flex>
-      <Flex justifyContent={'flex-start'} gap={'2'} flexWrap={'wrap'}>
-        {fp.map(([name, token]) => (
-          <PatternToken
-            key={token}
-            tokenName={name}
-            isOn={pattern.includes(token)}
-            handleChange={s => handleTokenToggle(token, s)}
-          />
-        ))}
-      </Flex>
-    </>
-  )
-})
+const TokenPanel = memo(
+  ({ handleTokenToggle, pattern, previewFilename }: TokenPanelProps) => {
+    return (
+      <>
+        <Flex minH={'1.5em'} fontSize="1.2em">
+          {previewFilename}
+        </Flex>
+        <Flex justifyContent={'flex-start'} gap={'2'} flexWrap={'wrap'}>
+          {fp.map(([name, token]) => (
+            <PatternToken
+              key={token}
+              tokenName={name}
+              isOn={pattern.includes(token)}
+              handleChange={s => handleTokenToggle(token, s)}
+            />
+          ))}
+        </Flex>
+      </>
+    )
+  }
+)
 
 const GeneralOptions = () => {
   const [filenameSettings, formStatus, formMsg, formHandler] = useFilenameSettingsForm()
@@ -104,7 +105,11 @@ const GeneralOptions = () => {
             <Input
               placeholder={DEFAULT_DIRECTORY}
               focusBorderColor={
-                formStatus.dataIsChanged ? (formStatus.directoryIsValid ? 'green.300' : 'red.300') : 'blue.300'
+                formStatus.dataIsChanged
+                  ? formStatus.directoryIsValid
+                    ? 'green.300'
+                    : 'red.300'
+                  : 'blue.300'
               }
               value={filenameSettings.directory}
               onInput={formHandler.directoryInput}
@@ -120,15 +125,24 @@ const GeneralOptions = () => {
             handleClick={formHandler.aggregationToggle}
             cursor="pointer"
           >
-            <Select isDisabled={!filenameSettings.fileAggregation} onChange={formHandler.aggregationToggle}>
-              <option value="{account}">{i18n('options_general_filenamePattern_token_account')}</option>
+            <Select
+              isDisabled={!filenameSettings.fileAggregation}
+              onChange={formHandler.aggregationToggle}
+            >
+              <option value="{account}">
+                {i18n('options_general_filenamePattern_token_account')}
+              </option>
             </Select>
           </RichFeatureSwitch>
           <HStack>
             <Button type="reset" colorScheme={'red'} variant={'outline'}>
               {i18n('resetButtonText')}
             </Button>
-            <Button type="submit" colorScheme={'green'} isDisabled={!Object.values(formStatus).every(v => v)}>
+            <Button
+              type="submit"
+              colorScheme={'green'}
+              isDisabled={!Object.values(formStatus).every(v => v)}
+            >
               {i18n('submitButtonText')}
             </Button>
           </HStack>

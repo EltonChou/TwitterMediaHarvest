@@ -26,16 +26,16 @@
         "ignoreComments": true
       }
     ],
-    "indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1,
-        "ignoredNodes": [
-          "ArrowFunctionExpression"
-        ]
-      }
-    ],
+    // "indent": [
+    //   "error",
+    //   2,
+    //   {
+    //     "SwitchCase": 1,
+    //     "ignoredNodes": [
+    //       "ArrowFunctionExpression"
+    //     ]
+    //   }
+    // ],
     "linebreak-style": [
       "error",
       "unix"
@@ -53,21 +53,21 @@
       "always"
     ],
     "no-console": "warn",
-    "sort-imports": [
-      "error",
-      {
-        "ignoreCase": true,
-        "ignoreDeclarationSort": true,
-        "ignoreMemberSort": false,
-        "memberSyntaxSortOrder": [
-          "none",
-          "all",
-          "single",
-          "multiple"
-        ],
-        "allowSeparatedGroups": false
-      }
-    ],
+    // "sort-imports": [
+    //   "error",
+    //   {
+    //     "ignoreCase": true,
+    //     "ignoreDeclarationSort": true,
+    //     "ignoreMemberSort": false,
+    //     "memberSyntaxSortOrder": [
+    //       "none",
+    //       "all",
+    //       "single",
+    //       "multiple"
+    //     ],
+    //     "allowSeparatedGroups": false
+    //   }
+    // ],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
   }

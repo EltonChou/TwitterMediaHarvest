@@ -1,5 +1,6 @@
-import type { Downloads } from 'webextension-polyfill'
 import Entity from '../entity'
+import type { DownloadHistoryItem } from '@schema'
+import type { Downloads } from 'webextension-polyfill'
 
 interface DownloadRecordProps {
   tweetInfo: TweetInfo
@@ -12,7 +13,7 @@ type DownloadRecordValueObject = {
   config: Downloads.DownloadOptionsType
 }
 
-export default class DownloadRecord extends Entity<number, DownloadRecordProps> {
+export class DownloadRecord extends Entity<number, DownloadRecordProps> {
   constructor(downloadItemId: number, props: DownloadRecordProps) {
     super(downloadItemId, props)
   }
@@ -39,5 +40,26 @@ export default class DownloadRecord extends Entity<number, DownloadRecordProps> 
       downloadConfig: valueObject.config,
     }
     return new DownloadRecord(valueObject.id, props)
+  }
+}
+
+export class DownloadHistoryEntity extends Entity<
+  string,
+  Omit<DownloadHistoryItem, 'tweetId'>
+> {
+  constructor(item: DownloadHistoryItem) {
+    const { tweetId, ...props } = item
+    super(tweetId, props)
+  }
+
+  static build(item: DownloadHistoryItem) {
+    return new DownloadHistoryEntity(item)
+  }
+
+  toDownloadHistoryItem(): DownloadHistoryItem {
+    return {
+      tweetId: this.id,
+      ...this.props,
+    }
   }
 }

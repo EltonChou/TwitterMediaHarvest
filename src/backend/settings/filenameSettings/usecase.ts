@@ -19,7 +19,9 @@ const makeDatetimeString = (date: Date): string =>
 
 // YYYYMMDD
 const makeDateString = (date: Date): string =>
-  String(date.getFullYear()) + String(date.getMonth() + 1).padStart(2, '0') + String(date.getDate()).padStart(2, '0')
+  String(date.getFullYear()) +
+  String(date.getMonth() + 1).padStart(2, '0') +
+  String(date.getDate()).padStart(2, '0')
 
 export default class V4FilenameSettingsUsecase {
   constructor(readonly settings: V4FilenameSettings) {}
@@ -50,7 +52,11 @@ export default class V4FilenameSettingsUsecase {
     }
   }
 
-  makeFullPathWithFilenameAndExt(filename: string, ext: string, aggregationDir?: string): string {
+  makeFullPathWithFilenameAndExt(
+    filename: string,
+    ext: string,
+    aggregationDir?: string
+  ): string {
     let dir = this.settings.noSubDirectory ? '' : this.settings.directory
     if (this.settings.fileAggregation && aggregationDir) {
       dir = dir + '/' + aggregationDir

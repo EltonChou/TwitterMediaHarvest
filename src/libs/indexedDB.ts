@@ -1,15 +1,19 @@
 import { DownloadDBSchema } from '@schema'
 import type { OpenDBCallbacks } from 'idb'
-import { openDB } from 'idb'
+import { deleteDB, openDB } from 'idb'
 
 abstract class BaseDB<SchemaType> {
   abstract databaseName: string
 
-  constructor(readonly version: number, private callbacks: OpenDBCallbacks<SchemaType> = {}) {}
+  constructor(
+    readonly version: number,
+    private callbacks: OpenDBCallbacks<SchemaType> = {}
+  ) {}
 
   get isSupported(): boolean {
     return (
-      (typeof window !== 'undefined' && typeof window.indexedDB !== 'undefined') || typeof indexedDB !== 'undefined'
+      (typeof window !== 'undefined' && typeof window.indexedDB !== 'undefined') ||
+      typeof indexedDB !== 'undefined'
     )
   }
 
@@ -36,16 +40,28 @@ abstract class BaseDB<SchemaType> {
   async connect() {
     return await openDB<SchemaType>(this.databaseName, this.version, this.callbacks)
   }
+
+  async delete() {
+    return await deleteDB(this.databaseName)
+  }
 }
 
 class DownloadDB extends BaseDB<DownloadDBSchema> {
   databaseName = 'download'
 }
 
-export const downloadDB = new DownloadDB(1).onUpgrade((database, oldVersion, newVersion, transaction, event) => {
-  console.log('Upgrading IndexedDB', '(' + database.name + ')', 'from', oldVersion, 'to', newVersion)
+export const downloadDB = new DownloadDB(2).onUpgrade(
+  (database, oldVersion, newVersion, transaction, event) => {
+    if (newVersion === 1) {
+      database.createObjectStore('record', { keyPath: 'id' })
+    }
 
-  if (newVersion === 1) {
-    database.createObjectStore('record', { keyPath: 'id' })
+    if (newVersion === 2) {
+      if (oldVersion !== 1) database.createObjectStore('record', { keyPath: 'id' })
+      const historyStore = database.createObjectStore('history', { keyPath: 'tweetId' })
+      historyStore.createIndex('byUserName', ['displayName', 'screenName'])
+      historyStore.createIndex('byTweetTime', 'tweetTime')
+      historyStore.createIndex('byDownloadTime', 'downloadTime')
+    }
   }
-})
+)

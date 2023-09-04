@@ -1,8 +1,15 @@
-import React from 'react'
-
 import { HamburgerIcon } from '@chakra-ui/icons'
-import { Box, Flex, IconButton, Link, useBoolean, useBreakpointValue, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  IconButton,
+  Link,
+  VStack,
+  useBoolean,
+  useBreakpointValue,
+} from '@chakra-ui/react'
 import { i18n } from '@pages/utils'
+import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 
 type MenuItemProps = {
@@ -13,7 +20,12 @@ type MenuItemProps = {
 
 const NavItem = (props: MenuItemProps) => {
   return (
-    <Link to={props.target} as={RouterLink} onClick={props.closeMenu} _hover={{ textDecoration: 'none' }}>
+    <Link
+      to={props.target}
+      as={RouterLink}
+      onClick={props.closeMenu}
+      _hover={{ textDecoration: 'none' }}
+    >
       <Box
         p="0.5em 0 0.5em 1.5em"
         _hover={{ bg: 'rgba(255, 255, 255, 0.33)' }}
@@ -33,11 +45,27 @@ const Nav = ({ closeMenu }: NavProps) => {
   return (
     <VStack spacing={6} align="normal">
       <NavItem name={i18n('options_sidemenu_general')} target="/" closeMenu={closeMenu} />
-      <NavItem name={i18n('options_sidemenu_features')} target="/features" closeMenu={closeMenu} />
-      <NavItem name={i18n('options_sidemenu_integrations')} target="/integrations" closeMenu={closeMenu} />
-      {/* <NavItem name="History" target="/history" />
-      <NavItem name="Statistics" target="/statistics" /> */}
-      <NavItem name={i18n('options_sidemenu_about')} target="/about" closeMenu={closeMenu} />
+      <NavItem
+        name={i18n('options_sidemenu_features')}
+        target="/features"
+        closeMenu={closeMenu}
+      />
+      <NavItem
+        name={i18n('options_sidemenu_integrations')}
+        target="/integrations"
+        closeMenu={closeMenu}
+      />
+      <NavItem
+        name={i18n('options_sidemenu_history')}
+        target="/history"
+        closeMenu={closeMenu}
+      />
+      {/* <NavItem name="Statistics" target="/statistics" /> */}
+      <NavItem
+        name={i18n('options_sidemenu_about')}
+        target="/about"
+        closeMenu={closeMenu}
+      />
     </VStack>
   )
 }

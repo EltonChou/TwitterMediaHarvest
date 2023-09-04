@@ -10,12 +10,14 @@ import browser from 'webextension-polyfill'
 /**
  * @param tweetInfo twitter information
  */
-export const isValidInfo = (tweetInfo: TweetInfo) => Object.values(tweetInfo).every(v => v !== undefined)
+export const isValidInfo = (tweetInfo: TweetInfo) =>
+  Object.values(tweetInfo).every(v => v !== undefined)
 
 const isSelfDownloadId = (downloadItem: Downloads.DownloadItem): boolean =>
   downloadItem?.byExtensionId === browser.runtime.id
 
-const searchDownload = (query: Downloads.DownloadQuery) => TE.tryCatch(() => browser.downloads.search(query), toError)
+const searchDownload = (query: Downloads.DownloadQuery) =>
+  TE.tryCatch(() => browser.downloads.search(query), toError)
 
 export const isDownloadedBySelf = (downloadId: number) =>
   pipe(

@@ -1,10 +1,13 @@
-import { ChakraProvider } from '@chakra-ui/react'
-import React from 'react'
-import * as ReactDOMClient from 'react-dom/client'
 import Options from './app/Options'
 import Popup from './app/Popup'
 import './main.sass'
 import theme from './themes'
+import { ChakraProvider } from '@chakra-ui/react'
+import React from 'react'
+import * as ReactDOMClient from 'react-dom/client'
+import Browser from 'webextension-polyfill'
+
+document.documentElement.setAttribute('lang', Browser.i18n.getUILanguage())
 
 // Create a root.
 const root = ReactDOMClient.createRoot(document.getElementById('root'))

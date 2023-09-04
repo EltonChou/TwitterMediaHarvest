@@ -20,15 +20,25 @@ describe('Test TwitterMediaFile usage.', () => {
 
   it('can validate url', () => {
     expect(
-      isValidTweetMediaFileUrl('https://video.twimg.com/ext_tw_video/30754565/pu/vid/720x1018/asdf.mp4')
+      isValidTweetMediaFileUrl(
+        'https://video.twimg.com/ext_tw_video/30754565/pu/vid/720x1018/asdf.mp4'
+      )
     ).toBeTruthy()
     expect(
-      isValidTweetMediaFileUrl('https://video.twimg.com/ext_tw_video/30754565/pu/vid/720x1018/asdf.mp4?tag=21')
+      isValidTweetMediaFileUrl(
+        'https://video.twimg.com/ext_tw_video/30754565/pu/vid/720x1018/asdf.mp4?tag=21'
+      )
     ).toBeFalsy()
-    expect(isValidTweetMediaFileUrl('https://pbs.twimg.com/media/safdzh.jpg')).toBeTruthy()
-    expect(isValidTweetMediaFileUrl('https://pbs.twimg.com/media/safdzhzh.jpg:orig')).toBeFalsy()
     expect(
-      isValidTweetMediaFileUrl('https://video.twimg.com/amplify_video/5465465465415/vid/1440x720/adsfasdfasdf.mp4')
+      isValidTweetMediaFileUrl('https://pbs.twimg.com/media/safdzh.jpg')
+    ).toBeTruthy()
+    expect(
+      isValidTweetMediaFileUrl('https://pbs.twimg.com/media/safdzhzh.jpg:orig')
+    ).toBeFalsy()
+    expect(
+      isValidTweetMediaFileUrl(
+        'https://video.twimg.com/amplify_video/5465465465415/vid/1440x720/adsfasdfasdf.mp4'
+      )
     ).toBeTruthy()
   })
 })

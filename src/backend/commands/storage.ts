@@ -1,7 +1,14 @@
+import {
+  downloadSettingsRepo,
+  featureSettingsRepo,
+  filenameSettingsRepo,
+  statisticsRepo,
+  twitterApiSettingsRepo,
+  v4FilenameSettingsRepo,
+} from '../configurations'
 import { V4StatsUseCase } from '@backend/statistics/useCases'
 import type { V4FilenamePattern, V4FilenameSettings } from '@schema'
 import Browser from 'webextension-polyfill'
-import { storageConfig } from '../configurations'
 
 interface StorageMigrateCommand {
   readonly version: string
@@ -19,13 +26,13 @@ export const initStorage = async () => {
   console.groupCollapsed('Initialization')
   console.info('Initializing storage...')
 
-  const statsUseCase = new V4StatsUseCase(storageConfig.statisticsRepo)
+  const statsUseCase = new V4StatsUseCase(statisticsRepo)
   await statsUseCase.syncWithDownloadHistory()
 
-  await storageConfig.downloadSettingsRepo.setDefaultSettings()
-  await storageConfig.v4FilenameSettingsRepo.setDefaultSettings()
-  await storageConfig.featureSettingsRepo.setDefaultSettings()
-  await storageConfig.twitterApiSettingsRepo.setDefaultSettings()
+  await downloadSettingsRepo.setDefaultSettings()
+  await v4FilenameSettingsRepo.setDefaultSettings()
+  await featureSettingsRepo.setDefaultSettings()
+  await twitterApiSettingsRepo.setDefaultSettings()
 
   await Browser.storage.sync.set({ version: '4.0.0' })
   await Browser.storage.local.set({ version: '4.0.0' })
@@ -61,16 +68,21 @@ class BaseStorageBackup implements StorageBackupCommand {
   }
 }
 
-export class MigrateStorageToV4 extends BaseStorageBackup implements StorageMigrateCommand {
+export class MigrateStorageToV4
+  extends BaseStorageBackup
+  implements StorageMigrateCommand
+{
   readonly version: string = '4.0.0'
 
   async migrateAsyncData() {
     console.info('Migrate sync')
-    const v3Settings = await storageConfig.filenameSettingsRepo.getSettings()
+    const v3Settings = await filenameSettingsRepo.getSettings()
     const filenamePattern: V4FilenamePattern = []
     if (v3Settings.filename_pattern.account) filenamePattern.push('{account}')
     filenamePattern.push('{tweetId}')
-    filenamePattern.push(v3Settings.filename_pattern.serial === 'order' ? '{serial}' : '{hash}')
+    filenamePattern.push(
+      v3Settings.filename_pattern.serial === 'order' ? '{serial}' : '{hash}'
+    )
 
     const v4Settings: V4FilenameSettings = {
       noSubDirectory: v3Settings.no_subdirectory,
@@ -81,7 +93,7 @@ export class MigrateStorageToV4 extends BaseStorageBackup implements StorageMigr
     }
 
     await Browser.storage.sync.remove(Object.keys(v3Settings))
-    await storageConfig.v4FilenameSettingsRepo.saveSettings(v4Settings)
+    await v4FilenameSettingsRepo.saveSettings(v4Settings)
     await Browser.storage.sync.set({ version: this.version })
   }
 

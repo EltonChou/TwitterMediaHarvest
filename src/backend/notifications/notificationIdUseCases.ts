@@ -1,7 +1,7 @@
-import browser from 'webextension-polyfill'
-import { storageConfig } from '../configurations'
+import { downloadRecordRepo } from '../configurations'
 import { downloadItemRecorder } from '../downloads/downloadItemRecorder'
 import { IDownloadRecordsRepository } from '../downloads/repositories'
+import browser from 'webextension-polyfill'
 
 interface INotificationUseCase {
   handleClose(): Promise<void>
@@ -19,7 +19,7 @@ function checkUseCase(notificationId: string): INotificationUseCase {
   if (DownloadNotificationUseCase.valid_id(notificationId)) {
     return new DownloadNotificationUseCase(
       notificationIdToDownloadItemId(notificationId),
-      storageConfig.downloadRecordRepo
+      downloadRecordRepo
     )
   }
 
@@ -65,7 +65,10 @@ class NullNotificationUseCase implements INotificationUseCase {
 }
 
 class DownloadNotificationUseCase implements INotificationUseCase {
-  constructor(readonly downloadItemId: number, private downloadRecordRepo: IDownloadRecordsRepository) {}
+  constructor(
+    readonly downloadItemId: number,
+    private downloadRecordRepo: IDownloadRecordsRepository
+  ) {}
 
   async handleButton(buttonIndex: number): Promise<void> {
     if (buttonIndex === 0) await this.openFailedTweetInNewTab()
@@ -87,9 +90,12 @@ class DownloadNotificationUseCase implements INotificationUseCase {
   }
 
   async retryDownload(): Promise<void> {
-    const { tweetInfo, downloadConfig } = await this.downloadRecordRepo.getById(this.downloadItemId)
+    const { tweetInfo, downloadConfig } = await this.downloadRecordRepo.getById(
+      this.downloadItemId
+    )
     await this.downloadRecordRepo.removeById(this.downloadItemId)
-    const downloadRecorder = downloadItemRecorder(tweetInfo)(downloadConfig)
+    const downloadRecorder =
+      downloadItemRecorder(downloadRecordRepo)(tweetInfo)(downloadConfig)
     const downloadId = await browser.downloads.download(downloadConfig)
     downloadRecorder(downloadId)
   }

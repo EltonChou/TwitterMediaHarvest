@@ -1,15 +1,15 @@
+import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
+import { ParserError } from '../exceptions'
+import { isArticlePhotoMode, selectArtcleMode } from '../utils/article'
+import { createElementFromHTML, makeButtonListener } from '../utils/maker'
 import { addBreadcrumb, captureMessage } from '@sentry/browser'
 import * as A from 'fp-ts/lib/Array'
+import { toError } from 'fp-ts/lib/Either'
 import * as IOE from 'fp-ts/lib/IOEither'
 import * as O from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/function'
 import { isEmpty, isString } from 'fp-ts/lib/string'
 import select from 'select-dom'
-import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
-import { ParserError } from '../exceptions'
-import { isArticlePhotoMode, selectArtcleMode } from '../utils/article'
-import { createElementFromHTML, makeButtonListener } from '../utils/maker'
-import { toError } from 'fp-ts/lib/Either'
 
 const featureRegEx = Object.freeze({
   id: /(?:status\/)(\d+)/,
@@ -68,22 +68,30 @@ export const parseTweetInfo = (article: HTMLElement): IOE.IOEither<Error, TweetI
 }
 
 const removeButtonStatsText = (btnContainer: HTMLElement) => {
-  select('[data-testid="app-text-transition-container"] > span > span', btnContainer)?.remove()
+  select(
+    '[data-testid="app-text-transition-container"] > span > span',
+    btnContainer
+  )?.remove()
   return btnContainer
 }
 
-const getButtonContainer = (sampleButton: HTMLElement) => pipe(sampleButton.cloneNode(true), removeButtonStatsText)
+const getButtonContainer = (sampleButton: HTMLElement) =>
+  pipe(sampleButton.cloneNode(true), removeButtonStatsText)
 const swapSvg = (mode: TweetMode) => (button: HTMLElement) => {
   const svg = select('svg', button)
   svg?.previousElementSibling.classList.add(`${mode}BG`)
   svg?.replaceWith(
-    makeButtonIcon(svg?.classList.value || 'r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi')
+    makeButtonIcon(
+      svg?.classList.value ||
+        'r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi'
+    )
   )
   return button
 }
 
 const getActionBar = (article: HTMLElement) =>
-  select('[role="group"][aria-label]', article) || select('.r-18u37iz[role="group"][id^="id__"]', article)
+  select('[role="group"][aria-label]', article) ||
+  select('.r-18u37iz[role="group"][id^="id__"]', article)
 
 const getSampleButton = (article: HTMLElement) =>
   pipe(
@@ -100,7 +108,9 @@ const makeButton = (mode: TweetMode) => (article: HTMLElement) =>
     IOE.chain(sampleBtn => pipe(sampleBtn, swapSvg(mode), IOE.right)),
     IOE.chain(btn => pipe(btn, wrapButton(mode), IOE.right)),
     IOE.chain(wrappedBtn => pipe(wrappedBtn, makeMouseHandler(mode), IOE.right)),
-    IOE.chain(wrappedBtn => pipe(wrappedBtn, makeButtonListener(parseTweetInfo(article)), IOE.right))
+    IOE.chain(wrappedBtn =>
+      pipe(wrappedBtn, makeButtonListener(parseTweetInfo(article)), IOE.right)
+    )
   )
 
 export const makeHarvestButton = (article: HTMLElement) =>

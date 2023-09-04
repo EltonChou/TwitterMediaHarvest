@@ -1,6 +1,6 @@
+import { IClientInfoRepository, InfoSyncLock } from './repositories'
 import { ClientApiError } from '@backend/errors'
 import Browser from 'webextension-polyfill'
-import { IClientInfoRepository, InfoSyncLock } from './repositories'
 
 export class ClientInfoUseCase {
   constructor(private infoRepo: IClientInfoRepository) {}

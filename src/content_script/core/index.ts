@@ -1,11 +1,11 @@
-import { toError } from 'fp-ts/lib/Either'
-import * as IOE from 'fp-ts/lib/IOEither'
-import { pipe } from 'fp-ts/lib/function'
 import { isArticleCanBeAppend } from '../utils/article'
 import { isFunctionablePath, isTweetDeck } from '../utils/checker'
 import { captureExceptionIO } from '../utils/helper'
 import DeckHarvest from './DeckHarvester'
 import { makeHarvestButton } from './Harvester'
+import { toError } from 'fp-ts/lib/Either'
+import * as IOE from 'fp-ts/lib/IOEither'
+import { pipe } from 'fp-ts/lib/function'
 
 const makeDeckButton = (article: HTMLElement) =>
   pipe(

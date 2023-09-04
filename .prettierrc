@@ -5,5 +5,7 @@
   "bracketSpacing": true,
   "arrowParens": "avoid",
   "endOfLine": "lf",
-  "printWidth": 120,
+  "printWidth": 90,
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
 }

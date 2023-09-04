@@ -1,6 +1,6 @@
-import type { FeatureSettings } from '@schema'
 import { ISettingsRepository } from '../repository'
 import type { IStorageProxy } from '@libs/proxy'
+import type { FeatureSettings } from '@schema'
 
 const defaultFeature: FeatureSettings = {
   autoRevealNsfw: false,

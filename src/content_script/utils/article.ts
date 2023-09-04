@@ -1,7 +1,8 @@
-import select from 'select-dom'
 import { isInTweetStatus } from './checker'
+import select from 'select-dom'
 
-export const isArticleInDetail = (article: HTMLElement) => select.exists('.tweet-detail', article)
+export const isArticleInDetail = (article: HTMLElement) =>
+  select.exists('.tweet-detail', article)
 
 /**
  * <article role="article" data-focusable="true" tabindex="0" class="css-1dbjc4n r-18u37iz r-1ny4l3l r-1udh08x r-1yt7n81 r-ry3cjt">
@@ -10,7 +11,8 @@ export const isArticleInDetail = (article: HTMLElement) => select.exists('.tweet
  */
 export const isArticleInStatus = (article: HTMLElement) => {
   const articleClassLength = article.classList.length
-  const isMagicLength = articleClassLength === 3 || articleClassLength === 7 || articleClassLength === 6
+  const isMagicLength =
+    articleClassLength === 3 || articleClassLength === 7 || articleClassLength === 6
   return isInTweetStatus() && isMagicLength
 }
 
@@ -28,7 +30,8 @@ export const isArticleInStream = (article: HTMLElement) => {
 /**
  * @param {HTMLElement} article
  */
-export const isArticlePhotoMode = (article: HTMLElement) => article instanceof HTMLDivElement
+export const isArticlePhotoMode = (article: HTMLElement) =>
+  article instanceof HTMLDivElement
 
 /**
  * @param {HTMLElement} article
@@ -39,11 +42,14 @@ export const selectArtcleMode = (article: HTMLElement): TweetMode => {
   return 'stream'
 }
 
-export const isAritcleHasQuotedContent = (article: HTMLElement): boolean => select.all('time', article).length > 1
+export const isAritcleHasQuotedContent = (article: HTMLElement): boolean =>
+  select.all('time', article).length > 1
 
 const makePhotoUrlPattern = (statusHref: string): string => {
   const statusUrl = new URL(statusHref)
-  return statusUrl.pathname.includes('/photo/') ? statusUrl.pathname : `${statusUrl.pathname}/photo`
+  return statusUrl.pathname.includes('/photo/')
+    ? statusUrl.pathname
+    : `${statusUrl.pathname}/photo`
 }
 
 const getPhotoElementByUrl =
@@ -51,7 +57,8 @@ const getPhotoElementByUrl =
   (article: HTMLElement): HTMLElement | undefined =>
     select(`[href*="${photoUrl}"]`, article)
 
-const getArticleAnchor = (article: HTMLElement): HTMLAnchorElement => select('[href*="status"]', article)
+const getArticleAnchor = (article: HTMLElement): HTMLAnchorElement =>
+  select('[href*="status"]', article)
 
 const aricleHasPhoto = (article: HTMLElement): boolean => {
   const articleAnchor = getArticleAnchor(article)
@@ -68,12 +75,19 @@ const getVideoCompoent = (article: HTMLElement): HTMLElement | undefined =>
 
 const articleHasVideo = (article: HTMLElement): boolean => {
   const videoComponent = getVideoCompoent(article)
-  return videoComponent && !isVideoInQuotedContent(videoComponent) && !isBelongsToCard(videoComponent)
+  return (
+    videoComponent &&
+    !isVideoInQuotedContent(videoComponent) &&
+    !isBelongsToCard(videoComponent)
+  )
 }
 
-const isBelongsToCard = (ele: HTMLElement): boolean => Boolean(ele?.closest('[data-testid="card.wrapper"]'))
-const isVideoInQuotedContent = (ele: HTMLElement) => Boolean(ele?.closest('[role="link"]'))
-const isPhotoInQuotedContent = (ele: HTMLElement) => Boolean(ele?.closest('[id^="id"]:not([aria-labelledby])'))
+const isBelongsToCard = (ele: HTMLElement): boolean =>
+  Boolean(ele?.closest('[data-testid="card.wrapper"]'))
+const isVideoInQuotedContent = (ele: HTMLElement) =>
+  Boolean(ele?.closest('[role="link"]'))
+const isPhotoInQuotedContent = (ele: HTMLElement) =>
+  Boolean(ele?.closest('[id^="id"]:not([aria-labelledby])'))
 
 export const articleHasMedia = (article: HTMLElement) =>
   article && (articleHasVideo(article) || aricleHasPhoto(article))
