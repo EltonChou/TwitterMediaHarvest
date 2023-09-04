@@ -1,6 +1,6 @@
+import { IStatisticsRepositoryV4 } from './repositories'
 import type { V4Statistics } from '@schema'
 import Browser from 'webextension-polyfill'
-import { IStatisticsRepositoryV4 } from './repositories'
 
 export class V4StatsUseCase {
   constructor(readonly statisticsRepo: IStatisticsRepositoryV4) {}
@@ -41,7 +41,10 @@ export class V4StatsUseCase {
       } as V4Statistics
     )
 
-    if (syncStats.downloadCount > stats.downloadCount && syncStats.trafficUsage > stats.trafficUsage) {
+    if (
+      syncStats.downloadCount > stats.downloadCount &&
+      syncStats.trafficUsage > stats.trafficUsage
+    ) {
       await this.statisticsRepo.saveStats(syncStats)
     }
   }

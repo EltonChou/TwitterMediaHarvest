@@ -88,7 +88,7 @@ export class IndexedDBDownloadHistoryRepository
     range?: IDBKeyRange,
     direction?: IDBCursorDirection,
     limit: number | 'inf' = 50,
-    offset: number = 0
+    offset = 0
   ) {
     const transaction = this.transaction()
     const shouldContinue = (count: number) => (limit === 'inf' ? true : count < limit)

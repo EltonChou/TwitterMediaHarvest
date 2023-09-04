@@ -1,4 +1,7 @@
-import type { CognitoIdentityCredentials, Storage } from '@aws-sdk/credential-provider-cognito-identity'
+import type {
+  CognitoIdentityCredentials,
+  Storage,
+} from '@aws-sdk/credential-provider-cognito-identity'
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers'
 import ValueObject from '@backend/valueObject'
 import type { IStorageProxy } from '@libs/proxy'
@@ -17,10 +20,14 @@ class CredentialVO extends ValueObject<AWSCredentials> {
   }
 
   get isExpired(): boolean {
-    return this.props?.expiration ? this.props.expiration < Date.now() - this.expireTimeRedundancy : true
+    return this.props?.expiration
+      ? this.props.expiration < Date.now() - this.expireTimeRedundancy
+      : true
   }
 
-  static fromCognitoIdentityCredentials(credential: CognitoIdentityCredentials): CredentialVO {
+  static fromCognitoIdentityCredentials(
+    credential: CognitoIdentityCredentials
+  ): CredentialVO {
     return new CredentialVO({
       ...credential,
       // ? Does it means the credential wouldn't expired if the expiration was undefined?
@@ -73,6 +80,8 @@ export class CredentialRepository implements ICredentialRepository {
     if (!credentialRecord) return await this.fetchCredential()
 
     const credentialsVO = new CredentialVO(credentialRecord.awsCredential)
-    return credentialsVO.isExpired ? await this.fetchCredential() : credentialsVO.credential
+    return credentialsVO.isExpired
+      ? await this.fetchCredential()
+      : credentialsVO.credential
   }
 }

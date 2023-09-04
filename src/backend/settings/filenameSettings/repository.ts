@@ -1,9 +1,9 @@
-import { PatternToken } from '@backend/enums'
-import type { V4FilenameSettings } from '@schema'
-import type { Storage } from 'webextension-polyfill'
 import { DEFAULT_DIRECTORY } from '../../../constants'
 import { ISettingsRepository } from '../repository'
+import { PatternToken } from '@backend/enums'
 import type { IStorageProxy } from '@libs/proxy'
+import type { V4FilenameSettings } from '@schema'
+import type { Storage } from 'webextension-polyfill'
 
 export type FilenameSettings = {
   directory: string
@@ -31,7 +31,9 @@ const defaultV4FilenameSettings: V4FilenameSettings = {
   fileAggregation: false,
 }
 
-export class V4FilenameSettingsRepository implements ISettingsRepository<V4FilenameSettings> {
+export class V4FilenameSettingsRepository
+  implements ISettingsRepository<V4FilenameSettings>
+{
   constructor(readonly storage: IStorageProxy<V4FilenameSettings>) {}
 
   async getSettings(): Promise<V4FilenameSettings> {
@@ -53,7 +55,9 @@ export class V4FilenameSettingsRepository implements ISettingsRepository<V4Filen
   }
 }
 
-export default class FilenameSettingsRepository implements ISettingsRepository<FilenameSettings> {
+export default class FilenameSettingsRepository
+  implements ISettingsRepository<FilenameSettings>
+{
   constructor(readonly storage: Storage.StorageArea) {}
 
   async getSettings(): Promise<FilenameSettings> {

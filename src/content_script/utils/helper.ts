@@ -1,7 +1,7 @@
+import { isBusinessRelatedTweet } from './checker'
 import { captureException, captureMessage } from '@sentry/browser'
 import type { IO } from 'fp-ts/lib/IO'
 import select from 'select-dom'
-import { isBusinessRelatedTweet } from './checker'
 
 export const revealNsfw = (article: HTMLElement) => {
   if (!article || article.dataset['autoReveal'] || isBusinessRelatedTweet(article)) return

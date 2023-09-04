@@ -1,4 +1,11 @@
-import { Forbidden, NotFound, TooManyRequest, TwitterApiError, Unauthorized, UnknownError } from '../errors'
+import {
+  Forbidden,
+  NotFound,
+  TooManyRequest,
+  TwitterApiError,
+  Unauthorized,
+  UnknownError,
+} from '../errors'
 import { i18nLocalize } from '../utils/i18n'
 
 export const getFetchError = (statusCode: number): TwitterApiError => {

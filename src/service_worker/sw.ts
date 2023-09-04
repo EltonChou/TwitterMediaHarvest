@@ -21,16 +21,16 @@ import { isDownloadedBySelf } from '@backend/utils/checker'
 import '@init'
 import {
   Action,
-  HarvestResponse,
   type HandleExchange,
   type HarvestExchange,
+  type HarvestResponse,
 } from '@libs/browser'
 import {
   init as SentryInit,
+  type User,
   addBreadcrumb,
   captureException,
   setUser,
-  type User,
 } from '@sentry/browser'
 import { toError } from 'fp-ts/lib/Either'
 import * as TE from 'fp-ts/lib/TaskEither'

@@ -11,7 +11,10 @@ type IntegrationInitAction = {
   payload: DownloadSettings
 }
 
-function reducer(settings: DownloadSettings, action: IntegrationAction | IntegrationInitAction): DownloadSettings {
+function reducer(
+  settings: DownloadSettings,
+  action: IntegrationAction | IntegrationInitAction
+): DownloadSettings {
   switch (action.type) {
     case 'toggleAggressive':
       return { ...settings, aggressiveMode: !settings.aggressiveMode }
@@ -67,7 +70,11 @@ const useDownloadSettings = (): [DownloadSettings, Toggler] => {
 
   return [
     downloadSettings,
-    { enableAria2: toggleAria2, aggressiveMode: toggleAggressive, askWhereToSave: toggleAskWhereToSave },
+    {
+      enableAria2: toggleAria2,
+      aggressiveMode: toggleAggressive,
+      askWhereToSave: toggleAskWhereToSave,
+    },
   ]
 }
 

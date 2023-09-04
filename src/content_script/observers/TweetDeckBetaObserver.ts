@@ -1,11 +1,14 @@
-import select from 'select-dom'
 import makeHarvester from '../core'
 import { articleHasMedia } from '../utils/article'
 import { isInTweetStatus } from '../utils/checker'
 import { revealNsfw } from '../utils/helper'
 import observeElement from './observer'
+import select from 'select-dom'
 
-const isColumnLoaded = () => !select.exists('[data-testid*="multi-column-layout-column-content"] [role="progressbar"]')
+const isColumnLoaded = () =>
+  !select.exists(
+    '[data-testid*="multi-column-layout-column-content"] [role="progressbar"]'
+  )
 
 export default class TweetDeckBetaObserver implements IHarvestObserver {
   constructor(public autoRevealNsfw: boolean) {}
@@ -79,6 +82,8 @@ export default class TweetDeckBetaObserver implements IHarvestObserver {
       })
     }
 
-    observeElement('Columns', 'main[role="main"] > div > div > div', cb, { childList: true })
+    observeElement('Columns', 'main[role="main"] > div > div > div', cb, {
+      childList: true,
+    })
   }
 }

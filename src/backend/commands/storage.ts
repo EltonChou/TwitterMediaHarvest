@@ -1,6 +1,3 @@
-import { V4StatsUseCase } from '@backend/statistics/useCases'
-import type { V4FilenamePattern, V4FilenameSettings } from '@schema'
-import Browser from 'webextension-polyfill'
 import {
   downloadSettingsRepo,
   featureSettingsRepo,
@@ -9,6 +6,9 @@ import {
   twitterApiSettingsRepo,
   v4FilenameSettingsRepo,
 } from '../configurations'
+import { V4StatsUseCase } from '@backend/statistics/useCases'
+import type { V4FilenamePattern, V4FilenameSettings } from '@schema'
+import Browser from 'webextension-polyfill'
 
 interface StorageMigrateCommand {
   readonly version: string

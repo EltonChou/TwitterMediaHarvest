@@ -1,12 +1,14 @@
-import type { TwitterApiSettings } from '@schema'
-import type { IStorageProxy } from '@libs/proxy'
 import { ISettingsRepository } from '../repository'
+import type { IStorageProxy } from '@libs/proxy'
+import type { TwitterApiSettings } from '@schema'
 
 const defaultSettings: TwitterApiSettings = {
   twitterApiVersion: 'gql',
 }
 
-export class TwitterApiSettingsRepository implements ISettingsRepository<TwitterApiSettings> {
+export class TwitterApiSettingsRepository
+  implements ISettingsRepository<TwitterApiSettings>
+{
   constructor(readonly storageArea: IStorageProxy<TwitterApiSettings>) {}
 
   async getSettings(): Promise<TwitterApiSettings> {

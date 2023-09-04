@@ -1,6 +1,8 @@
-import V4FilenameSettingsUsecase, { type FileInfo } from '@backend/settings/filenameSettings/usecase'
-import path from 'path'
+import V4FilenameSettingsUsecase, {
+  type FileInfo,
+} from '@backend/settings/filenameSettings/usecase'
 import type { V4FilenameSettings } from '@schema'
+import path from 'path'
 
 describe('Filename usecase unit test', () => {
   const tweetDetail: TweetDetail = {

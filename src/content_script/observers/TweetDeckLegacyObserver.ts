@@ -1,6 +1,6 @@
-import select from 'select-dom'
 import makeHarvester from '../core'
 import observeElement from './observer'
+import select from 'select-dom'
 
 const deckStreamHasMedia = (addedNode: ParentNode) => {
   const hasMedia =
@@ -10,7 +10,10 @@ const deckStreamHasMedia = (addedNode: ParentNode) => {
 
   const notQuoted = !select.exists('.quoted-tweet', addedNode)
 
-  const notYoutube = !select.exists('[rel="mediaPreview"][href*="youtube.com"]', addedNode)
+  const notYoutube = !select.exists(
+    '[rel="mediaPreview"][href*="youtube.com"]',
+    addedNode
+  )
 
   return hasMedia && notQuoted && notYoutube
 }
@@ -90,7 +93,10 @@ const observeDetail = (tweetDetail: HTMLElement) => {
 
     for (const mutation of mutations) {
       if (!before_replies) {
-        before_replies = select('.js-replies-before', mutation.target as unknown as ParentNode)
+        before_replies = select(
+          '.js-replies-before',
+          mutation.target as unknown as ParentNode
+        )
       }
       if (!after_replies) {
         after_replies = select('.replies-after', mutation.target as unknown as ParentNode)

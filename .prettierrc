@@ -6,6 +6,6 @@
   "arrowParens": "avoid",
   "endOfLine": "lf",
   "printWidth": 90,
-  "importOrderSeparation": false,
+  "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
 }
