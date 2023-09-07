@@ -2,7 +2,7 @@ import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
 import { ParserError } from '../exceptions'
 import { isArticlePhotoMode, selectArtcleMode } from '../utils/article'
 import { createElementFromHTML, makeButtonListener } from '../utils/maker'
-import { addBreadcrumb, captureMessage } from '@sentry/browser'
+import { addBreadcrumb } from '@sentry/browser'
 import * as A from 'fp-ts/lib/Array'
 import { toError } from 'fp-ts/lib/Either'
 import * as IOE from 'fp-ts/lib/IOEither'
@@ -40,10 +40,11 @@ const parseLinks = (parse: (v: string) => string) => (links: string[]) =>
         category: 'parse',
         message: msg,
         level: 'error',
-        data: links,
+        data: {
+          links,
+        },
       })
-      captureMessage(msg)
-      return new ParserError('Failed to parse link.' + `(Parser: ${parse.name})`)
+      return new ParserError(msg)
     })
   )
 
