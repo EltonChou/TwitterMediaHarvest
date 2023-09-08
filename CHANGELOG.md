@@ -1,5 +1,10 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+  - Fixed issue tracker unexpected behavior.
+
 ## [4.2.0] - 2023-09-07
 
 ### Added
