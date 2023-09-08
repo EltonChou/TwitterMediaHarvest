@@ -3,10 +3,10 @@ import { ParserError } from '../exceptions'
 import { isArticlePhotoMode, selectArtcleMode } from '../utils/article'
 import { createElementFromHTML, makeButtonListener } from '../utils/maker'
 import { addBreadcrumb } from '@sentry/browser'
-import * as A from 'fp-ts/lib/Array'
-import { toError } from 'fp-ts/lib/Either'
+import { copy as arrCopy, reduce as arrReduce } from 'fp-ts/lib/Array'
+import { fromNullable as eitherNullable, toError } from 'fp-ts/lib/Either'
 import * as IOE from 'fp-ts/lib/IOEither'
-import * as O from 'fp-ts/lib/Option'
+import { fromPredicate as optionFromPredicate } from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/function'
 import { isEmpty, isString } from 'fp-ts/lib/string'
 import select from 'select-dom'
@@ -28,25 +28,26 @@ const getLinksFromArticle = (article: HTMLElement): string[] => {
 const getTweetIdFromLink = (link: string) => link.match(featureRegEx.id)?.at(1)
 const getScreenNameFromLink = (link: string) => link.match(featureRegEx.screenName)?.at(1)
 
-const parseLinks = (parse: (v: string) => string) => (links: string[]) =>
-  pipe(
-    links,
-    A.copy,
-    A.reduce('', (pv, cv) => (pv ? pv : parse(cv))),
-    O.fromPredicate(v => isString(v) && !isEmpty(v)),
-    IOE.fromOption(() => {
-      const msg = 'Failed to parse link.' + `(Parser: ${parse.name})`
-      addBreadcrumb({
-        category: 'parse',
-        message: msg,
-        level: 'error',
-        data: {
-          links,
-        },
+const parseLinks =
+  (parserName: string) => (parse: (v: string) => string) => (links: string[]) =>
+    pipe(
+      links,
+      arrCopy,
+      arrReduce('', (pv, cv) => (pv ? pv : parse(cv))),
+      optionFromPredicate(v => isString(v) && !isEmpty(v)),
+      IOE.fromOption(() => {
+        const msg = 'Failed to parse link.' + `(Parser: ${parserName})`
+        addBreadcrumb({
+          category: 'parse',
+          message: msg,
+          level: 'error',
+          data: {
+            links,
+          },
+        })
+        return new ParserError(msg)
       })
-      return new ParserError(msg)
-    })
-  )
+    )
 
 export const parseTweetInfo = (article: HTMLElement): IOE.IOEither<Error, TweetInfo> => {
   addBreadcrumb({
@@ -59,8 +60,12 @@ export const parseTweetInfo = (article: HTMLElement): IOE.IOEither<Error, TweetI
     IOE.of({
       links: getLinksFromArticle(article),
     }),
-    IOE.bind('screenName', ctx => pipe(parseLinks(getScreenNameFromLink)(ctx.links))),
-    IOE.bind('tweetId', ctx => pipe(parseLinks(getTweetIdFromLink)(ctx.links))),
+    IOE.bind('screenName', ({ links }) =>
+      pipe(links, parseLinks('screenName')(getScreenNameFromLink))
+    ),
+    IOE.bind('tweetId', ({ links }) =>
+      pipe(links, parseLinks('tweetId')(getTweetIdFromLink))
+    ),
     IOE.map(ctx => ({
       screenName: ctx.screenName,
       tweetId: ctx.tweetId,
@@ -78,6 +83,7 @@ const removeButtonStatsText = (btnContainer: HTMLElement) => {
 
 const getButtonContainer = (sampleButton: HTMLElement) =>
   pipe(sampleButton.cloneNode(true), removeButtonStatsText)
+
 const swapSvg = (mode: TweetMode) => (button: HTMLElement) => {
   const svg = select('svg', button)
   svg?.previousElementSibling.classList.add(`${mode}BG`)
@@ -91,42 +97,37 @@ const swapSvg = (mode: TweetMode) => (button: HTMLElement) => {
 }
 
 const getActionBar = (article: HTMLElement) =>
-  select('[role="group"][aria-label]', article) ||
-  select('.r-18u37iz[role="group"][id^="id__"]', article)
+  pipe(
+    select('[role="group"][aria-label]', article) ||
+      select('.r-18u37iz[role="group"][id^="id__"]', article),
+    eitherNullable(() => new ParserError('Failed to get action bar.'))
+  )
 
 const getSampleButton = (article: HTMLElement) =>
   pipe(
     select('[data-testid="reply"] > div', article),
-    O.fromNullable,
-    IOE.fromOption(() => new ParserError('Failed to get sample button.'))
+    eitherNullable(() => new ParserError('Failed to get sample button.'))
   )
 
 const makeButton = (mode: TweetMode) => (article: HTMLElement) =>
   pipe(
-    article,
-    getSampleButton,
-    IOE.chain(sampleBtn => pipe(sampleBtn, getButtonContainer, IOE.right)),
-    IOE.chain(sampleBtn => pipe(sampleBtn, swapSvg(mode), IOE.right)),
-    IOE.chain(btn => pipe(btn, wrapButton(mode), IOE.right)),
-    IOE.chain(wrappedBtn => pipe(wrappedBtn, makeMouseHandler(mode), IOE.right)),
+    getSampleButton(article),
+    IOE.fromEither,
+    IOE.chain(sampleBtn => pipe(sampleBtn, getButtonContainer, IOE.of)),
+    IOE.chain(sampleBtn => pipe(sampleBtn, swapSvg(mode), IOE.of)),
+    IOE.chain(btn => pipe(btn, wrapButton(mode), IOE.of)),
     IOE.chain(wrappedBtn =>
-      pipe(wrappedBtn, makeButtonListener(parseTweetInfo(article)), IOE.right)
+      pipe(wrappedBtn, makeButtonListener(parseTweetInfo(article)), IOE.of)
     )
   )
 
 export const makeHarvestButton = (article: HTMLElement) =>
   pipe(
     IOE.Do,
-    IOE.bind('mode', () => pipe(selectArtcleMode(article as HTMLElement), IOE.right)),
-    IOE.bind('actionBar', () =>
-      pipe(
-        getActionBar(article),
-        O.fromNullable,
-        IOE.fromOption(() => new ParserError('Failed to get action bar.'))
-      )
-    ),
+    IOE.bind('mode', () => pipe(selectArtcleMode(article), IOE.of)),
+    IOE.bind('actionBar', () => pipe(getActionBar(article), IOE.fromEither)),
     IOE.bind('buttonWrapper', ctx => makeButton(ctx.mode)(article)),
-    IOE.tap(ctx => pipe(ctx.actionBar.appendChild(ctx.buttonWrapper), IOE.right)),
+    IOE.tap(ctx => pipe(ctx.actionBar.appendChild(ctx.buttonWrapper), IOE.of)),
     IOE.mapError(toError),
     IOE.map(() => 'success')
   )
@@ -145,34 +146,6 @@ const wrapButton =
 
     return buttonWrapper
   }
-
-const makeMouseHandler = (mode: TweetMode) => (wrappedBtn: HTMLElement) => {
-  const bgEle = select(`.${mode}BG`, wrappedBtn)
-  const btn = select('[role="button"] > div', wrappedBtn)
-
-  const handleClick = (e: MouseEvent) => {
-    if (!bgEle || !btn) return
-    bgEle.classList.toggle('click')
-    btn.classList.toggle('click')
-    e.stopImmediatePropagation()
-  }
-
-  btn.addEventListener('mouseover', () => {
-    if (!bgEle || !btn) return
-    bgEle.classList.add('hover')
-    btn.classList.add(`${mode}Color`)
-    bgEle.classList.remove('click')
-  })
-  btn.addEventListener('mouseout', () => {
-    if (!bgEle || !btn) return
-    bgEle.classList.remove('hover')
-    btn.classList.remove(`${mode}Color`)
-    bgEle.classList.remove('click')
-  })
-  btn.addEventListener('mouseup', handleClick)
-  btn.addEventListener('mousedown', handleClick)
-  return wrappedBtn
-}
 
 const makeButtonIcon = (svgStyle: string) => {
   const icon = createElementFromHTML(downloadButtonSVG)

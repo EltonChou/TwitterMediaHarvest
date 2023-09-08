@@ -57,10 +57,10 @@ const sendDownloadRequest = (infoProvider: InfoProvider) =>
   pipe(
     TE.Do,
     TE.bind('data', () => pipe(infoProvider, TE.fromIOEither)),
-    TE.tapError(e => pipe(e, captureExceptionIO, TE.fromIO, () => notifyInfoParserError)),
     TE.bind('response', exchange =>
       sendExchange({ action: Action.Download, data: exchange.data })
     ),
+    TE.tapError(e => pipe(e, captureExceptionIO, TE.fromIO, () => notifyInfoParserError)),
     TE.match(
       () => ButtonStatus.Error,
       ({ response }) => convertHarvestResponseToButtonStatus(response)

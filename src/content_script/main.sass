@@ -76,6 +76,16 @@ $harvest-yellow: rgb(241, 185, 26)
     // flex-grow: 0.4
     // padding-left: 0.85rem;
     // padding-right: 0.85rem;
+  &:hover
+    .photoBG
+      background: rgba(255, 255, 255, 0.1)
+    .statusBG, .streamBG
+      background: rgba(241, 185, 26, 0.1)
+  &:active
+    .photoBG
+      background: rgba(255, 255, 255, 0.2)
+    .statusBG, .streamBG
+      background: rgba(241, 185, 26, 0.2)
 
 .photoColor
   color: rgb(255, 255, 255) !important
@@ -84,18 +94,6 @@ $harvest-yellow: rgb(241, 185, 26)
 .statusColor, .streamColor
   // color: rgb(29, 161, 242)
   color: $harvest-yellow !important
-
-.photoBG
-  &.hover
-    background: rgba(255, 255, 255, 0.1)
-  &.click
-    background: rgba(255, 255, 255, 0.2)
-
-.statusBG, .streamBG
-  &.hover
-    background: rgba(241, 185, 26, 0.1)
-  &.click
-    background: rgba(241, 185, 26, 0.2)
 
 // tweetdeck
 =dark-deck-harvester
