@@ -41,12 +41,6 @@ interface SentryUser extends User {
   client_id: string
 }
 
-const enum InstallReason {
-  Install = 'install',
-  Update = 'update',
-  BrowserUpdate = 'browser_update',
-}
-
 const fetchUser = async (): Promise<SentryUser> => {
   const sentryUser: SentryUser = {
     id: 'NULL_ID',
@@ -85,21 +79,7 @@ const handleDownload: HandleExchange<Action.Download> = async ({ data }) => {
 }
 
 const handleUserFetch: HandleExchange<Action.FetchUser> = async exchange => {
-  const sentryUser: SentryUser = {
-    id: 'NULL_ID',
-    client_id: 'NULL_UUID',
-  }
-
-  try {
-    const credential = await credentialsRepo.getCredential()
-    const clientInfo = await clientInfoRepo.getInfo()
-
-    sentryUser.id = credential.identityId
-    sentryUser.client_id = clientInfo.props.uuid
-  } catch (error) {
-    console.error(error)
-  }
-
+  const sentryUser = await fetchUser()
   return { status: 'success', data: sentryUser }
 }
 
@@ -146,16 +126,16 @@ browser.runtime.onInstalled.addListener(async details => {
     console.error(error)
   }
 
-  if (details.reason === InstallReason.BrowserUpdate) return
+  if (details.reason === 'browser_update') return
 
-  if (details.reason === InstallReason.Install) {
+  if (details.reason === 'install') {
     await initStorage()
   }
 
-  if (details.reason === InstallReason.Update) {
+  if (details.reason === 'update') {
     const statsUseCase = new V4StatsUseCase(statisticsRepo)
-    await statsUseCase.syncWithDownloadHistory()
     const migrateCommand = new MigrateStorageToV4()
+    await statsUseCase.syncWithDownloadHistory()
     await migrateCommand.execute()
     showUpdateMessageInConsole(details.previousVersion)
   }
