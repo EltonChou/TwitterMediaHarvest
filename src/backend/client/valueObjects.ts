@@ -1,9 +1,10 @@
 import ValueObject from '@backend/valueObject'
+import { TimeHelper } from '@libs/helpers'
 import type { ClientInfo } from '@schema'
 
 export class ClientInfoVO extends ValueObject<ClientInfo> {
   private syncPeriod: number =
-    (process.env.NODE_ENV === 'production' ? 30 : 10) * 60 * 1000
+    process.env.NODE_ENV === 'production' ? TimeHelper.minute(30) : TimeHelper.minute(10)
 
   constructor(info: ClientInfo) {
     super(info)

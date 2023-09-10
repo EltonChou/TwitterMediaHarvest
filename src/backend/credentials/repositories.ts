@@ -4,12 +4,13 @@ import type {
 } from '@aws-sdk/credential-provider-cognito-identity'
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers'
 import ValueObject from '@backend/valueObject'
+import { TimeHelper } from '@libs/helpers'
 import type { IStorageProxy } from '@libs/proxy'
 import type { AWSCredentials, AWSCredentialsItem } from '@schema'
 import Browser from 'webextension-polyfill'
 
 class CredentialVO extends ValueObject<AWSCredentials> {
-  readonly expireTimeRedundancy: number = 3 * 60 * 1000
+  readonly expireTimeRedundancy: number = TimeHelper.minute(3)
 
   constructor(props: AWSCredentials) {
     super(props)
