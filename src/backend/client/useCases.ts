@@ -1,6 +1,30 @@
-import { IClientInfoRepository, InfoSyncLock } from './repositories'
+import { IClientInfoRepository } from './repositories'
 import { ClientApiError } from '@backend/errors'
-import Browser from 'webextension-polyfill'
+import { TimeHelper } from '@libs/helpers'
+import Browser, { type Storage } from 'webextension-polyfill'
+
+const INFO_SYNC_LOCK_CRITERIA = 'INFO_SYNC_LOCK'
+const INFO_SYNC_LOCK_MAX_TIME = TimeHelper.minute(10)
+
+class InfoSyncLock implements IProcessLock {
+  constructor(readonly storageArea: Storage.StorageArea) {}
+
+  async isLocked(): Promise<boolean> {
+    const record = await this.storageArea.get(INFO_SYNC_LOCK_CRITERIA)
+    return (
+      Object.keys(record).includes(INFO_SYNC_LOCK_CRITERIA) &&
+      Date.now() - record[INFO_SYNC_LOCK_CRITERIA] <= INFO_SYNC_LOCK_MAX_TIME
+    )
+  }
+
+  async release(): Promise<void> {
+    await this.storageArea.remove(INFO_SYNC_LOCK_CRITERIA)
+  }
+
+  async acquire(): Promise<void> {
+    await this.storageArea.set({ [INFO_SYNC_LOCK_CRITERIA]: Date.now() })
+  }
+}
 
 export class ClientInfoUseCase {
   constructor(private infoRepo: IClientInfoRepository) {}

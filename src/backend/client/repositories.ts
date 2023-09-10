@@ -8,7 +8,6 @@ import { CreateClientFailed, UpdateStatsFailed } from '@backend/errors'
 import type { IStorageProxy } from '@libs/proxy'
 import type { ClientInfo, V4Statistics } from '@schema'
 import jws from 'jws'
-import type { Storage } from 'webextension-polyfill'
 import Browser from 'webextension-polyfill'
 
 type UpdateInfo = Pick<ClientInfo, 'csrfToken' | 'syncedAt'>
@@ -35,29 +34,6 @@ export interface IClientInfoRepository {
   getInfo(options?: ProviderOptions): Promise<ClientInfoVO>
   updateStats(options?: ProviderOptions): Promise<void>
   resetInfo(): Promise<void>
-}
-
-export class InfoSyncLock implements IProcessLock {
-  private lockCriteria = 'InfoUpdateLock'
-  private maxLockTime = 10 * 60 * 1000
-
-  constructor(readonly storageArea: Storage.StorageArea) {}
-
-  async isLocked(): Promise<boolean> {
-    const record = await this.storageArea.get(this.lockCriteria)
-    return (
-      Object.keys(record).includes(this.lockCriteria) &&
-      record[this.lockCriteria] - Date.now() <= this.maxLockTime
-    )
-  }
-
-  async release(): Promise<void> {
-    await this.storageArea.remove(this.lockCriteria)
-  }
-
-  async acquire(): Promise<void> {
-    await this.storageArea.set({ [this.lockCriteria]: Date.now() })
-  }
 }
 
 export class ClientInfoRepository implements IClientInfoRepository {
