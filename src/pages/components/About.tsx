@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
-
 import { clientInfoRepo } from '@backend/configurations'
 import { Link, Stack, Text } from '@chakra-ui/react'
 import ExtLinks from '@pages/links'
 import { i18n } from '@pages/utils'
+import React, { useEffect, useState } from 'react'
 import browser from 'webextension-polyfill'
 
 const ProductInformation = () => {
@@ -31,19 +30,44 @@ const ProductInformation = () => {
 const Links = () => {
   return (
     <Stack>
-      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.website} textTransform={'capitalize'}>
+      <Link
+        isExternal
+        referrerPolicy="no-referrer"
+        href={ExtLinks.website}
+        textTransform={'capitalize'}
+      >
         {i18n('options_about_officialWebsite')}
       </Link>
-      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.privacy} textTransform={'capitalize'}>
+      <Link
+        isExternal
+        referrerPolicy="no-referrer"
+        href={ExtLinks.privacy}
+        textTransform={'capitalize'}
+      >
         {i18n('options_about_privacyPolicy')}
       </Link>
-      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.issues} textTransform={'capitalize'}>
+      <Link
+        isExternal
+        referrerPolicy="no-referrer"
+        href={ExtLinks.issues}
+        textTransform={'capitalize'}
+      >
         {i18n('options_about_issues')}
       </Link>
-      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.changelog} textTransform={'capitalize'}>
+      <Link
+        isExternal
+        referrerPolicy="no-referrer"
+        href={ExtLinks.changelog}
+        textTransform={'capitalize'}
+      >
         {i18n('options_about_changeLog')}
       </Link>
-      <Link isExternal referrerPolicy="no-referrer" href={ExtLinks.github} textTransform={'capitalize'}>
+      <Link
+        isExternal
+        referrerPolicy="no-referrer"
+        href={ExtLinks.github}
+        textTransform={'capitalize'}
+      >
         Github
       </Link>
     </Stack>

@@ -55,9 +55,6 @@ const config = {
         exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
-          // options: {
-          //   presets: ['@babel/preset-env'],
-          // },
         },
       },
       {
@@ -66,7 +63,6 @@ const config = {
         use: [
           {
             loader: 'babel-loader',
-            // options: { presets: ['@babel/preset-env'] },
           },
           { loader: 'ts-loader' },
         ],
@@ -122,8 +118,12 @@ const config = {
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production'
   const versionName = `${version} (${env.target})`
-  const release_name = env.RELEASE_NAME || PACKAGE.name + '(' + env.target + ')' + '@' + version
-  config.resolve.alias['@init'] = path.resolve(__dirname, `src/service_worker/${env.target}/initialization.ts`)
+  const release_name =
+    env.RELEASE_NAME || PACKAGE.name + '(' + env.target + ')' + '@' + version
+  config.resolve.alias['@init'] = path.resolve(
+    __dirname,
+    `src/service_worker/${env.target}/initialization.ts`
+  )
 
   config.output = {
     filename: '[name].js',
@@ -142,7 +142,10 @@ module.exports = (env, argv) => {
           contentJson['version'] = version
           contentJson['version_name'] = versionName
 
-          if ((env.target === 'chrome' && isProduction) || (env.target === 'edge' && !isProduction)) {
+          if (
+            (env.target === 'chrome' && isProduction) ||
+            (env.target === 'edge' && !isProduction)
+          ) {
             contentJson['key'] = PublicKey[env.target]
           }
 
@@ -167,7 +170,10 @@ module.exports = (env, argv) => {
             .replace('__MANIFEST_VERSION_NAME__', versionName)
 
           if (!isProduction) {
-            contentStr = contentStr.replace('mediaharvest@addons.mozilla.org', 'mediaharvest@test')
+            contentStr = contentStr.replace(
+              'mediaharvest@addons.mozilla.org',
+              'mediaharvest@test'
+            )
           }
 
           return Buffer.from(contentStr)

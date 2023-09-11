@@ -1,11 +1,10 @@
-import React from 'react'
-
+import type { HelperMessage } from './controls/featureControls'
+import { RichFeatureSwitch } from './controls/featureControls'
 import { Link, VStack } from '@chakra-ui/react'
 import useDownloadSettings from '@pages/hooks/useDownloadSettings'
 import Links from '@pages/links'
 import { i18n } from '@pages/utils'
-import type { HelperMessage } from './controls/featureControls'
-import { RichFeatureSwitch } from './controls/featureControls'
+import React from 'react'
 
 const Aria2Description = () => {
   const desc = i18n('options_integrations_dispatchToAria2_desc')

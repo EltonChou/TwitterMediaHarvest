@@ -22,7 +22,10 @@ import { BiCoffeeTogo, BiFile } from 'react-icons/bi'
 import { FaGithub } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import type { IconType } from 'react-icons/lib'
-import { MdOutlineSentimentDissatisfied, MdOutlineSentimentSatisfied } from 'react-icons/md'
+import {
+  MdOutlineSentimentDissatisfied,
+  MdOutlineSentimentSatisfied,
+} from 'react-icons/md'
 import browser from 'webextension-polyfill'
 
 const NavBar = () => {
@@ -86,10 +89,18 @@ const ReactionsBlock = () => {
   return (
     <Stack spacing={2} fontSize={'0.8em'}>
       <Link href={Links.store} target="_blank">
-        <Reaction name={i18n('popup_reactions_rate')} iconColor={'brand.green'} icon={MdOutlineSentimentSatisfied} />
+        <Reaction
+          name={i18n('popup_reactions_rate')}
+          iconColor={'brand.green'}
+          icon={MdOutlineSentimentSatisfied}
+        />
       </Link>
       <Link href={Links.issues} target="_blank">
-        <Reaction name={i18n('popup_reactions_report')} iconColor={'brand.red'} icon={MdOutlineSentimentDissatisfied} />
+        <Reaction
+          name={i18n('popup_reactions_report')}
+          iconColor={'brand.red'}
+          icon={MdOutlineSentimentDissatisfied}
+        />
       </Link>
     </Stack>
   )
@@ -129,7 +140,16 @@ const Footer = () => {
   const [info, setInfo] = useState(versionName)
   const resetInfo = useCallback(() => setInfo(versionName), [])
   return (
-    <Flex bg="#404040" bottom="0" w="100%" h="50px" pl={5} pr={5} justify="center" align="center">
+    <Flex
+      bg="#404040"
+      bottom="0"
+      w="100%"
+      h="50px"
+      pl={5}
+      pr={5}
+      justify="center"
+      align="center"
+    >
       <Box fontSize={'md'} ml="8px" mr="8px" color="white">
         {info}
       </Box>
@@ -171,7 +191,13 @@ const Popup = () => {
       <NavBar />
       <Stack spacing={4} height="375px" fontSize={baseFontSize} flexGrow={1}>
         <Stats />
-        <PopupFeatureBlock spacing={3} justify="center" flex={1} pl={featurePadding} pr={featurePadding} />
+        <PopupFeatureBlock
+          spacing={3}
+          justify="center"
+          flex={1}
+          pl={featurePadding}
+          pr={featurePadding}
+        />
         <VStack align={'center'} flex="1" spacing={3}>
           <ReactionsBlock />
         </VStack>

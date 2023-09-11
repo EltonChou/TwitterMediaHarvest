@@ -95,7 +95,7 @@
     "build:firefox": "webpack --mode=production --progress --color --env target=firefox",
     "build:firefox:dev": "webpack --mode=development --progress --color --env target=firefox",
     "watch": "yarn build:dev --watch",
-    "lint": "eslint --color --quiet --ext .js --ext .ts src/ --fix"
+    "lint": "eslint --color --quiet --ext .js --ext .ts --ext .tsx src/ --fix"
   },
   "jest": {
     "preset": "ts-jest/presets/default-esm",

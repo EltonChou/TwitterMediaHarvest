@@ -1,5 +1,3 @@
-import React, { useId } from 'react'
-
 import { InfoIcon, WarningTwoIcon } from '@chakra-ui/icons'
 import {
   Box,
@@ -14,6 +12,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import useLocaleVariables from '@pages/hooks/useLocaleVariables'
+import React, { useId } from 'react'
 
 type FeatureSwitchPros = {
   isOn: boolean
@@ -21,15 +20,35 @@ type FeatureSwitchPros = {
   labelContent: string
 }
 
-export const FeatureSwitch = ({ isOn, handleChange, labelContent }: FeatureSwitchPros) => {
+export const FeatureSwitch = ({
+  isOn,
+  handleChange,
+  labelContent,
+}: FeatureSwitchPros) => {
   const controlId = useId()
-  const switchMb = useLocaleVariables({ base: 'unset', ja: '4px !important', zh: '4px !important' })
+  const switchMb = useLocaleVariables({
+    base: 'unset',
+    ja: '4px !important',
+    zh: '4px !important',
+  })
   return (
     <HStack>
-      <FormLabel htmlFor={controlId} mb="0" flex={1} cursor="pointer" fontSize={'inherit'}>
+      <FormLabel
+        htmlFor={controlId}
+        mb="0"
+        flex={1}
+        cursor="pointer"
+        fontSize={'inherit'}
+      >
         {labelContent}
       </FormLabel>
-      <Switch id={controlId} isChecked={isOn} onChange={handleChange} colorScheme="cyan" mb={switchMb} />
+      <Switch
+        id={controlId}
+        isChecked={isOn}
+        onChange={handleChange}
+        colorScheme="cyan"
+        mb={switchMb}
+      />
     </HStack>
   )
 }
@@ -79,7 +98,12 @@ export const RichFeatureSwitch = ({
   const id = useId()
   return (
     <FormControl label={name} isDisabled={isDisable}>
-      <FormLabel htmlFor={id} cursor={isDisable ? 'not-allowed' : cursor} marginInlineEnd={0} fontSize={'1em'}>
+      <FormLabel
+        htmlFor={id}
+        cursor={isDisable ? 'not-allowed' : cursor}
+        marginInlineEnd={0}
+        fontSize={'1em'}
+      >
         <HStack
           spacing={8}
           p={'1.5rem'}
@@ -100,7 +124,13 @@ export const RichFeatureSwitch = ({
           </Stack>
           {handleClick && (
             <Box alignSelf={'stretch'}>
-              <Switch id={id} isChecked={isOn} onChange={handleClick} colorScheme={'cyan'} size={'md'} />
+              <Switch
+                id={id}
+                isChecked={isOn}
+                onChange={handleClick}
+                colorScheme={'cyan'}
+                size={'md'}
+              />
             </Box>
           )}
         </HStack>

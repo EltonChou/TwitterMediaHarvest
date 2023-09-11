@@ -1,10 +1,9 @@
-import React from 'react'
-
+import { DownloadKey } from '../../content_script/enums'
+import { RichFeatureSwitch } from './controls/featureControls'
 import { Kbd, Text, VStack } from '@chakra-ui/react'
 import useFeatureSettings from '@pages/hooks/useFeatureSettings'
 import { i18n } from '@pages/utils'
-import { DownloadKey } from '../../content_script/enums'
-import { RichFeatureSwitch } from './controls/featureControls'
+import React from 'react'
 
 const KeyboardShortcutDesc = () => {
   return (
