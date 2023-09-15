@@ -384,8 +384,8 @@ export const createAllApiUseCasesByTweetId = (tweetId: string): ITweetUseCase[] 
 ]
 
 export const sortUseCasesByVersion =
-  (useCases: ITweetUseCase[]) =>
-  (priorityVersion: TwitterApiVersion): ITweetUseCase[] =>
+  (priorityVersion: TwitterApiVersion) =>
+  (useCases: ITweetUseCase[]): ITweetUseCase[] =>
     [...useCases].sort((a, b) => {
       if (a.version === priorityVersion) return -1
       if (b.version === priorityVersion) return 1

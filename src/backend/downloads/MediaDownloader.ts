@@ -1,11 +1,6 @@
-import {
-  downloadRecordRepo,
-  downloadSettingsRepo,
-  featureSettingsRepo,
-  v4FilenameSettingsRepo,
-} from '../configurations'
 import type { DownloadItemRecorder } from './downloadItemRecorder'
 import { downloadItemRecorder } from './downloadItemRecorder'
+import { IDownloadRecordsRepository } from './repositories'
 import { isValidTweetMediaFileUrl } from './utils/checker'
 import { TweetMediaFileVO } from './valueObjects'
 import { DownloadSettingsUseCase } from '@backend/settings/downloadSettings/useCases'
@@ -22,15 +17,9 @@ export default class MediaDownloader {
   constructor(
     readonly filenameSettings: V4FilenameSettings,
     readonly downloadSettings: DownloadSettings,
-    readonly featureSettings: FeatureSettings
+    readonly featureSettings: FeatureSettings,
+    readonly downloadRecordRepo: IDownloadRecordsRepository
   ) {}
-
-  static async build() {
-    const fileNameSettings = await v4FilenameSettingsRepo.getSettings()
-    const downloadSettings = await downloadSettingsRepo.getSettings()
-    const featureSettings = await featureSettingsRepo.getSettings()
-    return new MediaDownloader(fileNameSettings, downloadSettings, featureSettings)
-  }
 
   private async downloadMedia(
     source: string,
@@ -49,7 +38,7 @@ export default class MediaDownloader {
 
   downloadMediasByMediaCatalog(tweetDetail: TweetDetail) {
     return async (mediaCatalog: TweetMediaCatalog) => {
-      const recordConfig = downloadItemRecorder(downloadRecordRepo)({
+      const recordConfig = downloadItemRecorder(this.downloadRecordRepo)({
         tweetId: tweetDetail.id,
         screenName: tweetDetail.screenName,
       })

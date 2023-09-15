@@ -48,17 +48,15 @@ class BrowserSyncStorageProxy implements Storage {
   }
 
   async removeItem(key: string): Promise<void> {
-    return await Browser.storage.sync.remove(key)
+    return Browser.storage.sync.remove(key)
   }
 
   async setItem(key: string, data: string): Promise<void> {
-    return await Browser.storage.sync.set({ [key]: data })
+    return Browser.storage.sync.set({ [key]: data })
   }
 }
 
 export class CredentialRepository implements ICredentialRepository {
-  readonly credentialCriteria = 'awsCredential'
-
   constructor(readonly storageArea: IStorageProxy<AWSCredentialsItem>) {}
 
   private async fetchCredential(): Promise<CognitoIdentityCredentials> {
@@ -77,12 +75,10 @@ export class CredentialRepository implements ICredentialRepository {
   }
 
   async getCredential(): Promise<CognitoIdentityCredentials> {
-    const credentialRecord = await this.storageArea.getItemByKey(this.credentialCriteria)
-    if (!credentialRecord) return await this.fetchCredential()
+    const credentialRecord = await this.storageArea.getItemByKey('awsCredential')
+    if (!credentialRecord) return this.fetchCredential()
 
     const credentialsVO = new CredentialVO(credentialRecord.awsCredential)
-    return credentialsVO.isExpired
-      ? await this.fetchCredential()
-      : credentialsVO.credential
+    return credentialsVO.isExpired ? this.fetchCredential() : credentialsVO.credential
   }
 }

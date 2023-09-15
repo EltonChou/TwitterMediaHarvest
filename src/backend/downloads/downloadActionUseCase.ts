@@ -5,7 +5,14 @@ import {
 } from '../notifications/notifyUseCases'
 import MediaDownloader from './MediaDownloader'
 import { DownloadHistoryEntity } from './models'
-import { downloadHistoryRepo, twitterApiSettingsRepo } from '@backend/configurations'
+import {
+  downloadHistoryRepo,
+  downloadRecordRepo,
+  downloadSettingsRepo,
+  featureSettingsRepo,
+  twitterApiSettingsRepo,
+  v4FilenameSettingsRepo,
+} from '@backend/configurations'
 import {
   MediaTweetUseCases,
   createAllApiUseCasesByTweetId,
@@ -61,9 +68,9 @@ export default class DownloadActionUseCase {
     logDownloadProcess(this.tweetInfo)
 
     const { twitterApiVersion } = await twitterApiSettingsRepo.getSettings()
-    const tweetUseCases = sortUseCasesByVersion(
+    const tweetUseCases = sortUseCasesByVersion(twitterApiVersion)(
       createAllApiUseCasesByTweetId(this.tweetInfo.tweetId)
-    )(twitterApiVersion)
+    )
 
     let err: Error = undefined
     while (tweetUseCases.length > 0 && mediaCatalog === undefined) {
@@ -84,7 +91,15 @@ export default class DownloadActionUseCase {
     const historyItem = makeDownloadHistoryItem(mediaCatalog)(tweet)
     await downloadHistoryRepo.save(historyItem)
 
-    const mediaDownloader = await MediaDownloader.build()
+    const fileNameSettings = await v4FilenameSettingsRepo.getSettings()
+    const downloadSettings = await downloadSettingsRepo.getSettings()
+    const featureSettings = await featureSettingsRepo.getSettings()
+    const mediaDownloader = new MediaDownloader(
+      fileNameSettings,
+      downloadSettings,
+      featureSettings,
+      downloadRecordRepo
+    )
     await mediaDownloader.downloadMediasByMediaCatalog(tweet)(mediaCatalog)
   }
 
