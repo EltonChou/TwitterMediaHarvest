@@ -85,9 +85,9 @@ const articleHasVideo = (article: HTMLElement): boolean => {
 const isBelongsToCard = (ele: HTMLElement): boolean =>
   Boolean(ele?.closest('[data-testid="card.wrapper"]'))
 const isVideoInQuotedContent = (ele: HTMLElement) =>
-  Boolean(ele?.closest('[role="link"]'))
+  Boolean(ele?.closest('[role="link"]')?.querySelector('time'))
 const isPhotoInQuotedContent = (ele: HTMLElement) =>
-  Boolean(ele?.closest('[id^="id"]:not([aria-labelledby])'))
+  Boolean(ele?.closest('[id^="id"]:not([aria-labelledby])')?.querySelector('time'))
 
 export const articleHasMedia = (article: HTMLElement) =>
   article && (articleHasVideo(article) || aricleHasPhoto(article))
