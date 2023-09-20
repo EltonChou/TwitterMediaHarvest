@@ -1,9 +1,11 @@
 import { downloadHistoryRepo } from '@backend/configurations'
 import type { DownloadHistoryEntity } from '@backend/downloads/models'
 import type { DownloadItemPredicate } from '@backend/downloads/repositories'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 export type SearchPredicate = DownloadItemPredicate
+
+type Callbacks = Array<() => void>
 
 type DownloadHistory = {
   info: {
@@ -13,13 +15,19 @@ type DownloadHistory = {
     currentPage: number
   }
   handler: {
-    refresh: (...cbs: Array<() => void>) => void
-    nextPage: (...cbs: Array<() => void>) => void
-    prevPage: (...cbs: Array<() => void>) => void
+    refresh: (...cbs: Callbacks) => void
+    nextPage: (...cbs: Callbacks) => void
+    prevPage: (...cbs: Callbacks) => void
+    setPage: (...cbs: Callbacks) => void
     setItemPerPage: (count: number) => void
     search: (...predicates: SearchPredicate[]) => void
   }
   entities: DownloadHistoryEntity[]
+}
+
+type SearchParams = {
+  count: number
+  skip: number
 }
 
 const calcSkip = (itemPerPage: number) => (page: number) => (page - 1) * itemPerPage
@@ -35,53 +43,58 @@ const useDownloadHistory = (itemCount: number): DownloadHistory => {
   const [isLoaded, setLoaded] = useState(false)
   const [total, setTotal] = useState(0)
 
-  const loadLatest = (count: number) => (skip: number) => {
-    const setStates = ([items, count]: [DownloadHistoryEntity[], number]) => {
-      setItems(items)
-      setTotal(count)
-      const totalPages = calcTotalPages(itemPerPage)(count)
-      setPageCount(totalPages)
-    }
+  const loadLatest = useCallback(
+    ({ count, skip }: SearchParams) => {
+      const setStates = ([items, count]: [DownloadHistoryEntity[], number]) => {
+        setItems(items)
+        setTotal(count)
+        const totalPages = calcTotalPages(itemPerPage)(count)
+        setPageCount(totalPages)
+      }
 
-    return predicates.length === 0
-      ? Promise.all([
-          downloadHistoryRepo.getLatest(count, skip),
-          downloadHistoryRepo.count(),
-        ]).then(setStates)
-      : downloadHistoryRepo
-          .search(...predicates)(count, skip)
-          .then(setStates)
-  }
-
-  const refresh = (...cbs: Array<() => void>) => {
-    setPredicates([])
-    cbs.forEach(cb => cb())
-  }
+      return predicates.length === 0
+        ? Promise.all([
+            downloadHistoryRepo.getLatest(count, skip),
+            downloadHistoryRepo.count(),
+          ]).then(setStates)
+        : downloadHistoryRepo
+            .search(...predicates)(count, skip)
+            .then(setStates)
+    },
+    [predicates, itemPerPage]
+  )
 
   useEffect(() => {
-    loadLatest(itemCount)(0).then(() => {
+    loadLatest({ count: itemCount, skip: 0 }).then(() => {
       setCurrentPage(1)
       setLoaded(true)
     })
-  }, [predicates])
+  }, [predicates, itemCount, loadLatest])
 
-  const prevPage = (...cbs: Array<() => void>) => {
+  const prevPage: DownloadHistory['handler']['prevPage'] = (...cbs) => {
     if (currentPage === 1) return
     const page = currentPage - 1
     setCurrentPage(page)
-    loadLatest(itemPerPage)(calcSkip(itemPerPage)(page))
+    loadLatest({ count: itemPerPage, skip: calcSkip(itemPerPage)(page) })
     cbs.forEach(cb => cb())
   }
 
-  const nextPage = (...cbs: Array<() => void>) => {
+  const nextPage: DownloadHistory['handler']['nextPage'] = (...cbs) => {
     if (currentPage === pageCount) return
     const page = currentPage + 1
     setCurrentPage(page)
-    loadLatest(itemPerPage)(calcSkip(itemPerPage)(page))
+    loadLatest({ count: itemPerPage, skip: calcSkip(itemPerPage)(page) })
     cbs.forEach(cb => cb())
   }
 
-  const search = (...predicates: SearchPredicate[]) => setPredicates(predicates)
+  const setPage: DownloadHistory['handler']['setPage'] =
+    (...cbs) =>
+    (page: number) => {
+      if (currentPage === page) return
+      setCurrentPage(page)
+      loadLatest({ count: itemPerPage, skip: calcSkip(itemPerPage)(page) })
+      cbs.forEach(cb => cb())
+    }
 
   return {
     info: {
@@ -91,11 +104,15 @@ const useDownloadHistory = (itemCount: number): DownloadHistory => {
       currentPage: currentPage,
     },
     handler: {
-      refresh,
+      setPage,
       nextPage,
       prevPage,
       setItemPerPage,
-      search,
+      search: (...predicates) => setPredicates(predicates),
+      refresh: (...cbs) => {
+        setPredicates([])
+        cbs.forEach(cb => cb())
+      },
     },
     entities: historyEntities,
   }
