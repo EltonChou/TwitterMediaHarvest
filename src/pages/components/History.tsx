@@ -289,15 +289,24 @@ const HistoryTable = () => {
             type="search"
             name="username"
             placeholder={i18n('options_history_table_input_placeholder_username')}
-            onInput={search}
-            onChange={search}
+            onInput={() => {
+              search()
+              scrollTableToTop()
+            }}
+            onChange={() => {
+              search()
+              scrollTableToTop()
+            }}
             flexShrink={1}
           />
           <Select
             ref={mediaTypeSelectRef}
             title={i18n('options_history_table_select_title_mediaType')}
             name="mediaType"
-            onChange={search}
+            onChange={() => {
+              search()
+              scrollTableToTop()
+            }}
             defaultValue={MediaTypeSelectToken.ALL}
             flexShrink={4}
           >

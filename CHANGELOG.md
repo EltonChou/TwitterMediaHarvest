@@ -4,6 +4,8 @@
 
 ### Fixed
   - Fixed issue tracker unexpected behavior.
+  - Fixed quoted content checker.
+  - Fixed history table controller behavior.
 
 ## [4.2.0] - 2023-09-07
 
