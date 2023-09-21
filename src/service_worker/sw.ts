@@ -12,12 +12,13 @@ import {
   downloadRecordRepo,
   statisticsRepo,
 } from '@backend/configurations'
-import DownloadActionUseCase from '@backend/downloads/downloadActionUseCase'
-import DownloadStateUseCase from '@backend/downloads/downloadStateUseCase'
+import DownloadActionUseCase from '@backend/downloads/useCases/downloadActionUseCase'
+import DownloadHistoryUseCase from '@backend/downloads/useCases/downloadHistoryUseCase'
+import DownloadStateUseCase from '@backend/downloads/useCases/downloadStateUseCase'
 import { HarvestError } from '@backend/errors'
 import NotificationUseCase from '@backend/notifications/notificationIdUseCases'
 import { V4StatsUseCase } from '@backend/statistics/useCases'
-import { isDownloadedBySelf } from '@backend/utils/checker'
+import { shouldHandleDownloadDelta } from '@backend/utils/checker'
 import '@init'
 import {
   Action,
@@ -100,16 +101,39 @@ const handleCheckDlHistory: HandleExchange<
   }
 }
 
+const handleExportHistory: HandleExchange<Action.ExportHistory> = async exchange => {
+  try {
+    const useCase = new DownloadHistoryUseCase(downloadHistoryRepo)
+    await useCase.export()
+    return { status: 'success' }
+  } catch (error) {
+    return { status: 'error', error: error }
+  }
+}
+
+const handleImportHistory: HandleExchange<Action.ImportHistory> = async exchange => {
+  try {
+    const useCase = new DownloadHistoryUseCase(downloadHistoryRepo)
+    await useCase.import(exchange.data)
+    return { status: 'success' }
+  } catch (error) {
+    return { status: 'error', error: error }
+  }
+}
+
 browser.runtime.onMessage.addListener(
   async (
     message: HarvestExchange<Action>,
     sender,
     sendResponse
   ): Promise<HarvestResponse<Action>> => {
-    if (message.action === Action.Download) return handleDownload(message)
-    if (message.action === Action.FetchUser) return handleUserFetch(message)
     if (message.action === Action.CheckDownloadHistory)
       return handleCheckDlHistory(message)
+    if (message.action === Action.Download) return handleDownload(message)
+    if (message.action === Action.FetchUser) return handleUserFetch(message)
+    if (message.action === Action.ExportHistory) return handleExportHistory(message)
+    if (message.action === Action.ImportHistory) return handleImportHistory(message)
+
     return {
       status: 'error',
       error: new HarvestError(`Invalid message. ${message}`),
@@ -142,7 +166,7 @@ browser.runtime.onInstalled.addListener(async details => {
 })
 
 browser.downloads.onChanged.addListener(async downloadDelta => {
-  if (!(await isDownloadedBySelf(downloadDelta.id))) return false
+  if (!(await shouldHandleDownloadDelta(downloadDelta.id))) return false
 
   addBreadcrumb({
     category: 'download',

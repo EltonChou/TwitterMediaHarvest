@@ -1,10 +1,10 @@
-import { NotFound, TooManyRequest, TwitterApiError, Unauthorized } from '../errors'
+import { NotFound, TooManyRequest, TwitterApiError, Unauthorized } from '../../errors'
 import {
   FetchErrorNotificationUseCase,
   InternalErrorNotificationUseCase,
-} from '../notifications/notifyUseCases'
-import MediaDownloader from './MediaDownloader'
-import { DownloadHistoryEntity } from './models'
+} from '../../notifications/notifyUseCases'
+import MediaDownloader from '../MediaDownloader'
+import { DownloadHistoryEntity } from '../models'
 import {
   downloadHistoryRepo,
   downloadRecordRepo,

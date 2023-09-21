@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker'
 import { downloadDB } from '@libs/indexedDB'
 import 'fake-indexeddb/auto'
 
-const makeHistoryItem = (): DownloadHistoryEntity =>
+const makeHistoryEntity = (): DownloadHistoryEntity =>
   DownloadHistoryEntity.build({
     tweetId: faker.string.numeric(13),
     userId: faker.string.numeric(13),
@@ -24,7 +24,7 @@ describe('IndexedDBDownloadHistoryRepository unit test', () => {
     const count = faker.number.int({ min: 50, max: 100 })
     const items = []
     for (let i = 0; i < count; i++) {
-      const item = makeHistoryItem()
+      const item = makeHistoryEntity()
       items.push(item)
       await repo.save(item)
     }
@@ -32,7 +32,7 @@ describe('IndexedDBDownloadHistoryRepository unit test', () => {
   }
 
   const generateFakeItem = async () => {
-    const item = makeHistoryItem()
+    const item = makeHistoryEntity()
     await repo.save(item)
     return item
   }
@@ -42,7 +42,7 @@ describe('IndexedDBDownloadHistoryRepository unit test', () => {
   })
 
   it('can save download history item', async () => {
-    const item = makeHistoryItem()
+    const item = makeHistoryEntity()
     await repo.save(item)
   })
 
@@ -55,7 +55,7 @@ describe('IndexedDBDownloadHistoryRepository unit test', () => {
   it('can check item exists or not by id', async () => {
     const item = await generateFakeItem()
     expect(await repo.tweetHasDownloaded(item.id)).toBeTruthy()
-    expect(await repo.tweetHasDownloaded(makeHistoryItem().id)).toBeFalsy()
+    expect(await repo.tweetHasDownloaded(makeHistoryEntity().id)).toBeFalsy()
   })
 
   it('can get all items', async () => {

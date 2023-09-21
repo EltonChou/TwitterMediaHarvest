@@ -76,3 +76,7 @@ interface ITweetMediaFileDetail {
 type Entries<T> = {
   [K in keyof T]: [K, T[K]]
 }[keyof T][]
+
+interface JSONable {
+  toJSON(): object
+}

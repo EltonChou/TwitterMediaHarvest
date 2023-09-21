@@ -94,7 +94,9 @@ export class IndexedDBDownloadHistoryRepository
     const shouldContinue = (count: number) => (limit === 'inf' ? true : count < limit)
 
     return async function* (indexKey: keyof DownloadDBSchema['history']['indexes']) {
-      let cursor = await (await transaction).index(indexKey).openCursor(range, direction)
+      let cursor = await (await transaction).store
+        .index(indexKey)
+        .openCursor(range, direction)
 
       if (offset) cursor = await cursor.advance(offset)
       let count = 0
@@ -109,7 +111,7 @@ export class IndexedDBDownloadHistoryRepository
   async transaction(mode: IDBTransactionMode = 'readonly') {
     const client = await this.clientProvider()
     const tx = client.transaction('history', mode)
-    return tx.store
+    return tx
   }
 
   async tweetHasDownloaded(tweetId: string): Promise<boolean> {

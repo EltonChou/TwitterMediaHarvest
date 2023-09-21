@@ -1,11 +1,14 @@
+import type { DownloadHistoryItem } from '@schema'
 import type { User } from '@sentry/browser'
 import Browser from 'webextension-polyfill'
 
-export enum Action {
+export const enum Action {
   Download,
   Refresh,
   FetchUser,
   CheckDownloadHistory,
+  ExportHistory,
+  ImportHistory,
 }
 
 type DownloadExchange = {
@@ -28,10 +31,17 @@ type FetchUserResponse = {
   data: User
 }
 
+type ImportHistoryExchange = {
+  action: Action.ImportHistory
+  data: DownloadHistoryItem[]
+}
+
 export type HarvestExchange<T extends Action> = T extends Action.Download
   ? DownloadExchange
   : T extends Action.CheckDownloadHistory
   ? CheckDownloadHistoryExchange
+  : T extends Action.ImportHistory
+  ? ImportHistoryExchange
   : {
       action: T
     }
