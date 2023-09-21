@@ -1,12 +1,11 @@
 import { DownloadDBSchema } from '@schema'
-import type { OpenDBCallbacks } from 'idb'
-import { deleteDB, openDB } from 'idb'
+import { type OpenDBCallbacks, deleteDB, openDB } from 'idb'
 
-abstract class BaseDB<SchemaType> {
+abstract class BaseDB<SchemaType, VersionT extends number> {
   abstract databaseName: string
 
   constructor(
-    readonly version: number,
+    readonly version: VersionT,
     private callbacks: OpenDBCallbacks<SchemaType> = {}
   ) {}
 
@@ -46,22 +45,46 @@ abstract class BaseDB<SchemaType> {
   }
 }
 
-class DownloadDB extends BaseDB<DownloadDBSchema> {
+type DownloadDBVersion = 1 | 2
+
+class DownloadDB extends BaseDB<DownloadDBSchema, DownloadDBVersion> {
   databaseName = 'download'
+}
+
+export function* versionToRun(oldVersion: number, newVersion: number) {
+  for (let i = oldVersion + 1; i <= newVersion; i++) {
+    yield i
+  }
+}
+
+function migrationToRun(oldVersion: number, newVersion: number) {
+  return function* <VersionT extends number>(migrations: Migration<VersionT>) {
+    for (const version of versionToRun(oldVersion, newVersion)) {
+      if (version in migrations) yield migrations[version as VersionT]
+    }
+  }
+}
+
+type Migration<VersionT extends number> = {
+  [k in VersionT]: () => void
 }
 
 export const downloadDB = new DownloadDB(2).onUpgrade(
   (database, oldVersion, newVersion, transaction, event) => {
-    if (newVersion === 1) {
-      database.createObjectStore('record', { keyPath: 'id' })
+    const downloadDbMigration: Migration<DownloadDBVersion> = {
+      1: () => {
+        database.createObjectStore('record', { keyPath: 'id' })
+      },
+      2: () => {
+        const historyStore = database.createObjectStore('history', { keyPath: 'tweetId' })
+        historyStore.createIndex('byUserName', ['displayName', 'screenName'])
+        historyStore.createIndex('byTweetTime', 'tweetTime')
+        historyStore.createIndex('byDownloadTime', 'downloadTime')
+      },
     }
 
-    if (newVersion === 2) {
-      if (oldVersion !== 1) database.createObjectStore('record', { keyPath: 'id' })
-      const historyStore = database.createObjectStore('history', { keyPath: 'tweetId' })
-      historyStore.createIndex('byUserName', ['displayName', 'screenName'])
-      historyStore.createIndex('byTweetTime', 'tweetTime')
-      historyStore.createIndex('byDownloadTime', 'downloadTime')
+    for (const migrate of migrationToRun(oldVersion, newVersion)(downloadDbMigration)) {
+      migrate()
     }
   }
 )
