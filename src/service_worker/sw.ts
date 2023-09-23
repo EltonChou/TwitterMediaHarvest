@@ -114,7 +114,8 @@ const handleExportHistory: HandleExchange<Action.ExportHistory> = async exchange
 const handleImportHistory: HandleExchange<Action.ImportHistory> = async exchange => {
   try {
     const useCase = new DownloadHistoryUseCase(downloadHistoryRepo)
-    await useCase.import(exchange.data)
+    const history = await useCase.parse(exchange.data)
+    await useCase.import(history.items)
     return { status: 'success' }
   } catch (error) {
     return { status: 'error', error: error }

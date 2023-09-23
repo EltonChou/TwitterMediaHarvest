@@ -1,4 +1,3 @@
-import type { DownloadHistoryItem } from '@schema'
 import type { User } from '@sentry/browser'
 import Browser from 'webextension-polyfill'
 
@@ -33,7 +32,7 @@ type FetchUserResponse = {
 
 type ImportHistoryExchange = {
   action: Action.ImportHistory
-  data: DownloadHistoryItem[]
+  data: string
 }
 
 export type HarvestExchange<T extends Action> = T extends Action.Download

@@ -1,9 +1,15 @@
 import type { IndexedDBDownloadHistoryRepository } from '../repositories'
-import { DownloadHistoryItem } from '@schema'
+import { PortableHistory } from '../valueObjects'
+import type { DownloadHistoryItem } from '@schema'
 import Browser from 'webextension-polyfill'
 
 export default class DownloadHistoryUseCase {
   constructor(readonly repo: IndexedDBDownloadHistoryRepository) {}
+
+  async parse(content: string) {
+    const pHistory = PortableHistory.parse(content)
+    return pHistory
+  }
 
   async import(items: DownloadHistoryItem[]) {
     const tx = await this.repo.transaction('readwrite')
@@ -17,9 +23,14 @@ export default class DownloadHistoryUseCase {
 
   async export() {
     const current = new Date()
-    const history = await this.repo.getAll()
-    const blob = new Blob([JSON.stringify(history)], { type: 'application/json' })
+    const entities = await this.repo.getAll()
+    const portableHistory = new PortableHistory({
+      version: Browser.runtime.getManifest().version,
+      items: entities.map(entity => entity.toDownloadHistoryItem()),
+    })
+    const blob = makeHistoryBlob(portableHistory)
     const fileUrl = await blobToDataUrl(blob)
+
     await Browser.downloads.download({
       url: fileUrl,
       filename:
@@ -34,6 +45,9 @@ export default class DownloadHistoryUseCase {
     })
   }
 }
+
+const makeHistoryBlob = (history: PortableHistory) =>
+  new Blob([JSON.stringify(history)], { type: 'application/json' })
 
 const blobToDataUrl = (blob: Blob): Promise<string> =>
   new Promise((resolve, reject) => {

@@ -1,15 +1,21 @@
 export class HarvestError extends Error {}
 
 export class ApiError extends HarvestError {
+  name = 'ApiError'
   statusCode: number
 }
 
-export class ValidationError extends HarvestError {}
+export class ValidationError extends HarvestError {
+  name = 'ValidationError'
+}
 
-export class ParserError extends HarvestError {}
+export class ParserError extends HarvestError {
+  name = 'ParserError'
+}
 export class TweetParsingError extends ParserError {}
 export class TweetUserParsingError extends ParserError {}
 export class TweetMediaParsingError extends ParserError {}
+export class PortableHistoryParsingError extends ParserError {}
 
 // Twitter API
 export class TwitterApiError extends ApiError {

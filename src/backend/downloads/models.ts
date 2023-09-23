@@ -43,10 +43,10 @@ export class DownloadRecord extends Entity<number, DownloadRecordProps> {
   }
 }
 
-export class DownloadHistoryEntity
-  extends Entity<string, Omit<DownloadHistoryItem, 'tweetId'>>
-  implements JSONable
-{
+export class DownloadHistoryEntity extends Entity<
+  string,
+  Omit<DownloadHistoryItem, 'tweetId'>
+> {
   constructor(item: DownloadHistoryItem) {
     const { tweetId, ...props } = item
     super(tweetId, props)
@@ -61,9 +61,5 @@ export class DownloadHistoryEntity
       tweetId: this.id,
       ...this.props,
     }
-  }
-
-  toJSON() {
-    return this.toDownloadHistoryItem()
   }
 }
