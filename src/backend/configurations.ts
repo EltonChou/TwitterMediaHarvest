@@ -3,6 +3,7 @@ import { CredentialRepository } from './credentials/repositories'
 import {
   IndexedDBDownloadHistoryRepository,
   IndexedDBDownloadRecordsRepository,
+  IndexedDBHashtagRepository,
 } from './downloads/repositories'
 import DownloadSettingsRepository from './settings/downloadSettings/repository'
 import { FeaturesRepository } from './settings/featureSettings/repository'
@@ -24,6 +25,10 @@ export const downloadRecordRepo = new IndexedDBDownloadRecordsRepository(
 export const downloadHistoryRepo = new IndexedDBDownloadHistoryRepository(
   async () => await downloadDB.connect()
 )
+export const hashtagRepo = new IndexedDBHashtagRepository(
+  async () => await downloadDB.connect()
+)
+
 export const statisticsRepo = new V4StatisticsRepository(localStorage)
 export const filenameSettingsRepo = new FilenameSettingsRepository(browser.storage.sync)
 export const downloadSettingsRepo = new DownloadSettingsRepository(localStorage)

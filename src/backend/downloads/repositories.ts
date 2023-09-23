@@ -210,7 +210,7 @@ export interface ITweetHashtagRepository {
   clear(): Promise<void>
 }
 
-export class IndexedDBTweetHashtagRepository
+export class IndexedDBHashtagRepository
   extends IndexedDBRepository
   implements ITweetHashtagRepository
 {

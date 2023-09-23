@@ -10,6 +10,7 @@ import {
   downloadRecordRepo,
   downloadSettingsRepo,
   featureSettingsRepo,
+  hashtagRepo,
   twitterApiSettingsRepo,
   v4FilenameSettingsRepo,
 } from '@backend/configurations'
@@ -88,6 +89,7 @@ export default class DownloadActionUseCase {
 
     if (mediaCatalog === undefined) throw err
 
+    await hashtagRepo.addTweet(tweet.id)(...tweet.hashtags)
     const historyItem = makeDownloadHistoryItem(mediaCatalog)(tweet)
     await downloadHistoryRepo.save(historyItem)
 

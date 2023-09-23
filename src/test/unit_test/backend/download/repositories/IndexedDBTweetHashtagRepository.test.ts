@@ -1,10 +1,10 @@
-import { IndexedDBTweetHashtagRepository } from '@backend/downloads/repositories'
+import { IndexedDBHashtagRepository } from '@backend/downloads/repositories'
 import { faker } from '@faker-js/faker'
 import { downloadDB } from '@libs/indexedDB'
 import 'fake-indexeddb/auto'
 
 describe('IndexedDBTagRepository unit test', () => {
-  const repo = new IndexedDBTweetHashtagRepository(async () => await downloadDB.connect())
+  const repo = new IndexedDBHashtagRepository(async () => await downloadDB.connect())
 
   beforeEach(async () => {
     await repo.clear()
