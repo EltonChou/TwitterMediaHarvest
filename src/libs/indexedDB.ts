@@ -45,7 +45,7 @@ abstract class BaseDB<SchemaType, VersionT extends number> {
   }
 }
 
-type DownloadDBVersion = 1 | 2
+type DownloadDBVersion = 1 | 2 | 3
 
 class DownloadDB extends BaseDB<DownloadDBSchema, DownloadDBVersion> {
   databaseName = 'download'
@@ -69,7 +69,7 @@ type Migration<VersionT extends number> = {
   [k in VersionT]: () => void
 }
 
-export const downloadDB = new DownloadDB(2).onUpgrade(
+export const downloadDB = new DownloadDB(3).onUpgrade(
   (database, oldVersion, newVersion, transaction, event) => {
     const downloadDbMigration: Migration<DownloadDBVersion> = {
       1: () => {
@@ -80,6 +80,9 @@ export const downloadDB = new DownloadDB(2).onUpgrade(
         historyStore.createIndex('byUserName', ['displayName', 'screenName'])
         historyStore.createIndex('byTweetTime', 'tweetTime')
         historyStore.createIndex('byDownloadTime', 'downloadTime')
+      },
+      3: () => {
+        database.createObjectStore('hashtag', { keyPath: 'name' })
       },
     }
 

@@ -18,6 +18,10 @@ interface DownloadDBSchema extends DBSchema {
       byDownloadTime: Date
     }
   }
+  hashtag: {
+    key: string
+    value: HashtagItem
+  }
 }
 
 type DownloadHistoryMediaType = 'image' | 'video' | 'mixed'
@@ -31,6 +35,11 @@ type DownloadHistoryItem = {
   downloadTime: Date
   mediaType: DownloadHistoryMediaType
   thumbnail?: string
+}
+
+type HashtagItem = {
+  name: string
+  tweetIds: Set<string>
 }
 
 interface V4Statistics {

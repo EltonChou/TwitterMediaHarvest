@@ -41,6 +41,10 @@ export class TweetVO
     return new Date(Date.parse(this.props.tweet.created_at))
   }
 
+  get hashTags(): string[] {
+    return Array.from(this.props.tweet?.entities?.hashtags || []).map(v => v['text'])
+  }
+
   validate(): TweetVO {
     const isValid = [
       this.props.tweet,

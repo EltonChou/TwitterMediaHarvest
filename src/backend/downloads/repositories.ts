@@ -1,5 +1,5 @@
 import { DownloadHistoryEntity, DownloadRecord } from './models'
-import type { DownloadDBSchema, DownloadHistoryItem } from '@schema'
+import type { DownloadDBSchema, DownloadHistoryItem, HashtagItem } from '@schema'
 import { type IDBPDatabase } from 'idb'
 import type { Storage } from 'webextension-polyfill'
 
@@ -199,4 +199,63 @@ const asyncGeneratorToArray = async <T>(
   const result: T[] = []
   for await (const v of generator) result.push(v)
   return result
+}
+
+export interface ITweetHashtagRepository {
+  getAllTags(): Promise<string[]>
+  getAll(): Promise<HashtagItem[]>
+  getTweetsByTag(tag: string): Promise<string[]>
+  getTweetsByTags(...tags: string[]): Promise<string[]>
+  addTweet(tweetId: string): (...tag: string[]) => Promise<void>
+  clear(): Promise<void>
+}
+
+export class IndexedDBTweetHashtagRepository
+  extends IndexedDBRepository
+  implements ITweetHashtagRepository
+{
+  async getAllTags(): Promise<string[]> {
+    const client = await this.clientProvider()
+    return client.getAllKeys('hashtag')
+  }
+
+  async getAll(): Promise<HashtagItem[]> {
+    const client = await this.clientProvider()
+    return client.getAll('hashtag')
+  }
+
+  async getTweetsByTag(tag: string): Promise<string[]> {
+    const client = await this.clientProvider()
+    const item = await client.get('hashtag', tag)
+    return item ? Array.from(item.tweetIds) : []
+  }
+
+  async getTweetsByTags(...tags: string[]): Promise<string[]> {
+    const ids = new Set<string>()
+    const client = await this.clientProvider()
+    for (const tag of tags) {
+      const item = await client.get('hashtag', tag)
+      item && item.tweetIds.forEach(id => ids.add(id))
+    }
+    return Array.from(ids)
+  }
+
+  addTweet(tweetId: string): (...tags: string[]) => Promise<void> {
+    return async (...tags: string[]) => {
+      const client = await this.clientProvider()
+      for (const tag of tags) {
+        const item = await client.get('hashtag', tag)
+        const ids = item?.tweetIds || new Set()
+        await client.put('hashtag', {
+          name: tag,
+          tweetIds: ids.add(tweetId),
+        })
+      }
+    }
+  }
+
+  async clear() {
+    const client = await this.clientProvider()
+    await client.clear('hashtag')
+  }
 }
