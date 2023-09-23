@@ -37,13 +37,16 @@ const downloadItemcheck =
         items =>
           pipe(
             items,
-            A.filter(item => !Array.from(predicates).some(p => p(item))),
+            A.filter(item => Array.from(predicates).some(p => p(item))),
             A.isNonEmpty
           )
       )
     )()
   }
 
-export const shouldHandleDownloadDelta = downloadItemcheck(isJSON, isSelfDownloadId)
+export const shouldHandleDownloadDelta = downloadItemcheck(
+  item => !isJSON(item),
+  isSelfDownloadId
+)
 
 export const isFirefox = () => process.env.TARGET === 'firefox'
