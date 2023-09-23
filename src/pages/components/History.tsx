@@ -21,7 +21,12 @@ import { Action, exchangeInternal } from '@libs/browser'
 import useDownloadHistory, { type SearchPredicate } from '@pages/hooks/useDownloadHistory'
 import { i18n } from '@pages/utils'
 import type { DownloadHistoryItem, DownloadHistoryMediaType } from '@schema'
-import React, { memo, useRef } from 'react'
+import * as A from 'fp-ts/lib/Array'
+import * as C from 'fp-ts/lib/Console'
+import { toError } from 'fp-ts/lib/Either'
+import * as TE from 'fp-ts/lib/TaskEither'
+import { pipe } from 'fp-ts/lib/function'
+import React, { memo, useCallback, useRef } from 'react'
 import {
   BiChevronLeft,
   BiChevronRight,
@@ -249,6 +254,9 @@ const makeMediaTypePredicate = (mediaType: MediaTypeSelectToken): SearchPredicat
   }
 }
 
+const isJSONFile = (file: File) => file.type === 'application/json'
+const fileToText = (file: File) => TE.tryCatch(async () => file.text(), toError)
+
 const HistoryTable = () => {
   const downloadHistory = useDownloadHistory(20)
   const usernameInputRef = useRef<HTMLInputElement>(null)
@@ -278,6 +286,25 @@ const HistoryTable = () => {
         mediaTypeSelectRef?.current?.value as unknown as MediaTypeSelectToken
       )
     )
+  }
+
+  const handlePortableHistoryFileDrop: React.DragEventHandler<
+    HTMLDivElement
+  > = async e => {
+    e.preventDefault()
+    const getJsonFileContent = pipe(
+      e.dataTransfer.files,
+      Array.from,
+      A.filter(isJSONFile),
+      A.head,
+      TE.fromOption(() => toError('Not a json file.')),
+      TE.chain(fileToText),
+      TE.chain(content =>
+        TE.tryCatch(async () => downloadHistory.handler.import(content), toError)
+      ),
+      TE.tapError(e => pipe(e, C.error, TE.fromIO))
+    )
+    await getJsonFileContent()
   }
 
   return (
@@ -353,8 +380,17 @@ const HistoryTable = () => {
         whiteSpace={'break-spaces'}
         overflowY={'auto'}
       >
-        <Table variant="striped" colorScheme="teal" size={'md'} width={'100%'}>
-          <Thead position={'sticky'} top={0} zIndex={99} background={'black'}>
+        <Table
+          variant="striped"
+          colorScheme="teal"
+          size={'md'}
+          width={'100%'}
+          onDragOver={e => e.preventDefault()}
+          {...(process.env.NODE_ENV === 'production'
+            ? {}
+            : { onDrop: handlePortableHistoryFileDrop, zIndex: 99 })}
+        >
+          <Thead position={'sticky'} top={0} zIndex={1} background={'black'}>
             <TableHeads />
           </Thead>
           <Tbody>

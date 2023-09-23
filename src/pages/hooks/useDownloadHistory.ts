@@ -1,6 +1,7 @@
 import { downloadHistoryRepo } from '@backend/configurations'
 import type { DownloadHistoryEntity } from '@backend/downloads/models'
 import type { DownloadItemPredicate } from '@backend/downloads/repositories'
+import DownloadHistoryUseCase from '@backend/downloads/useCases/downloadHistoryUseCase'
 import { useCallback, useEffect, useState } from 'react'
 
 export type SearchPredicate = DownloadItemPredicate
@@ -21,6 +22,8 @@ type DownloadHistory = {
     setPage: (...cbs: Callbacks) => void
     setItemPerPage: (count: number) => void
     search: (...predicates: SearchPredicate[]) => void
+    export: () => Promise<void>
+    import: (content: string) => Promise<void>
   }
   entities: DownloadHistoryEntity[]
 }
@@ -33,6 +36,8 @@ type SearchParams = {
 const calcSkip = (itemPerPage: number) => (page: number) => (page - 1) * itemPerPage
 const calcTotalPages = (itemPerPage: number) => (itemCount: number) =>
   Math.floor(itemCount / itemPerPage) + 1
+
+const downloadHistoryUseCase = new DownloadHistoryUseCase(downloadHistoryRepo)
 
 const useDownloadHistory = (itemCount: number): DownloadHistory => {
   const [historyEntities, setItems] = useState<DownloadHistoryEntity[]>([])
@@ -112,6 +117,11 @@ const useDownloadHistory = (itemCount: number): DownloadHistory => {
       refresh: (...cbs) => {
         setPredicates([])
         cbs.forEach(cb => cb())
+      },
+      export: async () => downloadHistoryUseCase.export(),
+      import: async content => {
+        const history = await downloadHistoryUseCase.parse(content)
+        downloadHistoryUseCase.import(history.items)
       },
     },
     entities: historyEntities,
