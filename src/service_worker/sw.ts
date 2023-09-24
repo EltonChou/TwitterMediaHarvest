@@ -23,7 +23,7 @@ import { shouldHandleDownloadDelta } from '@backend/utils/checker'
 import '@init'
 import {
   Action,
-  type HandleExchange,
+  type ExchangeHandler,
   type HarvestExchange,
   type HarvestResponse,
 } from '@libs/browser'
@@ -74,18 +74,18 @@ SentryInit({
 
 fetchUser().then(user => setUser(user))
 
-const handleDownload: HandleExchange<Action.Download> = async ({ data }) => {
+const handleDownload: ExchangeHandler<Action.Download> = async ({ data }) => {
   const usecase = new DownloadActionUseCase(data)
   const result = await usecase.processDownload()
   return { status: result }
 }
 
-const handleUserFetch: HandleExchange<Action.FetchUser> = async exchange => {
+const handleUserFetch: ExchangeHandler<Action.FetchUser> = async exchange => {
   const sentryUser = await fetchUser()
   return { status: 'success', data: sentryUser }
 }
 
-const handleCheckDlHistory: HandleExchange<
+const handleCheckDlHistory: ExchangeHandler<
   Action.CheckDownloadHistory
 > = async exchange => {
   const isDownloaded = await pipe(
@@ -102,7 +102,7 @@ const handleCheckDlHistory: HandleExchange<
   }
 }
 
-const handleExportHistory: HandleExchange<Action.ExportHistory> = async exchange => {
+const handleExportHistory: ExchangeHandler<Action.ExportHistory> = async exchange => {
   try {
     const useCase = new DownloadHistoryUseCase(downloadHistoryRepo)
     await useCase.export()
@@ -112,7 +112,7 @@ const handleExportHistory: HandleExchange<Action.ExportHistory> = async exchange
   }
 }
 
-const handleImportHistory: HandleExchange<Action.ImportHistory> = async exchange => {
+const handleImportHistory: ExchangeHandler<Action.ImportHistory> = async exchange => {
   try {
     const useCase = new DownloadHistoryUseCase(downloadHistoryRepo)
     const history = await useCase.parse(exchange.data)
@@ -123,7 +123,7 @@ const handleImportHistory: HandleExchange<Action.ImportHistory> = async exchange
   }
 }
 
-const handleRetryAll: HandleExchange<Action.RetryAll> = async exchange => {
+const handleRetryAll: ExchangeHandler<Action.RetryAll> = async exchange => {
   try {
     const useCase = new DownloadRecordUseCase(downloadRecordRepo)
     await useCase.retryAll()

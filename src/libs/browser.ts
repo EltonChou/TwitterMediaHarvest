@@ -56,7 +56,7 @@ export type HarvestResponse<T extends Action> =
         })
   | { status: 'error'; error?: string | Error }
 
-export type HandleExchange<T extends Action> = (
+export type ExchangeHandler<T extends Action> = (
   exchange: HarvestExchange<T>
 ) => Promise<HarvestResponse<T>>
 
