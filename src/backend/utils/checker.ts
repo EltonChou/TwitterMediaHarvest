@@ -24,25 +24,26 @@ const searchDownload = (query: Downloads.DownloadQuery) =>
 
 const downloadItemcheck =
   (...predicates: Array<(item: Downloads.DownloadItem) => boolean>) =>
-  (downloadId: number) => {
-    return pipe(
+  (downloadId: number) =>
+    pipe(
       T.of<Downloads.DownloadQuery>({
         id: downloadId,
       }),
       TE.fromTask,
       TE.chain(searchDownload),
       TE.mapLeft(e => pipe(e, Console.error, TE.fromIO)),
+      TE.map(items =>
+        pipe(
+          items,
+          A.filter(item => Array.from(predicates).every(p => p(item))),
+          A.isNonEmpty
+        )
+      ),
       TE.match(
         () => false,
-        items =>
-          pipe(
-            items,
-            A.filter(item => Array.from(predicates).some(p => p(item))),
-            A.isNonEmpty
-          )
+        r => r
       )
     )()
-  }
 
 export const shouldHandleDownloadDelta = downloadItemcheck(
   item => !isJSON(item),

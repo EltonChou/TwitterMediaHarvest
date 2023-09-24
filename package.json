@@ -98,28 +98,6 @@
     "watch": "yarn build:dev --watch",
     "lint": "eslint --color --quiet --ext .js --ext .ts --ext .tsx src/ --fix"
   },
-  "jest": {
-    "preset": "ts-jest/presets/default-esm",
-    "verbose": true,
-    "globals": {
-      "ts-jest": {
-        "useESM": true
-      }
-    },
-    "transform": {
-      "\\.[jt]sx?$": "babel-jest"
-    },
-    "setupFiles": [
-      "fake-indexeddb/auto"
-    ],
-    "setupFilesAfterEnv": [
-      "./jest.setup.js"
-    ],
-    "moduleNameMapper": {
-      "@backend/(.*)$": "<rootDir>/src/backend/$1",
-      "@libs/(.*)$": "<rootDir>/src/libs/$1"
-    }
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/EltonChou/TwitterMediaHarvest.git"
