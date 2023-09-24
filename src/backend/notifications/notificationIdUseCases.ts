@@ -1,6 +1,6 @@
 import { downloadRecordRepo } from '../configurations'
-import { downloadItemRecorder } from '../downloads/downloadItemRecorder'
 import { IDownloadRecordsRepository } from '../downloads/repositories'
+import DownloadRecordUseCase from '@backend/downloads/useCases/downloadRecordUseCase'
 import browser from 'webextension-polyfill'
 
 interface INotificationUseCase {
@@ -90,14 +90,8 @@ class DownloadNotificationUseCase implements INotificationUseCase {
   }
 
   async retryDownload(): Promise<void> {
-    const { tweetInfo, downloadConfig } = await this.downloadRecordRepo.getById(
-      this.downloadItemId
-    )
-    await this.downloadRecordRepo.removeById(this.downloadItemId)
-    const downloadRecorder =
-      downloadItemRecorder(downloadRecordRepo)(tweetInfo)(downloadConfig)
-    const downloadId = await browser.downloads.download(downloadConfig)
-    downloadRecorder(downloadId)
+    const recordUseCase = new DownloadRecordUseCase(this.downloadRecordRepo)
+    await recordUseCase.retryByDownloadId(this.downloadItemId)
   }
 
   static valid_id(notificationId: string): boolean {

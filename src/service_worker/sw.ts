@@ -14,6 +14,7 @@ import {
 } from '@backend/configurations'
 import DownloadActionUseCase from '@backend/downloads/useCases/downloadActionUseCase'
 import DownloadHistoryUseCase from '@backend/downloads/useCases/downloadHistoryUseCase'
+import DownloadRecordUseCase from '@backend/downloads/useCases/downloadRecordUseCase'
 import DownloadStateUseCase from '@backend/downloads/useCases/downloadStateUseCase'
 import { HarvestError } from '@backend/errors'
 import NotificationUseCase from '@backend/notifications/notificationIdUseCases'
@@ -122,6 +123,16 @@ const handleImportHistory: HandleExchange<Action.ImportHistory> = async exchange
   }
 }
 
+const handleRetryAll: HandleExchange<Action.RetryAll> = async exchange => {
+  try {
+    const useCase = new DownloadRecordUseCase(downloadRecordRepo)
+    await useCase.retryAll()
+    return { status: 'success' }
+  } catch (error) {
+    return { status: 'error', error: error }
+  }
+}
+
 browser.runtime.onMessage.addListener(
   async (
     message: HarvestExchange<Action>,
@@ -134,6 +145,7 @@ browser.runtime.onMessage.addListener(
     if (message.action === Action.FetchUser) return handleUserFetch(message)
     if (message.action === Action.ExportHistory) return handleExportHistory(message)
     if (message.action === Action.ImportHistory) return handleImportHistory(message)
+    if (message.action === Action.RetryAll) return handleRetryAll(message)
 
     return {
       status: 'error',

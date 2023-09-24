@@ -1,6 +1,7 @@
 import MediaDownloader from '@backend/downloads/MediaDownloader'
 import { DownloadRecord } from '@backend/downloads/models'
 import type { IDownloadRecordsRepository } from '@backend/downloads/repositories'
+import { faker } from '@faker-js/faker'
 import type { DownloadSettings, FeatureSettings, V4FilenameSettings } from '@schema'
 
 const mockDownload = jest.fn()
@@ -25,6 +26,19 @@ class MockRecordRepository implements IDownloadRecordsRepository {
 
   async removeById(downloadItemId: number): Promise<void> {
     return
+  }
+
+  async getAll(): Promise<DownloadRecord[]> {
+    const record = new DownloadRecord(faker.number.int(), {
+      tweetInfo: {
+        tweetId: '123',
+        screenName: 'user',
+      },
+      downloadConfig: {
+        url: 'https://www.google.com',
+      },
+    })
+    return [record]
   }
 }
 

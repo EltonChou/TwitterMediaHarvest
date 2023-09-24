@@ -8,6 +8,7 @@ export const enum Action {
   CheckDownloadHistory,
   ExportHistory,
   ImportHistory,
+  RetryAll,
 }
 
 type DownloadExchange = {

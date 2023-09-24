@@ -7,6 +7,7 @@ export interface IDownloadRecordsRepository {
   getById(downloadItemId: number): Promise<DownloadRecord | null>
   save(downloadRecord: DownloadRecord): Promise<void>
   removeById(downloadItemId: number): Promise<void>
+  getAll(): Promise<DownloadRecord[]>
 }
 
 abstract class IndexedDBRepository {
@@ -32,9 +33,16 @@ export class IndexedDBDownloadRecordsRepository
     const client = await this.clientProvider()
     await client.delete('record', downloadItemId)
   }
+
+  async getAll(): Promise<DownloadRecord[]> {
+    const client = await this.clientProvider()
+    const records = await client.getAll('record')
+    return records.map(DownloadRecord.fromJson)
+  }
 }
 
 type DownloadRecordId = `dl_${number}`
+const storageAreaDownloadIdPattern = /dl_(?:\d+)/
 
 export class StorageAreaDownloadRecordsRepository implements IDownloadRecordsRepository {
   constructor(readonly storageArea: Storage.StorageArea) {}
@@ -57,6 +65,14 @@ export class StorageAreaDownloadRecordsRepository implements IDownloadRecordsRep
   async removeById(downloadItemId: number): Promise<void> {
     const recordId = createId(downloadItemId)
     await this.storageArea.remove(recordId)
+  }
+
+  async getAll(): Promise<DownloadRecord[]> {
+    const volumes = await this.storageArea.get(null)
+
+    return Object.entries(volumes)
+      .filter(([k, v]) => Boolean(k.match(storageAreaDownloadIdPattern)))
+      .map(([k, v]) => DownloadRecord.fromJson(v))
   }
 }
 
