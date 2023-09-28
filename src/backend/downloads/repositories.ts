@@ -194,13 +194,12 @@ export class IndexedDBDownloadHistoryRepository
       const increaseCount = () => (matchedCount += 1)
       for await (const v of collection) {
         if (Array.from(predicates).every(predicate => predicate(v))) {
+          increaseCount()
           if (skip) {
             skip -= 1
-            increaseCount()
             continue
           }
           if (result.length < limit) result.push(DownloadHistoryEntity.build(v))
-          increaseCount()
         }
       }
 
