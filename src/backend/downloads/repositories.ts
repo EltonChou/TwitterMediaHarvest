@@ -258,6 +258,7 @@ export class IndexedDBHashtagRepository
 
   addTweet(tweetId: string): (...tags: string[]) => Promise<void> {
     return async (...tags: string[]) => {
+      if (tags.length === 0) return
       const client = await this.clientProvider()
       for (const tag of tags) {
         const item = await client.get('hashtag', tag)
