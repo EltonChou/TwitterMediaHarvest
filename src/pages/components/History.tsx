@@ -26,7 +26,7 @@ import * as C from 'fp-ts/lib/Console'
 import { toError } from 'fp-ts/lib/Either'
 import * as TE from 'fp-ts/lib/TaskEither'
 import { pipe } from 'fp-ts/lib/function'
-import React, { memo, useCallback, useRef } from 'react'
+import React, { memo, useRef } from 'react'
 import {
   BiChevronLeft,
   BiChevronRight,
@@ -256,6 +256,14 @@ const makeMediaTypePredicate = (mediaType: MediaTypeSelectToken): SearchPredicat
 
 const isJSONFile = (file: File) => file.type === 'application/json'
 const fileToText = (file: File) => TE.tryCatch(async () => file.text(), toError)
+// let to: number = undefined
+const lazyHandler = (lazyTime: number) => {
+  let timeout: number = undefined
+  return (handler: () => void) => () => {
+    clearTimeout(timeout)
+    timeout = setTimeout(handler, lazyTime) as unknown as number
+  }
+}
 
 const HistoryTable = () => {
   const downloadHistory = useDownloadHistory(20)
@@ -268,10 +276,10 @@ const HistoryTable = () => {
     tableRef.current && tableRef.current.scrollTo({ top: 0, behavior: 'smooth' })
 
   const prevPage = () => {
-    downloadHistory.handler.prevPage(scrollTableToTop)
+    downloadHistory.pageHandler.prevPage(scrollTableToTop)
   }
   const nextPage = () => {
-    downloadHistory.handler.nextPage(scrollTableToTop)
+    downloadHistory.pageHandler.nextPage(scrollTableToTop)
   }
   const refresh = () => {
     downloadHistory.handler.refresh(scrollTableToTop)
@@ -307,23 +315,25 @@ const HistoryTable = () => {
     await getJsonFileContent()
   }
 
+  const handleInput = lazyHandler(500)(() => {
+    search()
+    scrollTableToTop()
+  })
+
   return (
     <>
       <HStack>
-        <form ref={formRef} style={{ display: 'flex', flex: 1, gap: '0.5rem' }}>
+        <form
+          ref={formRef}
+          style={{ display: 'flex', flex: 1, gap: '0.5rem' }}
+          onSubmit={e => e.preventDefault()}
+        >
           <Input
             ref={usernameInputRef}
             type="search"
             name="username"
             placeholder={i18n('options_history_table_input_placeholder_username')}
-            onInput={() => {
-              search()
-              scrollTableToTop()
-            }}
-            onChange={() => {
-              search()
-              scrollTableToTop()
-            }}
+            onInput={handleInput}
             flexShrink={1}
           />
           <Select

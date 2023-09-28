@@ -16,16 +16,18 @@ type DownloadHistory = {
     currentPage: number
   }
   handler: {
-    refresh: (...cbs: Callbacks) => void
-    nextPage: (...cbs: Callbacks) => void
-    prevPage: (...cbs: Callbacks) => void
-    setPage: (...cbs: Callbacks) => void
-    setItemPerPage: (count: number) => void
     search: (...predicates: SearchPredicate[]) => void
     export: () => Promise<void>
     import: (content: string) => Promise<void>
+    refresh: (...cbs: Callbacks) => void
   }
   entities: DownloadHistoryEntity[]
+  pageHandler: {
+    setItemPerPage: (count: number) => void
+    nextPage: (...cbs: Callbacks) => void
+    prevPage: (...cbs: Callbacks) => void
+    setPage: (...cbs: Callbacks) => void
+  }
 }
 
 type SearchParams = {
@@ -35,7 +37,7 @@ type SearchParams = {
 
 const calcSkip = (itemPerPage: number) => (page: number) => (page - 1) * itemPerPage
 const calcTotalPages = (itemPerPage: number) => (itemCount: number) =>
-  Math.floor(itemCount / itemPerPage) + 1
+  Math.max(1, Math.ceil(itemCount / itemPerPage))
 
 const downloadHistoryUseCase = new DownloadHistoryUseCase(downloadHistoryRepo)
 
@@ -76,7 +78,7 @@ const useDownloadHistory = (itemCount: number): DownloadHistory => {
     })
   }, [predicates, itemCount, loadLatest])
 
-  const prevPage: DownloadHistory['handler']['prevPage'] = (...cbs) => {
+  const prevPage: DownloadHistory['pageHandler']['prevPage'] = (...cbs) => {
     if (currentPage === 1) return
     const page = currentPage - 1
     setCurrentPage(page)
@@ -84,7 +86,7 @@ const useDownloadHistory = (itemCount: number): DownloadHistory => {
     cbs.forEach(cb => cb())
   }
 
-  const nextPage: DownloadHistory['handler']['nextPage'] = (...cbs) => {
+  const nextPage: DownloadHistory['pageHandler']['nextPage'] = (...cbs) => {
     if (currentPage === pageCount) return
     const page = currentPage + 1
     setCurrentPage(page)
@@ -92,7 +94,7 @@ const useDownloadHistory = (itemCount: number): DownloadHistory => {
     cbs.forEach(cb => cb())
   }
 
-  const setPage: DownloadHistory['handler']['setPage'] =
+  const setPage: DownloadHistory['pageHandler']['setPage'] =
     (...cbs) =>
     (page: number) => {
       if (currentPage === page) return
@@ -108,11 +110,13 @@ const useDownloadHistory = (itemCount: number): DownloadHistory => {
       totalPages: pageCount,
       currentPage: currentPage,
     },
-    handler: {
+    pageHandler: {
       setPage,
       nextPage,
       prevPage,
       setItemPerPage,
+    },
+    handler: {
       search: (...predicates) => setPredicates(predicates),
       refresh: (...cbs) => {
         setPredicates([])
