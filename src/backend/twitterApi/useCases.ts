@@ -108,6 +108,7 @@ export class V1TweetUseCase extends TweetUseCase {
       name: object.user.name,
       screen_name: object.user.screen_name,
       rest_id: object.user.id_str,
+      protected: Boolean(object?.user?.protected),
     })
   }
 }
@@ -134,6 +135,7 @@ export class V2TweetUseCase extends TweetUseCase {
       name: user.name,
       screen_name: user.screen_name,
       rest_id: user.id_str,
+      protected: Boolean(user?.protected),
     })
   }
 }
@@ -186,6 +188,7 @@ abstract class GraphQLTweetUseCase extends TweetUseCase {
       screen_name: user.legacy.screen_name,
       name: user.legacy.name,
       rest_id: user.rest_id,
+      protected: Boolean(user?.legacy?.protected),
     })
   }
 }
@@ -336,6 +339,7 @@ export class GuestGraphQLTweetUseCase extends GraphQLTweetUseCase {
       screen_name: user.legacy.screen_name,
       name: user.legacy.name,
       rest_id: user.rest_id,
+      protected: Boolean(user?.legacy?.protected),
     })
   }
 }

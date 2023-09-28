@@ -19,6 +19,7 @@ export interface Tweet {
   retweeted: boolean
   user_id_str: string
   id_str: string
+  limited_actions?: string
 }
 
 interface Entities {

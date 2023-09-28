@@ -6,6 +6,7 @@ type TweetUser = {
   name: string
   screen_name: string
   rest_id: string
+  protected: boolean
 }
 
 export class TweetVO
@@ -43,6 +44,10 @@ export class TweetVO
 
   get hashtags(): string[] {
     return Array.from(this.props.tweet?.entities?.hashtags || []).map(v => v['text'])
+  }
+
+  get isProtected(): boolean {
+    return this.props.user.protected || Boolean(this.props.tweet?.limited_actions)
   }
 
   validate(): TweetVO {
