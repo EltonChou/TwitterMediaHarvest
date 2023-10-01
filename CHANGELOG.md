@@ -1,11 +1,16 @@
 # Changelog
 
-## [Unreleased]
+## [4.2.1] - 2023-10-01
+
+### Changed
+  - Lazy load history items when user is typing in search input.
 
 ### Fixed
   - Fixed issue tracker unexpected behavior.
   - Fixed quoted content checker.
-  - Fixed history table controller behavior.
+  - Fixed history table page count.
+  - Fixed download button style, due to change of the layout.
+
 
 ## [4.2.0] - 2023-09-07
 
