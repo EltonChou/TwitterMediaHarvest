@@ -3,9 +3,11 @@
 ## [4.2.1] - 2023-10-01
 
 ### Changed
+
   - Lazy load history items when user is typing in search input.
 
 ### Fixed
+
   - Fixed issue tracker unexpected behavior.
   - Fixed quoted content checker.
   - Fixed history table page count.
