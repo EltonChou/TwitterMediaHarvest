@@ -175,7 +175,7 @@ jobs:
         id: archive_source_code
         run: |
           ZIP_NAME=source.zip
-          git archive --format zip -o $ZIP_NAME HEAD
+          git archive --format zip --add-file .env -o $ZIP_NAME HEAD
           echo "zip_file=$ZIP_NAME" >> $GITHUB_OUTPUT
 
       - name: Upload to Firefox addons store
