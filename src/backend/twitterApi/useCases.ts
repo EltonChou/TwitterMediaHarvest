@@ -329,10 +329,10 @@ export class GuestGraphQLTweetUseCase extends GraphQLTweetUseCase {
   }
 
   parseBody(object: any): TweetVO {
-    const tweet = object.data.tweetResult.result.legacy
+    const tweet = object.data.tweetResult?.result?.legacy
     if (!tweet) throw new TweetParsingError('Cannot parse tweet from response.')
 
-    const user = object.data.tweetResult.result.core.user_results.result
+    const user = object.data.tweetResult?.result?.core?.user_results?.result
     if (!user) throw new TweetUserParsingError('Cannot parse tweet user from response.')
 
     return new TweetVO(tweet, {
