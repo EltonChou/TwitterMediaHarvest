@@ -128,7 +128,6 @@ export const makeHarvestButton = (article: HTMLElement) =>
     IOE.bind('actionBar', () => pipe(getActionBar(article), IOE.fromEither)),
     IOE.bind('buttonWrapper', ctx => makeButton(ctx.mode)(article)),
     IOE.tap(ctx => pipe(ctx.actionBar.appendChild(ctx.buttonWrapper), IOE.of)),
-    IOE.mapError(toError),
     IOE.map(() => 'success')
   )
 

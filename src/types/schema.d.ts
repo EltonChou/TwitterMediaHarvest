@@ -110,12 +110,22 @@ interface DownloadRecord {
   config: Downloads.DownloadOptionsType
 }
 
+type SentryLastException = {
+  message: string
+  timestamp: number
+}
+
+interface SentryExceptionRecord {
+  lastException: SentryLastException
+}
+
 interface LocalStorageSchema
   extends FeatureSettings,
     DownloadSettings,
     TwitterApiSettings,
     ClientInfo,
     TwitterApiSettings,
-    V4Statistics {}
+    V4Statistics,
+    SentryExceptionRecord {}
 
 interface SyncStorageSchema extends AWSCredentialsItem, V4FilenameSettings {}

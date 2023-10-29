@@ -4,13 +4,14 @@ import {
   TweetDeckLegacyKeyboardMonitor,
   TwitterKeyboardMonitor,
 } from './KeyboardMonitor'
-import { featureRepo } from './configuration'
+import { exceptionRepo, featureRepo } from './configuration'
 import './main.sass'
 import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
 import TweetDeckLegacyObserver from './observers/TweetDeckLegacyObserver'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
 import { isBetaTweetDeck, isTwitter } from './utils/checker'
 import { Action, exchangeInternal } from '@libs/browser'
+import { TimeHelper } from '@libs/helpers'
 import { init as SentryInit, setUser } from '@sentry/browser'
 
 SentryInit({
@@ -33,6 +34,18 @@ SentryInit({
   release: process.env.RELEASE,
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
   environment: process.env.NODE_ENV,
+  beforeSend: async (e, h) => {
+    const lastException = await exceptionRepo.getLastException()
+    if (
+      lastException.message === e.message &&
+      new Date().getTime() - lastException.timestamp <
+        TimeHelper.minute(process.env.NODE_ENV === 'production' ? 30 : 1)
+    )
+      return null
+
+    await exceptionRepo.setLastMessage(e.message)
+    return e
+  },
 })
 
 exchangeInternal({ action: Action.FetchUser }).then(

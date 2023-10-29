@@ -27,6 +27,7 @@ const makeHarvester = (article: HTMLElement) => {
       article,
       setTargetArticle,
       makeButton,
+      IOE.mapLeft(e => (e instanceof Error ? e : toError(e))),
       IOE.tapError(e => pipe(e, captureExceptionIO, IOE.fromIO))
     )()
   }
