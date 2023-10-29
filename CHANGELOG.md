@@ -1,5 +1,13 @@
 # Changelog
 
+
+## [4.2.2] - 2023-10-29
+
+### Fixed
+
+  - Fixed download button position and gap due to layout change.
+
+
 ## [4.2.1] - 2023-10-01
 
 ### Changed
