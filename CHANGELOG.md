@@ -1,24 +1,25 @@
 # Changelog
 
+
 ## [4.2.2] - 2023-10-29
 
 ### Fixed
 
-  - Fixed download button position and gap due to layout change.
+- Fixed download button position and gap due to layout change.
 
 
 ## [4.2.1] - 2023-10-01
 
 ### Changed
 
-  - Lazy load history items when user is typing in search input.
+- Lazy load history items when user is typing in search input.
 
 ### Fixed
 
-  - Fixed issue tracker unexpected behavior.
-  - Fixed quoted content checker.
-  - Fixed history table page count.
-  - Fixed download button style, due to change of the layout.
+- Fixed issue tracker unexpected behavior.
+- Fixed quoted content checker.
+- Fixed history table page count.
+- Fixed download button style, due to change of the layout.
 
 
 ## [4.2.0] - 2023-09-07
