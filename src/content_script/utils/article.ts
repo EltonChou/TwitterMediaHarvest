@@ -58,7 +58,7 @@ const getPhotoElementByUrl =
     select(`[href*="${photoUrl}"]`, article)
 
 const getArticleAnchor = (article: HTMLElement): HTMLAnchorElement =>
-  select('[href*="status"]', article)
+  select('[href*="/status/"]', article)
 
 const aricleHasPhoto = (article: HTMLElement): boolean => {
   const articleAnchor = getArticleAnchor(article)
