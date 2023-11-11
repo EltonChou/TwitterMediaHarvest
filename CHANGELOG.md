@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- Fixed status anchor css selector.
+
 
 ## [4.2.2] - 2023-10-29
 
