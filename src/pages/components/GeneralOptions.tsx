@@ -1,8 +1,9 @@
 import { RichFeatureSwitch } from './controls/featureControls'
-import { PatternToken } from './controls/filenameControls'
+import { PatternToken, SortablePatternToken } from './controls/filenameControls'
 import { DEFAULT_DIRECTORY } from '@backend/constants'
 import V4FilenameSettingsUsecase from '@backend/settings/filenameSettings/usecase'
 import { Button, Flex, HStack, Input, Select, VStack } from '@chakra-ui/react'
+import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd'
 import useDownloadSettings from '@pages/hooks/useDownloadSettings'
 import useFilenameSettingsForm from '@pages/hooks/useFilenameSettingsForm'
 import { i18n } from '@pages/utils'
@@ -11,6 +12,7 @@ import React, { memo } from 'react'
 
 type TokenPanelProps = {
   handleTokenToggle: (token: FilenamePatternToken, state: boolean) => void
+  handleTokenSort: (sourceIndex: number, destinationIndex: number) => void
   pattern: V4FilenamePattern
   previewFilename: string
 }
@@ -28,12 +30,48 @@ const fp: [string, FilenamePatternToken][] = [
 ]
 
 const TokenPanel = memo(
-  ({ handleTokenToggle, pattern, previewFilename }: TokenPanelProps) => {
+  ({ handleTokenToggle, handleTokenSort, pattern, previewFilename }: TokenPanelProps) => {
     return (
       <>
         <Flex minH={'1.5em'} fontSize="1.2em">
           {previewFilename}
         </Flex>
+        <DragDropContext
+          onDragEnd={({ source, destination }) =>
+            handleTokenSort(source.index, destination.index)
+          }
+        >
+          <Droppable droppableId="token-order-container" direction="horizontal">
+            {provided => (
+              <Flex
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                justifyContent={'flex-start'}
+                gap={'2'}
+                flexWrap={'wrap'}
+              >
+                {/* sort names from fp using order of pattern param since fp is static order */}
+                {/* could maybe be done better but not sure how */}
+                {fp
+                  .filter(([, token]) => pattern.includes(token))
+                  .sort((a, b) => pattern.indexOf(a[1]) - pattern.indexOf(b[1]))
+                  .map(([name, token], i) => (
+                    <Draggable draggableId={token} index={i} key={token}>
+                      {(_provided, _snapshot) => (
+                        <SortablePatternToken
+                          innerRef={_provided.innerRef}
+                          isDragging={_snapshot.isDragging}
+                          tokenName={name}
+                          draggableProvided={_provided}
+                        />
+                      )}
+                    </Draggable>
+                  ))}
+                {provided.placeholder}
+              </Flex>
+            )}
+          </Droppable>
+        </DragDropContext>
         <Flex justifyContent={'flex-start'} gap={'2'} flexWrap={'wrap'}>
           {fp.map(([name, token]) => (
             <PatternToken
@@ -92,6 +130,7 @@ const GeneralOptions = () => {
             <TokenPanel
               pattern={filenameSettings.filenamePattern}
               handleTokenToggle={formHandler.patternTokenToggle}
+              handleTokenSort={formHandler.patternTokenSort}
               previewFilename={previewFilename}
             />
           </RichFeatureSwitch>
