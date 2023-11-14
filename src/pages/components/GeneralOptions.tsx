@@ -81,7 +81,7 @@ const TokenPanel = memo(
         <Flex justifyContent={'flex-start'} gap={'2'} flexWrap={'wrap'}>
           {fp.map(([name, token]) => (
             <PatternToken
-              key={`${token}-${name}`}
+              key={token}
               tokenName={name}
               isOn={pattern.includes(token)}
               handleChange={s => handleTokenToggle(token, s)}
