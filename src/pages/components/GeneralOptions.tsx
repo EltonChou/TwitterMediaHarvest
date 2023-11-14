@@ -42,13 +42,16 @@ const TokenPanel = memo(
           }
         >
           <Droppable droppableId="token-order-container" direction="horizontal">
-            {provided => (
+            {(provided, snapshot) => (
               <Flex
-                ref={provided.innerRef}
                 {...provided.droppableProps}
+                cursor={snapshot.isDraggingOver ? 'grabbing' : 'grab'}
+                ref={provided.innerRef}
                 justifyContent={'flex-start'}
-                gap={'2'}
+                gap={2}
                 flexWrap={'wrap'}
+                marginBottom={'0.5rem'}
+                minH={'1.5em'}
               >
                 {/* sort names from fp using order of pattern param since fp is static order */}
                 {/* could maybe be done better but not sure how */}
@@ -58,12 +61,15 @@ const TokenPanel = memo(
                   .map(([name, token], i) => (
                     <Draggable draggableId={token} index={i} key={token}>
                       {(_provided, _snapshot) => (
-                        <SortablePatternToken
-                          innerRef={_provided.innerRef}
-                          isDragging={_snapshot.isDragging}
-                          tokenName={name}
-                          draggableProvided={_provided}
-                        />
+                        <div>
+                          <SortablePatternToken
+                            innerRef={_provided.innerRef}
+                            isDragging={_snapshot.isDragging}
+                            tokenName={name}
+                            draggableProvided={_provided}
+                            handleChange={s => handleTokenToggle(token, s)}
+                          />
+                        </div>
                       )}
                     </Draggable>
                   ))}
@@ -75,7 +81,7 @@ const TokenPanel = memo(
         <Flex justifyContent={'flex-start'} gap={'2'} flexWrap={'wrap'}>
           {fp.map(([name, token]) => (
             <PatternToken
-              key={token}
+              key={`${token}-${name}`}
               tokenName={name}
               isOn={pattern.includes(token)}
               handleChange={s => handleTokenToggle(token, s)}

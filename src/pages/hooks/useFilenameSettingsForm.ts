@@ -260,7 +260,6 @@ const useFilenameSettingsForm = (): [
         type: 'setFilenamePattern',
         payload: newPattern,
       })
-      console.log(newPattern)
     },
     [filenameSettings]
   )
