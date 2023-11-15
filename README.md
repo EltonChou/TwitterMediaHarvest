@@ -13,7 +13,7 @@
 # TwitterMediaHarvest
 **Gather medias with just one-click.**
 
-If you are a firefox user, please build the addons by your self. Feel free to open issue if you meet any problem when building.
+If you are a firefox user, please download `xpi` file in release page.
 
 ## Features
 
