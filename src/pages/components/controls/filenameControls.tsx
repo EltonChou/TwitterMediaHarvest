@@ -1,6 +1,6 @@
 import { DragHandleIcon } from '@chakra-ui/icons'
 import { Box, Tag, TagCloseButton, TagLabel, TagLeftIcon } from '@chakra-ui/react'
-import type { DraggableProvided } from '@hello-pangea/dnd'
+import { useSortable } from '@dnd-kit/sortable'
 import React, { memo } from 'react'
 
 type PatternTokenProps = {
@@ -28,38 +28,43 @@ export const PatternToken = memo(
 )
 
 type SortablePatternTokenProps = {
-  tokenName: string
-  innerRef: (element?: HTMLElement) => void
-  isDragging: boolean
-  draggableProvided: DraggableProvided
+  token: string
+  name: string
   handleChange?: (state: boolean) => void
 }
 
 export const SortablePatternToken = memo(
-  ({
-    tokenName,
-    innerRef,
-    isDragging,
-    draggableProvided,
-    handleChange,
-  }: SortablePatternTokenProps) => (
-    <Tag
-      {...draggableProvided.draggableProps}
-      {...draggableProvided.dragHandleProps}
-      style={{ ...draggableProvided.draggableProps.style }}
-      ref={innerRef}
-      size="md"
-      fontSize="1em"
-      fontWeight="medium"
-      borderRadius="full"
-      color="gray.900"
-      bg="white"
-      opacity={isDragging ? 0.7 : 1}
-      userSelect="none"
-    >
-      <TagLeftIcon as={DragHandleIcon} boxSize={3} color={'gray.600'} />
-      <TagLabel>{tokenName}</TagLabel>
-      <TagCloseButton onClick={() => handleChange(false)} />
-    </Tag>
-  )
+  ({ token, name, handleChange }: SortablePatternTokenProps) => {
+    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+      id: token,
+    })
+
+    const isDragging = attributes['aria-pressed']
+
+    return (
+      <Tag
+        ref={setNodeRef}
+        {...attributes}
+        {...listeners}
+        size="md"
+        transition={transition}
+        fontSize="1em"
+        fontWeight="medium"
+        borderRadius="full"
+        color="gray.900"
+        bg="white"
+        userSelect="none"
+        transform={
+          transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined
+        }
+        cursor={isDragging ? 'grabbing' : 'grab'}
+        opacity={isDragging ? 0.65 : 1}
+        zIndex={isDragging ? 1 : 0}
+      >
+        <TagLeftIcon as={DragHandleIcon} boxSize={3} color={'gray.600'} />
+        <TagLabel>{name}</TagLabel>
+        <TagCloseButton onClick={() => handleChange(false)} />
+      </Tag>
+    )
+  }
 )
