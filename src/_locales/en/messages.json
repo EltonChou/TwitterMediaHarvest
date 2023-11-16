@@ -157,7 +157,7 @@
     "message": "Invalid directory name. Cannot contain <>:\"\\|?*"
   },
   "options_general_filenameSettings_message_pattern": {
-    "message": "Invalid pattern. The pattern must includes `Tweet ID` + `Serial` or `Hash`."
+    "message": "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
   },
   "options_features_revealNsfw": {
     "message": "Auto-reveal sensitive content"
