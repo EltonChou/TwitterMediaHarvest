@@ -5,7 +5,6 @@ import V4FilenameSettingsUsecase from '@backend/settings/filenameSettings/usecas
 import { Button, Flex, HStack, Input, Select, VStack } from '@chakra-ui/react'
 import {
   DndContext,
-  type DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   closestCenter,
