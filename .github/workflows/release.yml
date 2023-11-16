@@ -37,6 +37,11 @@ jobs:
           yarn test
           yarn build
 
+      - name: Sign Firefox xpi
+        run: |
+          yarn web-ext sign -s build/firefox-signed -a build/dist --ignore-files "*.map" --api-key ${{ secrets.FF_JWT_ISSUER }} --api-secret ${{ secrets.FF_JWT_SECRET }}
+          mv dist/*.xpi dist/mediaharvest@${{ github.ref_name }}.xpi
+
       - name: Create Artifact
         uses: actions/upload-artifact@v3
         with:
@@ -72,7 +77,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           name: 'TwitterMediaHarvest ${{ github.ref_name }}'
-          artifacts: ${{ format('{0}/dist/*.zip', steps.download_artifact.outputs.download-path) }}
+          artifacts: ${{ format('{0}/dist/*.zip,*.xpi', steps.download_artifact.outputs.download-path) }}
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ steps.changelog.outputs.release }}
 

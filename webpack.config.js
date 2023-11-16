@@ -7,7 +7,7 @@ const FileManagerPlugin = require('filemanager-webpack-plugin')
 const PACKAGE = require('./package.json')
 const PublicKey = require('./public_key.json')
 const webpack = require('webpack')
-const version = PACKAGE.version
+const VERSION = PACKAGE.version
 
 const config = {
   experiments: {
@@ -115,49 +115,13 @@ const config = {
   },
 }
 
-module.exports = (env, argv) => {
-  const isProduction = argv.mode === 'production'
-  const versionName = `${version} (${env.target})`
-  const release_name =
-    env.RELEASE_NAME || PACKAGE.name + '(' + env.target + ')' + '@' + version
-  config.resolve.alias['@init'] = path.resolve(
-    __dirname,
-    `src/service_worker/${env.target}/initialization.ts`
-  )
-
-  config.output = {
-    filename: '[name].js',
-    path: path.join(__dirname, 'build', env.target),
-    clean: true,
-  }
-
-  const chromiumManifestCopyPlugin = new CopyPlugin({
-    patterns: [
-      {
-        from: 'manifest.json',
-        context: 'src',
-        to: '[name][ext]',
-        transform: content => {
-          const contentJson = JSON.parse(content.toString())
-          contentJson['version'] = version
-          contentJson['version_name'] = versionName
-
-          if (
-            (env.target === 'chrome' && isProduction) ||
-            (env.target === 'edge' && !isProduction)
-          ) {
-            contentJson['key'] = PublicKey[env.target]
-          }
-
-          if (!isProduction) contentJson['name'] = 'MH-Dev'
-
-          return Buffer.from(JSON.stringify(contentJson))
-        },
-      },
-    ],
-  })
-
-  const firefoxManifestCopyPlugin = new CopyPlugin({
+const makeFirefoxManifestCopyPlugin = (
+  isProduction,
+  isSelfSigned,
+  version,
+  versionName
+) =>
+  new CopyPlugin({
     patterns: [
       {
         from: 'manifest_firefox.json',
@@ -176,18 +140,90 @@ module.exports = (env, argv) => {
             )
           }
 
+          if (isSelfSigned && isProduction) {
+            contentStr = contentStr.replace(
+              'mediaharvest@addons.mozilla.org',
+              'mediaharvest@mediaharvest.app'
+            )
+          }
+
           return Buffer.from(contentStr)
         },
       },
     ],
   })
 
+const makeChromiumManifestCopyPlugin = (
+  isProduction,
+  version,
+  versionName,
+  buildTarget
+) =>
+  new CopyPlugin({
+    patterns: [
+      {
+        from: 'manifest.json',
+        context: 'src',
+        to: '[name][ext]',
+        transform: content => {
+          const contentJson = JSON.parse(content.toString())
+          contentJson['version'] = version
+          contentJson['version_name'] = versionName
+
+          if (
+            (buildTarget === 'chrome' && isProduction) ||
+            (buildTarget === 'edge' && !isProduction)
+          ) {
+            contentJson['key'] = PublicKey[buildTarget]
+          }
+
+          if (!isProduction) contentJson['name'] = 'MH-Dev'
+
+          return Buffer.from(JSON.stringify(contentJson))
+        },
+      },
+    ],
+  })
+
+module.exports = (env, argv) => {
+  const BUILD_TARGET = env.target
+  const BROWSER = env.target.split('-')[0]
+  const VERSION_NAME = `${VERSION} (${BROWSER})`
+  const RELEASE_NAME =
+    env.RELEASE_NAME || PACKAGE.name + '(' + BROWSER + ')' + '@' + VERSION
+  const OUTPUT_DIR = path.join(__dirname, 'build', BUILD_TARGET)
+  const DIST_DIR = path.join(__dirname, 'dist')
+
+  const isProduction = argv.mode === 'production'
+  const shouldZip = !BUILD_TARGET.endsWith('signed')
+
+  config.resolve.alias['@init'] = path.resolve(
+    __dirname,
+    'src',
+    'service_worker',
+    BROWSER,
+    'initialization.ts'
+  )
+
+  config.output = {
+    filename: '[name].js',
+    path: path.join(__dirname, 'build', env.target),
+    clean: true,
+  }
+
   config.plugins.push(
-    env.target === 'firefox' ? firefoxManifestCopyPlugin : chromiumManifestCopyPlugin,
+    BUILD_TARGET.includes('firefox')
+      ? makeFirefoxManifestCopyPlugin(
+          isProduction,
+          BUILD_TARGET.endsWith('signed'),
+          VERSION,
+          VERSION_NAME
+        )
+      : makeChromiumManifestCopyPlugin(isProduction, VERSION, VERSION_NAME, BUILD_TARGET),
     new webpack.EnvironmentPlugin({
-      RELEASE: release_name,
-      TARGET: env.target,
-      VERSION_NAME: versionName,
+      RELEASE: RELEASE_NAME,
+      TARGET: BROWSER,
+      VERSION_NAME: VERSION_NAME,
     })
   )
 
@@ -208,25 +244,29 @@ module.exports = (env, argv) => {
   if (isProduction) {
     config.plugins.push(
       new Dotenv(),
-      new FileManagerPlugin({
-        events: {
-          onEnd: {
-            mkdir: ['dist'],
-            archive: [
-              {
-                source: `build/${env.target}`,
-                destination: `dist/${env.target}-TwitterMediaHarvest-v${version}.zip`,
-                options: {
-                  zlib: { level: 9 },
-                  globOptions: {
-                    ignore: ['*.map', '*.txt'],
+      shouldZip &&
+        new FileManagerPlugin({
+          events: {
+            onEnd: {
+              mkdir: ['dist'],
+              archive: [
+                {
+                  source: OUTPUT_DIR,
+                  destination: path.join(
+                    DIST_DIR,
+                    `${BUILD_TARGET}-TwitterMediaHarvest-v${VERSION}.zip`
+                  ),
+                  options: {
+                    zlib: { level: 9 },
+                    globOptions: {
+                      ignore: ['*.map'],
+                    },
                   },
                 },
-              },
-            ],
+              ],
+            },
           },
-        },
-      })
+        })
     )
   }
   // config.plugins.push(new BundleAnalyzerPlugin())
