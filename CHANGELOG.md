@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Added
+
+- The filename pattern token can be dragged now. (#117 by @Laurens256)
+
+
 ### Fixed
 
 - Fixed status anchor css selector.
