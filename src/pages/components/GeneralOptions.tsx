@@ -77,7 +77,7 @@ const TokenPanel = memo(
                   key={token}
                   name={name}
                   token={token}
-                  handleRemove={s => handleTokenToggle(token, s)}
+                  handleRemove={() => handleTokenToggle(token, false)}
                 />
               ))}
             </SortableContext>

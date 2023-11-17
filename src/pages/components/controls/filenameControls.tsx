@@ -21,6 +21,7 @@ export const PatternToken = memo(
       bg={isOn ? 'token.active' : 'white'}
       cursor="pointer"
       onClick={() => handleChange(!isOn)}
+      userSelect={'none'}
     >
       {tokenName}
     </Box>
@@ -30,7 +31,7 @@ export const PatternToken = memo(
 type SortablePatternTokenProps = {
   token: string
   name: string
-  handleRemove: (state: boolean) => void
+  handleRemove: () => void
 }
 
 export const SortablePatternToken = memo(
@@ -64,7 +65,7 @@ export const SortablePatternToken = memo(
           <DragHandleIcon boxSize={3} color={'gray.600'} />
           <>{name}</>
         </HStack>
-        <TagCloseButton onClick={() => handleRemove(false)} />
+        <TagCloseButton onClick={handleRemove} />
       </Tag>
     )
   }
