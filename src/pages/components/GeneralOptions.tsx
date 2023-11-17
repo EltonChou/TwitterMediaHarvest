@@ -73,7 +73,12 @@ const TokenPanel = memo(
           >
             <SortableContext items={sortedTokens.map(([, _token]) => _token)}>
               {sortedTokens.map(([name, token]) => (
-                <SortablePatternToken key={token} name={name} token={token} />
+                <SortablePatternToken
+                  key={token}
+                  name={name}
+                  token={token}
+                  handleRemove={s => handleTokenToggle(token, s)}
+                />
               ))}
             </SortableContext>
           </Flex>

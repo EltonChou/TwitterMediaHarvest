@@ -1,5 +1,5 @@
 import { DragHandleIcon } from '@chakra-ui/icons'
-import { Box, Tag, TagCloseButton, TagLabel, TagLeftIcon } from '@chakra-ui/react'
+import { Box, HStack, Tag, TagCloseButton } from '@chakra-ui/react'
 import { useSortable } from '@dnd-kit/sortable'
 import React, { memo } from 'react'
 
@@ -30,11 +30,11 @@ export const PatternToken = memo(
 type SortablePatternTokenProps = {
   token: string
   name: string
-  handleChange?: (state: boolean) => void
+  handleRemove: (state: boolean) => void
 }
 
 export const SortablePatternToken = memo(
-  ({ token, name, handleChange }: SortablePatternTokenProps) => {
+  ({ token, name, handleRemove }: SortablePatternTokenProps) => {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
       id: token,
     })
@@ -45,7 +45,6 @@ export const SortablePatternToken = memo(
       <Tag
         ref={setNodeRef}
         {...attributes}
-        {...listeners}
         size="md"
         transition={transition}
         fontSize="1em"
@@ -61,9 +60,11 @@ export const SortablePatternToken = memo(
         opacity={isDragging ? 0.65 : 1}
         zIndex={isDragging ? 1 : 0}
       >
-        <TagLeftIcon as={DragHandleIcon} boxSize={3} color={'gray.600'} />
-        <TagLabel>{name}</TagLabel>
-        <TagCloseButton onClick={() => handleChange(false)} />
+        <HStack spacing={2} {...listeners}>
+          <DragHandleIcon boxSize={3} color={'gray.600'} />
+          <>{name}</>
+        </HStack>
+        <TagCloseButton onClick={() => handleRemove(false)} />
       </Tag>
     )
   }
