@@ -157,6 +157,7 @@ type FormHandler = {
   directoryInput: (e: React.ChangeEvent<HTMLInputElement>) => void
   directorySwitch: () => void
   patternTokenToggle: (t: FilenamePatternToken, s: boolean) => void
+  patternTokenSort: (sourceIndex: number, destinationIndex: number) => void
   handleAggregationTokenChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
   aggregationToggle: () => void
 }
@@ -249,6 +250,20 @@ const useFilenameSettingsForm = (): [
     [filenameSettings]
   )
 
+  const handleTokenSort = useCallback(
+    (sourceIndex: number, destinationIndex: number) => {
+      const newPattern = [...filenameSettings.filenamePattern]
+      const [removed] = newPattern.splice(sourceIndex, 1)
+      newPattern.splice(destinationIndex, 0, removed)
+      formStatusDispatch('formIsChanged')
+      settingsDispatch({
+        type: 'setFilenamePattern',
+        payload: newPattern,
+      })
+    },
+    [filenameSettings]
+  )
+
   const handleAggregationTokenChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       settingsDispatch({
@@ -277,6 +292,7 @@ const useFilenameSettingsForm = (): [
       directoryInput: handleInput,
       directorySwitch: handleSubDirectoryClick,
       patternTokenToggle: handleTokenToggle,
+      patternTokenSort: handleTokenSort,
       handleAggregationTokenChange: handleAggregationTokenChange,
       aggregationToggle: handleAggregationToggle,
     },
