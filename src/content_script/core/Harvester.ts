@@ -135,7 +135,7 @@ const wrapButton =
   (mode: TweetMode) =>
   (btn: HTMLElement): HTMLElement => {
     const buttonWrapper = createElementFromHTML(`
-      <div class="css-1dbjc4n harvester ${mode}">
+      <div class="harvester ${mode}">
         <div aria-haspopup="true" aria-label="Media Harvest" role="button" data-focusable="true" tabindex="0" \
         style="display: flex;justify-content: center;">
           ${btn.outerHTML}
