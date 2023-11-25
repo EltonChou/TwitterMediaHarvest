@@ -36,6 +36,12 @@ type ImportHistoryExchange = {
   data: string
 }
 
+type GeneralErrorResponse = { status: 'error'; error?: string | Error }
+
+type GeneralSuccessResponse = {
+  status: 'success'
+}
+
 export type HarvestExchange<T extends Action> = T extends Action.Download
   ? DownloadExchange
   : T extends Action.CheckDownloadHistory
@@ -51,10 +57,8 @@ export type HarvestResponse<T extends Action> =
       ? FetchUserResponse
       : T extends Action.CheckDownloadHistory
       ? CheckDownloadHistoryResponse
-      : {
-          status: 'success'
-        })
-  | { status: 'error'; error?: string | Error }
+      : GeneralSuccessResponse)
+  | GeneralErrorResponse
 
 export type ExchangeHandler<T extends Action> = (
   exchange: HarvestExchange<T>
