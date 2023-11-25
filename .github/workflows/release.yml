@@ -40,7 +40,7 @@ jobs:
       - name: Sign Firefox xpi
         run: |
           yarn web-ext sign -s build/firefox-signed -a build/dist --ignore-files "*.map" --api-key ${{ secrets.FF_JWT_ISSUER }} --api-secret ${{ secrets.FF_JWT_SECRET }}
-          mv dist/*.xpi dist/mediaharvest@${{ github.ref_name }}.xpi
+          mv dist/*.xpi dist/mediaharvest@mediaharvest.app-${{ github.ref_name }}.xpi
 
       - name: Create Artifact
         uses: actions/upload-artifact@v3
