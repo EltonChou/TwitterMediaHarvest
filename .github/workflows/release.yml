@@ -38,8 +38,9 @@ jobs:
           yarn build
 
       - name: Sign Firefox xpi
+        continue-on-error: true
         run: |
-          yarn web-ext sign -s build/firefox-signed -a build/dist --ignore-files "*.map" --api-key ${{ secrets.FF_JWT_ISSUER }} --api-secret ${{ secrets.FF_JWT_SECRET }}
+          yarn web-ext sign -s build/firefox-signed -a dist --ignore-files "*.map" --api-key ${{ secrets.FF_JWT_ISSUER }} --api-secret ${{ secrets.FF_JWT_SECRET }}
           mv dist/*.xpi dist/mediaharvest@mediaharvest.app-${{ github.ref_name }}.xpi
 
       - name: Create Artifact
