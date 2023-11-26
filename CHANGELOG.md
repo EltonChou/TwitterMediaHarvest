@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [4.2.3] - 2023-11-26
 
 ### Added
 
@@ -10,6 +10,7 @@
 ### Fixed
 
 - Fixed status anchor css selector.
+- Fixed button style due to the change of x's layout.
 
 
 ## [4.2.2] - 2023-10-29
