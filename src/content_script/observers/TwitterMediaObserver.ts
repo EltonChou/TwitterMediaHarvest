@@ -8,7 +8,7 @@ import select from 'select-dom'
 enum Query {
   Root = '#react-root',
   Stream = 'section[role="region"] > div[aria-label] > div',
-  Modal = '[aria-labelledby="modal-header"]',
+  Modal = '[aria-labelledby="modal-header"] > div:first-child',
   ModalWrapper = '#layers',
   ModalThread = '[aria-labelledby="modal-header"] [aria-expanded="true"]',
   Timeline = '[data-testid="primaryColumn"] [aria-label]',
@@ -38,9 +38,7 @@ export default class TwitterMediaObserver implements IHarvestObserver {
 
   initialize() {
     const modal = select(Query.Modal)
-    if (modal && isInTweetStatus() && select.exists('img[alt="Image"]', modal)) {
-      makeHarvester(modal)
-    }
+    if (modal && isInTweetStatus()) makeHarvester(modal)
 
     const articles = select.all('article')
     for (const article of articles) {
@@ -96,11 +94,13 @@ export default class TwitterMediaObserver implements IHarvestObserver {
     }
 
     const threadCallback: MutationCallback = (_, observer) => {
+      console.log('tc')
       this.initialize()
       observer.disconnect()
     }
 
     const modalMutationCallback: MutationCallback = () => {
+      console.log('mmc')
       this.initialize()
       const modalThread = select(Query.ModalThread)
 
