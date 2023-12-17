@@ -8,6 +8,7 @@ import select from 'select-dom'
 enum Query {
   Root = '#react-root',
   Stream = 'section[role="region"] > div[aria-label] > div',
+  MediaBlock = 'section[role="region"] > div[aria-label] > div li',
   Modal = '[aria-labelledby="modal-header"] > div:first-child',
   ModalWrapper = '#layers',
   ModalThread = '[aria-labelledby="modal-header"] [aria-expanded="true"]',
@@ -42,15 +43,21 @@ export default class TwitterMediaObserver implements IHarvestObserver {
 
     const articles = select.all('article')
     for (const article of articles) {
-      if (this.autoRevealNsfw) revealNsfw(article)
+      this.autoRevealNsfw && revealNsfw(article)
       if (articleHasMedia(article)) makeHarvester(article)
     }
+
+    const mediaBlocks = select.all(Query.MediaBlock)
+    mediaBlocks.forEach(b => this.autoRevealNsfw && revealNsfw(b))
   }
 
   observeStream() {
     const mutaionCb: MutationCallback = mutations => {
       for (const mutation of mutations) {
         for (const addedNode of mutation.addedNodes) {
+          const mediaBlocks = select.all(Query.MediaBlock)
+          mediaBlocks.forEach(b => this.autoRevealNsfw && revealNsfw(b))
+
           const article = select('article', addedNode as ParentNode)
           if (this.autoRevealNsfw) revealNsfw(article)
           if (articleHasMedia(article)) makeHarvester(article)
