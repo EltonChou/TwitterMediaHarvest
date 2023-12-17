@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- Fix auto-revealing nsfw in new medias ui.
+- Fix download button disappearing issue in modal with video content.
+
+
 ## [4.2.3] - 2023-11-26
 
 ### Added
