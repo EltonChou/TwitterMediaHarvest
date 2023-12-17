@@ -94,13 +94,11 @@ export default class TwitterMediaObserver implements IHarvestObserver {
     }
 
     const threadCallback: MutationCallback = (_, observer) => {
-      console.log('tc')
       this.initialize()
       observer.disconnect()
     }
 
     const modalMutationCallback: MutationCallback = () => {
-      console.log('mmc')
       this.initialize()
       const modalThread = select(Query.ModalThread)
 
