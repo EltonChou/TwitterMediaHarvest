@@ -6,7 +6,7 @@ import select from 'select-dom'
 export const revealNsfw = (article: HTMLElement) => {
   if (!article || article.dataset['autoReveal'] || isBusinessRelatedTweet(article)) return
   if (article.tagName === 'LI') {
-    select('svg', article)?.parentElement?.parentElement?.click()
+    select('[role="button"]', article)?.click()
     return
   }
 
