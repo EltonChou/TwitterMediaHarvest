@@ -55,7 +55,7 @@ export default class TwitterMediaObserver implements IHarvestObserver {
     const mutaionCb: MutationCallback = mutations => {
       for (const mutation of mutations) {
         for (const addedNode of mutation.addedNodes) {
-          const mediaBlocks = select.all(Query.MediaBlock)
+          const mediaBlocks = select.all('li', addedNode as HTMLElement)
           mediaBlocks.forEach(b => this.autoRevealNsfw && revealNsfw(b))
 
           const article = select('article', addedNode as ParentNode)
