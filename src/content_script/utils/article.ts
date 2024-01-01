@@ -94,3 +94,5 @@ export const articleHasMedia = (article: HTMLElement) =>
 
 export const isArticleCanBeAppend = (article: HTMLElement) =>
   !(select.exists('.deck-harvester', article) || select.exists('.harvester', article))
+
+export const getParentArticle = (ele: HTMLElement): HTMLElement => ele.closest('article')
