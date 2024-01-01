@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Fxied
+
+- Fix inconsistent download behavior in photo mode.
+-
+
 ## [4.2.4] - 2023-12-23
 
 ### Fixed
