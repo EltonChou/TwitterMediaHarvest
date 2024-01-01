@@ -4,7 +4,7 @@ import { isArticlePhotoMode, selectArtcleMode } from '../utils/article'
 import { createElementFromHTML, makeButtonListener } from '../utils/maker'
 import { addBreadcrumb } from '@sentry/browser'
 import { copy as arrCopy, reduce as arrReduce } from 'fp-ts/lib/Array'
-import { fromNullable as eitherNullable, toError } from 'fp-ts/lib/Either'
+import { fromNullable as eitherNullable } from 'fp-ts/lib/Either'
 import * as IOE from 'fp-ts/lib/IOEither'
 import { fromPredicate as optionFromPredicate } from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/function'
@@ -18,7 +18,8 @@ const featureRegEx = Object.freeze({
 })
 
 const getLinksFromArticle = (article: HTMLElement): string[] => {
-  if (isArticlePhotoMode(article)) return [window.location.pathname]
+  const parentArticle = article.closest('article')
+  if (!parentArticle || isArticlePhotoMode(article)) return [window.location.pathname]
   const anchorEles = select.all('[data-testid="User-Name"] [href]', article)
   const timeEle = select('a > time', article)
   if (timeEle?.parentElement?.tagName === 'A') anchorEles.push(timeEle.parentElement)
@@ -50,16 +51,20 @@ const parseLinks =
     )
 
 export const parseTweetInfo = (article: HTMLElement): IOE.IOEither<Error, TweetInfo> => {
-  addBreadcrumb({
-    category: 'parse',
-    message: 'Parse tweet info.',
-    level: 'info',
-  })
-
   return pipe(
-    IOE.of({
-      links: getLinksFromArticle(article),
-    }),
+    IOE.Do,
+    IOE.tap(() =>
+      pipe(
+        () =>
+          addBreadcrumb({
+            category: 'parse',
+            message: 'Parse tweet info.',
+            level: 'info',
+          }),
+        IOE.of
+      )
+    ),
+    IOE.bind('links', () => IOE.right(getLinksFromArticle(article))),
     IOE.bind('screenName', ({ links }) =>
       pipe(links, parseLinks('screenName')(getScreenNameFromLink))
     ),
