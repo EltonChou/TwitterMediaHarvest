@@ -2,10 +2,12 @@
 
 ## Unreleased
 
-### Fxied
+## [4.2.5] - 2024-05-16
+
+### Fixed
 
 - Fix inconsistent download behavior in photo mode.
--
+- Fix content script permission and observer selector issues. (#146)
 
 ## [4.2.4] - 2023-12-23
 
