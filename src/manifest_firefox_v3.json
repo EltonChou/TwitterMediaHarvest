@@ -36,7 +36,8 @@
         "*://twitter.com/*",
         "*://mobile.twitter.com/*",
         "*://tweetdeck.twitter.com/*",
-        "*://x.com/*"
+        "*://x.com/*",
+        "*://mobile.x.com/*"
       ],
       "js": [
         "main.js"

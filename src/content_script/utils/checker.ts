@@ -17,7 +17,12 @@ export const isTweetDeck = (): boolean => getHost() === 'tweetdeck.twitter.com'
  */
 export const isTwitter = (): boolean => {
   const host = getHost()
-  return host === 'twitter.com' || host === 'mobile.twitter.com'
+  return (
+    host === 'twitter.com' ||
+    host === 'mobile.twitter.com' ||
+    host === 'x.com' ||
+    host === 'mobile.x.com'
+  )
 }
 
 const ComposeTweetRegEx = /\/compose\/tweet\/?.*/
