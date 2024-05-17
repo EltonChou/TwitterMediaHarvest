@@ -47,7 +47,13 @@ interface V4Statistics {
   trafficUsage: number
 }
 
-type TwitterApiVersion = 'v1' | 'v2' | 'gql' | 'gql-f'
+type TwitterApiVersion =
+  | 'gql'
+  | 'gql-fallback'
+  | 'gql-guest'
+  | 'gql-fallback-twitter'
+  | 'gql-guest-twitter'
+  | 'gql-twitter'
 
 interface TwitterApiSettings {
   twitterApiVersion: TwitterApiVersion
