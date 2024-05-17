@@ -1,6 +1,6 @@
 {
   "name": "twitter-media-harvest",
-  "version": "4.2.5",
+  "version": "4.2.6",
   "description": "The easiest way to get media from twitter-timeline.",
   "dependencies": {
     "@aws-crypto/sha256-browser": "^4.0.0",
