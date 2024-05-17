@@ -58,7 +58,7 @@
     "notifications",
     "unlimitedStorage"
   ],
-  "content_security_policy": "default-src 'self'; connect-src 'self' https://o1169684.ingest.sentry.io https://api.webext.prod.mediaharvest.app https://cognito-identity.ap-northeast-1.amazonaws.com https://twitter.com https://api.twitter.com; style-src https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; script-src 'self'; img-src https://via.placeholder.com https://pbs.twimg.com;",
+  "content_security_policy": "default-src 'self'; connect-src 'self' https://o1169684.ingest.sentry.io https://*.mediaharvest.app https://cognito-identity.ap-northeast-1.amazonaws.com https://twitter.com https://api.twitter.com https://x.com https://*.x.com; style-src https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; script-src 'self'; img-src https://via.placeholder.com https://pbs.twimg.com;",
   "browser_specific_settings": {
     "gecko": {
       "id": "mediaharvest@addons.mozilla.org",
