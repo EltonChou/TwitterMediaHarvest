@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## [4.2.6] - 2024-05-17
+
+### Fixed
+
+- Fix token error caused by domain force redirecting.
+
 ## [4.2.5] - 2024-05-16
 
 ### Fixed
