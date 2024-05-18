@@ -91,9 +91,12 @@ describe('MediaDownloader Unit Test', () => {
 
   const mediaCatalog: TweetMediaCatalog = {
     images: [
-      'https://pbs.twimg.com/ext_tw_video_thumb/123/pu/img/THUMBNAIL.jpg',
-      'https://pbs.twimg.com/media/IMAGE.jpg',
-      'https://pbs.twimg.com/media/IMAGE.jpg',
+      {
+        url: 'https://pbs.twimg.com/ext_tw_video_thumb/123/pu/img/THUMBNAIL.jpg',
+        _type: 'thumbnail',
+      },
+      { url: 'https://pbs.twimg.com/media/IMAGE.jpg', _type: 'normal' },
+      { url: 'https://pbs.twimg.com/media/IMAGE.jpg', _type: 'normal' },
     ],
     videos: ['https://video.twimg.com/ext_tw_video/123/pu/vid/1280x720/video.mp4'],
   }

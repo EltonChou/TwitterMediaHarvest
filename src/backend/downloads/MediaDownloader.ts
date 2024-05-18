@@ -54,15 +54,15 @@ export default class MediaDownloader {
       Array.from(mediaCatalog.videos).filter(isValidTweetMediaFileUrl).forEach(download)
 
       Array.from(mediaCatalog.images)
-        .filter(isValidTweetMediaFileUrl)
+        .filter(({ url }) => isValidTweetMediaFileUrl(url))
         .filter(shouldAllowThumbnail(this.featureSettings.includeVideoThumbnail))
-        .forEach(download)
+        .forEach(({ url }, index) => download(url, index))
     }
   }
 }
 
 const shouldAllowThumbnail = (allow: boolean) =>
-  allow ? () => true : (url: string) => !url.includes('video_thumb')
+  allow ? () => true : (image: TweetImage) => image._type === 'normal'
 
 const buildFilePathMaker =
   (filenameUsecase: V4FilenameSettingsUsecase) =>

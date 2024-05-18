@@ -141,7 +141,7 @@ const makeDownloadHistoryItem =
       tweetTime: tweetDetail.createdAt,
       downloadTime: new Date(),
       mediaType: parseMediaTypeFromMediaCatalog(catalog),
-      thumbnail: catalog.images.at(0),
+      thumbnail: catalog.images.at(0).url,
       userId: tweetDetail.userId,
     })
 

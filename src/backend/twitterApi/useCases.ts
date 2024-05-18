@@ -344,7 +344,11 @@ export class MediaTweetUseCases {
 
     if (medias !== undefined) {
       mediaCatalog = medias.reduce((catalog, media) => {
-        catalog.images.push(cleanUrl(media.media_url_https))
+        const image: TweetImage = {
+          url: cleanUrl(media.media_url_https),
+          _type: 'video_info' in media ? 'thumbnail' : 'normal',
+        }
+        catalog.images.push(image)
         media?.video_info && catalog.videos.push(getBestQualityVideoUrl(media.video_info))
         return catalog
       }, mediaCatalog)
