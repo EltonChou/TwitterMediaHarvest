@@ -11,8 +11,13 @@ type TweetInfo = {
   tweetId: string
 }
 
+type TweetImage = {
+  _type: 'normal' | 'thumbnail'
+  url: string
+}
+
 type TweetMediaCatalog = {
-  images: string[]
+  images: TweetImage[]
   videos: string[]
 }
 
