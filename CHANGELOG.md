@@ -2,11 +2,19 @@
 
 ## Unreleased
 
+## [4.2.7] - 2024-05-26
+
+### Fixed
+
+- Fix video thumbnail download issue.
+
+
 ## [4.2.6] - 2024-05-17
 
 ### Fixed
 
 - Fix token error caused by domain force redirecting.
+
 
 ## [4.2.5] - 2024-05-16
 
@@ -14,6 +22,7 @@
 
 - Fix inconsistent download behavior in photo mode.
 - Fix content script permission and observer selector issues. (#146)
+
 
 ## [4.2.4] - 2023-12-23
 
