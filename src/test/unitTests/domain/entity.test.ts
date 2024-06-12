@@ -1,4 +1,4 @@
-import { Entity, EntityId } from '@backend/domain/entities/base'
+import { Entity, EntityId } from '#domain/entities/base'
 
 describe('unit test for value object', () => {
   class TestEntityId extends EntityId<number> {}

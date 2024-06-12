@@ -1,4 +1,4 @@
-import { ValueObject } from '@backend/domain/valueObjects/base'
+import { ValueObject } from '#domain/valueObjects/base'
 
 describe('unit test for value object', () => {
   class Money extends ValueObject<{ currency: string; amount: number }> {}

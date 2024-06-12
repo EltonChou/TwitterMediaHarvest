@@ -32,6 +32,15 @@
     ],
     "forceConsistentCasingInFileNames": true,
     "paths": {
+      "#domain/*": [
+        "./domain/*"
+      ],
+      "#schema": [
+        "types/schema.d.ts"
+      ],
+      "#libs/*": [
+        "./libs/*"
+      ],
       "@backend/*": [
         "./backend/*"
       ],

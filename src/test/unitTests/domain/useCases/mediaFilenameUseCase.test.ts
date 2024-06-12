@@ -1,9 +1,9 @@
-import type { FileInfo } from '@backend/domain/useCases/mediaFilename'
-import { MediaFilenameUseCase } from '@backend/domain/useCases/mediaFilename'
+import type { FileInfo } from '#domain/useCases/mediaFilename'
+import { MediaFilenameUseCase } from '#domain/useCases/mediaFilename'
+import { SimpleObjectStorageProxy } from '#libs/proxy'
+import type { V4FilenameSettings } from '#schema'
 import { PatternToken } from '@backend/enums'
 import { V4FilenameSettingsRepository } from '@backend/infra/repositories/filenameSettings'
-import { SimpleObjectStorageProxy } from '@libs/proxy'
-import type { V4FilenameSettings } from '@schema'
 
 describe('unit test for media filename use case.', () => {
   const v4FilenameRepo = new V4FilenameSettingsRepository(new SimpleObjectStorageProxy())
