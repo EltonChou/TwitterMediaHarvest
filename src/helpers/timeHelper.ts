@@ -22,4 +22,4 @@ export class TimeHelper {
 }
 
 export const sleep = async (ms: number) =>
-  new Promise((resolve, reject) => setTimeout(resolve, ms))
+  new Promise((resolve, _reject) => setTimeout(resolve, ms))
