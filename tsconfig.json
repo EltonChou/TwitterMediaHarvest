@@ -50,6 +50,9 @@
       "#libs/*": [
         "./libs/*"
       ],
+      "#infra/*": [
+        "./infra/*"
+      ],
       "@backend/*": [
         "./backend/*"
       ],
