@@ -53,7 +53,7 @@ interface TwitterApiSettings {
   twitterApiVersion: TwitterApiVersion
 }
 
-interface ClientInfo {
+type ClientInfo = {
   uuid: string
   csrfToken: string
   uninstallCode: string

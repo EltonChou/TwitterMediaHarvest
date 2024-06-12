@@ -20,7 +20,9 @@
     "#backend/(.*)$": "<rootDir>/src/backend/$1",
     "#libs/(.*)$": "<rootDir>/src/libs/$1",
     "@libs/(.*)$": "<rootDir>/src/libs/$1",
-    "#domain/(.*)$": "<rootDir>/src/domain/$1"
+    "#domain/(.*)$": "<rootDir>/src/domain/$1",
+    "#helpers/(.*)$": "<rootDir>/src/helpers/$1",
+    "#enums/(.*)$": "<rootDir>/src/enums/$1"
   },
   "collectCoverage": true,
   "collectCoverageFrom": [

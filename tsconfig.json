@@ -35,8 +35,17 @@
       "#domain/*": [
         "./domain/*"
       ],
+      "#helpers/*": [
+        "./helpers/*"
+      ],
+      "#enums/*": [
+        "./enums/*"
+      ],
       "#schema": [
         "types/schema.d.ts"
+      ],
+      "#constants": [
+        "./constants"
       ],
       "#libs/*": [
         "./libs/*"

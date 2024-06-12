@@ -1,6 +1,6 @@
+import { PatternToken } from '#enums/patternToken'
+import type { V4FilenameSettings } from '#schema'
 import type { ISettingsRepository } from '../repositories/settings'
-import { PatternToken } from '@backend/enums'
-import type { V4FilenameSettings } from '@schema'
 import path from 'path/posix'
 
 export type FileInfo = {

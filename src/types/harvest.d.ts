@@ -80,3 +80,7 @@ type Entries<T> = {
 interface JSONable {
   toJSON(): object
 }
+
+interface LiteraObject {
+  [index: string]: unknown
+}
