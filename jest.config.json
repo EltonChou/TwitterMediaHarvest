@@ -17,12 +17,14 @@
   ],
   "moduleNameMapper": {
     "@backend/(.*)$": "<rootDir>/src/backend/$1",
-    "#backend/(.*)$": "<rootDir>/src/backend/$1",
     "#libs/(.*)$": "<rootDir>/src/libs/$1",
     "@libs/(.*)$": "<rootDir>/src/libs/$1",
+    "#backend/(.*)$": "<rootDir>/src/backend/$1",
     "#domain/(.*)$": "<rootDir>/src/domain/$1",
     "#helpers/(.*)$": "<rootDir>/src/helpers/$1",
-    "#enums/(.*)$": "<rootDir>/src/enums/$1"
+    "#enums/(.*)$": "<rootDir>/src/enums/$1",
+    "#infra/(.*)$": "<rootDir>/src/infra/$1",
+    "#constants": "<rootDir>/src/constants"
   },
   "collectCoverage": true,
   "collectCoverageFrom": [
