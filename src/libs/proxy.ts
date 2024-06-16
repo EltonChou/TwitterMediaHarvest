@@ -39,7 +39,7 @@ export class SimpleObjectStorageProxy<T extends Partial<LocalSchema | SyncSchema
 
   async getItemByKey<Key extends SchemaKey<T>>(key: Key): Promise<Pick<T, Key>> {
     const strKey = String(key)
-    return Object.keys(this.storage).includes(strKey)
+    return Object.hasOwn(this.storage, strKey)
       ? ({ [key]: this.storage[strKey] } as Pick<T, SchemaKey<T>>)
       : undefined
   }

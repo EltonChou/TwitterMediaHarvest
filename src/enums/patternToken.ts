@@ -1,4 +1,4 @@
-export enum PatternToken {
+enum PatternToken {
   Account = '{account}',
   AccountId = '{accountId}',
   TweetId = '{tweetId}',
@@ -11,3 +11,5 @@ export enum PatternToken {
   TweetDatetime = '{tweetDatetime}',
   TweetTimestamp = '{tweetTimestamp}',
 }
+
+export default PatternToken

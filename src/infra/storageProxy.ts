@@ -25,9 +25,7 @@ abstract class ExtensionStorageProxy<T extends LocalSchema | SyncSchema>
   async getItemByKey<Key extends SchemaKey<T>>(key: Key): Promise<Pick<T, Key>> {
     const strKey = String(key)
     const record = await this.storageArea.get(strKey)
-    return Object.keys(record).includes(strKey)
-      ? (record as Pick<T, SchemaKey<T>>)
-      : undefined
+    return Object.hasOwn(record, strKey) ? (record as Pick<T, SchemaKey<T>>) : undefined
   }
 
   async getItemByDefaults<Defaults extends Partial<T>>(

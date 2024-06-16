@@ -17,12 +17,16 @@ export abstract class ValueObject<Props extends LiteraObject>
 
   is(that: unknown): boolean {
     if (that === null || that === undefined) return false
-    if (!(that instanceof ValueObject)) return false
-    if (this.constructor !== that.constructor) return false
+    if (!(that instanceof ValueObject) || !(that instanceof this.constructor))
+      return false
+
+    if (Object.keys(this.props).length !== Object.keys(that.props).length) return false
 
     for (const propKey in this.props) {
+      if (!Object.hasOwn(that.props, propKey)) return false
+
       const thisProp = this.props[propKey]
-      const thatProp = that.mapBy(props => props[propKey])
+      const thatProp = that.props[propKey]
       const isSameProp =
         thisProp instanceof ValueObject ? thisProp.is(thatProp) : thisProp === thatProp
       if (!isSameProp) return false

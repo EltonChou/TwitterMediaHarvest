@@ -1,6 +1,6 @@
 import { DEFAULT_DIRECTORY } from '#constants'
 import { ISettingsRepository } from '#domain/repositories/settings'
-import { PatternToken } from '#enums/patternToken'
+import PatternToken from '#enums/patternToken'
 import type { IStorageProxy } from '#libs/proxy'
 import type { V4FilenameSettings } from '#schema'
 

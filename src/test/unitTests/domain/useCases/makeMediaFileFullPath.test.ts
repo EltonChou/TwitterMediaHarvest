@@ -1,6 +1,6 @@
-import type { FileInfo } from '#domain/useCases/mediaFilename'
-import { MediaFilenameUseCase } from '#domain/useCases/mediaFilename'
-import { PatternToken } from '#enums/patternToken'
+import type { FileInfo } from '#domain/useCases/makeMediaFileFullPath'
+import { MakeMediaFileFullPath } from '#domain/useCases/makeMediaFileFullPath'
+import PatternToken from '#enums/patternToken'
 import { V4FilenameSettingsRepository } from '#infra/repositories/filenameSettings'
 import { SimpleObjectStorageProxy } from '#libs/proxy'
 import type { V4FilenameSettings } from '#schema'
@@ -32,38 +32,13 @@ describe('unit test for media filename use case.', () => {
 
   afterEach(() => jest.clearAllMocks())
 
-  it('can make filename', async () => {
-    jest.spyOn(v4FilenameRepo, 'get').mockResolvedValue(settings)
-
-    const filenameUseCase = new MediaFilenameUseCase(v4FilenameRepo)
-    const filename = await filenameUseCase.makeFilename(tweetDetail, fileInfo)
-
-    expect(filename).toEqual(
-      `${tweetDetail.screenName}-${tweetDetail.id}-${String(fileInfo.serial).padStart(
-        2,
-        '0'
-      )}`
-    )
-  })
-
-  it('can make aggregation directory', async () => {
-    jest
-      .spyOn(v4FilenameRepo, 'get')
-      .mockResolvedValue({ ...settings, fileAggregation: true, groupBy: '{account}' })
-
-    const filenameUseCase = new MediaFilenameUseCase(v4FilenameRepo)
-    const aggregationDir = await filenameUseCase.makeAggregationDirectory(tweetDetail)
-
-    expect(aggregationDir).toBe(`${settings.directory}/${tweetDetail.screenName}`)
-  })
-
   it('can make full path with filename with ext', async () => {
     jest
       .spyOn(v4FilenameRepo, 'get')
       .mockResolvedValue({ ...settings, fileAggregation: true, groupBy: '{account}' })
 
-    const filenameUseCase = new MediaFilenameUseCase(v4FilenameRepo)
-    const fullPath = await filenameUseCase.makeFileFullPath(tweetDetail, fileInfo)
+    const filenameUseCase = new MakeMediaFileFullPath(v4FilenameRepo)
+    const fullPath = await filenameUseCase.process({ tweetDetail, fileInfo })
 
     expect(fullPath).toBe(
       `${settings.directory}/${tweetDetail.screenName}/${tweetDetail.screenName}-${

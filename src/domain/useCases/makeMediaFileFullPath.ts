@@ -1,6 +1,7 @@
-import { PatternToken } from '#enums/patternToken'
+import PatternToken from '#enums/patternToken'
 import type { V4FilenameSettings } from '#schema'
 import type { ISettingsRepository } from '../repositories/settings'
+import { AsyncUseCase } from './base'
 import path from 'path/posix'
 
 export type FileInfo = {
@@ -10,33 +11,32 @@ export type FileInfo = {
   ext: `.${string}`
 }
 
-export interface IMediaFilenameUseCase {
-  makeFilename(
-    tweetDetail: TweetDetail,
-    { serial, hash, date }: FileInfo
-  ): Promise<string>
-  makeAggregationDirectory(tweetDetail: TweetDetail): Promise<string>
-  makeFileFullPath(tweetDetail: TweetDetail, fileInfo: FileInfo): Promise<string>
+type MakeMediaFileFullPathCommand = {
+  tweetDetail: TweetDetail
+  fileInfo: FileInfo
 }
 
-export class MediaFilenameUseCase implements IMediaFilenameUseCase {
-  private settings: V4FilenameSettings | undefined
-
+export class MakeMediaFileFullPath
+  implements AsyncUseCase<MakeMediaFileFullPathCommand, string>
+{
   constructor(readonly filenameSettingsRepo: ISettingsRepository<V4FilenameSettings>) {}
 
-  private async getFilenameSettings(): Promise<V4FilenameSettings> {
-    if (!this.settings) {
-      this.settings = await this.filenameSettingsRepo.get()
-    }
-    return this.settings
-  }
-
-  async makeFilename(
-    tweetDetail: TweetDetail,
-    { serial, hash, date }: FileInfo
-  ): Promise<string> {
+  async process({
+    tweetDetail,
+    fileInfo,
+  }: MakeMediaFileFullPathCommand): Promise<string> {
     const settings = await this.filenameSettingsRepo.get()
+    return path.format({
+      dir: makeAggregationDirectory(settings)(tweetDetail),
+      name: makeFilename(settings)(tweetDetail, fileInfo),
+      ext: fileInfo.ext,
+    })
+  }
+}
 
+export const makeFilename =
+  (settings: V4FilenameSettings) =>
+  (tweetDetail: TweetDetail, { serial, hash, date }: FileInfo): string => {
     const filename = settings.filenamePattern
       .join('-')
       .replace(PatternToken.Account, tweetDetail.screenName)
@@ -52,8 +52,9 @@ export class MediaFilenameUseCase implements IMediaFilenameUseCase {
     return filename
   }
 
-  async makeAggregationDirectory(tweetDetail: TweetDetail): Promise<string> {
-    const settings = await this.getFilenameSettings()
+const makeAggregationDirectory =
+  (settings: V4FilenameSettings) =>
+  (tweetDetail: TweetDetail): string => {
     const baseDir = settings.noSubDirectory ? '' : settings.directory
 
     if (!settings.fileAggregation) return baseDir
@@ -67,19 +68,10 @@ export class MediaFilenameUseCase implements IMediaFilenameUseCase {
     }
   }
 
-  async makeFileFullPath(tweetDetail: TweetDetail, fileInfo: FileInfo): Promise<string> {
-    return path.format({
-      dir: await this.makeAggregationDirectory(tweetDetail),
-      name: await this.makeFilename(tweetDetail, fileInfo),
-      ext: fileInfo.ext,
-    })
-  }
-}
-
 /**
  * @description For {@link PatternToken.TweetDatetime} token, `YYYYMMDDHHMMSS`
  */
-const makeDatetimeString = (date: Date): string =>
+export const makeDatetimeString = (date: Date): string =>
   String(date.getFullYear()) +
   String(date.getMonth() + 1).padStart(2, '0') +
   String(date.getDate()).padStart(2, '0') +
@@ -90,7 +82,7 @@ const makeDatetimeString = (date: Date): string =>
 /**
  * @description For {@link PatternToken.TweetDate} token, `YYYYMMDD`
  */
-const makeDateString = (date: Date): string =>
+export const makeDateString = (date: Date): string =>
   String(date.getFullYear()) +
   String(date.getMonth() + 1).padStart(2, '0') +
   String(date.getDate()).padStart(2, '0')
@@ -98,7 +90,7 @@ const makeDateString = (date: Date): string =>
 /**
  * @description For {@link PatternToken.TweetDate} token, `YYYYMMDD_HHMMSS`
  */
-const makeUnderscoreDatetimeString = (date: Date): string =>
+export const makeUnderscoreDatetimeString = (date: Date): string =>
   String(date.getFullYear()) +
   String(date.getMonth() + 1).padStart(2, '0') +
   String(date.getDate()).padStart(2, '0') +
