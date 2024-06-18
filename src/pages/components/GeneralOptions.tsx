@@ -147,6 +147,24 @@ const GeneralOptions = () => {
             />
           </RichFeatureSwitch>
           <RichFeatureSwitch
+            name={i18n('options_general_separator')}
+            desc={i18n('options_general_separator_desc')}
+          >
+            <Input
+              placeholder="-"
+              focusBorderColor={
+                formStatus.dataIsChanged
+                  ? formStatus.directoryIsValid
+                    ? 'green.300'
+                    : 'red.300'
+                  : 'blue.300'
+              }
+              value={filenameSettings.separator}
+              onInput={formHandler.separatorInput}
+              onChange={formHandler.separatorInput}
+            />
+          </RichFeatureSwitch>
+          <RichFeatureSwitch
             name={i18n('options_general_subDirectory')}
             message={formMsg.directory}
             desc={i18n('options_general_subDirectory_desc')}

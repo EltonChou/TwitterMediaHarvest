@@ -85,6 +85,7 @@ export class MigrateStorageToV4
     )
 
     const v4Settings: V4FilenameSettings = {
+      separator: '-',
       noSubDirectory: v3Settings.no_subdirectory,
       directory: v3Settings.directory,
       filenamePattern: filenamePattern,

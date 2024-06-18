@@ -96,6 +96,7 @@ type V4FilenamePattern = FilenamePatternToken[]
 type AggregationToken = '{account}'
 
 interface V4FilenameSettings {
+  separator: string
   directory: string
   noSubDirectory: boolean
   filenamePattern: V4FilenamePattern

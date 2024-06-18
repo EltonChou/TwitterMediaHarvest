@@ -12,6 +12,8 @@ import sanitize from 'sanitize-filename'
 
 type DirectorySetAction = DataActionWithPayload<'setDirectory', string>
 
+type SeparatorSetAction = DataActionWithPayload<'setSeparator', string>
+
 type FilenamePatternSetAction = DataActionWithPayload<
   'setFilenamePattern',
   V4FilenamePattern
@@ -29,6 +31,7 @@ type FilenameSettingsPureAction = PureAction<
 type FilenameSettingsAction =
   | FilenameSettingsPureAction
   | DataInitAction<V4FilenameSettings>
+  | SeparatorSetAction
   | DirectorySetAction
   | FilenamePatternSetAction
   | AggregationTokenSetAction
@@ -118,6 +121,9 @@ function settingReducer(
     case 'toggleFileAggregation':
       return { ...settings, fileAggregation: !settings.fileAggregation }
 
+    case 'setSeparator':
+      return { ...settings, separator: action.payload }
+
     case 'setDirectory':
       return { ...settings, directory: action.payload }
 
@@ -154,6 +160,7 @@ type FormMessage = {
 type FormHandler = {
   submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>
   reset: () => void
+  separatorInput: (e: React.ChangeEvent<HTMLInputElement>) => void
   directoryInput: (e: React.ChangeEvent<HTMLInputElement>) => void
   directorySwitch: () => void
   patternTokenToggle: (t: FilenamePatternToken, s: boolean) => void
@@ -230,6 +237,14 @@ const useFilenameSettingsForm = (): [
     [settingsDispatch]
   )
 
+  const handleSeparatorInput = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      settingsDispatch({ type: 'setSeparator', payload: event.target.value })
+      formStatusDispatch('formIsChanged')
+    },
+    [settingsDispatch]
+  )
+
   const handleSubDirectoryClick = useCallback(() => {
     formStatusDispatch('formIsChanged')
     settingsDispatch({ type: 'toggleDirectory' })
@@ -289,6 +304,7 @@ const useFilenameSettingsForm = (): [
     {
       submit: submit,
       reset: reset,
+      separatorInput: handleSeparatorInput,
       directoryInput: handleInput,
       directorySwitch: handleSubDirectoryClick,
       patternTokenToggle: handleTokenToggle,

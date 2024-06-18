@@ -65,6 +65,7 @@ jest.mock('webextension-polyfill', () => {
 
 describe('MediaDownloader Unit Test', () => {
   const filenameSettings: V4FilenameSettings = {
+    separator: '-',
     directory: 'dl',
     filenamePattern: ['{account}', '{tweetId}', '{tweetId}'],
     noSubDirectory: true,

@@ -28,7 +28,7 @@ export default class V4FilenameSettingsUsecase {
 
   makeFilename(tweetDetail: TweetDetail, { serial, hash, date }: FileInfo): string {
     const filename = this.settings.filenamePattern
-      .join('-')
+      .join(this.settings.separator)
       .replace(PatternToken.Account, tweetDetail.screenName)
       .replace(PatternToken.TweetId, tweetDetail.id)
       .replace(PatternToken.Serial, String(serial).padStart(2, '0'))

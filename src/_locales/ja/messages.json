@@ -108,6 +108,12 @@
   "options_integrations_aggressiveMode_desc": {
     "message": "ファイルネームを確保すること。このモードは他の拡張と競合する可能性があります。"
   },
+  "options_general_separator": {
+    "message": "ファイルネームパターンセパレーター"
+  },
+  "options_general_separator_desc": {
+    "message": "上記ファイルネームパターンのセパレーターを設定"
+  },
   "options_general_subDirectory": {
     "message": "サブディレクトリの作成"
   },

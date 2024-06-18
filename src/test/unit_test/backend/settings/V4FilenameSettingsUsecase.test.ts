@@ -19,6 +19,7 @@ describe('Filename usecase unit test', () => {
   }
 
   const settings: () => V4FilenameSettings = () => ({
+    separator: '-',
     directory: 'dir',
     noSubDirectory: false,
     filenamePattern: ['{account}', '{tweetId}', '{serial}'],

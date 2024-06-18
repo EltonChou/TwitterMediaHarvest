@@ -24,6 +24,7 @@ const defaultFilenameSettings: FilenameSettings = {
 }
 
 const defaultV4FilenameSettings: V4FilenameSettings = {
+  separator: '-',
   directory: DEFAULT_DIRECTORY,
   noSubDirectory: false,
   filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],

@@ -108,6 +108,12 @@
   "options_integrations_aggressiveMode_desc": {
     "message": "Ensure the filename not to be modified by other extensions. This mode might be conflicted with other download management extensions."
   },
+  "options_general_separator": {
+    "message": "Filename Pattern Separator"
+  },
+  "options_general_separator_desc": {
+    "message": "Set the separator for the above Filename Pattern"
+  },
   "options_general_subDirectory": {
     "message": "Create sub-directory"
   },

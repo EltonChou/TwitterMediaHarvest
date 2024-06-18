@@ -108,6 +108,12 @@
   "options_integrations_aggressiveMode_desc": {
     "message": "防止檔案名稱被其他擴充功能修改。此功能可能與其他下載管理擴充功能衝突。"
   },
+  "options_general_separator": {
+    "message": "檔案名稱樣式分隔符"
+  },
+  "options_general_separator_desc": {
+    "message": "给上面配置的檔案名稱樣式设置分隔符"
+  },
   "options_general_subDirectory": {
     "message": "新增子資料夾"
   },
