@@ -1,16 +1,8 @@
-import { DomainEvent } from './base'
+import DownloadBaseEvent from './Download'
 import type { Downloads } from 'webextension-polyfill'
 
-export default class DownloadCanceled extends DomainEvent {
-  name = 'download:canceled'
-  private downloadItem: Downloads.DownloadItem
-
+export default class DownloadCanceled extends DownloadBaseEvent {
   constructor(downloadItem: Downloads.DownloadItem) {
-    super()
-    this.downloadItem = downloadItem
-  }
-
-  get downloadId() {
-    return this.downloadItem.id
+    super('download:canceled', downloadItem)
   }
 }

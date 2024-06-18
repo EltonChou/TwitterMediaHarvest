@@ -1,5 +1,7 @@
 import { DomainEvent } from './base'
 
-export default class FilenameWasOverwritten extends DomainEvent {
-  name = 'filename:overwritten'
+export default class FilenameOverwritten extends DomainEvent {
+  constructor() {
+    super('filename:overwritten')
+  }
 }

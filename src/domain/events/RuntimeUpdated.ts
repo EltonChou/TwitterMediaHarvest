@@ -5,12 +5,11 @@ type VersionDelta = {
   previous: string
 }
 
-export default class ExtensionUpdated extends DomainEvent {
-  name = 'extension:updated'
+export default class RuntimeUpdated extends DomainEvent {
   private versionDelta: VersionDelta
 
   constructor(versionDelta: VersionDelta) {
-    super()
+    super('runtime:updated')
     this.versionDelta = versionDelta
   }
 

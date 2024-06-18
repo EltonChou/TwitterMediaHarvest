@@ -84,3 +84,8 @@ interface JSONable {
 interface LiteraObject {
   [index: string]: unknown
 }
+
+type Delta<T> = {
+  previous: T
+  current: T
+}
