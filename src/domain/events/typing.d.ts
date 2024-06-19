@@ -45,16 +45,15 @@ interface TwitterApiErrorEvent extends IDomainEvent {
   readonly code: number
 }
 
-type DomainEventHandler = <K extends keyof DomainEventMap>(
-  event: DomainEventMap[K]
-) => void
+type DomainEventHandler<E> = (event: E) => void
 
 interface IDomainEventPublisher<EventMap extends DomainEventMap = DomainEventMap> {
   publish<K extends keyof EventMap>(event: EventMap[K]): void
-  publishAll<K extends keyof EventMap>(events: EventMap[K][]): void
+  publishAll<K extends keyof EventMap>(...events: EventMap[K][]): void
   register<K extends keyof EventMap>(
-    evnetName: K,
-    eventHandler: (event: EventMap[K]) => void
+    eventName: K,
+    eventHandler: DomainEventHandler<EventMap[K]>
   ): void
   clearHandlers<K extends keyof EventMap>(eventName: K): void
+  clearAllHandlers(): void
 }

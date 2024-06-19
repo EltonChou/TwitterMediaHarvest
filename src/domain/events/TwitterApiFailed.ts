@@ -1,6 +1,9 @@
 import { DomainEvent } from './base'
 
-export default class TweetApiFailed extends DomainEvent implements TwitterApiErrorEvent {
+export default class TwitterApiFailed
+  extends DomainEvent
+  implements TwitterApiErrorEvent
+{
   readonly tweetInfo: TweetInfo
   readonly code: number
 

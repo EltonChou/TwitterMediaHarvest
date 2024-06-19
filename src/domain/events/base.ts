@@ -1,6 +1,8 @@
 export abstract class DomainEvent implements IDomainEvent {
-  constructor(
-    readonly name: IDomainEvent['name'],
-    readonly occuredAt: Date = new Date()
-  ) {}
+  readonly name: IDomainEvent['name']
+  readonly occuredAt: Date
+  constructor(name: IDomainEvent['name']) {
+    this.name = name
+    this.occuredAt = new Date()
+  }
 }
