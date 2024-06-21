@@ -14,7 +14,7 @@ class EventPublisher implements DomainEventPublisher {
 
     for (const handle of this.handlerMap[event.name]) {
       try {
-        handle(event)
+        handle(event, this)
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error)
