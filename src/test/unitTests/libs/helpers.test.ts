@@ -1,4 +1,4 @@
-import { TimeHelper } from '@libs/helpers'
+import { TimeHelper } from '#helpers/time'
 
 describe('TimeHelper unit test', () => {
   it('can make second', () => {
