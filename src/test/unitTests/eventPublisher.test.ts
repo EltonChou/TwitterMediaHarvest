@@ -1,5 +1,5 @@
-import { getEventPublisher } from '#domain/eventPublisher'
-import TwitterApiFailed from '#domain/events/TwitterApiFailed'
+import TweetApiFailed from '#domain/events/TweetApiFailed'
+import { getEventPublisher } from '#infra/eventPublisher'
 
 describe('unit test for event publisher', () => {
   const publisher = getEventPublisher()
@@ -21,7 +21,7 @@ describe('unit test for event publisher', () => {
     const mockConsoleError = jest.spyOn(console, 'error').mockImplementation(() => {
       /** pass */
     })
-    const event = new TwitterApiFailed({ screenName: 'Someone', tweetId: '123' }, 403)
+    const event = new TweetApiFailed({ screenName: 'Someone', tweetId: '123' }, 403)
 
     publisher.register('api:twitter:failed', () => {
       throw new Error('Test error')
@@ -35,7 +35,7 @@ describe('unit test for event publisher', () => {
   })
 
   it('can clear event handlers', () => {
-    const event = new TwitterApiFailed({ screenName: 'Someone', tweetId: '123' }, 403)
+    const event = new TweetApiFailed({ screenName: 'Someone', tweetId: '123' }, 403)
 
     publisher.register('api:twitter:failed', () => {
       throw new Error('Test error')

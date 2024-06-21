@@ -17,7 +17,7 @@ interface DomainEventMap {
   'notification:tweetFetchError:self:clicked': TweetFetchErrorNotificationEvent
   'notification:tweetFetchError:self:closed': TweetFetchErrorNotificationEvent
   'notification:tweetFetchError:viewButton:clicked': TweetFetchErrorNotificationEvent
-  'api:twitter:failed': TwitterApiErrorEvent
+  'api:twitter:failed': TweetApiErrorEvent
 }
 
 interface RuntimeEvent extends IDomainEvent {
@@ -40,20 +40,11 @@ interface TweetFetchErrorNotificationEvent extends IDomainEvent {
   readonly tweetInfo: TweetInfo
 }
 
-interface TwitterApiErrorEvent extends IDomainEvent {
+interface TweetApiErrorEvent extends IDomainEvent {
   readonly tweetInfo: TweetInfo
   readonly code: number
 }
 
-type DomainEventHandler<E> = (event: E) => void
-
-interface IDomainEventPublisher<EventMap extends DomainEventMap = DomainEventMap> {
-  publish<K extends keyof EventMap>(event: EventMap[K]): void
-  publishAll<K extends keyof EventMap>(...events: EventMap[K][]): void
-  register<K extends keyof EventMap>(
-    eventName: K,
-    eventHandler: DomainEventHandler<EventMap[K]>
-  ): void
-  clearHandlers<K extends keyof EventMap>(eventName: K): void
-  clearAllHandlers(): void
+interface TweetParsingEvent extends IDomainEvent {
+  readonly tweetInfo: TweetInfo
 }
