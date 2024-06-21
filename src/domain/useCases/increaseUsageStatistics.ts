@@ -1,6 +1,6 @@
 import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
 import type { V4Statistics } from '#schema'
-import { AsyncUseCase } from './base'
+import type { AsyncUseCase } from './base'
 
 type IncreaseCommand = { statsDelta: V4Statistics }
 

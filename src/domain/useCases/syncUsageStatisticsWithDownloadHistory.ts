@@ -1,16 +1,24 @@
-import { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
+import type { IDownloadRepository } from '#domain/repositories/download'
+import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
 import type { V4Statistics } from '#schema'
 import type { AsyncCommandUseCase } from './base'
-import Browser from 'webextension-polyfill'
+import type { Downloads } from 'webextension-polyfill'
 
 export class SyncUsageStatisticsWithDownloadHistory implements AsyncCommandUseCase<void> {
-  constructor(readonly usageStatisticsRepo: IUsageStatisticsRepository) {}
+  constructor(
+    readonly extensionId: string,
+    readonly usageStatisticsRepo: IUsageStatisticsRepository,
+    readonly downloadRepository: IDownloadRepository<
+      Downloads.DownloadQuery,
+      Downloads.DownloadItem
+    >
+  ) {}
 
   async process(): Promise<void> {
-    const pastItems = await Browser.downloads.search({ limit: 0 })
+    const pastItems = await this.downloadRepository.search({ limit: 0 })
     const syncStats = pastItems.reduce(
       (stats, curr) => {
-        if (curr.byExtensionId === Browser.runtime.id) {
+        if (curr.byExtensionId === this.extensionId) {
           stats.downloadCount += 1
           stats.trafficUsage += Math.max(curr.fileSize, 0)
         }

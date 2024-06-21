@@ -1,7 +1,7 @@
 import PatternToken from '#enums/patternToken'
 import type { V4FilenameSettings } from '#schema'
 import type { ISettingsRepository } from '../repositories/settings'
-import { AsyncUseCase } from './base'
+import type { AsyncUseCase } from './base'
 import path from 'path/posix'
 
 export type FileInfo = {
