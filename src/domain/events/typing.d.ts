@@ -18,6 +18,7 @@ interface DomainEventMap {
   'notification:tweetFetchError:self:closed': TweetFetchErrorNotificationEvent
   'notification:tweetFetchError:viewButton:clicked': TweetFetchErrorNotificationEvent
   'api:twitter:failed': TweetApiErrorEvent
+  'parse:tweet:failed': TweetParsingEvent
 }
 
 interface RuntimeEvent extends IDomainEvent {
