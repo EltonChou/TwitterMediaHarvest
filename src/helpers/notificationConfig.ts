@@ -16,7 +16,7 @@ const CONTEXT_MSG = 'Media Harvest'
 const getNotificationIconUrl = () => Browser.runtime.getURL('assets/icons/icon@128.png')
 
 export class MediaDownloadNotificationConfig {
-  error(
+  static error(
     tweetInfo: TweetInfo,
     eventTime: number
   ): Notifications.CreateNotificationOptions {
@@ -45,58 +45,89 @@ export class MediaDownloadNotificationConfig {
   }
 }
 
+type GeneralTweetFetchErrorNotificationConfigParams = {
+  title: string
+  message: string
+  eventTime: Date
+}
+
+const makeGeneralTweetFetchErrorNotificationConfig = ({
+  title,
+  message,
+  eventTime,
+}: GeneralTweetFetchErrorNotificationConfigParams): Notifications.CreateNotificationOptions => {
+  return {
+    type: TemplateType.Basic,
+    iconUrl: getNotificationIconUrl(),
+    title: title,
+    message: message,
+    contextMessage: CONTEXT_MSG,
+    eventTime: eventTime.getTime(),
+    ...(isFirefox()
+      ? {}
+      : { buttons: [TweetNotificationButton.viewTweet()], requireInteraction: true }),
+  }
+}
+
+type TweetFetchErrorNotificationConfigParams = {
+  tweetInfo: TweetInfo
+  eventTime: Date
+}
+
 export class TweetFetchErrorNotificationConfig {
   static tooManyRequests(
-    tweetInfo: TweetInfo,
-    { title, message }: FetchErrorReason
+    params: TweetFetchErrorNotificationConfigParams
   ): Notifications.CreateNotificationOptions {
     const info = i18nLocalize('notificationDLFailedMessage', [
-      tweetInfo.screenName,
-      tweetInfo.tweetId,
+      params.tweetInfo.screenName,
+      params.tweetInfo.tweetId,
     ])
 
-    return {
-      type: TemplateType.Basic,
-      iconUrl: getNotificationIconUrl(),
-      title: title,
+    return makeGeneralTweetFetchErrorNotificationConfig({
+      title: i18nLocalize('fetchFailedTooManyRequestsTitle'),
       message: info,
-      contextMessage: CONTEXT_MSG,
-      eventTime: Date.now(),
-      ...(isFirefox()
-        ? {}
-        : { buttons: [TweetNotificationButton.viewTweet()], requireInteraction: true }),
-    }
+      eventTime: params.eventTime,
+    })
   }
 
-  static unknownFetchError = ({
-    title,
-    message,
-  }: FetchErrorReason): Notifications.CreateNotificationOptions => {
-    return {
-      type: TemplateType.Basic,
-      iconUrl: getNotificationIconUrl(),
-      title: title,
-      message: message,
-      contextMessage: CONTEXT_MSG,
-      eventTime: Date.now(),
-      ...(isFirefox()
-        ? {}
-        : { buttons: [TweetNotificationButton.viewTweet()], requireInteraction: true }),
-    }
+  static notFound(
+    params: TweetFetchErrorNotificationConfigParams
+  ): Notifications.CreateNotificationOptions {
+    return makeGeneralTweetFetchErrorNotificationConfig({
+      title: i18nLocalize('fetchFailedNotFoundTitle'),
+      message: i18nLocalize('fetchFailedTooManyRequestsMessage'),
+      eventTime: params.eventTime,
+    })
   }
 
-  static internalError = (message: string): Notifications.CreateNotificationOptions => {
-    return {
-      type: TemplateType.Basic,
-      iconUrl: getNotificationIconUrl(),
-      title: i18nLocalize('internalError'),
-      message: message,
-      contextMessage: CONTEXT_MSG,
-      eventTime: Date.now(),
-      ...(isFirefox()
-        ? {}
-        : { buttons: [TweetNotificationButton.viewTweet()], requireInteraction: true }),
-    }
+  static unauthorized(
+    params: TweetFetchErrorNotificationConfigParams
+  ): Notifications.CreateNotificationOptions {
+    return makeGeneralTweetFetchErrorNotificationConfig({
+      title: i18nLocalize('backend_notification_title_unauth'),
+      message: i18nLocalize('backend_notification_message_unauth'),
+      eventTime: params.eventTime,
+    })
+  }
+
+  static forbidden(
+    params: TweetFetchErrorNotificationConfigParams
+  ): Notifications.CreateNotificationOptions {
+    return makeGeneralTweetFetchErrorNotificationConfig({
+      title: i18nLocalize('backend_notification_title_forbidden'),
+      message: i18nLocalize('backend_notification_message_forbidden'),
+      eventTime: params.eventTime,
+    })
+  }
+
+  static unknown(
+    params: TweetFetchErrorNotificationConfigParams & { code: number }
+  ): Notifications.CreateNotificationOptions {
+    return makeGeneralTweetFetchErrorNotificationConfig({
+      title: i18nLocalize('fetchFailedUnknownTitle') + params.code,
+      message: i18nLocalize('fetchFailedUnknownMessage'),
+      eventTime: params.eventTime,
+    })
   }
 
   static failedToParseTweetInfo = (): Notifications.CreateNotificationOptions => {
@@ -108,5 +139,22 @@ export class TweetFetchErrorNotificationConfig {
       contextMessage: CONTEXT_MSG,
       eventTime: Date.now(),
     }
+  }
+}
+
+type MakeTweetParsingErrorNotificationConfigParams = {
+  tweetInfo: TweetInfo
+}
+
+export const makeTweetParsingErrorNotificationConfig = (
+  params: MakeTweetParsingErrorNotificationConfigParams
+): Notifications.CreateNotificationOptions => {
+  return {
+    type: TemplateType.Basic,
+    iconUrl: getNotificationIconUrl(),
+    title: i18nLocalize('notification-failedToParseTweetInfo-title'),
+    message: i18nLocalize('notification-failedToParseTweetInfo-message'),
+    contextMessage: CONTEXT_MSG,
+    eventTime: Date.now(),
   }
 }
