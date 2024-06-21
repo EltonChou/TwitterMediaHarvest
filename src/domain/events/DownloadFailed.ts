@@ -8,7 +8,7 @@ export default class DownloadFailed
 {
   readonly reason: InterruptReason
   constructor(downloadItem: Downloads.DownloadItem, reason: InterruptReason) {
-    super('download:failed', downloadItem)
+    super('download:status:failed', downloadItem)
     this.reason = reason
   }
 }

@@ -3,6 +3,6 @@ import type { Downloads } from 'webextension-polyfill'
 
 export default class DownloadCompleted extends DownloadBaseEvent {
   constructor(downloadItem: Downloads.DownloadItem) {
-    super('download:completed', downloadItem)
+    super('download:status:completed', downloadItem)
   }
 }
