@@ -28,8 +28,8 @@ interface RuntimeEvent extends IDomainEvent {
 
 interface BrowserDownloadDispatchEvent extends IDomainEvent {
   readonly downloadId: number
-  readonly tweetInfo: TweetInfo
-  readonly downloadConfig: import('webextension-polyfill').Downloads.DownloadOptionsType
+  readonly tweetInfo: import('#domain/valueObjects/tweetInfo').TweetInfo
+  readonly downloadConfig: import('#domain/valueObjects/downloadConfig').DownloadConfig
 }
 
 interface DownloadItemEvent extends IDomainEvent {

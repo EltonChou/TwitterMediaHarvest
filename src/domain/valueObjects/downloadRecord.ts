@@ -1,10 +1,11 @@
 import { ValueObject } from './base'
-import type { Downloads } from 'webextension-polyfill'
+import type { DownloadConfig } from './downloadConfig'
+import type { TweetInfo } from './tweetInfo'
 
 type DownloadRecordProps = {
-  downloadId: Downloads.DownloadItem['id']
+  downloadId: number
   tweetInfo: TweetInfo
-  downloadConfig: Downloads.DownloadOptionsType
+  downloadConfig: DownloadConfig
   recordedAt: Date
 }
 
