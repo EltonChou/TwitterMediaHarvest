@@ -4,12 +4,12 @@ import type { AsyncUseCase } from './base'
 import { isNonEmpty } from 'fp-ts/lib/Array'
 import type { Downloads } from 'webextension-polyfill'
 
-type CheckDownloadWasTriggeredBySelffCommand = {
+type CheckDownloadWasTriggeredBySelfCommand = {
   downloadId: Downloads.DownloadItem['id']
 }
 
 export class CheckDownloadWasTriggeredBySelf
-  implements AsyncUseCase<CheckDownloadWasTriggeredBySelffCommand, boolean>
+  implements AsyncUseCase<CheckDownloadWasTriggeredBySelfCommand, boolean>
 {
   constructor(
     readonly extensionId: string,
@@ -24,7 +24,7 @@ export class CheckDownloadWasTriggeredBySelf
     return downloadItem.byExtensionId === this.extensionId
   }
 
-  async process(command: CheckDownloadWasTriggeredBySelffCommand): Promise<boolean> {
+  async process(command: CheckDownloadWasTriggeredBySelfCommand): Promise<boolean> {
     const items = (
       await this.downloadRepository.search({ id: command.downloadId })
     ).filter(item => this.isSameExtension(item) && isNotJson(item))
