@@ -6,9 +6,9 @@ interface IDomainEvent {
 interface DomainEventMap {
   'runtime:status:installed': RuntimeEvent
   'runtime:status:updated': RuntimeEvent
-  'download:status:canceled': DownloadItemEvent
-  'download:status:completed': DownloadItemEvent
-  'download:status:failed': DownloadFailedEvent
+  'download:status:canceled': DownloadDeltaEvent
+  'download:status:completed': DownloadDeltaEvent
+  'download:status:interrupted': DownloadInterruptedEvent
   'download:status:dispatched:browser': BrowserDownloadDispatchEvent
   'filename:overwritten': IDomainEvent
   'notification:downloadFailed:self:clicked': DownloadFailedNotificationEvent
@@ -32,11 +32,11 @@ interface BrowserDownloadDispatchEvent extends IDomainEvent {
   readonly downloadConfig: import('#domain/valueObjects/downloadConfig').DownloadConfig
 }
 
-interface DownloadItemEvent extends IDomainEvent {
-  readonly downloadItem: import('webextension-polyfill').Downloads.DownloadItem
+interface DownloadDeltaEvent extends IDomainEvent {
+  readonly downloadDelta: import('webextension-polyfill').Downloads.OnChangedDownloadDeltaType
 }
 
-interface DownloadFailedEvent extends DownloadItemEvent {
+interface DownloadInterruptedEvent extends DownloadDeltaEvent {
   readonly reason: import('#enums/InterruptReason').default
 }
 

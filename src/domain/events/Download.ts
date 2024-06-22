@@ -1,14 +1,17 @@
 import { DomainEvent } from './base'
 import type { Downloads } from 'webextension-polyfill'
 
-export default abstract class DownloadBaseEvent
+export default abstract class DownloadDeltaBaseEvent
   extends DomainEvent
-  implements DownloadItemEvent
+  implements DownloadDeltaEvent
 {
-  readonly downloadItem: Downloads.DownloadItem
+  readonly downloadDelta: Downloads.OnChangedDownloadDeltaType
 
-  constructor(name: DownloadItemEvent['name'], downloadItem: Downloads.DownloadItem) {
+  constructor(
+    name: DownloadDeltaBaseEvent['name'],
+    downloadDelta: Downloads.OnChangedDownloadDeltaType
+  ) {
     super(name)
-    this.downloadItem = downloadItem
+    this.downloadDelta = downloadDelta
   }
 }
