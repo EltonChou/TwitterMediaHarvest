@@ -11,14 +11,14 @@ export default class BrowserDownloadDispatched
   extends DomainEvent
   implements BrowserDownloadDispatchEvent
 {
-  readonly id: number
+  readonly downloadId: number
   readonly tweetInfo: TweetInfo
-  readonly config: Downloads.DownloadOptionsType
+  readonly downloadConfig: Downloads.DownloadOptionsType
 
   constructor(params: BrowserDownloadDispatchedInitParams) {
     super('download:status:dispatched:browser')
-    this.id = params.id
+    this.downloadId = params.id
     this.tweetInfo = params.tweetInfo
-    this.config = params.config
+    this.downloadConfig = params.config
   }
 }

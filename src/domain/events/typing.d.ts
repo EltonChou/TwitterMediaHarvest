@@ -27,9 +27,9 @@ interface RuntimeEvent extends IDomainEvent {
 }
 
 interface BrowserDownloadDispatchEvent extends IDomainEvent {
-  readonly id: number
+  readonly downloadId: number
   readonly tweetInfo: TweetInfo
-  readonly config: import('webextension-polyfill').Downloads.DownloadOptionsType
+  readonly downloadConfig: import('webextension-polyfill').Downloads.DownloadOptionsType
 }
 
 interface DownloadItemEvent extends IDomainEvent {
