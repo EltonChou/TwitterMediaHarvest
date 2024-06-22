@@ -9,7 +9,7 @@ export default class RuntimeUpdated extends DomainEvent {
   private versionDelta: VersionDelta
 
   constructor(versionDelta: VersionDelta) {
-    super('runtime:updated')
+    super('runtime:status:updated')
     this.versionDelta = versionDelta
   }
 

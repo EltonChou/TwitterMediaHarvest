@@ -12,9 +12,9 @@ describe('unit test for event publisher', () => {
   })
 
   it('can register event handler', () => {
-    publisher.register('api:twitter:failed', mockHandler)
-    publisher.register('download:completed', mockHandler)
-    publisher.register('download:completed', mockHandler)
+    publisher
+      .register('api:twitter:failed', mockHandler)
+      .register('download:status:completed', [mockHandler, mockHandler])
   })
 
   it('can publish event', () => {
@@ -23,10 +23,12 @@ describe('unit test for event publisher', () => {
     })
     const event = new TweetApiFailed({ screenName: 'Someone', tweetId: '123' }, 403)
 
-    publisher.register('api:twitter:failed', () => {
-      throw new Error('Test error')
-    })
-    publisher.register('api:twitter:failed', mockHandler)
+    publisher.register('api:twitter:failed', [
+      () => {
+        throw new Error('Test error')
+      },
+      mockHandler,
+    ])
     publisher.publish(event)
     publisher.publishAll(event, event, event)
 
@@ -37,10 +39,12 @@ describe('unit test for event publisher', () => {
   it('can clear event handlers', () => {
     const event = new TweetApiFailed({ screenName: 'Someone', tweetId: '123' }, 403)
 
-    publisher.register('api:twitter:failed', () => {
-      throw new Error('Test error')
-    })
-    publisher.register('api:twitter:failed', mockHandler)
+    publisher.register('api:twitter:failed', [
+      () => {
+        throw new Error('Test error')
+      },
+      mockHandler,
+    ])
     publisher.clearHandlers('api:twitter:failed')
     publisher.publish(event)
 

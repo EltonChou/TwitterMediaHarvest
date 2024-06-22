@@ -32,13 +32,22 @@ class EventPublisher implements DomainEventPublisher {
 
   register<K extends keyof DomainEventMap>(
     eventName: K,
-    eventHandler: DomainEventHandler<DomainEventMap[K]>
-  ): void {
+    eventHandlers:
+      | DomainEventHandler<DomainEventMap[K]>
+      | DomainEventHandler<DomainEventMap[K]>[]
+  ): this {
+    const isMulipleHandlers = Array.isArray(eventHandlers)
     if (eventName in this.handlerMap) {
-      this.handlerMap[eventName].push(eventHandler)
-    } else {
-      this.handlerMap[eventName] = [eventHandler]
+      if (isMulipleHandlers) {
+        this.handlerMap[eventName].push(...eventHandlers)
+      } else {
+        this.handlerMap[eventName].push(eventHandlers)
+      }
+      return this
     }
+
+    this.handlerMap[eventName] = isMulipleHandlers ? [...eventHandlers] : [eventHandlers]
+    return this
   }
 
   clearHandlers<K extends keyof DomainEventMap>(eventName: K): void {

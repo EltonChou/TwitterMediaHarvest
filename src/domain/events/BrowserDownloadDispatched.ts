@@ -1,19 +1,20 @@
+import type { DownloadConfig } from '#domain/valueObjects/downloadConfig'
+import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { DomainEvent } from './base'
-import type { Downloads } from 'webextension-polyfill'
 
 type BrowserDownloadDispatchedInitParams = {
   id: number
   tweetInfo: TweetInfo
-  config: Downloads.DownloadOptionsType
+  config: DownloadConfig
 }
 
 export default class BrowserDownloadDispatched
   extends DomainEvent
-  implements BrowserDownloadDispatchEvent
+  implements BrowserDownloadDispatchedEvent
 {
   readonly downloadId: number
   readonly tweetInfo: TweetInfo
-  readonly downloadConfig: Downloads.DownloadOptionsType
+  readonly downloadConfig: DownloadConfig
 
   constructor(params: BrowserDownloadDispatchedInitParams) {
     super('download:status:dispatched:browser')

@@ -6,10 +6,9 @@ interface IDomainEvent {
 interface DomainEventMap {
   'runtime:status:installed': RuntimeEvent
   'runtime:status:updated': RuntimeEvent
-  'download:status:canceled': DownloadDeltaEvent
   'download:status:completed': DownloadDeltaEvent
   'download:status:interrupted': DownloadInterruptedEvent
-  'download:status:dispatched:browser': BrowserDownloadDispatchEvent
+  'download:status:dispatched:browser': BrowserDownloadDispatchedEvent
   'filename:overwritten': IDomainEvent
   'notification:downloadFailed:self:clicked': DownloadFailedNotificationEvent
   'notification:downloadFailed:self:closed': DownloadFailedNotificationEvent
@@ -26,7 +25,7 @@ interface RuntimeEvent extends IDomainEvent {
   readonly versionDelta: Delta<string>
 }
 
-interface BrowserDownloadDispatchEvent extends IDomainEvent {
+interface BrowserDownloadDispatchedEvent extends IDomainEvent {
   readonly downloadId: number
   readonly tweetInfo: import('#domain/valueObjects/tweetInfo').TweetInfo
   readonly downloadConfig: import('#domain/valueObjects/downloadConfig').DownloadConfig
