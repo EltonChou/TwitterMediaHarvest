@@ -1,6 +1,7 @@
+import { NOTIFICATION_CONTEXT_MESSAGE } from '#constants'
 import { i18nLocalize } from '#libs/i18n'
 import { DownloadNotificationButton, TweetNotificationButton } from './notificationButton'
-import { isFirefox } from '@backend/utils/checker'
+import { isFirefox } from './runtime'
 import type { Notifications } from 'webextension-polyfill'
 import Browser from 'webextension-polyfill'
 
@@ -11,14 +12,12 @@ enum TemplateType {
   Progress = 'progress',
 }
 
-const CONTEXT_MSG = 'Media Harvest'
-
 const getNotificationIconUrl = () => Browser.runtime.getURL('assets/icons/icon@128.png')
 
 export class MediaDownloadNotificationConfig {
   static error(
     tweetInfo: TweetInfo,
-    eventTime: number
+    eventTime: Date
   ): Notifications.CreateNotificationOptions {
     const info = i18nLocalize('notificationDLFailedMessage', [
       tweetInfo.screenName,
@@ -30,8 +29,8 @@ export class MediaDownloadNotificationConfig {
       iconUrl: getNotificationIconUrl(),
       title: i18nLocalize('notificationDLFailedTitle'),
       message: info,
-      contextMessage: CONTEXT_MSG,
-      eventTime: eventTime,
+      contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
+      eventTime: eventTime.getTime(),
       ...(isFirefox()
         ? {}
         : {
@@ -61,7 +60,7 @@ const makeGeneralTweetFetchErrorNotificationConfig = ({
     iconUrl: getNotificationIconUrl(),
     title: title,
     message: message,
-    contextMessage: CONTEXT_MSG,
+    contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
     eventTime: eventTime.getTime(),
     ...(isFirefox()
       ? {}
@@ -136,7 +135,7 @@ export class TweetFetchErrorNotificationConfig {
       iconUrl: getNotificationIconUrl(),
       title: i18nLocalize('notification-failedToParseTweetInfo-title'),
       message: i18nLocalize('notification-failedToParseTweetInfo-message'),
-      contextMessage: CONTEXT_MSG,
+      contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
       eventTime: Date.now(),
     }
   }
@@ -154,7 +153,7 @@ export const makeTweetParsingErrorNotificationConfig = (
     iconUrl: getNotificationIconUrl(),
     title: i18nLocalize('notification-failedToParseTweetInfo-title'),
     message: i18nLocalize('notification-failedToParseTweetInfo-message'),
-    contextMessage: CONTEXT_MSG,
+    contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
     eventTime: Date.now(),
   }
 }
