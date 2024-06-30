@@ -15,6 +15,6 @@ export class AWSCredential extends ValueObject<AWSCredentialProps> {
   get isExpired() {
     return this.props.expiration
       ? this.props.expiration.getTime() - EXPIRE_REDUNDANCY < Date.now()
-      : false
+      : true
   }
 }
