@@ -50,6 +50,9 @@
       "#infra/*": [
         "./infra/*"
       ],
+      "#utils/*": [
+        "./utils/*"
+      ],
       "@backend/*": [
         "./backend/*"
       ],

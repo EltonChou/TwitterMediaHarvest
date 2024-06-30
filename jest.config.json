@@ -24,7 +24,8 @@
     "#helpers/(.*)$": "<rootDir>/src/helpers/$1",
     "#enums/(.*)$": "<rootDir>/src/enums/$1",
     "#infra/(.*)$": "<rootDir>/src/infra/$1",
-    "#constants": "<rootDir>/src/constants"
+    "#constants": "<rootDir>/src/constants",
+    "#utils/(.*)$": "<rootDir>/src/utils/$1"
   },
   "collectCoverage": true,
   "collectCoverageFrom": [
