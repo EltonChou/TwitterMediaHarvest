@@ -1,36 +1,20 @@
-import type { IDownloadRepository } from '#domain/repositories/download'
+import type {
+  DownloadItem,
+  DownloadQuery,
+  IDownloadRepository,
+} from '#domain/repositories/download'
 import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
 // eslint-disable-next-line max-len
 import { SyncUsageStatisticsWithLocalDownloadHistory } from '#domain/useCases/syncUsageStatisticsWithLocalDownloadHistory'
 import { V4Statistics } from '#schema'
+import { generateDownloadItem } from '#utils/tests/downloadItem'
 
 describe('unit test for sync usage statistic with local download history', () => {
   const EXT_ID = 'EXT_ID'
 
-  class MockDownloadRepository
-    implements
-      IDownloadRepository<
-        { limit: number },
-        { byExtensionId?: string; fileSize: number }
-      >
-  {
-    async search(query: {
-      limit: number
-    }): Promise<{ byExtensionId?: string; fileSize: number }[]> {
-      return [
-        {
-          fileSize: 500,
-        },
-        {
-          fileSize: 1000,
-        },
-        {
-          byExtensionId: EXT_ID,
-          fileSize: 1111,
-        },
-        { byExtensionId: EXT_ID, fileSize: 2222 },
-        { byExtensionId: 'OTHERS', fileSize: 10 },
-      ]
+  class MockDownloadRepository implements IDownloadRepository {
+    async search(query: DownloadQuery): Promise<DownloadItem[]> {
+      return []
     }
   }
 
@@ -47,12 +31,24 @@ describe('unit test for sync usage statistic with local download history', () =>
     }
   }
 
+  afterAll(() => jest.resetAllMocks())
+
   it('can sync with download history', async () => {
     const mockUsageRepo = new MockUsageStatisticsRepository()
     const mockDownloadRepo = new MockDownloadRepository()
 
     const mockUsageSaving = jest.spyOn(mockUsageRepo, 'save')
-    const mockDownloadSearching = jest.spyOn(mockDownloadRepo, 'search')
+    const mockDownloadSearching = jest
+      .spyOn(mockDownloadRepo, 'search')
+      .mockResolvedValue([
+        generateDownloadItem(),
+        generateDownloadItem(),
+        generateDownloadItem(),
+        generateDownloadItem(),
+        generateDownloadItem(),
+        generateDownloadItem({ byExtensionId: EXT_ID, fileSize: 1111 }),
+        generateDownloadItem({ byExtensionId: EXT_ID, fileSize: 2222 }),
+      ])
 
     const useCase = new SyncUsageStatisticsWithLocalDownloadHistory(
       EXT_ID,

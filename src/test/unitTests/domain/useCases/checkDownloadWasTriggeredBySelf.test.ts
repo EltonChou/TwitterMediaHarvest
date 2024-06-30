@@ -1,16 +1,16 @@
-import type { IDownloadRepository } from '#domain/repositories/download'
+import type {
+  DownloadItem,
+  DownloadQuery,
+  IDownloadRepository,
+} from '#domain/repositories/download'
 import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadWasTriggeredBySelf'
+import { generateDownloadItem } from '#utils/tests/downloadItem'
 
 describe('unit test for chek download was triggered by self', () => {
   const EXT_ID = 'EXT_ID'
 
-  class MockDownloadRepository
-    implements
-      IDownloadRepository<{ id: number }, { byExtensionId?: string; mime?: string }>
-  {
-    async search(query: {
-      id: number
-    }): Promise<{ byExtensionId?: string; mime?: string }[]> {
+  class MockDownloadRepository implements IDownloadRepository {
+    async search(query: DownloadQuery): Promise<DownloadItem[]> {
       return []
     }
   }
@@ -20,21 +20,19 @@ describe('unit test for chek download was triggered by self', () => {
     const mockDownloadRepo = new MockDownloadRepository()
     const useCase = new CheckDownloadWasTriggeredBySelf(EXT_ID, mockDownloadRepo)
 
-    jest.spyOn(mockDownloadRepo, 'search').mockResolvedValue([
-      {
-        byExtensionId: EXT_ID,
-        mime: 'image/png',
-      },
-    ])
+    jest
+      .spyOn(mockDownloadRepo, 'search')
+      .mockResolvedValue([
+        generateDownloadItem({ byExtensionId: EXT_ID, mime: 'image/png' }),
+      ])
     const isDownloadBySelf = await useCase.process({ downloadId })
     expect(isDownloadBySelf).toBeTruthy()
 
-    jest.spyOn(mockDownloadRepo, 'search').mockResolvedValue([
-      {
-        byExtensionId: EXT_ID,
-        mime: 'application/json',
-      },
-    ])
+    jest
+      .spyOn(mockDownloadRepo, 'search')
+      .mockResolvedValue([
+        generateDownloadItem({ byExtensionId: EXT_ID, mime: 'application/json' }),
+      ])
     const isNotDownloadBySelf = !(await useCase.process({ downloadId }))
     expect(isNotDownloadBySelf).toBeTruthy()
   })

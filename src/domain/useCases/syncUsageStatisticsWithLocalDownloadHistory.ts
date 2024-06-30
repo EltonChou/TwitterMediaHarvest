@@ -4,22 +4,13 @@ import type { V4Statistics } from '#schema'
 import { increaseStats } from '#utils/statistics'
 import type { AsyncCommandUseCase } from './base'
 
-type DownloadQuery = {
-  limit: number
-}
-
-type DownloadItem = {
-  byExtensionId?: string
-  fileSize: number
-}
-
 export class SyncUsageStatisticsWithLocalDownloadHistory
   implements AsyncCommandUseCase<void>
 {
   constructor(
     readonly extensionId: string,
     readonly usageStatisticsRepo: IUsageStatisticsRepository,
-    readonly downloadRepository: IDownloadRepository<DownloadQuery, DownloadItem>
+    readonly downloadRepository: IDownloadRepository
   ) {}
 
   async process(): Promise<void> {
