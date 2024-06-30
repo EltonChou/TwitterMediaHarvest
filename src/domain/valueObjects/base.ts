@@ -20,8 +20,6 @@ export abstract class ValueObject<Props extends LiteraObject>
     if (!(that instanceof ValueObject) || !(that instanceof this.constructor))
       return false
 
-    if (Object.keys(this.props).length !== Object.keys(that.props).length) return false
-
     for (const propKey in this.props) {
       if (!Object.hasOwn(that.props, propKey)) return false
 
