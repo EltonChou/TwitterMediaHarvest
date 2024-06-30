@@ -25,7 +25,8 @@
     "#enums/(.*)$": "<rootDir>/src/enums/$1",
     "#infra/(.*)$": "<rootDir>/src/infra/$1",
     "#constants": "<rootDir>/src/constants",
-    "#utils/(.*)$": "<rootDir>/src/utils/$1"
+    "#utils/(.*)$": "<rootDir>/src/utils/$1",
+    "#eventHandlers/(.*)$": "<rootDir>/src/eventHandlers/$1"
   },
   "collectCoverage": true,
   "collectCoverageFrom": [

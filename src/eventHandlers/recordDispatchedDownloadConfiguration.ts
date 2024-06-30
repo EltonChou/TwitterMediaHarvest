@@ -5,7 +5,7 @@ import { DownloadRecord } from '#domain/valueObjects/downloadRecord'
 export const recordDispatchedDownloadConfiguration =
   (
     downloadRecordRepo: IDownloadRecordRepository
-  ): DomainEventHandler<BrowserDownloadDispatchEvent> =>
+  ): DomainEventHandler<BrowserDownloadDispatchedEvent> =>
   async event => {
     const record = new DownloadRecord({
       downloadId: event.downloadId,

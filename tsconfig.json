@@ -53,6 +53,9 @@
       "#utils/*": [
         "./utils/*"
       ],
+      "#eventHandlers/*": [
+        "./eventHandlers/*"
+      ],
       "@backend/*": [
         "./backend/*"
       ],
