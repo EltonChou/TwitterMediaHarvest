@@ -1,6 +1,7 @@
 import type { IDownloadRepository } from '#domain/repositories/download'
 import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
 import type { V4Statistics } from '#schema'
+import { increaseStats } from '#utils/statistics'
 import type { AsyncCommandUseCase } from './base'
 import type { Downloads } from 'webextension-polyfill'
 
@@ -15,14 +16,16 @@ export class SyncUsageStatisticsWithDownloadHistory implements AsyncCommandUseCa
   ) {}
 
   async process(): Promise<void> {
+    const isDownloadedBySelf = (extId: string) => extId === this.extensionId
     const pastItems = await this.downloadRepository.search({ limit: 0 })
     const syncStats = pastItems.reduce(
       (stats, curr) => {
-        if (curr.byExtensionId === this.extensionId) {
-          stats.downloadCount += 1
-          stats.trafficUsage += Math.max(curr.fileSize, 0)
-        }
-        return stats
+        return isDownloadedBySelf(curr.byExtensionId)
+          ? increaseStats({
+              downloadCount: 1,
+              trafficUsage: Math.max(curr.fileSize, 0),
+            })(stats)
+          : stats
       },
       {
         downloadCount: 0,
@@ -31,10 +34,11 @@ export class SyncUsageStatisticsWithDownloadHistory implements AsyncCommandUseCa
     )
 
     const stats = await this.usageStatisticsRepo.get()
-    if (
-      syncStats.downloadCount >= stats.downloadCount &&
-      syncStats.trafficUsage >= stats.trafficUsage
-    ) {
+    const isGreaterThanOriginal = (newStats: V4Statistics) =>
+      newStats.downloadCount >= stats.downloadCount &&
+      newStats.trafficUsage >= stats.trafficUsage
+
+    if (isGreaterThanOriginal(syncStats)) {
       await this.usageStatisticsRepo.save(syncStats)
     }
   }
