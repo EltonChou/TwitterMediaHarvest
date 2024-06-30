@@ -3,16 +3,23 @@ import type { IUsageStatisticsRepository } from '#domain/repositories/usageStati
 import type { V4Statistics } from '#schema'
 import { increaseStats } from '#utils/statistics'
 import type { AsyncCommandUseCase } from './base'
-import type { Downloads } from 'webextension-polyfill'
 
-export class SyncUsageStatisticsWithDownloadHistory implements AsyncCommandUseCase<void> {
+type DownloadQuery = {
+  limit: number
+}
+
+type DownloadItem = {
+  byExtensionId?: string
+  fileSize: number
+}
+
+export class SyncUsageStatisticsWithLocalDownloadHistory
+  implements AsyncCommandUseCase<void>
+{
   constructor(
     readonly extensionId: string,
     readonly usageStatisticsRepo: IUsageStatisticsRepository,
-    readonly downloadRepository: IDownloadRepository<
-      Downloads.DownloadQuery,
-      Downloads.DownloadItem
-    >
+    readonly downloadRepository: IDownloadRepository<DownloadQuery, DownloadItem>
   ) {}
 
   async process(): Promise<void> {
