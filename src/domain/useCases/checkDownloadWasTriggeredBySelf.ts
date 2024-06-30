@@ -1,11 +1,18 @@
 import type { IDownloadRepository } from '#domain/repositories/download'
-import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
 import type { AsyncUseCase } from './base'
 import { isNonEmpty } from 'fp-ts/lib/Array'
-import type { Downloads } from 'webextension-polyfill'
 
 type CheckDownloadWasTriggeredBySelfCommand = {
-  downloadId: Downloads.DownloadItem['id']
+  downloadId: DownloadQuery['id']
+}
+
+type DownloadQuery = {
+  id: number
+}
+
+type DownloadItem = {
+  byExtensionId?: string
+  mime?: string
 }
 
 export class CheckDownloadWasTriggeredBySelf
@@ -13,14 +20,10 @@ export class CheckDownloadWasTriggeredBySelf
 {
   constructor(
     readonly extensionId: string,
-    readonly usageStatisticsRepo: IUsageStatisticsRepository,
-    readonly downloadRepository: IDownloadRepository<
-      Downloads.DownloadQuery,
-      Downloads.DownloadItem
-    >
+    readonly downloadRepository: IDownloadRepository<DownloadQuery, DownloadItem>
   ) {}
 
-  private isSameExtension(downloadItem: Downloads.DownloadItem): boolean {
+  private isSameExtension(downloadItem: DownloadItem): boolean {
     return downloadItem.byExtensionId === this.extensionId
   }
 
@@ -33,5 +36,5 @@ export class CheckDownloadWasTriggeredBySelf
   }
 }
 
-const isNotJson = (downloadItem: Downloads.DownloadItem): boolean =>
+const isNotJson = (downloadItem: DownloadItem): boolean =>
   downloadItem?.mime !== 'application/json'
