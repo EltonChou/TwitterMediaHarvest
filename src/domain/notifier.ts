@@ -1,8 +1,4 @@
-import type { Notifications } from 'webextension-polyfill'
-
-export interface Notifier {
-  notify(
-    notificationId: string | undefined,
-    options: Notifications.CreateNotificationOptions
-  ): Promise<string>
+export interface Notifier<NotificationOptions> {
+  notify(notificationId: string, options: NotificationOptions): Promise<string>
+  notify(options: NotificationOptions): Promise<string>
 }
