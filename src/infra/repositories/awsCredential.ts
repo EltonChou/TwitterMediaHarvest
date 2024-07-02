@@ -37,7 +37,7 @@ export class AWSCredentialRepository implements ICredentialRepository<AWSCredent
   ) {}
 
   /**
-   * Cache was used to store {@link CognitoIdentityCredentials['identityId']}
+   * Cache was used to store `identityId` from {@link CognitoIdentityCredentials}
    */
   private async fetch() {
     const credential = await fromCognitoIdentityPool({
