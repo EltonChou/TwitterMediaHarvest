@@ -2,7 +2,7 @@ import { DomainEvent } from './base'
 
 export default abstract class TweetFetchErrorNotificationInteracted
   extends DomainEvent
-  implements TweetFetchErrorNotificationEvent
+  implements TweetInfoEvent
 {
   readonly tweetInfo: TweetInfo
 
