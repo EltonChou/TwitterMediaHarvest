@@ -3,6 +3,10 @@ interface IDomainEvent {
   readonly occuredAt: Date
 }
 
+interface DomainEventSource<Event extends IDomainEvent = IDomainEvent> {
+  readonly events: Event[]
+}
+
 interface DomainEventMap {
   'runtime:status:installed': RuntimeEvent
   'runtime:status:updated': RuntimeEvent
