@@ -1,29 +1,25 @@
-import type { DownloadItem, IDownloadRepository } from '#domain/repositories/download'
-import type { AsyncUseCase } from './base'
-import { isNonEmpty } from 'fp-ts/lib/Array'
+import type { DownloadItem } from '#domain/repositories/download'
+import type { UseCase } from './base'
 
 type CheckDownloadWasTriggeredBySelfCommand = {
-  downloadId: number
+  item: DownloadItem
 }
 
 export class CheckDownloadWasTriggeredBySelf
-  implements AsyncUseCase<CheckDownloadWasTriggeredBySelfCommand, boolean>
+  implements UseCase<CheckDownloadWasTriggeredBySelfCommand, boolean>
 {
-  constructor(
-    readonly extensionId: string,
-    readonly downloadRepository: IDownloadRepository
-  ) {}
+  constructor(readonly extensionId: string) {}
 
   private isSameExtension(downloadItem: DownloadItem): boolean {
     return downloadItem.byExtensionId === this.extensionId
   }
 
-  async process(command: CheckDownloadWasTriggeredBySelfCommand): Promise<boolean> {
-    const items = (
-      await this.downloadRepository.search({ id: command.downloadId })
-    ).filter(item => this.isSameExtension(item) && isNotJson(item))
-
-    return isNonEmpty(items)
+  /**
+   * Only focus on files were downloaded from twitter.
+   * In the future, we might export some data to user and most of them would be json file.
+   */
+  process(command: CheckDownloadWasTriggeredBySelfCommand): boolean {
+    return this.isSameExtension(command.item) && isNotJson(command.item)
   }
 }
 
