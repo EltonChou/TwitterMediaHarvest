@@ -5,7 +5,9 @@ import { makeTweetFetchErrorNotificationId } from '#helpers/notificationId'
 import type { Notifications } from 'webextension-polyfill'
 
 export const notifyTweetApiError =
-  (notifier: Notifier): DomainEventHandler<TweetApiErrorEvent> =>
+  (
+    notifier: Notifier<Notifications.CreateNotificationOptions>
+  ): DomainEventHandler<TweetApiErrorEvent> =>
   async event => {
     const notificationId = makeTweetFetchErrorNotificationId(event.tweetInfo.tweetId)
     let notificatonConfig: Notifications.CreateNotificationOptions | undefined = undefined
