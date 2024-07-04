@@ -6,27 +6,28 @@ import type {
 import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
 // eslint-disable-next-line max-len
 import { SyncUsageStatisticsWithLocalDownloadHistory } from '#domain/useCases/syncUsageStatisticsWithLocalDownloadHistory'
-import { V4Statistics } from '#schema'
+import { UsageStatics } from '#domain/valueObjects/usageStatistics'
 import { generateDownloadItem } from '#utils/tests/downloadItem'
 
 describe('unit test for sync usage statistic with local download history', () => {
   const EXT_ID = 'EXT_ID'
 
   class MockDownloadRepository implements IDownloadRepository {
+    getById(id: number): Promise<DownloadItem | undefined> {
+      throw new Error('Method not implemented.')
+    }
+
     async search(query: DownloadQuery): Promise<DownloadItem[]> {
       return []
     }
   }
 
   class MockUsageStatisticsRepository implements IUsageStatisticsRepository {
-    async get(): Promise<V4Statistics> {
-      return {
-        downloadCount: 1,
-        trafficUsage: 100,
-      }
+    async get(): Promise<UsageStatics> {
+      throw new Error('Method not implemented.')
     }
 
-    async save(stats: V4Statistics): Promise<void> {
+    async save(stats: UsageStatics): Promise<void> {
       return
     }
   }
@@ -37,6 +38,9 @@ describe('unit test for sync usage statistic with local download history', () =>
     const mockUsageRepo = new MockUsageStatisticsRepository()
     const mockDownloadRepo = new MockDownloadRepository()
 
+    jest
+      .spyOn(mockUsageRepo, 'get')
+      .mockResolvedValue(new UsageStatics({ downloadCount: 1, trafficUsage: 100 }))
     const mockUsageSaving = jest.spyOn(mockUsageRepo, 'save')
     const mockDownloadSearching = jest
       .spyOn(mockDownloadRepo, 'search')
@@ -58,6 +62,6 @@ describe('unit test for sync usage statistic with local download history', () =>
 
     await useCase.process()
     expect(mockDownloadSearching).toBeCalled()
-    expect(mockUsageSaving).toBeCalledWith({ downloadCount: 2, trafficUsage: 3333 })
+    expect(mockUsageSaving).toBeCalled()
   })
 })

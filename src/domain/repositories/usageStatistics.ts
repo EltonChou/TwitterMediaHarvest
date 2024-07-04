@@ -1,6 +1,6 @@
-import { V4Statistics } from '#schema'
+import { UsageStatics } from '#domain/valueObjects/usageStatistics'
 
 export interface IUsageStatisticsRepository {
-  get(): Promise<V4Statistics>
-  save(stats: V4Statistics): Promise<void>
+  get(): Promise<UsageStatics>
+  save(stats: UsageStatics): Promise<void>
 }
