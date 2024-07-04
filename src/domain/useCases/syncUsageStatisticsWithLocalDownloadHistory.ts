@@ -1,7 +1,6 @@
 import type { IDownloadRepository } from '#domain/repositories/download'
 import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
-import type { V4Statistics } from '#schema'
-import { increaseStats } from '#utils/statistics'
+import { UsageStatics } from '#domain/valueObjects/usageStatistics'
 import type { AsyncCommandUseCase } from './base'
 
 export class SyncUsageStatisticsWithLocalDownloadHistory
@@ -16,28 +15,19 @@ export class SyncUsageStatisticsWithLocalDownloadHistory
   async process(): Promise<void> {
     const isDownloadedBySelf = (extId: string) => extId === this.extensionId
     const pastItems = await this.downloadRepository.search({ limit: 0 })
-    const syncStats = pastItems.reduce(
-      (stats, curr) => {
-        return isDownloadedBySelf(curr.byExtensionId)
-          ? increaseStats({
-              downloadCount: 1,
-              trafficUsage: Math.max(curr.fileSize, 0),
-            })(stats)
-          : stats
-      },
-      {
-        downloadCount: 0,
-        trafficUsage: 0,
-      } as V4Statistics
-    )
 
-    const stats = await this.usageStatisticsRepo.get()
-    const isGreaterThanOriginal = (newStats: V4Statistics) =>
-      newStats.downloadCount >= stats.downloadCount &&
-      newStats.trafficUsage >= stats.trafficUsage
+    const syncedStats = pastItems.reduce((stats, currItem) => {
+      if (!isDownloadedBySelf(currItem.byExtensionId)) return stats
+      return stats.increase({
+        downloadCount: 1,
+        trafficUsage: Math.max(0, currItem.fileSize),
+      })
+    }, new UsageStatics({ downloadCount: 0, trafficUsage: 0 }))
 
-    if (isGreaterThanOriginal(syncStats)) {
-      await this.usageStatisticsRepo.save(syncStats)
+    const originalStats = await this.usageStatisticsRepo.get()
+
+    if (syncedStats.isGreaterThan(originalStats)) {
+      await this.usageStatisticsRepo.save(syncedStats)
     }
   }
 }
