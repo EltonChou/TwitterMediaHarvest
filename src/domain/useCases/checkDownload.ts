@@ -1,44 +1,28 @@
 import FilenameOverwritten from '#domain/events/FilenameOverwritten'
-import { DomainEvent } from '#domain/events/base'
-import { IDownloadRepository } from '#domain/repositories/download'
-import { IDownloadRecordRepository } from '#domain/repositories/downloadRecord'
-import { AsyncUseCase } from './base'
+import type { DomainEvent } from '#domain/events/base'
+import type { DownloadItem } from '#domain/repositories/download'
+import type { DownloadRecord } from '#domain/valueObjects/downloadRecord'
+import type { UseCase } from './base'
 import path from 'node:path'
 
 type CheckCompletedFilenameCommand = {
-  downloadId: number
+  item: DownloadItem
+  record: DownloadRecord
 }
 
 export class CheckDownload
-  implements AsyncUseCase<CheckCompletedFilenameCommand, void>, DomainEventSource
+  implements UseCase<CheckCompletedFilenameCommand, DomainEvent[]>
 {
-  readonly downloadRepo: IDownloadRepository
-  readonly recordRepo: IDownloadRecordRepository
-  private _events: DomainEvent[]
-
-  constructor(downloadRepo: IDownloadRepository, recordRepo: IDownloadRecordRepository) {
-    this.downloadRepo = downloadRepo
-    this.recordRepo = recordRepo
-    this._events = []
-  }
-
-  get events() {
-    return this._events
-  }
-
-  async process(command: CheckCompletedFilenameCommand): Promise<void> {
-    const downloadItem = await this.downloadRepo.getById(command.downloadId)
-    if (!downloadItem) return
-
-    const downloadRecord = await this.recordRepo.getById(command.downloadId)
-    if (!downloadRecord) return
-
+  process(command: CheckCompletedFilenameCommand): DomainEvent[] {
+    const events: DomainEvent[] = []
     // Only check base name.
     const expectedBaseName = path.parse(
-      downloadRecord.mapBy(props => props.downloadConfig).mapBy(props => props.filename)
+      command.record.mapBy(props => props.downloadConfig).mapBy(props => props.filename)
     ).base
-    const finalBaseName = path.parse(downloadItem.filename).base
+    const finalBaseName = path.parse(command.item.filename).base
 
-    if (finalBaseName !== expectedBaseName) this._events.push(new FilenameOverwritten())
+    if (finalBaseName !== expectedBaseName) events.push(new FilenameOverwritten())
+
+    return events
   }
 }
