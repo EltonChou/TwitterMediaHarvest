@@ -1,7 +1,7 @@
 import type {
   LocalStorageSchema as LocalSchema,
   SyncStorageSchema as SyncSchema,
-} from '@schema'
+} from '#schema'
 
 export type SchemaKey<T> = string extends T
   ? never
