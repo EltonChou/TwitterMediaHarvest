@@ -7,7 +7,7 @@ import type { IUsageStatisticsRepository } from '#domain/repositories/usageStati
 // eslint-disable-next-line max-len
 import { SyncUsageStatisticsWithLocalDownloadHistory } from '#domain/useCases/syncUsageStatisticsWithLocalDownloadHistory'
 import { UsageStatics } from '#domain/valueObjects/usageStatistics'
-import { generateDownloadItem } from '#utils/tests/downloadItem'
+import { generateDownloadItem } from '#utils/test/downloadItem'
 
 describe('unit test for sync usage statistic with local download history', () => {
   const EXT_ID = 'EXT_ID'

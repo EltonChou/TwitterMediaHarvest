@@ -14,8 +14,12 @@ class EventPublisher implements DomainEventPublisher {
 
     for (const handle of this.handlerMap[event.name]) {
       try {
+        // eslint-disable-next-line no-console
+        console.info(`Handle ${event.name} with ${handle.name}.`)
         handle(event, this)
       } catch (error) {
+        // eslint-disable-next-line no-console
+        console.info(`Failed to handle ${event.name} with ${handle.name}.`)
         // eslint-disable-next-line no-console
         console.error(error)
       }
@@ -30,6 +34,14 @@ class EventPublisher implements DomainEventPublisher {
     }
   }
 
+  register<K extends keyof DomainEventMap>(
+    eventName: K,
+    eventHandlers: DomainEventHandler<DomainEventMap[K]>
+  ): this
+  register<K extends keyof DomainEventMap>(
+    eventName: K,
+    eventHandlers: DomainEventHandler<DomainEventMap[K]>[]
+  ): this
   register<K extends keyof DomainEventMap>(
     eventName: K,
     eventHandlers:

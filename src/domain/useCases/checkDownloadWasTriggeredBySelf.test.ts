@@ -1,5 +1,5 @@
 import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadWasTriggeredBySelf'
-import { generateDownloadItem } from '#utils/tests/downloadItem'
+import { generateDownloadItem } from '#utils/test/downloadItem'
 
 describe('unit test for chek download was triggered by self', () => {
   const EXT_ID = 'EXT_ID'

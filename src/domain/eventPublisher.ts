@@ -8,7 +8,11 @@ export interface DomainEventPublisher<EventMap extends DomainEventMap = DomainEv
   publishAll<K extends keyof EventMap>(...events: EventMap[K][]): Promise<void>
   register<K extends keyof EventMap>(
     eventName: K,
-    eventHandlers: DomainEventHandler<EventMap[K]> | DomainEventHandler<EventMap[K]>[]
+    eventHandler: DomainEventHandler<EventMap[K]>
+  ): this
+  register<K extends keyof EventMap>(
+    eventName: K,
+    eventHandlers: DomainEventHandler<EventMap[K]>[]
   ): this
   clearHandlers<K extends keyof EventMap>(eventName: K): void
   clearAllHandlers(): void
