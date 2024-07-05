@@ -3,8 +3,6 @@
     "node_modules",
     "build",
     "dist",
-    "jest.setup.js",
-    "*.config.js",
     "coverage"
   ],
   "compilerOptions": {
@@ -56,17 +54,8 @@
       "#eventHandlers/*": [
         "./eventHandlers/*"
       ],
-      "@backend/*": [
-        "./backend/*"
-      ],
-      "@pages/*": [
-        "./pages/*"
-      ],
-      "@libs/*": [
-        "./libs/*"
-      ],
-      "@schema": [
-        "types/schema.d.ts"
+      "#mocks/*": [
+        "./mocks/*"
       ],
     }
   }
