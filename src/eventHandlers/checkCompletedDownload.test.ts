@@ -4,10 +4,10 @@ import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import { DownloadRecord } from '#domain/valueObjects/downloadRecord'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { checkCompletedDownload } from '#eventHandlers/checkCompletedDownload'
+import { MockEventPublisher } from '#mocks/eventPublisher'
+import { MockDownloadRepo } from '#mocks/repositories/download'
+import { MockDownloadRecordRepo } from '#mocks/repositories/downloadRecord'
 import { generateDownloadItem } from '#utils/test/downloadItem'
-import { MockEventPublisher } from 'mocks/eventPublisher'
-import { MockDownloadRepo } from 'mocks/repositories/download'
-import { MockDownloadRecordRepo } from 'mocks/repositories/downloadRecord'
 
 afterAll(() => jest.resetAllMocks())
 
