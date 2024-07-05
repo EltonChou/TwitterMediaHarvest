@@ -45,5 +45,5 @@ it('can handle completed download event', async () => {
   jest.spyOn(downloadRepo, 'getById').mockResolvedValueOnce(item)
 
   await handle(event, publisher)
-  expect(mockPublish).toBeCalled()
+  expect(mockPublish).toHaveBeenCalled()
 })

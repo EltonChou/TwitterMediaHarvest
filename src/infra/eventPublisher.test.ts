@@ -5,6 +5,10 @@ describe('unit test for event publisher', () => {
   const publisher = getEventPublisher()
   const mockHandler = jest.fn()
 
+  beforeAll(() => {
+    jest.spyOn(console, 'info').mockImplementation(jest.fn())
+  })
+
   afterEach(() => {
     jest.resetAllMocks()
     jest.clearAllMocks()
@@ -32,8 +36,8 @@ describe('unit test for event publisher', () => {
     publisher.publish(event)
     publisher.publishAll(event, event, event)
 
-    expect(mockHandler).toBeCalledTimes(4)
-    expect(mockConsoleError).toBeCalledTimes(4)
+    expect(mockHandler).toHaveBeenCalledTimes(4)
+    expect(mockConsoleError).toHaveBeenCalledTimes(4)
   })
 
   it('can clear event handlers', () => {
@@ -48,6 +52,6 @@ describe('unit test for event publisher', () => {
     publisher.clearHandlers('api:twitter:failed')
     publisher.publish(event)
 
-    expect(mockHandler).toBeCalledTimes(0)
+    expect(mockHandler).toHaveBeenCalledTimes(0)
   })
 })

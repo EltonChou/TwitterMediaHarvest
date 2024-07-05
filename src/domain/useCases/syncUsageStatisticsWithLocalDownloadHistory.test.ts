@@ -61,7 +61,7 @@ describe('unit test for sync usage statistic with local download history', () =>
     )
 
     await useCase.process()
-    expect(mockDownloadSearching).toBeCalled()
-    expect(mockUsageSaving).toBeCalled()
+    expect(mockDownloadSearching).toHaveBeenCalled()
+    expect(mockUsageSaving).toHaveBeenCalled()
   })
 })
