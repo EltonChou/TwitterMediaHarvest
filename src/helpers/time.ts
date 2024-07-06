@@ -20,6 +20,3 @@ export class TimeHelper {
     return second * SECOND
   }
 }
-
-export const sleep = async (ms: number) =>
-  new Promise((resolve, _reject) => setTimeout(resolve, ms))

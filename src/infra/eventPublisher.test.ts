@@ -19,6 +19,7 @@ describe('unit test for event publisher', () => {
   it('can register event handler', () => {
     publisher
       .register('api:twitter:failed', mockHandler)
+      .register('api:twitter:failed', mockHandler)
       .register('download:status:completed', [mockHandler, mockHandler])
       .register('download:status:completed', [mockHandler, mockHandler])
 
@@ -27,7 +28,7 @@ describe('unit test for event publisher', () => {
       new DownloadCompleted(1)
     )
 
-    expect(mockHandler).toHaveBeenCalledTimes(5)
+    expect(mockHandler).toHaveBeenCalledTimes(6)
   })
 
   it('can publish event', () => {

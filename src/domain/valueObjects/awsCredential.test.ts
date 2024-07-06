@@ -20,5 +20,13 @@ describe('unit test for AWSCredential value object', () => {
       expiration: new Date(2222, 5, 5),
     })
     expect(credential.isExpired).toBeFalsy()
+
+    const nonExipirationCredential = new AWSCredential({
+      accessKeyId: 'ACCESS_KEY_ID',
+      identityId: 'IDENTITY_ID',
+      secretAccessKey: 'SECRET_KEY',
+      sessionToken: 'SESSION_TOKEN',
+    })
+    expect(nonExipirationCredential.isExpired).toBeTruthy()
   })
 })
