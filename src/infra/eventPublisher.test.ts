@@ -1,3 +1,4 @@
+import DownloadCompleted from '#domain/events/DownloadCompleted'
 import TweetApiFailed from '#domain/events/TweetApiFailed'
 import { getEventPublisher } from '#infra/eventPublisher'
 
@@ -19,6 +20,14 @@ describe('unit test for event publisher', () => {
     publisher
       .register('api:twitter:failed', mockHandler)
       .register('download:status:completed', [mockHandler, mockHandler])
+      .register('download:status:completed', [mockHandler, mockHandler])
+
+    publisher.publishAll(
+      new TweetApiFailed({ screenName: 'Someone', tweetId: '123' }, 403),
+      new DownloadCompleted(1)
+    )
+
+    expect(mockHandler).toHaveBeenCalledTimes(5)
   })
 
   it('can publish event', () => {
