@@ -11,7 +11,7 @@ const jestConfig: JestConfigWithTsJest = {
       },
     ],
   },
-  setupFiles: ['fake-indexeddb/auto'],
+  setupFiles: ['fake-indexeddb/auto', 'jest-webextension-mock'],
   setupFilesAfterEnv: ['./jest.setup.ts'],
   roots: ['<rootDir>'],
   moduleNameMapper: {
