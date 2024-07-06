@@ -9,7 +9,7 @@ import { MockDownloadRepo } from '#mocks/repositories/download'
 import { MockDownloadRecordRepo } from '#mocks/repositories/downloadRecord'
 import { generateDownloadItem } from '#utils/test/downloadItem'
 
-afterAll(() => jest.resetAllMocks())
+afterEach(() => jest.resetAllMocks())
 
 it('can handle completed download event', async () => {
   const extensionId = 'EXT_ID'
@@ -46,4 +46,55 @@ it('can handle completed download event', async () => {
 
   await handle(event, publisher)
   expect(mockPublish).toHaveBeenCalled()
+})
+
+it('should ignore download which was not triggered by self', async () => {
+  const extensionId = 'EXT_ID'
+  const publisher = new MockEventPublisher()
+  const downloadRepo = new MockDownloadRepo()
+  const downloadRecordRepo = new MockDownloadRecordRepo()
+  const selfDownloadUseCase = new CheckDownloadWasTriggeredBySelf(extensionId)
+  const event = new DownloadCompleted(1)
+  const item = generateDownloadItem({
+    filename: '/usr/local/downloads/114514.jpg_orig',
+    byExtensionId: 'not self',
+  })
+
+  const handle = checkCompletedDownload(
+    downloadRepo,
+    downloadRecordRepo,
+    selfDownloadUseCase
+  )
+
+  const mockPublish = jest.spyOn(publisher, 'publish').mockImplementationOnce(jest.fn())
+  jest.spyOn(downloadRepo, 'getById').mockResolvedValueOnce(item)
+
+  await handle(event, publisher)
+  expect(mockPublish).not.toHaveBeenCalled()
+})
+
+it('should do nothing if the record is lost.', async () => {
+  const extensionId = 'EXT_ID'
+  const publisher = new MockEventPublisher()
+  const downloadRepo = new MockDownloadRepo()
+  const downloadRecordRepo = new MockDownloadRecordRepo()
+  const selfDownloadUseCase = new CheckDownloadWasTriggeredBySelf(extensionId)
+  const event = new DownloadCompleted(1)
+  const item = generateDownloadItem({
+    filename: '/usr/local/downloads/114514.jpg_orig',
+    byExtensionId: extensionId,
+  })
+
+  const handle = checkCompletedDownload(
+    downloadRepo,
+    downloadRecordRepo,
+    selfDownloadUseCase
+  )
+
+  const mockPublish = jest.spyOn(publisher, 'publish').mockImplementationOnce(jest.fn())
+  jest.spyOn(downloadRepo, 'getById').mockResolvedValueOnce(item)
+  jest.spyOn(downloadRecordRepo, 'getById').mockResolvedValueOnce(undefined)
+
+  await handle(event, publisher)
+  expect(mockPublish).not.toHaveBeenCalled()
 })
