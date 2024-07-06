@@ -1,7 +1,7 @@
-export type DomainEventHandler<E> = (
-  event: E,
-  publisher: DomainEventPublisher
-) => Promise<void> | void
+export interface DomainEventHandler<E> {
+  (event: E): Promise<void> | void
+  (event: E, publisher: DomainEventPublisher): Promise<void> | void
+}
 
 export interface DomainEventPublisher<EventMap extends DomainEventMap = DomainEventMap> {
   publish<K extends keyof EventMap>(event: EventMap[K]): Promise<void>
