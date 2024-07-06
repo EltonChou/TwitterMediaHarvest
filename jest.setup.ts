@@ -1,3 +1,6 @@
-import { chrome } from 'jest-chrome'
+import * as mockChrome from 'jest-chrome'
 
-Object.assign(global, chrome)
+Object.assign(global, mockChrome)
+
+// Monkey patch for webextension-polyfill
+chrome.runtime.id = 'TEST'
