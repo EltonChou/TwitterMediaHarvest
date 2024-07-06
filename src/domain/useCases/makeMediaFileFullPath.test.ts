@@ -46,4 +46,20 @@ describe('unit test for media filename use case.', () => {
       }-${String(fileInfo.serial).padStart(2, '0')}${fileInfo.ext}`
     )
   })
+
+  it('can make full path without sub-directory', async () => {
+    jest
+      .spyOn(v4FilenameRepo, 'get')
+      .mockResolvedValue({ ...settings, noSubDirectory: true })
+
+    const filenameUseCase = new MakeMediaFileFullPath(v4FilenameRepo)
+    const fullPath = await filenameUseCase.process({ tweetDetail, fileInfo })
+
+    expect(fullPath).toBe(
+      `${tweetDetail.screenName}-${tweetDetail.id}-${String(fileInfo.serial).padStart(
+        2,
+        '0'
+      )}${fileInfo.ext}`
+    )
+  })
 })

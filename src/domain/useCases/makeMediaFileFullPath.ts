@@ -63,8 +63,10 @@ const makeAggregationDirectory =
       case '{account}':
         return path.join(baseDir, tweetDetail.screenName)
 
+      // It shouldn't happen unless someone modified the settings manually.
+      /* istanbul ignore next */
       default:
-        return path.join(baseDir, tweetDetail.screenName)
+        throw new Error('Invalid `groupBy` settings: ' + settings.groupBy)
     }
   }
 
