@@ -28,7 +28,7 @@ export interface IStorageProxy<SchemaT extends Record<string, any>> {
   removeItem<Key extends SchemaKey<SchemaT>>(keys: Key | Key[]): Promise<void>
 }
 
-export class SimpleObjectStorageProxy<T extends Partial<LocalSchema | SyncSchema>>
+export class InMemoryStorageProxy<T extends Partial<LocalSchema | SyncSchema>>
   implements IStorageProxy<T>
 {
   constructor(protected storage: Record<string, any> = {}) {}

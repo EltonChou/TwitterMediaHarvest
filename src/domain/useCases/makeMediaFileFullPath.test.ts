@@ -2,11 +2,11 @@ import type { FileInfo } from '#domain/useCases/makeMediaFileFullPath'
 import { MakeMediaFileFullPath } from '#domain/useCases/makeMediaFileFullPath'
 import PatternToken from '#enums/patternToken'
 import { V4FilenameSettingsRepository } from '#infra/repositories/filenameSettings'
-import { SimpleObjectStorageProxy } from '#libs/proxy'
+import { InMemoryStorageProxy } from '#libs/proxy'
 import type { V4FilenameSettings } from '#schema'
 
 describe('unit test for media filename use case.', () => {
-  const v4FilenameRepo = new V4FilenameSettingsRepository(new SimpleObjectStorageProxy())
+  const v4FilenameRepo = new V4FilenameSettingsRepository(new InMemoryStorageProxy())
 
   const tweetDetail: TweetDetail = {
     id: 'tweetId',
