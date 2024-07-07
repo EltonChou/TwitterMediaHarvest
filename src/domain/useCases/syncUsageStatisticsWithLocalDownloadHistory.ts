@@ -2,22 +2,22 @@ import type { IDownloadRepository } from '#domain/repositories/download'
 import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
 import { UsageStatics } from '#domain/valueObjects/usageStatistics'
 import type { AsyncCommandUseCase } from './base'
+import type { CheckDownloadWasTriggeredBySelf } from './checkDownloadWasTriggeredBySelf'
 
 export class SyncUsageStatisticsWithLocalDownloadHistory
   implements AsyncCommandUseCase<void>
 {
   constructor(
-    readonly extensionId: string,
     readonly usageStatisticsRepo: IUsageStatisticsRepository,
-    readonly downloadRepository: IDownloadRepository
+    readonly downloadRepository: IDownloadRepository,
+    readonly isDownlodedBySelfUseCase: CheckDownloadWasTriggeredBySelf
   ) {}
 
   async process(): Promise<void> {
-    const isDownloadedBySelf = (extId: string) => extId === this.extensionId
     const pastItems = await this.downloadRepository.search({ limit: 0 })
 
     const syncedStats = pastItems.reduce((stats, currItem) => {
-      if (!isDownloadedBySelf(currItem.byExtensionId)) return stats
+      if (!this.isDownlodedBySelfUseCase.process({ item: currItem })) return stats
       return stats.increase({
         downloadCount: 1,
         trafficUsage: Math.max(0, currItem.fileSize),
