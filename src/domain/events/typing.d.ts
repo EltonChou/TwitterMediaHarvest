@@ -8,8 +8,8 @@ interface DomainEventSource<Event extends IDomainEvent = IDomainEvent> {
 }
 
 interface DomainEventMap {
-  'runtime:status:installed': RuntimeEvent
-  'runtime:status:updated': RuntimeEvent
+  'runtime:status:installed': RuntimeInstallEvent
+  'runtime:status:updated': RuntimeUpdateEvent
   'download:status:completed': DownloadEvent
   'download:status:interrupted': DownloadInterruptedEvent
   'download:status:dispatched:browser': BrowserDownloadDispatchedEvent
@@ -25,8 +25,13 @@ interface DomainEventMap {
   'parse:tweet:failed': TweetInfoEvent
 }
 
-interface RuntimeEvent extends IDomainEvent {
-  readonly versionDelta: Delta<string>
+interface RuntimeInstallEvent extends IDomainEvent {
+  readonly version: string
+}
+
+interface RuntimeUpdateEvent extends IDomainEvent {
+  readonly currentVersion: string
+  readonly previousVersion: string
 }
 
 interface BrowserDownloadDispatchedEvent extends IDomainEvent {

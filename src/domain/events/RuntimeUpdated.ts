@@ -5,19 +5,13 @@ type VersionDelta = {
   previous: string
 }
 
-export default class RuntimeUpdated extends DomainEvent {
-  private versionDelta: VersionDelta
+export default class RuntimeUpdated extends DomainEvent implements RuntimeUpdateEvent {
+  readonly currentVersion: string
+  readonly previousVersion: string
 
   constructor(versionDelta: VersionDelta) {
     super('runtime:status:updated')
-    this.versionDelta = versionDelta
-  }
-
-  get currentVersion() {
-    return this.versionDelta.current
-  }
-
-  get previousVersion() {
-    return this.versionDelta.previous
+    this.currentVersion = versionDelta.current
+    this.previousVersion = versionDelta.previous
   }
 }
