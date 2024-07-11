@@ -4,3 +4,10 @@ export interface ISettingsRepository<Settings> {
   reset(): Promise<void>
   getDefault(): Settings
 }
+
+export interface ISettingsVORepository<Settings> {
+  get(): Promise<Settings>
+  save(settings: Settings): Promise<void>
+  reset(): Promise<void>
+  getDefault(): Settings
+}

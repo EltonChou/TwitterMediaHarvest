@@ -1,37 +1,40 @@
 import { DEFAULT_DIRECTORY } from '#constants'
-import { ISettingsRepository } from '#domain/repositories/settings'
+import { ISettingsVORepository } from '#domain/repositories/settings'
+import { FilenameSetting } from '#domain/valueObjects/filenameSetting'
 import PatternToken from '#enums/patternToken'
 import type { IStorageProxy } from '#libs/proxy'
 import type { V4FilenameSettings } from '#schema'
 
-const defaultV4FilenameSettings: V4FilenameSettings = {
+const defaultV4FilenameSettings = new FilenameSetting({
   directory: DEFAULT_DIRECTORY,
   noSubDirectory: false,
   filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
   groupBy: '{account}',
   fileAggregation: false,
-}
+})
 
 export class V4FilenameSettingsRepository
-  implements ISettingsRepository<V4FilenameSettings>
+  implements ISettingsVORepository<FilenameSetting>
 {
   constructor(readonly storage: IStorageProxy<V4FilenameSettings>) {}
 
-  async get(): Promise<V4FilenameSettings> {
-    const settings = await this.storage.getItemByDefaults(defaultV4FilenameSettings)
+  async get(): Promise<FilenameSetting> {
+    const settings = await this.storage.getItemByDefaults(
+      defaultV4FilenameSettings.mapBy(props => props)
+    )
 
-    return settings
+    return new FilenameSetting(settings)
   }
 
-  async save(settings: Partial<V4FilenameSettings>): Promise<void> {
-    await this.storage.setItem(settings)
+  async save(settings: FilenameSetting): Promise<void> {
+    await this.storage.setItem(settings.mapBy(props => props))
   }
 
   async reset(): Promise<void> {
     await this.save(defaultV4FilenameSettings)
   }
 
-  getDefault(): V4FilenameSettings {
+  getDefault(): FilenameSetting {
     return defaultV4FilenameSettings
   }
 }

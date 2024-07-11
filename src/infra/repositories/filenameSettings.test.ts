@@ -1,3 +1,4 @@
+import { FilenameSetting } from '#domain/valueObjects/filenameSetting'
 import { InMemoryStorageProxy } from '#libs/proxy'
 import { V4FilenameSettingsRepository } from './filenameSettings'
 
@@ -21,20 +22,27 @@ describe('unit test for v4 filename settings repository', () => {
     const settings = repo.getDefault()
     const newDir = 'kappa'
 
-    await repo.save({ ...settings, directory: newDir })
+    await repo.save(
+      new FilenameSetting({ ...settings.mapBy(props => props), directory: newDir })
+    )
     const fetchedSettings = await repo.get()
 
-    expect(fetchedSettings.directory).toBe(newDir)
+    expect(fetchedSettings.mapBy(props => props.directory)).toBe(newDir)
   })
 
   it('can reset settings to default', async () => {
     const repo = new V4FilenameSettingsRepository(new InMemoryStorageProxy())
     const defaultSettings = repo.getDefault()
 
-    await repo.save({ ...defaultSettings, directory: 'kappa' })
+    await repo.save(
+      new FilenameSetting({
+        ...defaultSettings.mapBy(props => props),
+        directory: 'kappa',
+      })
+    )
     await repo.reset()
     const fetchedSettings = await repo.get()
 
-    expect(fetchedSettings).toStrictEqual(defaultSettings)
+    expect(fetchedSettings.is(defaultSettings)).toBeTruthy()
   })
 })
