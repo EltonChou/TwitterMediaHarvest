@@ -1,4 +1,5 @@
 import TweetApiFailed from '#domain/events/TweetApiFailed'
+import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { getNotifier } from '#infra/browserNotifier'
 import { notifyTweetApiError } from './notifyTweetApiError'
 
@@ -8,10 +9,10 @@ describe('unit test for handler to notify tweet api error', () => {
     const mockNotify = jest.spyOn(notifier, 'notify')
     const handle = notifyTweetApiError(notifier)
 
-    const tweetInfo = {
+    const tweetInfo = new TweetInfo({
       screenName: 'name',
       tweetId: 'tweet-id',
-    }
+    })
 
     const unauthorizedEvent = new TweetApiFailed(tweetInfo, 401)
     const forbiddenEvent = new TweetApiFailed(tweetInfo, 403)

@@ -1,5 +1,6 @@
 import DownloadCompleted from '#domain/events/DownloadCompleted'
 import TweetApiFailed from '#domain/events/TweetApiFailed'
+import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { getEventPublisher } from '#infra/eventPublisher'
 
 describe('unit test for event publisher', () => {
@@ -24,7 +25,7 @@ describe('unit test for event publisher', () => {
       .register('download:status:completed', [mockHandler, mockHandler])
 
     publisher.publishAll(
-      new TweetApiFailed({ screenName: 'Someone', tweetId: '123' }, 403),
+      new TweetApiFailed(new TweetInfo({ screenName: 'Someone', tweetId: '123' }), 403),
       new DownloadCompleted(1)
     )
 
@@ -35,7 +36,10 @@ describe('unit test for event publisher', () => {
     const mockConsoleError = jest.spyOn(console, 'error').mockImplementation(() => {
       /** pass */
     })
-    const event = new TweetApiFailed({ screenName: 'Someone', tweetId: '123' }, 403)
+    const event = new TweetApiFailed(
+      new TweetInfo({ screenName: 'Someone', tweetId: '123' }),
+      403
+    )
 
     publisher.register('api:twitter:failed', [
       () => {
@@ -51,7 +55,10 @@ describe('unit test for event publisher', () => {
   })
 
   it('can clear event handlers', () => {
-    const event = new TweetApiFailed({ screenName: 'Someone', tweetId: '123' }, 403)
+    const event = new TweetApiFailed(
+      new TweetInfo({ screenName: 'Someone', tweetId: '123' }),
+      403
+    )
 
     publisher.register('api:twitter:failed', [
       () => {

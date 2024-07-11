@@ -53,7 +53,7 @@ interface DownloadFailedNotificationEvent extends IDomainEvent {
 }
 
 interface TweetInfoEvent extends IDomainEvent {
-  readonly tweetInfo: TweetInfo
+  readonly tweetInfo: import('#domain/valueObjects/tweetInfo').TweetInfo
 }
 
 interface TweetApiErrorEvent extends TweetInfoEvent {

@@ -1,3 +1,4 @@
+import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { DomainEvent } from './base'
 
 export default abstract class TweetFetchErrorNotificationInteracted

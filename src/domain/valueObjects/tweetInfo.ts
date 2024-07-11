@@ -5,4 +5,12 @@ type TweetInfoProps = {
   tweetId: string
 }
 
-export class TweetInfo extends ValueObject<TweetInfoProps> {}
+export class TweetInfo extends ValueObject<TweetInfoProps> {
+  get screenName() {
+    return this.props.screenName
+  }
+
+  get tweetId() {
+    return this.props.tweetId
+  }
+}
