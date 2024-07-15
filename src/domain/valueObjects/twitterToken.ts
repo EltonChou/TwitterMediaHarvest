@@ -5,4 +5,8 @@ type TwitterTokenProps = {
   value: string
 }
 
-export class TwitterToken extends ValueObject<TwitterTokenProps> {}
+export class TwitterToken extends ValueObject<TwitterTokenProps> {
+  get value() {
+    return this.props.value
+  }
+}

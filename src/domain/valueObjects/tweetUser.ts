@@ -1,6 +1,6 @@
 import { ValueObject } from './base'
 
-type TweetUserProps = {
+export type TweetUserProps = {
   userId: string
   displayName: string
   screenName: string
