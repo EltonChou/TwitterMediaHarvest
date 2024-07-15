@@ -61,11 +61,6 @@ interface TweetDetail {
   createdAt: Date
 }
 
-type TweetMediaFileProps = {
-  url: string
-  order: number
-}
-
 interface ITweetMediaFileDetail {
   src: string
   ext: string
@@ -89,3 +84,9 @@ type Delta<T> = {
   previous: T
   current: T
 }
+
+type UnsafeTask = Error | undefined
+type Result<T, Err extends Error = Error> =
+  | { value: undefined; error: Err }
+  | { value: T; error: undefined }
+type AsyncResult<T, Err extends Error = Error> = Promise<Result<T, Err>>
