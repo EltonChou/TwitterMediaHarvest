@@ -16,7 +16,7 @@ class EventPublisher implements DomainEventPublisher {
       try {
         // eslint-disable-next-line no-console
         console.info(`Handle ${event.name} with ${handle.name}.`)
-        handle(event, this)
+        await handle(event, this)
       } catch (error) {
         // eslint-disable-next-line no-console
         console.info(`Failed to handle ${event.name} with ${handle.name}.`)
@@ -30,7 +30,7 @@ class EventPublisher implements DomainEventPublisher {
     ...events: DomainEventMap[K][]
   ): Promise<void> {
     for (const event of events) {
-      this.publish(event)
+      await this.publish(event)
     }
   }
 

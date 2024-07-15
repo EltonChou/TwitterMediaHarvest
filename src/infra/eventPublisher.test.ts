@@ -17,14 +17,14 @@ describe('unit test for event publisher', () => {
     publisher.clearAllHandlers()
   })
 
-  it('can register event handler', () => {
+  it('can register event handler', async () => {
     publisher
       .register('api:twitter:failed', mockHandler)
       .register('api:twitter:failed', mockHandler)
       .register('download:status:completed', [mockHandler, mockHandler])
       .register('download:status:completed', [mockHandler, mockHandler])
 
-    publisher.publishAll(
+    await publisher.publishAll(
       new TweetApiFailed(new TweetInfo({ screenName: 'Someone', tweetId: '123' }), 403),
       new DownloadCompleted(1)
     )
@@ -32,7 +32,7 @@ describe('unit test for event publisher', () => {
     expect(mockHandler).toHaveBeenCalledTimes(6)
   })
 
-  it('can publish event', () => {
+  it('can publish event', async () => {
     const mockConsoleError = jest.spyOn(console, 'error').mockImplementation(() => {
       /** pass */
     })
@@ -47,14 +47,14 @@ describe('unit test for event publisher', () => {
       },
       mockHandler,
     ])
-    publisher.publish(event)
-    publisher.publishAll(event, event, event)
+    await publisher.publish(event)
+    await publisher.publishAll(event, event, event)
 
     expect(mockHandler).toHaveBeenCalledTimes(4)
     expect(mockConsoleError).toHaveBeenCalledTimes(4)
   })
 
-  it('can clear event handlers', () => {
+  it('can clear event handlers', async () => {
     const event = new TweetApiFailed(
       new TweetInfo({ screenName: 'Someone', tweetId: '123' }),
       403
@@ -67,7 +67,7 @@ describe('unit test for event publisher', () => {
       mockHandler,
     ])
     publisher.clearHandlers('api:twitter:failed')
-    publisher.publish(event)
+    await publisher.publish(event)
 
     expect(mockHandler).toHaveBeenCalledTimes(0)
   })
