@@ -1,9 +1,10 @@
+import type { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import type { DownloadTarget } from '#domain/valueObjects/downloadTarget'
 import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import type { AsyncUseCase } from './base'
 
 export type DownloadMediaFileCommand = {
-  target: DownloadTarget
+  target: DownloadTarget | DownloadConfig
 }
 
 export interface DownloadMediaFileUseCase

@@ -4,6 +4,7 @@ import type {
   DownloadMediaFileUseCase,
 } from '#domain/useCases/downloadMediaFile'
 import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
+import { DownloadTarget } from '#domain/valueObjects/downloadTarget'
 import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { isFirefox } from '#helpers/runtime'
 import Browser from 'webextension-polyfill'
@@ -31,13 +32,14 @@ export class BrowserDownloadMediaFileUseCase implements DownloadMediaFileUseCase
   }
 
   async process(command: DownloadMediaFileCommand): Promise<void> {
-    const { url, filename } = command.target.mapBy(props => props)
-    const config = new DownloadConfig({
-      conflictAction: 'overwrite',
-      filename: filename,
-      url: url,
-      saveAs: this.askWhereToSave,
-    })
+    const config =
+      command.target instanceof DownloadTarget
+        ? new DownloadConfig({
+            conflictAction: 'overwrite',
+            saveAs: this.askWhereToSave,
+            ...command.target.mapBy(props => props),
+          })
+        : command.target
 
     const downloadId = await Browser.downloads.download(
       downloadConfigToBrowserDownloadOptions(config)
