@@ -9,7 +9,7 @@ const generateDownloadTarget = () =>
   new DownloadTarget({ filename: faker.system.fileName(), url: faker.internet.url() })
 
 it('can download target file and emit browser download event', async () => {
-  const mockDownload = jest.spyOn(downloads, 'download')
+  const mockDownload = jest.spyOn(downloads, 'download').mockResolvedValue(1)
   const tweetInfo = new TweetInfo({ screenName: 'someone', tweetId: '1145141919810' })
   const useCase = new BrowserDownloadMediaFileUseCase(tweetInfo, false)
 
