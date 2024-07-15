@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker'
 
 export const generateTweetMediaFile = ({ isVideo }: { isVideo?: boolean } = {}) =>
   new TweetMediaFile({
-    _type: isVideo ? 'video' : faker.helpers.arrayElement(['image', 'thumbnail']),
+    type: isVideo ? 'video' : faker.helpers.arrayElement(['image', 'thumbnail']),
     createdAt: faker.date.anytime(),
     ext: isVideo ? '.mp4' : '.' + faker.helpers.arrayElement(['jpeg', 'jpg', 'png']),
     hash: faker.string.nanoid(),
