@@ -1,14 +1,13 @@
 import { TweetUser } from '#domain/valueObjects/tweetUser'
+import MediaType from '#enums/mediaType'
 import { Entity, EntityId } from './base'
 
 export class DownloadHistoryId extends EntityId<string> {}
 
-type DownloadHistoryMediaType = 'image' | 'video' | 'mixed'
-
 type DownloadHistoryProps = {
   tweetUser: TweetUser
-  mediaType: DownloadHistoryMediaType
-  hashTags: string[]
+  mediaType: MediaType
+  hashtags: string[]
   thumbnail?: string
 
   tweetTime: Date
