@@ -38,6 +38,7 @@ type FetchTweetMap = {
   guest: FetchTweet
 }
 
+// TODO: Logger and Tracker (like sentry).
 export class DownloadTweetMedia
   implements AsyncUseCase<DownloadTweetMediaCommand, boolean>
 {
@@ -56,7 +57,11 @@ export class DownloadTweetMedia
     const csrfToken = await this.tokenRepo.getCsrfToken()
     const guestToken = await this.tokenRepo.getGuestToken()
 
-    // TODO: Ensure there is at least one available token.
+    if (!csrfToken && !guestToken) {
+      const event = new TweetApiFailed(command.tweetInfo, 401)
+      eventPublisher.publish(event)
+      return false
+    }
 
     const fetchTweetSolutions: [FetchTweet, FetchTweetCommand][] = []
 
@@ -102,11 +107,18 @@ export class DownloadTweetMedia
       return false
     }
 
-    // TODO: Handle other error from fetchTweet
+    if (fetchTweetError) {
+      const event = new TweetApiFailed(command.tweetInfo, 500)
+      eventPublisher.publish(event)
+      return false
+    }
 
-    // FIXME: Unsafe process, but the whole process can ignore this error.
-    const downloadHistory = tweetToDownloadHistory(tweet)
-    await this.saveDownloadHistory.process({ downloadHistory: downloadHistory })
+    try {
+      const downloadHistory = tweetToDownloadHistory(tweet)
+      await this.saveDownloadHistory.process({ downloadHistory: downloadHistory })
+    } catch (error) {
+      // TODO: Record error.
+    }
 
     const downloadSettings = await this.downloadSettingsRepo.get()
     const filenameSetting = await this.filenameSettingRepo.get()
