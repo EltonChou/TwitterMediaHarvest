@@ -27,20 +27,21 @@ export type MakeHeaderParams = {
   csrfToken: string
 }
 
-const tweetPropsSchema: Joi.Schema<TweetProps> = Joi.object<TweetProps>({
+const tweetPartialPropsSchema = Joi.object<
+  Omit<TweetProps, 'user' | 'videos' | 'images'>
+>({
   id: Joi.string(),
   isProtected: Joi.boolean(),
   hashtags: Joi.array().items(Joi.string()),
   createdAt: Joi.date(),
 })
-const tweetUserPropsSchema: Joi.Schema<TweetUserProps> = Joi.object<TweetUserProps, true>(
-  {
-    displayName: Joi.string(),
-    screenName: Joi.string(),
-    userId: Joi.string(),
-    isProtected: Joi.boolean(),
-  }
-)
+
+const tweetUserPropsSchema = Joi.object<TweetUserProps, true>({
+  displayName: Joi.string(),
+  screenName: Joi.string(),
+  userId: Joi.string(),
+  isProtected: Joi.boolean(),
+})
 
 export abstract class FetchTweetBase implements FetchTweet {
   protected bearerToken =
@@ -62,7 +63,7 @@ export abstract class FetchTweetBase implements FetchTweet {
         value: undefined,
       }
 
-    const instruction: TimelineInstruction = pipe(
+    const instruction = pipe(
       instructions,
       A.filter(i => i.type === 'TimelineAddEntries'),
       A.head,
@@ -128,20 +129,23 @@ export abstract class FetchTweetBase implements FetchTweet {
     if (userPropsError)
       return { error: new ParseTweetError(userPropsError.message), value: undefined }
 
-    const medias = parseMedias(tweetResult?.extended_entities ?? [])
-    const { value: tweetProps, error: tweetPropsError } = tweetPropsSchema.validate({
-      id: tweetResult.rest_id,
-      isProtected: Boolean(tweetResult?.limited_actions),
-      hashtags: parseHashtags(tweetResult?.entities),
-      createdAt: new Date(tweetResult.createdAt),
-    })
+    const { value: tweetProps, error: tweetPropsError } =
+      tweetPartialPropsSchema.validate({
+        id: tweetResult.rest_id,
+        isProtected: Boolean(tweetResult?.limited_actions),
+        hashtags: parseHashtags(tweetResult?.entities),
+        createdAt: new Date(tweetResult.createdAt),
+      })
     if (tweetPropsError)
       return { error: new ParseTweetError(tweetPropsError.message), value: undefined }
 
+    const mediaCollection = parseMedias(tweetResult?.extended_entities ?? [])
+
     const tweet = new Tweet({
-      ...tweetProps,
       user: new TweetUser(userProps),
-      medias: medias,
+      images: mediaCollection.images,
+      videos: mediaCollection.videos,
+      ...tweetProps,
     })
 
     return {
@@ -164,6 +168,7 @@ export abstract class FetchTweetBase implements FetchTweet {
 
       if (resp.status === 200) {
         const body = await resp.json()
+        // TODO: Emit quota event.
         return this.parseBody(body, { targetTweetId: command.tweetId })
       }
 
@@ -173,15 +178,16 @@ export abstract class FetchTweetBase implements FetchTweet {
       }
     } catch (error) {
       return {
-        error: error,
+        error: error as Error,
         value: undefined,
       }
     }
   }
 }
 
-const parseMedias = (entity: Record<string, unknown>) => {
-  const mediaFiles: TweetMedia[] = []
+type MediaCollection = { images: TweetMedia[]; videos: TweetMedia[] }
+
+const parseMedias = (entity: Record<string, unknown>): MediaCollection => {
   const medias = (entity?.medias as Media[]) ?? []
   let imageIndex = 0
   let videoIndex = 0
@@ -189,32 +195,38 @@ const parseMedias = (entity: Record<string, unknown>) => {
   const increaseImageIdx = () => (imageIndex += 1)
   const increaseVideoIndex = () => (videoIndex += 1)
 
-  return medias.reduce((mediaArray, media) => {
-    mediaArray.push(
-      new TweetMedia({
-        index: imageIndex,
-        type: media.type === 'image' ? 'image' : 'thumbnail',
-        url: media.media_url_https,
-      })
-    )
-    increaseImageIdx()
+  return medias.reduce(
+    (mediaCollection, media) => {
+      mediaCollection.images.push(
+        new TweetMedia({
+          index: imageIndex,
+          type: media.type === 'image' ? 'image' : 'thumbnail',
+          url: media.media_url_https,
+        })
+      )
+      increaseImageIdx()
 
-    if (media.type === 'animated_gif' || media.type === 'video') {
-      const url = parseBestVideoVariant(media.video_info.variants)
-      if (url) {
-        mediaFiles.push(
-          new TweetMedia({
-            index: videoIndex,
-            type: 'video',
-            url: url,
-          })
-        )
-        increaseVideoIndex()
+      if (media.type === 'animated_gif' || media.type === 'video') {
+        const url = parseBestVideoVariant(media.video_info.variants)
+        if (url) {
+          mediaCollection.videos.push(
+            new TweetMedia({
+              index: videoIndex,
+              type: 'video',
+              url: url,
+            })
+          )
+          increaseVideoIndex()
+        }
       }
-    }
 
-    return mediaArray
-  }, [] as TweetMedia[])
+      return mediaCollection
+    },
+    {
+      images: [],
+      videos: [],
+    } as MediaCollection
+  )
 }
 
 type Hashtag = {
@@ -222,7 +234,7 @@ type Hashtag = {
 }
 
 const parseHashtags = (entity: Record<string, unknown>): string[] =>
-  (entity?.hashtags as Hashtag[]) ?? [].map(v => v.text)
+  ((entity?.hashtags as Hashtag[]) ?? []).map(v => v.text)
 
 type Mp4Variant = {
   bitrate: number
