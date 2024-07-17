@@ -3742,14 +3742,6 @@
   dependencies:
     "@babel/types" "^7.20.7"
 
-"@types/chrome@^0.0.114":
-  version "0.0.114"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.114.tgz#8ceb33fa261f4b9e307fa7344ba8182d8d410d4e"
-  integrity sha512-i7qRr74IrxHtbnrZSKUuP5Uvd5EOKwlwJq/yp7+yTPihOXnPhNQO4Z5bqb1XTnrjdbUKEJicaVVbhcgtRijmLA==
-  dependencies:
-    "@types/filesystem" "*"
-    "@types/har-format" "*"
-
 "@types/chrome@^0.0.241":
   version "0.0.241"
   resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.241.tgz#c6274ef2377ace4e67713591aacc13d8e6c1dca6"
@@ -3834,6 +3826,13 @@
   dependencies:
     expect "^29.0.0"
     pretty-format "^29.0.0"
+
+"@types/joi@^17.2.3":
+  version "17.2.3"
+  resolved "https://registry.yarnpkg.com/@types/joi/-/joi-17.2.3.tgz#b7768ed9d84f1ebd393328b9f97c1cf3d2b94798"
+  integrity sha512-dGjs/lhrWOa+eO0HwgxCSnDm5eMGCsXuvLglMghJq32F6q5LyyNuXb41DHzrg501CKNOSSAHmfB7FDGeUnDmzw==
+  dependencies:
+    joi "*"
 
 "@types/jsdom@^20.0.0":
   version "20.0.1"
@@ -7367,13 +7366,6 @@ jest-changed-files@^29.7.0:
     jest-util "^29.7.0"
     p-limit "^3.1.0"
 
-jest-chrome@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/jest-chrome/-/jest-chrome-0.8.0.tgz#f741f5cf49292326eb9a2507111b9a77a01a495d"
-  integrity sha512-39RR1GT9nI4e4jsuH1vIf4l5ApxxkcstjGJr+GsOURL8f4Db0UlbRnsZaM+ZRniaGtokqklUH5VFKGZZ6YztUg==
-  dependencies:
-    "@types/chrome" "^0.0.114"
-
 jest-circus@^29.7.0:
   version "29.7.0"
   resolved "https://registry.yarnpkg.com/jest-circus/-/jest-circus-29.7.0.tgz#b6817a45fcc835d8b16d5962d0c026473ee3668a"
@@ -7717,6 +7709,11 @@ jest-watcher@^29.7.0:
     jest-util "^29.7.0"
     string-length "^4.0.1"
 
+jest-webextension-mock@^3.9.0:
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/jest-webextension-mock/-/jest-webextension-mock-3.9.0.tgz#2f55f86a5d48c7b9a234966b97703810821644d6"
+  integrity sha512-cknPFLO3cD2GwsgpVWwcsW+s2CoKKsEHCDNDw1ZNrA5+9R28/g4UOC2CEPc+Z+MwvoNjvIsEsowJy7L6MldBYg==
+
 jest-worker@^27.4.5:
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-27.5.1.tgz#8d146f0900e8973b106b6f73cc1e9a8cb86f8db0"
@@ -7746,7 +7743,7 @@ jest@^29.7.0:
     import-local "^3.0.2"
     jest-cli "^29.7.0"
 
-joi@^17.10.2:
+joi@*, joi@^17.10.2:
   version "17.13.3"
   resolved "https://registry.yarnpkg.com/joi/-/joi-17.13.3.tgz#0f5cc1169c999b30d344366d384b12d92558bcec"
   integrity sha512-otDA4ldcIx+ZXsKHWmp0YizCweVRZG96J10b0FevjfuncLO1oX59THoAmHkNubYJ+9gWsYsp5k8v4ib6oDv1fA==

@@ -45,6 +45,7 @@
     "@faker-js/faker": "^8.0.2",
     "@trivago/prettier-plugin-sort-imports": "^4.2.0",
     "@types/jest": "^29.5.12",
+    "@types/joi": "^17.2.3",
     "@types/jws": "^3.2.5",
     "@types/react": "^18.0.29",
     "@types/react-dom": "^18.0.11",
