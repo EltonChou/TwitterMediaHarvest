@@ -5,7 +5,7 @@ import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { faker } from '@faker-js/faker'
 
 export class MockDownloadRecordRepo implements IDownloadRecordRepository {
-  async getById(downloadItemId: number): Promise<DownloadRecord | null> {
+  async getById(downloadItemId: number): Promise<DownloadRecord | undefined> {
     return new DownloadRecord({
       downloadId: 1,
       recordedAt: new Date(),
