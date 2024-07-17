@@ -85,36 +85,38 @@ export class DownloadTweetMedia
       fetchTweetSolutions.push([this.fetchTweet.guest, fetchTweetCommand])
     }
 
-    let tweet: Tweet = undefined
-    let fetchTweetError: Error = undefined
+    let result: Result<Tweet> | undefined = undefined
 
     for (const [fetchTweet, fetchTweetCommand] of fetchTweetSolutions) {
-      if (tweet) break
-      const result = await fetchTweet.process(fetchTweetCommand)
-      tweet = result.value
-      fetchTweetError = result.error
+      if (result?.value) break
+      result = await fetchTweet.process(fetchTweetCommand)
     }
 
-    if (fetchTweetError && fetchTweetError instanceof ParseTweetError) {
-      const event = new TweetParsingFailed(command.tweetInfo)
-      eventPublisher.publish(event)
-      return false
-    }
+    // Ensure result type.
+    if (!result) return false
 
-    if (fetchTweetError && fetchTweetError instanceof FetchTweetError) {
-      const event = new TweetApiFailed(command.tweetInfo, fetchTweetError.statusCode)
-      eventPublisher.publish(event)
-      return false
-    }
+    if (result.error) {
+      const fetchTweetError = result.error
 
-    if (fetchTweetError) {
+      if (fetchTweetError instanceof ParseTweetError) {
+        const event = new TweetParsingFailed(command.tweetInfo)
+        eventPublisher.publish(event)
+        return false
+      }
+
+      if (fetchTweetError instanceof FetchTweetError) {
+        const event = new TweetApiFailed(command.tweetInfo, fetchTweetError.statusCode)
+        eventPublisher.publish(event)
+        return false
+      }
+
       const event = new TweetApiFailed(command.tweetInfo, 500)
       eventPublisher.publish(event)
       return false
     }
 
     try {
-      const downloadHistory = tweetToDownloadHistory(tweet)
+      const downloadHistory = tweetToDownloadHistory(result.value)
       await this.saveDownloadHistory.process({ downloadHistory: downloadHistory })
     } catch (error) {
       // TODO: Record error.
@@ -134,7 +136,7 @@ export class DownloadTweetMedia
     })
 
     await Promise.allSettled(
-      tweetToTweetMediaFiles(tweet)
+      tweetToTweetMediaFiles(result.value)
         .filter(
           mediaFile => featureSettings.includeVideoThumbnail || !mediaFile.isThumbnail
         )
