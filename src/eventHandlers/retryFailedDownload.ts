@@ -24,5 +24,5 @@ export const retryFailedDownload =
       targetTweet: tweetInfo,
     })
     await downloader.process({ target: downloadConfig })
-    publisher.publishAll(...downloader.events)
+    publisher && publisher.publishAll(...downloader.events)
   }

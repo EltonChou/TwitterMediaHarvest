@@ -9,8 +9,8 @@ import { getEventPublisher } from '#infra/eventPublisher'
 const publisher = getEventPublisher()
 
 class MockDownloadRecordRepo implements IDownloadRecordRepository {
-  async getById(downloadItemId: number): Promise<DownloadRecord | null> {
-    return null
+  async getById(downloadItemId: number): Promise<DownloadRecord | undefined> {
+    return undefined
   }
   async save(downloadRecord: DownloadRecord): Promise<void> {
     return

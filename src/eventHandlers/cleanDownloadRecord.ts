@@ -1,5 +1,4 @@
 import type { DomainEventHandler } from '#domain/eventPublisher'
-import DownloadFailedNotificationClosed from '#domain/events/DownloadFailedNotificationClosed'
 import type { IDownloadRecordRepository } from '#domain/repositories/downloadRecord'
 
 /**
@@ -8,7 +7,7 @@ import type { IDownloadRecordRepository } from '#domain/repositories/downloadRec
 export const cleanDownloadRecord =
   (
     downloadRecordRepo: IDownloadRecordRepository
-  ): DomainEventHandler<DownloadEvent | DownloadFailedNotificationClosed> =>
+  ): DomainEventHandler<DownloadEvent | DownloadFailedNotificationEvent> =>
   async event => {
     await downloadRecordRepo.removeById(event.downloadId)
   }

@@ -51,14 +51,18 @@ class EventPublisher implements DomainEventPublisher {
     const isMulipleHandlers = Array.isArray(eventHandlers)
     if (eventName in this.handlerMap) {
       if (isMulipleHandlers) {
-        this.handlerMap[eventName].push(...eventHandlers)
+        this.handlerMap[eventName].push(
+          ...(eventHandlers as DomainEventHandler<IDomainEvent>[])
+        )
       } else {
-        this.handlerMap[eventName].push(eventHandlers)
+        this.handlerMap[eventName].push(eventHandlers as DomainEventHandler<IDomainEvent>)
       }
       return this
     }
 
-    this.handlerMap[eventName] = isMulipleHandlers ? [...eventHandlers] : [eventHandlers]
+    this.handlerMap[eventName] = isMulipleHandlers
+      ? [...(eventHandlers as DomainEventHandler<IDomainEvent>[])]
+      : [eventHandlers as DomainEventHandler<IDomainEvent>]
     return this
   }
 
@@ -75,7 +79,7 @@ class EventPublisher implements DomainEventPublisher {
 }
 
 export const getEventPublisher = (() => {
-  let instance: DomainEventPublisher = undefined
+  let instance: DomainEventPublisher
 
   return () => {
     if (!instance) {

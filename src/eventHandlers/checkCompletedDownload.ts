@@ -13,7 +13,7 @@ export const checkCompletedDownload =
   ): DomainEventHandler<DomainEventMap['download:status:completed']> =>
   async (event, eventPublisher) => {
     const downloadItem = await downloadRepo.getById(event.downloadId)
-    if (!wasTriggeredBySelf.process({ item: downloadItem })) return
+    if (!downloadItem || !wasTriggeredBySelf.process({ item: downloadItem })) return
 
     const downloadRecord = await downloadRecordRepo.getById(event.downloadId)
     if (!downloadRecord) return
@@ -24,5 +24,5 @@ export const checkCompletedDownload =
     const finalBaseName = path.parse(downloadItem.filename).base
 
     if (finalBaseName !== expectedBaseName)
-      eventPublisher.publish(new FilenameOverwritten())
+      eventPublisher && eventPublisher.publish(new FilenameOverwritten())
   }
