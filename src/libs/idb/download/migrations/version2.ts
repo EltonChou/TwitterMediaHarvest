@@ -1,5 +1,5 @@
 import type { IDBMirgration } from '#libs/idb/base'
-import type { DownloadDBSchema } from '#schema'
+import type { DownloadDBSchema } from '../schema'
 
 const migrate: IDBMirgration<DownloadDBSchema> = database => {
   const historyStore = database.createObjectStore('history', { keyPath: 'tweetId' })

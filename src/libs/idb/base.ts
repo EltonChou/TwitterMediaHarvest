@@ -1,12 +1,16 @@
-import { type OpenDBCallbacks, deleteDB, openDB } from 'idb'
+import { deleteDB, openDB } from 'idb'
+import type { DBSchema, OpenDBCallbacks, StoreNames } from 'idb'
 
 export abstract class BaseIDB<Schema, Version extends number> {
   abstract readonly databaseName: string
 
-  constructor(
-    readonly version: Version,
-    private callbacks: OpenDBCallbacks<Schema> = {}
-  ) {}
+  readonly version: Version
+  protected callbacks: OpenDBCallbacks<Schema>
+
+  constructor(version: Version) {
+    this.version = version
+    this.callbacks = {}
+  }
 
   onUpgrade(handler: OpenDBCallbacks<Schema>['upgrade']) {
     this.callbacks.upgrade = handler

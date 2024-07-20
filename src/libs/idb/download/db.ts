@@ -1,12 +1,10 @@
-import type { DownloadDBSchema } from '#schema'
 import { BaseIDB, type IDBMirgration, versionRange } from '../base'
 import migrate1 from './migrations/version1'
 import migrate2 from './migrations/version2'
 import migrate3 from './migrations/version3'
+import type { DownloadDBSchema, DownloadDBVersion } from './schema'
 
-type DownloadDBVersion = 1 | 2 | 3
-
-class DownloadIDB extends BaseIDB<DownloadDBSchema, DownloadDBVersion> {
+export class DownloadIDB extends BaseIDB<DownloadDBSchema, DownloadDBVersion> {
   databaseName = 'download'
 }
 
