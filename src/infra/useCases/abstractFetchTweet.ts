@@ -40,7 +40,6 @@ const tweetUserPropsSchema = Joi.object<TweetUserProps, true>({
   displayName: Joi.string(),
   screenName: Joi.string(),
   userId: Joi.string(),
-  isProtected: Joi.boolean(),
 })
 
 export abstract class FetchTweetBase implements FetchTweet {
