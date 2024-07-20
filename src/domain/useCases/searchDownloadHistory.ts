@@ -1,8 +1,8 @@
-import { DownloadHistory } from '#domain/entities/downloadHistory'
-import MediaType from '#enums/mediaType'
-import type { AsyncUseCase } from './base'
+import type { DownloadHistory } from '#domain/entities/downloadHistory'
+import type { AsyncUseCase } from '#domain/useCases/base'
+import type MediaType from '#enums/mediaType'
 
-type QueryResult =
+export type QueryResult =
   | {
       items: DownloadHistory[]
       matchedCount: number
@@ -14,17 +14,24 @@ type QueryResult =
       error: Error
     }
 
-type Filter = (item: {
-  screenName?: string
-  displayName?: string
-  mediaType?: MediaType
+export type Filter = (item: {
+  tweetId: string
+  screenName: string
+  displayName: string
+  mediaType: MediaType
 }) => boolean
 
-type Query = {
+export type OrderCriteria = {
+  type: 'desc' | 'asc'
+  key: 'tweetTime' | 'downloadTime'
+}
+
+export type Query = {
   limit: number
   skip: number
   filters: Filter[]
-  hashtags: string[]
+  orderBy: OrderCriteria
+  tweetIdRange?: Set<string>
 }
 
 export type SearchDownloadHistoryUseCase = AsyncUseCase<Query, QueryResult>
