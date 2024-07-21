@@ -3,10 +3,14 @@ import { FetchTweetError, ParseTweetError } from '#domain/useCases/fetchTweet'
 import { Tweet, type TweetProps } from '#domain/valueObjects/tweet'
 import { TweetMedia } from '#domain/valueObjects/tweetMedia'
 import { TweetUser, type TweetUserProps } from '#domain/valueObjects/tweetUser'
+import { toErrorResult, toSuccessResult } from '#utils/result'
 import * as A from 'fp-ts/Array'
+import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
+import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
-import Joi from 'joi'
+import type { Task } from 'fp-ts/lib/Task'
+import Joi, { ValidationResult } from 'joi'
 
 type ParseOptions = {
   targetTweetId: string
@@ -31,7 +35,6 @@ const tweetPartialPropsSchema = Joi.object<
   Omit<TweetProps, 'user' | 'videos' | 'images'>
 >({
   id: Joi.string(),
-  isProtected: Joi.boolean(),
   hashtags: Joi.array().items(Joi.string()),
   createdAt: Joi.date(),
 })
@@ -43,144 +46,184 @@ const tweetUserPropsSchema = Joi.object<TweetUserProps, true>({
 })
 
 export abstract class FetchTweetBase implements FetchTweet {
+  private _events: IDomainEvent[]
   protected bearerToken =
     'AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
 
   abstract makeEndpoint(tweetId: string): string
   abstract makeHeaders(params: MakeHeaderParams): Headers
 
+  constructor() {
+    this._events = []
+  }
+
+  get events() {
+    return this._events
+  }
+
   protected parseBody(body: any, options: ParseOptions): Result<Tweet> {
-    if (Object.hasOwn(body, 'errors'))
-      return { error: new FetchTweetError(404), value: undefined }
+    if (Object.hasOwn(body, 'errors')) return toErrorResult(new FetchTweetError(404))
 
-    const instructions: TimelineInstruction[] =
-      body?.data?.threaded_conversation_with_injections_v2?.instructions
+    const getResultFromBody = (body: any) =>
+      pipe(
+        body?.data?.threaded_conversation_with_injections_v2?.instructions as
+          | undefined
+          | TimelineInstruction[],
+        O.fromNullable,
+        E.fromOption(() => 'Failed to get instructions'),
+        E.chain(instructions =>
+          pipe(
+            instructions,
+            A.filter(i => i.type === 'TimelineAddEntries'),
+            A.head,
+            E.fromOption(() => 'Failed to get instruction')
+          )
+        ),
+        E.chain(instruction =>
+          Array.isArray(instruction.entries)
+            ? E.right(instruction.entries)
+            : E.left('Failed to get entries')
+        ),
+        E.chain(entries =>
+          pipe(
+            entries,
+            A.filter(e => e.entryId.includes(options.targetTweetId)),
+            A.head,
+            E.fromOption(() => 'Failed to get entry')
+          )
+        ),
+        E.chain(entry =>
+          pipe(
+            entry?.content?.itemContent?.tweet_results?.result.tweet ||
+              entry?.content?.itemContent?.tweet_results?.result,
+            O.fromNullable,
+            E.fromOption(() => 'Failed to get result')
+          )
+        )
+      )
 
-    if (!Array.isArray(instructions))
-      return {
-        error: new ParseTweetError('Failed to get instructions'),
-        value: undefined,
-      }
+    const getTweetResultFromResult = (result: any) =>
+      pipe(
+        result?.legacy ?? result,
+        O.fromNullable,
+        E.fromOption(() => 'Failed to get tweet result')
+      )
 
-    const instruction = pipe(
-      instructions,
-      A.filter(i => i.type === 'TimelineAddEntries'),
-      A.head,
-      O.toUndefined
-    )
+    const getTweetPropsFromTweetResult = (tweetResult: any) =>
+      pipe(
+        tweetPartialPropsSchema.validate({
+          id: tweetResult.rest_id,
+          hashtags: parseHashtags(tweetResult?.entities),
+          createdAt: new Date(tweetResult.createdAt),
+        }),
+        validationResultToEither
+      )
 
-    if (!instruction)
-      return {
-        error: new ParseTweetError('Failed to get instruction'),
-        value: undefined,
-      }
+    const getUserPropsFromResult = (result: any) =>
+      pipe(
+        result,
+        E.chain(r =>
+          pipe(
+            result?.right.core?.user_results?.result,
+            O.fromNullable,
+            E.fromOption(() => 'Failed to get user result')
+          )
+        ),
+        E.chain(userResult =>
+          pipe(
+            tweetUserPropsSchema.validate({
+              displayName: userResult?.legacy?.name,
+              screenName: userResult?.legacy?.screen_name,
+              userId: userResult?.rest_id,
+            }),
+            validationResultToEither
+          )
+        )
+      )
 
-    const entries = instruction?.entries
-    if (!Array.isArray(entries))
-      return {
-        error: new ParseTweetError('Failed to get entries'),
-        value: undefined,
-      }
+    const getMediaCollectionFromTweetResult = (tweetResult: any) =>
+      pipe(tweetResult?.extended_entities ?? [], parseMedias)
 
-    const entry = pipe(
-      entries,
-      A.filter(e => e.entryId.includes(options.targetTweetId)),
-      A.head,
-      O.toUndefined
-    )
+    const parseTweetFromBody = (body: any): Result<Tweet> =>
+      pipe(
+        E.Do,
+        E.chain(payload =>
+          pipe(
+            body,
+            getResultFromBody,
+            E.chain(result => E.right({ ...payload, result }))
+          )
+        ),
+        E.chain(payload =>
+          pipe(
+            payload.result,
+            getTweetResultFromResult,
+            E.chain(tweetResult => E.right({ ...payload, tweetResult }))
+          )
+        ),
+        E.chain(payload =>
+          pipe(
+            payload.result,
+            getUserPropsFromResult,
+            E.chain(userProps => E.right({ ...payload, userProps }))
+          )
+        ),
+        E.chain(payload =>
+          pipe(
+            payload.tweetResult,
+            getTweetPropsFromTweetResult,
+            E.chain(tweetProps => E.right({ ...payload, tweetProps }))
+          )
+        ),
+        E.chain(payload => {
+          const tweet = new Tweet({
+            user: new TweetUser(payload.userProps),
+            ...getMediaCollectionFromTweetResult(payload.tweetResult),
+            ...payload.tweetProps,
+          })
+          return E.right(tweet)
+        }),
+        E.mapLeft(r => new ParseTweetError(r)),
+        E.match(toErrorResult, toSuccessResult)
+      )
 
-    if (!entry)
-      return {
-        error: new ParseTweetError('Failed to get entry'),
-        value: undefined,
-      }
-
-    const result =
-      entry.content.itemContent.tweet_results.result.tweet ||
-      entry.content.itemContent.tweet_results.result
-
-    if (!result)
-      return {
-        error: new ParseTweetError('Failed to get result'),
-        value: undefined,
-      }
-
-    const tweetResult = result?.legacy ?? result
-    if (!tweetResult)
-      return {
-        error: new ParseTweetError('Failed to get tweet result'),
-        value: undefined,
-      }
-
-    const userResult = result?.core?.user_results?.result
-    if (!userResult)
-      return {
-        error: new ParseTweetError('Failed to get user result'),
-        value: undefined,
-      }
-
-    const { value: userProps, error: userPropsError } = tweetUserPropsSchema.validate({
-      displayName: userResult?.legacy?.name,
-      isProtected: Boolean(userResult?.legacy?.protected),
-      screenName: userResult?.legacy?.screen_name,
-      userId: userResult?.rest_id,
-    })
-    if (userPropsError)
-      return { error: new ParseTweetError(userPropsError.message), value: undefined }
-
-    const { value: tweetProps, error: tweetPropsError } =
-      tweetPartialPropsSchema.validate({
-        id: tweetResult.rest_id,
-        isProtected: Boolean(tweetResult?.limited_actions),
-        hashtags: parseHashtags(tweetResult?.entities),
-        createdAt: new Date(tweetResult.createdAt),
-      })
-    if (tweetPropsError)
-      return { error: new ParseTweetError(tweetPropsError.message), value: undefined }
-
-    const mediaCollection = parseMedias(tweetResult?.extended_entities ?? [])
-
-    const tweet = new Tweet({
-      user: new TweetUser(userProps),
-      images: mediaCollection.images,
-      videos: mediaCollection.videos,
-      ...tweetProps,
-    })
-
-    return {
-      value: tweet,
-      error: undefined,
-    }
+    return parseTweetFromBody(body)
   }
 
   async process(command: FetchTweetCommand): Promise<Result<Tweet>> {
-    try {
-      const resp = await fetch(this.makeEndpoint(command.tweetId), {
-        method: 'GET',
-        headers: this.makeHeaders({
-          bearerToken: this.bearerToken,
-          csrfToken: command.csrfToken,
+    const callTweetApi = TE.tryCatch(
+      () =>
+        fetch(this.makeEndpoint(command.tweetId), {
+          method: 'GET',
+          headers: this.makeHeaders({
+            bearerToken: this.bearerToken,
+            csrfToken: command.csrfToken,
+          }),
+          mode: 'cors',
+          referrer: `https://x.com/i/web/status/${command.tweetId}`,
         }),
-        mode: 'cors',
-        referrer: `https://x.com/i/web/status/${command.tweetId}`,
-      })
+      E.toError
+    )
 
-      if (resp.status === 200) {
-        const body = await resp.json()
-        // TODO: Emit quota event.
-        return this.parseBody(body, { targetTweetId: command.tweetId })
-      }
+    const parseResponse = (resp: Response) =>
+      pipe(
+        TE.tryCatch(() => resp.json(), E.toError),
+        TE.chain(body =>
+          TE.right(this.parseBody(body, { targetTweetId: command.tweetId }))
+        )
+      )
 
-      return {
-        error: new FetchTweetError(resp.status),
-        value: undefined,
-      }
-    } catch (error) {
-      return {
-        error: error as Error,
-        value: undefined,
-      }
-    }
+    const fetchTweet: Task<Result<Tweet>> = pipe(
+      callTweetApi,
+      // TODO: Emit quota event.
+      TE.chain(resp =>
+        resp.status === 200 ? TE.right(resp) : TE.left(new FetchTweetError(resp.status))
+      ),
+      TE.chain(parseResponse),
+      TE.match(toErrorResult, r => r)
+    )
+
+    return fetchTweet()
   }
 }
 
@@ -267,3 +310,6 @@ const parseBestVideoVariant = (variants: VideoVariant[]): string | undefined =>
     .reduce((prevVariant, currVariant) =>
       currVariant.bitrate >= prevVariant.bitrate ? currVariant : prevVariant
     ).url
+
+const validationResultToEither = <T>(result: ValidationResult<T>): E.Either<string, T> =>
+  result.error ? E.left(result.error.message) : E.right(result.value)

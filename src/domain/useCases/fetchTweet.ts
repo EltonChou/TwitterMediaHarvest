@@ -6,7 +6,8 @@ export type FetchTweetCommand = {
   tweetId: string
 }
 
-export type FetchTweet = AsyncUseCase<FetchTweetCommand, Result<Tweet>>
+export type FetchTweet = AsyncUseCase<FetchTweetCommand, Result<Tweet>> &
+  DomainEventSource
 
 export class FetchTweetError extends Error {
   name = 'FetchTweetError'
