@@ -5,7 +5,6 @@ import type { TweetUser } from './tweetUser'
 
 export type TweetProps = {
   id: string
-  isProtected: boolean
   createdAt: Date
   hashtags: string[]
 
