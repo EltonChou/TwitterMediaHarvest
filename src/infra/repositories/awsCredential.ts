@@ -13,6 +13,7 @@ class CredentialCache implements Storage {
 
   async getItem(key: string): Promise<string | null> {
     const record = await this.storageProxy.getItemByKey(key)
+    if (!record) return null
     return Object.hasOwn(record, key) ? record[key] : null
   }
 
@@ -78,7 +79,7 @@ const cognitoCredentialToDBItem = (
   return {
     awsCredential: {
       ...cognitoCredential,
-      expiration: cognitoCredential?.expiration.getTime() ?? 0,
+      expiration: cognitoCredential?.expiration?.getTime() ?? 0,
     },
   }
 }

@@ -3,7 +3,7 @@ import { TwitterToken } from '#domain/valueObjects/twitterToken'
 import Browser from 'webextension-polyfill'
 
 export class XTokenUseCase implements ITwitterTokenRepository {
-  async getByName(name: string): Promise<TwitterToken> {
+  async getByName(name: string): Promise<TwitterToken | undefined> {
     const cookie = await Browser.cookies.get({
       url: 'https://x.com',
       name: name,
