@@ -11,6 +11,7 @@ import type { DownloadIDB } from '#libs/idb/download/db'
 import type { DownloadHistoryItem } from '#libs/idb/download/schema'
 import type { DownloadDBSchema } from '#libs/idb/download/schema'
 import * as TE from 'fp-ts/TaskEither'
+import { toError } from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/function'
 import type { IndexNames } from 'idb'
 
@@ -26,40 +27,45 @@ export class SearchDownloadHistoryFromIDB implements SearchDownloadHistoryUseCas
       client.close()
     }
 
-    // TODO: Use tweet ids to optimize key range.
-    const search = TE.tryCatch(
-      async () => {
-        let matchedCount = 0
-        const items: DownloadHistory[] = []
-        const isNotEnough = () => items.length < command.limit
-        const shouldAppendItem = () => isNotEnough() && command.skip === 0
-        const shouldSkip = () => command.skip > 0
-
-        let cursor = await tx
+    const openCursor = TE.tryCatch(
+      () =>
+        tx
           .objectStore('history')
           .index(orderKeyMap.get(command.orderBy.key) ?? 'byDownloadTime')
-          .openCursor(null, orderTypeMap.get(command.orderBy.type) ?? 'prev')
-
-        while (cursor) {
-          if (command.filters.every(filter => cursor && filter(cursor.value))) {
-            matchedCount += 1
-            if (shouldSkip()) {
-              command.skip -= 1
-              continue
-            }
-            if (shouldAppendItem())
-              items.push(downloadHistoryItemToDownloadHistoryEntity(cursor.value))
-          }
-          cursor = await cursor.continue()
-        }
-
-        return { matchedCount, items, error: undefined }
-      },
-      r => r
+          // TODO: Use tweet ids to optimize key range. 1. Add new index.
+          .openCursor(null, orderTypeMap.get(command.orderBy.type) ?? 'prev'),
+      toError
     )
 
     const searchTask = pipe(
-      search,
+      openCursor,
+      TE.chain(cursor =>
+        TE.tryCatch(async () => {
+          let matchedCount = 0
+          const items: DownloadHistory[] = []
+          const isNotEnough = () => items.length < command.limit
+          const shouldAppendItem = () => isNotEnough() && command.skip === 0
+          const shouldSkip = () => command.skip > 0
+          const increaseMatched = () => (matchedCount += 1)
+          const consumeSkip = () => (command.skip -= 1)
+
+          while (cursor) {
+            if (command.filters.every(filter => cursor && filter(cursor.value))) {
+              increaseMatched()
+              if (shouldSkip()) {
+                consumeSkip()
+                continue
+              }
+              if (shouldAppendItem())
+                items.push(downloadHistoryItemToDownloadHistoryEntity(cursor.value))
+            }
+            // Unsafe
+            cursor = await cursor.continue()
+          }
+
+          return { matchedCount, items, error: undefined }
+        }, toError)
+      ),
       TE.match(makeErrorResult, r => r)
     )
 
@@ -92,12 +98,12 @@ const downloadHistoryItemToDownloadHistoryEntity: Factory<
     }),
   })
 
-const orderTypeMap: Map<OrderCriteria['type'], IDBCursorDirection> = new Map([
+const orderTypeMap: ReadonlyMap<OrderCriteria['type'], IDBCursorDirection> = new Map([
   ['asc', 'next'],
   ['desc', 'prev'],
 ])
 
-const orderKeyMap: Map<
+const orderKeyMap: ReadonlyMap<
   OrderCriteria['key'],
   IndexNames<DownloadDBSchema, 'history'>
 > = new Map([
