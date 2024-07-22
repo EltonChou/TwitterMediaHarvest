@@ -20,7 +20,9 @@ export type SchemaValue<T> = string extends T
   : T[SchemaKey<T>]
 
 export interface IStorageProxy<SchemaT extends Record<string, any>> {
-  getItemByKey<Key extends SchemaKey<SchemaT>>(key: Key): Promise<Pick<SchemaT, Key>>
+  getItemByKey<Key extends SchemaKey<SchemaT>>(
+    key: Key
+  ): Promise<Pick<SchemaT, Key> | undefined>
   getItemByDefaults<Defaults extends Partial<SchemaT>>(
     defaults: Defaults
   ): Promise<Defaults>
@@ -37,10 +39,12 @@ export class InMemoryStorageProxy<T extends Partial<LocalSchema | SyncSchema>>
     this.storage = { ...this.storage, ...item }
   }
 
-  async getItemByKey<Key extends SchemaKey<T>>(key: Key): Promise<Pick<T, Key>> {
+  async getItemByKey<Key extends SchemaKey<T>>(
+    key: Key
+  ): Promise<Pick<T, Key> | undefined> {
     const strKey = String(key)
     return Object.hasOwn(this.storage, strKey)
-      ? ({ [key]: this.storage[strKey] } as Pick<T, SchemaKey<T>>)
+      ? ({ [key]: this.storage[strKey] } as Pick<T, Key>)
       : undefined
   }
 
