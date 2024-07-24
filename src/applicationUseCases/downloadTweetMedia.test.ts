@@ -1,3 +1,4 @@
+import { FetchTweetError, ParseTweetError } from '#domain/useCases/fetchTweet'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { TwitterToken } from '#domain/valueObjects/twitterToken'
 import { getEventPublisher } from '#infra/eventPublisher'
@@ -50,31 +51,81 @@ describe('unit test for download tweet media use case', () => {
 
   afterAll(() => jest.restoreAllMocks())
 
-  it('can download media files by tweet info.', async () => {
-    jest
-      .spyOn(xTokenRepo, 'getByName')
-      .mockResolvedValue(new TwitterToken({ name: 'gt', value: 'csrf_token' }))
+  it.each([
+    {
+      fetchTweetError: undefined,
+      saveHistoryError: true,
+      noValidCsrfToken: true,
+    },
+    {
+      fetchTweetError: undefined,
+      saveHistoryError: true,
+      noValidCsrfToken: true,
+    },
+    {
+      fetchTweetError: undefined,
+      saveHistoryError: false,
+      noValidCsrfToken: true,
+    },
+    {
+      fetchTweetError: new ParseTweetError('kappa'),
+      saveHistoryError: true,
+      noValidCsrfToken: false,
+    },
+    { fetchTweetError: undefined, saveHistoryError: false, noValidCsrfToken: true },
+    {
+      fetchTweetError: new FetchTweetError(404),
+      saveHistoryError: false,
+      noValidCsrfToken: false,
+    },
+    {
+      fetchTweetError: new Error(),
+      saveHistoryError: false,
+      noValidCsrfToken: false,
+    },
+    { fetchTweetError: undefined, saveHistoryError: false, noValidCsrfToken: false },
+  ])(
+    'can download media files by tweet info.',
+    async ({ fetchTweetError, saveHistoryError, noValidCsrfToken }) => {
+      const shouldBeGood = [fetchTweetError, noValidCsrfToken].every(v => !v)
 
-    jest.spyOn(downloadHistoryRepo, 'save').mockImplementation(jest.fn())
+      jest
+        .spyOn(xTokenRepo, 'getByName')
+        .mockResolvedValue(
+          noValidCsrfToken
+            ? undefined
+            : new TwitterToken({ name: 'gt', value: 'csrf_token' })
+        )
 
-    jest.spyOn(fetchTweet, 'process').mockResolvedValue({
-      value: generateTweet(),
-      remainingQuota: 150,
-      error: undefined,
-    })
+      jest
+        .spyOn(downloadHistoryRepo, 'save')
+        .mockResolvedValue(saveHistoryError ? new Error() : undefined)
 
-    jest.spyOn(filenameSettingsRepo, 'get').mockResolvedValue(generateFilenameSetting())
-    jest.spyOn(downloadSettingsRepo, 'get').mockResolvedValue(generateDownloadSettings())
-    jest.spyOn(featureSettingsRepo, 'get').mockResolvedValue(generateFeatureSettings())
-    jest.spyOn(aria2Downloader, 'process').mockImplementation(jest.fn())
-    jest.spyOn(browserDownloader, 'process').mockImplementation(jest.fn())
+      jest.spyOn(fetchTweet, 'process').mockResolvedValue(
+        fetchTweetError
+          ? { value: undefined, remainingQuota: -1, error: fetchTweetError }
+          : {
+              value: generateTweet(),
+              remainingQuota: 150,
+              error: undefined,
+            }
+      )
 
-    const tweetInfo = new TweetInfo({
-      screenName: 'scree_name',
-      tweetId: '1145141919810',
-    })
+      jest.spyOn(filenameSettingsRepo, 'get').mockResolvedValue(generateFilenameSetting())
+      jest
+        .spyOn(downloadSettingsRepo, 'get')
+        .mockResolvedValue(generateDownloadSettings())
+      jest.spyOn(featureSettingsRepo, 'get').mockResolvedValue(generateFeatureSettings())
+      jest.spyOn(aria2Downloader, 'process').mockImplementation(jest.fn())
+      jest.spyOn(browserDownloader, 'process').mockImplementation(jest.fn())
 
-    const isOk = await useCase.process({ tweetInfo })
-    expect(isOk).toBeTruthy()
-  })
+      const tweetInfo = new TweetInfo({
+        screenName: 'scree_name',
+        tweetId: '1145141919810',
+      })
+
+      const isGood = await useCase.process({ tweetInfo })
+      expect(isGood).toBe(shouldBeGood)
+    }
+  )
 })

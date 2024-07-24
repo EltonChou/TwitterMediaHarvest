@@ -163,19 +163,18 @@ export class DownloadTweetMedia
       // TODO: emit quota warning
     }
 
-    let fetchError
+    let fetchError: Error = new NoFetchTweetSolution()
     for (const { fetchTweet, command } of solutions) {
       const { value: tweet, error, remainingQuota } = await fetchTweet.process(command)
-      remainingSolutions -= 1
 
-      if (tweet && remainingSolutions === 0) emitQuotaWarning(remainingQuota)
+      if (--remainingSolutions === 0 && tweet) emitQuotaWarning(remainingQuota)
       if (tweet) return toSuccessResult(tweet)
 
       fetchError = error
     }
 
     // assert fetchError is Error
-    return toErrorResult(fetchError ?? new NoFetchTweetSolution())
+    return toErrorResult(fetchError)
   }
 }
 
@@ -213,6 +212,7 @@ class NoValidCsrfToken extends Error {
     super('No valid csrf token.')
   }
 }
+
 class NoFetchTweetSolution extends Error {
   constructor() {
     super('No fetch tweet solution.')
