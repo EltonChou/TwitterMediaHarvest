@@ -10,6 +10,7 @@ interface DomainEventSource<Event extends IDomainEvent = IDomainEvent> {
 interface DomainEventMap {
   'runtime:status:installed': RuntimeInstallEvent
   'runtime:status:updated': RuntimeUpdateEvent
+  'runtime:error:internal': InternalErrorEvent
   'download:status:completed': DownloadEvent
   'download:status:interrupted': DownloadInterruptedEvent
   'download:status:dispatched:browser': BrowserDownloadDispatchedEvent
@@ -23,6 +24,12 @@ interface DomainEventMap {
   'notification:tweetFetchError:viewButton:clicked': TweetInfoEvent
   'api:twitter:failed': TweetApiErrorEvent
   'parse:tweet:failed': TweetInfoEvent
+}
+
+interface InternalErrorEvent extends IDomainEvent {
+  readonly reason: string
+  readonly error: Error
+  readonly isExplicit: boolean
 }
 
 interface RuntimeInstallEvent extends IDomainEvent {
