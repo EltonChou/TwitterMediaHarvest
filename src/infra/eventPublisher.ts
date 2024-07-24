@@ -2,6 +2,7 @@ import type { DomainEventHandler, DomainEventPublisher } from '#domain/eventPubl
 
 class EventPublisher implements DomainEventPublisher {
   private handlerMap: Record<keyof DomainEventMap, DomainEventHandler<IDomainEvent>[]>
+
   constructor() {
     this.handlerMap = {} as Record<
       keyof DomainEventMap,

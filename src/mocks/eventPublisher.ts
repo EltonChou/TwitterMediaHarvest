@@ -2,12 +2,12 @@ import type { DomainEventHandler, DomainEventPublisher } from '#domain/eventPubl
 
 export class MockEventPublisher implements DomainEventPublisher {
   publish<K extends keyof DomainEventMap>(event: DomainEventMap[K]): Promise<void> {
-    throw new Error('Method not implemented.')
+    return Promise.resolve()
   }
   publishAll<K extends keyof DomainEventMap>(
     ...events: DomainEventMap[K][]
   ): Promise<void> {
-    throw new Error('Method not implemented.')
+    return Promise.resolve()
   }
   register<K extends keyof DomainEventMap>(
     eventName: K,
@@ -18,12 +18,12 @@ export class MockEventPublisher implements DomainEventPublisher {
     eventHandlers: DomainEventHandler<DomainEventMap[K]>[]
   ): this
   register(eventName: unknown, eventHandlers: unknown): this {
-    throw new Error('Method not implemented.')
+    return this
   }
   clearHandlers<K extends keyof DomainEventMap>(eventName: K): void {
-    throw new Error('Method not implemented.')
+    return
   }
   clearAllHandlers(): void {
-    throw new Error('Method not implemented.')
+    return
   }
 }
