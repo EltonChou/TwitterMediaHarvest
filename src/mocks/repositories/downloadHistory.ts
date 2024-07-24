@@ -1,7 +1,16 @@
 import type { DownloadHistory } from '#domain/entities/downloadHistory'
-import type { IDownloadHistoryRepository } from '#domain/repositories/downloadHistory'
+import type {
+  DownloadHistoryStats,
+  IDownloadHistoryRepository,
+} from '#domain/repositories/downloadHistory'
 
 export class MockDownloadHistoryRepository implements IDownloadHistoryRepository {
+  async total(): AsyncResult<DownloadHistoryStats> {
+    throw new Error('Method not implemented.')
+  }
+  async clear(): Promise<UnsafeTask> {
+    throw new Error('Method not implemented.')
+  }
   async save(item: DownloadHistory): Promise<UnsafeTask> {
     throw new Error('Method not implemented.')
   }
