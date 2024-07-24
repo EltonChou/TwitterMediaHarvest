@@ -1,7 +1,11 @@
+import { DownloadHistory } from '#domain/entities/downloadHistory'
+import type { DomainEventPublisher } from '#domain/eventPublisher'
+import InternalErrorHappened from '#domain/events/InternalErrorHappened'
 import TweetApiFailed from '#domain/events/TweetApiFailed'
 import TweetParsingFailed from '#domain/events/TweetParsingFailed'
 import { tweetToDownloadHistory } from '#domain/factories/tweetToDownloadHistory'
 import { tweetToTweetMediaFiles } from '#domain/factories/tweetToTweetMediaFiles'
+import type { IDownloadHistoryRepository } from '#domain/repositories/downloadHistory'
 import type {
   ISettingsRepository,
   ISettingsVORepository,
@@ -14,29 +18,30 @@ import type {
 } from '#domain/useCases/downloadMediaFile'
 import type { FetchTweet, FetchTweetCommand } from '#domain/useCases/fetchTweet'
 import { FetchTweetError, ParseTweetError } from '#domain/useCases/fetchTweet'
-import type { SaveDownloadHistory } from '#domain/useCases/saveDownloadHistory'
 import { DownloadTarget } from '#domain/valueObjects/downloadTarget'
 import type { FilenameSetting } from '#domain/valueObjects/filenameSetting'
 import type { Tweet } from '#domain/valueObjects/tweet'
 import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { TweetMediaFile } from '#domain/valueObjects/tweetMediaFile'
-import { getEventPublisher } from '#infra/eventPublisher'
 import type { DownloadSettings, FeatureSettings } from '#schema'
+import { toErrorResult, toSuccessResult } from '#utils/result'
 
 type DownloadTweetMediaCommand = {
   tweetInfo: TweetInfo
 }
 
-type DownloaderBuilderMap = {
+export type DownloaderBuilderMap = {
   browser: DownloadMediaFileUseCaseBuilder
   aria2: DownloadMediaFileUseCaseBuilder
 }
 
-type FetchTweetMap = {
+export type FetchTweetMap = {
   latest: FetchTweet
   fallback: FetchTweet
   guest: FetchTweet
 }
+
+type FetchTweetSolution = { fetchTweet: FetchTweet; command: FetchTweetCommand }
 
 // TODO: Logger and Tracker (like sentry).
 export class DownloadTweetMedia
@@ -44,110 +49,151 @@ export class DownloadTweetMedia
 {
   constructor(
     readonly tokenRepo: ITwitterTokenRepository,
-    readonly fetchTweet: FetchTweetMap,
-    readonly saveDownloadHistory: SaveDownloadHistory,
+    readonly downloadHistoryRepo: IDownloadHistoryRepository,
     readonly filenameSettingRepo: ISettingsVORepository<FilenameSetting>,
     readonly downloadSettingsRepo: ISettingsRepository<DownloadSettings>,
     readonly featureSettingsRepo: ISettingsRepository<FeatureSettings>,
-    readonly downloaderBuilder: DownloaderBuilderMap
+    readonly fetchTweet: FetchTweetMap,
+    readonly downloaderBuilder: DownloaderBuilderMap,
+    readonly eventPublisher: DomainEventPublisher
   ) {}
 
   async process(command: DownloadTweetMediaCommand): Promise<boolean> {
-    const eventPublisher = getEventPublisher()
-    const csrfToken = await this.tokenRepo.getCsrfToken()
-    const guestToken = await this.tokenRepo.getGuestToken()
+    const { value: fetchTweetSolutions, error: noValidCsrfToken } =
+      await this.buildFetchTweetSolutions(command.tweetInfo.tweetId)
 
-    if (!csrfToken && !guestToken) {
+    if (noValidCsrfToken) {
       const event = new TweetApiFailed(command.tweetInfo, 401)
-      eventPublisher.publish(event)
+      this.eventPublisher.publish(event)
       return false
     }
 
-    const fetchTweetSolutions: [FetchTweet, FetchTweetCommand][] = []
+    const { value: tweet, error: fetchTweetError } = await this.fetchTweetWithSolutions(
+      fetchTweetSolutions
+    )
 
-    // TODO: Should we prefer guest endpoin to prevent consume api quota?
+    if (fetchTweetError) {
+      this.handleFetchTweetError(command.tweetInfo)(fetchTweetError)
+      return false
+    }
+
+    await this.saveDownloadHistory(tweetToDownloadHistory(tweet))
+
+    const filenameSetting = await this.filenameSettingRepo.get()
+    const { includeVideoThumbnail } = await this.featureSettingsRepo.get()
+    const downloader = await this.buildDownloader(command.tweetInfo)
+
+    const downloadTask = Promise.allSettled(
+      tweetToTweetMediaFiles(tweet)
+        .filter(mediaFile => includeVideoThumbnail || !mediaFile.isThumbnail)
+        .map(tweetMediaFileToDownloadTargetWithFilenameSettting(filenameSetting))
+        .map(downloadTargetToDownloadCommand)
+        .map(downloader.process)
+    )
+
+    await downloadTask
+    this.eventPublisher.publishAll(...downloader.events)
+
+    return downloader.isOk
+  }
+
+  /**
+   * If error happens, it will not affect the download process.
+   * Although user may curious why the history didn't record correctly,
+   * we should capture the error by logger or issue tracker(e.g. Sentry) and solve it implicitly in future patch.
+   */
+  async saveDownloadHistory(downloadHistory: DownloadHistory) {
+    // TODO: capture error.
+    const saveHistoryError = await this.downloadHistoryRepo.save(downloadHistory)
+  }
+
+  async buildDownloader(tweetInfo: TweetInfo) {
+    const { enableAria2, askWhereToSave } = await this.downloadSettingsRepo.get()
+    return (enableAria2 ? this.downloaderBuilder.aria2 : this.downloaderBuilder.browser)({
+      targetTweet: tweetInfo,
+      shouldPrompt: askWhereToSave,
+    })
+  }
+
+  handleFetchTweetError(tweetInfo: TweetInfo) {
+    return (error: Error) =>
+      this.eventPublisher.publish(mapFetchTweetErrorToEvent(error, tweetInfo))
+  }
+
+  async buildFetchTweetSolutions(
+    tweetId: string
+  ): AsyncResult<FetchTweetSolution[], NoValidCsrfToken> {
+    const csrfToken = await this.tokenRepo.getCsrfToken()
+    const guestToken = await this.tokenRepo.getGuestToken()
+
+    if (!csrfToken && !guestToken) return toErrorResult(new NoValidCsrfToken())
+
+    const fetchTweetSolutions: FetchTweetSolution[] = []
+
+    // TODO: Should we prefer guest endpoint over authed endpoint to prevent consuming api quota?
     if (csrfToken) {
       const fetchTweetCommand = {
         csrfToken: csrfToken.value,
-        tweetId: command.tweetInfo.tweetId,
+        tweetId: tweetId,
       }
       fetchTweetSolutions.push(
-        [this.fetchTweet.latest, fetchTweetCommand],
-        [this.fetchTweet.fallback, fetchTweetCommand]
+        { fetchTweet: this.fetchTweet.latest, command: fetchTweetCommand },
+        { fetchTweet: this.fetchTweet.fallback, command: fetchTweetCommand }
       )
     }
 
     if (guestToken) {
       const fetchTweetCommand = {
         csrfToken: guestToken.value,
-        tweetId: command.tweetInfo.tweetId,
+        tweetId: tweetId,
       }
-      fetchTweetSolutions.push([this.fetchTweet.guest, fetchTweetCommand])
+      fetchTweetSolutions.push({
+        fetchTweet: this.fetchTweet.guest,
+        command: fetchTweetCommand,
+      })
     }
 
-    let result: Result<Tweet> | undefined = undefined
-
-    for (const [fetchTweet, fetchTweetCommand] of fetchTweetSolutions) {
-      if (result?.value) break
-      result = await fetchTweet.process(fetchTweetCommand)
-    }
-
-    // Ensure result type.
-    if (!result) return false
-
-    if (result.error) {
-      const fetchTweetError = result.error
-
-      if (fetchTweetError instanceof ParseTweetError) {
-        const event = new TweetParsingFailed(command.tweetInfo)
-        eventPublisher.publish(event)
-        return false
-      }
-
-      if (fetchTweetError instanceof FetchTweetError) {
-        const event = new TweetApiFailed(command.tweetInfo, fetchTweetError.statusCode)
-        eventPublisher.publish(event)
-        return false
-      }
-
-      const event = new TweetApiFailed(command.tweetInfo, 500)
-      eventPublisher.publish(event)
-      return false
-    }
-
-    try {
-      const downloadHistory = tweetToDownloadHistory(result.value)
-      await this.saveDownloadHistory.process({ downloadHistory: downloadHistory })
-    } catch (error) {
-      // TODO: Record error.
-    }
-
-    const downloadSettings = await this.downloadSettingsRepo.get()
-    const filenameSetting = await this.filenameSettingRepo.get()
-    const featureSettings = await this.featureSettingsRepo.get()
-
-    const downloader = (
-      downloadSettings.enableAria2
-        ? this.downloaderBuilder.aria2
-        : this.downloaderBuilder.browser
-    )({
-      targetTweet: command.tweetInfo,
-      shouldPrompt: downloadSettings.askWhereToSave,
-    })
-
-    await Promise.allSettled(
-      tweetToTweetMediaFiles(result.value)
-        .filter(
-          mediaFile => featureSettings.includeVideoThumbnail || !mediaFile.isThumbnail
-        )
-        .map(tweetMediaFileToDownloadTargetWithFilenameSettting(filenameSetting))
-        .map(downloadTargetToDownloadCommand)
-        .map(downloader.process)
-    )
-    eventPublisher.publishAll(...downloader.events)
-
-    return downloader.isOk
+    return toSuccessResult(fetchTweetSolutions)
   }
+
+  async fetchTweetWithSolutions(solutions: FetchTweetSolution[]): AsyncResult<Tweet> {
+    let remainingSolutions = solutions.length
+
+    const emitQuotaWarning = (quota: number) => {
+      // TODO: emit quota warning
+    }
+
+    let fetchError
+    for (const { fetchTweet, command } of solutions) {
+      const { value: tweet, error, remainingQuota } = await fetchTweet.process(command)
+      remainingSolutions -= 1
+
+      if (tweet && remainingSolutions === 0) emitQuotaWarning(remainingQuota)
+      if (tweet) return toSuccessResult(tweet)
+
+      fetchError = error
+    }
+
+    // assert fetchError is Error
+    return toErrorResult(fetchError ?? new NoFetchTweetSolution())
+  }
+}
+
+const mapFetchTweetErrorToEvent = (
+  fetchTweetError: Error,
+  tweetInfo: TweetInfo
+): IDomainEvent => {
+  if (fetchTweetError instanceof ParseTweetError) {
+    return new TweetParsingFailed(tweetInfo)
+  }
+
+  if (fetchTweetError instanceof FetchTweetError) {
+    return new TweetApiFailed(tweetInfo, fetchTweetError.statusCode)
+  }
+
+  return new InternalErrorHappened(fetchTweetError.message, fetchTweetError, {
+    isExplicit: true,
+  })
 }
 
 const tweetMediaFileToDownloadTargetWithFilenameSettting =
@@ -161,3 +207,14 @@ const tweetMediaFileToDownloadTargetWithFilenameSettting =
 const downloadTargetToDownloadCommand = (
   target: DownloadTarget
 ): DownloadMediaFileCommand => ({ target })
+
+class NoValidCsrfToken extends Error {
+  constructor() {
+    super('No valid csrf token.')
+  }
+}
+class NoFetchTweetSolution extends Error {
+  constructor() {
+    super('No fetch tweet solution.')
+  }
+}
