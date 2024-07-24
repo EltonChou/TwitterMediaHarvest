@@ -1,9 +1,12 @@
 import TweetApiFailed from '#domain/events/TweetApiFailed'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { getNotifier } from '#infra/browserNotifier'
+import { MockEventPublisher } from '#mocks/eventPublisher'
 import { notifyTweetApiError } from './notifyTweetApiError'
 
 describe('unit test for handler to notify tweet api error', () => {
+  const publisher = new MockEventPublisher()
+
   it('can handle tweet api error event', async () => {
     const notifier = getNotifier()
     const mockNotify = jest.spyOn(notifier, 'notify')
@@ -21,11 +24,11 @@ describe('unit test for handler to notify tweet api error', () => {
     const unknownErrorEvent = new TweetApiFailed(tweetInfo, 500)
 
     await Promise.all([
-      handle(notFoundEvent),
-      handle(unknownErrorEvent),
-      handle(tooManyRequestEvent),
-      handle(unauthorizedEvent),
-      handle(forbiddenEvent),
+      handle(notFoundEvent, publisher),
+      handle(unknownErrorEvent, publisher),
+      handle(tooManyRequestEvent, publisher),
+      handle(unauthorizedEvent, publisher),
+      handle(forbiddenEvent, publisher),
     ])
 
     expect(mockNotify).toHaveBeenCalledTimes(5)

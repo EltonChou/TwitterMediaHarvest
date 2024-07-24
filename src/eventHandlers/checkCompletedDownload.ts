@@ -24,5 +24,5 @@ export const checkCompletedDownload =
     const finalBaseName = path.parse(downloadItem.filename).base
 
     if (finalBaseName !== expectedBaseName)
-      eventPublisher && eventPublisher.publish(new FilenameOverwritten())
+      eventPublisher.publish(new FilenameOverwritten())
   }

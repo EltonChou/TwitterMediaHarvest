@@ -1,5 +1,4 @@
 export interface DomainEventHandler<E> {
-  (event: E, publisher?: never): Promise<void> | void
   (event: E, publisher: DomainEventPublisher): Promise<void> | void
 }
 
