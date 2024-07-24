@@ -1,4 +1,8 @@
-import type { FetchTweet, FetchTweetCommand } from '#domain/useCases/fetchTweet'
+import type {
+  FetchTweet,
+  FetchTweetCommand,
+  TweetResult,
+} from '#domain/useCases/fetchTweet'
 import { FetchTweetError, ParseTweetError } from '#domain/useCases/fetchTweet'
 import { Tweet, type TweetProps } from '#domain/valueObjects/tweet'
 import { TweetMedia } from '#domain/valueObjects/tweetMedia'
@@ -46,20 +50,11 @@ const tweetUserPropsSchema = Joi.object<TweetUserProps, true>({
 })
 
 export abstract class FetchTweetBase implements FetchTweet {
-  private _events: IDomainEvent[]
   protected bearerToken =
     'AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
 
   abstract makeEndpoint(tweetId: string): string
   abstract makeHeaders(params: MakeHeaderParams): Headers
-
-  constructor() {
-    this._events = []
-  }
-
-  get events() {
-    return this._events
-  }
 
   protected parseBody(body: any, options: ParseOptions): Result<Tweet> {
     if (Object.hasOwn(body, 'errors')) return toErrorResult(new FetchTweetError(404))
@@ -190,7 +185,7 @@ export abstract class FetchTweetBase implements FetchTweet {
     return parseTweetFromBody(body)
   }
 
-  async process(command: FetchTweetCommand): Promise<Result<Tweet>> {
+  async process(command: FetchTweetCommand): Promise<TweetResult> {
     const callTweetApi = TE.tryCatch(
       () =>
         fetch(this.makeEndpoint(command.tweetId), {
@@ -210,17 +205,26 @@ export abstract class FetchTweetBase implements FetchTweet {
         TE.tryCatch(() => resp.json(), E.toError),
         TE.chain(body =>
           TE.right(this.parseBody(body, { targetTweetId: command.tweetId }))
+        ),
+        TE.map(
+          r =>
+            ({
+              ...r,
+              remainingQuota: Number(resp.headers.get('X-Rate-Limit-Remaining') ?? 0),
+            } as TweetResult)
         )
       )
 
-    const fetchTweet: Task<Result<Tweet>> = pipe(
+    const fetchTweet: Task<TweetResult> = pipe(
       callTweetApi,
-      // TODO: Emit quota event.
       TE.chain(resp =>
         resp.status === 200 ? TE.right(resp) : TE.left(new FetchTweetError(resp.status))
       ),
       TE.chain(parseResponse),
-      TE.match(toErrorResult, r => r)
+      TE.match(
+        err => ({ value: undefined, remainingQuota: -1, error: err }),
+        r => r
+      )
     )
 
     return fetchTweet()

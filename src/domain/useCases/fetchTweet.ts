@@ -6,8 +6,19 @@ export type FetchTweetCommand = {
   tweetId: string
 }
 
-export type FetchTweet = AsyncUseCase<FetchTweetCommand, Result<Tweet>> &
-  DomainEventSource
+export type TweetResult =
+  | {
+      value: Tweet
+      remainingQuota: number
+      error: undefined
+    }
+  | {
+      value: undefined
+      remainingQuota: -1
+      error: Error | FetchTweetError | ParseTweetError
+    }
+
+export type FetchTweet = AsyncUseCase<FetchTweetCommand, TweetResult>
 
 export class FetchTweetError extends Error {
   name = 'FetchTweetError'
