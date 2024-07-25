@@ -1,7 +1,13 @@
 import { deleteDB, openDB } from 'idb'
-import type { DBSchema, OpenDBCallbacks, StoreNames } from 'idb'
+import type { DBSchema, IDBPTransaction, OpenDBCallbacks, StoreNames } from 'idb'
 
-export abstract class BaseIDB<Schema, Version extends number> {
+interface TransactionContext<Tx> {
+  tx: Tx
+  completeTx: () => void
+  abortTx: () => void
+}
+
+export abstract class BaseIDB<Schema extends DBSchema, Version extends number> {
   abstract readonly databaseName: string
 
   readonly version: Version
@@ -38,6 +44,43 @@ export abstract class BaseIDB<Schema, Version extends number> {
 
   async delete() {
     return await deleteDB(this.databaseName)
+  }
+
+  prepareTransaction<
+    Name extends StoreNames<Schema>,
+    Mode extends IDBTransactionMode = 'readonly'
+  >(
+    storeNames: ArrayLike<Name>,
+    mode: Mode,
+    options?: IDBTransactionOptions
+  ): Promise<TransactionContext<IDBPTransaction<Schema, ArrayLike<Name>, Mode>>>
+  prepareTransaction<
+    Name extends StoreNames<Schema>,
+    Mode extends IDBTransactionMode = 'readonly'
+  >(
+    storeNames: Name,
+    mode: Mode,
+    options?: IDBTransactionOptions
+  ): Promise<TransactionContext<IDBPTransaction<Schema, [Name], Mode>>>
+  async prepareTransaction<Name extends StoreNames<Schema>>(
+    storeNames: Name,
+    mode: IDBTransactionMode = 'readonly',
+    options?: IDBTransactionOptions
+  ) {
+    const client = await this.connect()
+    const tx = client.transaction(storeNames, mode, options)
+
+    return {
+      tx,
+      completeTx: () => {
+        tx.commit()
+        client.close()
+      },
+      abortTx: () => {
+        tx.abort()
+        client.close()
+      },
+    }
   }
 }
 

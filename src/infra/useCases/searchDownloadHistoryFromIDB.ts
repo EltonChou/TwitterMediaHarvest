@@ -15,32 +15,41 @@ import { toError } from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/function'
 import type { IndexNames } from 'idb'
 
+type TransactionError = {
+  error: Error
+  abort: () => void
+}
+
+const toTransactionError =
+  (abort: () => void) =>
+  (err: unknown): TransactionError => ({
+    error: toError(err),
+    abort,
+  })
+
 export class SearchDownloadHistoryFromIDB implements SearchDownloadHistoryUseCase {
   constructor(readonly downloadIDB: DownloadIDB) {}
 
   async process(command: Query): Promise<QueryResult> {
-    const client = await this.downloadIDB.connect()
-    const tx = client.transaction('history', 'readonly')
-
-    const completeTransaction = () => {
-      tx.commit()
-      client.close()
-    }
-
-    const openCursor = TE.tryCatch(
-      () =>
-        tx
-          .objectStore('history')
-          .index(orderKeyMap.get(command.orderBy.key) ?? 'byDownloadTime')
-          // TODO: Use tweet ids to optimize key range. 1. Add new index.
-          .openCursor(null, orderTypeMap.get(command.orderBy.type) ?? 'prev'),
-      toError
-    )
-
-    const searchTask = pipe(
-      openCursor,
-      TE.chain(cursor =>
+    const search = pipe(
+      TE.tryCatch(
+        () => this.downloadIDB.prepareTransaction('history', 'readonly'),
+        toTransactionError(() => undefined)
+      ),
+      TE.flatMap(context =>
         TE.tryCatch(async () => {
+          const cursor = await context.tx
+            .objectStore('history')
+            .index(orderKeyMap.get(command.orderBy.key) ?? 'byDownloadTime')
+            // TODO: Use tweet ids to optimize key range. 1. Add new index.
+            .openCursor(null, orderTypeMap.get(command.orderBy.type) ?? 'prev')
+
+          return { ...context, cursor }
+        }, toTransactionError(context.abortTx))
+      ),
+      TE.chain(context =>
+        TE.tryCatch(async () => {
+          let cursor = context.cursor
           let matchedCount = 0
           const items: DownloadHistory[] = []
           const isNotEnough = () => items.length < command.limit
@@ -63,16 +72,20 @@ export class SearchDownloadHistoryFromIDB implements SearchDownloadHistoryUseCas
             cursor = await cursor.continue()
           }
 
-          return { matchedCount, items, error: undefined }
-        }, toError)
+          return { ...context, result: { matchedCount, items, error: undefined } }
+        }, toTransactionError(context.abortTx))
       ),
-      TE.match(makeErrorResult, r => r)
+      TE.match(
+        e => ({ done: e.abort, result: makeErrorResult(e.error) }),
+        r => ({ done: r.completeTx, result: r.result })
+      )
     )
 
-    const result = await searchTask()
+    const searchTask = await search()
 
-    completeTransaction()
-    return result
+    searchTask.done()
+
+    return searchTask.result
   }
 }
 
