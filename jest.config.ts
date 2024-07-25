@@ -26,7 +26,7 @@ const jestConfig: JestConfigWithTsJest = {
     '#eventHandlers/(.*)$': '<rootDir>/src/eventHandlers/$1',
     '#mocks/(.*)$': '<rootDir>/src/mocks/$1',
   },
-  coveragePathIgnorePatterns: ['.mock.ts', '.mock.js', 'mocks'],
+  coveragePathIgnorePatterns: ['.mock.ts', '.mock.js', 'mocks', 'utils/test/*'],
 }
 
 export default jestConfig
