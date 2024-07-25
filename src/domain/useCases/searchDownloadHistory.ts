@@ -31,7 +31,7 @@ export type Query = {
   skip: number
   filters: Filter[]
   orderBy: OrderCriteria
-  tweetIdRange?: Set<string>
+  tweetIds?: Set<string>
 }
 
 export type SearchDownloadHistoryUseCase = AsyncUseCase<Query, QueryResult>
