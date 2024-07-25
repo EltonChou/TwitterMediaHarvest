@@ -4,7 +4,7 @@ import type {
   OrderCriteria,
   Query,
   QueryResult,
-  SearchDownloadHistoryUseCase,
+  SearchDownloadHistory,
 } from '#domain/useCases/searchDownloadHistory'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
 import type { DownloadIDB } from '#libs/idb/download/db'
@@ -27,7 +27,7 @@ const toTransactionError =
     abort,
   })
 
-export class SearchDownloadHistoryFromIDB implements SearchDownloadHistoryUseCase {
+export class SearchDownloadHistoryFromIDB implements SearchDownloadHistory {
   constructor(readonly downloadIDB: DownloadIDB) {}
 
   async process(command: Query): Promise<QueryResult> {

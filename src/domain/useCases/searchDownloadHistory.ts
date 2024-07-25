@@ -34,4 +34,4 @@ export type Query = {
   tweetIds?: Set<string>
 }
 
-export type SearchDownloadHistoryUseCase = AsyncUseCase<Query, QueryResult>
+export type SearchDownloadHistory = AsyncUseCase<Query, QueryResult>
