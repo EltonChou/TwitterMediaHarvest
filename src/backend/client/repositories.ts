@@ -23,7 +23,7 @@ const isEmptyInfo = (record: Record<string, unknown>) =>
   record['uuid'] === defaultInfo.uuid ||
   record['csrfToken'] === defaultInfo.csrfToken ||
   record['syncedAt'] === defaultInfo.syncedAt ||
-  record['uninstall'] === defaultInfo.uninstallCode
+  record['uninstallCode'] === defaultInfo.uninstallCode
 
 type ProviderOptions = {
   credentialProvider: Provider<CognitoIdentityCredentials>
