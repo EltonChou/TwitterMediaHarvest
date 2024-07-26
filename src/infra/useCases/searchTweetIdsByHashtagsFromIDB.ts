@@ -20,39 +20,47 @@ const toTransactionError =
     abort,
   })
 
+const arrayHashtagsToSet = (hashtags: Iterable<string>) => new Set(hashtags)
+
 export class SearchTweetIdsByHashtagsFromIDB implements SearchTweetIdsByHashTags {
   constructor(readonly downloadIdb: DownloadIDB) {}
 
   async process(command: Query): Promise<Result<Set<string>, Error>> {
-    const hashtags = new Set(command.hashtags)
-    if (hashtags.size === 0) return toSuccessResult(new Set())
+    if (command.hashtags.length === 0) return toSuccessResult(new Set())
 
     const search = pipe(
       TE.tryCatch(
         () => this.downloadIdb.prepareTransaction('hashtag', 'readonly'),
         toTransactionError()
       ),
-      TE.flatMap(context =>
+      TE.bind('hashtags', context =>
+        TE.tryCatch(
+          async () => arrayHashtagsToSet(command.hashtags),
+          toTransactionError(context.abortTx)
+        )
+      ),
+      TE.bind('hashtagCollection', context =>
+        TE.tryCatch(
+          async () => context.tx.objectStore('hashtag'),
+          toTransactionError(context.abortTx)
+        )
+      ),
+      TE.bind('ids', context =>
         TE.tryCatch(async () => {
-          const collection = context.tx.objectStore('hashtag')
-
           let ids: Set<string> | undefined = undefined
 
-          for (const hashtag of hashtags) {
-            const item = await collection.get(IDBKeyRange.only(hashtag))
-            if (!item || item.tweetIds.size === 0)
-              return { ...context, ids: new Set<string>() }
+          for (const hashtag of context.hashtags) {
+            const item = await context.hashtagCollection.get(IDBKeyRange.only(hashtag))
+            if (!item || item.tweetIds.size === 0) return new Set<string>()
 
-            if (ids === undefined) {
-              ids = item.tweetIds
-              continue
-            }
+            ids = ids
+              ? new Set(Array.from(ids).filter(id => item.tweetIds.has(id as string)))
+              : item.tweetIds
 
-            ids = new Set(Array.from(ids).filter(id => item.tweetIds.has(id)))
             if (ids.size === 0) break
           }
 
-          return { ...context, ids: ids ?? new Set<string>() }
+          return ids ?? new Set<string>()
         }, toTransactionError(context.abortTx))
       ),
       TE.match(

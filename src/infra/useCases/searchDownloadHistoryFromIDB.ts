@@ -36,20 +36,27 @@ export class SearchDownloadHistoryFromIDB implements SearchDownloadHistory {
         () => this.downloadIDB.prepareTransaction('history', 'readonly'),
         toTransactionError(() => undefined)
       ),
-      TE.flatMap(context =>
-        TE.tryCatch(async () => {
-          const cursor = await context.tx
-            .objectStore('history')
-            .index(orderKeyMap.get(command.orderBy.key) ?? 'byDownloadTime')
-            // TODO: Use tweet ids to optimize key range. 1. Add new index.
-            .openCursor(null, orderTypeMap.get(command.orderBy.type) ?? 'prev')
-
-          return { ...context, cursor }
-        }, toTransactionError(context.abortTx))
+      TE.bind('historyCollection', context =>
+        TE.tryCatch(
+          async () => context.tx.objectStore('history'),
+          toTransactionError(context.abortTx)
+        )
       ),
-      TE.chain(context =>
+      /**
+       * TODO: Use tweet ids to optimize key range.
+       * Need a new index like ['tweetId', 'downloadTime'] to sort.
+       */
+      TE.bind('cursor', context =>
+        TE.tryCatch(
+          () =>
+            context.historyCollection
+              .index(orderKeyMap.get(command.orderBy.key) ?? 'byDownloadTime')
+              .openCursor(null, orderTypeMap.get(command.orderBy.type) ?? 'prev'),
+          toTransactionError(context.abortTx)
+        )
+      ),
+      TE.bind('result', context =>
         TE.tryCatch(async () => {
-          let cursor = context.cursor
           let matchedCount = 0
           const items: DownloadHistory[] = []
           const isNotEnough = () => items.length < command.limit
@@ -58,6 +65,7 @@ export class SearchDownloadHistoryFromIDB implements SearchDownloadHistory {
           const increaseMatched = () => (matchedCount += 1)
           const consumeSkip = () => (command.skip -= 1)
 
+          let cursor = context.cursor
           while (cursor) {
             if (command.filters.every(filter => cursor && filter(cursor.value))) {
               increaseMatched()
@@ -72,7 +80,7 @@ export class SearchDownloadHistoryFromIDB implements SearchDownloadHistory {
             cursor = await cursor.continue()
           }
 
-          return { ...context, result: { matchedCount, items, error: undefined } }
+          return { matchedCount, items, error: undefined }
         }, toTransactionError(context.abortTx))
       ),
       TE.match(
@@ -123,3 +131,18 @@ const orderKeyMap: ReadonlyMap<
   ['downloadTime', 'byDownloadTime'],
   ['tweetTime', 'byTweetTime'],
 ])
+
+const calcTweetIdKeyRange = (tweetIds: Set<string>): IDBKeyRange => {
+  const idRange = Array.from(tweetIds).reduce(
+    ({ min, max }, id) => ({
+      min: min ? (id <= min ? id : min) : id,
+      max: max ? (id >= max ? id : max) : id,
+    }),
+    {
+      min: '',
+      max: '',
+    }
+  )
+
+  return IDBKeyRange.bound([idRange.min, new Date(0)], [idRange.max, new Date(0)])
+}

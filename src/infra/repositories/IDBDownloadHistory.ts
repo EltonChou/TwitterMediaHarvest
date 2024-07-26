@@ -39,26 +39,16 @@ type WritableHashtagCollection =
 type HashtagDelta = Delta<Set<string>>
 
 const prepareTransactionContext = async (idb: DownloadIDB) => {
-  const client = await idb.connect()
-  const tx = client.transaction(['hashtag', 'history'], 'readwrite')
-  const completeTransaction = () => {
-    tx.commit()
-    client.close()
-  }
+  const txContext = await idb.prepareTransaction(['hashtag', 'history'], 'readwrite')
 
-  const abortTransaction = () => {
-    tx.abort()
-    client.close()
-  }
-
-  const historyCollection = tx.objectStore('history')
-  const hashtagCollection = tx.objectStore('hashtag')
+  const historyCollection = txContext.tx.objectStore('history')
+  const hashtagCollection = txContext.tx.objectStore('hashtag')
 
   return {
     historyCollection,
     hashtagCollection,
-    completeTransaction,
-    abortTransaction,
+    completeTransaction: txContext.completeTx,
+    abortTransaction: txContext.abortTx,
   }
 }
 
@@ -134,8 +124,8 @@ export class IDBDownloadHistoryRepository implements IDownloadHistoryRepository 
         () => prepareTransactionContext(this.idb),
         toErrorWithAbort(() => undefined)
       ),
-      TE.flatMap(context => TE.of({ ...context, tweetId: downloadHistory.id.value })),
-      TE.flatMap(context =>
+      TE.bind('tweetId', () => TE.right(downloadHistory.id.value)),
+      TE.bind('hashtagDelta', context =>
         TE.tryCatch(async () => {
           const existHistory = await context.historyCollection.get(
             downloadHistory.id.value
@@ -144,12 +134,10 @@ export class IDBDownloadHistoryRepository implements IDownloadHistoryRepository 
             ? dbItemToDownloadHistory(existHistory)
             : undefined
 
-          const hashtagDelta = calcHashtagDelta({
+          return calcHashtagDelta({
             previous: currHistory,
             current: downloadHistory,
           })
-
-          return { ...context, hashtagDelta }
         }, toErrorWithAbort(context.abortTransaction))
       )
     )
