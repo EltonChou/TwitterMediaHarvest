@@ -1,6 +1,5 @@
 import MediaType from '#enums/mediaType'
 import type { DBSchema } from 'idb'
-import type { Downloads } from 'webextension-polyfill'
 
 export type DownloadDBVersion = 1 | 2 | 3
 
@@ -43,6 +42,13 @@ export type HashtagItem = {
 
 export type DownloadRecordItem = {
   id: number
-  tweetInfo: TweetInfo
-  config: Downloads.DownloadOptionsType
+  tweetInfo: {
+    screenName: string
+    tweetId: string
+  }
+  filename: string
+  url: string
+  saveAs: boolean
+  conflictAction: 'overwrite'
+  recordedAt: number
 }

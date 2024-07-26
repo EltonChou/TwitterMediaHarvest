@@ -1,8 +1,13 @@
 import type { DownloadRecord } from '../valueObjects/downloadRecord'
 
 export interface IDownloadRecordRepository {
-  getById(downloadItemId: number): Promise<DownloadRecord | undefined>
-  save(downloadRecord: DownloadRecord): Promise<void>
-  removeById(downloadItemId: number): Promise<void>
-  getAll(): Promise<DownloadRecord[]>
+  getById(downloadItemId: number): AsyncResult<DownloadRecord>
+  save(downloadRecord: DownloadRecord): Promise<UnsafeTask>
+  removeById(downloadItemId: number): Promise<UnsafeTask>
+}
+
+export class DownloadRecordNotFound extends Error {
+  constructor(id: number) {
+    super(`Download record not found. (id: ${id})`)
+  }
 }

@@ -15,8 +15,10 @@ export const checkCompletedDownload =
     const downloadItem = await downloadRepo.getById(event.downloadId)
     if (!downloadItem || !wasTriggeredBySelf.process({ item: downloadItem })) return
 
-    const downloadRecord = await downloadRecordRepo.getById(event.downloadId)
-    if (!downloadRecord) return
+    const { value: downloadRecord, error } = await downloadRecordRepo.getById(
+      event.downloadId
+    )
+    if (error) return
 
     const expectedBaseName = path.parse(
       downloadRecord.mapBy(props => props.downloadConfig).mapBy(props => props.filename)

@@ -1,4 +1,5 @@
 import DownloadCompleted from '#domain/events/DownloadCompleted'
+import { DownloadRecordNotFound } from '#domain/repositories/downloadRecord'
 import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadWasTriggeredBySelf'
 import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import { DownloadRecord } from '#domain/valueObjects/downloadRecord'
@@ -7,6 +8,7 @@ import { checkCompletedDownload } from '#eventHandlers/checkCompletedDownload'
 import { MockEventPublisher } from '#mocks/eventPublisher'
 import { MockDownloadRepo } from '#mocks/repositories/download'
 import { MockDownloadRecordRepo } from '#mocks/repositories/downloadRecord'
+import { toErrorResult, toSuccessResult } from '#utils/result'
 import { generateDownloadItem } from '#utils/test/downloadItem'
 
 afterEach(() => jest.resetAllMocks())
@@ -41,7 +43,9 @@ it('can handle completed download event', async () => {
   )
 
   const mockPublish = jest.spyOn(publisher, 'publish').mockImplementationOnce(jest.fn())
-  jest.spyOn(downloadRecordRepo, 'getById').mockResolvedValueOnce(downloadRecord)
+  jest
+    .spyOn(downloadRecordRepo, 'getById')
+    .mockResolvedValueOnce(toSuccessResult(downloadRecord))
   jest.spyOn(downloadRepo, 'getById').mockResolvedValueOnce(item)
 
   await handle(event, publisher)
@@ -93,7 +97,9 @@ it('should do nothing if the record is lost.', async () => {
 
   const mockPublish = jest.spyOn(publisher, 'publish').mockImplementationOnce(jest.fn())
   jest.spyOn(downloadRepo, 'getById').mockResolvedValueOnce(item)
-  jest.spyOn(downloadRecordRepo, 'getById').mockResolvedValueOnce(undefined)
+  jest
+    .spyOn(downloadRecordRepo, 'getById')
+    .mockResolvedValueOnce(toErrorResult(new DownloadRecordNotFound(1)))
 
   await handle(event, publisher)
   expect(mockPublish).not.toHaveBeenCalled()

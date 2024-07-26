@@ -1,27 +1,11 @@
 import BrowserDownloadDispatched from '#domain/events/BrowserDownloadDispatched'
-import type { IDownloadRecordRepository } from '#domain/repositories/downloadRecord'
 import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
-import { DownloadRecord } from '#domain/valueObjects/downloadRecord'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { recordDispatchedDownloadConfiguration } from '#eventHandlers/recordDispatchedDownloadConfiguration'
 import { getEventPublisher } from '#infra/eventPublisher'
+import { MockDownloadRecordRepo } from '#mocks/repositories/downloadRecord'
 
 const publisher = getEventPublisher()
-
-class MockDownloadRecordRepo implements IDownloadRecordRepository {
-  async getById(downloadItemId: number): Promise<DownloadRecord | undefined> {
-    return undefined
-  }
-  async save(downloadRecord: DownloadRecord): Promise<void> {
-    return
-  }
-  async removeById(downloadItemId: number): Promise<void> {
-    return
-  }
-  async getAll(): Promise<DownloadRecord[]> {
-    return []
-  }
-}
 
 const mockDownloadRecordRepo = new MockDownloadRecordRepo()
 

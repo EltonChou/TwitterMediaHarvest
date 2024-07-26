@@ -11,8 +11,9 @@ export const retryFailedDownload =
     buildDownloader: DownloadMediaFileUseCaseBuilder
   ): DomainEventHandler<DownloadFailedNotificationEvent> =>
   async (event, publisher) => {
-    const record = await recordRepo.getById(event.downloadId)
-    if (!record) return
+    const { value: record, error } = await recordRepo.getById(event.downloadId)
+    if (error) return
+
     const { tweetInfo, downloadConfig } = record.mapBy(props => ({
       tweetInfo: props.tweetInfo,
       downloadConfig: props.downloadConfig,

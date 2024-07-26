@@ -3,6 +3,8 @@ import { getEventPublisher } from '#infra/eventPublisher'
 import { MockDownloadRecordRepo } from '#mocks/repositories/downloadRecord'
 import { MockDownloadSettingsRepository } from '#mocks/repositories/downloadSettings'
 import { MockDownloadMediaFile } from '#mocks/useCases/downloadMediaFile'
+import { toSuccessResult } from '#utils/result'
+import { generateDownloadRecord } from '#utils/test/downloadRecord'
 import { retryFailedDownload } from './retryFailedDownload'
 
 test('hanlder to retry failed download', async () => {
@@ -23,6 +25,10 @@ test('hanlder to retry failed download', async () => {
     enableAria2: false,
     aggressiveMode: false,
   })
+
+  jest
+    .spyOn(downloadRecordRepo, 'getById')
+    .mockResolvedValueOnce(toSuccessResult(generateDownloadRecord()))
 
   const mockDownload = jest
     .spyOn(downloadMediaFile, 'process')

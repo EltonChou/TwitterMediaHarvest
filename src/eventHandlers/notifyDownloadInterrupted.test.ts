@@ -1,4 +1,5 @@
 import DownloadInterrupted from '#domain/events/DownloadInterrupted'
+import { DownloadRecordNotFound } from '#domain/repositories/downloadRecord'
 import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import { DownloadRecord } from '#domain/valueObjects/downloadRecord'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
@@ -6,6 +7,7 @@ import InterruptReason from '#enums/InterruptReason'
 import { getNotifier } from '#infra/browserNotifier'
 import { MockEventPublisher } from '#mocks/eventPublisher'
 import { MockDownloadRecordRepo } from '#mocks/repositories/downloadRecord'
+import { toErrorResult, toSuccessResult } from '#utils/result'
 import { notifyDownloadInterrupted } from './notifyDownloadInterrupted'
 
 afterEach(() => jest.resetAllMocks())
@@ -28,7 +30,9 @@ describe('unit test for notify download interrupted handler', () => {
   it('do nothing if the record is lost', async () => {
     const notifier = getNotifier()
     const mockRecordRepo = new MockDownloadRecordRepo()
-    jest.spyOn(mockRecordRepo, 'getById').mockResolvedValue(undefined)
+    jest
+      .spyOn(mockRecordRepo, 'getById')
+      .mockResolvedValue(toErrorResult(new DownloadRecordNotFound(1)))
     const mockNotify = jest.spyOn(notifier, 'notify')
 
     const handle = notifyDownloadInterrupted(notifier, mockRecordRepo)
@@ -52,7 +56,9 @@ describe('unit test for notify download interrupted handler', () => {
       recordedAt: new Date(),
       tweetInfo: new TweetInfo({ screenName: 'name', tweetId: 'tweetId' }),
     })
-    jest.spyOn(mockRecordRepo, 'getById').mockResolvedValue(downloadRecord)
+    jest
+      .spyOn(mockRecordRepo, 'getById')
+      .mockResolvedValue(toSuccessResult(downloadRecord))
     const mockNotify = jest.spyOn(notifier, 'notify')
 
     const handle = notifyDownloadInterrupted(notifier, mockRecordRepo)

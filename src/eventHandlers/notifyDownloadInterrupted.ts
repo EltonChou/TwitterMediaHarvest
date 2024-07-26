@@ -26,8 +26,10 @@ export const notifyDownloadInterrupted =
     //   data: error,
     // })
 
-    const downloadRecord = await downloadRecordRepo.getById(event.downloadId)
-    if (!downloadRecord) return
+    const { value: downloadRecord, error } = await downloadRecordRepo.getById(
+      event.downloadId
+    )
+    if (error) return
 
     const tweetInfo = downloadRecord.mapBy(props => props.tweetInfo).mapBy(props => props)
     const notificationConfig = MediaDownloadNotificationConfig.error(
