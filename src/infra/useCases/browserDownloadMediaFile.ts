@@ -1,4 +1,5 @@
 import BrowserDownloadDispatched from '#domain/events/BrowserDownloadDispatched'
+import InternalErrorHappened from '#domain/events/InternalErrorHappened'
 import type {
   DownloadMediaFileCommand,
   DownloadMediaFileUseCase,
@@ -31,20 +32,25 @@ export class BrowserDownloadMediaFileUseCase implements DownloadMediaFileUseCase
     return this.#events
   }
 
+  private downloadTargetToConfig(target: DownloadTarget): DownloadConfig {
+    return new DownloadConfig({
+      conflictAction: 'overwrite',
+      saveAs: this.askWhereToSave,
+      ...target.mapBy(props => props),
+    })
+  }
+
   async process(command: DownloadMediaFileCommand): Promise<void> {
     const config =
       command.target instanceof DownloadTarget
-        ? new DownloadConfig({
-            conflictAction: 'overwrite',
-            saveAs: this.askWhereToSave,
-            ...command.target.mapBy(props => props),
-          })
+        ? this.downloadTargetToConfig(command.target)
         : command.target
 
     const downloadId = await Browser.downloads.download(
       downloadConfigToBrowserDownloadOptions(config)
     )
 
+    // If the download api was failed downloadId would be `undefined` and lastError would be set.
     if (downloadId) {
       const event = new BrowserDownloadDispatched({
         id: downloadId,
@@ -53,7 +59,12 @@ export class BrowserDownloadMediaFileUseCase implements DownloadMediaFileUseCase
       })
       this.#events.push(event)
     } else {
-      // TODO: Handle runtime.lastError
+      this.#events.push(
+        new InternalErrorHappened(
+          'Failed to trigger browser download api',
+          Browser.runtime.lastError as Error
+        )
+      )
       this.#ok = false
     }
   }
