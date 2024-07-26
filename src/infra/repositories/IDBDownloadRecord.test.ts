@@ -1,9 +1,11 @@
 import { DownloadRecordNotFound } from '#domain/repositories/downloadRecord'
 import { downloadIDB } from '#libs/idb/download/db'
+import { DownloadDBSchema } from '#libs/idb/download/schema'
 import { generateDownloadRecord } from '#utils/test/downloadRecord'
 import { generateDownloadRecordItem } from '#utils/test/downloadRecordItem'
 import { IDBDownloadRecordRepository } from './IDBDownloadRecord'
 import { faker } from '@faker-js/faker'
+import { IDBPDatabase } from 'idb'
 
 describe('integrated test for idb download record repository', () => {
   const repo = new IDBDownloadRecordRepository(downloadIDB)
@@ -40,9 +42,10 @@ describe('integrated test for idb download record repository', () => {
     let isPass = false
     while (isPass) {
       const id = faker.number.int()
+      const shouldFound = !existIds.has(id)
       const { error: notFoundError } = await repo.getById(id)
-      expect(notFoundError instanceof DownloadRecordNotFound).toBe(!existIds.has(id))
-      isPass = !existIds.has(id)
+      expect(notFoundError instanceof DownloadRecordNotFound).toBe(!shouldFound)
+      isPass = !shouldFound
     }
   })
 
@@ -64,6 +67,26 @@ describe('integrated test for idb download record repository', () => {
     jest.spyOn(downloadIDB, 'connect').mockImplementation(() => {
       throw new Error()
     })
+
+    const saveError = await repo.save(generateDownloadRecord())
+    expect(saveError).toBeDefined()
+
+    const getError = await repo.getById(1)
+    expect(getError).toBeDefined()
+
+    const removeError = await repo.removeById(1)
+    expect(removeError).toBeDefined()
+  })
+
+  it('can handle operation error', async () => {
+    const errorFunc = () => {
+      throw new Error()
+    }
+    jest.spyOn(downloadIDB, 'connect').mockResolvedValue({
+      put: errorFunc,
+      delete: errorFunc,
+      get: errorFunc,
+    } as unknown as IDBPDatabase<DownloadDBSchema>)
 
     const saveError = await repo.save(generateDownloadRecord())
     expect(saveError).toBeDefined()
