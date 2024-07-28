@@ -16,11 +16,11 @@ class EventPublisher implements DomainEventPublisher {
     for (const handle of this.handlerMap[event.name]) {
       try {
         // eslint-disable-next-line no-console
-        console.info(`Handle ${event.name} with ${handle.name}.`)
+        console.info(`Handle ${event.name}.`)
         await handle(event, this)
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.info(`Failed to handle ${event.name} with ${handle.name}.`)
+        console.info(`Failed to handle ${event.name}.`)
         // eslint-disable-next-line no-console
         console.error(error)
       }

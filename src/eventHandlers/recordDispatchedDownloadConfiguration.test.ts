@@ -9,7 +9,11 @@ const publisher = getEventPublisher()
 
 const mockDownloadRecordRepo = new MockDownloadRecordRepo()
 
-afterAll(() => publisher.clearHandlers('download:status:dispatched:browser'))
+afterAll(() => {
+  publisher.clearHandlers('download:status:dispatched:browser')
+  jest.clearAllMocks()
+})
+
 beforeAll(() =>
   publisher.register(
     'download:status:dispatched:browser',
@@ -18,7 +22,9 @@ beforeAll(() =>
 )
 
 it('can handle download:status:dispatched:browser event', async () => {
-  const mockRecordSaving = jest.spyOn(mockDownloadRecordRepo, 'save')
+  const mockRecordSaving = jest
+    .spyOn(mockDownloadRecordRepo, 'save')
+    .mockImplementation(jest.fn())
 
   const downloadConfig = new DownloadConfig({
     conflictAction: 'overwrite',
@@ -35,5 +41,5 @@ it('can handle download:status:dispatched:browser event', async () => {
   })
 
   await publisher.publish(event)
-  expect(mockRecordSaving).toBeCalledTimes(1)
+  expect(mockRecordSaving).toHaveBeenCalledTimes(1)
 })
