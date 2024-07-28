@@ -2,7 +2,7 @@ import { DEFAULT_DIRECTORY } from '#constants'
 import { ISettingsVORepository } from '#domain/repositories/settings'
 import { FilenameSetting } from '#domain/valueObjects/filenameSetting'
 import PatternToken from '#enums/patternToken'
-import type { IStorageProxy } from '#libs/proxy'
+import type { IStorageProxy } from '#libs/storageProxy'
 import type { V4FilenameSettings } from '#schema'
 
 const defaultV4FilenameSettings = new FilenameSetting({

@@ -1,5 +1,5 @@
 import { FilenameSetting } from '#domain/valueObjects/filenameSetting'
-import { InMemoryStorageProxy } from '#libs/proxy'
+import { InMemoryStorageProxy } from '#mocks/storageProxy'
 import { V4FilenameSettingsRepository } from './filenameSettings'
 
 describe('unit test for v4 filename settings repository', () => {

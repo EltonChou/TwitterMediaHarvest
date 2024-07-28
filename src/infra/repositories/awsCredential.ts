@@ -1,6 +1,6 @@
 import type { ICredentialRepository } from '#domain/repositories/credential'
 import { AWSCredential } from '#domain/valueObjects/awcCredential'
-import type { IStorageProxy } from '#libs/proxy'
+import type { IStorageProxy } from '#libs/storageProxy'
 import type { AWSCredentialsItem } from '#schema'
 import type {
   CognitoIdentityCredentials,
