@@ -1,6 +1,6 @@
-import { UsageStatics } from '#domain/valueObjects/usageStatistics'
+import { UsageStatistics } from '#domain/valueObjects/usageStatistics'
 
 export interface IUsageStatisticsRepository {
-  get(): Promise<UsageStatics>
-  save(stats: UsageStatics): Promise<void>
+  get(): Promise<UsageStatistics>
+  save(stats: UsageStatistics): Promise<void>
 }

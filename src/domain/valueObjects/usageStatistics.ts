@@ -5,22 +5,22 @@ type UsageStatisticsProps = {
   trafficUsage: number
 }
 
-export class UsageStatics extends ValueObject<UsageStatisticsProps> {
+export class UsageStatistics extends ValueObject<UsageStatisticsProps> {
   increase(delta: { downloadCount: number; trafficUsage: number }) {
-    return new UsageStatics({
+    return new UsageStatistics({
       downloadCount: this.props.downloadCount + delta.downloadCount,
       trafficUsage: this.props.trafficUsage + delta.trafficUsage,
     })
   }
 
-  isGreaterThan(that: UsageStatics): boolean {
+  isGreaterThan(that: UsageStatistics): boolean {
     return (
       this.props.downloadCount >= that.mapBy(props => props.downloadCount) &&
       this.props.trafficUsage >= that.mapBy(props => props.trafficUsage)
     )
   }
 
-  isLessThan(that: UsageStatics): boolean {
+  isLessThan(that: UsageStatistics): boolean {
     return (
       this.props.downloadCount <= that.mapBy(props => props.downloadCount) &&
       this.props.trafficUsage <= that.mapBy(props => props.trafficUsage)

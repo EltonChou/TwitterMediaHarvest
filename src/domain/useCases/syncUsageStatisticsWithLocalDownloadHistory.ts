@@ -1,6 +1,6 @@
 import type { IDownloadRepository } from '#domain/repositories/download'
 import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
-import { UsageStatics } from '#domain/valueObjects/usageStatistics'
+import { UsageStatistics } from '#domain/valueObjects/usageStatistics'
 import type { AsyncCommandUseCase } from './base'
 import type { CheckDownloadWasTriggeredBySelf } from './checkDownloadWasTriggeredBySelf'
 
@@ -22,7 +22,7 @@ export class SyncUsageStatisticsWithLocalDownloadHistory
         downloadCount: 1,
         trafficUsage: Math.max(0, currItem.fileSize),
       })
-    }, new UsageStatics({ downloadCount: 0, trafficUsage: 0 }))
+    }, new UsageStatistics({ downloadCount: 0, trafficUsage: 0 }))
 
     const originalStats = await this.usageStatisticsRepo.get()
 

@@ -6,7 +6,7 @@ import type {
 import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
 // eslint-disable-next-line max-len
 import { SyncUsageStatisticsWithLocalDownloadHistory } from '#domain/useCases/syncUsageStatisticsWithLocalDownloadHistory'
-import { UsageStatics } from '#domain/valueObjects/usageStatistics'
+import { UsageStatistics } from '#domain/valueObjects/usageStatistics'
 import { generateDownloadItem } from '#utils/test/downloadItem'
 import { CheckDownloadWasTriggeredBySelf } from './checkDownloadWasTriggeredBySelf'
 
@@ -24,11 +24,11 @@ describe('unit test for sync usage statistic with local download history', () =>
   }
 
   class MockUsageStatisticsRepository implements IUsageStatisticsRepository {
-    async get(): Promise<UsageStatics> {
+    async get(): Promise<UsageStatistics> {
       throw new Error('Method not implemented.')
     }
 
-    async save(stats: UsageStatics): Promise<void> {
+    async save(stats: UsageStatistics): Promise<void> {
       return
     }
   }
@@ -41,7 +41,7 @@ describe('unit test for sync usage statistic with local download history', () =>
 
     jest
       .spyOn(mockUsageRepo, 'get')
-      .mockResolvedValue(new UsageStatics({ downloadCount: 1, trafficUsage: 100 }))
+      .mockResolvedValue(new UsageStatistics({ downloadCount: 1, trafficUsage: 100 }))
     const mockUsageSaving = jest.spyOn(mockUsageRepo, 'save')
     const mockDownloadSearching = jest
       .spyOn(mockDownloadRepo, 'search')
@@ -68,7 +68,7 @@ describe('unit test for sync usage statistic with local download history', () =>
     await useCase.process()
     expect(mockDownloadSearching).toHaveBeenCalled()
     expect(mockUsageSaving).toHaveBeenCalledWith(
-      new UsageStatics({ downloadCount: 2, trafficUsage: 3333 })
+      new UsageStatistics({ downloadCount: 2, trafficUsage: 3333 })
     )
   })
 })
