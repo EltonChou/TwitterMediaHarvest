@@ -1,3 +1,4 @@
+import ClientWasSynced from '#domain/events/ClientWasSynced'
 import { generateUsageStatistics } from '#utils/test/usageStatistics'
 import { Client, ClientUUID } from './client'
 
@@ -32,5 +33,6 @@ describe('unit test for client info.', () => {
 
     client.updateSyncToken('another_token')
     expect(client.syncToken).toBe('another_token')
+    expect(client.events.some(event => event instanceof ClientWasSynced))
   })
 })

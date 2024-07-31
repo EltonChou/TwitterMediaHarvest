@@ -24,6 +24,7 @@ interface DomainEventMap {
   'notification:tweetFetchError:viewButton:clicked': TweetInfoEvent
   'api:twitter:failed': TweetApiErrorEvent
   'parse:tweet:failed': TweetInfoEvent
+  'client:synced': IDomainEvent
 }
 
 interface InternalErrorEvent extends IDomainEvent {

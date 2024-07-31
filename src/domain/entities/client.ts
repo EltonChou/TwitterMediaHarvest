@@ -1,3 +1,4 @@
+import ClientWasSynced from '#domain/events/ClientWasSynced'
 import type { UsageStatistics } from '#domain/valueObjects/usageStatistics'
 import { TimeHelper } from '#helpers/time'
 import { Entity, EntityId } from './base'
@@ -18,7 +19,14 @@ const SYNC_PERIOD: number =
 /**
  * syncing period is 30 minutes in prodcution, otherwise 10 minutes.
  */
-export class Client extends Entity<ClientUUID, ClientProps> {
+export class Client extends Entity<ClientUUID, ClientProps> implements DomainEventSource {
+  readonly events: IDomainEvent[]
+
+  constructor(id: ClientUUID, props: ClientProps) {
+    super(id, props)
+    this.events = []
+  }
+
   get syncToken() {
     return this.props.syncToken
   }
@@ -37,5 +45,7 @@ export class Client extends Entity<ClientUUID, ClientProps> {
 
   updateSyncToken(token: string) {
     this.props.syncToken = token
+    this.props.syncedAt = Date.now()
+    this.events.push(new ClientWasSynced())
   }
 }
