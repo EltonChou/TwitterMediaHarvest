@@ -83,15 +83,16 @@ export class DownloadTweetMedia
     const { includeVideoThumbnail } = await this.featureSettingsRepo.get()
     const downloader = await this.buildDownloader(command.tweetInfo)
 
-    const downloadTask = Promise.allSettled(
-      tweetToTweetMediaFiles(tweet)
-        .filter(mediaFile => includeVideoThumbnail || !mediaFile.isThumbnail)
-        .map(tweetMediaFileToDownloadTargetWithFilenameSettting(filenameSetting))
-        .map(downloadTargetToDownloadCommand)
-        .map(downloader.process)
-    )
+    const downloadTask = () =>
+      Promise.allSettled(
+        tweetToTweetMediaFiles(tweet)
+          .filter(mediaFile => includeVideoThumbnail || !mediaFile.isThumbnail)
+          .map(tweetMediaFileToDownloadTargetWithFilenameSettting(filenameSetting))
+          .map(downloadTargetToDownloadCommand)
+          .map(downloader.process)
+      )
 
-    await downloadTask
+    await downloadTask()
     this.eventPublisher.publishAll(...downloader.events)
 
     return downloader.isOk
@@ -99,7 +100,7 @@ export class DownloadTweetMedia
 
   /**
    * If error happens, it will not affect the download process.
-   * Although user may curious why the history didn't record correctly,
+   * Although user may be curious why the history didn't record correctly,
    * we should capture the error by logger or issue tracker(e.g. Sentry) and solve it implicitly in future patch.
    */
   async saveDownloadHistory(downloadHistory: DownloadHistory) {
