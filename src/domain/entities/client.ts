@@ -16,9 +16,6 @@ export class ClientUUID extends EntityId<string> {}
 const SYNC_PERIOD: number =
   process.env.NODE_ENV === 'production' ? TimeHelper.minute(30) : TimeHelper.minute(10)
 
-/**
- * syncing period is 30 minutes in prodcution, otherwise 10 minutes.
- */
 export class Client extends Entity<ClientUUID, ClientProps> implements DomainEventSource {
   readonly events: IDomainEvent[]
 
@@ -35,6 +32,9 @@ export class Client extends Entity<ClientUUID, ClientProps> implements DomainEve
     return this.props.uninstallCode
   }
 
+  /**
+   * syncing period is *30 minutes* in prodcution, otherwise *10 minutes*.
+   */
   get shouldSync(): boolean {
     return Date.now() - this.props.syncedAt >= SYNC_PERIOD
   }
@@ -43,6 +43,9 @@ export class Client extends Entity<ClientUUID, ClientProps> implements DomainEve
     return this.props.usageStatistics
   }
 
+  /**
+   * Every time we sync the client, we will get a new sync token.
+   */
   updateSyncToken(token: string) {
     this.props.syncToken = token
     this.props.syncedAt = Date.now()
