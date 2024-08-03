@@ -1,3 +1,4 @@
+import { isFirefox } from './runtime'
 import type { Downloads } from 'webextension-polyfill'
 
 /**
@@ -16,7 +17,7 @@ export const makeBrowserDownloadConfig = (
     filename: fileName,
     conflictAction: 'overwrite',
   }
-  return process.env.TARGET === 'firefox' ? { ...options, saveAs: askPath } : options
+  return isFirefox() ? { ...options, saveAs: askPath } : options
 }
 
 /**
