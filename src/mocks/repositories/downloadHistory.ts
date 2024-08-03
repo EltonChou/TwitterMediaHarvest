@@ -5,6 +5,9 @@ import type {
 } from '#domain/repositories/downloadHistory'
 
 export class MockDownloadHistoryRepository implements IDownloadHistoryRepository {
+  async hasTweetId(tweetId: string): AsyncResult<boolean> {
+    throw new Error('Method not implemented.')
+  }
   async total(): AsyncResult<DownloadHistoryStats> {
     throw new Error('Method not implemented.')
   }

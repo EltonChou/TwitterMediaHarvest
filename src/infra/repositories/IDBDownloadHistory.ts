@@ -215,6 +215,20 @@ export class IDBDownloadHistoryRepository implements IDownloadHistoryRepository 
     const task = await process()
     return task.complete()
   }
+
+  async hasTweetId(tweetId: string): AsyncResult<boolean> {
+    try {
+      const txContext = await this.idb.prepareTransaction('history', 'readonly')
+
+      const key = await txContext.tx
+        .objectStore('history')
+        .getKey(IDBKeyRange.only(tweetId))
+
+      return toSuccessResult(key !== undefined)
+    } catch (error) {
+      return toErrorResult(toError(error))
+    }
+  }
 }
 
 const saveHistory =

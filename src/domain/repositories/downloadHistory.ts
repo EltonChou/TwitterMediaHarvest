@@ -11,4 +11,5 @@ export interface IDownloadHistoryRepository {
   getByTweetId(tweetId: string): AsyncResult<DownloadHistory | undefined>
   removeByTweetId(tweetId: string): Promise<UnsafeTask>
   clear(): Promise<UnsafeTask>
+  hasTweetId(tweetId: string): AsyncResult<boolean>
 }
