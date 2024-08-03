@@ -48,34 +48,43 @@ export class SearchDownloadHistoryFromIDB implements SearchDownloadHistory {
        */
       TE.bind('cursor', context =>
         TE.tryCatch(
-          () =>
-            context.historyCollection
-              .index(orderKeyMap.get(command.orderBy.key) ?? 'byDownloadTime')
-              .openCursor(null, orderTypeMap.get(command.orderBy.type) ?? 'prev'),
+          // FIXME: should use index.
+          () => context.historyCollection.openCursor(),
+          // () =>
+          //   context.historyCollection
+          //     .index(orderKeyMap.get(command.orderBy.key) ?? 'byDownloadTime')
+          //     .openCursor(null, orderTypeMap.get(command.orderBy.type) ?? 'prev'),
           toTransactionError(context.abortTx)
         )
       ),
       TE.bind('result', context =>
         TE.tryCatch(async () => {
           let matchedCount = 0
+          let skip = command.skip
+
           const items: DownloadHistory[] = []
           const isNotEnough = () => items.length < command.limit
-          const shouldAppendItem = () => isNotEnough() && command.skip === 0
-          const shouldSkip = () => command.skip > 0
-          const increaseMatched = () => (matchedCount += 1)
-          const consumeSkip = () => (command.skip -= 1)
+          const shouldAppendItem = () => isNotEnough() && skip === 0
+          const shouldSkip = () => skip > 0
 
+          // has side effect
+          const increaseMatched = () => (matchedCount += 1)
+          const consumeSkip = () => (skip -= 1)
           let cursor = context.cursor
           while (cursor) {
-            if (command.filters.every(filter => cursor && filter(cursor.value))) {
-              increaseMatched()
-              if (shouldSkip()) {
-                consumeSkip()
-                continue
-              }
-              if (shouldAppendItem())
-                items.push(downloadHistoryItemToDownloadHistoryEntity(cursor.value))
-            }
+            const isMatchedValue = command.filters.every(
+              filter => cursor && filter(cursor.value)
+            )
+
+            if (isMatchedValue) increaseMatched()
+
+            const skipThisValue = shouldSkip()
+
+            if (isMatchedValue && skipThisValue) consumeSkip()
+
+            if (isMatchedValue && !skipThisValue && shouldAppendItem())
+              items.push(downloadHistoryItemToDownloadHistoryEntity(cursor.value))
+
             // Unsafe
             cursor = await cursor.continue()
           }
