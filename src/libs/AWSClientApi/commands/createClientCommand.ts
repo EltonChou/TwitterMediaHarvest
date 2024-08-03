@@ -1,5 +1,6 @@
-import { ApiError } from '../errors'
+import { responseToMetadataBearer } from '../utils/response'
 import { BaseCommand } from './baseCommand'
+import { CommandResponseError } from './errors'
 import { HttpMethod, type MetadataBearer, type RequestContext } from './types'
 import { streamCollector } from '@smithy/fetch-http-handler'
 import { HttpRequest, type HttpResponse } from '@smithy/protocol-http'
@@ -44,28 +45,27 @@ export class CreateClientCommand extends BaseCommand<
       new TextDecoder().decode(await streamCollector(response.body))
     )
 
+    const metadataBearer = responseToMetadataBearer(response)
+
     if (response.statusCode === 201) {
       const signature = jws.decode(body.token, { json: true })
       if (!signature)
-        throw new ApiError('Failed to decode response body.', {
-          requestId: response.headers['x-amzn-requestid'],
-          statusCode: response.statusCode,
-        })
+        throw new CommandResponseError(
+          body?.error ?? body?.message ?? 'Failed to decode response body.',
+          metadataBearer
+        )
 
       return {
-        $metadata: {
-          httpStatusCode: response.statusCode,
-          requestId: response.headers['x-amzn-requestid'],
-        },
+        ...metadataBearer,
         syncToken: body.token,
         clientUUID: signature.payload['uuid'],
-        uninstallCode: body.uninstallCode || signature.payload['uninstallCode'],
+        uninstallCode: body.uninstallCode ?? signature.payload['uninstallCode'],
       }
     }
 
-    throw new ApiError('Failed to request.', {
-      requestId: response.headers['x-amzn-requestid'],
-      statusCode: response.statusCode,
-    })
+    throw new CommandResponseError(
+      body?.error ?? body?.message ?? 'Failed to request.',
+      metadataBearer
+    )
   }
 }

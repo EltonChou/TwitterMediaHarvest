@@ -1,5 +1,6 @@
-import { ApiError } from '../errors'
+import { responseToMetadataBearer } from '../utils/response'
 import { BaseCommand } from './baseCommand'
+import { CommandResponseError } from './errors'
 import type { MetadataBearer, RequestContext } from './types'
 import { HttpMethod } from './types'
 import { streamCollector } from '@smithy/fetch-http-handler'
@@ -55,18 +56,17 @@ export class SyncClientCommand extends BaseCommand<
       new TextDecoder().decode(await streamCollector(response.body))
     )
 
+    const metadataBearer = responseToMetadataBearer(response)
+
     if (response.statusCode === 200)
       return {
-        $metadata: {
-          httpStatusCode: response.statusCode,
-          requestId: response.headers['x-amzn-requestid'],
-        },
+        ...metadataBearer,
         syncToken: body.token,
       }
 
-    throw new ApiError('Failed to request.', {
-      statusCode: response.statusCode,
-      requestId: response.headers['x-amzn-requestid'],
-    })
+    throw new CommandResponseError(
+      body?.error ?? body?.message ?? 'Failed to request.',
+      metadataBearer
+    )
   }
 }
