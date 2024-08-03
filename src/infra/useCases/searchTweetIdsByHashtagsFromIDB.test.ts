@@ -1,5 +1,5 @@
 import { downloadIDB } from '#libs/idb/download/db'
-import { HashtagItem } from '#libs/idb/download/schema'
+import type { HashtagItem } from '#libs/idb/download/schema'
 import { SearchTweetIdsByHashtagsFromIDB } from './searchTweetIdsByHashtagsFromIDB'
 
 describe('integrated test for searching tweet ids by hashtags from idb', () => {
@@ -40,7 +40,7 @@ describe('integrated test for searching tweet ids by hashtags from idb', () => {
       const { value, error } = await useCase.process({ hashtags })
 
       expect(error).toBeUndefined()
-      expect(Array.from(value ?? [])).toEqual(expectIds)
+      expect(value ? Array.from(value) : []).toEqual(expectIds)
     }
   )
 })
