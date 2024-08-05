@@ -103,12 +103,12 @@ export class DownloadTweetMedia
    * Although user may be curious why the history didn't record correctly,
    * we should capture the error by logger or issue tracker(e.g. Sentry) and solve it implicitly in future patch.
    */
-  async saveDownloadHistory(downloadHistory: DownloadHistory) {
+  private async saveDownloadHistory(downloadHistory: DownloadHistory) {
     // TODO: capture error.
     const saveHistoryError = await this.downloadHistoryRepo.save(downloadHistory)
   }
 
-  async buildDownloader(tweetInfo: TweetInfo) {
+  private async buildDownloader(tweetInfo: TweetInfo) {
     const { enableAria2, askWhereToSave } = await this.downloadSettingsRepo.get()
     return (enableAria2 ? this.downloaderBuilder.aria2 : this.downloaderBuilder.browser)({
       targetTweet: tweetInfo,
@@ -116,12 +116,17 @@ export class DownloadTweetMedia
     })
   }
 
-  handleFetchTweetError(tweetInfo: TweetInfo) {
+  private handleFetchTweetError(tweetInfo: TweetInfo) {
     return (error: Error) =>
       this.eventPublisher.publish(mapFetchTweetErrorToEvent(error, tweetInfo))
   }
 
-  async buildFetchTweetSolutions(
+  /**
+   * Always try guest solution first.
+   * When all solutions failed, we will use last error (401, 403, 429 or else) to notify user.
+   * If last solution is guest solution, we may always get 403 (or 401) even the root cause is 429 in protected content.
+   */
+  private async buildFetchTweetSolutions(
     tweetId: string
   ): AsyncResult<FetchTweetSolution[], NoValidCsrfToken> {
     const csrfToken = await this.tokenRepo.getCsrfToken()
@@ -130,18 +135,6 @@ export class DownloadTweetMedia
     if (!csrfToken && !guestToken) return toErrorResult(new NoValidCsrfToken())
 
     const fetchTweetSolutions: FetchTweetSolution[] = []
-
-    // TODO: Should we prefer guest endpoint over authed endpoint to prevent consuming api quota?
-    if (csrfToken) {
-      const fetchTweetCommand = {
-        csrfToken: csrfToken.value,
-        tweetId: tweetId,
-      }
-      fetchTweetSolutions.push(
-        { fetchTweet: this.fetchTweet.latest, command: fetchTweetCommand },
-        { fetchTweet: this.fetchTweet.fallback, command: fetchTweetCommand }
-      )
-    }
 
     if (guestToken) {
       const fetchTweetCommand = {
@@ -152,6 +145,17 @@ export class DownloadTweetMedia
         fetchTweet: this.fetchTweet.guest,
         command: fetchTweetCommand,
       })
+    }
+
+    if (csrfToken) {
+      const fetchTweetCommand = {
+        csrfToken: csrfToken.value,
+        tweetId: tweetId,
+      }
+      fetchTweetSolutions.push(
+        { fetchTweet: this.fetchTweet.latest, command: fetchTweetCommand },
+        { fetchTweet: this.fetchTweet.fallback, command: fetchTweetCommand }
+      )
     }
 
     return toSuccessResult(fetchTweetSolutions)
