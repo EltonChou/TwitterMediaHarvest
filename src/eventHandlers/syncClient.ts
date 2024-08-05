@@ -1,10 +1,9 @@
 import type { DomainEventHandler } from '#domain/eventPublisher'
 import type { IClientRepository } from '#domain/repositories/client'
-
-const LOCK_CRITERIA = 'client:sync'
+import LockCriteria from '#enums/lock'
 
 export const syncClient =
-  (clientRepo: IClientRepository): DomainEventHandler<IDomainEvent> =>
+  (lockName: string, clientRepo: IClientRepository): DomainEventHandler<IDomainEvent> =>
   async (_, publisher) => {
     const { value: client, error: clientError } = await clientRepo.get()
 
@@ -13,7 +12,7 @@ export const syncClient =
     if (!client.shouldSync) return
 
     const syncError = await navigator.locks.request(
-      LOCK_CRITERIA,
+      LockCriteria.ClientSync,
       { ifAvailable: true },
       async lock => (lock ? await clientRepo.sync(client) : undefined)
     )
