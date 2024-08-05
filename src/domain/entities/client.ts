@@ -1,5 +1,6 @@
 import ClientWasSynced from '#domain/events/ClientWasSynced'
 import type { UsageStatistics } from '#domain/valueObjects/usageStatistics'
+import { makeApiUrl } from '#helpers/clientApiUrl'
 import { TimeHelper } from '#helpers/time'
 import { Entity, EntityId } from './base'
 
@@ -28,8 +29,10 @@ export class Client extends Entity<ClientUUID, ClientProps> implements DomainEve
     return this.props.syncToken
   }
 
-  get uninstallCode() {
-    return this.props.uninstallCode
+  get uninstallUrl() {
+    return makeApiUrl('/v1/clients/' + this.props.uninstallCode + '/uninstall', {
+      uninstallCode: this.props.uninstallCode,
+    }).href
   }
 
   /**

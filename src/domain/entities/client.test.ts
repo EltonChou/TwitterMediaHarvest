@@ -2,7 +2,7 @@ import ClientWasSynced from '#domain/events/ClientWasSynced'
 import { generateUsageStatistics } from '#utils/test/usageStatistics'
 import { Client, ClientUUID } from './client'
 
-describe('unit test for client info.', () => {
+describe('unit test for client entity.', () => {
   it('can check the client should sync or not', async () => {
     const clientId = new ClientUUID(crypto.randomUUID())
     const syncedClientInfo = new Client(clientId, {
@@ -34,5 +34,20 @@ describe('unit test for client info.', () => {
     client.updateSyncToken('another_token')
     expect(client.syncToken).toBe('another_token')
     expect(client.events.some(event => event instanceof ClientWasSynced))
+  })
+
+  it('can provide unsinstall url', () => {
+    const clientId = new ClientUUID(crypto.randomUUID())
+    const client = new Client(clientId, {
+      uninstallCode: 'code',
+      syncedAt: Date.now(),
+      syncToken: 'token',
+      usageStatistics: generateUsageStatistics(),
+    })
+
+    const url = new URL(client.uninstallUrl)
+
+    expect(url.pathname).toMatch(/\/code\//)
+    expect(url.searchParams.has('uninstallCode', 'code'))
   })
 })
