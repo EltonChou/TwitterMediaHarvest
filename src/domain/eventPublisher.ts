@@ -1,10 +1,14 @@
 export interface DomainEventHandler<E> {
-  (event: E, publisher: DomainEventPublisher): Promise<void> | void
+  (event: E, publisher: EventPublisher): Promise<unknown> | unknown
 }
 
-export interface DomainEventPublisher<EventMap extends DomainEventMap = DomainEventMap> {
-  publish<K extends keyof EventMap>(event: EventMap[K]): Promise<void>
-  publishAll<K extends keyof EventMap>(...events: EventMap[K][]): Promise<void>
+export interface EventPublisher<E = IDomainEvent> {
+  publish(event: E): Promise<void>
+  publishAll(...events: E[]): Promise<void>
+}
+
+export interface DomainEventPublisher<EventMap extends DomainEventMap = DomainEventMap>
+  extends EventPublisher {
   register<K extends keyof EventMap>(
     eventName: K,
     eventHandler: DomainEventHandler<EventMap[K]>
@@ -13,6 +17,7 @@ export interface DomainEventPublisher<EventMap extends DomainEventMap = DomainEv
     eventName: K,
     eventHandlers: DomainEventHandler<EventMap[K]>[]
   ): this
-  clearHandlers<K extends keyof EventMap>(eventName: K): void
+
+  clearHandlers(eventName: keyof EventMap): void
   clearAllHandlers(): void
 }
