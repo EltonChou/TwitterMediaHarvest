@@ -4,7 +4,7 @@ class EventPublisher implements DomainEventPublisher {
   private handlerMap: Record<string, DomainEventHandler<IDomainEvent>[]>
 
   constructor() {
-    this.handlerMap = {} as Record<string, DomainEventHandler<IDomainEvent>[]>
+    this.handlerMap = {} satisfies Record<string, DomainEventHandler<IDomainEvent>[]>
   }
 
   async publish(event: IDomainEvent): Promise<void> {

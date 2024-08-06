@@ -9,12 +9,12 @@ import type {
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers'
 
 class CredentialCache implements Storage {
-  constructor(readonly storageProxy: IStorageProxy<{ [index: string]: string }>) {}
+  constructor(readonly storageProxy: IStorageProxy<LiteraObject>) {}
 
   async getItem(key: string): Promise<string | null> {
     const record = await this.storageProxy.getItemByKey(key)
     if (!record) return null
-    return Object.hasOwn(record, key) ? record[key] : null
+    return Object.hasOwn(record, key) ? String(record[key]) : null
   }
 
   async removeItem(key: string): Promise<void> {
@@ -43,9 +43,7 @@ export class AWSCredentialRepository implements ICredentialRepository<AWSCredent
   private async fetch() {
     const credential = await fromCognitoIdentityPool({
       identityPoolId: this.cognitoPoolConfig.identityPoolId,
-      cache: new CredentialCache(
-        this.storageProxy as unknown as IStorageProxy<{ [index: string]: string }>
-      ),
+      cache: new CredentialCache(this.storageProxy),
       clientConfig: {
         region: this.cognitoPoolConfig.region,
       },
