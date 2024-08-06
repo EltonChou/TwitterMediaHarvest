@@ -14,7 +14,7 @@ export type SchemaValue<T> = string extends T
   ? never
   : T[SchemaKey<T>]
 
-export interface IStorageProxy<SchemaT extends LiteraObject> {
+export interface IStorageProxy<SchemaT> {
   getItemByKey<Key extends SchemaKey<SchemaT>>(
     key: Key
   ): Promise<Pick<SchemaT, Key> | undefined>

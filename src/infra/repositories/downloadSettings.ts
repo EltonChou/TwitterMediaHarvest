@@ -1,5 +1,5 @@
 import type { ISettingsRepository } from '#domain/repositories/settings'
-import type { IStorageProxy } from '#libs/proxy'
+import type { IStorageProxy } from '#libs/storageProxy'
 import type { DownloadSettings } from '#schema'
 
 const defaultIntegrationSettings: DownloadSettings = {
@@ -13,7 +13,7 @@ export class DownloadSettingsRepository implements ISettingsRepository<DownloadS
 
   async get(): Promise<DownloadSettings> {
     const settings = await this.storageArea.getItemByDefaults(defaultIntegrationSettings)
-    return settings as DownloadSettings
+    return settings
   }
 
   async save(settings: Partial<DownloadSettings>): Promise<void> {
