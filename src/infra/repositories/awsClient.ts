@@ -25,7 +25,7 @@ const defaultStats: V4Statistics = {
 export class AWSClientRepository implements IClientRepository {
   constructor(
     readonly apiClient: ApiClient,
-    readonly storageProxy: IStorageProxy<ClientInfo & V4Statistics>
+    readonly storageProxy: IStorageProxy<ClientInfo>
   ) {}
 
   private async createClient(initStats: V4Statistics): AsyncResult<Client> {
@@ -80,10 +80,9 @@ export class AWSClientRepository implements IClientRepository {
   }
 
   async sync(client: Client): Promise<UnsafeTask> {
-    const stats = await this.storageProxy.getItemByDefaults(defaultStats)
     const command = new SyncClientCommand({
       clientId: client.id.value,
-      stats: stats,
+      stats: client.usageStatistics.mapBy(props => props),
       syncToken: client.syncToken,
     })
     const { value: resp, error } = await this.apiClient.send(command)
