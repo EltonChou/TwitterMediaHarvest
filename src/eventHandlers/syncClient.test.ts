@@ -18,7 +18,9 @@ describe('unit test for handler to sync client', () => {
   afterEach(() => jest.resetAllMocks())
 
   it('can sync client', async () => {
-    const lockCtx: LockContext<any> = jest.fn().mockImplementation(task => task(lock))
+    const lockCtx: LockContext<any> = jest
+      .fn()
+      .mockImplementation(async task => await task(lock))
     const handler = syncClient(clientRepo, lockCtx)
 
     const mockGet = jest
@@ -27,13 +29,16 @@ describe('unit test for handler to sync client', () => {
     const mockSync = jest.spyOn(clientRepo, 'sync').mockImplementation(jest.fn())
 
     await handler(new TestEvent('download:status:completed'), publisher)
+
     expect(mockGet).toHaveBeenCalled()
-    expect(mockSync).toHaveBeenCalled()
     expect(lockCtx).toHaveBeenCalled()
+    expect(mockSync).toHaveBeenCalled()
   })
 
   it('can skip syncing if the client has been synced in this time window', async () => {
-    const lockCtx: LockContext<any> = jest.fn().mockImplementation(task => task(lock))
+    const lockCtx: LockContext<any> = jest
+      .fn()
+      .mockImplementation(async task => await task(lock))
     const handler = syncClient(clientRepo, lockCtx)
 
     const mockGet = jest
@@ -42,8 +47,27 @@ describe('unit test for handler to sync client', () => {
     const mockSync = jest.spyOn(clientRepo, 'sync').mockImplementation(jest.fn())
 
     await handler(new TestEvent('download:status:completed'), publisher)
+
     expect(mockGet).toHaveBeenCalled()
-    expect(mockSync).not.toHaveBeenCalled()
     expect(lockCtx).not.toHaveBeenCalled()
+    expect(mockSync).not.toHaveBeenCalled()
+  })
+
+  it('can skip syncing if handler failed to get the lock', async () => {
+    const lockCtx: LockContext<any> = jest
+      .fn()
+      .mockImplementation(async task => await task(null))
+    const handler = syncClient(clientRepo, lockCtx)
+
+    const mockGet = jest
+      .spyOn(clientRepo, 'get')
+      .mockResolvedValue({ value: generateClient(0), error: undefined })
+    const mockSync = jest.spyOn(clientRepo, 'sync').mockImplementation(jest.fn())
+
+    await handler(new TestEvent('download:status:completed'), publisher)
+
+    expect(mockGet).toHaveBeenCalled()
+    expect(lockCtx).toHaveBeenCalled()
+    expect(mockSync).not.toHaveBeenCalled()
   })
 })
