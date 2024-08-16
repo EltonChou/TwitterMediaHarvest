@@ -32,4 +32,8 @@ export abstract class ValueObject<Props extends LiteraObject>
 
     return true
   }
+
+  toJSON() {
+    return this.props
+  }
 }

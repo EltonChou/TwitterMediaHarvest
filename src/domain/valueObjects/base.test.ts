@@ -24,4 +24,10 @@ describe('unit test for value object', () => {
 
     expect(usd.mapBy(toClaimString)).toBe('I have 1000 USD.')
   })
+
+  it('can be serialized', () => {
+    const usd = new Money({ currency: 'USD', amount: 1000 })
+
+    expect(JSON.stringify(usd)).toBe(JSON.stringify({ currency: 'USD', amount: 1000 }))
+  })
 })
