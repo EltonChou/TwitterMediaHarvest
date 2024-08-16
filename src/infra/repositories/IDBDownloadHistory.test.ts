@@ -1,6 +1,7 @@
 import { downloadIDB } from '#libs/idb/download/db'
 import { generateDownloadHistory } from '#utils/test/downloadHistory'
 import { IDBDownloadHistoryRepository } from './IDBDownloadHistory'
+import { faker } from '@faker-js/faker'
 
 describe('integrated test for IDBDownloadHistoryRepository', () => {
   const repo = new IDBDownloadHistoryRepository(downloadIDB)
@@ -58,5 +59,21 @@ describe('integrated test for IDBDownloadHistoryRepository', () => {
 
     expect(stats?.historyTotal).toBe(0)
     expect(stats?.hashtagTotal).toBe(0)
+  })
+
+  it('can check tweet id is existing', async () => {
+    await repo.save(downloadHistory)
+    const result = await repo.hasTweetId(downloadHistory.id.value)
+    expect(result.value).toBeTruthy()
+
+    let notDownloadedId = ''
+
+    while (!notDownloadedId) {
+      const id = faker.string.numeric()
+      notDownloadedId = id !== downloadHistory.id.value ? id : ''
+    }
+
+    const anotherResult = await repo.hasTweetId(notDownloadedId)
+    expect(anotherResult.value).not.toBeTruthy()
   })
 })
