@@ -1,4 +1,5 @@
-import MediaType from '#enums/mediaType'
+import type ConflictAction from '#enums/ConflictAction'
+import type MediaType from '#enums/mediaType'
 import type { DBSchema } from 'idb'
 
 export type DownloadDBVersion = 1 | 2 | 3
@@ -49,6 +50,6 @@ export type DownloadRecordItem = {
   filename: string
   url: string
   saveAs: boolean
-  conflictAction: 'overwrite'
+  conflictAction: ConflictAction
   recordedAt: number
 }

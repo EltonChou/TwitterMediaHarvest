@@ -3,6 +3,7 @@ import { DownloadRecordNotFound } from '#domain/repositories/downloadRecord'
 import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import { DownloadRecord } from '#domain/valueObjects/downloadRecord'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
+import ConflictAction from '#enums/ConflictAction'
 import InterruptReason from '#enums/InterruptReason'
 import { getNotifier } from '#infra/browserNotifier'
 import { MockEventPublisher } from '#mocks/eventPublisher'
@@ -47,7 +48,7 @@ describe('unit test for notify download interrupted handler', () => {
     const mockRecordRepo = new MockDownloadRecordRepo()
     const downloadRecord = new DownloadRecord({
       downloadConfig: new DownloadConfig({
-        conflictAction: 'overwrite',
+        conflictAction: ConflictAction.Overwrite,
         filename: '/usr/local/downloads/expect.jpg',
         saveAs: true,
         url: 'url',

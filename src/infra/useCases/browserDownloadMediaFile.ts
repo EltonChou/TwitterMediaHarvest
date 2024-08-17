@@ -7,6 +7,7 @@ import type {
 import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import { DownloadTarget } from '#domain/valueObjects/downloadTarget'
 import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
+import ConflictAction from '#enums/ConflictAction'
 import { isFirefox } from '#helpers/runtime'
 import Browser from 'webextension-polyfill'
 
@@ -34,7 +35,7 @@ export class BrowserDownloadMediaFileUseCase implements DownloadMediaFileUseCase
 
   private downloadTargetToConfig(target: DownloadTarget): DownloadConfig {
     return new DownloadConfig({
-      conflictAction: 'overwrite',
+      conflictAction: ConflictAction.Overwrite,
       saveAs: this.askWhereToSave,
       ...target.mapBy(props => props),
     })

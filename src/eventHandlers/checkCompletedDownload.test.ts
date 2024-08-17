@@ -4,6 +4,7 @@ import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadW
 import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import { DownloadRecord } from '#domain/valueObjects/downloadRecord'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
+import ConflictAction from '#enums/ConflictAction'
 import { checkCompletedDownload } from '#eventHandlers/checkCompletedDownload'
 import { MockEventPublisher } from '#mocks/eventPublisher'
 import { MockDownloadRepo } from '#mocks/repositories/download'
@@ -27,7 +28,7 @@ it('can handle completed download event', async () => {
 
   const downloadRecord = new DownloadRecord({
     downloadConfig: new DownloadConfig({
-      conflictAction: 'overwrite',
+      conflictAction: ConflictAction.Overwrite,
       filename: '/usr/local/downloads/expect.jpg',
       saveAs: true,
       url: 'url',

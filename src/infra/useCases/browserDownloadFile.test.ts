@@ -1,4 +1,5 @@
 import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
+import ConflictAction from '#enums/ConflictAction'
 import { BrowserDownloadFile } from './browerDownloadFile'
 import { faker } from '@faker-js/faker'
 import { downloads, runtime } from 'webextension-polyfill'
@@ -12,7 +13,7 @@ describe('unit test for browser download file use case', () => {
     const mockDownload = jest.spyOn(downloads, 'download').mockResolvedValue(1)
 
     const target = new DownloadConfig({
-      conflictAction: 'prompt',
+      conflictAction: ConflictAction.Prompt,
       filename: 'filename',
       saveAs: true,
       url: faker.internet.url(),
@@ -31,7 +32,7 @@ describe('unit test for browser download file use case', () => {
     runtime.lastError = new Error('nope')
 
     const target = new DownloadConfig({
-      conflictAction: 'prompt',
+      conflictAction: ConflictAction.Prompt,
       filename: 'filename',
       saveAs: true,
       url: faker.internet.url(),
