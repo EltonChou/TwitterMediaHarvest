@@ -30,7 +30,7 @@ export class Client extends Entity<ClientUUID, ClientProps> implements DomainEve
   }
 
   get uninstallUrl() {
-    return makeApiUrl('/v1/clients/' + this.props.uninstallCode + '/uninstall', {
+    return makeApiUrl('/v1/clients/' + this.id.value + '/uninstall', {
       uninstallCode: this.props.uninstallCode,
     }).href
   }
