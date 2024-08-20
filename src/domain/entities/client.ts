@@ -50,8 +50,11 @@ export class Client extends Entity<ClientUUID, ClientProps> implements DomainEve
    * Every time we sync the client, we will get a new sync token.
    */
   updateSyncToken(token: string) {
-    this.props.syncToken = token
-    this.props.syncedAt = Date.now()
+    this.props = {
+      ...this.props,
+      syncedAt: Date.now(),
+      syncToken: token,
+    }
     this.events.push(new ClientWasSynced())
   }
 }
