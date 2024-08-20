@@ -3,10 +3,8 @@ import type { IClientRepository } from '#domain/repositories/client'
 import type { LockContext } from '#libs/locks/types'
 
 export const syncClient =
-  (
-    clientRepo: IClientRepository,
-    lockContext: LockContext<UnsafeTask>
-  ): DomainEventHandler<IDomainEvent> =>
+  (lockContext: LockContext<UnsafeTask>) =>
+  (clientRepo: IClientRepository): DomainEventHandler<IDomainEvent> =>
   async (_, publisher) => {
     const { value: client, error: clientError } = await clientRepo.get()
 

@@ -21,7 +21,7 @@ describe('unit test for handler to sync client', () => {
     const lockCtx: LockContext<any> = jest
       .fn()
       .mockImplementation(async task => await task(lock))
-    const handler = syncClient(clientRepo, lockCtx)
+    const handler = syncClient(lockCtx)(clientRepo)
 
     const mockGet = jest
       .spyOn(clientRepo, 'get')
@@ -39,7 +39,7 @@ describe('unit test for handler to sync client', () => {
     const lockCtx: LockContext<any> = jest
       .fn()
       .mockImplementation(async task => await task(lock))
-    const handler = syncClient(clientRepo, lockCtx)
+    const handler = syncClient(lockCtx)(clientRepo)
 
     const mockGet = jest
       .spyOn(clientRepo, 'get')
@@ -57,7 +57,7 @@ describe('unit test for handler to sync client', () => {
     const lockCtx: LockContext<any> = jest
       .fn()
       .mockImplementation(async task => await task(null))
-    const handler = syncClient(clientRepo, lockCtx)
+    const handler = syncClient(lockCtx)(clientRepo)
 
     const mockGet = jest
       .spyOn(clientRepo, 'get')
