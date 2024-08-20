@@ -9,7 +9,7 @@ import { toErrorResult, toSuccessResult } from '#utils/result'
 import { downloadHistoryToDBItem } from '../../mappers/downloadHistory'
 import { toError } from 'fp-ts/lib/Either'
 
-export class IDBProtableDownloadHistoryRepository
+export class IDBPortableDownloadHistoryRepository
   implements IPortableDownloadHistoryRepository
 {
   constructor(
