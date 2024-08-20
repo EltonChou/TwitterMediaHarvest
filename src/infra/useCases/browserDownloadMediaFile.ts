@@ -11,7 +11,7 @@ import ConflictAction from '#enums/ConflictAction'
 import { isFirefox } from '#helpers/runtime'
 import Browser from 'webextension-polyfill'
 
-export class BrowserDownloadMediaFileUseCase implements DownloadMediaFileUseCase {
+export class BrowserDownloadMediaFile implements DownloadMediaFileUseCase {
   #ok: boolean
   #events: IDomainEvent[]
 
