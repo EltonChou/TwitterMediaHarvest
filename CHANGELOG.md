@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## [4.2.8] - 2024-08-21
+
+### Fixed
+
+- Fix issue about some video media cannot be downloaded. (#182)
+
+
 ## [4.2.7] - 2024-05-26
 
 ### Fixed
