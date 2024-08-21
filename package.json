@@ -31,6 +31,7 @@
     "select-dom": "^7.1.1",
     "stream-browserify": "^3.0.0",
     "util": "^0.12.5",
+    "vm-browserify": "^1.1.2",
     "webextension-polyfill": "^0.10.0"
   },
   "devDependencies": {

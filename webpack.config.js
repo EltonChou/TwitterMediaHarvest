@@ -24,6 +24,7 @@ const config = {
       crypto: require.resolve('crypto-browserify'),
       stream: require.resolve('stream-browserify'),
       util: require.resolve('util/'),
+      vm: require.resolve('vm-browserify'),
     },
     alias: {
       '@backend': path.resolve(__dirname, 'src/backend/'),
