@@ -51,10 +51,9 @@ export default class MediaDownloader {
         await this.downloadMedia(mediaFile.src, makeFilePath(mediaFile), recordConfig)
       }
 
-      Array.from(mediaCatalog.videos).filter(isValidTweetMediaFileUrl).forEach(download)
+      Array.from(mediaCatalog.videos).forEach(download)
 
       Array.from(mediaCatalog.images)
-        .filter(({ url }) => isValidTweetMediaFileUrl(url))
         .filter(shouldAllowThumbnail(this.featureSettings.includeVideoThumbnail))
         .forEach(({ url }, index) => download(url, index))
     }
