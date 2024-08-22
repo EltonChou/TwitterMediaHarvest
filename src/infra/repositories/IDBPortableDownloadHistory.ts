@@ -6,7 +6,7 @@ import { V5PortableDownloadHistoryItem } from '#domain/valueObjects/portableDown
 import { DownloadIDB } from '#libs/idb/download/db'
 import { DownloadHistoryItem } from '#libs/idb/download/schema'
 import { toErrorResult, toSuccessResult } from '#utils/result'
-import { downloadHistoryToDBItem } from '../../mappers/downloadHistory'
+import { downloadHistoryToIDBItem } from '../../mappers/downloadHistory'
 import { toError } from 'fp-ts/lib/Either'
 
 export class IDBPortableDownloadHistoryRepository
@@ -53,7 +53,7 @@ export class IDBPortableDownloadHistoryRepository
       const hashtagRecord: Record<string, Set<string>> = {}
 
       for (const downloadHistory of downloadHistories) {
-        await historyStore.put(downloadHistoryToDBItem(downloadHistory))
+        await historyStore.put(downloadHistoryToIDBItem(downloadHistory))
 
         for (const hashtag of downloadHistory.mapBy((_, props) => props.hashtags)) {
           if (hashtag in hashtagRecord) {
