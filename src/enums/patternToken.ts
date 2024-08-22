@@ -6,9 +6,11 @@ enum PatternToken {
   Hash = '{hash}',
   Date = '{date}',
   Datetime = '{datetime}',
+  UnderscoreDateTime = '{underscoreDatetime}',
   Timestamp = '{timestamp}',
   TweetDate = '{tweetDate}',
   TweetDatetime = '{tweetDatetime}',
+  UnderscoreTweetDatetime = '{underscroeTweetDatetime}',
   TweetTimestamp = '{tweetTimestamp}',
 }
 
