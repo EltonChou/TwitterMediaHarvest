@@ -14,7 +14,7 @@ import * as O from 'fp-ts/Option'
 import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import type { Task } from 'fp-ts/lib/Task'
-import Joi, { ValidationResult } from 'joi'
+import Joi, { type ValidationResult } from 'joi'
 
 type ParseOptions = {
   targetTweetId: string
@@ -116,14 +116,9 @@ export abstract class FetchTweetBase implements FetchTweet {
 
     const getUserPropsFromResult = (result: any) =>
       pipe(
-        result,
-        E.chain(r =>
-          pipe(
-            result?.right.core?.user_results?.result,
-            O.fromNullable,
-            E.fromOption(() => 'Failed to get user result')
-          )
-        ),
+        result?.right.core?.user_results?.result,
+        O.fromNullable,
+        E.fromOption(() => 'Failed to get user result'),
         E.chain(userResult =>
           pipe(
             tweetUserPropsSchema.validate({
@@ -142,42 +137,24 @@ export abstract class FetchTweetBase implements FetchTweet {
     const parseTweetFromBody = (body: any): Result<Tweet> =>
       pipe(
         E.Do,
-        E.chain(payload =>
-          pipe(
-            body,
-            getResultFromBody,
-            E.chain(result => E.right({ ...payload, result }))
+        E.bind('result', () => getResultFromBody(body)),
+        E.bind('tweetResult', payload => getTweetResultFromResult(payload.result)),
+        E.bind('userProps', payload => getUserPropsFromResult(payload.result)),
+        E.bind('mediaCollection', payload =>
+          E.tryCatch(
+            () => getMediaCollectionFromTweetResult(payload.tweetResult),
+            e => E.toError(e).message ?? 'Failed to parse media collection'
           )
         ),
-        E.chain(payload =>
-          pipe(
-            payload.result,
-            getTweetResultFromResult,
-            E.chain(tweetResult => E.right({ ...payload, tweetResult }))
-          )
+        E.bind('partialTweetProps', payload =>
+          getTweetPropsFromTweetResult(payload.tweetResult)
         ),
-        E.chain(payload =>
-          pipe(
-            payload.result,
-            getUserPropsFromResult,
-            E.chain(userProps => E.right({ ...payload, userProps }))
-          )
-        ),
-        E.chain(payload =>
-          pipe(
-            payload.tweetResult,
-            getTweetPropsFromTweetResult,
-            E.chain(tweetProps => E.right({ ...payload, tweetProps }))
-          )
-        ),
-        E.chain(payload => {
-          const tweet = new Tweet({
-            user: new TweetUser(payload.userProps),
-            ...getMediaCollectionFromTweetResult(payload.tweetResult),
-            ...payload.tweetProps,
-          })
-          return E.right(tweet)
-        }),
+        E.map(payload => ({
+          user: new TweetUser(payload.userProps),
+          ...payload.mediaCollection,
+          ...payload.partialTweetProps,
+        })),
+        E.map(props => new Tweet(props)),
         E.mapLeft(r => new ParseTweetError(r)),
         E.match(toErrorResult, toSuccessResult)
       )
