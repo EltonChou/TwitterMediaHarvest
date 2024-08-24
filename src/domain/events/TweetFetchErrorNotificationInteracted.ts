@@ -1,14 +1,13 @@
-import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { DomainEvent } from './base'
 
 export default abstract class TweetFetchErrorNotificationInteracted
   extends DomainEvent
-  implements TweetInfoEvent
+  implements TweetFetchingFailedNotificationEvent
 {
-  readonly tweetInfo: TweetInfo
+  readonly tweetId: string
 
-  constructor(name: DomainEvent['name'], tweetInfo: TweetInfo) {
+  constructor(name: DomainEvent['name'], tweetId: string) {
     super(name)
-    this.tweetInfo = tweetInfo
+    this.tweetId = tweetId
   }
 }

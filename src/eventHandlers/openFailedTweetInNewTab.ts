@@ -4,7 +4,7 @@ import Browser from 'webextension-polyfill'
 const tweetUrl = (tweetId: string) => `https://x.com/i/web/status/${tweetId}`
 
 export const openFailedTweetInNewTab: DomainEventHandler<
-  TweetInfoEvent
+  TweetFetchingFailedNotificationEvent
 > = async event => {
-  await Browser.tabs.create({ url: tweetUrl(event.tweetInfo.tweetId) })
+  await Browser.tabs.create({ url: tweetUrl(event.tweetId) })
 }

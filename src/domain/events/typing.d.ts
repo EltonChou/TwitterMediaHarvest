@@ -19,9 +19,10 @@ interface DomainEventMap {
   'notification:downloadFailed:self:closed': DownloadFailedNotificationEvent
   'notification:downloadFailed:viewButton:clicked': DownloadFailedNotificationEvent
   'notification:downloadFailed:retryButton:clicked': DownloadFailedNotificationEvent
-  'notification:tweetFetchError:self:clicked': TweetInfoEvent
-  'notification:tweetFetchError:self:closed': TweetInfoEvent
-  'notification:tweetFetchError:viewButton:clicked': TweetInfoEvent
+  'notification:tweetFetchError:self:clicked': TweetFetchingFailedNotificationEvent
+  'notification:tweetFetchError:self:closed': TweetFetchingFailedNotificationEvent
+  'notification:tweetFetchError:viewButton:clicked': TweetFetchingFailedNotificationEvent
+  'notification:general:unknownButton:clicked': UnknownNotificationButtonClickedEvent
   'api:twitter:failed': TweetApiErrorEvent
   'parse:tweet:failed': TweetInfoEvent
   'client:synced': IDomainEvent
@@ -58,6 +59,14 @@ interface DownloadInterruptedEvent extends DownloadEvent {
 
 interface DownloadFailedNotificationEvent extends IDomainEvent {
   readonly downloadId: number
+}
+
+interface TweetFetchingFailedNotificationEvent extends IDomainEvent {
+  readonly tweetId: string
+}
+
+interface UnknownNotificationButtonClickedEvent extends IDomainEvent {
+  readonly buttonIndex: number
 }
 
 interface TweetInfoEvent extends IDomainEvent {
