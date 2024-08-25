@@ -27,14 +27,14 @@ describe('integration test for handler to handle runtime installed event ', () =
 
   afterAll(() => eventPublisher.clearAllHandlers())
 
-  it('can emit runtime installed event', async () => {
+  it('can emit runtime:status:installed event', async () => {
     const handler = handleRuntimeInstalled(eventPublisher)
 
     await handler({ reason: 'install', temporary: false })
     expect(mockHandlerRuntimeInstalled).toHaveBeenCalled()
   })
 
-  it('can emit runtime updated event', async () => {
+  it('can emit runtime:status:updated event', async () => {
     const handler = handleRuntimeInstalled(eventPublisher)
 
     await handler({ reason: 'update', temporary: false, previousVersion: '4.0.0' })

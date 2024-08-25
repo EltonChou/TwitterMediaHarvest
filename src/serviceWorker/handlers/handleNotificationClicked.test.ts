@@ -29,14 +29,14 @@ describe('integration test for handler to handle notification clicked event ', (
 
   afterAll(() => eventPublisher.clearAllHandlers())
 
-  it('can emit tweet fetched failed notifitcation clicked event', async () => {
+  it('can emit notification:tweetFetchError:self:clicked event', async () => {
     const handler = handleNotificationClicked(eventPublisher)
     await handler(makeTweetFetchErrorNotificationId('123'))
 
     expect(mockHandleTweetNotificationClicked).toHaveBeenCalled()
   })
 
-  it('can emit download failed notification clicked event', async () => {
+  it('can emit notification:downloadFailed:self:clicked event', async () => {
     const handler = handleNotificationClicked(eventPublisher)
     await handler(makeDownloadFailedNotificationId(100))
 

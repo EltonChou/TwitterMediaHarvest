@@ -29,14 +29,14 @@ describe('integration test for handler to handle notification closed event ', ()
 
   afterAll(() => eventPublisher.clearAllHandlers())
 
-  it('can emit tweet fetched failed notifitcation closed event', async () => {
+  it('can emit notification:tweetFetchError:self:closed event', async () => {
     const handler = handleNotificationClosed(eventPublisher)
     await handler(makeTweetFetchErrorNotificationId('123'), true)
 
     expect(mockHandleTweetNotificationClosed).toHaveBeenCalled()
   })
 
-  it('can emit download failed notification closed event', async () => {
+  it('can emit notification:downloadFailed:self:closed event', async () => {
     const handler = handleNotificationClosed(eventPublisher)
     await handler(makeDownloadFailedNotificationId(100), true)
 

@@ -29,7 +29,7 @@ describe('integration test for download changed event handler', () => {
   /**
    * type State = "in_progress" | "interrupted" | "complete";
    */
-  it('can emit download completed event', async () => {
+  it('can emit download:status:completed event', async () => {
     jest.spyOn(downloadRepo, 'getById').mockResolvedValue({
       id: 1,
       fileSize: 0,
@@ -40,7 +40,7 @@ describe('integration test for download changed event handler', () => {
     expect(mockDownloadCompletedHandler).toHaveBeenCalled()
   })
 
-  it('can emit download interrupted event', async () => {
+  it('can emit download:status:interrupted event', async () => {
     jest.spyOn(downloadRepo, 'getById').mockResolvedValue({
       id: 1,
       fileSize: 0,
