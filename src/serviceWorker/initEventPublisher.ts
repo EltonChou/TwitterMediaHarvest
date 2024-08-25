@@ -1,3 +1,4 @@
+import { DomainEventPublisher } from '#domain/eventPublisher'
 import { checkCompletedDownload } from '#eventHandlers/checkCompletedDownload'
 import { cleanDownloadRecord as cleanDownloadRecordHandler } from '#eventHandlers/cleanDownloadRecord'
 import { increaseUsageStatistics } from '#eventHandlers/increaseUsageStatistics'
@@ -24,8 +25,8 @@ import {
 } from '../infraProvider'
 import { runtime } from 'webextension-polyfill'
 
-export const initEventPublisher = () => {
-  const publisher = getEventPublisher()
+const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
+  const publisher = eventPublisher ?? getEventPublisher()
   const notifier = getNotifier()
 
   const cleanDownloadRecord = cleanDownloadRecordHandler(downloadRecordRepo)
@@ -71,3 +72,5 @@ export const initEventPublisher = () => {
     .register('notification:tweetFetchError:self:clicked', openFailedTweetInNewTab)
     .register('notification:tweetFetchError:viewButton:clicked', openFailedTweetInNewTab)
 }
+
+export default initEventPublisher
