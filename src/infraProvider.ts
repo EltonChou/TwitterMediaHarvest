@@ -16,7 +16,7 @@ import {
 import { ApiClient } from '#libs/AWSClientApi'
 import { downloadIDB } from '#libs/idb/download/db'
 import { blobToUrlWithFileReader } from '#utils/blob'
-import { getVersion } from '#utils/version'
+import { getVersion } from '#utils/runtime'
 import { AWSCredentailToCognitoIdentityCredentials } from './mappers/awsCredential'
 
 const syncWebExtStorage = new SyncExtensionStorageProxy()
