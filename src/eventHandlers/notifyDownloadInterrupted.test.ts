@@ -4,7 +4,6 @@ import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import { DownloadRecord } from '#domain/valueObjects/downloadRecord'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import ConflictAction from '#enums/ConflictAction'
-import InterruptReason from '#enums/InterruptReason'
 import { getNotifier } from '#infra/browserNotifier'
 import { MockEventPublisher } from '#mocks/eventPublisher'
 import { MockDownloadRecordRepo } from '#mocks/repositories/downloadRecord'
@@ -22,7 +21,7 @@ describe('unit test for notify download interrupted handler', () => {
     const mockNotify = jest.spyOn(notifier, 'notify')
 
     const handle = notifyDownloadInterrupted(notifier, mockRecordRepo)
-    const event = new DownloadInterrupted(1, InterruptReason.UserCancel)
+    const event = new DownloadInterrupted(1, 'USER_CANCELED')
 
     await handle(event, publisher)
     expect(mockNotify).not.toHaveBeenCalled()
@@ -37,7 +36,7 @@ describe('unit test for notify download interrupted handler', () => {
     const mockNotify = jest.spyOn(notifier, 'notify')
 
     const handle = notifyDownloadInterrupted(notifier, mockRecordRepo)
-    const event = new DownloadInterrupted(1, InterruptReason.NetworkFailed)
+    const event = new DownloadInterrupted(1, 'NETWORK_FAILED')
 
     await handle(event, publisher)
     expect(mockNotify).not.toHaveBeenCalled()
@@ -63,7 +62,7 @@ describe('unit test for notify download interrupted handler', () => {
     const mockNotify = jest.spyOn(notifier, 'notify')
 
     const handle = notifyDownloadInterrupted(notifier, mockRecordRepo)
-    const event = new DownloadInterrupted(1, InterruptReason.NetworkFailed)
+    const event = new DownloadInterrupted(1, 'NETWORK_FAILED')
 
     await handle(event, publisher)
     expect(mockNotify).toHaveBeenCalled()
