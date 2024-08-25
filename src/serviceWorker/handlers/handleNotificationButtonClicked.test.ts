@@ -10,6 +10,7 @@ describe('integration test for handler to handle notification clicked event ', (
   const eventPublisher = getEventPublisher()
   const mockHandleTweetNotificationButtonClicked = jest.fn()
   const mockHandleDownloadFailedNotificationButtonClicked = jest.fn()
+  const mocHandlekUnknownButtonClicked = jest.fn()
 
   beforeAll(() => {
     eventPublisher
@@ -24,6 +25,10 @@ describe('integration test for handler to handle notification clicked event ', (
       .register(
         'notification:downloadFailed:retryButton:clicked',
         mockHandleDownloadFailedNotificationButtonClicked
+      )
+      .register(
+        'notification:general:unknownButton:clicked',
+        mocHandlekUnknownButtonClicked
       )
   })
 
@@ -41,6 +46,14 @@ describe('integration test for handler to handle notification clicked event ', (
 
       expect(mockHandleTweetNotificationButtonClicked).toHaveBeenCalled()
     })
+
+    it('can emit notification:general:unknownButton:clicked event', async () => {
+      const handler = handleNotificationButtonClicked(eventPublisher)
+      await handler(makeTweetFetchErrorNotificationId('123'), 2)
+
+      expect(mockHandleTweetNotificationButtonClicked).not.toHaveBeenCalled()
+      expect(mocHandlekUnknownButtonClicked).toHaveBeenCalled()
+    })
   })
 
   describe('download failed notifiactoin case', () => {
@@ -56,6 +69,14 @@ describe('integration test for handler to handle notification clicked event ', (
       await handler(makeDownloadFailedNotificationId(100), 1)
 
       expect(mockHandleDownloadFailedNotificationButtonClicked).toHaveBeenCalled()
+    })
+
+    it('can emit notification:general:unknownButton:clicked event', async () => {
+      const handler = handleNotificationButtonClicked(eventPublisher)
+      await handler(makeDownloadFailedNotificationId(100), 2)
+
+      expect(mockHandleDownloadFailedNotificationButtonClicked).not.toHaveBeenCalled()
+      expect(mocHandlekUnknownButtonClicked).toHaveBeenCalled()
     })
   })
 })

@@ -31,7 +31,7 @@ const handleNotificationButtonClicked =
           break
       }
 
-      publisher.publish(event)
+      await publisher.publish(event)
 
       return
     }
@@ -54,7 +54,7 @@ const handleNotificationButtonClicked =
           break
       }
 
-      publisher.publish(event)
+      await publisher.publish(event)
       return
     }
   }
