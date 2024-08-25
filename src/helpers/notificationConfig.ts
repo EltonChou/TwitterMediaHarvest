@@ -14,6 +14,11 @@ enum TemplateType {
 
 const getNotificationIconUrl = () => Browser.runtime.getURL('assets/icons/icon@128.png')
 
+export enum MediaDownloadNotificationErrorButton {
+  ViewTweet = 0,
+  RetryDownload = 1,
+}
+
 export class MediaDownloadNotificationConfig {
   static error(
     tweetInfo: TweetInfo,
@@ -42,6 +47,10 @@ export class MediaDownloadNotificationConfig {
           }),
     }
   }
+}
+
+export enum GeneralTweetFetchErrorNotificationButton {
+  ViewTweet = 0,
 }
 
 type GeneralTweetFetchErrorNotificationConfigParams = {
