@@ -54,7 +54,7 @@ interface DownloadEvent extends IDomainEvent {
 }
 
 interface DownloadInterruptedEvent extends DownloadEvent {
-  readonly reason: import('#enums/InterruptReason').default | string
+  readonly reason: string
 }
 
 interface DownloadFailedNotificationEvent extends IDomainEvent {

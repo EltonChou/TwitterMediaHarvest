@@ -1,12 +1,11 @@
-import InterruptReason from '#enums/InterruptReason'
 import DownloadBaseEvent from './Download'
 
 export default class DownloadInterrupted
   extends DownloadBaseEvent
   implements DownloadInterruptedEvent
 {
-  readonly reason: InterruptReason | string
-  constructor(downloadId: number, reason: InterruptReason | string) {
+  readonly reason: string
+  constructor(downloadId: number, reason: string) {
     super('download:status:interrupted', downloadId)
     this.reason = reason
   }
