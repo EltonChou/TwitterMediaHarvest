@@ -1,4 +1,3 @@
-import { GeneralTweetFetchErrorNotificationButton } from '#helpers/notificationConfig'
 import {
   makeDownloadFailedNotificationId,
   makeTweetFetchErrorNotificationId,
@@ -10,7 +9,7 @@ describe('integration test for handler to handle notification clicked event ', (
   const eventPublisher = getEventPublisher()
   const mockHandleTweetNotificationButtonClicked = jest.fn()
   const mockHandleDownloadFailedNotificationButtonClicked = jest.fn()
-  const mocHandlekUnknownButtonClicked = jest.fn()
+  const mockHandlekUnknownButtonClicked = jest.fn()
 
   beforeAll(() => {
     eventPublisher
@@ -28,13 +27,12 @@ describe('integration test for handler to handle notification clicked event ', (
       )
       .register(
         'notification:general:unknownButton:clicked',
-        mocHandlekUnknownButtonClicked
+        mockHandlekUnknownButtonClicked
       )
   })
 
   afterEach(() => {
-    mockHandleDownloadFailedNotificationButtonClicked.mockReset()
-    mockHandleTweetNotificationButtonClicked.mockReset()
+    jest.resetAllMocks()
   })
 
   afterAll(() => eventPublisher.clearAllHandlers())
@@ -52,7 +50,7 @@ describe('integration test for handler to handle notification clicked event ', (
       await handler(makeTweetFetchErrorNotificationId('123'), 2)
 
       expect(mockHandleTweetNotificationButtonClicked).not.toHaveBeenCalled()
-      expect(mocHandlekUnknownButtonClicked).toHaveBeenCalled()
+      expect(mockHandlekUnknownButtonClicked).toHaveBeenCalled()
     })
   })
 
@@ -76,7 +74,7 @@ describe('integration test for handler to handle notification clicked event ', (
       await handler(makeDownloadFailedNotificationId(100), 2)
 
       expect(mockHandleDownloadFailedNotificationButtonClicked).not.toHaveBeenCalled()
-      expect(mocHandlekUnknownButtonClicked).toHaveBeenCalled()
+      expect(mockHandlekUnknownButtonClicked).toHaveBeenCalled()
     })
   })
 })
