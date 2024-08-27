@@ -14,21 +14,26 @@ export const handleDownloadChanged =
   ) =>
   async (downloadDelta: Downloads.OnChangedDownloadDeltaType) => {
     // Only focus on state.
-    if ('state' in downloadDelta) {
+    const { state: downloadStateDelta } = downloadDelta
+    if (downloadStateDelta) {
       const downloadItem = await downloadRepo.getById(downloadDelta.id)
       if (!downloadItem || !checkDownloadIsOwnBySelf.process({ item: downloadItem }))
         return
 
-      if (isDownloadCompleted(downloadDelta.state as Downloads.StringDelta))
+      if (isDownloadCompleted(downloadStateDelta)) {
         await publisher.publish(new DownloadCompleted(downloadDelta.id))
+        return
+      }
 
-      if (isDownloadInterrupted(downloadDelta.state as Downloads.StringDelta))
+      if (isDownloadInterrupted(downloadStateDelta)) {
         await publisher.publish(
           new DownloadInterrupted(
             downloadDelta.id,
             downloadDelta.error?.current ?? 'unknown'
           )
         )
+        return
+      }
     }
   }
 
