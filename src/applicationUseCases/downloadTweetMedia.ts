@@ -43,20 +43,22 @@ export type FetchTweetMap = {
 
 type FetchTweetSolution = { fetchTweet: FetchTweet; command: FetchTweetCommand }
 
+export type InfraProvider = {
+  tokenRepo: ITwitterTokenRepository
+  downloadHistoryRepo: IDownloadHistoryRepository
+  filenameSettingRepo: ISettingsVORepository<FilenameSetting>
+  downloadSettingsRepo: ISettingsRepository<DownloadSettings>
+  featureSettingsRepo: ISettingsRepository<FeatureSettings>
+  fetchTweet: FetchTweetMap
+  downloaderBuilder: DownloaderBuilderMap
+  eventPublisher: DomainEventPublisher
+}
+
 // TODO: Logger and Tracker (like sentry).
 export class DownloadTweetMedia
   implements AsyncUseCase<DownloadTweetMediaCommand, boolean>
 {
-  constructor(
-    readonly tokenRepo: ITwitterTokenRepository,
-    readonly downloadHistoryRepo: IDownloadHistoryRepository,
-    readonly filenameSettingRepo: ISettingsVORepository<FilenameSetting>,
-    readonly downloadSettingsRepo: ISettingsRepository<DownloadSettings>,
-    readonly featureSettingsRepo: ISettingsRepository<FeatureSettings>,
-    readonly fetchTweet: FetchTweetMap,
-    readonly downloaderBuilder: DownloaderBuilderMap,
-    readonly eventPublisher: DomainEventPublisher
-  ) {}
+  constructor(readonly infra: InfraProvider) {}
 
   async process(command: DownloadTweetMediaCommand): Promise<boolean> {
     const { value: fetchTweetSolutions, error: noValidCsrfToken } =
@@ -64,7 +66,7 @@ export class DownloadTweetMedia
 
     if (noValidCsrfToken) {
       const event = new TweetApiFailed(command.tweetInfo, 401)
-      this.eventPublisher.publish(event)
+      this.infra.eventPublisher.publish(event)
       return false
     }
 
@@ -79,8 +81,8 @@ export class DownloadTweetMedia
 
     await this.saveDownloadHistory(tweetToDownloadHistory(tweet))
 
-    const filenameSetting = await this.filenameSettingRepo.get()
-    const { includeVideoThumbnail } = await this.featureSettingsRepo.get()
+    const filenameSetting = await this.infra.filenameSettingRepo.get()
+    const { includeVideoThumbnail } = await this.infra.featureSettingsRepo.get()
     const downloader = await this.buildDownloader(command.tweetInfo)
 
     const downloadTask = () =>
@@ -93,7 +95,7 @@ export class DownloadTweetMedia
       )
 
     await downloadTask()
-    this.eventPublisher.publishAll(...downloader.events)
+    this.infra.eventPublisher.publishAll(...downloader.events)
 
     return downloader.isOk
   }
@@ -105,12 +107,16 @@ export class DownloadTweetMedia
    */
   private async saveDownloadHistory(downloadHistory: DownloadHistory) {
     // TODO: capture error.
-    const saveHistoryError = await this.downloadHistoryRepo.save(downloadHistory)
+    const saveHistoryError = await this.infra.downloadHistoryRepo.save(downloadHistory)
   }
 
   private async buildDownloader(tweetInfo: TweetInfo) {
-    const { enableAria2, askWhereToSave } = await this.downloadSettingsRepo.get()
-    return (enableAria2 ? this.downloaderBuilder.aria2 : this.downloaderBuilder.browser)({
+    const { enableAria2, askWhereToSave } = await this.infra.downloadSettingsRepo.get()
+    return (
+      enableAria2
+        ? this.infra.downloaderBuilder.aria2
+        : this.infra.downloaderBuilder.browser
+    )({
       targetTweet: tweetInfo,
       shouldPrompt: askWhereToSave,
     })
@@ -118,7 +124,7 @@ export class DownloadTweetMedia
 
   private handleFetchTweetError(tweetInfo: TweetInfo) {
     return (error: Error) =>
-      this.eventPublisher.publish(mapFetchTweetErrorToEvent(error, tweetInfo))
+      this.infra.eventPublisher.publish(mapFetchTweetErrorToEvent(error, tweetInfo))
   }
 
   /**
@@ -129,8 +135,8 @@ export class DownloadTweetMedia
   private async buildFetchTweetSolutions(
     tweetId: string
   ): AsyncResult<FetchTweetSolution[], NoValidCsrfToken> {
-    const csrfToken = await this.tokenRepo.getCsrfToken()
-    const guestToken = await this.tokenRepo.getGuestToken()
+    const csrfToken = await this.infra.tokenRepo.getCsrfToken()
+    const guestToken = await this.infra.tokenRepo.getGuestToken()
 
     if (!csrfToken && !guestToken) return toErrorResult(new NoValidCsrfToken())
 
@@ -142,7 +148,7 @@ export class DownloadTweetMedia
         tweetId: tweetId,
       }
       fetchTweetSolutions.push({
-        fetchTweet: this.fetchTweet.guest,
+        fetchTweet: this.infra.fetchTweet.guest,
         command: fetchTweetCommand,
       })
     }
@@ -153,8 +159,8 @@ export class DownloadTweetMedia
         tweetId: tweetId,
       }
       fetchTweetSolutions.push(
-        { fetchTweet: this.fetchTweet.latest, command: fetchTweetCommand },
-        { fetchTweet: this.fetchTweet.fallback, command: fetchTweetCommand }
+        { fetchTweet: this.infra.fetchTweet.latest, command: fetchTweetCommand },
+        { fetchTweet: this.infra.fetchTweet.fallback, command: fetchTweetCommand }
       )
     }
 

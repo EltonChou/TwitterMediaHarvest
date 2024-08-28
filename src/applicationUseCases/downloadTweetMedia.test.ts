@@ -20,7 +20,7 @@ describe('unit test for download tweet media use case', () => {
   const downloadHistoryRepo = new MockDownloadHistoryRepository()
   const downloadSettingsRepo = new MockDownloadSettingsRepository()
   const featureSettingsRepo = new MockFeatureSettingsRepository()
-  const filenameSettingsRepo = new MockFilenameSettingRepository()
+  const filenameSettingRepo = new MockFilenameSettingRepository()
   const xTokenRepo = new MockXTokenRepository()
 
   const fetchTweet = new MockFetchTweet()
@@ -33,21 +33,21 @@ describe('unit test for download tweet media use case', () => {
   const aria2Downloader = new MockDownloadMediaFile()
   const browserDownloader = new MockDownloadMediaFile()
 
-  const downloadBuilder: DownloaderBuilderMap = {
+  const downloaderBuilder: DownloaderBuilderMap = {
     aria2: () => aria2Downloader,
     browser: () => browserDownloader,
   }
 
-  const useCase = new DownloadTweetMedia(
-    xTokenRepo,
+  const useCase = new DownloadTweetMedia({
+    tokenRepo: xTokenRepo,
     downloadHistoryRepo,
-    filenameSettingsRepo,
+    filenameSettingRepo,
     downloadSettingsRepo,
     featureSettingsRepo,
-    fetchTweetMap,
-    downloadBuilder,
-    getEventPublisher()
-  )
+    fetchTweet: fetchTweetMap,
+    downloaderBuilder,
+    eventPublisher: getEventPublisher(),
+  })
 
   afterAll(() => jest.restoreAllMocks())
 
@@ -111,7 +111,7 @@ describe('unit test for download tweet media use case', () => {
             }
       )
 
-      jest.spyOn(filenameSettingsRepo, 'get').mockResolvedValue(generateFilenameSetting())
+      jest.spyOn(filenameSettingRepo, 'get').mockResolvedValue(generateFilenameSetting())
       jest
         .spyOn(downloadSettingsRepo, 'get')
         .mockResolvedValue(generateDownloadSettings())
