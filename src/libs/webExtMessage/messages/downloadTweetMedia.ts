@@ -45,7 +45,10 @@ export class DownloadTweetMediaMessage
       : toSuccessResult(new DownloadTweetMediaMessage(value.data))
   }
 
-  toObject(): WebExtMessagePayloadObject<WebExtAction, DonwloadTweetMediaMessagePayload> {
+  toObject(): WebExtMessagePayloadObject<
+    WebExtAction.DownloadMedia,
+    DonwloadTweetMediaMessagePayload
+  > {
     return {
       action: WebExtAction.DownloadMedia,
       data: this.payload,
