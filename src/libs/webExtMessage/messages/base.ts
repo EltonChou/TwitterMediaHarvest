@@ -1,5 +1,6 @@
 export const enum WebExtAction {
   DownloadMedia = 'download-media',
+  CheckDownloadHistory = 'check-download-history',
 }
 
 export type WebExtMessageObject<Action extends WebExtAction> = {
