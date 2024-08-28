@@ -1,48 +1,26 @@
-import type {
-  DownloadItem,
-  DownloadQuery,
-  IDownloadRepository,
-} from '#domain/repositories/download'
-import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
 // eslint-disable-next-line max-len
 import { SyncUsageStatisticsWithLocalDownloadHistory } from '#domain/useCases/syncUsageStatisticsWithLocalDownloadHistory'
 import { UsageStatistics } from '#domain/valueObjects/usageStatistics'
+import { MockDownloadRepo } from '#mocks/repositories/download'
+import { MockUsageStatisticsRepository } from '#mocks/repositories/usageStatistics'
 import { generateDownloadItem } from '#utils/test/downloadItem'
 import { CheckDownloadWasTriggeredBySelf } from './checkDownloadWasTriggeredBySelf'
 
 describe('unit test for sync usage statistic with local download history', () => {
   const EXT_ID = 'EXT_ID'
 
-  class MockDownloadRepository implements IDownloadRepository {
-    getById(id: number): Promise<DownloadItem | undefined> {
-      throw new Error('Method not implemented.')
-    }
-
-    async search(query: DownloadQuery): Promise<DownloadItem[]> {
-      return []
-    }
-  }
-
-  class MockUsageStatisticsRepository implements IUsageStatisticsRepository {
-    async get(): Promise<UsageStatistics> {
-      throw new Error('Method not implemented.')
-    }
-
-    async save(stats: UsageStatistics): Promise<void> {
-      return
-    }
-  }
-
   afterAll(() => jest.resetAllMocks())
 
   it('can sync with download history', async () => {
     const mockUsageRepo = new MockUsageStatisticsRepository()
-    const mockDownloadRepo = new MockDownloadRepository()
+    const mockDownloadRepo = new MockDownloadRepo()
 
     jest
       .spyOn(mockUsageRepo, 'get')
       .mockResolvedValue(new UsageStatistics({ downloadCount: 1, trafficUsage: 100 }))
-    const mockUsageSaving = jest.spyOn(mockUsageRepo, 'save')
+    const mockUsageSaving = jest
+      .spyOn(mockUsageRepo, 'save')
+      .mockImplementation(jest.fn())
     const mockDownloadSearching = jest
       .spyOn(mockDownloadRepo, 'search')
       .mockResolvedValue([
