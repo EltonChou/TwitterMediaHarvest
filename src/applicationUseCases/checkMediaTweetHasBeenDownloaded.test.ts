@@ -1,10 +1,12 @@
 import { MockDownloadHistoryRepository } from '#mocks/repositories/downloadHistory'
 import { toErrorResult, toSuccessResult } from '#utils/result'
-import { CheckmediatweethasBeenDownloaded } from './checkMediaTweetHasBeenDownloaded'
+import { CheckMediaTweetHasBeenDownloaded } from './checkMediaTweetHasBeenDownloaded'
 
 describe('unit test for checking media tweet has been downloaded or not', () => {
   const historyRepo = new MockDownloadHistoryRepository()
-  const useCase = new CheckmediatweethasBeenDownloaded(historyRepo)
+  const useCase = new CheckMediaTweetHasBeenDownloaded({
+    downloadHistoryRepo: historyRepo,
+  })
 
   afterEach(() => jest.restoreAllMocks())
 
