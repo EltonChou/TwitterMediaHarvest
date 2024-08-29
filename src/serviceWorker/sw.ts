@@ -8,14 +8,19 @@ import handleNotificationClicked from './handlers/handleNotificationClicked'
 import handleNotificationClosed from './handlers/handleNotificationClosed'
 import handleRuntimeInstalled from './handlers/handleRuntimeInstalled'
 import initEventPublisher from './initEventPublisher'
+import { initMessageRouter } from './initMessageRouter'
+import { getMessageRouter } from './messageRouter'
 import Browser from 'webextension-polyfill'
 
 const eventPublisher = getEventPublisher()
-
 initEventPublisher(eventPublisher)
 
-Browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-  // TODO: validate message and route action
+const messageRouter = getMessageRouter()
+initMessageRouter(messageRouter)
+
+Browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  messageRouter.handle({ message, sender, response: sendResponse })
+  return true
 })
 
 Browser.runtime.onInstalled.addListener(handleRuntimeInstalled(eventPublisher))
