@@ -17,10 +17,10 @@ const payloadSchema: Joi.ObjectSchema<
   WebExtMessagePayloadObject<WebExtAction.DownloadMedia, DonwloadTweetMediaMessagePayload>
 > = Joi.object({
   action: Joi.valid(WebExtAction.DownloadMedia),
-  data: Joi.object<DonwloadTweetMediaMessagePayload>({
+  payload: Joi.object<DonwloadTweetMediaMessagePayload>({
     tweetId: Joi.string().required(),
     screenName: Joi.string().required(),
-  }),
+  }).required(),
 })
 
 export class DownloadTweetMediaMessage
@@ -42,7 +42,7 @@ export class DownloadTweetMediaMessage
 
     return error
       ? toErrorResult(error)
-      : toSuccessResult(new DownloadTweetMediaMessage(value.data))
+      : toSuccessResult(new DownloadTweetMediaMessage(value.payload))
   }
 
   toObject(): WebExtMessagePayloadObject<
@@ -51,7 +51,7 @@ export class DownloadTweetMediaMessage
   > {
     return {
       action: WebExtAction.DownloadMedia,
-      data: this.payload,
+      payload: this.payload,
     }
   }
 }
