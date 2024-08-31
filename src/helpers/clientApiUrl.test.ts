@@ -1,7 +1,8 @@
+import { getEnv } from '#utils/env'
 import { makeApiUrl } from './clientApiUrl'
 
 describe('unit test for api url helper', () => {
-  const apiHost = 'example.com'
+  const apiHost = getEnv('API_HOSTNAME')
 
   beforeAll(() => (process.env.API_HOSTNAME = apiHost))
   afterAll(() => delete process.env.API_HOSTNAME)

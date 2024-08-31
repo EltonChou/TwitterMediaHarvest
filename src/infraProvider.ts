@@ -16,17 +16,12 @@ import {
 import { ApiClient } from '#libs/AWSClientApi'
 import { downloadIDB } from '#libs/idb/download/db'
 import { blobToUrlWithFileReader } from '#utils/blob'
+import { getEnv } from '#utils/env'
 import { getVersion } from '#utils/runtime'
 import { AWSCredentailToCognitoIdentityCredentials } from './mappers/awsCredential'
 
 const syncWebExtStorage = new SyncExtensionStorageProxy()
 const localWebExtStorage = new LocalExtensionStorageProxy()
-
-const getEnv = (envName: string): string => {
-  const value = process.env[envName]
-  if (!value) throw new Error(`environment variable: ${envName} was not set.`)
-  return value
-}
 
 export const awsCredentialRepo = new AWSCredentialRepository(syncWebExtStorage, {
   identityPoolId: getEnv('IDENTITY_POOL_ID'),

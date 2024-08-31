@@ -1,3 +1,7 @@
+import { getEnv } from '#utils/env'
+
+const API_BASE = `https://${getEnv('API_HOSTNAME')}`
+
 export const makeApiUrl = (
   path: string,
   query?: Record<string, string | number>
@@ -5,7 +9,7 @@ export const makeApiUrl = (
   if (!path.startsWith('/'))
     throw new Error(`path should starts with \`/\`. (path: ${path})`)
 
-  const url = new URL(path, `https://${process.env.API_HOSTNAME}`)
+  const url = new URL(path, API_BASE)
 
   if (query)
     Object.entries(query).forEach(([name, value]) =>
