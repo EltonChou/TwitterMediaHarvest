@@ -3,6 +3,7 @@ import type { JestConfigWithTsJest } from 'ts-jest'
 const jestConfig: JestConfigWithTsJest = {
   preset: 'ts-jest/presets/default-esm',
   verbose: true,
+  testTimeout: 5000,
   transform: {
     '\\.[jt]sx?$': [
       'ts-jest',
@@ -11,6 +12,10 @@ const jestConfig: JestConfigWithTsJest = {
       },
     ],
   },
+  transformIgnorePatterns: [
+    '/!node_modules\\/select-dom/',
+    '/!node_modules\\/@faker-js\\/faker/',
+  ],
   setupFiles: ['fake-indexeddb/auto', 'jest-webextension-mock'],
   setupFilesAfterEnv: ['./jest.setup.ts'],
   roots: ['<rootDir>'],
