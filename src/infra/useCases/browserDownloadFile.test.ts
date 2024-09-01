@@ -1,7 +1,7 @@
 import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import ConflictAction from '#enums/ConflictAction'
 import { BrowserDownloadFile } from './browerDownloadFile'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 import { downloads, runtime } from 'webextension-polyfill'
 
 describe('unit test for browser download file use case', () => {

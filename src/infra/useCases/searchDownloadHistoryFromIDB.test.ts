@@ -2,7 +2,7 @@ import MediaType from '#enums/mediaType'
 import { downloadIDB } from '#libs/idb/download/db'
 import type { DownloadHistoryItem } from '#libs/idb/download/schema'
 import { SearchDownloadHistoryFromIDB } from './searchDownloadHistoryFromIDB'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 describe('integrated test for searching download history from indexedDB.', () => {
   const useCase = new SearchDownloadHistoryFromIDB(downloadIDB)

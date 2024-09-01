@@ -1,6 +1,6 @@
 import { FilenameSetting } from '#domain/valueObjects/filenameSetting'
 import PatternToken from '#enums/patternToken'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 export const generateFilenameSetting = () =>
   new FilenameSetting({

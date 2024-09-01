@@ -1,6 +1,6 @@
 import { V5PortableDownloadHistoryItem } from '#domain/valueObjects/portableDownloadHistoryItem'
 import MediaType from '#enums/mediaType'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 export const generatePortableDownloadHistoryItem = () =>
   new V5PortableDownloadHistoryItem({

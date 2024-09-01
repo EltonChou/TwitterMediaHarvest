@@ -2,7 +2,7 @@ import { downloadIDB } from '#libs/idb/download/db'
 import { generateDownloadHistory } from '#utils/test/downloadHistory'
 import { generateDownloadHistoryItem } from '#utils/test/downloadHistoryItem'
 import { IDBPortableDownloadHistoryRepository } from './IDBPortableDownloadHistory'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 describe('unit test for indexedDB portable download history repository', () => {
   const mockBlobToUrl = jest.fn().mockResolvedValue('data-url')

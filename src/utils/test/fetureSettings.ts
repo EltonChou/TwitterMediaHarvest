@@ -1,5 +1,5 @@
 import type { FeatureSettings } from '#schema'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 export const generateFeatureSettings = (): FeatureSettings => ({
   autoRevealNsfw: faker.datatype.boolean(),

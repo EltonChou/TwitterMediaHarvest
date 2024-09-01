@@ -1,5 +1,5 @@
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 export const generateTweetInfo = () =>
   new TweetInfo({

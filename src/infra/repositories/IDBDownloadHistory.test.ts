@@ -1,7 +1,7 @@
 import { downloadIDB } from '#libs/idb/download/db'
 import { generateDownloadHistory } from '#utils/test/downloadHistory'
 import { IDBDownloadHistoryRepository } from './IDBDownloadHistory'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 describe('integrated test for IDBDownloadHistoryRepository', () => {
   const repo = new IDBDownloadHistoryRepository(downloadIDB)

@@ -1,6 +1,6 @@
 import MediaType from '#enums/mediaType'
 import type { DownloadHistoryItem } from '#libs/idb/download/schema'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 export const generateDownloadHistoryItem = (): DownloadHistoryItem => ({
   displayName: faker.internet.displayName(),

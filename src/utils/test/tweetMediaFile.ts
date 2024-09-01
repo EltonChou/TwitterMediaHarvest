@@ -1,6 +1,6 @@
 import { TweetMediaFile } from '#domain/valueObjects/tweetMediaFile'
 import { generateTweetUser } from './tweetUser'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 export const generateTweetMediaFile = ({ isVideo }: { isVideo?: boolean } = {}) =>
   new TweetMediaFile({

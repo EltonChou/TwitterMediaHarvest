@@ -1,5 +1,5 @@
 import type { DownloadItem } from '#domain/repositories/download'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 export const generateDownloadItem = (item?: Partial<DownloadItem>): DownloadItem => {
   return {

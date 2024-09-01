@@ -4,7 +4,7 @@ import { DownloadDBSchema } from '#libs/idb/download/schema'
 import { generateDownloadRecord } from '#utils/test/downloadRecord'
 import { generateDownloadRecordItem } from '#utils/test/downloadRecordItem'
 import { IDBDownloadRecordRepository } from './IDBDownloadRecord'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 import { IDBPDatabase } from 'idb'
 
 describe('integrated test for idb download record repository', () => {

@@ -3,7 +3,7 @@ import InternalErrorHappened from '#domain/events/InternalErrorHappened'
 import { DownloadTarget } from '#domain/valueObjects/downloadTarget'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { BrowserDownloadMediaFile } from './browserDownloadMediaFile'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 import { downloads } from 'webextension-polyfill'
 
 const generateDownloadTarget = () =>

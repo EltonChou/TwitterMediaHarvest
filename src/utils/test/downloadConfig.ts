@@ -1,6 +1,6 @@
 import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import ConflictAction from '#enums/ConflictAction'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 export const generateDownloadConfig = () =>
   new DownloadConfig({

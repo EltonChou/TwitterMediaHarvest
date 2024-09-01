@@ -1,7 +1,7 @@
 import { Tweet } from '#domain/valueObjects/tweet'
 import { generateImageTweetMedia } from './tweetMedia'
 import { generateTweetUser } from './tweetUser'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 export const generateTweet = () =>
   new Tweet({

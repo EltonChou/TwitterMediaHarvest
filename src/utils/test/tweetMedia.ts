@@ -1,5 +1,5 @@
 import { TweetMedia } from '#domain/valueObjects/tweetMedia'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 export const generateImageTweetMedia = (index: number) =>
   new TweetMedia({

@@ -1,6 +1,6 @@
 import ConflictAction from '#enums/ConflictAction'
 import { DownloadRecordItem } from '#libs/idb/download/schema'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 export const generateDownloadRecordItem = (): DownloadRecordItem => ({
   conflictAction: faker.helpers.arrayElement([
