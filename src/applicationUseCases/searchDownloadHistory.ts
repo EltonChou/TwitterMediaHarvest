@@ -70,22 +70,14 @@ export class SearchDownloadHistoryUseCase implements AsyncUseCase<Query, QueryRe
     )
     if (tweetIdsError) return toErrorQueryResult(tweetIdsError)
 
-    const userNameFilter: Filter =
-      query.filter.userName === '*'
-        ? () => true
-        : ({ screenName, displayName }) =>
-            [screenName, displayName].some(name => name.includes(query.filter.userName))
-
-    const mediaTypeFilter: Filter =
-      query.filter.mediaType === '*'
-        ? () => true
-        : ({ mediaType }) => mediaType === query.filter.mediaType
-
     const result = await this.searchDownloadHistory.process({
       tweetIds: tweetIds,
       limit: query.itemPerPage,
       skip: calcSkip(query),
-      filters: [userNameFilter, mediaTypeFilter],
+      filters: [
+        makeUserNameFilter(query.filter.userName),
+        makeMediaTypeFilter(query.filter.mediaType),
+      ],
       orderBy: {
         key: 'downloadTime',
         type: 'desc',
@@ -130,3 +122,12 @@ const downloadHistoryToInfo: Factory<
     mediaType: props.mediaType,
     id: id.value,
   }))
+
+const makeMediaTypeFilter = (mediaType: MediaType | '*'): Filter =>
+  mediaType === '*' ? () => true : ({ mediaType }) => mediaType === mediaType
+
+const makeUserNameFilter = (userName: string): Filter =>
+  userName === '*'
+    ? () => true
+    : ({ screenName, displayName }) =>
+        [screenName, displayName].some(name => name.includes(userName))

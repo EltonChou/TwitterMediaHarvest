@@ -1,7 +1,7 @@
 import PatternToken from '#enums/patternToken'
 import { ValueObject } from './base'
 import { TweetMediaFile } from './tweetMediaFile'
-import path from 'path/posix'
+import { posix as path } from 'path'
 
 export type AggregationToken = '{account}'
 

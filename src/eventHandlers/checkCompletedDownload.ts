@@ -2,7 +2,7 @@ import type { DomainEventHandler } from '#domain/eventPublisher'
 import FilenameOverwritten from '#domain/events/FilenameOverwritten'
 import type { IDownloadRepository } from '#domain/repositories/download'
 import type { IDownloadRecordRepository } from '#domain/repositories/downloadRecord'
-import path from 'node:path'
+import { posix as path } from 'path'
 
 export const checkCompletedDownload =
   (

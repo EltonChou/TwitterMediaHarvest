@@ -1,9 +1,10 @@
-import { NOTIFICATION_CONTEXT_MESSAGE } from '#constants'
 import { i18nLocalize } from '#libs/i18n'
 import { DownloadNotificationButton, TweetNotificationButton } from './notificationButton'
 import { isFirefox } from './runtime'
 import type { Notifications } from 'webextension-polyfill'
 import Browser from 'webextension-polyfill'
+
+const NOTIFICATION_CONTEXT_MESSAGE = 'Media Harvest'
 
 enum TemplateType {
   Basic = 'basic',
