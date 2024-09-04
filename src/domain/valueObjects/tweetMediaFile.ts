@@ -12,6 +12,10 @@ type TweetMediaFileProps = {
    */
   serial: number
   hash: string
+  /**
+   * Start with '.'
+   * @example `.jpg`, `.png`, `.mp4`
+   */
   ext: string
 }
 
