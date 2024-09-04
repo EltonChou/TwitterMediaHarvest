@@ -1,8 +1,8 @@
+import useFeatureSettings from '#pages/hooks/useFeatureSettings'
+import { i18n } from '#pages/utils'
 import { FeatureSwitch } from './controls/featureControls'
 import type { StackProps } from '@chakra-ui/react'
 import { Stack } from '@chakra-ui/react'
-import useFeatureSettings from '@pages/hooks/useFeatureSettings'
-import { i18n } from '@pages/utils'
 import React from 'react'
 
 const PopupFeatureBlock = (props: StackProps) => {

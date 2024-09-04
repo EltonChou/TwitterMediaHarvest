@@ -1,3 +1,8 @@
+import PopupFeatureBlock from '#pages/components/PopupFeatureBlock'
+import useLocaleVariables from '#pages/hooks/useLocaleVariables'
+import useStatsStore from '#pages/hooks/useStatsStore'
+import Links from '#pages/links'
+import { i18n } from '#pages/utils'
 import {
   Box,
   Center,
@@ -12,11 +17,6 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import PopupFeatureBlock from '@pages/components/PopupFeatureBlock'
-import useLocaleVariables from '@pages/hooks/useLocaleVariables'
-import useStatsStore from '@pages/hooks/useStatsStore'
-import Links from '@pages/links'
-import { i18n } from '@pages/utils'
 import React, { memo, useCallback, useState } from 'react'
 import { BiCoffeeTogo, BiFile } from 'react-icons/bi'
 import { FaGithub } from 'react-icons/fa'

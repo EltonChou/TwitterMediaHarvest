@@ -1,3 +1,8 @@
+import type MediaType from '#enums/mediaType'
+import useDownloadHistory, {
+  type DownloadHistoryInfo,
+} from '#pages/hooks/useDownloadHistory'
+import { i18n } from '#pages/utils'
 import {
   Box,
   HStack,
@@ -17,15 +22,6 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import { Action, exchangeInternal } from '@libs/browser'
-import useDownloadHistory, { type SearchPredicate } from '@pages/hooks/useDownloadHistory'
-import { i18n } from '@pages/utils'
-import type { DownloadHistoryItem, DownloadHistoryMediaType } from '@schema'
-import * as A from 'fp-ts/lib/Array'
-import * as C from 'fp-ts/lib/Console'
-import { toError } from 'fp-ts/lib/Either'
-import * as TE from 'fp-ts/lib/TaskEither'
-import { pipe } from 'fp-ts/lib/function'
 import React, { memo, useRef } from 'react'
 import {
   BiChevronLeft,
@@ -52,12 +48,9 @@ const ItemActions = (props: ItemActionsProps) => (
     <IconButton
       aria-label="Download"
       icon={<Icon as={BiDownload} />}
-      onClick={() =>
-        exchangeInternal({
-          action: Action.Download,
-          data: { screenName: props.screenName, tweetId: props.tweetId },
-        })
-      }
+      onClick={() => {
+        /** TODO: send download media message */
+      }}
     />
   </HStack>
 )
@@ -111,10 +104,10 @@ const ItemUser = memo((props: ItemUserProps) => {
 })
 
 type ItemRowProps = {
-  item: DownloadHistoryItem
+  item: DownloadHistoryInfo
 }
 
-const convertMediaTypeToLocaleString = (mediaType: DownloadHistoryMediaType) => {
+const convertMediaTypeToLocaleString = (mediaType: MediaType) => {
   switch (mediaType) {
     case 'image':
       return i18n('options_history_table_mediaType_image')
@@ -131,7 +124,7 @@ const convertMediaTypeToLocaleString = (mediaType: DownloadHistoryMediaType) => 
 }
 
 type ItemTypeIconProps = {
-  type: DownloadHistoryMediaType
+  type: MediaType
 }
 
 const ItemTypeIcon = (props: ItemTypeIconProps) => (
@@ -144,13 +137,13 @@ const ItemTypeIcon = (props: ItemTypeIconProps) => (
 const ItemRow = (props: ItemRowProps) => (
   <Tr>
     <Td>
-      <ItemThumbnail url={props.item.thumbnail} />
+      <ItemThumbnail url={props.item.thumbnail ?? ''} />
     </Td>
     <Td w={'40ch'}>
       <ItemUser
-        id={props.item.userId}
-        name={props.item.displayName}
-        account={props.item.screenName}
+        id={props.item.user.id}
+        name={props.item.user.displayName}
+        account={props.item.user.screenName}
       />
     </Td>
     <Td>
@@ -163,7 +156,7 @@ const ItemRow = (props: ItemRowProps) => (
       <ItemTimestamp datetime={props.item.downloadTime} />
     </Td>
     <Td>
-      <ItemActions tweetId={props.item.tweetId} screenName={props.item.screenName} />
+      <ItemActions tweetId={props.item.id} screenName={props.item.user.screenName} />
     </Td>
   </Tr>
 )
@@ -222,46 +215,18 @@ const LoadingBody = () => (
   </>
 )
 
-const makeUsernamePredicate =
-  (name?: string): SearchPredicate =>
-  item =>
-    item.displayName.toLowerCase().includes((name || '').toLowerCase()) ||
-    item.screenName.toLowerCase().includes((name || '').toLowerCase())
-
 const enum MediaTypeSelectToken {
-  ALL = 'all',
+  ALL = '*',
   IMAGE = 'image',
   VIDEO = 'video',
   MIXED = 'mixed',
 }
 
-const makeMediaTypePredicate = (mediaType: MediaTypeSelectToken): SearchPredicate => {
-  switch (mediaType) {
-    case MediaTypeSelectToken.ALL:
-      return item => true
-
-    case MediaTypeSelectToken.IMAGE:
-      return item => item.mediaType === 'image'
-
-    case MediaTypeSelectToken.VIDEO:
-      return item => item.mediaType === 'video'
-
-    case MediaTypeSelectToken.MIXED:
-      return item => item.mediaType === 'mixed'
-
-    default:
-      return item => true
-  }
-}
-
-const isJSONFile = (file: File) => file.type === 'application/json'
-const fileToText = (file: File) => TE.tryCatch(async () => file.text(), toError)
-// let to: number = undefined
 const lazyHandler = (lazyTime: number) => {
-  let timeout: number = undefined
-  return (handler: () => void) => () => {
+  let timeout: number
+  return (handler: TimerHandler) => () => {
     clearTimeout(timeout)
-    timeout = setTimeout(handler, lazyTime) as unknown as number
+    timeout = setTimeout(handler, lazyTime)
   }
 }
 
@@ -283,36 +248,18 @@ const HistoryTable = () => {
   }
   const refresh = () => {
     downloadHistory.handler.refresh(scrollTableToTop)
-    formRef.current.reset()
+    formRef.current?.reset()
     search()
   }
 
   const search = () => {
-    downloadHistory.handler.search(
-      makeUsernamePredicate(usernameInputRef?.current?.value),
-      makeMediaTypePredicate(
-        mediaTypeSelectRef?.current?.value as unknown as MediaTypeSelectToken
-      )
-    )
-  }
-
-  const handlePortableHistoryFileDrop: React.DragEventHandler<
-    HTMLDivElement
-  > = async e => {
-    e.preventDefault()
-    const getJsonFileContent = pipe(
-      e.dataTransfer.files,
-      Array.from,
-      A.filter(isJSONFile),
-      A.head,
-      TE.fromOption(() => toError('Not a json file.')),
-      TE.chain(fileToText),
-      TE.chain(content =>
-        TE.tryCatch(async () => downloadHistory.handler.import(content), toError)
-      ),
-      TE.tapError(e => pipe(e, C.error, TE.fromIO))
-    )
-    await getJsonFileContent()
+    downloadHistory.handler.search({
+      filter: {
+        mediaType: (mediaTypeSelectRef?.current?.value as MediaType) ?? '*',
+        userName: usernameInputRef?.current?.value ?? '*',
+      },
+      hashtags: [],
+    })
   }
 
   const handleInput = lazyHandler(500)(() => {
@@ -396,18 +343,16 @@ const HistoryTable = () => {
           size={'md'}
           width={'100%'}
           onDragOver={e => e.preventDefault()}
-          {...(process.env.NODE_ENV === 'production'
-            ? {}
-            : { onDrop: handlePortableHistoryFileDrop, zIndex: 99 })}
+          // {...(process.env.NODE_ENV === 'production'
+          //   ? {}
+          //   : { onDrop: handlePortableHistoryFileDrop, zIndex: 99 })}
         >
           <Thead position={'sticky'} top={0} zIndex={1} background={'black'}>
             <TableHeads />
           </Thead>
           <Tbody>
             {downloadHistory.info.isLoaded ? (
-              downloadHistory.entities.map((entity, i) => (
-                <ItemRow key={i} item={entity.toDownloadHistoryItem()} />
-              ))
+              downloadHistory.items.map((item, i) => <ItemRow key={i} item={item} />)
             ) : (
               <LoadingBody />
             )}

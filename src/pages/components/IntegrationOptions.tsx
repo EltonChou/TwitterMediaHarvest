@@ -1,9 +1,10 @@
+import { isFirefox } from '#helpers/runtime'
+import useDownloadSettings from '#pages/hooks/useDownloadSettings'
+import Links from '#pages/links'
+import { i18n } from '#pages/utils'
 import type { HelperMessage } from './controls/featureControls'
 import { RichFeatureSwitch } from './controls/featureControls'
 import { Link, VStack } from '@chakra-ui/react'
-import useDownloadSettings from '@pages/hooks/useDownloadSettings'
-import Links from '@pages/links'
-import { i18n } from '@pages/utils'
 import React from 'react'
 
 const Aria2Description = () => {
@@ -30,11 +31,12 @@ const Aria2Description = () => {
 const IntegrationOptions = () => {
   const [integrationSettings, toggler] = useDownloadSettings()
 
-  const isFirefox = process.env.TARGET === 'firefox'
-  const message: HelperMessage = isFirefox && {
-    type: 'info',
-    content: i18n('options_integrations_notCompatibble', 'Firefox'),
-  }
+  const message: HelperMessage | undefined = isFirefox()
+    ? {
+        type: 'info',
+        content: i18n('options_integrations_notCompatibble', 'Firefox'),
+      }
+    : undefined
 
   return (
     <VStack>
@@ -43,7 +45,7 @@ const IntegrationOptions = () => {
         desc={<Aria2Description />}
         isOn={integrationSettings.enableAria2}
         handleClick={toggler.enableAria2}
-        isDisable={isFirefox}
+        isDisable={isFirefox()}
         message={message}
       />
       <RichFeatureSwitch
@@ -51,7 +53,7 @@ const IntegrationOptions = () => {
         desc={i18n('options_integrations_aggressiveMode_desc')}
         isOn={integrationSettings.aggressiveMode}
         handleClick={toggler.aggressiveMode}
-        isDisable={isFirefox}
+        isDisable={isFirefox()}
         message={message}
       />
     </VStack>

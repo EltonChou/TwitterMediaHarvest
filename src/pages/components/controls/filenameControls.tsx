@@ -6,7 +6,7 @@ import React, { memo } from 'react'
 type PatternTokenProps = {
   tokenName: string
   isOn: boolean
-  handleChange?: (state: boolean) => void
+  handleChange: (state: boolean) => void
 }
 
 export const PatternToken = memo(

@@ -10,11 +10,14 @@ import Browser from 'webextension-polyfill'
 document.documentElement.setAttribute('lang', Browser.i18n.getUILanguage())
 
 // Create a root.
-const root = ReactDOMClient.createRoot(document.getElementById('root'))
+const rootEle = document.getElementById('root')
+if (!rootEle) throw new Error('Can not find the root element.')
+const root = ReactDOMClient.createRoot(rootEle)
 
-// Initial render: Render an element to the root.
 const params = new URLSearchParams(window.location.search)
 const body = document.getElementsByTagName('body')[0]
+
+// Initial render: Render an element to the root.
 
 switch (params.get('tab')) {
   case 'popup':

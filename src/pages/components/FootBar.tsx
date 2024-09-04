@@ -1,7 +1,7 @@
+import Links from '#pages/links'
+import { i18n } from '#pages/utils'
 import { StarIcon } from '@chakra-ui/icons'
 import { Box, BoxProps, Button, HStack, Link, Text } from '@chakra-ui/react'
-import Links from '@pages/links'
-import { i18n } from '@pages/utils'
 import React from 'react'
 import { BiCoffeeTogo } from 'react-icons/bi'
 

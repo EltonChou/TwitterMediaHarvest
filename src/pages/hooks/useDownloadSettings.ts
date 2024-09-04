@@ -1,19 +1,12 @@
-import { downloadSettingsRepo } from '@backend/configurations'
-import type { DownloadSettings } from '@schema'
+import type { DownloadSettings } from '#schema'
+import { downloadSettingsRepo } from '../../infraProvider'
 import { useEffect, useReducer } from 'react'
-
-type IntegrationAction = {
-  type: 'toggleAria2' | 'toggleAggressive' | 'toggleAskWhere'
-}
-
-type IntegrationInitAction = {
-  type: 'init'
-  payload: DownloadSettings
-}
 
 function reducer(
   settings: DownloadSettings,
-  action: IntegrationAction | IntegrationInitAction
+  action:
+    | PureAction<'toggleAria2' | 'toggleAggressive' | 'toggleAskWhere'>
+    | DataInitAction<DownloadSettings>
 ): DownloadSettings {
   switch (action.type) {
     case 'toggleAggressive':
@@ -25,18 +18,20 @@ function reducer(
     case 'init':
       return action.payload
     default:
-      throw new Error()
+      throw new Error('Unknown action. ' + JSON.stringify(action))
   }
 }
-
-const defaultIntegrationSettings = downloadSettingsRepo.getDefaultSettings()
 
 type Toggler = Record<keyof DownloadSettings, () => Promise<void>>
 
 const useDownloadSettings = (): [DownloadSettings, Toggler] => {
-  const [downloadSettings, dispatch] = useReducer(reducer, defaultIntegrationSettings)
+  const [downloadSettings, dispatch] = useReducer(
+    reducer,
+    downloadSettingsRepo.getDefault()
+  )
+
   useEffect(() => {
-    downloadSettingsRepo.getSettings().then(settings => {
+    downloadSettingsRepo.get().then(settings => {
       dispatch({
         type: 'init',
         payload: settings,
@@ -48,21 +43,21 @@ const useDownloadSettings = (): [DownloadSettings, Toggler] => {
     if (downloadSettings.enableAria2 === false) {
       /* TODO: Test aria2 connection */
     }
-    await downloadSettingsRepo.saveSettings({
+    await downloadSettingsRepo.save({
       enableAria2: !downloadSettings.enableAria2,
     })
     dispatch({ type: 'toggleAria2' })
   }
 
   const toggleAggressive = async () => {
-    await downloadSettingsRepo.saveSettings({
+    await downloadSettingsRepo.save({
       aggressiveMode: !downloadSettings.aggressiveMode,
     })
     dispatch({ type: 'toggleAggressive' })
   }
 
   const toggleAskWhereToSave = async () => {
-    await downloadSettingsRepo.saveSettings({
+    await downloadSettingsRepo.save({
       askWhereToSave: !downloadSettings.askWhereToSave,
     })
     dispatch({ type: 'toggleAskWhere' })

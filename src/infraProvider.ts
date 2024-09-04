@@ -13,6 +13,8 @@ import {
   LocalExtensionStorageProxy,
   SyncExtensionStorageProxy,
 } from '#infra/storageProxy'
+import { SearchDownloadHistoryFromIDB } from '#infra/useCases/searchDownloadHistoryFromIDB'
+import { SearchTweetIdsByHashtagsFromIDB } from '#infra/useCases/searchTweetIdsByHashtagsFromIDB'
 import { ApiClient } from '#libs/AWSClientApi'
 import { downloadIDB } from '#libs/idb/download/db'
 import { blobToUrlWithFileReader } from '#utils/blob'
@@ -56,3 +58,6 @@ export const portableDownloadRepo = new IDBPortableDownloadHistoryRepository(
   downloadIDB,
   blobToUrlWithFileReader
 )
+
+export const searchDownloadHistory = new SearchDownloadHistoryFromIDB(downloadIDB)
+export const searchTweetIdsByHashtags = new SearchTweetIdsByHashtagsFromIDB(downloadIDB)

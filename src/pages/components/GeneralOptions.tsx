@@ -1,7 +1,12 @@
+import { TweetMediaFile } from '#domain/valueObjects/tweetMediaFile'
+import { TweetUser } from '#domain/valueObjects/tweetUser'
+import PatternToken from '#enums/patternToken'
+import useDownloadSettings from '#pages/hooks/useDownloadSettings'
+import useFilenameSettingsForm from '#pages/hooks/useFilenameSettingsForm'
+import { i18n } from '#pages/utils'
 import { RichFeatureSwitch } from './controls/featureControls'
-import { PatternToken, SortablePatternToken } from './controls/filenameControls'
-import { DEFAULT_DIRECTORY } from '@backend/constants'
-import V4FilenameSettingsUsecase from '@backend/settings/filenameSettings/usecase'
+import { PatternToken as PatternTokenComponent } from './controls/filenameControls'
+import { SortablePatternToken } from './controls/filenameControls'
 import { Button, Flex, HStack, Input, Select, VStack } from '@chakra-ui/react'
 import {
   DndContext,
@@ -12,28 +17,27 @@ import {
   useSensors,
 } from '@dnd-kit/core'
 import { SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
-import useDownloadSettings from '@pages/hooks/useDownloadSettings'
-import useFilenameSettingsForm from '@pages/hooks/useFilenameSettingsForm'
-import { i18n } from '@pages/utils'
-import type { FilenamePatternToken, V4FilenamePattern } from '@schema'
 import React, { memo } from 'react'
 
 type TokenPanelProps = {
-  handleTokenToggle: (token: FilenamePatternToken, state: boolean) => void
+  handleTokenToggle: (token: PatternToken, state: boolean) => void
   handleTokenSort: (sourceIndex: number, destinationIndex: number) => void
-  pattern: V4FilenamePattern
+  pattern: PatternToken[]
   previewFilename: string
 }
 
-const fp: [string, FilenamePatternToken][] = [
-  [i18n('options_general_filenamePattern_token_account'), '{account}'],
-  [i18n('options_general_filenamePattern_token_accountId'), '{accountId}'],
-  [i18n('options_general_filenamePattern_token_tweetId'), '{tweetId}'],
-  [i18n('options_general_filenamePattern_token_hash'), '{hash}'],
-  [i18n('options_general_filenamePattern_token_serial'), '{serial}'],
-  [i18n('options_general_filenamePattern_token_downloadDate'), '{date}'],
-  [i18n('options_general_filenamePattern_token_tweetDate'), '{tweetDate}'],
-  [i18n('options_general_filenamePattern_token_tweetDatetime'), '{tweetDatetime}'],
+const fp: [string, PatternToken][] = [
+  [i18n('options_general_filenamePattern_token_account'), PatternToken.Account],
+  [i18n('options_general_filenamePattern_token_accountId'), PatternToken.AccountId],
+  [i18n('options_general_filenamePattern_token_tweetId'), PatternToken.TweetId],
+  [i18n('options_general_filenamePattern_token_hash'), PatternToken.Hash],
+  [i18n('options_general_filenamePattern_token_serial'), PatternToken.Serial],
+  [i18n('options_general_filenamePattern_token_downloadDate'), PatternToken.Date],
+  [i18n('options_general_filenamePattern_token_tweetDate'), PatternToken.TweetDate],
+  [
+    i18n('options_general_filenamePattern_token_tweetDatetime'),
+    PatternToken.TweetDatetime,
+  ],
   // [i18n('options_general_filenamePattern_token_datetime'), '{datetime}'],
 ]
 
@@ -57,11 +61,12 @@ const TokenPanel = memo(
           collisionDetection={closestCenter}
           onDragEnd={event => {
             const { active, over } = event
-            if (active.id === over.id) return
-            handleTokenSort(
-              active.data.current.sortable.index,
-              over.data.current.sortable.index
-            )
+            if (active.id === over?.id) return
+            if (active.data.current && over?.data.current)
+              handleTokenSort(
+                active.data.current.sortable.index,
+                over.data.current.sortable.index
+              )
           }}
         >
           <Flex
@@ -86,7 +91,7 @@ const TokenPanel = memo(
 
         <Flex justifyContent={'flex-start'} gap={'2'} flexWrap={'wrap'}>
           {fp.map(([name, token]) => (
-            <PatternToken
+            <PatternTokenComponent
               key={token}
               tokenName={name}
               isOn={pattern.includes(token)}
@@ -99,27 +104,28 @@ const TokenPanel = memo(
   }
 )
 
+const previewMediaFile = new TweetMediaFile({
+  tweetId: '1145141919810',
+  tweetUser: new TweetUser({
+    screenName: 'tweetUser',
+    userId: '306048589',
+    displayName: 'NickName',
+  }),
+  createdAt: new Date(2222, 1, 2, 12, 5, 38),
+  serial: 2,
+  hash: '2vfn8shkjvd98892pR',
+  source: 'https://somewhere.com',
+  type: 'image',
+  ext: '.jpg',
+})
+
 const GeneralOptions = () => {
   const [filenameSettings, formStatus, formMsg, formHandler] = useFilenameSettingsForm()
   const [downloadSettings, toggler] = useDownloadSettings()
 
   if (!formStatus.isLoaded) return <></>
 
-  const filenameUsecase = new V4FilenameSettingsUsecase(filenameSettings)
-  const previewFilename = filenameUsecase.makeFilename(
-    {
-      id: '1145141919810',
-      screenName: 'tweetUser',
-      userId: '306048589',
-      createdAt: new Date(2222, 1, 2, 12, 5, 38),
-      displayName: 'NickName',
-    },
-    {
-      serial: 2,
-      hash: '2vfn8shkjvd98892pR',
-      date: new Date(),
-    }
-  )
+  const previewFilename = filenameSettings.makeFilename(previewMediaFile)
 
   return (
     <>
@@ -140,7 +146,7 @@ const GeneralOptions = () => {
             cursor="default"
           >
             <TokenPanel
-              pattern={filenameSettings.filenamePattern}
+              pattern={filenameSettings.mapBy(props => props.filenamePattern)}
               handleTokenToggle={formHandler.patternTokenToggle}
               handleTokenSort={formHandler.patternTokenSort}
               previewFilename={previewFilename}
@@ -150,11 +156,11 @@ const GeneralOptions = () => {
             name={i18n('options_general_subDirectory')}
             message={formMsg.directory}
             desc={i18n('options_general_subDirectory_desc')}
-            isOn={!filenameSettings.noSubDirectory}
+            isOn={!filenameSettings.mapBy(props => props.noSubDirectory)}
             handleClick={formHandler.directorySwitch}
           >
             <Input
-              placeholder={DEFAULT_DIRECTORY}
+              placeholder={'twitter_media_harvest'}
               focusBorderColor={
                 formStatus.dataIsChanged
                   ? formStatus.directoryIsValid
@@ -162,22 +168,22 @@ const GeneralOptions = () => {
                     : 'red.300'
                   : 'blue.300'
               }
-              value={filenameSettings.directory}
+              value={filenameSettings.mapBy(props => props.directory)}
               onInput={formHandler.directoryInput}
               onChange={formHandler.directoryInput}
-              isDisabled={filenameSettings.noSubDirectory}
+              isDisabled={filenameSettings.mapBy(props => props.noSubDirectory)}
               isInvalid={!formStatus.directoryIsValid}
             />
           </RichFeatureSwitch>
           <RichFeatureSwitch
             name={i18n('options_general_fileAggregation')}
             desc={i18n('options_general_fileAggregation_desc')}
-            isOn={filenameSettings.fileAggregation}
+            isOn={filenameSettings.mapBy(props => props.fileAggregation)}
             handleClick={formHandler.aggregationToggle}
             cursor="pointer"
           >
             <Select
-              isDisabled={!filenameSettings.fileAggregation}
+              isDisabled={!filenameSettings.mapBy(props => props.fileAggregation)}
               onChange={formHandler.aggregationToggle}
             >
               <option value="{account}">

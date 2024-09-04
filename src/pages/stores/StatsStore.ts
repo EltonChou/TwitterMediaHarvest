@@ -1,10 +1,10 @@
+import type { V4Statistics } from '#schema'
+import { usageStatisticsRepo } from '../../infraProvider'
 import { IExternalStore } from './base'
-import { statisticsRepo } from '@backend/configurations'
-import type { V4Statistics } from '@schema'
 import type { Storage } from 'webextension-polyfill'
 import Browser from 'webextension-polyfill'
 
-interface StatsStore extends IExternalStore<V4Statistics> {
+export interface StatsStore extends IExternalStore<V4Statistics> {
   setStats: (initStats: V4Statistics) => void
 }
 
@@ -24,16 +24,14 @@ const createStatsStore = (() => {
     areaName: string
   ) => {
     if ('downloadCount' in changes || 'trafficUsage' in changes) {
-      statisticsRepo.getStats().then(newStats => {
-        updateStats(newStats)
+      usageStatisticsRepo.get().then(newStats => {
+        updateStats(newStats.mapBy(props => props))
       })
     }
   }
 
-  return () => {
-    if (instance) return instance
-
-    instance = {
+  return () =>
+    (instance ||= {
       getSnapShot: () => stats,
       subscribe: (onStoreChange: () => void) => {
         listeners.add(onStoreChange)
@@ -47,9 +45,7 @@ const createStatsStore = (() => {
         }
       },
       setStats: updateStats,
-    }
-    return instance
-  }
+    })
 })()
 
 export default createStatsStore

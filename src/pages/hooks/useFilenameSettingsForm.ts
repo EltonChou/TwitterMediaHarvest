@@ -1,12 +1,9 @@
-import { v4FilenameSettingsRepo } from '@backend/configurations'
-import type { HelperMessage } from '@pages/components/controls/featureControls'
-import { i18n } from '@pages/utils'
-import type {
-  AggregationToken,
-  FilenamePatternToken,
-  V4FilenamePattern,
-  V4FilenameSettings,
-} from '@schema'
+import { FilenameSetting } from '#domain/valueObjects/filenameSetting'
+import PatternToken from '#enums/patternToken'
+import type { HelperMessage } from '#pages/components/controls/featureControls'
+import { i18n } from '#pages/utils'
+import type { AggregationToken } from '#schema'
+import { filenameSettingsRepo } from '../../infraProvider'
 import { useCallback, useEffect, useReducer, useState } from 'react'
 import sanitize from 'sanitize-filename'
 
@@ -14,7 +11,7 @@ type DirectorySetAction = DataActionWithPayload<'setDirectory', string>
 
 type FilenamePatternSetAction = DataActionWithPayload<
   'setFilenamePattern',
-  V4FilenamePattern
+  PatternToken[]
 >
 
 type AggregationTokenSetAction = DataActionWithPayload<
@@ -28,7 +25,7 @@ type FilenameSettingsPureAction = PureAction<
 
 type FilenameSettingsAction =
   | FilenameSettingsPureAction
-  | DataInitAction<V4FilenameSettings>
+  | DataInitAction<FilenameSetting>
   | DirectorySetAction
   | FilenamePatternSetAction
   | AggregationTokenSetAction
@@ -56,7 +53,7 @@ const defaultFormStatus: FormStatus = {
   isLoaded: false,
 }
 
-const defaultFilenameSettings = v4FilenameSettingsRepo.getDefaultSettings()
+const defaultFilenameSettings = filenameSettingsRepo.getDefault()
 
 function formStatusReducer(formStatus: FormStatus, action: FormStatusAction): FormStatus {
   switch (action) {
@@ -108,24 +105,31 @@ function formStatusReducer(formStatus: FormStatus, action: FormStatusAction): Fo
 }
 
 function settingReducer(
-  settings: V4FilenameSettings,
+  settings: FilenameSetting,
   action: FilenameSettingsAction
-): V4FilenameSettings {
+): FilenameSetting {
+  const settingProps = settings.mapBy(props => props)
   switch (action.type) {
     case 'toggleDirectory':
-      return { ...settings, noSubDirectory: !settings.noSubDirectory }
+      return new FilenameSetting({
+        ...settingProps,
+        noSubDirectory: !settingProps.noSubDirectory,
+      })
 
     case 'toggleFileAggregation':
-      return { ...settings, fileAggregation: !settings.fileAggregation }
+      return new FilenameSetting({
+        ...settingProps,
+        fileAggregation: !settingProps.fileAggregation,
+      })
 
     case 'setDirectory':
-      return { ...settings, directory: action.payload }
+      return new FilenameSetting({ ...settingProps, directory: action.payload })
 
     case 'setFilenamePattern':
-      return { ...settings, filenamePattern: action.payload }
+      return new FilenameSetting({ ...settingProps, filenamePattern: action.payload })
 
     case 'setAggregationToken':
-      return { ...settings, groupBy: action.payload }
+      return new FilenameSetting({ ...settingProps, groupBy: action.payload })
 
     case 'init':
       return action.payload
@@ -143,12 +147,13 @@ const validDir = (dir: string) =>
   dir.split('/').every(dir => sanitize(dir) === dir && dirNameRegEx.test(dir)) &&
   dir.length <= 512
 
-const validPattern = (p: V4FilenamePattern) =>
-  p.includes('{hash}') || (p.includes('{tweetId}') && p.includes('{serial}'))
+const validPattern = (p: PatternToken[]) =>
+  p.includes(PatternToken.Hash) ||
+  (p.includes(PatternToken.TweetId) && p.includes(PatternToken.Serial))
 
 type FormMessage = {
-  directory: HelperMessage | null
-  filenamePattern: HelperMessage | null
+  directory: HelperMessage | undefined
+  filenamePattern: HelperMessage | undefined
 }
 
 type FormHandler = {
@@ -156,14 +161,14 @@ type FormHandler = {
   reset: () => void
   directoryInput: (e: React.ChangeEvent<HTMLInputElement>) => void
   directorySwitch: () => void
-  patternTokenToggle: (t: FilenamePatternToken, s: boolean) => void
+  patternTokenToggle: (t: PatternToken, s: boolean) => void
   patternTokenSort: (sourceIndex: number, destinationIndex: number) => void
   handleAggregationTokenChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
   aggregationToggle: () => void
 }
 
 const useFilenameSettingsForm = (): [
-  V4FilenameSettings,
+  FilenameSetting,
   FormStatus,
   FormMessage,
   FormHandler
@@ -176,31 +181,37 @@ const useFilenameSettingsForm = (): [
     formStatusReducer,
     defaultFormStatus
   )
-  const [directoryMessage, setDirectoryMessage] = useState<null | HelperMessage>(null)
-  const [patternMessage, setPatternMessage] = useState<null | HelperMessage>(null)
+  const [directoryMessage, setDirectoryMessage] = useState<undefined | HelperMessage>(
+    undefined
+  )
+  const [patternMessage, setPatternMessage] = useState<undefined | HelperMessage>(
+    undefined
+  )
 
   useEffect(() => {
-    v4FilenameSettingsRepo.getSettings().then(settings => {
+    filenameSettingsRepo.get().then(settings => {
       settingsDispatch({ type: 'init', payload: settings })
       formStatusDispatch('init')
     })
   }, [])
 
   useEffect(() => {
-    const isDirectoryValid = validDir(filenameSettings.directory)
-    const isPatternValid = validPattern(filenameSettings.filenamePattern)
+    const isDirectoryValid = validDir(filenameSettings.mapBy(props => props.directory))
+    const isPatternValid = validPattern(
+      filenameSettings.mapBy(props => props.filenamePattern)
+    )
     formStatusDispatch(isDirectoryValid ? 'directoryIsValid' : 'directoryIsInvalid')
     formStatusDispatch(
       isPatternValid ? 'filenamePatternIsValid' : 'filenamePatternIsInvalid'
     )
     setDirectoryMessage(
       isDirectoryValid
-        ? null
+        ? undefined
         : { type: 'error', content: i18n('options_general_filenameSettings_message_dir') }
     )
     setPatternMessage(
       isPatternValid
-        ? null
+        ? undefined
         : {
             type: 'error',
             content: i18n('options_general_filenameSettings_message_pattern'),
@@ -211,7 +222,7 @@ const useFilenameSettingsForm = (): [
   const submit = useCallback(
     async (e?: React.FormEvent<HTMLFormElement>) => {
       if (e) e.preventDefault()
-      await v4FilenameSettingsRepo.saveSettings(filenameSettings)
+      await filenameSettingsRepo.save(filenameSettings)
       formStatusDispatch('formIsNotChanged')
     },
     [filenameSettings]
@@ -236,10 +247,10 @@ const useFilenameSettingsForm = (): [
   }, [settingsDispatch])
 
   const handleTokenToggle = useCallback(
-    (t: FilenamePatternToken, state: boolean) => {
+    (t: PatternToken, state: boolean) => {
       const newPattern = state
-        ? [...filenameSettings.filenamePattern, t]
-        : [...filenameSettings.filenamePattern].filter(v => v !== t)
+        ? [...filenameSettings.mapBy(props => props.filenamePattern), t]
+        : [...filenameSettings.mapBy(props => props.filenamePattern)].filter(v => v !== t)
 
       formStatusDispatch('formIsChanged')
       settingsDispatch({
@@ -252,7 +263,7 @@ const useFilenameSettingsForm = (): [
 
   const handleTokenSort = useCallback(
     (sourceIndex: number, destinationIndex: number) => {
-      const newPattern = [...filenameSettings.filenamePattern]
+      const newPattern = [...filenameSettings.mapBy(props => props.filenamePattern)]
       const [removed] = newPattern.splice(sourceIndex, 1)
       newPattern.splice(destinationIndex, 0, removed)
       formStatusDispatch('formIsChanged')

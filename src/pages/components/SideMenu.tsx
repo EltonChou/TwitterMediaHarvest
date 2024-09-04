@@ -1,3 +1,4 @@
+import { i18n } from '#pages/utils'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import {
   Box,
@@ -8,7 +9,6 @@ import {
   useBoolean,
   useBreakpointValue,
 } from '@chakra-ui/react'
-import { i18n } from '@pages/utils'
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 

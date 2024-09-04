@@ -1,7 +1,7 @@
-import { clientInfoRepo } from '@backend/configurations'
+import ExtLinks from '#pages/links'
+import { i18n } from '#pages/utils'
+import { clientRepo } from '../../infraProvider'
 import { Link, Stack, Text } from '@chakra-ui/react'
-import ExtLinks from '@pages/links'
-import { i18n } from '@pages/utils'
 import React, { useEffect, useState } from 'react'
 import browser from 'webextension-polyfill'
 
@@ -9,8 +9,9 @@ const ProductInformation = () => {
   const [clientUuid, setClientUuid] = useState('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx')
 
   useEffect(() => {
-    clientInfoRepo.getInfo().then(info => {
-      setClientUuid(info.uuid)
+    clientRepo.get().then(({ value: client, error }) => {
+      if (error) return
+      setClientUuid(client.id.value)
     })
   }, [])
 

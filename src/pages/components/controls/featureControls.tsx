@@ -1,3 +1,4 @@
+import useLocaleVariables from '#pages/hooks/useLocaleVariables'
 import { InfoIcon, WarningTwoIcon } from '@chakra-ui/icons'
 import {
   Box,
@@ -11,7 +12,6 @@ import {
   Switch,
   Text,
 } from '@chakra-ui/react'
-import useLocaleVariables from '@pages/hooks/useLocaleVariables'
 import React, { useId } from 'react'
 
 type FeatureSwitchPros = {
@@ -69,7 +69,7 @@ const HelperText = ({ message }: HelperTextProps) => {
   return (
     <>
       <Icon as={icon} color={color} />
-      <FormHelperText color={color}>{'' || message.content}</FormHelperText>
+      <FormHelperText color={color}>{message.content || ''}</FormHelperText>
     </>
   )
 }
@@ -80,7 +80,7 @@ type RichFeatureSwithProps = {
   isOn?: boolean
   handleClick?: () => void
   isDisable?: boolean
-  message?: HelperMessage
+  message?: HelperMessage | undefined
   children?: JSX.Element
   cursor?: 'default' | 'pointer'
 }

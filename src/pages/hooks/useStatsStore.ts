@@ -1,5 +1,5 @@
-import { statisticsRepo } from '@backend/configurations'
-import createStatsStore from '@pages/stores/StatsStore'
+import createStatsStore from '#pages/stores/StatsStore'
+import { usageStatisticsRepo } from '../../infraProvider'
 import { useEffect, useSyncExternalStore } from 'react'
 
 const { getSnapShot, subscribe, setStats } = createStatsStore()
@@ -8,7 +8,7 @@ const useStatsStore = () => {
   const stats = useSyncExternalStore(subscribe, getSnapShot)
 
   useEffect(() => {
-    statisticsRepo.getStats().then(initStats => setStats(initStats))
+    usageStatisticsRepo.get().then(stats => setStats(stats.mapBy(props => props)))
   }, [])
 
   return stats
