@@ -1,6 +1,4 @@
-import { getEnv } from '#utils/env'
-
-const API_BASE = `https://${getEnv('API_HOSTNAME')}`
+const API_BASE = `https://${process.env['API_HOSTNAME']}`
 
 export const makeApiUrl = (
   path: string,

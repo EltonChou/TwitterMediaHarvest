@@ -16,7 +16,6 @@ import {
 import { ApiClient } from '#libs/AWSClientApi'
 import { downloadIDB } from '#libs/idb/download/db'
 import { blobToUrlWithFileReader } from '#utils/blob'
-import { getEnv } from '#utils/env'
 import { getVersion } from '#utils/runtime'
 import { AWSCredentailToCognitoIdentityCredentials } from './mappers/awsCredential'
 
@@ -24,14 +23,14 @@ const syncWebExtStorage = new SyncExtensionStorageProxy()
 const localWebExtStorage = new LocalExtensionStorageProxy()
 
 export const awsCredentialRepo = new AWSCredentialRepository(syncWebExtStorage, {
-  identityPoolId: getEnv('IDENTITY_POOL_ID'),
-  region: getEnv('IDENTITY_POOL_REGION'),
+  identityPoolId: process.env['IDENTITY_POOL_ID'] as string,
+  region: process.env['IDENTITY_POOL_REGION'] as string,
 })
 
 const awsClient = new ApiClient({
-  apiKey: getEnv('API_KEY'),
+  apiKey: process.env['API_KEY'] as string,
   clientVersion: getVersion(),
-  hostName: getEnv('API_HOSTNAME'),
+  hostName: process.env['API_HOSTNAME'] as string,
   region: 'ap-northeast-1',
   credentials: async () => {
     const credential = await awsCredentialRepo.get()
