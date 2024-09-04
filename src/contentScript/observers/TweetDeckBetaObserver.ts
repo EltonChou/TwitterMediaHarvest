@@ -15,9 +15,9 @@ export default class TweetDeckBetaObserver implements IHarvestObserver {
 
   initialize() {
     const modalQuery = '[aria-labelledby="modal-header"]'
-    if (select.exists(modalQuery) && isInTweetStatus()) {
-      const modal = select(modalQuery)
-      if (!select.exists('[aria-label="Loading"]')) makeHarvester(modal)
+    const modal = select(modalQuery)
+    if (modal && isInTweetStatus() && !select.exists('[aria-label="Loading"]')) {
+      makeHarvester(modal)
     }
 
     select.all('article').forEach(article => {
@@ -60,7 +60,10 @@ export default class TweetDeckBetaObserver implements IHarvestObserver {
     const mutaionCb: MutationCallback = mutations => {
       mutations.forEach(mutation => {
         mutation.addedNodes.forEach(node => {
-          const article = select('article', node as ParentNode)
+          if (!(node instanceof HTMLElement)) return
+
+          const article = select('article', node)
+          if (!article) return
           if (this.autoRevealNsfw) revealNsfw(article)
           if (articleHasMedia(article)) makeHarvester(article)
         })

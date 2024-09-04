@@ -5,7 +5,7 @@ import { revealNsfw } from '../utils/helper'
 import observeElement from './observer'
 import select from 'select-dom'
 
-enum Query {
+const enum Query {
   Root = '#react-root',
   Stream = 'section[role="region"] > div[aria-label] > div',
   MediaBlock = 'section[role="region"] > div[aria-label] > div li',
@@ -43,7 +43,7 @@ export default class TwitterMediaObserver implements IHarvestObserver {
 
     const articles = select.all('article')
     for (const article of articles) {
-      this.autoRevealNsfw && revealNsfw(article)
+      if (this.autoRevealNsfw) revealNsfw(article)
       if (articleHasMedia(article)) makeHarvester(article)
     }
 
@@ -55,10 +55,13 @@ export default class TwitterMediaObserver implements IHarvestObserver {
     const mutaionCb: MutationCallback = mutations => {
       for (const mutation of mutations) {
         for (const addedNode of mutation.addedNodes) {
-          const mediaBlocks = select.all('li', addedNode as HTMLElement)
-          mediaBlocks.forEach(b => this.autoRevealNsfw && revealNsfw(b))
+          if (!(addedNode instanceof HTMLElement)) return
 
-          const article = select('article', addedNode as ParentNode)
+          const mediaBlocks = select.all('li', addedNode)
+          mediaBlocks.forEach(mediaBlock => this.autoRevealNsfw && revealNsfw(mediaBlock))
+
+          const article = select('article', addedNode)
+          if (!article) return
           if (this.autoRevealNsfw) revealNsfw(article)
           if (articleHasMedia(article)) makeHarvester(article)
         }
@@ -70,7 +73,7 @@ export default class TwitterMediaObserver implements IHarvestObserver {
 
   observeTimeline() {
     observeElement(
-      'timeline',
+      'Timeline',
       Query.Timeline,
       () => {
         this.initialize()
