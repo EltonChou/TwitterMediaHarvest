@@ -9,9 +9,9 @@ export abstract class GeneralKeyboardMonitor implements KeyboardMonitor {
   private buttonQuery: string
   protected focusing: EventTarget | HTMLElement | Element | null
 
-  constructor(buttonQuery: string, downloadKeyCOde: DownloadKey) {
+  constructor(buttonQuery: string, downloadKey: DownloadKey) {
     this.buttonQuery = buttonQuery
-    this.downloadKey = downloadKeyCOde
+    this.downloadKey = downloadKey
     this.focusing = document.activeElement
   }
 
