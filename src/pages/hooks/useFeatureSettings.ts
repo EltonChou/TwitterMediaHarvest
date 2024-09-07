@@ -1,5 +1,5 @@
+import type { ISettingsRepository } from '#domain/repositories/settings'
 import type { FeatureSettings } from '#schema'
-import { featureSettingsRepo } from '../../infraProvider'
 import { useCallback, useEffect, useReducer } from 'react'
 
 function reducer(
@@ -26,15 +26,14 @@ function reducer(
 
     case 'init':
       return action.payload
-
-    default:
-      throw new Error()
   }
 }
 
 type Toggler = Record<'nsfw' | 'thumbnail' | 'keyboardShortcut', () => Promise<void>>
 
-const useFeatureSettings = (): [FeatureSettings, Toggler] => {
+const useFeatureSettings = (
+  featureSettingsRepo: ISettingsRepository<FeatureSettings>
+): [FeatureSettings, Toggler] => {
   const [featureSettings, dispatch] = useReducer(
     reducer,
     featureSettingsRepo.getDefault()
@@ -47,7 +46,7 @@ const useFeatureSettings = (): [FeatureSettings, Toggler] => {
         payload: settings,
       })
     })
-  }, [])
+  }, [featureSettingsRepo])
 
   useEffect(() => {
     initSettings()
@@ -58,21 +57,21 @@ const useFeatureSettings = (): [FeatureSettings, Toggler] => {
       autoRevealNsfw: !featureSettings.autoRevealNsfw,
     })
     dispatch({ type: 'toggleNsfw' })
-  }, [featureSettings.autoRevealNsfw])
+  }, [featureSettings.autoRevealNsfw, featureSettingsRepo])
 
   const toggleThumbnail = useCallback(async () => {
     await featureSettingsRepo.save({
       includeVideoThumbnail: !featureSettings.includeVideoThumbnail,
     })
     dispatch({ type: 'toggleThumbnail' })
-  }, [featureSettings.includeVideoThumbnail])
+  }, [featureSettings.includeVideoThumbnail, featureSettingsRepo])
 
   const toggleKeyboardShortcut = useCallback(async () => {
     await featureSettingsRepo.save({
       keyboardShortcut: !featureSettings.keyboardShortcut,
     })
     dispatch({ type: 'toggleKeyboardShortcut' })
-  }, [featureSettings.keyboardShortcut])
+  }, [featureSettings.keyboardShortcut, featureSettingsRepo])
 
   return [
     featureSettings,

@@ -1,5 +1,7 @@
+import type { ISettingsRepository } from '#domain/repositories/settings'
 import useFeatureSettings from '#pages/hooks/useFeatureSettings'
 import { i18n } from '#pages/utils'
+import type { FeatureSettings } from '#schema'
 import DownloadKey from '../../contentScript/KeyboardMonitor/DownloadKey'
 import { RichFeatureSwitch } from './controls/featureControls'
 import { Kbd, Text, VStack } from '@chakra-ui/react'
@@ -25,8 +27,8 @@ const KeyboardShortcutDesc = () => {
   )
 }
 
-const FeatureOptions = () => {
-  const [featureSettings, toggler] = useFeatureSettings()
+const FeatureOptions = (featureSettingsRepo: ISettingsRepository<FeatureSettings>) => {
+  const [featureSettings, toggler] = useFeatureSettings(featureSettingsRepo)
 
   return (
     <VStack>

@@ -4,16 +4,28 @@ import type { FeatureSettings } from '#schema'
 export class MockFeatureSettingsRepository
   implements ISettingsRepository<FeatureSettings>
 {
+  protected settings: FeatureSettings
+  constructor() {
+    this.settings = {
+      autoRevealNsfw: false,
+      includeVideoThumbnail: false,
+      keyboardShortcut: true,
+    }
+  }
   async get(): Promise<FeatureSettings> {
-    throw new Error('Method not implemented.')
+    return this.settings
   }
   async save(settings: Partial<FeatureSettings>): Promise<void> {
-    throw new Error('Method not implemented.')
+    this.settings = { ...this.settings, ...settings }
   }
   async reset(): Promise<void> {
-    throw new Error('Method not implemented.')
+    this.settings = this.getDefault()
   }
   getDefault(): FeatureSettings {
-    throw new Error('Method not implemented.')
+    return {
+      autoRevealNsfw: false,
+      includeVideoThumbnail: false,
+      keyboardShortcut: true,
+    }
   }
 }

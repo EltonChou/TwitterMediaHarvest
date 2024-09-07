@@ -1,5 +1,5 @@
 import { ISettingsRepository } from '#domain/repositories/settings'
-import type { IStorageProxy } from '#libs/proxy'
+import type { IStorageProxy } from '#libs/storageProxy'
 import type { FeatureSettings } from '#schema'
 
 const defaultFeature: FeatureSettings = {
