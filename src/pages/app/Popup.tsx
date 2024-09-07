@@ -183,8 +183,12 @@ const Footer = () => {
 }
 
 const Popup = () => {
-  const featurePadding = useLocaleVariables({ base: '50px', ja: '40px' })
-  const baseFontSize = useLocaleVariables({ base: '1.5rem', ja: '1rem', zh: '1.2rem' })
+  const featurePadding = useLocaleVariables({ fallback: '50px', ja: '40px' })
+  const baseFontSize = useLocaleVariables({
+    fallback: '1.5rem',
+    ja: '1rem',
+    zh: '1.2rem',
+  })
 
   return (
     <>

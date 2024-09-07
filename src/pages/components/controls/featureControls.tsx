@@ -27,7 +27,7 @@ export const FeatureSwitch = ({
 }: FeatureSwitchPros) => {
   const controlId = useId()
   const switchMb = useLocaleVariables({
-    base: 'unset',
+    fallback: 'unset',
     ja: '4px !important',
     zh: '4px !important',
   })
