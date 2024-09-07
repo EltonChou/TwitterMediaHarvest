@@ -1,5 +1,5 @@
+import type { ISettingsRepository } from '#domain/repositories/settings'
 import type { DownloadSettings } from '#schema'
-import { downloadSettingsRepo } from '../../infraProvider'
 import { useEffect, useReducer } from 'react'
 
 function reducer(
@@ -17,14 +17,14 @@ function reducer(
       return { ...settings, askWhereToSave: !settings.askWhereToSave }
     case 'init':
       return action.payload
-    default:
-      throw new Error('Unknown action. ' + JSON.stringify(action))
   }
 }
 
 type Toggler = Record<keyof DownloadSettings, () => Promise<void>>
 
-const useDownloadSettings = (): [DownloadSettings, Toggler] => {
+const useDownloadSettings = (
+  downloadSettingsRepo: ISettingsRepository<DownloadSettings>
+): [DownloadSettings, Toggler] => {
   const [downloadSettings, dispatch] = useReducer(
     reducer,
     downloadSettingsRepo.getDefault()

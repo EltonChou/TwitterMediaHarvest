@@ -4,20 +4,29 @@ import type { DownloadSettings } from '#schema'
 export class MockDownloadSettingsRepository
   implements ISettingsRepository<DownloadSettings>
 {
-  async get(): Promise<DownloadSettings> {
-    return {
+  protected settings: DownloadSettings
+  constructor() {
+    this.settings = {
       aggressiveMode: false,
       askWhereToSave: false,
       enableAria2: false,
     }
   }
-  save(settings: Partial<DownloadSettings>): Promise<void> {
-    throw new Error('Method not implemented.')
+  async get(): Promise<DownloadSettings> {
+    return this.settings
   }
-  reset(): Promise<void> {
-    throw new Error('Method not implemented.')
+  async save(settings: Partial<DownloadSettings>): Promise<void> {
+    this.settings = { ...this.settings, ...settings }
+    return
+  }
+  async reset(): Promise<void> {
+    this.settings = this.getDefault()
   }
   getDefault(): DownloadSettings {
-    throw new Error('Method not implemented.')
+    return {
+      aggressiveMode: false,
+      askWhereToSave: false,
+      enableAria2: false,
+    }
   }
 }
