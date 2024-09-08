@@ -27,23 +27,40 @@ export const enum InvalidReason {
 const dirPattern = /^[^<>:"/\\|?*][^<>:"\\|?*]+$/
 
 export class FilenameSetting extends ValueObject<FilenameSettingProps> {
-  validate(): InvalidReason | undefined {
-    if (this.props.directory.length > PATH_MAX) return InvalidReason.PathTooLong
+  static validateDirectory(directory: string): InvalidReason | undefined {
+    if (directory.length > PATH_MAX) return InvalidReason.PathTooLong
 
-    if (!dirPattern.test(this.props.directory))
-      return InvalidReason.ContainsReservedCharacters
+    if (!dirPattern.test(directory)) return InvalidReason.ContainsReservedCharacters
 
-    if (!this.props.directory.split('/').every(dir => sanitize(dir) === dir))
+    if (!directory.split('/').every(dir => sanitize(dir) === dir))
       return InvalidReason.ContainsIllegalCharacters
 
+    return undefined
+  }
+
+  static validateFilenamePattern(
+    filenamePattern: PatternToken[]
+  ): InvalidReason | undefined {
     if (
       !(
-        this.props.filenamePattern.includes(PatternToken.Hash) ||
-        (this.props.filenamePattern.includes(PatternToken.TweetId) &&
-          this.props.filenamePattern.includes(PatternToken.Serial))
+        filenamePattern.includes(PatternToken.Hash) ||
+        (filenamePattern.includes(PatternToken.TweetId) &&
+          filenamePattern.includes(PatternToken.Serial))
       )
     )
       return InvalidReason.PatternMayNotBeUnique
+
+    return undefined
+  }
+
+  validate(): InvalidReason | undefined {
+    const invalidDirectoryReason = FilenameSetting.validateDirectory(this.props.directory)
+    if (invalidDirectoryReason) return invalidDirectoryReason
+
+    const invalidPatternReason = FilenameSetting.validateFilenamePattern(
+      this.props.filenamePattern
+    )
+    if (invalidPatternReason) return invalidPatternReason
 
     return undefined
   }
