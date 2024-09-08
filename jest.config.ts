@@ -11,6 +11,7 @@ const jestConfig: JestConfigWithTsJest = {
         useESM: true,
       },
     ],
+    '^.+\\.svg$': 'jest-transformer-svg',
   },
   transformIgnorePatterns: [
     '/!node_modules\\/select-dom/',
@@ -26,10 +27,10 @@ const jestConfig: JestConfigWithTsJest = {
     '#helpers/(.*)$': '<rootDir>/src/helpers/$1',
     '#enums/(.*)$': '<rootDir>/src/enums/$1',
     '#infra/(.*)$': '<rootDir>/src/infra/$1',
-    '#constants': '<rootDir>/src/constants',
     '#utils/(.*)$': '<rootDir>/src/utils/$1',
     '#eventHandlers/(.*)$': '<rootDir>/src/eventHandlers/$1',
     '#mocks/(.*)$': '<rootDir>/src/mocks/$1',
+    '#pages/(.*)$': '<rootDir>/src/pages/$1',
   },
   coveragePathIgnorePatterns: ['.mock.ts', '.mock.js', 'mocks', 'utils/test/*'],
 }
