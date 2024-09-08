@@ -1,11 +1,15 @@
 import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
-import type { UsageStatistics } from '#domain/valueObjects/usageStatistics'
+import { UsageStatistics } from '#domain/valueObjects/usageStatistics'
 
 export class MockUsageStatisticsRepository implements IUsageStatisticsRepository {
-  get(): Promise<UsageStatistics> {
-    throw new Error('Method not implemented.')
+  protected stats: UsageStatistics
+  constructor() {
+    this.stats = new UsageStatistics({ downloadCount: 0, trafficUsage: 0 })
   }
-  save(stats: UsageStatistics): Promise<void> {
-    throw new Error('Method not implemented.')
+  async get(): Promise<UsageStatistics> {
+    return this.stats
+  }
+  async save(stats: UsageStatistics): Promise<void> {
+    this.stats = stats
   }
 }

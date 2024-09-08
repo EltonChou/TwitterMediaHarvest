@@ -1,51 +1,42 @@
-import type { V4Statistics } from '#schema'
-import { usageStatisticsRepo } from '../../infraProvider'
-import { IExternalStore } from './base'
-import type { Storage } from 'webextension-polyfill'
-import Browser from 'webextension-polyfill'
+import { UsageStatistics } from '#domain/valueObjects/usageStatistics'
+import type { IExternalStore } from './base'
 
-export interface StatsStore extends IExternalStore<V4Statistics> {
-  setStats: (initStats: V4Statistics) => void
+export interface StatsStore extends IExternalStore<UsageStatistics> {
+  triggerChange: () => Promise<void>
 }
 
-const createStatsStore = (() => {
-  let instance: StatsStore | null = null
+export type CreateStoreParams = {
+  getStats: () => Promise<UsageStatistics>
+}
 
-  let stats = { downloadCount: 0, trafficUsage: 0 }
+export const createStatsStore = (() => {
+  let instance: StatsStore
+
+  let stats = new UsageStatistics({ downloadCount: 0, trafficUsage: 0 })
   const listeners = new Set<() => void>()
 
-  const updateStats = (newStats: V4Statistics) => {
-    stats = { ...stats, ...newStats }
-    listeners.forEach(onChange => onChange())
-  }
+  const notifyListeners = () => listeners.forEach(onChange => onChange())
 
-  const handleChange = (
-    changes: Storage.StorageAreaOnChangedChangesType,
-    areaName: string
-  ) => {
-    if ('downloadCount' in changes || 'trafficUsage' in changes) {
-      usageStatisticsRepo.get().then(newStats => {
-        updateStats(newStats.mapBy(props => props))
-      })
+  return ({ getStats }: CreateStoreParams) => {
+    if (!instance) {
+      const updateStats = () =>
+        getStats().then(newStats => {
+          stats = newStats
+        })
+
+      updateStats()
+
+      instance = {
+        getSnapShot: () => stats,
+        triggerChange: () => updateStats().then(() => notifyListeners()),
+        subscribe: (onStoreChange: () => void) => {
+          listeners.add(onStoreChange)
+
+          return () => listeners.delete(onStoreChange)
+        },
+      }
     }
+
+    return instance
   }
-
-  return () =>
-    (instance ||= {
-      getSnapShot: () => stats,
-      subscribe: (onStoreChange: () => void) => {
-        listeners.add(onStoreChange)
-        Browser.storage.onChanged.addListener(handleChange)
-
-        return () => {
-          listeners.delete(onStoreChange)
-          if (listeners.size === 0) {
-            Browser.storage.onChanged.removeListener(handleChange)
-          }
-        }
-      },
-      setStats: updateStats,
-    })
 })()
-
-export default createStatsStore
