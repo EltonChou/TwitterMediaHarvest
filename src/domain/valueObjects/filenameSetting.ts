@@ -2,6 +2,7 @@ import PatternToken from '#enums/patternToken'
 import { ValueObject } from './base'
 import { TweetMediaFile } from './tweetMediaFile'
 import { posix as path } from 'path'
+import sanitize from 'sanitize-filename'
 
 export type AggregationToken = '{account}'
 
@@ -13,7 +14,40 @@ type FilenameSettingProps = {
   groupBy: AggregationToken
 }
 
+const PATH_MAX = 4096
+
+export const enum InvalidReason {
+  PathTooLong = `Maximum path is ${PATH_MAX} characters.`,
+  // eslint-disable-next-line max-len
+  ContainsReservedCharacters = 'Directory path contains reserved characters. (`\\`, `?`, `<`, `>`, `,`, `:`, `*`, `|`, and `"`)',
+  ContainsIllegalCharacters = 'Contains illegal characters.',
+  PatternMayNotBeUnique = 'The pattern should contains at least {hash} or {tweetId} and {serial}',
+}
+
+const dirPattern = /^[^<>:"/\\|?*][^<>:"\\|?*]+$/
+
 export class FilenameSetting extends ValueObject<FilenameSettingProps> {
+  validate(): InvalidReason | undefined {
+    if (this.props.directory.length > PATH_MAX) return InvalidReason.PathTooLong
+
+    if (!dirPattern.test(this.props.directory))
+      return InvalidReason.ContainsReservedCharacters
+
+    if (!this.props.directory.split('/').every(dir => sanitize(dir) === dir))
+      return InvalidReason.ContainsIllegalCharacters
+
+    if (
+      !(
+        this.props.filenamePattern.includes(PatternToken.Hash) ||
+        (this.props.filenamePattern.includes(PatternToken.TweetId) &&
+          this.props.filenamePattern.includes(PatternToken.Serial))
+      )
+    )
+      return InvalidReason.PatternMayNotBeUnique
+
+    return undefined
+  }
+
   makeFilename(mediaFile: TweetMediaFile): string {
     const { screenName, id, createdAt, userId, hash, serial } = mediaFile.mapBy(
       props => ({
