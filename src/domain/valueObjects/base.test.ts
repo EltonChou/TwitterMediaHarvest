@@ -3,6 +3,8 @@ import { ValueObject } from '#domain/valueObjects/base'
 describe('unit test for value object', () => {
   class Money extends ValueObject<{ currency: string; amount: number }> {}
   class Cup extends ValueObject<{ for: string }> {}
+  class Box extends ValueObject<{ items: string[] }> {}
+  class CupBox extends ValueObject<{ items: Cup[] }> {}
 
   it('can compare to other value object', () => {
     const usd = new Money({ currency: 'USD', amount: 1000 })
@@ -29,5 +31,21 @@ describe('unit test for value object', () => {
     const usd = new Money({ currency: 'USD', amount: 1000 })
 
     expect(JSON.stringify(usd)).toBe(JSON.stringify({ currency: 'USD', amount: 1000 }))
+  })
+
+  it('can duplicate', () => {
+    const usd = new Money({ currency: 'USD', amount: 1000 })
+
+    expect(usd.is(usd.duplicate())).toBeTruthy()
+  })
+
+  it.each([
+    { a: new Box({ items: ['a', 'b'] }) },
+    {
+      a: new CupBox({ items: [new Cup({ for: 'water' }), new Cup({ for: 'coke' })] }),
+    },
+  ])('can compare array prop', ({ a }) => {
+    const b = a.duplicate()
+    expect(a.is(b)).toBeTruthy()
   })
 })
