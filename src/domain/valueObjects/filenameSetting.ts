@@ -4,7 +4,9 @@ import { TweetMediaFile } from './tweetMediaFile'
 import { posix as path } from 'path'
 import sanitize from 'sanitize-filename'
 
-export type AggregationToken = '{account}'
+export const enum AggregationToken {
+  Account = '{account}',
+}
 
 type FilenameSettingProps = {
   directory: string
@@ -42,15 +44,12 @@ export class FilenameSetting extends ValueObject<FilenameSettingProps> {
     filenamePattern: PatternToken[]
   ): InvalidReason | undefined {
     if (
-      !(
-        filenamePattern.includes(PatternToken.Hash) ||
-        (filenamePattern.includes(PatternToken.TweetId) &&
-          filenamePattern.includes(PatternToken.Serial))
-      )
+      filenamePattern.includes(PatternToken.Hash) ||
+      (filenamePattern.includes(PatternToken.TweetId) &&
+        filenamePattern.includes(PatternToken.Serial))
     )
-      return InvalidReason.PatternMayNotBeUnique
-
-    return undefined
+      return undefined
+    return InvalidReason.PatternMayNotBeUnique
   }
 
   validate(): InvalidReason | undefined {
@@ -105,7 +104,7 @@ export class FilenameSetting extends ValueObject<FilenameSettingProps> {
     if (!this.props.fileAggregation) return baseDir
 
     switch (this.props.groupBy) {
-      case '{account}':
+      case AggregationToken.Account:
         return path.join(
           baseDir,
           mediaFile.mapBy(props => props.tweetUser.mapBy(props => props.screenName))

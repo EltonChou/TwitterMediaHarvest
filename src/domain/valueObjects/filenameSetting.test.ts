@@ -1,13 +1,13 @@
 import PatternToken from '#enums/patternToken'
 import { generateTweetMediaFile } from '#utils/test/tweetMediaFile'
-import { FilenameSetting } from './filenameSetting'
+import { AggregationToken, FilenameSetting } from './filenameSetting'
 import { faker } from '@faker-js/faker/locale/en'
 
 describe('unit test for filename settings', () => {
   it('can make full path with filename with ext', () => {
     const filenameSetting = new FilenameSetting({
       directory: 'sub',
-      groupBy: '{account}',
+      groupBy: AggregationToken.Account,
       fileAggregation: true,
       noSubDirectory: false,
       filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
@@ -30,7 +30,7 @@ describe('unit test for filename settings', () => {
   it('can make full path without sub-directory', () => {
     const filenameSetting = new FilenameSetting({
       directory: 'sub',
-      groupBy: '{account}',
+      groupBy: AggregationToken.Account,
       fileAggregation: true,
       noSubDirectory: true,
       filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
@@ -75,7 +75,7 @@ describe('unit test for filename settings', () => {
   ])('$description', ({ directory, isValid }) => {
     const filenameSetting = new FilenameSetting({
       directory: directory,
-      groupBy: '{account}',
+      groupBy: AggregationToken.Account,
       fileAggregation: true,
       noSubDirectory: true,
       filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
@@ -108,7 +108,7 @@ describe('unit test for filename settings', () => {
   ])('$description', ({ pattern, isValid }) => {
     const filenameSetting = new FilenameSetting({
       directory: 'dir',
-      groupBy: '{account}',
+      groupBy: AggregationToken.Account,
       fileAggregation: true,
       noSubDirectory: true,
       filenamePattern: pattern,
