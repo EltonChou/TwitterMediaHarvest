@@ -3,7 +3,8 @@
  */
 import { MockDownloadSettingsRepository } from '#mocks/repositories/downloadSettings'
 import useDownloadSettings from './useDownloadSettings'
-import { renderHook, waitFor } from '@testing-library/react'
+import { renderHook } from '@testing-library/react'
+import { act } from 'react'
 
 describe('unit test for useFeatureSettings hook', () => {
   const downloadSettingsRepo = new MockDownloadSettingsRepository()
@@ -27,27 +28,17 @@ describe('unit test for useFeatureSettings hook', () => {
     const { result } = renderHook(() => useDownloadSettings(downloadSettingsRepo))
     const [originalSettings, toggler] = result.current
 
-    await waitFor(() => {
-      const [settings] = result.current
-      expect(settings).toStrictEqual(downloadSettingsRepo.getDefault())
+    expect(originalSettings).toStrictEqual(downloadSettingsRepo.getDefault())
+
+    await act(async () => {
+      await toggler.aggressiveMode()
+      await toggler.askWhereToSave()
+      await toggler.enableAria2()
     })
 
-    await toggler.aggressiveMode()
-    await waitFor(() => {
-      const [settings] = result.current
-      expect(settings.aggressiveMode).toBe(!originalSettings.aggressiveMode)
-    })
-
-    await toggler.askWhereToSave()
-    await waitFor(() => {
-      const [settings] = result.current
-      expect(settings.askWhereToSave).toBe(!originalSettings.askWhereToSave)
-    })
-
-    await toggler.enableAria2()
-    await waitFor(() => {
-      const [settings] = result.current
-      expect(settings.enableAria2).toBe(!originalSettings.enableAria2)
-    })
+    const [settings] = result.current
+    expect(settings.aggressiveMode).toBe(!originalSettings.aggressiveMode)
+    expect(settings.askWhereToSave).toBe(!originalSettings.askWhereToSave)
+    expect(settings.enableAria2).toBe(!originalSettings.enableAria2)
   })
 })

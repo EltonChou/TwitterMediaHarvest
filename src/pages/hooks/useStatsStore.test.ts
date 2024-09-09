@@ -4,7 +4,8 @@
 import { UsageStatistics } from '#domain/valueObjects/usageStatistics'
 import { createStatsStore } from '#pages/stores/StatsStore'
 import useStatsStore from './useStatsStore'
-import { renderHook, waitFor } from '@testing-library/react'
+import { renderHook } from '@testing-library/react'
+import { act } from 'react'
 
 describe('unit test for useStatsStore hook', () => {
   it('can update stats when the store is change', async () => {
@@ -19,10 +20,12 @@ describe('unit test for useStatsStore hook', () => {
     getStats.mockResolvedValue(
       new UsageStatistics({ downloadCount: 10, trafficUsage: 100 })
     )
-    statsStore.triggerChange()
-    await waitFor(() => {
-      const stats = result.current
-      expect(stats.isGreaterThan(originalStats))
+
+    act(() => {
+      statsStore.triggerChange()
     })
+
+    const stats = result.current
+    expect(stats.isGreaterThan(originalStats))
   })
 })

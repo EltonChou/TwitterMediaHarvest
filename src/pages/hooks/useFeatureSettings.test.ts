@@ -3,7 +3,8 @@
  */
 import { MockFeatureSettingsRepository } from '#mocks/repositories/fetureSettings'
 import useFeatureSettings from './useFeatureSettings'
-import { renderHook, waitFor } from '@testing-library/react'
+import { renderHook } from '@testing-library/react'
+import { act } from 'react'
 
 describe('unit test for useFeatureSettings hook', () => {
   const featureSettingsRepo = new MockFeatureSettingsRepository()
@@ -27,27 +28,17 @@ describe('unit test for useFeatureSettings hook', () => {
     const { result } = renderHook(() => useFeatureSettings(featureSettingsRepo))
     const [originalSettings, toggler] = result.current
 
-    await waitFor(() => {
-      const [settings] = result.current
-      expect(settings).toStrictEqual(featureSettingsRepo.getDefault())
+    expect(originalSettings).toStrictEqual(featureSettingsRepo.getDefault())
+
+    await act(async () => {
+      await toggler.nsfw()
+      await toggler.keyboardShortcut()
+      await toggler.thumbnail()
     })
 
-    await toggler.nsfw()
-    await waitFor(() => {
-      const [settings] = result.current
-      expect(settings.autoRevealNsfw).toBe(!originalSettings.autoRevealNsfw)
-    })
-
-    await toggler.keyboardShortcut()
-    await waitFor(() => {
-      const [settings] = result.current
-      expect(settings.keyboardShortcut).toBe(!originalSettings.keyboardShortcut)
-    })
-
-    await toggler.thumbnail()
-    await waitFor(() => {
-      const [settings] = result.current
-      expect(settings.includeVideoThumbnail).toBe(!originalSettings.includeVideoThumbnail)
-    })
+    const [settings] = result.current
+    expect(settings.autoRevealNsfw).toBe(!originalSettings.autoRevealNsfw)
+    expect(settings.keyboardShortcut).toBe(!originalSettings.keyboardShortcut)
+    expect(settings.includeVideoThumbnail).toBe(!originalSettings.includeVideoThumbnail)
   })
 })
