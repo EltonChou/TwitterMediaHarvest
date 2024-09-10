@@ -1,4 +1,5 @@
 import type { ISettingsRepository } from '#domain/repositories/settings'
+import type { InitPayloadAction, PureAction } from '#pages/typings/reducerAction'
 import type { FeatureSettings } from '#schema'
 import { useCallback, useEffect, useReducer } from 'react'
 
@@ -6,7 +7,7 @@ function reducer(
   settings: FeatureSettings,
   action:
     | PureAction<'toggleNsfw' | 'toggleThumbnail' | 'toggleKeyboardShortcut'>
-    | DataInitAction<FeatureSettings>
+    | InitPayloadAction<FeatureSettings>
 ): FeatureSettings {
   switch (action.type) {
     case 'toggleNsfw':
@@ -39,7 +40,7 @@ const useFeatureSettings = (
     featureSettingsRepo.getDefault()
   )
 
-  const initSettings = useCallback(() => {
+  useEffect(() => {
     featureSettingsRepo.get().then(settings => {
       dispatch({
         type: 'init',
@@ -47,10 +48,6 @@ const useFeatureSettings = (
       })
     })
   }, [featureSettingsRepo])
-
-  useEffect(() => {
-    initSettings()
-  }, [initSettings])
 
   const toggleRevealNsfw = useCallback(async () => {
     await featureSettingsRepo.save({
