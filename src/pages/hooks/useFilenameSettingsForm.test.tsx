@@ -393,7 +393,21 @@ describe('unit test for useFilenameSettingForm hook', () => {
 
       expect(
         result.current.filenameSetting.mapBy(props => props.filenamePattern)
-      ).toStrictEqual([PatternToken.TweetId, PatternToken.Serial, PatternToken.Account])
+      ).toStrictEqual([PatternToken.TweetId, PatternToken.Account, PatternToken.Serial])
+      expect(result.current.status.filenamePatternIsValid).toBeTruthy()
+
+      act(() => result.current.handler.sortPatternToken(1, -2))
+
+      expect(
+        result.current.filenameSetting.mapBy(props => props.filenamePattern)
+      ).toStrictEqual([PatternToken.Account, PatternToken.TweetId, PatternToken.Serial])
+      expect(result.current.status.filenamePatternIsValid).toBeTruthy()
+
+      act(() => result.current.handler.sortPatternToken(1, 2))
+
+      expect(
+        result.current.filenameSetting.mapBy(props => props.filenamePattern)
+      ).toStrictEqual([PatternToken.Account, PatternToken.Serial, PatternToken.TweetId])
       expect(result.current.status.filenamePatternIsValid).toBeTruthy()
 
       unmount()

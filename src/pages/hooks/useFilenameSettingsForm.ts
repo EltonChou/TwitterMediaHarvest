@@ -148,6 +148,14 @@ type FormHandler = {
   setDirectory: (directory: string) => void
   toggleSubDirectory: () => void
   changePatternTokenState: (state: PatternTokenState) => (token: PatternToken) => void
+  /**
+   * - If `sourceIndex` is out of range, do nothing.
+   * - If *`destinationIndex < 0`*, the source element will be inserted into the begining of array.
+   * - If *`desitnationIndex > maximum index`*, the source element will be appended to the end of array.
+   *
+   * @param sourceIndex source index in pattern array.
+   * @param destinationIndex destination index in pattern array.
+   */
   sortPatternToken: (sourceIndex: number, destinationIndex: number) => void
   setAggregationToken: (aggregationToken: AggregationToken) => void
   toggleAggregationToken: () => void
@@ -194,33 +202,31 @@ const useFilenameSettingsForm = (
   const reset = useCallback(() => {
     settingsDispatch({ type: 'reset', payload: filenameSettingsRepo.getDefault() })
     formStatusDispatch({ type: 'formIsChanged' })
-  }, [settingsDispatch, filenameSettingsRepo])
+  }, [filenameSettingsRepo])
 
-  const setDirectory = useCallback(
-    (directory: string) => {
-      const invalidDirectoryReason = FilenameSetting.validateDirectory(directory)
-      const isValidDirectory = invalidDirectoryReason === undefined
-      formStatusDispatch({ type: 'formIsChanged' })
-      formStatusDispatch({
-        type: isValidDirectory ? 'directoryIsValid' : 'directoryIsInvalid',
-      })
-      setDirectoryMessage(
-        isValidDirectory
-          ? undefined
-          : {
-              type: 'error',
-              content: i18n('options_general_filenameSettings_message_dir'),
-            }
-      )
-      settingsDispatch({ type: 'setDirectory', payload: directory })
-    },
-    [settingsDispatch]
-  )
+  const setDirectory = useCallback((directory: string) => {
+    const invalidDirectoryReason = FilenameSetting.validateDirectory(directory)
+    const isValidDirectory = invalidDirectoryReason === undefined
+
+    formStatusDispatch({ type: 'formIsChanged' })
+    formStatusDispatch({
+      type: isValidDirectory ? 'directoryIsValid' : 'directoryIsInvalid',
+    })
+    setDirectoryMessage(
+      isValidDirectory
+        ? undefined
+        : {
+            type: 'error',
+            content: i18n('options_general_filenameSettings_message_dir'),
+          }
+    )
+    settingsDispatch({ type: 'setDirectory', payload: directory })
+  }, [])
 
   const toggleSubDirectory = useCallback(() => {
     formStatusDispatch({ type: 'formIsChanged' })
     settingsDispatch({ type: 'toggleDirectory' })
-  }, [settingsDispatch])
+  }, [])
 
   const changePatternTokenState = useCallback(
     (state: PatternTokenState) => (token: PatternToken) => {
@@ -255,15 +261,16 @@ const useFilenameSettingsForm = (
     },
     [filenameSettings]
   )
-
+  /**
+   * @see FormHandler#sortPatternToken for implementation details
+   */
   const sortPatternToken = useCallback(
     (sourceIndex: number, destinationIndex: number) => {
-      const newPattern = [...filenameSettings.mapBy(props => props.filenamePattern)]
-      if (sourceIndex < 0 || sourceIndex >= newPattern.length) return
-      if (destinationIndex < 0 || destinationIndex >= newPattern.length) return
+      const newPattern = filenameSettings.mapBy(props => props.filenamePattern)
+      const [target] = newPattern.splice(sourceIndex, 1)
+      if (target === undefined) return
 
-      const [removed] = newPattern.splice(sourceIndex, 1)
-      newPattern.splice(destinationIndex, 0, removed)
+      newPattern.splice(Math.max(0, destinationIndex), 0, target)
       formStatusDispatch({ type: 'formIsChanged' })
       settingsDispatch({
         type: 'setFilenamePattern',
