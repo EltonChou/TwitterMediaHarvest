@@ -143,7 +143,7 @@ type FormMessage = {
 type PatternTokenState = 'enable' | 'disable'
 
 type FormHandler = {
-  submit: () => void
+  submit: () => Promise<void>
   reset: () => void
   setDirectory: (directory: string) => void
   toggleSubDirectory: () => void
@@ -191,12 +191,11 @@ const useFilenameSettingsForm = (
     })
   }, [filenameSettingsRepo])
 
-  const submit = useCallback(() => {
+  const submit = useCallback(async () => {
     if (!isValidFormStatus(formStatus) || filenameSettings.validate() !== undefined)
       return
-    filenameSettingsRepo
-      .save(filenameSettings)
-      .then(() => formStatusDispatch({ type: 'formIsNotChanged' }))
+    await filenameSettingsRepo.save(filenameSettings)
+    formStatusDispatch({ type: 'formIsNotChanged' })
   }, [filenameSettingsRepo, filenameSettings, formStatus])
 
   const reset = useCallback(() => {
