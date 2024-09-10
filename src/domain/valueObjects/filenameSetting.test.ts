@@ -4,46 +4,55 @@ import { AggregationToken, FilenameSetting } from './filenameSetting'
 import { faker } from '@faker-js/faker/locale/en'
 
 describe('unit test for filename settings', () => {
-  it('can make full path with filename with ext', () => {
-    const filenameSetting = new FilenameSetting({
-      directory: 'sub',
-      groupBy: AggregationToken.Account,
-      fileAggregation: true,
-      noSubDirectory: false,
-      filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
-    })
-    const mediaFile = generateTweetMediaFile()
-    const fullPath = filenameSetting.makeFilename(mediaFile)
+  const mediaFile = generateTweetMediaFile()
+  const { tweetId, serial, ext, createdAt } = mediaFile.mapBy(props => props)
+  const { screenName } = mediaFile.mapBy(props => props.tweetUser.mapBy(props => props))
+  const baseSettings = {
+    directory: 'sub',
+    groupBy: AggregationToken.Account,
+    fileAggregation: true,
+    noSubDirectory: false,
+    filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
+  }
+  const year = createdAt.getFullYear()
+  const month = createdAt.getMonth()
+  const date = createdAt.getDate()
+  const hour = createdAt.getHours()
+  const minute = createdAt.getMinutes()
+  const second = createdAt.getSeconds()
 
-    const directory = filenameSetting.mapBy(props => props.directory)
-    const { tweetId, serial, ext } = mediaFile.mapBy(props => props)
-    const { screenName } = mediaFile.mapBy(props => props.tweetUser.mapBy(props => props))
+  const padTwo = (t: number) => String(t).padStart(2, '0')
 
-    expect(fullPath).toBe(
-      `${directory}/${screenName}/${screenName}-${tweetId}-${String(serial).padStart(
+  it.each([
+    {
+      settings: baseSettings,
+      expectedPath: `${
+        baseSettings.directory
+      }/${screenName}/${screenName}-${tweetId}-${String(serial).padStart(2, '0')}${ext}`,
+    },
+    {
+      settings: { ...baseSettings, noSubDirectory: true },
+      expectedPath: `${screenName}/${screenName}-${tweetId}-${String(serial).padStart(
         2,
         '0'
-      )}${ext}`
-    )
-  })
-
-  it('can make full path without sub-directory', () => {
-    const filenameSetting = new FilenameSetting({
-      directory: 'sub',
-      groupBy: AggregationToken.Account,
-      fileAggregation: true,
-      noSubDirectory: true,
-      filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
-    })
-    const mediaFile = generateTweetMediaFile()
+      )}${ext}`,
+    },
+    {
+      settings: {
+        ...baseSettings,
+        noSubDirectory: true,
+        fileAggregation: false,
+        filenamePattern: [PatternToken.UnderscoreTweetDatetime],
+      },
+      expectedPath: `${year}${padTwo(month + 1)}${padTwo(date)}_${padTwo(hour)}${padTwo(
+        minute
+      )}${padTwo(second)}${ext}`,
+    },
+  ])('can make filename', ({ settings, expectedPath }) => {
+    const filenameSetting = new FilenameSetting(settings)
     const fullPath = filenameSetting.makeFilename(mediaFile)
 
-    const { tweetId, serial, ext } = mediaFile.mapBy(props => props)
-    const { screenName } = mediaFile.mapBy(props => props.tweetUser.mapBy(props => props))
-
-    expect(fullPath).toBe(
-      `${screenName}/${screenName}-${tweetId}-${String(serial).padStart(2, '0')}${ext}`
-    )
+    expect(fullPath).toBe(expectedPath)
   })
 
   it.each([

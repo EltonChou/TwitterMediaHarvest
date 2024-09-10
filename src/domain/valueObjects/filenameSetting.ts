@@ -90,6 +90,11 @@ export class FilenameSetting extends ValueObject<FilenameSettingProps> {
       .replace(PatternToken.TweetDate, makeDateString(createdAt))
       .replace(PatternToken.TweetDatetime, makeDatetimeString(createdAt))
       .replace(PatternToken.AccountId, userId)
+      .replace(PatternToken.UnderscoreDateTime, makeUnderscoreDatetimeString(currentDate))
+      .replace(
+        PatternToken.UnderscoreTweetDatetime,
+        makeUnderscoreDatetimeString(createdAt)
+      )
 
     return path.format({
       dir: this.makeAggregationDirectory(mediaFile),
