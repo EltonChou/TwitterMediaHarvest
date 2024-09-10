@@ -37,7 +37,7 @@ const useDownloadSettings = (
         payload: settings,
       })
     })
-  }, [])
+  }, [downloadSettingsRepo])
 
   const toggleAria2 = async () => {
     if (downloadSettings.enableAria2 === false) {
