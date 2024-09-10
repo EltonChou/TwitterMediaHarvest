@@ -10,7 +10,7 @@ import { act } from 'react'
 describe('unit test for useStatsStore hook', () => {
   it('can update stats when the store is change', async () => {
     const getStats = jest
-      .fn<Promise<UsageStatistics>, any, any>()
+      .fn()
       .mockResolvedValue(new UsageStatistics({ downloadCount: 0, trafficUsage: 0 }))
     const statsStore = createStatsStore({ getStats })
 
