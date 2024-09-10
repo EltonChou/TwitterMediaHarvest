@@ -21,9 +21,7 @@ describe('unit test for useStatsStore hook', () => {
       new UsageStatistics({ downloadCount: 10, trafficUsage: 100 })
     )
 
-    act(() => {
-      statsStore.triggerChange()
-    })
+    await act(statsStore.triggerChange)
 
     const stats = result.current
     expect(stats.isGreaterThan(originalStats))
