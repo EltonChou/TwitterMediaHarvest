@@ -57,8 +57,17 @@ const getPhotoElementByUrl =
   (article: HTMLElement): HTMLElement | undefined =>
     select(`[href*="${photoUrl}"]`, article)
 
-const getArticleAnchor = (article: HTMLElement): HTMLAnchorElement =>
-  select('[href*="/status/"]', article)
+/**
+ * A tweet always(looks like) has a time element wrapped by anchor with permalink of tweet.
+ *
+ * So the parser should try finding this time element then checks its ancestor is anchor or not.
+ * If there is no permalink anchor, fuzzily search element which might has permalink.
+ */
+const getArticleAnchor = (article: HTMLElement): HTMLAnchorElement | undefined => {
+  const anchorTime = select('a[href*="/status/"] > time', article)
+  if (anchorTime) return anchorTime.closest('a')
+  return select('[href*="/status/"]', article)
+}
 
 const aricleHasPhoto = (article: HTMLElement): boolean => {
   const articleAnchor = getArticleAnchor(article)
