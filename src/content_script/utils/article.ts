@@ -57,8 +57,11 @@ const getPhotoElementByUrl =
   (article: HTMLElement): HTMLElement | undefined =>
     select(`[href*="${photoUrl}"]`, article)
 
-const getArticleAnchor = (article: HTMLElement): HTMLAnchorElement =>
-  select('[href*="/status/"]', article)
+const getArticleAnchor = (article: HTMLElement): HTMLAnchorElement | undefined => {
+  const anchorTime = select('a[href*="/status/"] > time', article)
+  if (anchorTime) return anchorTime.closest('a')
+  return select('[href*="/status/"]', article)
+}
 
 const aricleHasPhoto = (article: HTMLElement): boolean => {
   const articleAnchor = getArticleAnchor(article)
