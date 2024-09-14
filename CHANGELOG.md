@@ -5,6 +5,8 @@
 
 ## [4.2.9] - 2024-09-14
 
+### Fixed
+
 - Fix issue that download button disappeared in quoted tweet. (#191)
 
 
