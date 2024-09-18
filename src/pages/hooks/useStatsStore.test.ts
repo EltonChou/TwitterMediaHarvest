@@ -4,8 +4,7 @@
 import { UsageStatistics } from '#domain/valueObjects/usageStatistics'
 import { createStatsStore } from '#pages/stores/StatsStore'
 import useStatsStore from './useStatsStore'
-import { renderHook } from '@testing-library/react'
-import { act } from 'react'
+import { act, renderHook } from '@testing-library/react'
 
 describe('unit test for useStatsStore hook', () => {
   it('can update stats when the store is change', async () => {
@@ -14,7 +13,16 @@ describe('unit test for useStatsStore hook', () => {
       .mockResolvedValue(new UsageStatistics({ downloadCount: 0, trafficUsage: 0 }))
     const statsStore = createStatsStore({ getStats })
 
-    const { result } = renderHook(() => useStatsStore(statsStore))
+    const mockListen = jest.fn()
+
+    const { result } = renderHook(() =>
+      useStatsStore(statsStore, {
+        listenTo: (criterias, triggerChange) => {
+          mockListen.mockImplementation(triggerChange)
+        },
+        neutralize: () => mockListen.mockClear(),
+      })
+    )
     const originalStats = result.current
 
     getStats.mockResolvedValue(
