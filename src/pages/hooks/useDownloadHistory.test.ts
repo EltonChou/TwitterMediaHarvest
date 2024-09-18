@@ -232,6 +232,8 @@ describe('unit test for useDownloadHistory hook', () => {
       const mockCallback = jest.fn()
       act(() => result.current.pageHandler.prevPage({ cbs: [mockCallback] }))
 
+      // It should only be called when the hook mounted.
+      expect(mockSearch).toHaveBeenCalledTimes(1)
       expect(result.current.info.currentPage).toBe(1)
       expect(result.current.info.hasPrevPage).toBeFalsy()
       expect(mockCallback).not.toHaveBeenCalled()
@@ -309,6 +311,8 @@ describe('unit test for useDownloadHistory hook', () => {
       const mockCallback = jest.fn()
       act(() => result.current.pageHandler.nextPage({ cbs: [mockCallback] }))
 
+      // It should only be called when the hook mounted.
+      expect(mockSearch).toHaveBeenCalledTimes(1)
       expect(result.current.info.currentPage).toBe(1)
       expect(result.current.info.hasNextPage).toBeFalsy()
       expect(mockCallback).not.toHaveBeenCalled()
