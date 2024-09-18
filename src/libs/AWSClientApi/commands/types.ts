@@ -1,7 +1,7 @@
 import { HttpRequest, HttpResponse } from '@smithy/protocol-http'
 import { HeaderBag } from '@smithy/types'
 
-export enum HttpMethod {
+export const enum HttpMethod {
   Post = 'POST',
   Get = 'GET',
   Put = 'PUT',

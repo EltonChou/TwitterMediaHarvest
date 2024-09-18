@@ -6,7 +6,7 @@ import Browser from 'webextension-polyfill'
 
 const NOTIFICATION_CONTEXT_MESSAGE = 'Media Harvest'
 
-enum TemplateType {
+const enum TemplateType {
   Basic = 'basic',
   Image = 'image',
   List = 'list',
@@ -15,7 +15,7 @@ enum TemplateType {
 
 const getNotificationIconUrl = () => Browser.runtime.getURL('assets/icons/icon@128.png')
 
-export enum MediaDownloadNotificationErrorButton {
+export const enum MediaDownloadNotificationErrorButton {
   ViewTweet = 0,
   RetryDownload = 1,
 }
@@ -50,7 +50,7 @@ export class MediaDownloadNotificationConfig {
   }
 }
 
-export enum GeneralTweetFetchErrorNotificationButton {
+export const enum GeneralTweetFetchErrorNotificationButton {
   ViewTweet = 0,
 }
 

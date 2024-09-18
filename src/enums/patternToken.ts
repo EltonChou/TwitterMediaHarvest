@@ -1,4 +1,4 @@
-enum PatternToken {
+const enum PatternToken {
   Account = '{account}',
   AccountId = '{accountId}',
   TweetId = '{tweetId}',

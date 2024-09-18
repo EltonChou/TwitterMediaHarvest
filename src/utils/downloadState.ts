@@ -1,6 +1,6 @@
 import type { Downloads } from 'webextension-polyfill'
 
-enum DownloadState {
+const enum DownloadState {
   InProgress = 'in_progress',
   Interrupted = 'interrupted',
   Complete = 'complete',

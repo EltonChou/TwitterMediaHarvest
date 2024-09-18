@@ -1,4 +1,4 @@
-enum MediaType {
+const enum MediaType {
   Mixed = 'mixed',
   Video = 'video',
   Image = 'image',

@@ -1,4 +1,4 @@
-enum ConflictAction {
+const enum ConflictAction {
   Overwrite = 'overwrite',
   Uniquify = 'uniquify',
   Prompt = 'prompt',
