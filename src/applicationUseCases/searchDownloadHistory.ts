@@ -35,19 +35,35 @@ export type Query = {
   hashtags: string[]
 }
 
-export type QueryResult =
+interface QueryMetadata {
+  page: {
+    total: number
+    prev: number | null
+    current: number
+    next: number | null
+  }
+  itemPerPage: number
+  matchedCount: number
+}
+
+export interface DownloadHistoryQueryResponse {
+  $metadata: QueryMetadata
+  result: QueryResult
+}
+
+type QueryResult =
   | {
       items: DownloadHistoryInfo[]
-      matchedCount: number
       error: undefined
     }
   | {
       items: []
-      matchedCount: -1
       error: Error
     }
 
-export class SearchDownloadHistoryUseCase implements AsyncUseCase<Query, QueryResult> {
+export class SearchDownloadHistoryUseCase
+  implements AsyncUseCase<Query, DownloadHistoryQueryResponse>
+{
   constructor(
     readonly searchDownloadHistory: SearchDownloadHistory,
     readonly searchTweetIdsByHashtags: SearchTweetIdsByHashTags
@@ -64,15 +80,33 @@ export class SearchDownloadHistoryUseCase implements AsyncUseCase<Query, QueryRe
     return toSuccessResult(tweetIds)
   }
 
-  async process(query: Query): Promise<QueryResult> {
+  async process(query: Query): Promise<DownloadHistoryQueryResponse> {
     const { value: tweetIds, error: tweetIdsError } = await this.searchTweetIds(
       query.hashtags
     )
-    if (tweetIdsError) return toErrorQueryResult(tweetIdsError)
+
+    const itemPerPage = Math.abs(query.itemPerPage)
+    const currentPage = Math.max(1, Math.abs(query.page))
+
+    const toErrorResponse = (error: Error): DownloadHistoryQueryResponse => ({
+      $metadata: {
+        itemPerPage,
+        page: {
+          total: 1,
+          prev: null,
+          current: currentPage,
+          next: null,
+        },
+        matchedCount: 0,
+      },
+      result: toErrorQueryResult(error),
+    })
+
+    if (tweetIdsError) return toErrorResponse(tweetIdsError)
 
     const result = await this.searchDownloadHistory.process({
       tweetIds: tweetIds,
-      limit: query.itemPerPage,
+      limit: itemPerPage,
       skip: calcSkip(query),
       filters: [
         makeUserNameFilter(query.filter.userName),
@@ -84,20 +118,30 @@ export class SearchDownloadHistoryUseCase implements AsyncUseCase<Query, QueryRe
       },
     })
 
-    if (result.error) return toErrorQueryResult(result.error)
+    if (result.error) return toErrorResponse(result.error)
 
     return {
-      error: undefined,
-      items: result.items.map(downloadHistoryToInfo),
-      matchedCount: result.matchedCount,
+      $metadata: {
+        itemPerPage,
+        page: {
+          total: Math.ceil(result.matchedCount / itemPerPage),
+          prev: currentPage > 1 ? currentPage - 1 : null,
+          current: currentPage,
+          next: currentPage * itemPerPage <= result.matchedCount ? null : currentPage + 1,
+        },
+        matchedCount: result.matchedCount,
+      },
+      result: {
+        items: result.items.map(downloadHistoryToInfo),
+        error: undefined,
+      },
     }
   }
 }
 
 const toErrorQueryResult = (error: Error): QueryResult => ({
-  error: error,
   items: [],
-  matchedCount: -1,
+  error: error,
 })
 
 const calcSkip = (query: Query): number => Math.max(0, query.page - 1) * query.itemPerPage

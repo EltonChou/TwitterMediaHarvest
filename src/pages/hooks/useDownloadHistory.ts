@@ -1,144 +1,196 @@
-import { searchDownloadHistory, searchTweetIdsByHashtags } from '../../infraProvider'
-import {
-  type DownloadHistoryInfo,
+import type {
+  DownloadHistoryInfo,
+  DownloadHistoryQueryResponse,
   Query,
-  SearchDownloadHistoryUseCase,
-} from 'applicationUseCases/searchDownloadHistory'
+} from '../../applicationUseCases/searchDownloadHistory'
+import type { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDownloadHistory'
 import { useCallback, useEffect, useState } from 'react'
 
-export { type DownloadHistoryInfo } from 'applicationUseCases/searchDownloadHistory'
+export type DownloadHistoryItem = DownloadHistoryInfo
 
-type Callbacks = Array<() => void>
+interface WithCallbacks {
+  cbs: Callback[]
+}
 
 type DownloadHistory = {
   info: {
     isLoaded: boolean
+    hasNextPage: boolean
+    hasPrevPage: boolean
     total: number
     totalPages: number
     currentPage: number
   }
   handler: {
-    search: (query: SearchQuery) => void
-    // export: () => Promise<void>
-    // import: (content: string) => Promise<void>
-    refresh: (...cbs: Callbacks) => void
+    search: (query: SearchQuery, option?: WithCallbacks) => void
+    refresh: (option?: WithCallbacks) => void
   }
   items: DownloadHistoryInfo[]
   pageHandler: {
     setItemPerPage: (count: number) => void
-    nextPage: (...cbs: Callbacks) => void
-    prevPage: (...cbs: Callbacks) => void
-    setPage: (...cbs: Callbacks) => void
+    nextPage: (option?: WithCallbacks) => void
+    prevPage: (option?: WithCallbacks) => void
+    specifyPage: (page: number, option?: WithCallbacks) => void
   }
 }
 
-type SearchParams = {
-  count: number
-  skip: number
+type Callback = () => void
+
+type PageInfo = {
+  total: number
+  prev: number | null
+  current: number
+  next: number | null
 }
-
-const calcSkip = (itemPerPage: number) => (page: number) => (page - 1) * itemPerPage
-const calcTotalPages = (itemPerPage: number) => (itemCount: number) =>
-  Math.max(1, Math.ceil(itemCount / itemPerPage))
-
-const searchDownloadHistoryUseCase = new SearchDownloadHistoryUseCase(
-  searchDownloadHistory,
-  searchTweetIdsByHashtags
-)
 
 export type SearchQuery = Pick<Query, 'filter' | 'hashtags'>
-const defaultQuery: SearchQuery = {
+const DEFAULT_QUERY = Object.freeze<SearchQuery>({
   filter: { mediaType: '*', userName: '*' },
   hashtags: [],
-}
+})
 
-const useDownloadHistory = (itemCount: number): DownloadHistory => {
+const useDownloadHistory = ({
+  searchDownloadHistoryUseCase,
+  initItemPerPage,
+}: {
+  searchDownloadHistoryUseCase: SearchDownloadHistoryUseCase
+  initItemPerPage: number
+}): DownloadHistory => {
   const [items, setItems] = useState<DownloadHistoryInfo[]>([])
-  const [query, setQuery] = useState<SearchQuery>(defaultQuery)
-  const [pageCount, setPageCount] = useState(1)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemPerPage, setItemPerPage] = useState(itemCount)
+  const [query, setQuery] = useState<SearchQuery>(DEFAULT_QUERY)
+  const [pageInfo, setPageInfo] = useState<PageInfo>({
+    prev: null,
+    current: 1,
+    next: null,
+    total: 1,
+  })
+  const [itemPerPage, setItemPerPage] = useState(initItemPerPage)
   const [isLoaded, setLoaded] = useState(false)
   const [total, setTotal] = useState(0)
 
-  const loadLatest = useCallback(
-    async ({ count, skip }: SearchParams) => {
-      const setStates = ([items, count]: [DownloadHistoryInfo[], number]) => {
-        setItems(items)
-        setTotal(count)
-        const totalPages = calcTotalPages(itemPerPage)(count)
-        setPageCount(totalPages)
-      }
+  const setResultByResponse = useCallback((resp: DownloadHistoryQueryResponse) => {
+    setItems(resp.result.items)
+    setTotal(resp.$metadata.matchedCount)
+    setPageInfo(resp.$metadata.page)
+  }, [])
 
-      const result = await searchDownloadHistoryUseCase.process({
+  const loadLatest = useCallback(
+    async ({ itemPerPage, query }: { itemPerPage: number; query: SearchQuery }) => {
+      const resp = await searchDownloadHistoryUseCase.process({
         ...query,
-        itemPerPage: count,
-        page: currentPage,
+        itemPerPage: itemPerPage,
+        page: 1,
       })
 
-      return result.error
-        ? setStates([[], 0])
-        : setStates([result.items, result.matchedCount])
+      return setResultByResponse(resp)
     },
-    [currentPage, query, itemPerPage]
+    [setResultByResponse, searchDownloadHistoryUseCase]
   )
 
   useEffect(() => {
-    loadLatest({ count: itemCount, skip: 0 }).then(() => {
-      setCurrentPage(1)
+    loadLatest({ itemPerPage, query }).then(() => {
       setLoaded(true)
     })
-  }, [query, itemCount, loadLatest])
+  }, [itemPerPage, loadLatest, query])
 
-  const prevPage: DownloadHistory['pageHandler']['prevPage'] = (...cbs) => {
-    if (currentPage === 1) return
-    const page = currentPage - 1
-    setCurrentPage(page)
-    loadLatest({ count: itemPerPage, skip: calcSkip(itemPerPage)(page) })
-    cbs.forEach(cb => cb())
-  }
+  const prevPage: DownloadHistory['pageHandler']['prevPage'] = useCallback(
+    options => {
+      if (pageInfo.prev === null) return
+      searchDownloadHistoryUseCase
+        .process({
+          filter: query.filter,
+          hashtags: query.hashtags,
+          itemPerPage: itemPerPage,
+          page: pageInfo.prev,
+        })
+        .then(setResultByResponse)
+        .then(() => {
+          if (options) options.cbs.forEach(cb => cb())
+        })
+    },
+    [
+      itemPerPage,
+      pageInfo.prev,
+      query.filter,
+      query.hashtags,
+      searchDownloadHistoryUseCase,
+      setResultByResponse,
+    ]
+  )
 
-  const nextPage: DownloadHistory['pageHandler']['nextPage'] = (...cbs) => {
-    if (currentPage === pageCount) return
-    const page = currentPage + 1
-    setCurrentPage(page)
-    loadLatest({ count: itemPerPage, skip: calcSkip(itemPerPage)(page) })
-    cbs.forEach(cb => cb())
-  }
+  const nextPage: DownloadHistory['pageHandler']['nextPage'] = useCallback(
+    options => {
+      if (pageInfo.next === null) return
+      searchDownloadHistoryUseCase
+        .process({
+          filter: query.filter,
+          hashtags: query.hashtags,
+          itemPerPage: itemPerPage,
+          page: pageInfo.next,
+        })
+        .then(setResultByResponse)
+        .then(() => {
+          if (options) options.cbs.forEach(cb => cb())
+        })
+    },
+    [
+      itemPerPage,
+      pageInfo.next,
+      query.filter,
+      query.hashtags,
+      searchDownloadHistoryUseCase,
+      setResultByResponse,
+    ]
+  )
 
-  const setPage: DownloadHistory['pageHandler']['setPage'] =
-    (...cbs) =>
-    (page: number) => {
-      if (currentPage === page) return
-      setCurrentPage(page)
-      loadLatest({ count: itemPerPage, skip: calcSkip(itemPerPage)(page) })
-      cbs.forEach(cb => cb())
-    }
+  const specifyPage: DownloadHistory['pageHandler']['specifyPage'] = useCallback(
+    (page, options) => {
+      searchDownloadHistoryUseCase
+        .process({
+          filter: query.filter,
+          hashtags: query.hashtags,
+          itemPerPage: itemPerPage,
+          page: page,
+        })
+        .then(setResultByResponse)
+        .then(() => {
+          if (options) options.cbs.forEach(cb => cb())
+        })
+    },
+    [
+      itemPerPage,
+      query.filter,
+      query.hashtags,
+      searchDownloadHistoryUseCase,
+      setResultByResponse,
+    ]
+  )
 
   return {
     info: {
       isLoaded: isLoaded,
       total: total,
-      totalPages: pageCount,
-      currentPage: currentPage,
+      totalPages: pageInfo.total,
+      currentPage: pageInfo.current,
+      hasNextPage: pageInfo.next !== null,
+      hasPrevPage: pageInfo.prev !== null,
     },
     pageHandler: {
-      setPage,
+      specifyPage,
       nextPage,
       prevPage,
       setItemPerPage,
     },
     handler: {
-      search: query => setQuery(query),
-      refresh: (...cbs) => {
-        setQuery(defaultQuery)
-        cbs.forEach(cb => cb())
-      },
-      // export: async () => searchDownloadHistory.export(),
-      // import: async content => {
-      //   const history = await searchDownloadHistory.parse(content)
-      //   searchDownloadHistory.import(history.items)
-      // },
+      search: useCallback(query => setQuery(query), []),
+      refresh: useCallback(
+        options => {
+          loadLatest({ itemPerPage, query: DEFAULT_QUERY }).then(() => {
+            if (options) options.cbs.forEach(cb => cb())
+          })
+        },
+        [itemPerPage, loadLatest]
+      ),
     },
     items: items,
   }
