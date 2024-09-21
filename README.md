@@ -13,6 +13,9 @@
 # TwitterMediaHarvest
 **Gather medias with just one-click.**
 
+This project is refactoring.
+Please check [v5 branch](https://github.com/EltonChou/TwitterMediaHarvest/tree/v5_dev)
+
 If you are a firefox user, please download `xpi` file in release page.
 
 ## Features
