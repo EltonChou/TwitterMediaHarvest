@@ -14,9 +14,9 @@ import {
 } from '@chakra-ui/react'
 import React, { useId } from 'react'
 
-type FeatureSwitchPros = {
+type FeatureSwitchProps = {
   isOn: boolean
-  handleChange: () => void | Promise<void>
+  handleChange: () => void
   labelContent: string
 }
 
@@ -24,7 +24,7 @@ export const FeatureSwitch = ({
   isOn,
   handleChange,
   labelContent,
-}: FeatureSwitchPros) => {
+}: FeatureSwitchProps) => {
   const controlId = useId()
   const switchMb = useLocaleVariables({
     fallback: 'unset',
@@ -39,6 +39,7 @@ export const FeatureSwitch = ({
         flex={1}
         cursor="pointer"
         fontSize={'inherit'}
+        data-testid="feature-switch-label"
       >
         {labelContent}
       </FormLabel>
@@ -48,6 +49,7 @@ export const FeatureSwitch = ({
         onChange={handleChange}
         colorScheme="cyan"
         mb={switchMb}
+        data-testid="feature-switch"
       />
     </HStack>
   )
@@ -68,8 +70,14 @@ const HelperText = ({ message }: HelperTextProps) => {
   const icon = message.type === 'info' ? InfoIcon : WarningTwoIcon
   return (
     <>
-      <Icon as={icon} color={color} />
-      <FormHelperText color={color}>{message.content || ''}</FormHelperText>
+      <SlideFade offsetY={'10px'} in={Boolean(message)} reverse={true}>
+        <HStack height={'1em'}>
+          <Icon as={icon} color={color} />
+          <FormHelperText color={color} data-testid="feature-switch-helper-text">
+            {message.content}
+          </FormHelperText>
+        </HStack>
+      </SlideFade>
     </>
   )
 }
@@ -77,7 +85,7 @@ const HelperText = ({ message }: HelperTextProps) => {
 type RichFeatureSwithProps = {
   name: string
   desc: string | JSX.Element
-  isOn?: boolean
+  isOn: boolean
   handleClick?: () => void
   isDisable?: boolean
   message?: HelperMessage | undefined
@@ -103,6 +111,7 @@ export const RichFeatureSwitch = ({
         cursor={isDisable ? 'not-allowed' : cursor}
         marginInlineEnd={0}
         fontSize={'1em'}
+        data-testid="feature-switch-label"
       >
         <HStack
           spacing={8}
@@ -115,11 +124,7 @@ export const RichFeatureSwitch = ({
               {name}
             </Text>
             <Text color={'gray.400'}>{desc}</Text>
-            <SlideFade offsetY={'10px'} in={Boolean(message)} reverse={true}>
-              <HStack height={'1em'}>
-                <HelperText message={message} />
-              </HStack>
-            </SlideFade>
+            <HelperText message={message} />
             {children}
           </Stack>
           {handleClick && (
@@ -130,6 +135,7 @@ export const RichFeatureSwitch = ({
                 onChange={handleClick}
                 colorScheme={'cyan'}
                 size={'md'}
+                data-testid="feature-switch"
               />
             </Box>
           )}
