@@ -1,0 +1,401 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`unit test for FeatureSwitch can render properly 1`] = `
+<div>
+  <div
+    class="chakra-stack css-1igwmid"
+  >
+    <label
+      class="chakra-form__label css-qculm7"
+      data-testid="feature-switch-label"
+      for=":r0:"
+    >
+      label-content
+    </label>
+    <label
+      class="chakra-switch css-7knp5j"
+      data-checked=""
+      data-testid="feature-switch"
+    >
+      <input
+        checked=""
+        class="chakra-switch__input"
+        id=":r0:"
+        style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+        type="checkbox"
+        value=""
+      />
+      <span
+        aria-hidden="true"
+        class="chakra-switch__track css-14qxnv8"
+        data-checked=""
+      >
+        <span
+          class="chakra-switch__thumb css-0"
+          data-checked=""
+        />
+      </span>
+    </label>
+  </div>
+</div>
+`;
+
+exports[`unit test for RichFeatureSwitch can render properly when disabled 1`] = `
+<div>
+  <div
+    class="chakra-form-control css-0"
+    data-disabled=""
+    label="feature-name"
+    role="group"
+  >
+    <label
+      class="chakra-form__label css-qf9lcl"
+      data-disabled=""
+      data-testid="feature-switch-label"
+      for=":r9:"
+      id="field-:ra:-label"
+    >
+      <div
+        class="chakra-stack css-mz2o5n"
+        style="transition: background 300ms;"
+      >
+        <div
+          class="chakra-stack css-1bef4uc"
+        >
+          <p
+            class="chakra-text css-1tbqbam"
+          >
+            feature-name
+          </p>
+          <p
+            class="chakra-text css-qljqz"
+          >
+            feature-desc
+          </p>
+          <div
+            class="chakra-offset-slide"
+            style="opacity: 0; transform: translateX(0px) translateY(10px) translateZ(0);"
+          >
+            <div
+              class="chakra-stack css-ng2lei"
+            >
+              <svg
+                class="chakra-icon chakra-icon css-1pb7hk0"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M23.119,20,13.772,2.15h0a2,2,0,0,0-3.543,0L.881,20a2,2,0,0,0,1.772,2.928H21.347A2,2,0,0,0,23.119,20ZM11,8.423a1,1,0,0,1,2,0v6a1,1,0,1,1-2,0Zm1.05,11.51h-.028a1.528,1.528,0,0,1-1.522-1.47,1.476,1.476,0,0,1,1.448-1.53h.028A1.527,1.527,0,0,1,13.5,18.4,1.475,1.475,0,0,1,12.05,19.933Z"
+                  fill="currentColor"
+                />
+              </svg>
+              <div
+                class="chakra-form__helper-text css-1fdmls1"
+                data-testid="feature-switch-helper-text"
+                id="field-:ra:-helptext"
+              >
+                some information
+              </div>
+            </div>
+          </div>
+          <span
+            data-testid="kappa"
+          >
+            kappa
+          </span>
+        </div>
+        <div
+          class="css-fzqoy4"
+        >
+          <label
+            class="chakra-switch css-16pgy8f"
+            data-disabled=""
+            data-testid="feature-switch"
+          >
+            <input
+              aria-describedby="field-:ra:-helptext"
+              aria-disabled="true"
+              aria-invalid="false"
+              class="chakra-switch__input"
+              disabled=""
+              id=":r9:"
+              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+              type="checkbox"
+              value=""
+            />
+            <span
+              aria-hidden="true"
+              class="chakra-switch__track css-14qxnv8"
+              data-disabled=""
+            >
+              <span
+                class="chakra-switch__thumb css-0"
+                data-disabled=""
+              />
+            </span>
+          </label>
+        </div>
+      </div>
+    </label>
+  </div>
+</div>
+`;
+
+exports[`unit test for RichFeatureSwitch can render properly with empty message 1`] = `
+<div>
+  <div
+    class="chakra-form-control css-0"
+    label="feature-name"
+    role="group"
+  >
+    <label
+      class="chakra-form__label css-26d3j1"
+      data-testid="feature-switch-label"
+      for=":r7:"
+      id="field-:r8:-label"
+    >
+      <div
+        class="chakra-stack css-mz2o5n"
+        style="transition: background 300ms;"
+      >
+        <div
+          class="chakra-stack css-1bef4uc"
+        >
+          <p
+            class="chakra-text css-1tbqbam"
+          >
+            feature-name
+          </p>
+          <p
+            class="chakra-text css-qljqz"
+          >
+            feature-desc
+          </p>
+           
+          <span
+            data-testid="kappa"
+          >
+            kappa
+          </span>
+        </div>
+        <div
+          class="css-fzqoy4"
+        >
+          <label
+            class="chakra-switch css-16pgy8f"
+            data-testid="feature-switch"
+          >
+            <input
+              aria-disabled="false"
+              aria-invalid="false"
+              class="chakra-switch__input"
+              id=":r7:"
+              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+              type="checkbox"
+              value=""
+            />
+            <span
+              aria-hidden="true"
+              class="chakra-switch__track css-14qxnv8"
+            >
+              <span
+                class="chakra-switch__thumb css-0"
+              />
+            </span>
+          </label>
+        </div>
+      </div>
+    </label>
+  </div>
+</div>
+`;
+
+exports[`unit test for RichFeatureSwitch can render properly with error message 1`] = `
+<div>
+  <div
+    class="chakra-form-control css-0"
+    label="feature-name"
+    role="group"
+  >
+    <label
+      class="chakra-form__label css-28a6i0"
+      data-testid="feature-switch-label"
+      for=":r4:"
+      id="field-:r5:-label"
+    >
+      <div
+        class="chakra-stack css-mz2o5n"
+        style="transition: background 300ms;"
+      >
+        <div
+          class="chakra-stack css-1bef4uc"
+        >
+          <p
+            class="chakra-text css-1tbqbam"
+          >
+            feature-name
+          </p>
+          <p
+            class="chakra-text css-qljqz"
+          >
+            feature-desc
+          </p>
+          <div
+            class="chakra-offset-slide"
+            style="opacity: 0; transform: translateX(0px) translateY(10px) translateZ(0);"
+          >
+            <div
+              class="chakra-stack css-ng2lei"
+            >
+              <svg
+                class="chakra-icon chakra-icon css-1pb7hk0"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M23.119,20,13.772,2.15h0a2,2,0,0,0-3.543,0L.881,20a2,2,0,0,0,1.772,2.928H21.347A2,2,0,0,0,23.119,20ZM11,8.423a1,1,0,0,1,2,0v6a1,1,0,1,1-2,0Zm1.05,11.51h-.028a1.528,1.528,0,0,1-1.522-1.47,1.476,1.476,0,0,1,1.448-1.53h.028A1.527,1.527,0,0,1,13.5,18.4,1.475,1.475,0,0,1,12.05,19.933Z"
+                  fill="currentColor"
+                />
+              </svg>
+              <div
+                class="chakra-form__helper-text css-1fdmls1"
+                data-testid="feature-switch-helper-text"
+                id="field-:r5:-helptext"
+              >
+                some information
+              </div>
+            </div>
+          </div>
+          <span
+            data-testid="kappa"
+          >
+            kappa
+          </span>
+        </div>
+        <div
+          class="css-fzqoy4"
+        >
+          <label
+            class="chakra-switch css-16pgy8f"
+            data-testid="feature-switch"
+          >
+            <input
+              aria-describedby="field-:r5:-helptext"
+              aria-disabled="false"
+              aria-invalid="false"
+              class="chakra-switch__input"
+              id=":r4:"
+              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+              type="checkbox"
+              value=""
+            />
+            <span
+              aria-hidden="true"
+              class="chakra-switch__track css-14qxnv8"
+            >
+              <span
+                class="chakra-switch__thumb css-0"
+              />
+            </span>
+          </label>
+        </div>
+      </div>
+    </label>
+  </div>
+</div>
+`;
+
+exports[`unit test for RichFeatureSwitch can render properly with info message 1`] = `
+<div>
+  <div
+    class="chakra-form-control css-0"
+    label="feature-name"
+    role="group"
+  >
+    <label
+      class="chakra-form__label css-28a6i0"
+      data-testid="feature-switch-label"
+      for=":r1:"
+      id="field-:r2:-label"
+    >
+      <div
+        class="chakra-stack css-mz2o5n"
+        style="transition: background 300ms;"
+      >
+        <div
+          class="chakra-stack css-1bef4uc"
+        >
+          <p
+            class="chakra-text css-1tbqbam"
+          >
+            feature-name
+          </p>
+          <p
+            class="chakra-text css-qljqz"
+          >
+            feature-desc
+          </p>
+          <div
+            class="chakra-offset-slide"
+            style="opacity: 0; transform: translateX(0px) translateY(10px) translateZ(0);"
+          >
+            <div
+              class="chakra-stack css-ng2lei"
+            >
+              <svg
+                class="chakra-icon chakra-icon css-raeoph"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z"
+                  fill="currentColor"
+                />
+              </svg>
+              <div
+                class="chakra-form__helper-text css-s0rnn6"
+                data-testid="feature-switch-helper-text"
+                id="field-:r2:-helptext"
+              >
+                some information
+              </div>
+            </div>
+          </div>
+          <span
+            data-testid="kappa"
+          >
+            kappa
+          </span>
+        </div>
+        <div
+          class="css-fzqoy4"
+        >
+          <label
+            class="chakra-switch css-16pgy8f"
+            data-testid="feature-switch"
+          >
+            <input
+              aria-describedby="field-:r2:-helptext"
+              aria-disabled="false"
+              aria-invalid="false"
+              class="chakra-switch__input"
+              id=":r1:"
+              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+              type="checkbox"
+              value=""
+            />
+            <span
+              aria-hidden="true"
+              class="chakra-switch__track css-14qxnv8"
+            >
+              <span
+                class="chakra-switch__thumb css-0"
+              />
+            </span>
+          </label>
+        </div>
+      </div>
+    </label>
+  </div>
+</div>
+`;

@@ -9,7 +9,7 @@ describe('unit test for FeatureSwitch', () => {
   it('can render properly', () => {
     const mockChange = jest.fn()
 
-    const { unmount } = render(
+    const { container, unmount } = render(
       <FeatureSwitch isOn={true} handleChange={mockChange} labelContent="label-content" />
     )
 
@@ -20,6 +20,8 @@ describe('unit test for FeatureSwitch', () => {
     expect(label.textContent).toBe('label-content')
     expect(mockChange).toHaveBeenCalled()
 
+    expect(container).toMatchSnapshot()
+
     unmount()
   })
 })
@@ -28,7 +30,7 @@ describe('unit test for RichFeatureSwitch', () => {
   it('can render properly with info message', () => {
     const mockChange = jest.fn()
 
-    const { unmount } = render(
+    const { container, unmount } = render(
       <RichFeatureSwitch
         name="feature-name"
         desc="feature-desc"
@@ -54,13 +56,15 @@ describe('unit test for RichFeatureSwitch', () => {
     fireEvent(switch_, new MouseEvent('click'))
     expect(mockChange).toHaveBeenCalledTimes(2)
 
+    expect(container).toMatchSnapshot()
+
     unmount()
   })
 
   it('can render properly with error message', () => {
     const mockChange = jest.fn()
 
-    const { unmount } = render(
+    const { container, unmount } = render(
       <RichFeatureSwitch
         name="feature-name"
         desc="feature-desc"
@@ -86,13 +90,15 @@ describe('unit test for RichFeatureSwitch', () => {
     fireEvent(switch_, new MouseEvent('click'))
     expect(mockChange).toHaveBeenCalledTimes(2)
 
+    expect(container).toMatchSnapshot()
+
     unmount()
   })
 
   it('can render properly with empty message', () => {
     const mockChange = jest.fn()
 
-    const { unmount } = render(
+    const { container, unmount } = render(
       <RichFeatureSwitch
         name="feature-name"
         desc="feature-desc"
@@ -116,13 +122,15 @@ describe('unit test for RichFeatureSwitch', () => {
     fireEvent(switch_, new MouseEvent('click'))
     expect(mockChange).toHaveBeenCalledTimes(2)
 
+    expect(container).toMatchSnapshot()
+
     unmount()
   })
 
   it('can render properly when disabled', () => {
     const mockChange = jest.fn()
 
-    const { unmount } = render(
+    const { container, unmount } = render(
       <RichFeatureSwitch
         name="feature-name"
         desc="feature-desc"
@@ -145,6 +153,8 @@ describe('unit test for RichFeatureSwitch', () => {
     expect(mockChange).not.toHaveBeenCalled()
     fireEvent(switch_, new MouseEvent('click'))
     expect(mockChange).not.toHaveBeenCalled()
+
+    expect(container).toMatchSnapshot()
 
     unmount()
   })
