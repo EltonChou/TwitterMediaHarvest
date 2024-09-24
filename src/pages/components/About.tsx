@@ -1,84 +1,73 @@
+import type { IClientRepository } from '#domain/repositories/client'
+import useClient from '#pages/hooks/useClient'
 import ExtLinks from '#pages/links'
 import { i18n } from '#pages/utils'
-import { clientRepo } from '../../infraProvider'
-import { Link, Stack, Text } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
-import browser from 'webextension-polyfill'
+import { getFullVersion, getName } from '#utils/runtime'
+import { Link, Skeleton, Stack, Text } from '@chakra-ui/react'
+import React, { memo } from 'react'
 
-const ProductInformation = () => {
-  const [clientUuid, setClientUuid] = useState('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx')
+type ExtensionInformationProps = {
+  clientRepo: IClientRepository
+}
 
-  useEffect(() => {
-    clientRepo.get().then(({ value: client, error }) => {
-      if (error) return
-      setClientUuid(client.id.value)
-    })
-  }, [])
+const ExtensionInformation = ({ clientRepo }: ExtensionInformationProps) => {
+  const { isLoaded, uuid } = useClient(clientRepo)
 
   return (
     <Stack>
-      <Text fontSize={'1.5em'}>{browser.runtime.getManifest().name}</Text>
-      <Text fontSize={'sm'} color={'gray.500'}>
-        {clientUuid}
-      </Text>
+      <Text fontSize={'1.5em'}>{getName()}</Text>
+      <Skeleton isLoaded={isLoaded}>
+        <Text fontSize={'sm'} color={'gray.500'}>
+          {uuid}
+        </Text>
+      </Skeleton>
       <Text color={'gray.400'}>
-        {i18n('options_about_version')} {browser.runtime.getManifest().version_name}
+        {i18n('options_about_version')} {getFullVersion()}
       </Text>
     </Stack>
   )
 }
+
+type ExternalLinkProps = {
+  name: string
+  href: string
+}
+
+const ExternalLink = memo(({ name, href }: ExternalLinkProps) => (
+  <Link
+    isExternal
+    referrerPolicy="no-referrer"
+    href={href}
+    textTransform={'capitalize'}
+    data-testid="information-link"
+  >
+    {name}
+  </Link>
+))
 
 const Links = () => {
   return (
-    <Stack>
-      <Link
-        isExternal
-        referrerPolicy="no-referrer"
+    <Stack data-testid="information-links">
+      <ExternalLink
+        name={i18n('options_about_officialWebsite')}
         href={ExtLinks.website}
-        textTransform={'capitalize'}
-      >
-        {i18n('options_about_officialWebsite')}
-      </Link>
-      <Link
-        isExternal
-        referrerPolicy="no-referrer"
-        href={ExtLinks.privacy}
-        textTransform={'capitalize'}
-      >
-        {i18n('options_about_privacyPolicy')}
-      </Link>
-      <Link
-        isExternal
-        referrerPolicy="no-referrer"
-        href={ExtLinks.issues}
-        textTransform={'capitalize'}
-      >
-        {i18n('options_about_issues')}
-      </Link>
-      <Link
-        isExternal
-        referrerPolicy="no-referrer"
-        href={ExtLinks.changelog}
-        textTransform={'capitalize'}
-      >
-        {i18n('options_about_changeLog')}
-      </Link>
-      <Link
-        isExternal
-        referrerPolicy="no-referrer"
-        href={ExtLinks.github}
-        textTransform={'capitalize'}
-      >
-        Github
-      </Link>
+      />
+      <ExternalLink name={i18n('options_about_privacyPolicy')} href={ExtLinks.privacy} />
+      <ExternalLink name={i18n('options_about_issues')} href={ExtLinks.issues} />
+      <ExternalLink name={i18n('options_about_changeLog')} href={ExtLinks.changelog} />
+      <ExternalLink name="Github" href={ExtLinks.github} />
     </Stack>
   )
 }
 
-const About = () => {
+type AboutProps = {
+  clientRepo: IClientRepository
+}
+
+const About = ({ clientRepo }: AboutProps) => {
   return (
     <Stack p={'1.5rem'} spacing={10}>
-      <ProductInformation />
+      <ExtensionInformation clientRepo={clientRepo} />
       <Links />
     </Stack>
   )
