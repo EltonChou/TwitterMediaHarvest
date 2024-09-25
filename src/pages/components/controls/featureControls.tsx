@@ -105,7 +105,7 @@ export const RichFeatureSwitch = ({
 }: RichFeatureSwithProps) => {
   const id = useId()
   return (
-    <FormControl label={name} isDisabled={isDisable}>
+    <FormControl label={name} isDisabled={isDisable} data-testid="rich-feature-switch">
       <FormLabel
         htmlFor={id}
         cursor={isDisable ? 'not-allowed' : cursor}

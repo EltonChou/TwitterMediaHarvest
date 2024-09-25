@@ -45,6 +45,7 @@ exports[`unit test for RichFeatureSwitch can render properly when disabled 1`] =
   <div
     class="chakra-form-control css-0"
     data-disabled=""
+    data-testid="rich-feature-switch"
     label="feature-name"
     role="group"
   >
@@ -145,6 +146,7 @@ exports[`unit test for RichFeatureSwitch can render properly with empty message 
 <div>
   <div
     class="chakra-form-control css-0"
+    data-testid="rich-feature-switch"
     label="feature-name"
     role="group"
   >
@@ -214,6 +216,7 @@ exports[`unit test for RichFeatureSwitch can render properly with error message 
 <div>
   <div
     class="chakra-form-control css-0"
+    data-testid="rich-feature-switch"
     label="feature-name"
     role="group"
   >
@@ -309,6 +312,7 @@ exports[`unit test for RichFeatureSwitch can render properly with info message 1
 <div>
   <div
     class="chakra-form-control css-0"
+    data-testid="rich-feature-switch"
     label="feature-name"
     role="group"
   >
