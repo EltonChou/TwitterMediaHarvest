@@ -1,13 +1,20 @@
 import Links from '#pages/links'
 import { i18n } from '#pages/utils'
 import { StarIcon } from '@chakra-ui/icons'
-import { Box, BoxProps, Button, HStack, Link, Text } from '@chakra-ui/react'
+import { Box, Button, HStack, Link, Text } from '@chakra-ui/react'
 import React from 'react'
 import { BiCoffeeTogo } from 'react-icons/bi'
 
-const FootBar = (props: BoxProps) => {
+const FootBar = () => {
   return (
-    <Box {...props} fontSize={['1rem', '1rem', '1.5rem']} p={'0.5em'} bg={'brand.blue'}>
+    <Box
+      position={'sticky'}
+      bottom={0}
+      width={'full'}
+      fontSize={['1rem', '1rem', '1.5rem']}
+      p={'0.5em'}
+      bg={'brand.blue'}
+    >
       <HStack justify={'center'} spacing={[4, 4, 4, 8]}>
         <Text>{i18n('footbar_doYouLike')}</Text>
         <Link href={Links.store} _hover={{ textDecoration: 'none' }} isExternal>
