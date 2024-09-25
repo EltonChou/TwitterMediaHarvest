@@ -17,17 +17,17 @@ const KeyboardShortcutDesc = () => {
       </Text>
       <br />
       <Text as={'span'}>
-        TweetDeck (Legacy UI): <Kbd>{DownloadKey.LegacyTweetDeck.toUpperCase()}</Kbd>
-      </Text>
-      <br />
-      <Text as={'span'}>
-        TweetDeck (Beta UI): <Kbd>{DownloadKey.BetaTweetDeck.toUpperCase()}</Kbd>
+        TweetDeck: <Kbd>{DownloadKey.BetaTweetDeck.toUpperCase()}</Kbd>
       </Text>
     </Text>
   )
 }
 
-const FeatureOptions = (featureSettingsRepo: ISettingsRepository<FeatureSettings>) => {
+type FeatureOptionsProps = {
+  featureSettingsRepo: ISettingsRepository<FeatureSettings>
+}
+
+const FeatureOptions = ({ featureSettingsRepo }: FeatureOptionsProps) => {
   const [featureSettings, toggler] = useFeatureSettings(featureSettingsRepo)
 
   return (

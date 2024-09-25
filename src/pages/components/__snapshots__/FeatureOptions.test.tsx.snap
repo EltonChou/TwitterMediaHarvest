@@ -1,0 +1,220 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`unit test for FeatureOptions component can render properly 1`] = `
+<div>
+  <div
+    class="chakra-stack css-tl3ftk"
+  >
+    <div
+      class="chakra-form-control css-0"
+      data-testid="rich-feature-switch"
+      label="Translated<options_features_revealNsfw>"
+      role="group"
+    >
+      <label
+        class="chakra-form__label css-28a6i0"
+        data-testid="feature-switch-label"
+        for=":r0:"
+        id="field-:r1:-label"
+      >
+        <div
+          class="chakra-stack css-mz2o5n"
+          style="transition: background 300ms;"
+        >
+          <div
+            class="chakra-stack css-1bef4uc"
+          >
+            <p
+              class="chakra-text css-1tbqbam"
+            >
+              Translated&lt;options_features_revealNsfw&gt;
+            </p>
+            <p
+              class="chakra-text css-qljqz"
+            >
+              Translated&lt;options_features_revealNsfw_desc&gt;
+            </p>
+             
+          </div>
+          <div
+            class="css-fzqoy4"
+          >
+            <label
+              class="chakra-switch css-16pgy8f"
+              data-testid="feature-switch"
+            >
+              <input
+                aria-disabled="false"
+                aria-invalid="false"
+                class="chakra-switch__input"
+                id=":r0:"
+                style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                type="checkbox"
+                value=""
+              />
+              <span
+                aria-hidden="true"
+                class="chakra-switch__track css-14qxnv8"
+              >
+                <span
+                  class="chakra-switch__thumb css-0"
+                />
+              </span>
+            </label>
+          </div>
+        </div>
+      </label>
+    </div>
+    <div
+      class="chakra-form-control css-0"
+      data-testid="rich-feature-switch"
+      label="Translated<options_features_keyboardShortcut>"
+      role="group"
+    >
+      <label
+        class="chakra-form__label css-28a6i0"
+        data-testid="feature-switch-label"
+        for=":r2:"
+        id="field-:r3:-label"
+      >
+        <div
+          class="chakra-stack css-mz2o5n"
+          style="transition: background 300ms;"
+        >
+          <div
+            class="chakra-stack css-1bef4uc"
+          >
+            <p
+              class="chakra-text css-1tbqbam"
+            >
+              Translated&lt;options_features_keyboardShortcut&gt;
+            </p>
+            <p
+              class="chakra-text css-qljqz"
+            >
+              <span
+                class="chakra-text css-0"
+              >
+                Translated&lt;options_features_keyboardShortcut_desc&gt;
+                <br />
+                <span
+                  class="chakra-text css-0"
+                >
+                  Twitter: 
+                  <kbd
+                    class="chakra-kbd css-1u61e1q"
+                  >
+                    D
+                  </kbd>
+                </span>
+                <br />
+                <span
+                  class="chakra-text css-0"
+                >
+                  TweetDeck: 
+                  <kbd
+                    class="chakra-kbd css-1u61e1q"
+                  >
+                    P
+                  </kbd>
+                </span>
+              </span>
+            </p>
+             
+          </div>
+          <div
+            class="css-fzqoy4"
+          >
+            <label
+              class="chakra-switch css-16pgy8f"
+              data-checked=""
+              data-testid="feature-switch"
+            >
+              <input
+                aria-disabled="false"
+                aria-invalid="false"
+                checked=""
+                class="chakra-switch__input"
+                id=":r2:"
+                style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                type="checkbox"
+                value=""
+              />
+              <span
+                aria-hidden="true"
+                class="chakra-switch__track css-14qxnv8"
+                data-checked=""
+              >
+                <span
+                  class="chakra-switch__thumb css-0"
+                  data-checked=""
+                />
+              </span>
+            </label>
+          </div>
+        </div>
+      </label>
+    </div>
+    <div
+      class="chakra-form-control css-0"
+      data-testid="rich-feature-switch"
+      label="Translated<options_features_downloadVideoThumbnail>"
+      role="group"
+    >
+      <label
+        class="chakra-form__label css-28a6i0"
+        data-testid="feature-switch-label"
+        for=":r4:"
+        id="field-:r5:-label"
+      >
+        <div
+          class="chakra-stack css-mz2o5n"
+          style="transition: background 300ms;"
+        >
+          <div
+            class="chakra-stack css-1bef4uc"
+          >
+            <p
+              class="chakra-text css-1tbqbam"
+            >
+              Translated&lt;options_features_downloadVideoThumbnail&gt;
+            </p>
+            <p
+              class="chakra-text css-qljqz"
+            >
+              Translated&lt;options_features_downloadVideoThumbnail_desc&gt;
+            </p>
+             
+          </div>
+          <div
+            class="css-fzqoy4"
+          >
+            <label
+              class="chakra-switch css-16pgy8f"
+              data-testid="feature-switch"
+            >
+              <input
+                aria-disabled="false"
+                aria-invalid="false"
+                class="chakra-switch__input"
+                id=":r4:"
+                style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                type="checkbox"
+                value=""
+              />
+              <span
+                aria-hidden="true"
+                class="chakra-switch__track css-14qxnv8"
+              >
+                <span
+                  class="chakra-switch__thumb css-0"
+                />
+              </span>
+            </label>
+          </div>
+        </div>
+      </label>
+    </div>
+  </div>
+</div>
+`;
