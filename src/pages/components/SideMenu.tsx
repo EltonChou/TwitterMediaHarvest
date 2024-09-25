@@ -12,7 +12,7 @@ import {
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 
-type MenuItemProps = {
+interface MenuItemProps extends TestableComponent {
   name: string
   target: string
   closeMenu: () => void
@@ -25,6 +25,7 @@ const NavItem = (props: MenuItemProps) => {
       as={RouterLink}
       onClick={props.closeMenu}
       _hover={{ textDecoration: 'none' }}
+      data-testid={props.testId}
     >
       <Box
         p="0.5em 0 0.5em 1.5em"
@@ -44,27 +45,36 @@ type NavProps = {
 const Nav = ({ closeMenu }: NavProps) => {
   return (
     <VStack spacing={6} align="normal">
-      <NavItem name={i18n('options_sidemenu_general')} target="/" closeMenu={closeMenu} />
+      <NavItem
+        name={i18n('options_sidemenu_general')}
+        target="/"
+        closeMenu={closeMenu}
+        testId="nav-item-general"
+      />
       <NavItem
         name={i18n('options_sidemenu_features')}
         target="/features"
         closeMenu={closeMenu}
+        testId="nav-item-features"
       />
       <NavItem
         name={i18n('options_sidemenu_integrations')}
         target="/integrations"
         closeMenu={closeMenu}
+        testId="nav-item-integrations"
       />
       <NavItem
         name={i18n('options_sidemenu_history')}
         target="/history"
         closeMenu={closeMenu}
+        testId="nav-item-history"
       />
       {/* <NavItem name="Statistics" target="/statistics" /> */}
       <NavItem
         name={i18n('options_sidemenu_about')}
         target="/about"
         closeMenu={closeMenu}
+        testId="nav-item-about"
       />
     </VStack>
   )
@@ -96,6 +106,7 @@ const SideMenu = () => {
             _active={{ bg: 'rgba(255, 255, 255, 0.2)' }}
             icon={<HamburgerIcon />}
             onClick={() => setActive.on()}
+            data-testid="side-menu-burger"
           />
         </Flex>
         <Box
@@ -106,6 +117,7 @@ const SideMenu = () => {
           style={{ transition: 'background 300ms' }}
           hidden={!isActive}
           onClick={() => setActive.off()}
+          data-testid="side-menu-dimmed"
         ></Box>
       </Box>
       <Flex

@@ -8,3 +8,7 @@ type DataActionWithPayload<T, PT> = {
 }
 
 type DataInitAction<T> = DataActionWithPayload<'init', T>
+
+interface TestableComponent {
+  testId: string
+}

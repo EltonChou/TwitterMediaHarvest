@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`unit test for SideMenu component can navigate 1`] = `
+<div>
+  <div
+    class="css-bnqvgd"
+  >
+    <div
+      class="css-ye05mj"
+    >
+      <button
+        aria-label="Side menu"
+        class="chakra-button css-mpgmse"
+        data-testid="side-menu-burger"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="chakra-icon css-onkibi"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M 3 5 A 1.0001 1.0001 0 1 0 3 7 L 21 7 A 1.0001 1.0001 0 1 0 21 5 L 3 5 z M 3 11 A 1.0001 1.0001 0 1 0 3 13 L 21 13 A 1.0001 1.0001 0 1 0 21 11 L 3 11 z M 3 17 A 1.0001 1.0001 0 1 0 3 19 L 21 19 A 1.0001 1.0001 0 1 0 21 17 L 3 17 z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      class="css-6arntv"
+      data-testid="side-menu-dimmed"
+      hidden=""
+      style="transition: background 300ms;"
+    />
+  </div>
+  <div
+    class="css-1hnriqd"
+    style="transition: left 200ms;"
+  >
+    <div
+      class="css-2y8fku"
+    />
+    <div
+      class="chakra-stack css-mu32hu"
+    >
+      <a
+        class="chakra-link css-4a6x12"
+        data-testid="nav-item-general"
+        href="#/"
+      >
+        <div
+          class="css-1iv9rl2"
+          style="transition: background 300ms;"
+        >
+          Translated&lt;options_sidemenu_general&gt;
+        </div>
+      </a>
+      <a
+        class="chakra-link css-4a6x12"
+        data-testid="nav-item-features"
+        href="#/features"
+      >
+        <div
+          class="css-1iv9rl2"
+          style="transition: background 300ms;"
+        >
+          Translated&lt;options_sidemenu_features&gt;
+        </div>
+      </a>
+      <a
+        class="chakra-link css-4a6x12"
+        data-testid="nav-item-integrations"
+        href="#/integrations"
+      >
+        <div
+          class="css-1iv9rl2"
+          style="transition: background 300ms;"
+        >
+          Translated&lt;options_sidemenu_integrations&gt;
+        </div>
+      </a>
+      <a
+        class="chakra-link css-4a6x12"
+        data-testid="nav-item-history"
+        href="#/history"
+      >
+        <div
+          class="css-1iv9rl2"
+          style="transition: background 300ms;"
+        >
+          Translated&lt;options_sidemenu_history&gt;
+        </div>
+      </a>
+      <a
+        class="chakra-link css-4a6x12"
+        data-testid="nav-item-about"
+        href="#/about"
+      >
+        <div
+          class="css-1iv9rl2"
+          style="transition: background 300ms;"
+        >
+          Translated&lt;options_sidemenu_about&gt;
+        </div>
+      </a>
+    </div>
+  </div>
+  <span
+    hidden=""
+    id="__chakra_env"
+  />
+  <h1>
+    general
+  </h1>
+</div>
+`;
