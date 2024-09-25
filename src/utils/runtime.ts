@@ -6,3 +6,5 @@ export const getFullVersion = () =>
   Browser.runtime.getManifest().version_name ?? getVersion()
 
 export const getRuntimeId = () => Browser.runtime.id
+
+export const getName = () => Browser.runtime.getManifest().name
