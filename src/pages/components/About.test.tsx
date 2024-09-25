@@ -25,7 +25,7 @@ describe('unit test for About component', () => {
 
     const links = screen.getAllByTestId('information-link')
 
-    expect(links.length).toBe(5)
+    expect(links).toHaveLength(5)
     expect(container).toMatchSnapshot()
 
     unmount()
