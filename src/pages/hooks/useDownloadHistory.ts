@@ -3,7 +3,7 @@ import type {
   DownloadHistoryQueryResponse,
   Query,
 } from '../../applicationUseCases/searchDownloadHistory'
-import type { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDownloadHistory'
+import { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDownloadHistory'
 import { useCallback, useEffect, useState } from 'react'
 
 export type DownloadHistoryItem = DownloadHistoryInfo
@@ -49,13 +49,15 @@ const DEFAULT_QUERY = Object.freeze<SearchQuery>({
   hashtags: [],
 })
 
+type UseDownloadHistoryProps = {
+  initItemPerPage: number
+  searchDownloadHistoryUseCase: SearchDownloadHistoryUseCase
+}
+
 const useDownloadHistory = ({
   searchDownloadHistoryUseCase,
   initItemPerPage,
-}: {
-  searchDownloadHistoryUseCase: SearchDownloadHistoryUseCase
-  initItemPerPage: number
-}): DownloadHistory => {
+}: UseDownloadHistoryProps): DownloadHistory => {
   const [items, setItems] = useState<DownloadHistoryInfo[]>([])
   const [query, setQuery] = useState<SearchQuery>(DEFAULT_QUERY)
   const [pageInfo, setPageInfo] = useState<PageInfo>({
