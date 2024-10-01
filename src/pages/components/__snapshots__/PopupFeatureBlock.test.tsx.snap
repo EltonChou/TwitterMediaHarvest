@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`unit test for PopupFeatureBlock component match snapshot 1`] = `
+<div>
+  <div
+    class="chakra-stack css-1i9xnlj"
+  >
+    <div
+      class="chakra-stack css-1igwmid"
+    >
+      <label
+        class="chakra-form__label css-qculm7"
+        data-testid="feature-switch-label"
+        for=":r0:"
+      >
+        Translated&lt;popup_features_revealNsfw&gt;
+      </label>
+      <label
+        class="chakra-switch css-7knp5j"
+        data-testid="feature-switch"
+      >
+        <input
+          class="chakra-switch__input"
+          id=":r0:"
+          style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+          type="checkbox"
+          value=""
+        />
+        <span
+          aria-hidden="true"
+          class="chakra-switch__track css-14qxnv8"
+        >
+          <span
+            class="chakra-switch__thumb css-0"
+          />
+        </span>
+      </label>
+    </div>
+    <div
+      class="chakra-stack css-1igwmid"
+    >
+      <label
+        class="chakra-form__label css-qculm7"
+        data-testid="feature-switch-label"
+        for=":r1:"
+      >
+        Translated&lt;popup_features_downloadVideoThumbnail&gt;
+      </label>
+      <label
+        class="chakra-switch css-7knp5j"
+        data-testid="feature-switch"
+      >
+        <input
+          class="chakra-switch__input"
+          id=":r1:"
+          style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+          type="checkbox"
+          value=""
+        />
+        <span
+          aria-hidden="true"
+          class="chakra-switch__track css-14qxnv8"
+        >
+          <span
+            class="chakra-switch__thumb css-0"
+          />
+        </span>
+      </label>
+    </div>
+  </div>
+</div>
+`;

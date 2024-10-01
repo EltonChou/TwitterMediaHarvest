@@ -1,15 +1,29 @@
+import type { ISettingsRepository } from '#domain/repositories/settings'
 import useFeatureSettings from '#pages/hooks/useFeatureSettings'
+import useLocaleVariables from '#pages/hooks/useLocaleVariables'
 import { i18n } from '#pages/utils'
+import type { FeatureSettings } from '#schema'
 import { FeatureSwitch } from './controls/featureControls'
-import type { StackProps } from '@chakra-ui/react'
 import { Stack } from '@chakra-ui/react'
-import React from 'react'
+import React, { memo } from 'react'
 
-const PopupFeatureBlock = (props: StackProps) => {
-  const [featureSettings, toggler] = useFeatureSettings()
+export type PopupFeatureBlockProps = {
+  featureSettingsRepo: ISettingsRepository<FeatureSettings>
+}
+
+const PopupFeatureBlock = memo((props: PopupFeatureBlockProps) => {
+  const localizationPadding = useLocaleVariables({ fallback: '50px', ja: '40px' })
+  const [featureSettings, toggler] = useFeatureSettings(props.featureSettingsRepo)
 
   return (
-    <Stack direction={'column'} {...props}>
+    <Stack
+      direction={'column'}
+      spacing={3}
+      justify="center"
+      flex={1}
+      pl={localizationPadding}
+      pr={localizationPadding}
+    >
       <FeatureSwitch
         isOn={featureSettings.autoRevealNsfw}
         handleChange={toggler.nsfw}
@@ -22,6 +36,6 @@ const PopupFeatureBlock = (props: StackProps) => {
       />
     </Stack>
   )
-}
+})
 
 export default PopupFeatureBlock
