@@ -13,25 +13,16 @@ describe('unit test for useStatsStore hook', () => {
       .mockResolvedValue(new UsageStatistics({ downloadCount: 0, trafficUsage: 0 }))
     const statsStore = createStatsStore({ getStats })
 
-    const mockListen = jest.fn()
-
-    const { result } = renderHook(() =>
-      useStatsStore(statsStore, {
-        listenTo: (criterias, triggerChange) => {
-          mockListen.mockImplementation(triggerChange)
-        },
-        neutralize: () => mockListen.mockClear(),
-      })
-    )
-    const originalStats = result.current
+    const { result } = renderHook(() => useStatsStore(statsStore))
+    const [originalStats, { triggerChange }] = result.current
 
     getStats.mockResolvedValue(
       new UsageStatistics({ downloadCount: 10, trafficUsage: 100 })
     )
 
-    await act(statsStore.triggerChange)
+    await act(triggerChange)
 
-    const stats = result.current
+    const [stats] = result.current
     expect(stats.isGreaterThan(originalStats))
   })
 })
