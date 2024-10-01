@@ -10,10 +10,12 @@ describe('unit test for PopupFeatureBlock component', () => {
   const featureSettingsRepo = new MockFeatureSettingsRepository()
 
   it('match snapshot', () => {
-    const { container } = render(
+    const { container, unmount } = render(
       <PopupFeatureBlock featureSettingsRepo={featureSettingsRepo} />
     )
 
     waitFor(() => expect(container).toMatchSnapshot())
+
+    unmount()
   })
 })
