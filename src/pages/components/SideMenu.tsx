@@ -1,3 +1,4 @@
+import { Path } from '#pages/routes'
 import { i18n } from '#pages/utils'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import {
@@ -47,32 +48,32 @@ const Nav = ({ closeMenu }: NavProps) => {
     <VStack spacing={6} align="normal">
       <NavItem
         name={i18n('options_sidemenu_general')}
-        target="/"
+        target={Path.General}
         closeMenu={closeMenu}
         testId="nav-item-general"
       />
       <NavItem
         name={i18n('options_sidemenu_features')}
-        target="/features"
+        target={Path.Features}
         closeMenu={closeMenu}
         testId="nav-item-features"
       />
       <NavItem
         name={i18n('options_sidemenu_integrations')}
-        target="/integrations"
+        target={Path.Integrations}
         closeMenu={closeMenu}
         testId="nav-item-integrations"
       />
       <NavItem
         name={i18n('options_sidemenu_history')}
-        target="/history"
+        target={Path.History}
         closeMenu={closeMenu}
         testId="nav-item-history"
       />
       {/* <NavItem name="Statistics" target="/statistics" /> */}
       <NavItem
         name={i18n('options_sidemenu_about')}
-        target="/about"
+        target={Path.About}
         closeMenu={closeMenu}
         testId="nav-item-about"
       />
