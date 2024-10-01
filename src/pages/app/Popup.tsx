@@ -1,8 +1,13 @@
-import PopupFeatureBlock from '#pages/components/PopupFeatureBlock'
+import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
+import PopupFeatureBlock, {
+  type PopupFeatureBlockProps,
+} from '#pages/components/PopupFeatureBlock'
 import useLocaleVariables from '#pages/hooks/useLocaleVariables'
 import useStatsStore from '#pages/hooks/useStatsStore'
 import Links from '#pages/links'
+import { createStatsStore } from '#pages/stores/StatsStore'
 import { i18n } from '#pages/utils'
+import { getFullVersion } from '#utils/runtime'
 import {
   Box,
   Center,
@@ -17,7 +22,7 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { BiCoffeeTogo, BiFile } from 'react-icons/bi'
 import { FaGithub } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
@@ -26,7 +31,7 @@ import {
   MdOutlineSentimentDissatisfied,
   MdOutlineSentimentSatisfied,
 } from 'react-icons/md'
-import browser from 'webextension-polyfill'
+import { type Storage, runtime, storage } from 'webextension-polyfill'
 
 const NavBar = () => {
   const settingsSize = 6
@@ -41,7 +46,8 @@ const NavBar = () => {
         _hover={{ bg: 'rgba(255, 255, 255, 0.33)' }}
         _active={{ bg: 'rgba(255, 255, 255, 0.66)' }}
         icon={<Icon boxSize={settingsSize} as={IoMdSettings} />}
-        onClick={() => window.open(browser.runtime.getURL('index.html'), '_blank')}
+        onClick={() => runtime.openOptionsPage()}
+        data-testid="navbar-options"
       />
     </Flex>
   )
@@ -52,15 +58,33 @@ const NavBar = () => {
 //   return Math.round(((count + Number.EPSILON) / 1000) * base) / base
 // }
 
-const Stats = () => {
-  const { downloadCount: count } = useStatsStore()
+export type StatsProps = {
+  usageStatisticsRepo: IUsageStatisticsRepository
+}
+
+const Stats = (props: StatsProps) => {
+  const [stats, { criterias, triggerChange }] = useStatsStore(
+    createStatsStore({ getStats: async () => props.usageStatisticsRepo.get() })
+  )
+
+  useEffect(() => {
+    const statsListener: Parameters<Storage.Static['onChanged']['addListener']>[0] = (
+      changes,
+      areaName
+    ) => {
+      if (Object.keys(changes).some(storageKey => storageKey in criterias))
+        triggerChange()
+    }
+
+    storage.onChanged.addListener(statsListener)
+    return () => storage.onChanged.removeListener(statsListener)
+  }, [criterias, triggerChange])
 
   return (
     <Box>
       <Center>
         <Text as="span" fontSize={'4rem'} fontWeight={600} lineHeight="shorter">
-          {/* {count > 100000 ? calcStats(count, 1) + ' K' : count} */}
-          {count}
+          {stats.mapBy(props => props.downloadCount)}
         </Text>
       </Center>
       <Center>
@@ -88,14 +112,14 @@ const Reaction = (props: ReactionProps) => (
 const ReactionsBlock = () => {
   return (
     <Stack spacing={2} fontSize={'0.8em'}>
-      <Link href={Links.store} target="_blank">
+      <Link href={Links.store} target="_blank" data-testid="reaction-rate">
         <Reaction
           name={i18n('popup_reactions_rate')}
           iconColor={'brand.green'}
           icon={MdOutlineSentimentSatisfied}
         />
       </Link>
-      <Link href={Links.issues} target="_blank">
+      <Link href={Links.issues} target="_blank" data-testid="reaction-report">
         <Reaction
           name={i18n('popup_reactions_report')}
           iconColor={'brand.red'}
@@ -113,7 +137,7 @@ type FooterActionButtonProps = {
   link: string
   setInfo: (info: string) => void
   infoReseter: () => void
-}
+} & TestableComponent
 
 const FooterActionButton = memo((props: FooterActionButtonProps) => {
   return (
@@ -130,15 +154,17 @@ const FooterActionButton = memo((props: FooterActionButtonProps) => {
       onMouseEnter={() => props.setInfo(props.info)}
       onMouseLeave={props.infoReseter}
       onClick={() => window.open(props.link, '_blank')}
+      data-testid={props.testId}
     />
   )
 })
 
-const versionName = 'v' + browser.runtime.getManifest().version_name
+const versionName = 'v' + getFullVersion()
 
 const Footer = () => {
   const [info, setInfo] = useState(versionName)
   const resetInfo = useCallback(() => setInfo(versionName), [])
+
   return (
     <Flex
       bg="#404040"
@@ -151,7 +177,7 @@ const Footer = () => {
       align="center"
     >
       <Box fontSize={'md'} ml="8px" mr="8px" color="white">
-        {info}
+        <span data-testid="footer-info">{info}</span>
       </Box>
       <Spacer />
       <FooterActionButton
@@ -161,6 +187,7 @@ const Footer = () => {
         link={Links.changelog}
         setInfo={setInfo}
         infoReseter={resetInfo}
+        testId="footer-action-changelog"
       />
       <FooterActionButton
         icon={FaGithub}
@@ -169,6 +196,7 @@ const Footer = () => {
         link={Links.github}
         setInfo={setInfo}
         infoReseter={resetInfo}
+        testId="footer-action-github"
       />
       <FooterActionButton
         icon={BiCoffeeTogo}
@@ -177,13 +205,15 @@ const Footer = () => {
         link={Links.koFi}
         setInfo={setInfo}
         infoReseter={resetInfo}
+        testId="footer-action-kofi"
       />
     </Flex>
   )
 }
 
-const Popup = () => {
-  const featurePadding = useLocaleVariables({ fallback: '50px', ja: '40px' })
+export type PopupProps = PopupFeatureBlockProps & StatsProps
+
+const Popup = (props: PopupProps) => {
   const baseFontSize = useLocaleVariables({
     fallback: '1.5rem',
     ja: '1rem',
@@ -194,14 +224,8 @@ const Popup = () => {
     <>
       <NavBar />
       <Stack spacing={4} height="375px" fontSize={baseFontSize} flexGrow={1}>
-        <Stats />
-        <PopupFeatureBlock
-          spacing={3}
-          justify="center"
-          flex={1}
-          pl={featurePadding}
-          pr={featurePadding}
-        />
+        <Stats usageStatisticsRepo={props.usageStatisticsRepo} />
+        <PopupFeatureBlock featureSettingsRepo={props.featureSettingsRepo} />
         <VStack align={'center'} flex="1" spacing={3}>
           <ReactionsBlock />
         </VStack>

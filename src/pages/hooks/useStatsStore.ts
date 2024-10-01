@@ -3,7 +3,7 @@ import type { StatsStore } from '#pages/stores/StatsStore'
 import type { V4Statistics } from '#schema'
 import { useSyncExternalStore } from 'react'
 
-const CHANGE_CRITERIAS: (keyof V4Statistics)[] = ['downloadCount', 'trafficUsage']
+export const CHANGE_CRITERIAS: (keyof V4Statistics)[] = ['downloadCount', 'trafficUsage']
 
 const useStatsStore = (
   statsStore: StatsStore
