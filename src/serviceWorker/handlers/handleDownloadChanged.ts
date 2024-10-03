@@ -11,29 +11,28 @@ export const handleDownloadChanged =
     downloadRepo: IDownloadRepository,
     checkDownloadIsOwnBySelf: CheckDownloadWasTriggeredBySelf,
     publisher: DomainEventPublisher
-  ) =>
-  async (downloadDelta: Downloads.OnChangedDownloadDeltaType) => {
+  ): ListenerOf<Downloads.Static['onChanged']> =>
+  async downloadDelta => {
     // Only focus on state.
     const { state: downloadStateDelta } = downloadDelta
-    if (downloadStateDelta) {
-      const downloadItem = await downloadRepo.getById(downloadDelta.id)
-      if (!downloadItem || !checkDownloadIsOwnBySelf.process({ item: downloadItem }))
-        return
+    if (!downloadStateDelta) return
 
-      if (isDownloadCompleted(downloadStateDelta)) {
-        await publisher.publish(new DownloadCompleted(downloadDelta.id))
-        return
-      }
+    const downloadItem = await downloadRepo.getById(downloadDelta.id)
+    if (!downloadItem || !checkDownloadIsOwnBySelf.process({ item: downloadItem })) return
 
-      if (isDownloadInterrupted(downloadStateDelta)) {
-        await publisher.publish(
-          new DownloadInterrupted(
-            downloadDelta.id,
-            downloadDelta.error?.current ?? 'unknown'
-          )
+    if (isDownloadCompleted(downloadStateDelta)) {
+      await publisher.publish(new DownloadCompleted(downloadDelta.id))
+      return
+    }
+
+    if (isDownloadInterrupted(downloadStateDelta)) {
+      await publisher.publish(
+        new DownloadInterrupted(
+          downloadDelta.id,
+          downloadDelta.error?.current ?? 'unknown'
         )
-        return
-      }
+      )
+      return
     }
   }
 

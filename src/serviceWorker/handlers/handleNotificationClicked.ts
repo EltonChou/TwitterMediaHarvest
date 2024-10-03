@@ -7,9 +7,11 @@ import {
   isDownloadId,
   isTweetFetchId,
 } from '#helpers/notificationId'
+import type { Notifications } from 'webextension-polyfill'
 
 const handleNotificationClicked =
-  (publisher: DomainEventPublisher) => async (notificationId: string) => {
+  (publisher: DomainEventPublisher): ListenerOf<Notifications.Static['onClicked']> =>
+  async notificationId => {
     if (isTweetFetchId(notificationId)) {
       const tweetId = extractTweetId(notificationId)
       await publisher.publish(new TweetFetchErrorNotificationClicked(tweetId))

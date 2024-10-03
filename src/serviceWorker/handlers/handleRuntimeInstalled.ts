@@ -5,8 +5,8 @@ import { getVersion } from '#utils/runtime'
 import type { Runtime } from 'webextension-polyfill'
 
 const handleRuntimeInstalled =
-  (publisher: DomainEventPublisher) =>
-  async (details: Runtime.OnInstalledDetailsType) => {
+  (publisher: DomainEventPublisher): ListenerOf<Runtime.Static['onInstalled']> =>
+  async details => {
     if (details.reason === 'browser_update') return
 
     const currentVersion = getVersion()

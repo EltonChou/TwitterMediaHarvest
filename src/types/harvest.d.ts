@@ -100,3 +100,9 @@ type Result<T, Err extends Error = Error> =
   | { value: undefined; error: Err }
   | { value: T; error: undefined }
 type AsyncResult<T, Err extends Error = Error> = Promise<Result<T, Err>>
+
+interface CanListen<T extends (...args: any[]) => void> {
+  addListener: (callback: T, ...params: any[]) => void
+}
+
+type ListenerOf<T> = T extends CanListen<infer Listener> ? Listener : never

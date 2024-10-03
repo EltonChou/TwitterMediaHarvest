@@ -68,7 +68,7 @@ const Stats = (props: StatsProps) => {
   )
 
   useEffect(() => {
-    const statsListener: Parameters<Storage.Static['onChanged']['addListener']>[0] = (
+    const statsListener: ListenerOf<Storage.Static['onChanged']> = (
       changes,
       areaName
     ) => {
