@@ -91,7 +91,7 @@ type RichFeatureSwithProps = {
   message?: HelperMessage | undefined
   children?: JSX.Element
   cursor?: 'default' | 'pointer'
-}
+} & TestableComponent
 
 export const RichFeatureSwitch = ({
   name,
@@ -102,10 +102,11 @@ export const RichFeatureSwitch = ({
   message,
   children,
   cursor = 'pointer',
+  testId,
 }: RichFeatureSwithProps) => {
   const id = useId()
   return (
-    <FormControl label={name} isDisabled={isDisable} data-testid="rich-feature-switch">
+    <FormControl label={name} isDisabled={isDisable} data-testid={testId}>
       <FormLabel
         htmlFor={id}
         cursor={isDisable ? 'not-allowed' : cursor}

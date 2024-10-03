@@ -59,6 +59,7 @@ const IntegrationOptions = (props: IntegrationOptionsProps) => {
         handleClick={toggler.enableAria2}
         isDisable={isInFireFox}
         message={message}
+        testId="dispatchToAria2-feature-switch"
       />
       <RichFeatureSwitch
         name={i18n('options_integrations_aggressiveMode')}
@@ -67,6 +68,7 @@ const IntegrationOptions = (props: IntegrationOptionsProps) => {
         handleClick={toggler.aggressiveMode}
         isDisable={isInFireFox}
         message={message}
+        testId="aggressiveMode-feature-switch"
       />
     </VStack>
   )

@@ -7,7 +7,7 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
   >
     <div
       class="chakra-form-control css-0"
-      data-testid="rich-feature-switch"
+      data-testid="dispatchToAria2-feature-switch"
       label="Translated<options_integrations_dispatchToAria2>"
       role="group"
     >
@@ -74,7 +74,7 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
     </div>
     <div
       class="chakra-form-control css-0"
-      data-testid="rich-feature-switch"
+      data-testid="aggressiveMode-feature-switch"
       label="Translated<options_integrations_aggressiveMode>"
       role="group"
     >
@@ -143,7 +143,7 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
   >
     <div
       class="chakra-form-control css-0"
-      data-testid="rich-feature-switch"
+      data-testid="dispatchToAria2-feature-switch"
       label="Translated<options_integrations_dispatchToAria2>"
       role="group"
     >
@@ -210,7 +210,7 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
     </div>
     <div
       class="chakra-form-control css-0"
-      data-testid="rich-feature-switch"
+      data-testid="aggressiveMode-feature-switch"
       label="Translated<options_integrations_aggressiveMode>"
       role="group"
     >
@@ -280,7 +280,7 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
     <div
       class="chakra-form-control css-0"
       data-disabled=""
-      data-testid="rich-feature-switch"
+      data-testid="dispatchToAria2-feature-switch"
       label="Translated<options_integrations_dispatchToAria2>"
       role="group"
     >
@@ -373,7 +373,7 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
     <div
       class="chakra-form-control css-0"
       data-disabled=""
-      data-testid="rich-feature-switch"
+      data-testid="aggressiveMode-feature-switch"
       label="Translated<options_integrations_aggressiveMode>"
       role="group"
     >

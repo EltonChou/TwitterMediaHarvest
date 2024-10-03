@@ -37,18 +37,21 @@ const FeatureOptions = ({ featureSettingsRepo }: FeatureOptionsProps) => {
         desc={i18n('options_features_revealNsfw_desc')}
         isOn={featureSettings.autoRevealNsfw}
         handleClick={toggler.nsfw}
+        testId="revealNsfw-feature-switch"
       />
       <RichFeatureSwitch
         name={i18n('options_features_keyboardShortcut')}
         desc={<KeyboardShortcutDesc />}
         isOn={featureSettings.keyboardShortcut}
         handleClick={toggler.keyboardShortcut}
+        testId="keyboardShortcut-feature-switch"
       />
       <RichFeatureSwitch
         name={i18n('options_features_downloadVideoThumbnail')}
         desc={i18n('options_features_downloadVideoThumbnail_desc')}
         isOn={featureSettings.includeVideoThumbnail}
         handleClick={toggler.thumbnail}
+        testId="videoThumbnail-feature-switch"
       />
     </VStack>
   )

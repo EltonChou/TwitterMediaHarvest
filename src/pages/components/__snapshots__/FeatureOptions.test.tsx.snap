@@ -7,7 +7,7 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
   >
     <div
       class="chakra-form-control css-0"
-      data-testid="rich-feature-switch"
+      data-testid="revealNsfw-feature-switch"
       label="Translated<options_features_revealNsfw>"
       role="group"
     >
@@ -67,7 +67,7 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
     </div>
     <div
       class="chakra-form-control css-0"
-      data-testid="rich-feature-switch"
+      data-testid="keyboardShortcut-feature-switch"
       label="Translated<options_features_keyboardShortcut>"
       role="group"
     >
@@ -157,7 +157,7 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
     </div>
     <div
       class="chakra-form-control css-0"
-      data-testid="rich-feature-switch"
+      data-testid="videoThumbnail-feature-switch"
       label="Translated<options_features_downloadVideoThumbnail>"
       role="group"
     >

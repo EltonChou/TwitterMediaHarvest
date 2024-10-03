@@ -39,6 +39,7 @@ describe('unit test for RichFeatureSwitch', () => {
         children={<span data-testid="kappa">kappa</span>}
         message={{ type: 'info', content: 'some information' }}
         cursor="pointer"
+        testId="rich-feature-switch"
       />
     )
     const label = screen.getByTestId('feature-switch-label')
@@ -73,6 +74,7 @@ describe('unit test for RichFeatureSwitch', () => {
         children={<span data-testid="kappa">kappa</span>}
         message={{ type: 'error', content: 'some information' }}
         cursor="pointer"
+        testId="rich-feature-switch"
       />
     )
     const label = screen.getByTestId('feature-switch-label')
@@ -106,6 +108,7 @@ describe('unit test for RichFeatureSwitch', () => {
         handleClick={mockChange}
         children={<span data-testid="kappa">kappa</span>}
         cursor="default"
+        testId="rich-feature-switch"
       />
     )
     const label = screen.getByTestId('feature-switch-label')
@@ -139,6 +142,7 @@ describe('unit test for RichFeatureSwitch', () => {
         handleClick={mockChange}
         children={<span data-testid="kappa">kappa</span>}
         message={{ type: 'error', content: 'some information' }}
+        testId="rich-feature-switch" /*  */
       />
     )
     const label = screen.getByTestId('feature-switch-label')
