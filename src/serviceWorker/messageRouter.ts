@@ -35,11 +35,15 @@ export class MessageRouter implements WebExtMessageRouter {
     this.routeMap = new Map()
   }
 
+  private getHandlerByAction(action: WebExtAction) {
+    return this.routeMap.get(action)
+  }
+
   async handle(ctx: MessageContext): Promise<void> {
     const { value, error } = messageSchema.validate(ctx.message)
     if (error) return ctx.response(makeErrorResponse('Invalid message.'))
 
-    const handler = this.routeMap.get(value.action)
+    const handler = this.getHandlerByAction(value.action)
 
     return handler
       ? handler(ctx)
