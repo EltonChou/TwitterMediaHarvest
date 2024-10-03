@@ -208,6 +208,7 @@ describe('unit test for useDownloadHistory hook', () => {
         expect(mockCallback).toHaveBeenCalled()
       })
     })
+
     it('cannot navigate to previous page when there is no previous page', () => {
       const mockSearch = jest.spyOn(mockSearchDownloadHistoryUseCase, 'process')
       mockSearch.mockResolvedValue({
