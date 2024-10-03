@@ -9,6 +9,7 @@ import { openFailedTweetInNewTab } from '#eventHandlers/openFailedTweetInNewTab'
 import { openTweetOfFailedDownloadInNewTab } from '#eventHandlers/openTweetOfFailedDownloadInNewTab'
 import { recordDispatchedDownloadConfiguration } from '#eventHandlers/recordDispatchedDownloadConfiguration'
 import { retryFailedDownload } from '#eventHandlers/retryFailedDownload'
+import { showClientInfoInConsole } from '#eventHandlers/showClientInfoInConsole'
 import { showUpdateMessageInConsole } from '#eventHandlers/showUpdateMessageInConsole'
 import { syncClient } from '#eventHandlers/syncClient'
 import { getNotifier } from '#infra/browserNotifier'
@@ -34,8 +35,12 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
   publisher
     .register('runtime:status:installed', [
       initClient(clientRepo, runtime.setUninstallURL),
+      showClientInfoInConsole(clientRepo),
     ])
-    .register('runtime:status:updated', [showUpdateMessageInConsole])
+    .register('runtime:status:updated', [
+      showUpdateMessageInConsole,
+      showClientInfoInConsole(clientRepo),
+    ])
     .register('download:status:dispatched:browser', [
       recordDispatchedDownloadConfiguration(downloadRecordRepo),
     ])

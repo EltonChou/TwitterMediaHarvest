@@ -8,6 +8,6 @@ test('handler to show update message in console', () => {
     new RuntimeUpdated({ current: '2.0.0', previous: '1.0.0' }),
     new MockEventPublisher()
   )
-  expect(mockLog).toHaveBeenCalled()
+  expect(mockLog).toHaveBeenCalledTimes(2)
   mockLog.mockClear()
 })

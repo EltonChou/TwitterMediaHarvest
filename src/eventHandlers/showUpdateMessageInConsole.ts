@@ -1,5 +1,6 @@
 import { DomainEventHandler } from '#domain/eventPublisher'
 
+/* eslint-disable no-console */
 export const showUpdateMessageInConsole: DomainEventHandler<
   DomainEventMap['runtime:status:updated']
 > = event => {
