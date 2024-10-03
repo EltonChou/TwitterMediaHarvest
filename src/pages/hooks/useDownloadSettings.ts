@@ -1,4 +1,5 @@
 import type { ISettingsRepository } from '#domain/repositories/settings'
+import { isFirefox } from '#helpers/runtime'
 import type { DownloadSettings } from '#schema'
 import { useEffect, useReducer } from 'react'
 
@@ -24,7 +25,11 @@ type Toggler = Record<keyof DownloadSettings, () => Promise<void>>
 
 const useDownloadSettings = (
   downloadSettingsRepo: ISettingsRepository<DownloadSettings>
-): [DownloadSettings, Toggler] => {
+): {
+  settings: DownloadSettings
+  toggler: Toggler
+  canAskSaveLocation: boolean
+} => {
   const [downloadSettings, dispatch] = useReducer(
     reducer,
     downloadSettingsRepo.getDefault()
@@ -63,14 +68,15 @@ const useDownloadSettings = (
     dispatch({ type: 'toggleAskWhere' })
   }
 
-  return [
-    downloadSettings,
-    {
+  return {
+    settings: downloadSettings,
+    toggler: {
       enableAria2: toggleAria2,
       aggressiveMode: toggleAggressive,
       askWhereToSave: toggleAskWhereToSave,
     },
-  ]
+    canAskSaveLocation: isFirefox() && downloadSettings.enableAria2 === false,
+  }
 }
 
 export default useDownloadSettings

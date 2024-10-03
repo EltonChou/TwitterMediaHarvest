@@ -38,7 +38,9 @@ type IntegrationOptionsProps = {
  * Some switches is disabled when `process.env.TARGET` is `firefox`.
  */
 const IntegrationOptions = (props: IntegrationOptionsProps) => {
-  const [integrationSettings, toggler] = useDownloadSettings(props.downloadSettingsRepo)
+  const { settings: integrationSettings, toggler } = useDownloadSettings(
+    props.downloadSettingsRepo
+  )
   const isInFireFox = isFirefox()
 
   const message: HelperMessage | undefined = isInFireFox
