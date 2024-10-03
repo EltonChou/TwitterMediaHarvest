@@ -9,13 +9,11 @@ import Popup from './Popup'
 import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { runtime, storage } from 'webextension-polyfill'
+import { runtime, storage, tabs } from 'webextension-polyfill'
 
 describe('unit test for Popup app component', () => {
   const mockFeatureSettingsRepo = new MockFeatureSettingsRepository()
   const mockUsageStatsRepo = new MockUsageStatisticsRepository()
-
-  const mockOpenWindow = jest.spyOn(window, 'open').mockImplementation(() => null)
 
   const storageChangeListeners: CallableFunction[] = []
   jest.spyOn(storage.onChanged, 'addListener').mockImplementation(listener => {
@@ -53,7 +51,7 @@ describe('unit test for Popup app component', () => {
       await user.hover(footerActionChangelog)
       await user.click(footerActionChangelog)
     })
-    expect(mockOpenWindow).toHaveBeenLastCalledWith(Links.changelog, '_blank')
+    expect(tabs.create).toHaveBeenLastCalledWith({ active: true, url: Links.changelog })
     expect(screen.getByTestId('footer-info')).toHaveTextContent(
       new RegExp('changelog', 'i')
     )
@@ -63,7 +61,7 @@ describe('unit test for Popup app component', () => {
       await user.hover(footerActionKofi)
       await user.click(footerActionKofi)
     })
-    expect(mockOpenWindow).toHaveBeenLastCalledWith(Links.koFi, '_blank')
+    expect(tabs.create).toHaveBeenLastCalledWith({ active: true, url: Links.koFi })
     expect(screen.getByTestId('footer-info')).toHaveTextContent(new RegExp('coffee', 'i'))
 
     const footerActionGithub = screen.getByTestId('footer-action-github')
@@ -71,7 +69,7 @@ describe('unit test for Popup app component', () => {
       await user.hover(footerActionGithub)
       await user.click(footerActionGithub)
     })
-    expect(mockOpenWindow).toHaveBeenLastCalledWith(Links.github, '_blank')
+    expect(tabs.create).toHaveBeenLastCalledWith({ active: true, url: Links.github })
     expect(screen.getByTestId('footer-info')).toHaveTextContent(new RegExp('github', 'i'))
 
     await act(async () => {

@@ -31,7 +31,7 @@ import {
   MdOutlineSentimentDissatisfied,
   MdOutlineSentimentSatisfied,
 } from 'react-icons/md'
-import { type Storage, runtime, storage } from 'webextension-polyfill'
+import { type Storage, runtime, storage, tabs } from 'webextension-polyfill'
 
 const NavBar = () => {
   const settingsSize = 6
@@ -45,7 +45,7 @@ const NavBar = () => {
         color="white"
         _hover={{ bg: 'rgba(255, 255, 255, 0.33)' }}
         _active={{ bg: 'rgba(255, 255, 255, 0.66)' }}
-        icon={<Icon boxSize={settingsSize} as={IoMdSettings} />}
+        icon={<Icon boxSize={6} as={IoMdSettings} />}
         onClick={() => runtime.openOptionsPage()}
         data-testid="navbar-options"
       />
@@ -153,7 +153,7 @@ const FooterActionButton = memo((props: FooterActionButtonProps) => {
       icon={<Icon boxSize={4} as={props.icon} />}
       onMouseEnter={() => props.setInfo(props.info)}
       onMouseLeave={props.infoReseter}
-      onClick={() => window.open(props.link, '_blank')}
+      onClick={() => tabs.create({ active: true, url: props.link })}
       data-testid={props.testId}
     />
   )
