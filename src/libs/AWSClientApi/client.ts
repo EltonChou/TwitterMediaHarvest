@@ -7,7 +7,7 @@ import type {
   SyncClientCommandOutput,
 } from './commands'
 import type { Command } from './commands/types'
-import type { Client } from './types'
+import type { Client, HttpHandlerOptions } from './types'
 import { Sha256 } from '@aws-crypto/sha256-browser'
 import type { CognitoIdentityCredentials } from '@aws-sdk/credential-provider-cognito-identity'
 import { FetchHttpHandler } from '@smithy/fetch-http-handler'
@@ -48,8 +48,10 @@ export class ApiClient implements Client<CommandInputs, CommandOutputs> {
   }
 
   async send<InputType extends CommandInputs, OutputType extends CommandOutputs>(
-    command: Command<InputType, OutputType>
+    command: Command<InputType, OutputType>,
+    options?: HttpHandlerOptions
   ): AsyncResult<OutputType, Error> {
+    let handler
     try {
       const request = command.prepareRequest({
         protocol: 'https',
@@ -66,10 +68,14 @@ export class ApiClient implements Client<CommandInputs, CommandOutputs> {
       if (!HttpRequest.isInstance(signedRequest))
         return toErrorResult(new Error('Signed request is not a valid HttpRequest.'))
 
-      const { response } = await this.httpHandler.handle(signedRequest)
+      handler = this.httpHandler
+      const { response } = await this.httpHandler.handle(signedRequest, options)
       const output = await command.resolveResponse(response)
+
+      handler.destroy()
       return toSuccessResult(output)
     } catch (error) {
+      handler?.destroy()
       return toErrorResult(error as Error)
     }
   }
