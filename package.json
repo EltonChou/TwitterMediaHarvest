@@ -11,7 +11,7 @@
     "@dnd-kit/sortable": "^8.0.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@sentry/browser": "^7.1.1",
+    "@sentry/browser": "^8.33.0",
     "@smithy/fetch-http-handler": "^2.2.4",
     "@smithy/protocol-http": "^3.0.8",
     "@smithy/signature-v4": "^2.0.12",
