@@ -3,7 +3,7 @@
 exports[`unit test for pattern token component can render properly 1`] = `
 <div>
   <div
-    class="css-83xyci"
+    class="css-1a5orfg"
     data-testid="pattern-token"
   >
     token

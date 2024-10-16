@@ -7,10 +7,10 @@ type PatternTokenProps = {
   tokenName: string
   isOn: boolean
   handleChange: (state: boolean) => void
-}
+} & TestableComponent
 
 export const PatternToken = memo(
-  ({ tokenName, isOn, handleChange }: PatternTokenProps) => (
+  ({ tokenName, isOn, handleChange, testId }: PatternTokenProps) => (
     <Box
       pl={'1em'}
       pr={'1em'}
@@ -22,7 +22,7 @@ export const PatternToken = memo(
       cursor="pointer"
       onClick={() => handleChange(!isOn)}
       userSelect={'none'}
-      data-testid="pattern-token"
+      data-testid={testId}
     >
       {tokenName}
     </Box>
@@ -33,10 +33,10 @@ type SortablePatternTokenProps = {
   token: string
   name: string
   handleRemove: () => void
-}
+} & TestableComponent
 
 export const SortablePatternToken = memo(
-  ({ token, name, handleRemove }: SortablePatternTokenProps) => {
+  ({ token, name, handleRemove, testId }: SortablePatternTokenProps) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
       useSortable({
         id: token,
@@ -60,7 +60,7 @@ export const SortablePatternToken = memo(
         cursor={isDragging ? 'grabbing' : 'grab'}
         opacity={isDragging ? 0.65 : 1}
         zIndex={isDragging ? 1 : 0}
-        data-testid="sortable-pattern-token"
+        data-testid={testId}
       >
         <HStack spacing={2} {...listeners}>
           <DragHandleIcon

@@ -8,14 +8,22 @@ import React from 'react'
 describe('unit test for pattern token component', () => {
   it('can render properly', () => {
     const mockChange = jest.fn()
-    const { container, unmount, rerender } = render(
-      <PatternToken tokenName={'token'} isOn={false} handleChange={mockChange} />
+    const { container, unmount } = render(
+      <PatternToken
+        tokenName={'token'}
+        isOn={false}
+        handleChange={mockChange}
+        testId="pattern-token"
+      />
     )
-    rerender(<PatternToken tokenName={'token'} isOn={true} handleChange={mockChange} />)
-    fireEvent.click(screen.getByTestId('pattern-token'))
+
+    act(() => {
+      fireEvent.click(screen.getByTestId('pattern-token'))
+    })
 
     expect(mockChange).toHaveBeenCalled()
     expect(container).toMatchSnapshot()
+
     unmount()
   })
 })
@@ -24,9 +32,17 @@ describe('unit test for sortable pattern token component', () => {
   it('can render properly', () => {
     const mockRemove = jest.fn()
     const { container, unmount } = render(
-      <SortablePatternToken token={'token'} name={'token'} handleRemove={mockRemove} />
+      <SortablePatternToken
+        token={'token'}
+        name={'token'}
+        handleRemove={mockRemove}
+        testId="sortable-pattern-token"
+      />
     )
-    fireEvent.click(screen.getByTestId('sortable-pattern-token-close'))
+
+    act(() => {
+      fireEvent.click(screen.getByTestId('sortable-pattern-token-close'))
+    })
 
     expect(mockRemove).toHaveBeenCalled()
     expect(container).toMatchSnapshot()
