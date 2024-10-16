@@ -7,7 +7,7 @@ import type {
   InitPayloadAction,
   PayloadAction,
   PureAction,
-} from '#pages/typings/reducerAction'
+} from '#pages/types/reducerAction'
 import { i18n } from '#pages/utils'
 import { useCallback, useEffect, useReducer, useState } from 'react'
 

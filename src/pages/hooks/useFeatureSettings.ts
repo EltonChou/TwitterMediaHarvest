@@ -1,5 +1,5 @@
 import type { ISettingsRepository } from '#domain/repositories/settings'
-import type { InitPayloadAction, PureAction } from '#pages/typings/reducerAction'
+import type { InitPayloadAction, PureAction } from '#pages/types/reducerAction'
 import type { FeatureSettings } from '#schema'
 import { useCallback, useEffect, useReducer } from 'react'
 
