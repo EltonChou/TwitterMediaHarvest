@@ -76,7 +76,7 @@ const App = () => {
               }
             />
           </Routes>
-          <FootBar position={'sticky'} bottom={0} width={'full'} />
+          <FootBar />
         </Stack>
       </HashRouter>
     </HStack>

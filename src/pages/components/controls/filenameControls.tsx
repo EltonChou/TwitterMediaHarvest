@@ -66,14 +66,11 @@ export const SortablePatternToken = memo(
           <DragHandleIcon
             boxSize={3}
             color={'gray.600'}
-            data-testid="sortable-pattern-token-handle"
+            data-testid={testId + '-handle'}
           />
           <>{name}</>
         </HStack>
-        <TagCloseButton
-          onClick={handleRemove}
-          data-testid="sortable-pattern-token-close"
-        />
+        <TagCloseButton onClick={handleRemove} data-testid={testId + '-close'} />
       </Tag>
     )
   }

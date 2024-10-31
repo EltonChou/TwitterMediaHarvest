@@ -82,7 +82,7 @@ const HelperText = ({ message }: HelperTextProps) => {
   )
 }
 
-type RichFeatureSwithProps = {
+export interface RichFeatureSwithProps extends TestableComponent {
   name: string
   desc: string | JSX.Element
   isOn: boolean
@@ -91,7 +91,7 @@ type RichFeatureSwithProps = {
   message?: HelperMessage | undefined
   children?: JSX.Element
   cursor?: 'default' | 'pointer'
-} & TestableComponent
+}
 
 export const RichFeatureSwitch = ({
   name,

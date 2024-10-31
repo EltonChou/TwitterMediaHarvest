@@ -1,0 +1,3800 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`unit test for GeneralOptions component can render properly 1`] = `
+<div>
+  <form>
+    <div
+      class="chakra-stack css-tl3ftk"
+    >
+      <div
+        class="chakra-form-control css-0"
+        data-testid="askWhereToSave-feature-switch"
+        label="options_general_askWhereToSave"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":r0:"
+          id="field-:r1:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_askWhereToSave
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_askWhereToSave_desc
+              </p>
+               
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":r0:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="filenamePattern-feature-switch"
+        label="options_general_filenamePattern"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-26d3j1"
+          data-testid="feature-switch-label"
+          for=":r2:"
+          id="field-:r3:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_filenamePattern
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_filenamePattern_desc
+              </p>
+               
+              <div
+                class="css-l4dkwv"
+              >
+                download/tweetUser-1145141919810-02.jpg
+              </div>
+              <div
+                class="css-98ydye"
+              >
+                <span
+                  aria-describedby="DndDescribedBy-2"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-1qhvhw"
+                  data-testid="sortable-pattern-token-account"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-account-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_account&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-account-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+                <span
+                  aria-describedby="DndDescribedBy-2"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-1qhvhw"
+                  data-testid="sortable-pattern-token-token-id"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-token-id-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_tweetId&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-token-id-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+                <span
+                  aria-describedby="DndDescribedBy-2"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-1qhvhw"
+                  data-testid="sortable-pattern-token-serial"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-serial-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_serial&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-serial-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+              </div>
+              <div
+                id="DndDescribedBy-2"
+                style="display: none;"
+              >
+                
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+              </div>
+              <div
+                aria-atomic="true"
+                aria-live="assertive"
+                id="DndLiveRegion-2"
+                role="status"
+                style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+              />
+              <div
+                class="css-1ouhky6"
+              >
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-account"
+                >
+                  Translated&lt;options_general_filenamePattern_token_account&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-account-id"
+                >
+                  Translated&lt;options_general_filenamePattern_token_accountId&gt;
+                </div>
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-token-id"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetId&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-hash"
+                >
+                  Translated&lt;options_general_filenamePattern_token_hash&gt;
+                </div>
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-serial"
+                >
+                  Translated&lt;options_general_filenamePattern_token_serial&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-date"
+                >
+                  Translated&lt;options_general_filenamePattern_token_downloadDate&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-date"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetDate&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-date-time"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetDatetime&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="suDirectory-feature-switch"
+        label="options_general_subDirectory"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":r4:"
+          id="field-:r5:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_subDirectory
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_subDirectory_desc
+              </p>
+               
+              <input
+                class="chakra-input css-0"
+                data-testid="subDirectory-input"
+                id="field-:r5:"
+                placeholder="twitter_media_harvest"
+                value="download"
+              />
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="fileAggregation-feature-switch"
+        label="options_general_fileAggregation"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":r6:"
+          id="field-:r7:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_fileAggregation
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_fileAggregation_desc
+              </p>
+               
+              <div
+                class="chakra-select__wrapper css-42b2qy"
+              >
+                <select
+                  class="chakra-select css-1ik61og"
+                  disabled=""
+                  id="field-:r7:"
+                >
+                  <option
+                    value="{account}"
+                  >
+                    options_general_filenamePattern_token_account
+                  </option>
+                </select>
+                <div
+                  class="chakra-select__icon-wrapper css-162mkon"
+                  data-disabled=""
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="chakra-select__icon"
+                    focusable="false"
+                    role="presentation"
+                    style="width: 1em; height: 1em; color: currentColor;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-stack css-1igwmid"
+      >
+        <button
+          class="chakra-button css-4xx2wk"
+          data-testid="form-reset-button"
+          type="reset"
+        >
+          resetButtonText
+        </button>
+        <button
+          class="chakra-button css-4xx2wk"
+          data-testid="form-submit-button"
+          disabled=""
+          type="submit"
+        >
+          submitButtonText
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`unit test for GeneralOptions component test user behavior the form can be submitted or reset: default-form 1`] = `
+<div>
+  <form>
+    <div
+      class="chakra-stack css-tl3ftk"
+    >
+      <div
+        class="chakra-form-control css-0"
+        data-testid="askWhereToSave-feature-switch"
+        label="options_general_askWhereToSave"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":r8:"
+          id="field-:r9:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_askWhereToSave
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_askWhereToSave_desc
+              </p>
+               
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":r8:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="filenamePattern-feature-switch"
+        label="options_general_filenamePattern"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-26d3j1"
+          data-testid="feature-switch-label"
+          for=":ra:"
+          id="field-:rb:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_filenamePattern
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_filenamePattern_desc
+              </p>
+               
+              <div
+                class="css-l4dkwv"
+              >
+                download/tweetUser-1145141919810-02.jpg
+              </div>
+              <div
+                class="css-98ydye"
+              >
+                <span
+                  aria-describedby="DndDescribedBy-3"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-1qhvhw"
+                  data-testid="sortable-pattern-token-account"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-account-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_account&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-account-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+                <span
+                  aria-describedby="DndDescribedBy-3"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-1qhvhw"
+                  data-testid="sortable-pattern-token-token-id"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-token-id-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_tweetId&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-token-id-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+                <span
+                  aria-describedby="DndDescribedBy-3"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-1qhvhw"
+                  data-testid="sortable-pattern-token-serial"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-serial-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_serial&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-serial-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+              </div>
+              <div
+                id="DndDescribedBy-3"
+                style="display: none;"
+              >
+                
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+              </div>
+              <div
+                aria-atomic="true"
+                aria-live="assertive"
+                id="DndLiveRegion-3"
+                role="status"
+                style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+              />
+              <div
+                class="css-1ouhky6"
+              >
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-account"
+                >
+                  Translated&lt;options_general_filenamePattern_token_account&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-account-id"
+                >
+                  Translated&lt;options_general_filenamePattern_token_accountId&gt;
+                </div>
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-token-id"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetId&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-hash"
+                >
+                  Translated&lt;options_general_filenamePattern_token_hash&gt;
+                </div>
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-serial"
+                >
+                  Translated&lt;options_general_filenamePattern_token_serial&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-date"
+                >
+                  Translated&lt;options_general_filenamePattern_token_downloadDate&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-date"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetDate&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-date-time"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetDatetime&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="suDirectory-feature-switch"
+        label="options_general_subDirectory"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":rc:"
+          id="field-:rd:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_subDirectory
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_subDirectory_desc
+              </p>
+               
+              <input
+                class="chakra-input css-0"
+                data-testid="subDirectory-input"
+                id="field-:rd:"
+                placeholder="twitter_media_harvest"
+                value="download"
+              />
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="fileAggregation-feature-switch"
+        label="options_general_fileAggregation"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":re:"
+          id="field-:rf:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_fileAggregation
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_fileAggregation_desc
+              </p>
+               
+              <div
+                class="chakra-select__wrapper css-42b2qy"
+              >
+                <select
+                  class="chakra-select css-1ik61og"
+                  disabled=""
+                  id="field-:rf:"
+                >
+                  <option
+                    value="{account}"
+                  >
+                    options_general_filenamePattern_token_account
+                  </option>
+                </select>
+                <div
+                  class="chakra-select__icon-wrapper css-162mkon"
+                  data-disabled=""
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="chakra-select__icon"
+                    focusable="false"
+                    role="presentation"
+                    style="width: 1em; height: 1em; color: currentColor;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-stack css-1igwmid"
+      >
+        <button
+          class="chakra-button css-4xx2wk"
+          data-testid="form-reset-button"
+          type="reset"
+        >
+          resetButtonText
+        </button>
+        <button
+          class="chakra-button css-4xx2wk"
+          data-testid="form-submit-button"
+          disabled=""
+          type="submit"
+        >
+          submitButtonText
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`unit test for GeneralOptions component test user behavior the form can be submitted or reset: default-form 2`] = `
+<div>
+  <form>
+    <div
+      class="chakra-stack css-tl3ftk"
+    >
+      <div
+        class="chakra-form-control css-0"
+        data-testid="askWhereToSave-feature-switch"
+        label="options_general_askWhereToSave"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":r8:"
+          id="field-:r9:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_askWhereToSave
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_askWhereToSave_desc
+              </p>
+               
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":r8:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="filenamePattern-feature-switch"
+        label="options_general_filenamePattern"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-26d3j1"
+          data-testid="feature-switch-label"
+          for=":ra:"
+          id="field-:rb:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_filenamePattern
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_filenamePattern_desc
+              </p>
+               
+              <div
+                class="css-l4dkwv"
+              >
+                download/tweetUser-1145141919810-02.jpg
+              </div>
+              <div
+                class="css-98ydye"
+              >
+                <span
+                  aria-describedby="DndDescribedBy-3"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-s1m2am"
+                  data-testid="sortable-pattern-token-account"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-account-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_account&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-account-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+                <span
+                  aria-describedby="DndDescribedBy-3"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-s1m2am"
+                  data-testid="sortable-pattern-token-token-id"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-token-id-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_tweetId&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-token-id-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+                <span
+                  aria-describedby="DndDescribedBy-3"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-s1m2am"
+                  data-testid="sortable-pattern-token-serial"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-serial-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_serial&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-serial-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+              </div>
+              <div
+                id="DndDescribedBy-3"
+                style="display: none;"
+              >
+                
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+              </div>
+              <div
+                aria-atomic="true"
+                aria-live="assertive"
+                id="DndLiveRegion-3"
+                role="status"
+                style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+              />
+              <div
+                class="css-1ouhky6"
+              >
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-account"
+                >
+                  Translated&lt;options_general_filenamePattern_token_account&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-account-id"
+                >
+                  Translated&lt;options_general_filenamePattern_token_accountId&gt;
+                </div>
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-token-id"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetId&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-hash"
+                >
+                  Translated&lt;options_general_filenamePattern_token_hash&gt;
+                </div>
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-serial"
+                >
+                  Translated&lt;options_general_filenamePattern_token_serial&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-date"
+                >
+                  Translated&lt;options_general_filenamePattern_token_downloadDate&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-date"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetDate&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-date-time"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetDatetime&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="suDirectory-feature-switch"
+        label="options_general_subDirectory"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":rc:"
+          id="field-:rd:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_subDirectory
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_subDirectory_desc
+              </p>
+               
+              <input
+                class="chakra-input css-0"
+                data-testid="subDirectory-input"
+                id="field-:rd:"
+                placeholder="twitter_media_harvest"
+                value="download"
+              />
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="fileAggregation-feature-switch"
+        label="options_general_fileAggregation"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":re:"
+          id="field-:rf:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_fileAggregation
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_fileAggregation_desc
+              </p>
+               
+              <div
+                class="chakra-select__wrapper css-42b2qy"
+              >
+                <select
+                  class="chakra-select css-1ik61og"
+                  disabled=""
+                  id="field-:rf:"
+                >
+                  <option
+                    value="{account}"
+                  >
+                    options_general_filenamePattern_token_account
+                  </option>
+                </select>
+                <div
+                  class="chakra-select__icon-wrapper css-162mkon"
+                  data-disabled=""
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="chakra-select__icon"
+                    focusable="false"
+                    role="presentation"
+                    style="width: 1em; height: 1em; color: currentColor;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-stack css-1igwmid"
+      >
+        <button
+          class="chakra-button css-4xx2wk"
+          data-testid="form-reset-button"
+          type="reset"
+        >
+          resetButtonText
+        </button>
+        <button
+          class="chakra-button css-4xx2wk"
+          data-testid="form-submit-button"
+          type="submit"
+        >
+          submitButtonText
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`unit test for GeneralOptions component test user behavior the form can be submitted or reset: default-form 3`] = `
+<div>
+  <form>
+    <div
+      class="chakra-stack css-tl3ftk"
+    >
+      <div
+        class="chakra-form-control css-0"
+        data-testid="askWhereToSave-feature-switch"
+        label="options_general_askWhereToSave"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":rg:"
+          id="field-:rh:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_askWhereToSave
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_askWhereToSave_desc
+              </p>
+               
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":rg:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="filenamePattern-feature-switch"
+        label="options_general_filenamePattern"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-26d3j1"
+          data-testid="feature-switch-label"
+          for=":ri:"
+          id="field-:rj:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_filenamePattern
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_filenamePattern_desc
+              </p>
+               
+              <div
+                class="css-l4dkwv"
+              >
+                download/tweetUser-1145141919810-02.jpg
+              </div>
+              <div
+                class="css-98ydye"
+              >
+                <span
+                  aria-describedby="DndDescribedBy-4"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-1qhvhw"
+                  data-testid="sortable-pattern-token-account"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-account-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_account&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-account-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+                <span
+                  aria-describedby="DndDescribedBy-4"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-1qhvhw"
+                  data-testid="sortable-pattern-token-token-id"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-token-id-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_tweetId&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-token-id-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+                <span
+                  aria-describedby="DndDescribedBy-4"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-1qhvhw"
+                  data-testid="sortable-pattern-token-serial"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-serial-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_serial&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-serial-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+              </div>
+              <div
+                id="DndDescribedBy-4"
+                style="display: none;"
+              >
+                
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+              </div>
+              <div
+                aria-atomic="true"
+                aria-live="assertive"
+                id="DndLiveRegion-4"
+                role="status"
+                style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+              />
+              <div
+                class="css-1ouhky6"
+              >
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-account"
+                >
+                  Translated&lt;options_general_filenamePattern_token_account&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-account-id"
+                >
+                  Translated&lt;options_general_filenamePattern_token_accountId&gt;
+                </div>
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-token-id"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetId&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-hash"
+                >
+                  Translated&lt;options_general_filenamePattern_token_hash&gt;
+                </div>
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-serial"
+                >
+                  Translated&lt;options_general_filenamePattern_token_serial&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-date"
+                >
+                  Translated&lt;options_general_filenamePattern_token_downloadDate&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-date"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetDate&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-date-time"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetDatetime&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="suDirectory-feature-switch"
+        label="options_general_subDirectory"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":rk:"
+          id="field-:rl:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_subDirectory
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_subDirectory_desc
+              </p>
+               
+              <input
+                class="chakra-input css-0"
+                data-testid="subDirectory-input"
+                id="field-:rl:"
+                placeholder="twitter_media_harvest"
+                value="download"
+              />
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="fileAggregation-feature-switch"
+        label="options_general_fileAggregation"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":rm:"
+          id="field-:rn:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_fileAggregation
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_fileAggregation_desc
+              </p>
+               
+              <div
+                class="chakra-select__wrapper css-42b2qy"
+              >
+                <select
+                  class="chakra-select css-1ik61og"
+                  disabled=""
+                  id="field-:rn:"
+                >
+                  <option
+                    value="{account}"
+                  >
+                    options_general_filenamePattern_token_account
+                  </option>
+                </select>
+                <div
+                  class="chakra-select__icon-wrapper css-162mkon"
+                  data-disabled=""
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="chakra-select__icon"
+                    focusable="false"
+                    role="presentation"
+                    style="width: 1em; height: 1em; color: currentColor;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-stack css-1igwmid"
+      >
+        <button
+          class="chakra-button css-4xx2wk"
+          data-testid="form-reset-button"
+          type="reset"
+        >
+          resetButtonText
+        </button>
+        <button
+          class="chakra-button css-4xx2wk"
+          data-testid="form-submit-button"
+          disabled=""
+          type="submit"
+        >
+          submitButtonText
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`unit test for GeneralOptions component test user behavior the form can be submitted or reset: default-form 4`] = `
+<div>
+  <form>
+    <div
+      class="chakra-stack css-tl3ftk"
+    >
+      <div
+        class="chakra-form-control css-0"
+        data-testid="askWhereToSave-feature-switch"
+        label="options_general_askWhereToSave"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":rg:"
+          id="field-:rh:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_askWhereToSave
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_askWhereToSave_desc
+              </p>
+               
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":rg:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="filenamePattern-feature-switch"
+        label="options_general_filenamePattern"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-26d3j1"
+          data-testid="feature-switch-label"
+          for=":ri:"
+          id="field-:rj:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_filenamePattern
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_filenamePattern_desc
+              </p>
+               
+              <div
+                class="css-l4dkwv"
+              >
+                download/tweetUser-1145141919810-02.jpg
+              </div>
+              <div
+                class="css-98ydye"
+              >
+                <span
+                  aria-describedby="DndDescribedBy-4"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-s1m2am"
+                  data-testid="sortable-pattern-token-account"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-account-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_account&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-account-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+                <span
+                  aria-describedby="DndDescribedBy-4"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-s1m2am"
+                  data-testid="sortable-pattern-token-token-id"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-token-id-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_tweetId&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-token-id-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+                <span
+                  aria-describedby="DndDescribedBy-4"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-s1m2am"
+                  data-testid="sortable-pattern-token-serial"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-serial-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_serial&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-serial-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+              </div>
+              <div
+                id="DndDescribedBy-4"
+                style="display: none;"
+              >
+                
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+              </div>
+              <div
+                aria-atomic="true"
+                aria-live="assertive"
+                id="DndLiveRegion-4"
+                role="status"
+                style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+              />
+              <div
+                class="css-1ouhky6"
+              >
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-account"
+                >
+                  Translated&lt;options_general_filenamePattern_token_account&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-account-id"
+                >
+                  Translated&lt;options_general_filenamePattern_token_accountId&gt;
+                </div>
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-token-id"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetId&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-hash"
+                >
+                  Translated&lt;options_general_filenamePattern_token_hash&gt;
+                </div>
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-serial"
+                >
+                  Translated&lt;options_general_filenamePattern_token_serial&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-date"
+                >
+                  Translated&lt;options_general_filenamePattern_token_downloadDate&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-date"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetDate&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-date-time"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetDatetime&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="suDirectory-feature-switch"
+        label="options_general_subDirectory"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":rk:"
+          id="field-:rl:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_subDirectory
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_subDirectory_desc
+              </p>
+               
+              <input
+                class="chakra-input css-0"
+                data-testid="subDirectory-input"
+                id="field-:rl:"
+                placeholder="twitter_media_harvest"
+                value="download"
+              />
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="fileAggregation-feature-switch"
+        label="options_general_fileAggregation"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":rm:"
+          id="field-:rn:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_fileAggregation
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_fileAggregation_desc
+              </p>
+               
+              <div
+                class="chakra-select__wrapper css-42b2qy"
+              >
+                <select
+                  class="chakra-select css-1ik61og"
+                  disabled=""
+                  id="field-:rn:"
+                >
+                  <option
+                    value="{account}"
+                  >
+                    options_general_filenamePattern_token_account
+                  </option>
+                </select>
+                <div
+                  class="chakra-select__icon-wrapper css-162mkon"
+                  data-disabled=""
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="chakra-select__icon"
+                    focusable="false"
+                    role="presentation"
+                    style="width: 1em; height: 1em; color: currentColor;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-stack css-1igwmid"
+      >
+        <button
+          class="chakra-button css-4xx2wk"
+          data-testid="form-reset-button"
+          type="reset"
+        >
+          resetButtonText
+        </button>
+        <button
+          class="chakra-button css-4xx2wk"
+          data-testid="form-submit-button"
+          type="submit"
+        >
+          submitButtonText
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`unit test for GeneralOptions component test user behavior the form can be submitted or reset: submitted-form 1`] = `
+<div>
+  <form>
+    <div
+      class="chakra-stack css-tl3ftk"
+    >
+      <div
+        class="chakra-form-control css-0"
+        data-testid="askWhereToSave-feature-switch"
+        label="options_general_askWhereToSave"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":r8:"
+          id="field-:r9:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_askWhereToSave
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_askWhereToSave_desc
+              </p>
+               
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":r8:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="filenamePattern-feature-switch"
+        label="options_general_filenamePattern"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-26d3j1"
+          data-testid="feature-switch-label"
+          for=":ra:"
+          id="field-:rb:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_filenamePattern
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_filenamePattern_desc
+              </p>
+               
+              <div
+                class="css-l4dkwv"
+              >
+                downloada-valid-dir/tweetUser-1145141919810-02.jpg
+              </div>
+              <div
+                class="css-98ydye"
+              >
+                <span
+                  aria-describedby="DndDescribedBy-3"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-s1m2am"
+                  data-testid="sortable-pattern-token-account"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-account-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_account&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-account-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+                <span
+                  aria-describedby="DndDescribedBy-3"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-s1m2am"
+                  data-testid="sortable-pattern-token-token-id"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-token-id-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_tweetId&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-token-id-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+                <span
+                  aria-describedby="DndDescribedBy-3"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-s1m2am"
+                  data-testid="sortable-pattern-token-serial"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-serial-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_serial&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-serial-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+              </div>
+              <div
+                id="DndDescribedBy-3"
+                style="display: none;"
+              >
+                
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+              </div>
+              <div
+                aria-atomic="true"
+                aria-live="assertive"
+                id="DndLiveRegion-3"
+                role="status"
+                style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+              />
+              <div
+                class="css-1ouhky6"
+              >
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-account"
+                >
+                  Translated&lt;options_general_filenamePattern_token_account&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-account-id"
+                >
+                  Translated&lt;options_general_filenamePattern_token_accountId&gt;
+                </div>
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-token-id"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetId&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-hash"
+                >
+                  Translated&lt;options_general_filenamePattern_token_hash&gt;
+                </div>
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-serial"
+                >
+                  Translated&lt;options_general_filenamePattern_token_serial&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-date"
+                >
+                  Translated&lt;options_general_filenamePattern_token_downloadDate&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-date"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetDate&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-date-time"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetDatetime&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="suDirectory-feature-switch"
+        label="options_general_subDirectory"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":rc:"
+          id="field-:rd:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_subDirectory
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_subDirectory_desc
+              </p>
+               
+              <input
+                class="chakra-input css-0"
+                data-testid="subDirectory-input"
+                id="field-:rd:"
+                placeholder="twitter_media_harvest"
+                value="downloada-valid-dir"
+              />
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="fileAggregation-feature-switch"
+        label="options_general_fileAggregation"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":re:"
+          id="field-:rf:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_fileAggregation
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_fileAggregation_desc
+              </p>
+               
+              <div
+                class="chakra-select__wrapper css-42b2qy"
+              >
+                <select
+                  class="chakra-select css-1ik61og"
+                  disabled=""
+                  id="field-:rf:"
+                >
+                  <option
+                    value="{account}"
+                  >
+                    options_general_filenamePattern_token_account
+                  </option>
+                </select>
+                <div
+                  class="chakra-select__icon-wrapper css-162mkon"
+                  data-disabled=""
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="chakra-select__icon"
+                    focusable="false"
+                    role="presentation"
+                    style="width: 1em; height: 1em; color: currentColor;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-stack css-1igwmid"
+      >
+        <button
+          class="chakra-button css-4xx2wk"
+          data-testid="form-reset-button"
+          type="reset"
+        >
+          resetButtonText
+        </button>
+        <button
+          class="chakra-button css-4xx2wk"
+          data-testid="form-submit-button"
+          disabled=""
+          type="submit"
+        >
+          submitButtonText
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`unit test for GeneralOptions component test user behavior the form can be submitted or reset: submitted-form 2`] = `
+<div>
+  <form>
+    <div
+      class="chakra-stack css-tl3ftk"
+    >
+      <div
+        class="chakra-form-control css-0"
+        data-testid="askWhereToSave-feature-switch"
+        label="options_general_askWhereToSave"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":rg:"
+          id="field-:rh:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_askWhereToSave
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_askWhereToSave_desc
+              </p>
+               
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":rg:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="filenamePattern-feature-switch"
+        label="options_general_filenamePattern"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-26d3j1"
+          data-testid="feature-switch-label"
+          for=":ri:"
+          id="field-:rj:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_filenamePattern
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_filenamePattern_desc
+              </p>
+               
+              <div
+                class="css-l4dkwv"
+              >
+                downloada-valid-dira-valid-dir/tweetUser-1145141919810-02.jpg
+              </div>
+              <div
+                class="css-98ydye"
+              >
+                <span
+                  aria-describedby="DndDescribedBy-4"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-s1m2am"
+                  data-testid="sortable-pattern-token-account"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-account-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_account&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-account-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+                <span
+                  aria-describedby="DndDescribedBy-4"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-s1m2am"
+                  data-testid="sortable-pattern-token-token-id"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-token-id-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_tweetId&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-token-id-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+                <span
+                  aria-describedby="DndDescribedBy-4"
+                  aria-disabled="false"
+                  aria-roledescription="sortable"
+                  class="css-s1m2am"
+                  data-testid="sortable-pattern-token-serial"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="chakra-stack css-9hjtr8"
+                  >
+                    <svg
+                      class="chakra-icon css-8wc76e"
+                      data-testid="sortable-pattern-token-serial-handle"
+                      focusable="false"
+                      viewBox="0 0 10 10"
+                    >
+                      <path
+                        d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Translated&lt;options_general_filenamePattern_token_serial&gt;
+                  </div>
+                  <button
+                    aria-label="close"
+                    class="css-sorhh"
+                    data-testid="sortable-pattern-token-serial-close"
+                    type="button"
+                  >
+                    <svg
+                      class="chakra-icon css-1md6f3y"
+                      focusable="false"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </span>
+              </div>
+              <div
+                id="DndDescribedBy-4"
+                style="display: none;"
+              >
+                
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+              </div>
+              <div
+                aria-atomic="true"
+                aria-live="assertive"
+                id="DndLiveRegion-4"
+                role="status"
+                style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+              />
+              <div
+                class="css-1ouhky6"
+              >
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-account"
+                >
+                  Translated&lt;options_general_filenamePattern_token_account&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-account-id"
+                >
+                  Translated&lt;options_general_filenamePattern_token_accountId&gt;
+                </div>
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-token-id"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetId&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-hash"
+                >
+                  Translated&lt;options_general_filenamePattern_token_hash&gt;
+                </div>
+                <div
+                  class="css-83xyci"
+                  data-testid="pattern-token-serial"
+                >
+                  Translated&lt;options_general_filenamePattern_token_serial&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-date"
+                >
+                  Translated&lt;options_general_filenamePattern_token_downloadDate&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-date"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetDate&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-date-time"
+                >
+                  Translated&lt;options_general_filenamePattern_token_tweetDatetime&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="suDirectory-feature-switch"
+        label="options_general_subDirectory"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":rk:"
+          id="field-:rl:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_subDirectory
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_subDirectory_desc
+              </p>
+               
+              <input
+                class="chakra-input css-0"
+                data-testid="subDirectory-input"
+                id="field-:rl:"
+                placeholder="twitter_media_harvest"
+                value="downloada-valid-dira-valid-dir"
+              />
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
+        data-testid="fileAggregation-feature-switch"
+        label="options_general_fileAggregation"
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":rm:"
+          id="field-:rn:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                options_general_fileAggregation
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                options_general_fileAggregation_desc
+              </p>
+               
+              <div
+                class="chakra-select__wrapper css-42b2qy"
+              >
+                <select
+                  class="chakra-select css-1ik61og"
+                  disabled=""
+                  id="field-:rn:"
+                >
+                  <option
+                    value="{account}"
+                  >
+                    options_general_filenamePattern_token_account
+                  </option>
+                </select>
+                <div
+                  class="chakra-select__icon-wrapper css-162mkon"
+                  data-disabled=""
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="chakra-select__icon"
+                    focusable="false"
+                    role="presentation"
+                    style="width: 1em; height: 1em; color: currentColor;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-stack css-1igwmid"
+      >
+        <button
+          class="chakra-button css-4xx2wk"
+          data-testid="form-reset-button"
+          type="reset"
+        >
+          resetButtonText
+        </button>
+        <button
+          class="chakra-button css-4xx2wk"
+          data-testid="form-submit-button"
+          disabled=""
+          type="submit"
+        >
+          submitButtonText
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`unit test for TokenPanel component can drag & drop sortable token 1`] = `
+<div>
+  <div
+    class="css-l4dkwv"
+  >
+    preview filename
+  </div>
+  <div
+    class="css-98ydye"
+  >
+    <span
+      aria-describedby="DndDescribedBy-0"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="css-1qhvhw"
+      data-testid="sortable-token-account"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="chakra-stack css-9hjtr8"
+      >
+        <svg
+          class="chakra-icon css-8wc76e"
+          data-testid="sortable-token-account-handle"
+          focusable="false"
+          viewBox="0 0 10 10"
+        >
+          <path
+            d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+            fill="currentColor"
+          />
+        </svg>
+        account
+      </div>
+      <button
+        aria-label="close"
+        class="css-sorhh"
+        data-testid="sortable-token-account-close"
+        type="button"
+      >
+        <svg
+          class="chakra-icon css-1md6f3y"
+          focusable="false"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </span>
+    <span
+      aria-describedby="DndDescribedBy-0"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="css-1qhvhw"
+      data-testid="sortable-token-account-id"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="chakra-stack css-9hjtr8"
+      >
+        <svg
+          class="chakra-icon css-8wc76e"
+          data-testid="sortable-token-account-id-handle"
+          focusable="false"
+          viewBox="0 0 10 10"
+        >
+          <path
+            d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+            fill="currentColor"
+          />
+        </svg>
+        account-id
+      </div>
+      <button
+        aria-label="close"
+        class="css-sorhh"
+        data-testid="sortable-token-account-id-close"
+        type="button"
+      >
+        <svg
+          class="chakra-icon css-1md6f3y"
+          focusable="false"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </span>
+    <span
+      aria-describedby="DndDescribedBy-0"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="css-1qhvhw"
+      data-testid="sortable-token-hash"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="chakra-stack css-9hjtr8"
+      >
+        <svg
+          class="chakra-icon css-8wc76e"
+          data-testid="sortable-token-hash-handle"
+          focusable="false"
+          viewBox="0 0 10 10"
+        >
+          <path
+            d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+            fill="currentColor"
+          />
+        </svg>
+        hash
+      </div>
+      <button
+        aria-label="close"
+        class="css-sorhh"
+        data-testid="sortable-token-hash-close"
+        type="button"
+      >
+        <svg
+          class="chakra-icon css-1md6f3y"
+          focusable="false"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </span>
+  </div>
+  <div
+    id="DndDescribedBy-0"
+    style="display: none;"
+  >
+    
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+  </div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    id="DndLiveRegion-0"
+    role="status"
+    style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+  />
+  <div
+    class="css-1ouhky6"
+  >
+    <div
+      class="css-83xyci"
+      data-testid="token-account"
+    >
+      account
+    </div>
+    <div
+      class="css-83xyci"
+      data-testid="token-account-id"
+    >
+      account-id
+    </div>
+    <div
+      class="css-83xyci"
+      data-testid="token-hash"
+    >
+      hash
+    </div>
+  </div>
+</div>
+`;
+
+exports[`unit test for TokenPanel component can toggle token: after-enable 1`] = `
+<div>
+  <div
+    class="css-l4dkwv"
+  >
+    preview filename
+  </div>
+  <div
+    class="css-98ydye"
+  >
+    <span
+      aria-describedby="DndDescribedBy-1"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="css-1qhvhw"
+      data-testid="sortable-token-account"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="chakra-stack css-9hjtr8"
+      >
+        <svg
+          class="chakra-icon css-8wc76e"
+          data-testid="sortable-token-account-handle"
+          focusable="false"
+          viewBox="0 0 10 10"
+        >
+          <path
+            d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+            fill="currentColor"
+          />
+        </svg>
+        account
+      </div>
+      <button
+        aria-label="close"
+        class="css-sorhh"
+        data-testid="sortable-token-account-close"
+        type="button"
+      >
+        <svg
+          class="chakra-icon css-1md6f3y"
+          focusable="false"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </span>
+    <span
+      aria-describedby="DndDescribedBy-1"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="css-1qhvhw"
+      data-testid="sortable-token-account-id"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="chakra-stack css-9hjtr8"
+      >
+        <svg
+          class="chakra-icon css-8wc76e"
+          data-testid="sortable-token-account-id-handle"
+          focusable="false"
+          viewBox="0 0 10 10"
+        >
+          <path
+            d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+            fill="currentColor"
+          />
+        </svg>
+        account-id
+      </div>
+      <button
+        aria-label="close"
+        class="css-sorhh"
+        data-testid="sortable-token-account-id-close"
+        type="button"
+      >
+        <svg
+          class="chakra-icon css-1md6f3y"
+          focusable="false"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </span>
+    <span
+      aria-describedby="DndDescribedBy-1"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="css-1qhvhw"
+      data-testid="sortable-token-hash"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="chakra-stack css-9hjtr8"
+      >
+        <svg
+          class="chakra-icon css-8wc76e"
+          data-testid="sortable-token-hash-handle"
+          focusable="false"
+          viewBox="0 0 10 10"
+        >
+          <path
+            d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+            fill="currentColor"
+          />
+        </svg>
+        hash
+      </div>
+      <button
+        aria-label="close"
+        class="css-sorhh"
+        data-testid="sortable-token-hash-close"
+        type="button"
+      >
+        <svg
+          class="chakra-icon css-1md6f3y"
+          focusable="false"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </span>
+  </div>
+  <div
+    id="DndDescribedBy-1"
+    style="display: none;"
+  >
+    
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+  </div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    id="DndLiveRegion-1"
+    role="status"
+    style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+  />
+  <div
+    class="css-1ouhky6"
+  >
+    <div
+      class="css-83xyci"
+      data-testid="token-account"
+    >
+      account
+    </div>
+    <div
+      class="css-83xyci"
+      data-testid="token-account-id"
+    >
+      account-id
+    </div>
+    <div
+      class="css-83xyci"
+      data-testid="token-hash"
+    >
+      hash
+    </div>
+  </div>
+</div>
+`;
+
+exports[`unit test for TokenPanel component can toggle token: before-toggle 1`] = `
+<div>
+  <div
+    class="css-l4dkwv"
+  >
+    preview filename
+  </div>
+  <div
+    class="css-98ydye"
+  >
+    <span
+      aria-describedby="DndDescribedBy-1"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="css-1qhvhw"
+      data-testid="sortable-token-account"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="chakra-stack css-9hjtr8"
+      >
+        <svg
+          class="chakra-icon css-8wc76e"
+          data-testid="sortable-token-account-handle"
+          focusable="false"
+          viewBox="0 0 10 10"
+        >
+          <path
+            d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+            fill="currentColor"
+          />
+        </svg>
+        account
+      </div>
+      <button
+        aria-label="close"
+        class="css-sorhh"
+        data-testid="sortable-token-account-close"
+        type="button"
+      >
+        <svg
+          class="chakra-icon css-1md6f3y"
+          focusable="false"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </span>
+    <span
+      aria-describedby="DndDescribedBy-1"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="css-1qhvhw"
+      data-testid="sortable-token-account-id"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="chakra-stack css-9hjtr8"
+      >
+        <svg
+          class="chakra-icon css-8wc76e"
+          data-testid="sortable-token-account-id-handle"
+          focusable="false"
+          viewBox="0 0 10 10"
+        >
+          <path
+            d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+            fill="currentColor"
+          />
+        </svg>
+        account-id
+      </div>
+      <button
+        aria-label="close"
+        class="css-sorhh"
+        data-testid="sortable-token-account-id-close"
+        type="button"
+      >
+        <svg
+          class="chakra-icon css-1md6f3y"
+          focusable="false"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </span>
+    <span
+      aria-describedby="DndDescribedBy-1"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="css-1qhvhw"
+      data-testid="sortable-token-hash"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="chakra-stack css-9hjtr8"
+      >
+        <svg
+          class="chakra-icon css-8wc76e"
+          data-testid="sortable-token-hash-handle"
+          focusable="false"
+          viewBox="0 0 10 10"
+        >
+          <path
+            d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+            fill="currentColor"
+          />
+        </svg>
+        hash
+      </div>
+      <button
+        aria-label="close"
+        class="css-sorhh"
+        data-testid="sortable-token-hash-close"
+        type="button"
+      >
+        <svg
+          class="chakra-icon css-1md6f3y"
+          focusable="false"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </span>
+  </div>
+  <div
+    id="DndDescribedBy-1"
+    style="display: none;"
+  >
+    
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+  </div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    id="DndLiveRegion-1"
+    role="status"
+    style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+  />
+  <div
+    class="css-1ouhky6"
+  >
+    <div
+      class="css-83xyci"
+      data-testid="token-account"
+    >
+      account
+    </div>
+    <div
+      class="css-83xyci"
+      data-testid="token-account-id"
+    >
+      account-id
+    </div>
+    <div
+      class="css-83xyci"
+      data-testid="token-hash"
+    >
+      hash
+    </div>
+  </div>
+</div>
+`;
+
+exports[`unit test for TokenPanel component can toggle token: before-toggle 2`] = `
+<div>
+  <div
+    class="css-l4dkwv"
+  >
+    preview filename
+  </div>
+  <div
+    class="css-98ydye"
+  >
+    <span
+      aria-describedby="DndDescribedBy-1"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="css-1qhvhw"
+      data-testid="sortable-token-account"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="chakra-stack css-9hjtr8"
+      >
+        <svg
+          class="chakra-icon css-8wc76e"
+          data-testid="sortable-token-account-handle"
+          focusable="false"
+          viewBox="0 0 10 10"
+        >
+          <path
+            d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+            fill="currentColor"
+          />
+        </svg>
+        account
+      </div>
+      <button
+        aria-label="close"
+        class="css-sorhh"
+        data-testid="sortable-token-account-close"
+        type="button"
+      >
+        <svg
+          class="chakra-icon css-1md6f3y"
+          focusable="false"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </span>
+    <span
+      aria-describedby="DndDescribedBy-1"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="css-1qhvhw"
+      data-testid="sortable-token-account-id"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="chakra-stack css-9hjtr8"
+      >
+        <svg
+          class="chakra-icon css-8wc76e"
+          data-testid="sortable-token-account-id-handle"
+          focusable="false"
+          viewBox="0 0 10 10"
+        >
+          <path
+            d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+            fill="currentColor"
+          />
+        </svg>
+        account-id
+      </div>
+      <button
+        aria-label="close"
+        class="css-sorhh"
+        data-testid="sortable-token-account-id-close"
+        type="button"
+      >
+        <svg
+          class="chakra-icon css-1md6f3y"
+          focusable="false"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </span>
+    <span
+      aria-describedby="DndDescribedBy-1"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="css-1qhvhw"
+      data-testid="sortable-token-hash"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="chakra-stack css-9hjtr8"
+      >
+        <svg
+          class="chakra-icon css-8wc76e"
+          data-testid="sortable-token-hash-handle"
+          focusable="false"
+          viewBox="0 0 10 10"
+        >
+          <path
+            d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"
+            fill="currentColor"
+          />
+        </svg>
+        hash
+      </div>
+      <button
+        aria-label="close"
+        class="css-sorhh"
+        data-testid="sortable-token-hash-close"
+        type="button"
+      >
+        <svg
+          class="chakra-icon css-1md6f3y"
+          focusable="false"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </span>
+  </div>
+  <div
+    id="DndDescribedBy-1"
+    style="display: none;"
+  >
+    
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+  </div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    id="DndLiveRegion-1"
+    role="status"
+    style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+  />
+  <div
+    class="css-1ouhky6"
+  >
+    <div
+      class="css-83xyci"
+      data-testid="token-account"
+    >
+      account
+    </div>
+    <div
+      class="css-83xyci"
+      data-testid="token-account-id"
+    >
+      account-id
+    </div>
+    <div
+      class="css-83xyci"
+      data-testid="token-hash"
+    >
+      hash
+    </div>
+  </div>
+</div>
+`;
