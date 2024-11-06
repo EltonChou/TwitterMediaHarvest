@@ -1,8 +1,12 @@
+import type { SearchDownloadHistory } from '#domain/useCases/searchDownloadHistory'
+import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
 import type MediaType from '#enums/mediaType'
+import { DownloadTweetMediaMessage, sendMessage } from '#libs/webExtMessage'
 import useDownloadHistory, {
-  type DownloadHistoryInfo,
+  type DownloadHistoryItem,
 } from '#pages/hooks/useDownloadHistory'
 import { i18n } from '#pages/utils'
+import { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDownloadHistory'
 import {
   Box,
   HStack,
@@ -22,7 +26,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import React, { memo, useRef } from 'react'
+import React, { ForwardedRef, forwardRef, memo, useImperativeHandle, useRef } from 'react'
 import {
   BiChevronLeft,
   BiChevronRight,
@@ -38,10 +42,14 @@ type ItemActionsProps = {
   screenName: string
 }
 
-const ItemActions = (props: ItemActionsProps) => (
+export const ItemActions = (props: ItemActionsProps) => (
   <HStack>
     <Box>
-      <Link target="_blank" href={`https://x.com/i/web/status/${props.tweetId}`}>
+      <Link
+        target="_blank"
+        href={`https://x.com/i/web/status/${props.tweetId}`}
+        data-testid="item-action-openTweet"
+      >
         <IconButton aria-label="Open post" icon={<Icon as={BiLinkExternal} />} />
       </Link>
     </Box>
@@ -49,8 +57,14 @@ const ItemActions = (props: ItemActionsProps) => (
       aria-label="Download"
       icon={<Icon as={BiDownload} />}
       onClick={() => {
-        /** TODO: send download media message */
+        sendMessage(
+          new DownloadTweetMediaMessage({
+            screenName: props.screenName,
+            tweetId: props.tweetId,
+          })
+        )
       }}
+      data-testid="item-action-download"
     />
   </HStack>
 )
@@ -103,10 +117,6 @@ const ItemUser = memo((props: ItemUserProps) => {
   )
 })
 
-type ItemRowProps = {
-  item: DownloadHistoryInfo
-}
-
 const convertMediaTypeToLocaleString = (mediaType: MediaType) => {
   switch (mediaType) {
     case 'image':
@@ -134,8 +144,12 @@ const ItemTypeIcon = (props: ItemTypeIconProps) => (
   </HStack>
 )
 
+type ItemRowProps = {
+  item: DownloadHistoryItem
+}
+
 const ItemRow = (props: ItemRowProps) => (
-  <Tr>
+  <Tr data-testid="history-item">
     <Td>
       <ItemThumbnail url={props.item.thumbnail ?? ''} />
     </Td>
@@ -215,14 +229,18 @@ const LoadingBody = () => (
   </>
 )
 
-const enum MediaTypeSelectToken {
+export const enum MediaTypeSelectToken {
   ALL = '*',
   IMAGE = 'image',
   VIDEO = 'video',
   MIXED = 'mixed',
 }
 
-const lazyHandler = (lazyTime: number) => {
+/**
+ * A wrapped setTimeout,It will canceled previous handler when it called multi times.
+ * @param lazyTime milliseconds
+ */
+export const lazyHandler = (lazyTime: number) => {
   let timeout: number
   return (handler: TimerHandler) => () => {
     clearTimeout(timeout)
@@ -230,105 +248,187 @@ const lazyHandler = (lazyTime: number) => {
   }
 }
 
-const HistoryTable = () => {
-  const downloadHistory = useDownloadHistory(20)
-  const usernameInputRef = useRef<HTMLInputElement>(null)
-  const mediaTypeSelectRef = useRef<HTMLSelectElement>(null)
-  const formRef = useRef<HTMLFormElement>(null)
+interface PageNavigatorProps {
+  nextPage: () => void
+  prevPage: () => void
+  currentPage: number
+  totalPages: number
+}
+
+export const PageNavigator = (props: PageNavigatorProps) => (
+  <HStack>
+    <IconButton
+      aria-label={i18n('options_history_table_ariaLabel_prevPage')}
+      icon={<Icon boxSize={8} as={BiChevronLeft} />}
+      onClick={props.prevPage}
+      background={'transparent'}
+      data-testid="table-nav-prevPage"
+    />
+    <Box minW={'8ch'} textAlign={'center'}>
+      <Text>{`${props.currentPage} / ${props.totalPages}`}</Text>
+    </Box>
+    <IconButton
+      aria-label={i18n('options_history_table_ariaLabel_nextPage')}
+      icon={<Icon boxSize={8} as={BiChevronRight} />}
+      onClick={props.nextPage}
+      background={'transparent'}
+      data-testid="table-nav-nextPage"
+    />
+  </HStack>
+)
+
+interface HistoryTableActionBarProps {
+  refresh: () => void
+}
+
+export const ActionBar = (props: HistoryTableActionBarProps) => (
+  <HStack>
+    <IconButton
+      aria-label={i18n('options_history_table_ariaLabel_refresh')}
+      icon={<Icon boxSize={5} as={BiRefresh} />}
+      onClick={props.refresh}
+      data-testid="table-action-refresh"
+    />
+  </HStack>
+)
+
+interface SearchFormProps {
+  update: () => void
+}
+
+export interface SearchFormComponent {
+  reset: HTMLFormElement['reset']
+  value: {
+    username?: string
+    mediaType?: MediaTypeSelectToken
+  }
+}
+
+export const SearchForm = forwardRef(
+  (props: SearchFormProps, ref: ForwardedRef<SearchFormComponent>) => {
+    const usernameInputRef = useRef<HTMLInputElement>(null)
+    const mediaTypeSelectRef = useRef<HTMLSelectElement>(null)
+    const formRef = useRef<HTMLFormElement>(null)
+
+    useImperativeHandle<SearchFormComponent, SearchFormComponent>(ref, () => ({
+      reset() {
+        return formRef.current?.reset
+      },
+      get value() {
+        return {
+          username: usernameInputRef.current?.value,
+          mediaType: mediaTypeSelectRef.current?.value as
+            | MediaTypeSelectToken
+            | undefined,
+        }
+      },
+    }))
+
+    return (
+      <form
+        ref={formRef}
+        style={{ display: 'flex', flex: 1, gap: '0.5rem' }}
+        onSubmit={e => e.preventDefault()}
+        data-testid="search-form"
+      >
+        <Input
+          ref={usernameInputRef}
+          type="search"
+          name="username"
+          placeholder={i18n('options_history_table_input_placeholder_username')}
+          onInput={lazyHandler(500)(props.update)}
+          flexShrink={1}
+          data-testid="username-input"
+        />
+        <Select
+          ref={mediaTypeSelectRef}
+          title={i18n('options_history_table_select_title_mediaType')}
+          name="mediaType"
+          onChange={() => props.update()}
+          defaultValue={MediaTypeSelectToken.ALL}
+          flexShrink={4}
+          data-testid="mediaType-select"
+        >
+          <option value={MediaTypeSelectToken.ALL}>
+            {i18n('options_history_table_select_mediaType_all')}
+          </option>
+          <option value={MediaTypeSelectToken.IMAGE}>
+            {i18n('options_history_table_select_mediaType_image')}
+          </option>
+          <option value={MediaTypeSelectToken.VIDEO}>
+            {i18n('options_history_table_select_mediaType_video')}
+          </option>
+          <option value={MediaTypeSelectToken.MIXED}>
+            {i18n('options_history_table_select_mediaType_mixed')}
+          </option>
+        </Select>
+      </form>
+    )
+  }
+)
+
+// const mediaTypeSelectTokenToMediaType: Factory<MediaTypeSelectToken | undefined, MediaType> = (token?) => token ? token :
+
+type HistoryTableProps = {
+  searchDownloadHistory: SearchDownloadHistory
+  searchTweetIdsByHashtags: SearchTweetIdsByHashTags
+}
+
+const HistoryTable = ({
+  searchDownloadHistory,
+  searchTweetIdsByHashtags,
+}: HistoryTableProps) => {
+  const downloadHistory = useDownloadHistory({
+    initItemPerPage: 20,
+    searchDownloadHistoryUseCase: new SearchDownloadHistoryUseCase(
+      searchDownloadHistory,
+      searchTweetIdsByHashtags
+    ),
+  })
+  const searchFormRef = useRef<SearchFormComponent>(null)
   const tableRef = useRef<HTMLTableElement>(null)
 
   const scrollTableToTop = () =>
     tableRef.current && tableRef.current.scrollTo({ top: 0, behavior: 'smooth' })
 
   const prevPage = () => {
-    downloadHistory.pageHandler.prevPage(scrollTableToTop)
+    downloadHistory.pageHandler.prevPage({ cbs: [scrollTableToTop] })
   }
   const nextPage = () => {
-    downloadHistory.pageHandler.nextPage(scrollTableToTop)
+    downloadHistory.pageHandler.nextPage({ cbs: [scrollTableToTop] })
   }
   const refresh = () => {
-    downloadHistory.handler.refresh(scrollTableToTop)
-    formRef.current?.reset()
-    search()
+    downloadHistory.handler.refresh({ cbs: [scrollTableToTop] })
+    searchFormRef.current?.reset()
   }
 
   const search = () => {
     downloadHistory.handler.search({
       filter: {
-        mediaType: (mediaTypeSelectRef?.current?.value as MediaType) ?? '*',
-        userName: usernameInputRef?.current?.value ?? '*',
+        mediaType: (searchFormRef.current?.value.mediaType ?? '*') as '*' | MediaType,
+        userName: searchFormRef.current?.value.username ?? '*',
       },
       hashtags: [],
     })
   }
 
-  const handleInput = lazyHandler(500)(() => {
+  const updateResult = () => {
     search()
     scrollTableToTop()
-  })
+  }
 
   return (
     <>
       <HStack>
-        <form
-          ref={formRef}
-          style={{ display: 'flex', flex: 1, gap: '0.5rem' }}
-          onSubmit={e => e.preventDefault()}
-        >
-          <Input
-            ref={usernameInputRef}
-            type="search"
-            name="username"
-            placeholder={i18n('options_history_table_input_placeholder_username')}
-            onInput={handleInput}
-            flexShrink={1}
-          />
-          <Select
-            ref={mediaTypeSelectRef}
-            title={i18n('options_history_table_select_title_mediaType')}
-            name="mediaType"
-            onChange={() => {
-              search()
-              scrollTableToTop()
-            }}
-            defaultValue={MediaTypeSelectToken.ALL}
-            flexShrink={4}
-          >
-            <option value={MediaTypeSelectToken.ALL}>
-              {i18n('options_history_table_select_mediaType_all')}
-            </option>
-            <option value={MediaTypeSelectToken.IMAGE}>
-              {i18n('options_history_table_select_mediaType_image')}
-            </option>
-            <option value={MediaTypeSelectToken.VIDEO}>
-              {i18n('options_history_table_select_mediaType_video')}
-            </option>
-            <option value={MediaTypeSelectToken.MIXED}>
-              {i18n('options_history_table_select_mediaType_mixed')}
-            </option>
-          </Select>
-        </form>
+        <SearchForm update={updateResult} ref={searchFormRef} />
         <HStack>
-          <IconButton
-            aria-label={i18n('options_history_table_ariaLabel_prevPage')}
-            icon={<Icon boxSize={8} as={BiChevronLeft} />}
-            onClick={prevPage}
-            background={'transparent'}
+          <PageNavigator
+            prevPage={prevPage}
+            nextPage={nextPage}
+            totalPages={downloadHistory.info.totalPages}
+            currentPage={downloadHistory.info.currentPage}
           />
-          <Box minW={'8ch'} textAlign={'center'}>
-            <Text>{`${downloadHistory.info.currentPage} / ${downloadHistory.info.totalPages}`}</Text>
-          </Box>
-          <IconButton
-            aria-label={i18n('options_history_table_ariaLabel_nextPage')}
-            icon={<Icon boxSize={8} as={BiChevronRight} />}
-            onClick={nextPage}
-            background={'transparent'}
-          />
-          <IconButton
-            aria-label={i18n('options_history_table_ariaLabel_refresh')}
-            icon={<Icon boxSize={5} as={BiRefresh} />}
-            onClick={refresh}
-          />
+          <ActionBar refresh={refresh} />
         </HStack>
       </HStack>
       <TableContainer
@@ -337,22 +437,13 @@ const HistoryTable = () => {
         whiteSpace={'break-spaces'}
         overflowY={'auto'}
       >
-        <Table
-          variant="striped"
-          colorScheme="teal"
-          size={'md'}
-          width={'100%'}
-          onDragOver={e => e.preventDefault()}
-          // {...(process.env.NODE_ENV === 'production'
-          //   ? {}
-          //   : { onDrop: handlePortableHistoryFileDrop, zIndex: 99 })}
-        >
+        <Table variant="striped" colorScheme="teal" size={'md'} width={'100%'}>
           <Thead position={'sticky'} top={0} zIndex={1} background={'black'}>
             <TableHeads />
           </Thead>
           <Tbody>
             {downloadHistory.info.isLoaded ? (
-              downloadHistory.items.map((item, i) => <ItemRow key={i} item={item} />)
+              downloadHistory.items.map(item => <ItemRow key={item.id} item={item} />)
             ) : (
               <LoadingBody />
             )}
