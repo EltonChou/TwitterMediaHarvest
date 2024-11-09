@@ -12,17 +12,6 @@ export const enum ButtonStatus {
   Downloaded = 'downloaded',
 }
 
-/**
- * Create HTMLElement from html string.
- *
- * @param htmlString A valid html string.
- */
-export const createElementFromHTML = (htmlString: string): HTMLElement => {
-  const wrapper = document.createElement('div')
-  wrapper.innerHTML = htmlString.trim()
-  return wrapper.firstElementChild as HTMLElement
-}
-
 const cleanButtonStatus = (button: HTMLElement) => {
   button.classList.remove(
     ButtonStatus.Downloading,

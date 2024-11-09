@@ -1,9 +1,9 @@
-import downloadButtonSVG from '../../assets/icons/twitter-download.svg'
+import downloadButtonSVG from '#assets/icons/twitter-download.svg'
 import { selectArtcleMode } from '../utils/article'
-import { createElementFromHTML, makeButtonListener } from '../utils/maker'
+import { makeButtonListener } from '../utils/button'
+import { createElementFromHTML } from '../utils/helper'
 import * as E from 'fp-ts/Either'
 import * as IOO from 'fp-ts/IOOption'
-import * as O from 'fp-ts/Option'
 import * as IOE from 'fp-ts/lib/IOEither'
 import { pipe } from 'fp-ts/lib/function'
 import { isEmpty } from 'fp-ts/lib/string'
@@ -35,7 +35,13 @@ const swapIcon = <T extends HTMLElement>(icon: T) =>
         IOO.of
       )
     ),
-    IOO.tap(({ icon, newIcon }) => pipe(newIcon, icon.replaceWith, IOO.of)),
+    IOO.tap(({ icon, newIcon }) =>
+      pipe(
+        newIcon,
+        icon.replaceWith.bind(icon), // need to bind self to pass the test
+        IOO.of
+      )
+    ),
     IOO.map(() => void 0)
   )
 
@@ -88,11 +94,17 @@ export const makeHarvestButton = (article: HTMLElement) =>
     IOE.bind('mode', () => pipe(article, selectArtcleMode, IOE.of)),
     IOE.bind('actionBar', () => pipe(article, getActionBar, IOE.fromEither)),
     IOE.bind('button', ctx => makeButton(ctx.mode)(article)),
-    IOE.tap(ctx => pipe(ctx.button, ctx.actionBar.appendChild, IOE.of)),
+    IOE.tap(ctx =>
+      pipe(
+        ctx.button,
+        ctx.actionBar.appendChild.bind(ctx.actionBar), // need to bind self to pass the test
+        IOE.of
+      )
+    ),
     IOE.map(() => 'success')
   )
 
-const wrapButton =
+export const wrapButton =
   (mode: TweetMode) =>
   (btn: HTMLElement): HTMLElement =>
     createElementFromHTML(`
@@ -104,7 +116,7 @@ const wrapButton =
       </div>
     `)
 
-const makeButtonIcon = (svgStyle: string) => {
+export const makeButtonIcon = (svgStyle: string) => {
   const icon = createElementFromHTML(downloadButtonSVG)
   icon.setAttribute('class', svgStyle)
   // this style can prevent the appearance changed when the reply is restricted.

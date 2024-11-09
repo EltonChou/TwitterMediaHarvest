@@ -8,15 +8,13 @@ import { pipe } from 'fp-ts/lib/function'
 import { isEmpty, isString } from 'fp-ts/lib/string'
 import select from 'select-dom'
 
-export const isArticleInDetail = (article: HTMLElement) =>
-  select.exists('.tweet-detail', article)
-
 /**
  * <article role="article" data-focusable="true" tabindex="0" class="css-1dbjc4n r-18u37iz r-1ny4l3l r-1udh08x r-1yt7n81 r-ry3cjt">
  *
  * @param {HTMLElement} article
  */
 export const isArticleInStatus = (article: HTMLElement) => {
+  if (article instanceof HTMLDivElement) return false
   const articleClassLength = article.classList.length
   const isMagicLength =
     articleClassLength === 3 || articleClassLength === 7 || articleClassLength === 6
@@ -141,18 +139,20 @@ const featureRegEx = Object.freeze({
   id: /(?:status\/)(\d+)/,
   screenName: /(\w+)\/(?:status\/)/,
   photoModeUrl: /\w+\/status\/\d+\/(photo|video)\/\d+/,
+  editedHistoryUrl: /(?<=.+)\/history$/,
 })
 
 export const getLinksFromArticle = (article: HTMLElement): string[] => {
-  const parentArticle = article.closest('article')
-  if (!parentArticle || isArticlePhotoMode(article)) return [window.location.pathname]
-  const anchorEles = select.all('[data-testid="User-Name"] [href]', article)
+  const anchorEles = isArticlePhotoMode(article)
+    ? []
+    : select.all('[data-testid="User-Name"] [href]', article)
   const timeEle = select('a > time', article)
   if (timeEle?.parentElement?.tagName === 'A') anchorEles.push(timeEle.parentElement)
   return anchorEles
     .filter(e => e.hasAttribute('href'))
     .map(e => e.getAttribute('href'))
     .filter(isString)
+    .map(path => path.replace(featureRegEx.editedHistoryUrl, ''))
 }
 
 export const getTweetIdFromLink = (link: string) => link.match(featureRegEx.id)?.at(1)
