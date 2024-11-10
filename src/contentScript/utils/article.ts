@@ -181,10 +181,6 @@ export const setTargetArticle = <T extends HTMLElement | undefined | null>(
   return article
 }
 
-export const isTargetArticle = <T extends HTMLElement | undefined | null>(
-  article: T
-): boolean => Boolean(article && article.dataset[TARGET_ARTICLE_DATASET_CRITERIA])
-
 export const getClosedTargetArticle = <T extends Element>(ele: T) =>
   ele.closest<T>('[data-harvest-article]')
 

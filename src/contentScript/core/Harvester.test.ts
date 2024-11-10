@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { makeHarvestButton } from './Harvester'
-import { getAllByTestId } from '@testing-library/dom'
+import { screen } from '@testing-library/dom'
 import * as IOE from 'fp-ts/lib/IOEither'
 import { pipe } from 'fp-ts/lib/function'
 import fs from 'fs/promises'
@@ -72,8 +72,8 @@ describe.each([
     ),
     path: '/seigura',
   },
-])('unit test for Harvester', ({ filePath, path }) => {
-  const getArticle = () => getAllByTestId(document.body, 'tweet')[0]
+])('unit test for Harvester', ({ filePath, path, context }) => {
+  const getArticle = () => screen.getAllByTestId('tweet')[0]
 
   beforeAll(async () => {
     const content = await fs.readFile(filePath, 'utf-8')
@@ -86,7 +86,7 @@ describe.each([
     setPath('/')
   })
 
-  it('can make harvest button', () => {
+  it(`can make harvest button in context: ${context}`, () => {
     const result = pipe(
       getArticle(),
       makeHarvestButton,
@@ -97,5 +97,8 @@ describe.each([
     )()
 
     expect(result).toBe('ok')
+
+    const harvesterButton = screen.queryByTestId('harvester-button')
+    expect(harvesterButton).toBeInTheDocument()
   })
 })
