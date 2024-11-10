@@ -88,7 +88,7 @@ export const makeHarvestButton = (article: HTMLElement) =>
     IOE.map(() => 'ok')
   )
 
-export const wrapButton = (mode: TweetMode) => (btn: HTMLElement) =>
+const wrapButton = (mode: TweetMode) => (btn: HTMLElement) =>
   pipe(
     IOE.of({
       button: btn,
@@ -110,7 +110,7 @@ export const wrapButton = (mode: TweetMode) => (btn: HTMLElement) =>
     IOE.map(ctx => ctx.wrapper)
   )
 
-export const makeButtonIcon = (svgStyle: string) => {
+const makeButtonIcon = (svgStyle: string) => {
   const icon = createElementFromHTML(downloadButtonSVG)
   icon.setAttribute('class', svgStyle)
   // this style can prevent the appearance changed when the reply is restricted.
