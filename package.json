@@ -90,7 +90,7 @@
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "tsx": "^4.16.5",
-    "typescript": "^5.5.3",
+    "typescript": "^5.6.2",
     "url-loader": "^4.1.1",
     "web-ext": "^7.8.0",
     "webpack": "^5.76.3",
