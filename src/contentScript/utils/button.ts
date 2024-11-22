@@ -57,7 +57,8 @@ export const makeButtonListener = <T extends HTMLElement>(button: T): T => {
 
   const message = new CheckDownloadHistoryMessage({ tweetId: value.tweetId })
   sendMessage(message).then(resp => {
-    if (resp.payload.isExist) setButtonStatus(ButtonStatus.Downloaded)(button)
+    if (resp.status === 'error') return
+    if (resp.payload.isExist) return setButtonStatus(ButtonStatus.Downloaded)(button)
   })
 
   return button

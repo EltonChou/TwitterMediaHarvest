@@ -1,6 +1,7 @@
 import type {
   WebExtAction,
   WebExtMessage,
+  WebExtMessageErrorResponse,
   WebExtMessagePayloadResponse,
   WebExtMessageResponse,
 } from './messages/base'
@@ -13,9 +14,10 @@ export const sendMessage = async <
 >(
   message: WebExtMessage<Action, Payload, ResponsePayload>
 ): Promise<
-  keyof ResponsePayload extends string
-    ? WebExtMessagePayloadResponse<ResponsePayload>
-    : WebExtMessageResponse
+  | (keyof ResponsePayload extends string
+      ? WebExtMessagePayloadResponse<ResponsePayload>
+      : WebExtMessageResponse)
+  | WebExtMessageErrorResponse
 > => {
   return runtime.sendMessage(message.toObject())
 }
@@ -28,9 +30,10 @@ export const sendExternalMessage = async <
   externalExtId: string,
   message: WebExtMessage<Action, Payload, ResponsePayload>
 ): Promise<
-  keyof ResponsePayload extends string
-    ? WebExtMessagePayloadResponse<ResponsePayload>
-    : WebExtMessageResponse
+  | (keyof ResponsePayload extends string
+      ? WebExtMessagePayloadResponse<ResponsePayload>
+      : WebExtMessageResponse)
+  | WebExtMessageErrorResponse
 > => {
   return runtime.sendMessage(externalExtId, message.toObject())
 }
