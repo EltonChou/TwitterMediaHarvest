@@ -23,8 +23,8 @@
     "lib": [
       "DOM",
       "DOM.Iterable",
-      "ES2022",
-      "webworker",
+      "ESNext",
+      "WebWorker"
     ],
     "forceConsistentCasingInFileNames": true,
     "paths": {
