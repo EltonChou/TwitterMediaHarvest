@@ -23,12 +23,6 @@ const useKeboardMonitor = () => {
   return new TwitterKeyboardMonitor()
 }
 
-let hasFocused = false
-
-const isFocused = () => {
-  hasFocused = true
-}
-
 const monitorKeyboardByFlag = (() => {
   let hasMonitored = false
   return (flag: boolean) => {
@@ -51,14 +45,20 @@ featureSettingsRepo
     const observer = useObserver(feature.autoRevealNsfw)
     if (!observer) return
 
-    window.addEventListener('focus', () => {
-      monitorKeyboardByFlag(feature.keyboardShortcut)
-      observer.initialize()
-      if (!hasFocused) {
-        observer.observeRoot()
-        isFocused()
-      }
-    })
+    window.addEventListener(
+      'focus',
+      (() => {
+        let hasFocused = false
+        return () => {
+          monitorKeyboardByFlag(feature.keyboardShortcut)
+          observer.initialize()
+          if (!hasFocused) {
+            observer.observeRoot()
+            hasFocused = true
+          }
+        }
+      })()
+    )
 
     observer.observeRoot()
     return feature
