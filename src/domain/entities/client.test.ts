@@ -48,6 +48,6 @@ describe('unit test for client entity.', () => {
     const url = new URL(client.uninstallUrl)
 
     expect(url.pathname).toMatch('/v1/clients/' + clientId.value + '/uninstall')
-    expect(url.searchParams.has('uninstallCode', 'code'))
+    expect(url.searchParams.get('uninstallCode')).toBe('code')
   })
 })
