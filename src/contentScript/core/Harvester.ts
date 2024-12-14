@@ -76,7 +76,7 @@ const makeButton = (mode: TweetMode) => (article: HTMLElement) =>
       )
     ),
     IOE.map(({ fullButton }) => makeButtonListener(fullButton)),
-    IOE.map((button) => checkButtonStatus(button))
+    IOE.map(button => checkButtonStatus(button))
   )
 
 export const makeHarvestButton = (article: HTMLElement) =>

@@ -1,5 +1,9 @@
-import { CheckDownloadHistoryMessage, DownloadTweetMediaMessage, sendMessage } from '#libs/webExtMessage';
-import { getTweetInfoFromArticleChildElement } from './article';
+import {
+  CheckDownloadHistoryMessage,
+  DownloadTweetMediaMessage,
+  sendMessage,
+} from '#libs/webExtMessage'
+import { getTweetInfoFromArticleChildElement } from './article'
 
 type ButtonElement = HTMLElement
 
@@ -53,15 +57,15 @@ export const makeButtonListener = <T extends ButtonElement>(button: T): T => {
 }
 
 export const checkButtonStatus = <T extends ButtonElement>(button: T): T => {
-    const { value, error } = getTweetInfoFromArticleChildElement(button)
-    if (error) return button
+  const { value, error } = getTweetInfoFromArticleChildElement(button)
+  if (error) return button
 
-    const message = new CheckDownloadHistoryMessage({ tweetId: value.tweetId })
-    sendMessage(message).then(resp => {
-      if (resp.status === 'error') return button
-      if (resp.payload.isExist) return setButtonStatus(ButtonStatus.Downloaded)(button)
-      return button
-    })
-
+  const message = new CheckDownloadHistoryMessage({ tweetId: value.tweetId })
+  sendMessage(message).then(resp => {
+    if (resp.status === 'error') return button
+    if (resp.payload.isExist) return setButtonStatus(ButtonStatus.Downloaded)(button)
     return button
-  }
+  })
+
+  return button
+}
