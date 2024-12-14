@@ -184,7 +184,7 @@ export const setTargetArticle = <T extends HTMLElement | undefined | null>(
 export const getClosedTargetArticle = <T extends Element>(ele: T) =>
   ele.closest<T>('[data-harvest-article]')
 
-export const getTweetInfoFromArticleChiledElement = <T extends HTMLElement>(
+export const getTweetInfoFromArticleChildElement = <T extends HTMLElement>(
   childElement: T
 ): Result<TweetInfo> =>
   pipe(

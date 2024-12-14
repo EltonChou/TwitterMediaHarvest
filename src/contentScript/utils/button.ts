@@ -3,7 +3,7 @@ import {
   DownloadTweetMediaMessage,
   sendMessage,
 } from '#libs/webExtMessage'
-import { getTweetInfoFromArticleChiledElement } from './article'
+import { getTweetInfoFromArticleChildElement } from './article'
 
 export const enum ButtonStatus {
   Downloading = 'downloading',
@@ -41,7 +41,7 @@ const buttonClickHandler = (e: MouseEvent) => {
   if (!target || isButtonDownloading(target)) return
 
   setButtonStatus(ButtonStatus.Downloading)(target)
-  const { value, error } = getTweetInfoFromArticleChiledElement(target)
+  const { value, error } = getTweetInfoFromArticleChildElement(target)
   if (error) return setButtonStatus(ButtonStatus.Error)(target)
   const message = new DownloadTweetMediaMessage(value.mapBy(props => props))
   sendMessage(message).then(resp =>
@@ -52,7 +52,7 @@ const buttonClickHandler = (e: MouseEvent) => {
 export const makeButtonListener = <T extends HTMLElement>(button: T): T => {
   button.addEventListener('click', buttonClickHandler)
 
-  const { value, error } = getTweetInfoFromArticleChiledElement(button)
+  const { value, error } = getTweetInfoFromArticleChildElement(button)
   if (error) return button
 
   const message = new CheckDownloadHistoryMessage({ tweetId: value.tweetId })
