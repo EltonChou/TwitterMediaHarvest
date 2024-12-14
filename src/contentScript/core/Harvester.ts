@@ -1,6 +1,6 @@
 import downloadButtonSVG from '#assets/icons/twitter-download.svg'
 import { selectArtcleMode } from '../utils/article'
-import { makeButtonListener } from '../utils/button'
+import { checkButtonStatus, makeButtonListener } from '../utils/button'
 import { createElementFromHTML } from '../utils/helper'
 import * as E from 'fp-ts/Either'
 import * as IOE from 'fp-ts/IOEither'
@@ -75,7 +75,8 @@ const makeButton = (mode: TweetMode) => (article: HTMLElement) =>
         IOE.flatMap(bleachedButton => pipe(bleachedButton, wrapButton(mode)))
       )
     ),
-    IOE.map(({ fullButton }) => makeButtonListener(fullButton))
+    IOE.map(({ fullButton }) => makeButtonListener(fullButton)),
+    IOE.map((button) => checkButtonStatus(button))
   )
 
 export const makeHarvestButton = (article: HTMLElement) =>

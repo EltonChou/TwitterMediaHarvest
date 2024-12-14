@@ -1,9 +1,7 @@
-import {
-  CheckDownloadHistoryMessage,
-  DownloadTweetMediaMessage,
-  sendMessage,
-} from '#libs/webExtMessage'
-import { getTweetInfoFromArticleChildElement } from './article'
+import { CheckDownloadHistoryMessage, DownloadTweetMediaMessage, sendMessage } from '#libs/webExtMessage';
+import { getTweetInfoFromArticleChildElement } from './article';
+
+type ButtonElement = HTMLElement
 
 export const enum ButtonStatus {
   Downloading = 'downloading',
@@ -22,13 +20,13 @@ const cleanButtonStatus = (button: HTMLElement) => {
   return button
 }
 
-const setButtonStatus = (status: ButtonStatus) => (button: HTMLElement) => {
+const setButtonStatus = (status: ButtonStatus) => (button: ButtonElement) => {
   cleanButtonStatus(button)
   button.classList.add(status)
   return button
 }
 
-const isButtonDownloading = (button: HTMLElement) =>
+const isButtonDownloading = (button: ButtonElement) =>
   button.classList.contains('downloading')
 
 const responseStatusToButtonStatus = (respStatus: 'ok' | 'error') =>
@@ -49,17 +47,21 @@ const buttonClickHandler = (e: MouseEvent) => {
   )
 }
 
-export const makeButtonListener = <T extends HTMLElement>(button: T): T => {
+export const makeButtonListener = <T extends ButtonElement>(button: T): T => {
   button.addEventListener('click', buttonClickHandler)
-
-  const { value, error } = getTweetInfoFromArticleChildElement(button)
-  if (error) return button
-
-  const message = new CheckDownloadHistoryMessage({ tweetId: value.tweetId })
-  sendMessage(message).then(resp => {
-    if (resp.status === 'error') return
-    if (resp.payload.isExist) return setButtonStatus(ButtonStatus.Downloaded)(button)
-  })
-
   return button
 }
+
+export const checkButtonStatus = <T extends ButtonElement>(button: T): T => {
+    const { value, error } = getTweetInfoFromArticleChildElement(button)
+    if (error) return button
+
+    const message = new CheckDownloadHistoryMessage({ tweetId: value.tweetId })
+    sendMessage(message).then(resp => {
+      if (resp.status === 'error') return button
+      if (resp.payload.isExist) return setButtonStatus(ButtonStatus.Downloaded)(button)
+      return button
+    })
+
+    return button
+  }
