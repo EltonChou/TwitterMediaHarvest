@@ -60,6 +60,9 @@
       ],
       "#assets/*": [
         "./assets/*"
+      ],
+      "#infraProvider": [
+        "./infraProvider.ts"
       ]
     }
   }
