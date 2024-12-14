@@ -19,7 +19,7 @@ type FilenameSettingProps = {
 const PATH_MAX = 4096
 
 export const enum InvalidReason {
-  PathTooLong = `Maximum path is ${PATH_MAX} characters.`,
+  PathTooLong = 'Maximum path is 4096 characters.',
   // eslint-disable-next-line max-len
   ContainsReservedCharacters = 'Directory path contains reserved characters. (`\\`, `?`, `<`, `>`, `,`, `:`, `*`, `|`, and `"`)',
   ContainsIllegalCharacters = 'Contains illegal characters.',
