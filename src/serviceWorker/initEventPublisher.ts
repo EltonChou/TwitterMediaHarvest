@@ -23,7 +23,7 @@ import {
   downloadRepo,
   downloadSettingsRepo,
   usageStatisticsRepo,
-} from '../infraProvider'
+} from '#provider'
 import { runtime } from 'webextension-polyfill'
 
 const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {

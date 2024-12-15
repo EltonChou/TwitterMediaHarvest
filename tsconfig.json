@@ -61,8 +61,8 @@
       "#assets/*": [
         "./assets/*"
       ],
-      "#infraProvider": [
-        "./infraProvider.ts"
+      "#provider": [
+        "./provider"
       ]
     }
   }

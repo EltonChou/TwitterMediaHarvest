@@ -13,13 +13,11 @@ import {
   LocalExtensionStorageProxy,
   SyncExtensionStorageProxy,
 } from '#infra/storageProxy'
-import { SearchDownloadHistoryFromIDB } from '#infra/useCases/searchDownloadHistoryFromIDB'
-import { SearchTweetIdsByHashtagsFromIDB } from '#infra/useCases/searchTweetIdsByHashtagsFromIDB'
 import { ApiClient } from '#libs/AWSClientApi'
 import { downloadIDB } from '#libs/idb/download/db'
 import { blobToUrlWithFileReader } from '#utils/blob'
 import { getVersion } from '#utils/runtime'
-import { AWSCredentailToCognitoIdentityCredentials } from './mappers/awsCredential'
+import { AWSCredentailToCognitoIdentityCredentials } from '../mappers/awsCredential'
 
 const syncWebExtStorage = new SyncExtensionStorageProxy()
 const localWebExtStorage = new LocalExtensionStorageProxy()
@@ -29,7 +27,7 @@ export const awsCredentialRepo = new AWSCredentialRepository(syncWebExtStorage, 
   region: process.env['IDENTITY_POOL_REGION'] as string,
 })
 
-const awsClient = new ApiClient({
+export const awsClient = new ApiClient({
   apiKey: process.env['API_KEY'] as string,
   clientVersion: getVersion(),
   hostName: process.env['API_HOSTNAME'] as string,
@@ -58,6 +56,3 @@ export const portableDownloadRepo = new IDBPortableDownloadHistoryRepository(
   downloadIDB,
   blobToUrlWithFileReader
 )
-
-export const searchDownloadHistory = new SearchDownloadHistoryFromIDB(downloadIDB)
-export const searchTweetIdsByHashtags = new SearchTweetIdsByHashtagsFromIDB(downloadIDB)

@@ -1,7 +1,7 @@
 import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadWasTriggeredBySelf'
 import { getEventPublisher } from '#infra/eventPublisher'
+import { downloadRepo } from '#provider'
 import { getRuntimeId } from '#utils/runtime'
-import { downloadRepo } from '../infraProvider'
 import handleDownloadChanged from './handlers/handleDownloadChanged'
 import handleNotificationButtonClicked from './handlers/handleNotificationButtonClicked'
 import handleNotificationClicked from './handlers/handleNotificationClicked'

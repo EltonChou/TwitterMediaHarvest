@@ -10,7 +10,7 @@ import {
   featureSettingsRepo,
   filenameSettingsRepo,
   xTokenRepo,
-} from '../infraProvider'
+} from '#provider'
 import checkDownloadHistoryHandler from './messageHandlers/checkDownloadHistory'
 import downloadMessageHandler from './messageHandlers/downloadMediaHandler'
 import { type MessageRouter } from './messageRouter'
