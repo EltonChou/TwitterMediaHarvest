@@ -7,6 +7,7 @@ import * as IOE from 'fp-ts/lib/IOEither'
 import { pipe } from 'fp-ts/lib/function'
 import fs from 'fs/promises'
 import sysPath from 'path'
+import { runtime } from 'webextension-polyfill'
 
 const setPath = (path: string) =>
   Object.defineProperty(window, 'location', {
@@ -86,7 +87,12 @@ describe.each([
     setPath('/')
   })
 
-  it(`can make harvest button in context: ${context}`, () => {
+  it(`can make harvest button ion context: ${context}`, () => {
+    // makeHarvestButton will calls `runtime.sendMessage` to check button status
+    jest
+      .spyOn(runtime, 'sendMessage')
+      .mockResolvedValue({ status: 'ok', payload: { isExist: true } })
+
     const result = pipe(
       getArticle(),
       makeHarvestButton,
