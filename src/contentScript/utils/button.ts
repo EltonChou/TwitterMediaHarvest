@@ -39,15 +39,21 @@ const responseStatusToButtonStatus = (respStatus: 'ok' | 'error') =>
 const buttonClickHandler = (e: MouseEvent) => {
   e.stopImmediatePropagation()
   const target = e.target
-  if (!(target instanceof HTMLElement)) return
-  if (!target || isButtonDownloading(target)) return
+  if (!(target instanceof Element)) return
 
-  setButtonStatus(ButtonStatus.Downloading)(target)
-  const { value, error } = getTweetInfoFromArticleChildElement(target)
-  if (error) return setButtonStatus(ButtonStatus.Error)(target)
+  const button = target.closest<HTMLElement>('.harvester')
+  if (!button) return
+  if (isButtonDownloading(button)) return
+
+  setButtonStatus(ButtonStatus.Downloading)(button)
+  const { value, error } = getTweetInfoFromArticleChildElement(button)
+  if (error) {
+    console.error(error)
+    return setButtonStatus(ButtonStatus.Error)(button)
+  }
   const message = new DownloadTweetMediaMessage(value.mapBy(props => props))
   sendMessage(message).then(resp =>
-    setButtonStatus(responseStatusToButtonStatus(resp.status))(target)
+    setButtonStatus(responseStatusToButtonStatus(resp.status))(button)
   )
 }
 
