@@ -85,16 +85,15 @@ export class DownloadTweetMedia
     const { includeVideoThumbnail } = await this.infra.featureSettingsRepo.get()
     const downloader = await this.buildDownloader(command.tweetInfo)
 
-    const downloadTask = () =>
-      Promise.allSettled(
-        tweetToTweetMediaFiles(tweet)
-          .filter(mediaFile => includeVideoThumbnail || !mediaFile.isThumbnail)
-          .map(tweetMediaFileToDownloadTargetWithFilenameSettting(filenameSetting))
-          .map(downloadTargetToDownloadCommand)
-          .map(downloader.process)
-      )
+    const downloadCommands = tweetToTweetMediaFiles(tweet)
+      .filter(mediaFile => includeVideoThumbnail || !mediaFile.isThumbnail)
+      .map(tweetMediaFileToDownloadTargetWithFilenameSettting(filenameSetting))
+      .map(downloadTargetToDownloadCommand)
 
-    await downloadTask()
+    for (const command of downloadCommands) {
+      await downloader.process(command)
+    }
+
     this.infra.eventPublisher.publishAll(...downloader.events)
 
     return downloader.isOk
@@ -106,8 +105,10 @@ export class DownloadTweetMedia
    * we should capture the error by logger or issue tracker(e.g. Sentry) and solve it implicitly in future patch.
    */
   private async saveDownloadHistory(downloadHistory: DownloadHistory) {
-    // TODO: capture error.
     const saveHistoryError = await this.infra.downloadHistoryRepo.save(downloadHistory)
+    if (saveHistoryError) {
+      //** TODO: Capture and log error */
+    }
   }
 
   private async buildDownloader(tweetInfo: TweetInfo) {
