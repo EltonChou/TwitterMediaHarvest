@@ -127,7 +127,7 @@ export class SearchDownloadHistoryUseCase
           total: Math.ceil(result.matchedCount / itemPerPage),
           prev: currentPage > 1 ? currentPage - 1 : null,
           current: currentPage,
-          next: currentPage * itemPerPage <= result.matchedCount ? null : currentPage + 1,
+          next: currentPage * itemPerPage >= result.matchedCount ? null : currentPage + 1,
         },
         matchedCount: result.matchedCount,
       },
