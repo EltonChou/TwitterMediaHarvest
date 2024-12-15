@@ -126,6 +126,7 @@ const downloadHistoryItemToDownloadHistoryEntity: Factory<
       userId: item.userId,
       screenName: item.screenName,
     }),
+    thumbnail: item.thumbnail,
   })
 
 const orderTypeMap: ReadonlyMap<OrderCriteria['type'], IDBCursorDirection> = new Map([
