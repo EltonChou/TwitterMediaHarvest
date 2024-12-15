@@ -48,7 +48,7 @@ const config = {
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production'
 
-  // Define environment variable from
+  // Define environment variable
   const VERSION = PACKAGE.version
   const BUILD_TARGET = env.target
   const BROWSER = env.target.split('-')[0]
