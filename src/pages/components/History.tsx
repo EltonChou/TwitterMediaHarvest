@@ -77,7 +77,7 @@ const ItemThumbnail = (props: ItemThumbnailProps) => (
   <Box>
     <Image
       alt="Thumbnail"
-      src={props.url + ':thumb'}
+      src={props.url}
       fallbackSrc="https://via.placeholder.com/150"
       objectFit={'cover'}
       boxSize={'90'}
