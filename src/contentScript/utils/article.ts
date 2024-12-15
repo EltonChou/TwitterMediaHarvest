@@ -146,7 +146,7 @@ const featureRegEx = Object.freeze({
 
 export const getLinksFromArticle = (article: HTMLElement): string[] => {
   const anchorEles = isArticlePhotoMode(article)
-    ? []
+    ? select.all('[href*="analytics"]', article)
     : select.all('[data-testid="User-Name"] [href]', article)
   const timeEle = select('a > time', article)
   if (timeEle?.parentElement?.tagName === 'A') anchorEles.push(timeEle.parentElement)
