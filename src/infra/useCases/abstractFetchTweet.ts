@@ -50,6 +50,7 @@ const tweetUserPropsSchema = Joi.object<TweetUserProps, true>({
 })
 
 export abstract class FetchTweetBase implements FetchTweet {
+  abstract identity: string
   protected bearerToken =
     'AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
 

@@ -34,13 +34,9 @@ const fieldTogglesParams = {
   withAuxiliaryUserLabels: false,
 }
 
-const endpoint = new URL(
-  'https://x.com/i/api/graphql/0hWvDhmW8YQ-S_ib3azIrw/TweetResultByRestId'
-)
-endpoint.searchParams.append('features', JSON.stringify(featureParams))
-endpoint.searchParams.append('fieldToggles', JSON.stringify(fieldTogglesParams))
-
 export class GuestFetchTweet extends FetchTweetBase {
+  readonly identity: string = 'guest'
+
   makeHeaders({ bearerToken, csrfToken }: MakeHeaderParams): Headers {
     return new Headers([
       ['Content-Type', 'application/json'],
@@ -53,6 +49,11 @@ export class GuestFetchTweet extends FetchTweetBase {
   }
 
   makeEndpoint(tweetId: string): string {
+    const endpoint = new URL(
+      'https://x.com/i/api/graphql/0hWvDhmW8YQ-S_ib3azIrw/TweetResultByRestId'
+    )
+    endpoint.searchParams.append('features', JSON.stringify(featureParams))
+    endpoint.searchParams.append('fieldToggles', JSON.stringify(fieldTogglesParams))
     endpoint.searchParams.append('variables', JSON.stringify(makeVariableParams(tweetId)))
     return endpoint.href
   }

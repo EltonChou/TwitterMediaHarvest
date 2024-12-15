@@ -34,10 +34,9 @@ const featureParams = {
   responsive_web_enhance_cards_enabled: false,
 }
 
-const endpoint = new URL('https://x.com/i/api/BbCrSoXIR7z93lLCVFlQ2Q/TweetDetail')
-endpoint.searchParams.append('features', JSON.stringify(featureParams))
-
 export class FallbackFetchTweet extends FetchTweetBase {
+  readonly identity: string = 'fallback'
+
   makeHeaders({ bearerToken, csrfToken }: MakeHeaderParams): Headers {
     return new Headers([
       ['Content-Type', 'application/json'],
@@ -49,6 +48,8 @@ export class FallbackFetchTweet extends FetchTweetBase {
     ])
   }
   makeEndpoint(tweetId: string): string {
+    const endpoint = new URL('https://x.com/i/api/BbCrSoXIR7z93lLCVFlQ2Q/TweetDetail')
+    endpoint.searchParams.append('features', JSON.stringify(featureParams))
     endpoint.searchParams.append('variables', JSON.stringify(makeVariableParams(tweetId)))
     return endpoint.href
   }
