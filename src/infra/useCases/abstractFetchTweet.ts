@@ -38,9 +38,9 @@ export type MakeHeaderParams = {
 const tweetPartialPropsSchema = Joi.object<
   Omit<TweetProps, 'user' | 'videos' | 'images'>
 >({
-  id: Joi.string(),
+  id: Joi.string().required(),
   hashtags: Joi.array().items(Joi.string()),
-  createdAt: Joi.date(),
+  createdAt: Joi.date().required(),
 })
 
 const tweetUserPropsSchema = Joi.object<TweetUserProps, true>({
@@ -107,16 +107,16 @@ export abstract class FetchTweetBase implements FetchTweet {
     const getTweetPropsFromTweetResult = (tweetResult: any) =>
       pipe(
         tweetPartialPropsSchema.validate({
-          id: tweetResult.rest_id,
+          id: tweetResult.rest_id ?? tweetResult.id_str,
           hashtags: parseHashtags(tweetResult?.entities),
-          createdAt: new Date(tweetResult.createdAt),
+          createdAt: new Date(tweetResult.created_at),
         }),
         validationResultToEither
       )
 
     const getUserPropsFromResult = (result: any) =>
       pipe(
-        result?.right.core?.user_results?.result,
+        result?.core?.user_results?.result,
         O.fromNullable,
         E.fromOption(() => 'Failed to get user result'),
         E.chain(userResult =>
@@ -211,7 +211,7 @@ export abstract class FetchTweetBase implements FetchTweet {
 type MediaCollection = { images: TweetMedia[]; videos: TweetMedia[] }
 
 const parseMedias = (entity: Record<string, unknown>): MediaCollection => {
-  const medias = (entity?.medias as Media[]) ?? []
+  const medias = (entity?.media as Media[]) ?? []
   let imageIndex = 0
   let videoIndex = 0
 
@@ -223,7 +223,7 @@ const parseMedias = (entity: Record<string, unknown>): MediaCollection => {
       mediaCollection.images.push(
         new TweetMedia({
           index: imageIndex,
-          type: media.type === 'image' ? 'image' : 'thumbnail',
+          type: media.type === 'photo' ? 'photo' : 'thumbnail',
           url: media.media_url_https,
         })
       )
@@ -266,6 +266,7 @@ type Mp4Variant = {
 }
 
 type MpegUrlVariant = {
+  bitrate: 0
   content_type: 'application/x-mpegURL'
   url: string
 }
@@ -274,7 +275,7 @@ type VideoVariant = Mp4Variant | MpegUrlVariant
 
 type Media =
   | {
-      type: 'image'
+      type: 'photo'
       media_url_https: string
     }
   | {
@@ -289,7 +290,7 @@ const parseBestVideoVariant = (variants: VideoVariant[]): string | undefined =>
   variants
     .filter(variant => variant.content_type === 'video/mp4')
     .reduce((prevVariant, currVariant) =>
-      currVariant.bitrate >= prevVariant.bitrate ? currVariant : prevVariant
+      currVariant?.bitrate >= prevVariant?.bitrate ? currVariant : prevVariant
     ).url
 
 const validationResultToEither = <T>(result: ValidationResult<T>): E.Either<string, T> =>

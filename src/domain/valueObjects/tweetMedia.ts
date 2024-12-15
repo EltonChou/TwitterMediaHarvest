@@ -1,7 +1,7 @@
 import { ValueObject } from './base'
 
 export type TweetMediaProps = {
-  type: 'image' | 'thumbnail' | 'video'
+  type: 'photo' | 'thumbnail' | 'video'
   index: number
   url: string
 }

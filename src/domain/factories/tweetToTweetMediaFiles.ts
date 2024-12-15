@@ -17,7 +17,18 @@ export const tweetToTweetMediaFiles: Factory<Tweet, TweetMediaFile[]> = tweet =>
         tweetId: tweetId,
         createdAt: createdAt,
         tweetUser: tweet.user,
-        type: media.mapBy(props => props.type),
+        type: media.mapBy(props => {
+          switch (props.type) {
+            case 'photo':
+              return 'image'
+
+            case 'thumbnail':
+              return 'thumbnail'
+
+            case 'video':
+              return 'video'
+          }
+        }),
         source: media.getVariantUrl('orig'),
         serial: media.mapBy(props => props.index + 1),
         ext: pathInfo.ext,
