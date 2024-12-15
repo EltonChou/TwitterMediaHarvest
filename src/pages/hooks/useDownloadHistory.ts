@@ -93,7 +93,7 @@ const useDownloadHistory = ({
     loadLatest({ itemPerPage, query }).then(() => {
       setLoaded(true)
     })
-  }, [itemPerPage, loadLatest, query])
+  }, [itemPerPage, query])
 
   const prevPage: DownloadHistory['pageHandler']['prevPage'] = useCallback(
     options => {
