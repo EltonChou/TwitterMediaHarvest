@@ -76,7 +76,6 @@ const makeButton = (mode: TweetMode) => (article: HTMLElement) =>
       )
     ),
     IOE.map(({ fullButton }) => makeButtonListener(fullButton)),
-    IOE.map(button => checkButtonStatus(button))
   )
 
 export const makeHarvestButton = (article: HTMLElement) =>
@@ -86,6 +85,7 @@ export const makeHarvestButton = (article: HTMLElement) =>
     IOE.bind('actionBar', () => pipe(article, getActionBar, IOE.fromEither)),
     IOE.bind('button', ctx => makeButton(ctx.mode)(article)),
     IOE.tap(ctx => pipe(ctx.actionBar.appendChild(ctx.button), IOE.of)),
+    IOE.tap(ctx => pipe(checkButtonStatus(ctx.button), IOE.of)),
     IOE.map(() => 'ok')
   )
 
