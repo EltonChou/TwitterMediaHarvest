@@ -1,6 +1,7 @@
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import { isInTweetStatus } from './checker'
+import { isURLCanParse } from './url'
 import * as A from 'fp-ts/Array'
 import * as E from 'fp-ts/Either'
 import { fromPredicate as optionFromPredicate } from 'fp-ts/lib/Option'
@@ -51,7 +52,9 @@ export const isAritcleHasQuotedContent = (article: HTMLElement): boolean =>
   select.all('time', article).length > 1
 
 const makePhotoUrlPattern = (statusHref: string): string => {
-  const statusPath = URL.canParse(statusHref) ? new URL(statusHref).pathname : statusHref
+  // `URL.canParse`is new api, not all browsers' version can support it.
+  // const statusPath = URL.canParse(statusHref) ? new URL(statusHref).pathname : statusHref
+  const statusPath = isURLCanParse(statusHref) ? new URL(statusHref).pathname : statusHref
   return statusPath.includes('/photo/') ? statusPath : `${statusPath}/photo`
 }
 
