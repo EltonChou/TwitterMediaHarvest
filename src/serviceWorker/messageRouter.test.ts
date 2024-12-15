@@ -17,7 +17,13 @@ describe('unit test for message router', () => {
       response: jest.fn(),
     })
 
-    expect(mockHandler).toHaveBeenCalled()
+    await router.handle({
+      message: { action: WebExtAction.DownloadMedia, payload: { a: 10 } },
+      sender: {},
+      response: jest.fn(),
+    })
+
+    expect(mockHandler).toHaveBeenCalledTimes(2)
   })
 
   it('can reject invalid message', async () => {

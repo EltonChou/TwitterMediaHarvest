@@ -21,7 +21,7 @@ export type MessageContextHandler = (ctx: MessageContext) => Promise<void>
 
 const messageSchema: Joi.ObjectSchema<WebExtMessageObject<WebExtAction>> = Joi.object({
   action: Joi.string().required(),
-})
+}).unknown(true)
 
 export const makeErrorResponse = (reason: string): WebExtMessageErrorResponse => ({
   status: 'error',
