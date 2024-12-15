@@ -1,3 +1,8 @@
+import type { IClientRepository } from '#domain/repositories/client'
+import type { ISettingsRepository } from '#domain/repositories/settings'
+import type { SearchDownloadHistory } from '#domain/useCases/searchDownloadHistory'
+import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
+import type { FilenameSetting } from '#domain/valueObjects/filenameSetting'
 import About from '#pages/components/About'
 import FeatureOptions from '#pages/components/FeatureOptions'
 import FootBar from '#pages/components/FootBar'
@@ -6,6 +11,7 @@ import HistoryTable from '#pages/components/History'
 import IntegrationOptions from '#pages/components/IntegrationOptions'
 import SideMenu from '#pages/components/SideMenu'
 import { i18n } from '#pages/utils'
+import { DownloadSettings, FeatureSettings } from '#schema'
 import { Container, ContainerProps, HStack, Heading, Stack } from '@chakra-ui/react'
 import React from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
@@ -27,7 +33,28 @@ const Content = (props: ContentProps) => {
   )
 }
 
-const App = () => {
+type RepoProvider = {
+  clientRepo: IClientRepository
+  downloadSettingsRepo: ISettingsRepository<DownloadSettings>
+  filenameSettingsRepo: ISettingsRepository<FilenameSetting>
+  featureSettingsRepo: ISettingsRepository<FeatureSettings>
+}
+
+type UseCaseProvider = {
+  searchDownloadHistory: SearchDownloadHistory
+  searchTweetIdsByHashtags: SearchTweetIdsByHashTags
+}
+
+type InfraProvider = RepoProvider & UseCaseProvider
+
+const App = ({
+  clientRepo,
+  downloadSettingsRepo,
+  filenameSettingsRepo,
+  featureSettingsRepo,
+  searchDownloadHistory,
+  searchTweetIdsByHashtags,
+}: InfraProvider) => {
   return (
     <HStack flex={1} spacing={0} overflow={'hidden'}>
       <HashRouter>
@@ -38,7 +65,10 @@ const App = () => {
               path="/"
               element={
                 <Content title={i18n('options_sidemenu_general')}>
-                  <GeneralOptions />
+                  <GeneralOptions
+                    downloadSettingsRepo={downloadSettingsRepo}
+                    filenameSettingsRepo={filenameSettingsRepo}
+                  />
                 </Content>
               }
             />
@@ -46,7 +76,7 @@ const App = () => {
               path="/features"
               element={
                 <Content title={i18n('options_sidemenu_features')}>
-                  <FeatureOptions />
+                  <FeatureOptions featureSettingsRepo={featureSettingsRepo} />
                 </Content>
               }
             />
@@ -54,7 +84,7 @@ const App = () => {
               path="/integrations"
               element={
                 <Content title={i18n('options_sidemenu_integrations')}>
-                  <IntegrationOptions />
+                  <IntegrationOptions downloadSettingsRepo={downloadSettingsRepo} />
                 </Content>
               }
             />
@@ -62,7 +92,10 @@ const App = () => {
               path="/history"
               element={
                 <Content title={i18n('options_sidemenu_history')} maxW={'150ch'}>
-                  <HistoryTable />
+                  <HistoryTable
+                    searchDownloadHistory={searchDownloadHistory}
+                    searchTweetIdsByHashtags={searchTweetIdsByHashtags}
+                  />
                 </Content>
               }
             />
@@ -71,7 +104,7 @@ const App = () => {
               path="/about"
               element={
                 <Content title={i18n('options_sidemenu_about')}>
-                  <About />
+                  <About clientRepo={clientRepo} />
                 </Content>
               }
             />

@@ -1,3 +1,12 @@
+import {
+  clientRepo,
+  downloadSettingsRepo,
+  featureSettingsRepo,
+  filenameSettingsRepo,
+  searchDownloadHistory,
+  searchTweetIdsByHashtags,
+  usageStatisticsRepo,
+} from '#provider'
 import Options from './app/Options'
 import Popup from './app/Popup'
 import './main.sass'
@@ -24,17 +33,28 @@ switch (params.get('tab')) {
     root.render(
       <React.StrictMode>
         <ChakraProvider theme={theme}>
-          <Popup />
+          <Popup
+            featureSettingsRepo={featureSettingsRepo}
+            usageStatisticsRepo={usageStatisticsRepo}
+          />
         </ChakraProvider>
       </React.StrictMode>
     )
     break
+
   default:
     body.removeAttribute('style')
     root.render(
       <React.StrictMode>
         <ChakraProvider theme={theme}>
-          <Options />
+          <Options
+            clientRepo={clientRepo}
+            downloadSettingsRepo={downloadSettingsRepo}
+            featureSettingsRepo={featureSettingsRepo}
+            filenameSettingsRepo={filenameSettingsRepo}
+            searchDownloadHistory={searchDownloadHistory}
+            searchTweetIdsByHashtags={searchTweetIdsByHashtags}
+          />
         </ChakraProvider>
       </React.StrictMode>
     )
