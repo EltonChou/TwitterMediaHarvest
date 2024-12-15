@@ -51,10 +51,8 @@ export const isAritcleHasQuotedContent = (article: HTMLElement): boolean =>
   select.all('time', article).length > 1
 
 const makePhotoUrlPattern = (statusHref: string): string => {
-  const statusUrl = new URL(statusHref)
-  return statusUrl.pathname.includes('/photo/')
-    ? statusUrl.pathname
-    : `${statusUrl.pathname}/photo`
+  const statusPath = URL.canParse(statusHref) ? new URL(statusHref).pathname : statusHref
+  return statusPath.includes('/photo/') ? statusPath : `${statusPath}/photo`
 }
 
 const getPhotoElementByUrl =
@@ -67,6 +65,7 @@ const getArticleAnchor = (article: HTMLElement) => select('[href*="/status/"]', 
 const aricleHasPhoto = (article: HTMLElement): boolean => {
   const articleAnchor = getArticleAnchor(article)
   if (!articleAnchor) return false
+  // this href is relative path.
   const photoUrl = makePhotoUrlPattern(articleAnchor.getAttribute('href') ?? '')
   const photoEle = getPhotoElementByUrl(photoUrl)(article)
   return photoEle ? !isPhotoInQuotedContent(photoEle) : false
