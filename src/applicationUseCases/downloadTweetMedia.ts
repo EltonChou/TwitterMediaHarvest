@@ -175,18 +175,27 @@ export class DownloadTweetMedia
       // TODO: emit quota warning
     }
 
-    let fetchError: Error = new NoFetchTweetSolution()
+    let errorRecords: { identity: string; failedReason: string }[] = []
+    let fetchError: Error | undefined = undefined
     for (const { fetchTweet, command } of solutions) {
+      remainingSolutions--
+
       const { value: tweet, error, remainingQuota } = await fetchTweet.process(command)
+      if (error) {
+        // Only expose firt error to user.
+        fetchError ??= error
+        errorRecords.push({
+          identity: fetchTweet.identity,
+          failedReason: error.message || error.name,
+        })
+      }
 
-      if (--remainingSolutions === 0 && tweet) emitQuotaWarning(remainingQuota)
+      if (remainingSolutions === 0 && tweet) emitQuotaWarning(remainingQuota)
       if (tweet) return toSuccessResult(tweet)
-
-      fetchError = error
     }
 
-    // assert fetchError is Error
-    return toErrorResult(fetchError)
+    console.table(errorRecords)
+    return toErrorResult(fetchError ?? new NoFetchTweetSolution())
   }
 }
 
