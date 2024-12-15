@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker/locale/en'
 export const generateImageTweetMedia = (index: number) =>
   new TweetMedia({
     index: index,
-    type: faker.helpers.arrayElement(['image', 'thumbnail']),
+    type: faker.helpers.arrayElement(['photo', 'thumbnail']),
     url: faker.internet.url(),
   })
 
