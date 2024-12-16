@@ -111,6 +111,9 @@
     "build:chrome:all:dev": "webpack --mode=development --progress --color --env target=chrome",
     "build:chrome:service:dev": "webpack --mode=development --progress --color --env target=chrome --config-name=service",
     "build:chrome:injection:dev": "webpack --mode=development --progress --color --env target=chrome --config-name=content-script",
+    "watch:chrome:all:dev": "yarn build:chrome:all:dev --watch",
+    "watch:chrome:service:dev": "yarn build:chrome:service:dev --watch",
+    "watch:chrome:injection:dev": "yarn build:chrome:injection:dev --watch",
     "watch": "yarn build:dev --watch",
     "lint": "eslint --color --quiet --ext .js --ext .ts --ext .tsx src/ --fix"
   },
