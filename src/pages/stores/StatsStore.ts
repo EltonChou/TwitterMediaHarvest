@@ -24,11 +24,9 @@ export const createStatsStore = (() => {
           stats = newStats
         })
 
-      updateStats()
-
       instance = {
         getSnapShot: () => stats,
-        triggerChange: () => updateStats().then(() => notifyListeners()),
+        triggerChange: () => updateStats().then(notifyListeners),
         subscribe: (onStoreChange: () => void) => {
           listeners.add(onStoreChange)
 
