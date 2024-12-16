@@ -72,7 +72,7 @@ const Stats = (props: StatsProps) => {
       changes,
       areaName
     ) => {
-      if (Object.keys(changes).some(storageKey => storageKey in criterias))
+      if (Object.keys(changes).some(storageKey => criterias.has(storageKey as any)))
         triggerChange()
     }
 

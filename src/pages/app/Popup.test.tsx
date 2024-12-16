@@ -6,6 +6,7 @@ import { MockUsageStatisticsRepository } from '#mocks/repositories/usageStatisti
 import { CHANGE_CRITERIAS } from '#pages/hooks/useStatsStore'
 import Links from '#pages/links'
 import Popup from './Popup'
+import { faker } from '@faker-js/faker'
 import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
@@ -74,7 +75,10 @@ describe('unit test for Popup app component', () => {
 
     await act(async () => {
       storageChangeListeners.forEach(listener =>
-        listener(CHANGE_CRITERIAS[0], { newValue: 1, oldValue: 0 })
+        listener(faker.helpers.arrayElement([...CHANGE_CRITERIAS.keys()]), {
+          newValue: 1,
+          oldValue: 0,
+        })
       )
     })
 

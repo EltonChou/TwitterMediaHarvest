@@ -1,18 +1,24 @@
 import { UsageStatistics } from '#domain/valueObjects/usageStatistics'
 import type { StatsStore } from '#pages/stores/StatsStore'
 import type { V4Statistics } from '#schema'
-import { useSyncExternalStore } from 'react'
+import { useEffect, useSyncExternalStore } from 'react'
 
-export const CHANGE_CRITERIAS: (keyof V4Statistics)[] = ['downloadCount', 'trafficUsage']
+type Criteria = keyof V4Statistics
+
+export const CHANGE_CRITERIAS: Set<Criteria> = new Set(['downloadCount', 'trafficUsage'])
 
 const useStatsStore = (
   statsStore: StatsStore
 ): [
   UsageStatistics,
-  { criterias: (keyof V4Statistics)[]; triggerChange: () => Promise<void> }
+  { criterias: Set<Criteria>; triggerChange: () => Promise<void> }
 ] => {
   const { getSnapShot, subscribe, triggerChange } = statsStore
   const stats = useSyncExternalStore(subscribe, getSnapShot)
+
+  useEffect(() => {
+    triggerChange()
+  }, [])
 
   return [stats, { criterias: CHANGE_CRITERIAS, triggerChange }]
 }
