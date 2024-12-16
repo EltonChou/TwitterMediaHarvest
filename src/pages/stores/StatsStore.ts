@@ -2,6 +2,7 @@ import { UsageStatistics } from '#domain/valueObjects/usageStatistics'
 import type { IExternalStore } from './base'
 
 export interface StatsStore extends IExternalStore<UsageStatistics> {
+  init: () => void
   triggerChange: () => Promise<void>
 }
 
@@ -24,9 +25,12 @@ export const createStatsStore = (() => {
           stats = newStats
         })
 
+      const triggerChange = () => updateStats().then(notifyListeners)
+
       instance = {
         getSnapShot: () => stats,
-        triggerChange: () => updateStats().then(notifyListeners),
+        init: triggerChange,
+        triggerChange,
         subscribe: (onStoreChange: () => void) => {
           listeners.add(onStoreChange)
 

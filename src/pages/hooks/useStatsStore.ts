@@ -13,11 +13,11 @@ const useStatsStore = (
   UsageStatistics,
   { criterias: Set<Criteria>; triggerChange: () => Promise<void> }
 ] => {
-  const { getSnapShot, subscribe, triggerChange } = statsStore
+  const { getSnapShot, subscribe, triggerChange, init } = statsStore
   const stats = useSyncExternalStore(subscribe, getSnapShot)
 
   useEffect(() => {
-    triggerChange()
+    init()
   }, [])
 
   return [stats, { criterias: CHANGE_CRITERIAS, triggerChange }]
