@@ -321,7 +321,9 @@ const GeneralOptions = (props: GeneralOptionsProps) => {
               formHandler.changePatternTokenState(state)(token)
             }
             handleTokenSort={formHandler.sortPatternToken}
-            previewFilename={filenameSetting.makeFilename(previewMediaFile)}
+            previewFilename={filenameSetting.makeFilename(previewMediaFile, {
+              noDir: true,
+            })}
             patternRecords={filenamTokenRecords}
             message={formMsg.filenamePattern}
           />
@@ -332,11 +334,13 @@ const GeneralOptions = (props: GeneralOptionsProps) => {
             isValidDirectory={formStatus.directoryIsValid}
             isDataModified={formStatus.dataIsChanged}
             isOn={!filenameSetting.mapBy(props => props.noSubDirectory)}
+            handleClick={formHandler.toggleSubDirectory}
           />
           <FileAggregationFeature
             isDisabled={!filenameSetting.mapBy(props => props.fileAggregation)}
             toggle={formHandler.toggleAggregationToken}
             isOn={filenameSetting.mapBy(props => props.fileAggregation)}
+            handleClick={formHandler.toggleAggregationToken}
           />
           <HStack>
             <Button

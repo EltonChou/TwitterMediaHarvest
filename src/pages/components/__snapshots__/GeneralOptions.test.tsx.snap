@@ -99,7 +99,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
               <div
                 class="css-l4dkwv"
               >
-                download/tweetUser-1145141919810-02.jpg
+                tweetUser-1145141919810-02.jpg
               </div>
               <div
                 class="css-98ydye"
@@ -345,6 +345,36 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                 value="download"
               />
             </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-checked=""
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  checked=""
+                  class="chakra-switch__input"
+                  id=":r4:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                  data-checked=""
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                    data-checked=""
+                  />
+                </span>
+              </label>
+            </div>
           </div>
         </label>
       </div>
@@ -411,6 +441,32 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                   </svg>
                 </div>
               </div>
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":r6:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
             </div>
           </div>
         </label>
@@ -538,7 +594,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
               <div
                 class="css-l4dkwv"
               >
-                download/tweetUser-1145141919810-02.jpg
+                tweetUser-1145141919810-02.jpg
               </div>
               <div
                 class="css-98ydye"
@@ -784,6 +840,36 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 value="download"
               />
             </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-checked=""
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  checked=""
+                  class="chakra-switch__input"
+                  id=":rc:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                  data-checked=""
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                    data-checked=""
+                  />
+                </span>
+              </label>
+            </div>
           </div>
         </label>
       </div>
@@ -850,6 +936,32 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   </svg>
                 </div>
               </div>
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":re:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
             </div>
           </div>
         </label>
@@ -977,7 +1089,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
               <div
                 class="css-l4dkwv"
               >
-                download/tweetUser-1145141919810-02.jpg
+                tweetUser-1145141919810-02.jpg
               </div>
               <div
                 class="css-98ydye"
@@ -1223,6 +1335,36 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 value="download"
               />
             </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-checked=""
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  checked=""
+                  class="chakra-switch__input"
+                  id=":rc:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                  data-checked=""
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                    data-checked=""
+                  />
+                </span>
+              </label>
+            </div>
           </div>
         </label>
       </div>
@@ -1289,6 +1431,32 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   </svg>
                 </div>
               </div>
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":re:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
             </div>
           </div>
         </label>
@@ -1415,7 +1583,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
               <div
                 class="css-l4dkwv"
               >
-                download/tweetUser-1145141919810-02.jpg
+                tweetUser-1145141919810-02.jpg
               </div>
               <div
                 class="css-98ydye"
@@ -1661,6 +1829,36 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 value="download"
               />
             </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-checked=""
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  checked=""
+                  class="chakra-switch__input"
+                  id=":rk:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                  data-checked=""
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                    data-checked=""
+                  />
+                </span>
+              </label>
+            </div>
           </div>
         </label>
       </div>
@@ -1727,6 +1925,32 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   </svg>
                 </div>
               </div>
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":rm:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
             </div>
           </div>
         </label>
@@ -1854,7 +2078,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
               <div
                 class="css-l4dkwv"
               >
-                download/tweetUser-1145141919810-02.jpg
+                tweetUser-1145141919810-02.jpg
               </div>
               <div
                 class="css-98ydye"
@@ -2100,6 +2324,36 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 value="download"
               />
             </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-checked=""
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  checked=""
+                  class="chakra-switch__input"
+                  id=":rk:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                  data-checked=""
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                    data-checked=""
+                  />
+                </span>
+              </label>
+            </div>
           </div>
         </label>
       </div>
@@ -2166,6 +2420,32 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   </svg>
                 </div>
               </div>
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":rm:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
             </div>
           </div>
         </label>
@@ -2292,7 +2572,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
               <div
                 class="css-l4dkwv"
               >
-                downloada-valid-dir/tweetUser-1145141919810-02.jpg
+                tweetUser-1145141919810-02.jpg
               </div>
               <div
                 class="css-98ydye"
@@ -2538,6 +2818,36 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 value="downloada-valid-dir"
               />
             </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-checked=""
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  checked=""
+                  class="chakra-switch__input"
+                  id=":rc:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                  data-checked=""
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                    data-checked=""
+                  />
+                </span>
+              </label>
+            </div>
           </div>
         </label>
       </div>
@@ -2604,6 +2914,32 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   </svg>
                 </div>
               </div>
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":re:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
             </div>
           </div>
         </label>
@@ -2731,7 +3067,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
               <div
                 class="css-l4dkwv"
               >
-                downloada-valid-dira-valid-dir/tweetUser-1145141919810-02.jpg
+                tweetUser-1145141919810-02.jpg
               </div>
               <div
                 class="css-98ydye"
@@ -2977,6 +3313,36 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 value="downloada-valid-dira-valid-dir"
               />
             </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-checked=""
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  checked=""
+                  class="chakra-switch__input"
+                  id=":rk:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                  data-checked=""
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                    data-checked=""
+                  />
+                </span>
+              </label>
+            </div>
           </div>
         </label>
       </div>
@@ -3043,6 +3409,32 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   </svg>
                 </div>
               </div>
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":rm:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
             </div>
           </div>
         </label>
