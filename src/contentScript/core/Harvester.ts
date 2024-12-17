@@ -4,40 +4,39 @@ import { checkButtonStatus, makeButtonListener } from '../utils/button'
 import { createElementFromHTML } from '../utils/helper'
 import * as E from 'fp-ts/Either'
 import * as IOE from 'fp-ts/IOEither'
-import * as IOO from 'fp-ts/IOOption'
-import { pipe } from 'fp-ts/function'
+import { flow, pipe } from 'fp-ts/function'
 import select from 'select-dom'
 
-const removeButtonStatsText = (btnContainer: HTMLElement) => {
+const removeButtonStatsText = (btnContainer: HTMLElement) =>
   select(
     '[data-testid="app-text-transition-container"] > span > span',
     btnContainer
   )?.remove()
-  return btnContainer
-}
 
-const bleachButton = (sampleButton: HTMLElement) =>
-  pipe(sampleButton.cloneNode(true) as HTMLElement, removeButtonStatsText, IOE.of)
+const bleachButton = <T extends HTMLElement>(sampleButton: T) => {
+  const emptyButton = sampleButton.cloneNode(true) as T
+  removeButtonStatsText(emptyButton)
+  return emptyButton
+}
 
 const getIcon = <T extends HTMLElement>(button: T) =>
   pipe(select('svg', button), E.fromNullable('Failed to get icon svg.'))
 
 const getIconStyle = <T extends HTMLElement>(icon: T) =>
-  icon.classList.value ||
+  icon?.classList?.value ??
   'r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi'
 
 const swapIcon = <T extends HTMLElement>(icon: T) =>
   pipe(
-    IOO.of({ icon }),
-    IOO.bind('newIcon', ({ icon }) => pipe(icon, getIconStyle, makeButtonIcon, IOO.of)),
-    IOO.tap(({ icon, newIcon }) => pipe(icon.replaceWith(newIcon), IOO.of)),
-    IOO.map(ctx => ctx.newIcon)
+    E.of(icon),
+    E.flatMap(flow(getIconStyle, makeButtonIcon, E.of)),
+    E.tap(buttonIcon => pipe(icon.replaceWith(buttonIcon), E.of))
   )
 
 const richIconSibling =
   (mode: TweetMode) =>
   <T extends HTMLElement>(icon: T) =>
-    pipe(icon.previousElementSibling?.classList.add(`${mode}BG`), IOO.of)
+    icon.previousElementSibling?.classList.add(`${mode}BG`)
 
 const getActionBar = (article: HTMLElement) =>
   pipe(
@@ -52,30 +51,19 @@ const getSampleButton = (article: HTMLElement) =>
     E.fromNullable('Failed to get sample button')
   )
 
-const generateButton = (mode: TweetMode) => (sampleButton: HTMLElement) =>
-  pipe(
-    sampleButton,
-    getIcon,
-    IOO.fromEither,
-    IOO.tap(icon => pipe(icon, richIconSibling(mode))),
-    IOO.tap(icon => pipe(icon, swapIcon)),
-    IOE.fromIO
-  )
-
 const makeButton = (mode: TweetMode) => (article: HTMLElement) =>
   pipe(
-    IOE.of({ article, mode }),
-    IOE.bind('fullButton', ({ article, mode }) =>
-      pipe(
-        article,
-        getSampleButton,
-        IOE.fromEither,
-        IOE.tap(generateButton(mode)),
-        IOE.flatMap(bleachButton),
-        IOE.flatMap(bleachedButton => pipe(bleachedButton, wrapButton(mode)))
-      )
+    E.Do,
+    E.bind('wipButton', () =>
+      pipe(article, getSampleButton, E.flatMap(flow(bleachButton, E.of)))
     ),
-    IOE.map(({ fullButton }) => makeButtonListener(fullButton)),
+    E.tap(({ wipButton }) => pipe(wipButton, getIcon, E.flatMap(flow(swapIcon)))),
+    E.bind('fullButton', ({ wipButton }) => pipe(wipButton, wrapButton(mode))),
+    E.tap(({ fullButton }) =>
+      pipe(fullButton, getIcon, E.flatMap(flow(richIconSibling(mode), E.of)))
+    ),
+    E.tap(({ fullButton }) => pipe(fullButton, makeButtonListener, E.of)),
+    E.map(ctx => ctx.fullButton)
   )
 
 export const makeHarvestButton = (article: HTMLElement) =>
@@ -83,32 +71,30 @@ export const makeHarvestButton = (article: HTMLElement) =>
     IOE.Do,
     IOE.bind('mode', () => pipe(article, selectArtcleMode, IOE.of)),
     IOE.bind('actionBar', () => pipe(article, getActionBar, IOE.fromEither)),
-    IOE.bind('button', ctx => makeButton(ctx.mode)(article)),
+    IOE.bind('button', ctx => pipe(makeButton(ctx.mode)(article), IOE.fromEither)),
     IOE.tap(ctx => pipe(ctx.actionBar.appendChild(ctx.button), IOE.of)),
     IOE.tap(ctx => pipe(checkButtonStatus(ctx.button), IOE.of)),
     IOE.map(() => 'ok')
   )
 
-const wrapButton = (mode: TweetMode) => (btn: HTMLElement) =>
+const wrapButton = (mode: TweetMode) => (button: HTMLElement) =>
   pipe(
-    IOE.of({
-      button: btn,
+    E.of({
       wrapper: createElementFromHTML(`
       <div class="harvester ${mode}" data-testid="harvester-button">
         <div aria-haspopup="true" aria-label="Media Harvest" role="button" data-focusable="true" tabindex="0" \
         style="display: flex;justify-content: center;"></div>
       </div>
-    `),
+      `),
     }),
-    IOE.tap(ctx =>
+    E.tap(({ wrapper }) =>
       pipe(
-        ctx.wrapper.querySelector('.harvester > div'),
-        E.fromNullable('Failed to wrap button.'),
-        IOE.fromEither,
-        IOE.tap(wrapper => pipe(wrapper.appendChild(ctx.button), IOE.of))
+        wrapper.querySelector('.harvester > div'),
+        E.fromNullable('Failed to get inner wrapper.'),
+        E.tap(innerWrapper => pipe(innerWrapper.appendChild(button), E.of))
       )
     ),
-    IOE.map(ctx => ctx.wrapper)
+    E.map(ctx => ctx.wrapper)
   )
 
 const makeButtonIcon = (svgStyle: string) => {
