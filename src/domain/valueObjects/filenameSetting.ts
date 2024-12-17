@@ -16,6 +16,10 @@ type FilenameSettingProps = {
   groupBy: AggregationToken
 }
 
+type MakeFilenameOptions = {
+  noDir?: boolean
+}
+
 const PATH_MAX = 4096
 
 export const enum InvalidReason {
@@ -64,7 +68,7 @@ export class FilenameSetting extends ValueObject<FilenameSettingProps> {
     return undefined
   }
 
-  makeFilename(mediaFile: TweetMediaFile): string {
+  makeFilename(mediaFile: TweetMediaFile, options?: MakeFilenameOptions): string {
     const { screenName, id, createdAt, userId, hash, serial } = mediaFile.mapBy(
       props => ({
         id: props.tweetId,
@@ -97,7 +101,7 @@ export class FilenameSetting extends ValueObject<FilenameSettingProps> {
       )
 
     return path.format({
-      dir: this.makeAggregationDirectory(mediaFile),
+      dir: options?.noDir ? undefined : this.makeAggregationDirectory(mediaFile),
       name: filename,
       ext: mediaFile.mapBy(props => props.ext),
     })

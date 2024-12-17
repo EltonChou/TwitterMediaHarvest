@@ -126,4 +126,17 @@ describe('unit test for filename settings', () => {
     const reason = filenameSetting.validate()
     isValid ? expect(reason).toBeUndefined() : expect(reason).toBeDefined()
   })
+
+  it('can make filename without dir', () => {
+    const filenameSetting = new FilenameSetting({
+      ...baseSettings,
+      noSubDirectory: false,
+    })
+
+    const filename = filenameSetting.makeFilename(mediaFile, { noDir: true })
+
+    expect(filename).toBe(
+      `${screenName}-${tweetId}-${String(serial).padStart(2, '0')}${ext}`
+    )
+  })
 })
