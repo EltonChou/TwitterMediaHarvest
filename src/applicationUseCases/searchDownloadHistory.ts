@@ -167,8 +167,10 @@ const downloadHistoryToInfo: Factory<
     id: id.value,
   }))
 
-const makeMediaTypeFilter = (mediaType: MediaType | '*'): Filter =>
-  mediaType === '*' ? () => true : ({ mediaType }) => mediaType === mediaType
+const makeMediaTypeFilter = (expectedMediaType: MediaType | '*'): Filter =>
+  expectedMediaType === '*'
+    ? () => true
+    : ({ mediaType }) => mediaType === expectedMediaType
 
 const makeUserNameFilter = (userName: string): Filter =>
   userName === '*'
