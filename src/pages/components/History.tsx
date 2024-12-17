@@ -1,6 +1,7 @@
+import type { Factory } from '#domain/factories/base'
 import type { SearchDownloadHistory } from '#domain/useCases/searchDownloadHistory'
 import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
-import type MediaType from '#enums/mediaType'
+import MediaType from '#enums/mediaType'
 import { DownloadTweetMediaMessage, sendMessage } from '#libs/webExtMessage'
 import useDownloadHistory, {
   type DownloadHistoryItem,
@@ -367,7 +368,27 @@ export const SearchForm = forwardRef(
   }
 )
 
-// const mediaTypeSelectTokenToMediaType: Factory<MediaTypeSelectToken | undefined, MediaType> = (token?) => token ? token :
+const mediaTypeSelectTokenToMediaType: Factory<
+  MediaTypeSelectToken | undefined,
+  '*' | MediaType
+> = (token?) => {
+  switch (token) {
+    case MediaTypeSelectToken.ALL:
+      return '*'
+
+    case MediaTypeSelectToken.IMAGE:
+      return MediaType.Image
+
+    case MediaTypeSelectToken.VIDEO:
+      return MediaType.Video
+
+    case MediaTypeSelectToken.MIXED:
+      return MediaType.Mixed
+
+    default:
+      return '*'
+  }
+}
 
 type HistoryTableProps = {
   searchDownloadHistory: SearchDownloadHistory
@@ -405,8 +426,10 @@ const HistoryTable = ({
   const search = () => {
     downloadHistory.handler.search({
       filter: {
-        mediaType: (searchFormRef.current?.value.mediaType ?? '*') as '*' | MediaType,
-        userName: searchFormRef.current?.value.username ?? '*',
+        mediaType: mediaTypeSelectTokenToMediaType(
+          searchFormRef.current?.value.mediaType
+        ),
+        userName: searchFormRef.current?.value.username?.trim() || '*',
       },
       hashtags: [],
     })
