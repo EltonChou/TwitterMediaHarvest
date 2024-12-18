@@ -5,7 +5,7 @@ import { isURLCanParse } from './url'
 import * as A from 'fp-ts/Array'
 import * as E from 'fp-ts/Either'
 import { fromPredicate as optionFromPredicate } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/function'
+import { flow, pipe } from 'fp-ts/lib/function'
 import { isEmpty, isString } from 'fp-ts/lib/string'
 import select from 'select-dom'
 
@@ -193,9 +193,6 @@ export const getTweetInfoFromArticleChildElement = <T extends HTMLElement>(
     childElement,
     getClosedTargetArticle,
     E.fromNullable('Failed to get target article when parsing tweet info.'),
-    E.flatMap(article => pipe(article, parseTweetInfo)),
-    E.match(
-      errorMsg => pipe(errorMsg, E.toError, toErrorResult),
-      tweetInfo => toSuccessResult(tweetInfo)
-    )
+    E.flatMap(parseTweetInfo),
+    E.match(flow(E.toError, toErrorResult), toSuccessResult)
   )
