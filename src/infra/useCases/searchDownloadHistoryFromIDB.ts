@@ -48,12 +48,10 @@ export class SearchDownloadHistoryFromIDB implements SearchDownloadHistory {
        */
       TE.bind('cursor', context =>
         TE.tryCatch(
-          // FIXME: should use index.
-          () => context.historyCollection.openCursor(),
-          // () =>
-          //   context.historyCollection
-          //     .index(orderKeyMap.get(command.orderBy.key) ?? 'byDownloadTime')
-          //     .openCursor(null, orderTypeMap.get(command.orderBy.type) ?? 'prev'),
+          () =>
+            context.historyCollection
+              .index(orderKeyMap.get(command.orderBy.key) ?? 'byDownloadTime')
+              .openCursor(null, orderTypeMap.get(command.orderBy.type) ?? 'prev'),
           toTransactionError(context.abortTx)
         )
       ),
