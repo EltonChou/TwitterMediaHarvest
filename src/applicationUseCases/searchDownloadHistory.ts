@@ -176,4 +176,4 @@ const makeUserNameFilter = (userName: string): Filter =>
   userName === '*'
     ? () => true
     : ({ screenName, displayName }) =>
-        [screenName, displayName].some(name => name.includes(userName))
+        [screenName, displayName].some(name => name.toLowerCase().includes(userName))
