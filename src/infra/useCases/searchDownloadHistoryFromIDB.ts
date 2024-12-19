@@ -70,16 +70,13 @@ export class SearchDownloadHistoryFromIDB implements SearchDownloadHistory {
           const consumeSkip = () => (skip -= 1)
           let cursor = context.cursor
           while (cursor) {
+            const skipThisValue = shouldSkip()
             const isMatchedValue = command.filters.every(
               filter => cursor && filter(cursor.value)
             )
 
             if (isMatchedValue) increaseMatched()
-
-            const skipThisValue = shouldSkip()
-
             if (isMatchedValue && skipThisValue) consumeSkip()
-
             if (isMatchedValue && !skipThisValue && shouldAppendItem())
               items.push(downloadHistoryItemToDownloadHistoryEntity(cursor.value))
 

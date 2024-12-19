@@ -124,19 +124,22 @@ export abstract class FetchTweetBase implements FetchTweet {
           )
         )
 
-      const getMediaCollectionFromTweetResult = (tweetResult: any) =>
-        pipe(tweetResult?.extended_entities ?? [], parseMedias)
-
       const parseTweetFromBody = (body: any): Result<Tweet> =>
         pipe(
           E.Do,
           E.bind('result', () => getResultFromBody(body)),
           E.bind('tweetResult', payload => getTweetResultFromResult(payload.result)),
           E.bind('userProps', payload => getUserPropsFromResult(payload.result)),
+          E.bind('medias', payload =>
+            pipe(
+              payload.tweetResult?.extended_entities?.media,
+              E.fromNullable('Failed to get medias.')
+            )
+          ),
           E.bind('mediaCollection', payload =>
             E.tryCatch(
-              () => getMediaCollectionFromTweetResult(payload.tweetResult),
-              e => E.toError(e).message ?? 'Failed to parse media collection'
+              () => parseMedias(payload.medias),
+              e => E.toError(e).message ?? 'Failed to parse medias'
             )
           ),
           E.bind('partialTweetProps', payload =>
@@ -218,8 +221,7 @@ export abstract class FetchTweetBase implements FetchTweet {
 
 type MediaCollection = { images: TweetMedia[]; videos: TweetMedia[] }
 
-const parseMedias = (entity: Record<string, unknown>): MediaCollection => {
-  const medias = (entity?.media as Media[]) ?? []
+const parseMedias = (medias: Media[]): MediaCollection => {
   let imageIndex = 0
   let videoIndex = 0
 
