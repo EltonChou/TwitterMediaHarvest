@@ -19,7 +19,11 @@ const jestConfig: JestConfigWithTsJest = {
   },
   transformIgnorePatterns: ['/!node_modules\\/@faker-js\\/faker/'],
   setupFiles: ['fake-indexeddb/auto', 'jest-webextension-mock'],
-  setupFilesAfterEnv: ['./jest.setup.ts'],
+  setupFilesAfterEnv: [
+    './jest.setup.ts',
+    'jest-extended/all',
+    '@testing-library/jest-dom',
+  ],
   roots: ['<rootDir>'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     useESM: true,

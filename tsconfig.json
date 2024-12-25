@@ -5,6 +5,13 @@
     "dist",
     "coverage"
   ],
+  "include": [
+    "src/**/*"
+  ],
+  "files": [
+    "node_modules/jest-extended/types/index.d.ts",
+    "node_modules/@testing-library/jest-dom/types/index.d.ts"
+  ],
   "compilerOptions": {
     "jsx": "react",
     "strict": true,
