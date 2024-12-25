@@ -6,7 +6,10 @@ import type { DownloadIDB } from '#libs/idb/download/db'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import * as TE from 'fp-ts/TaskEither'
 import { toError } from 'fp-ts/lib/Either'
+import { isEmpty } from 'fp-ts/lib/Set'
 import { pipe } from 'fp-ts/lib/function'
+
+type IdSet = Set<string>
 
 type TransactionError = {
   error: Error
@@ -22,10 +25,12 @@ const toTransactionError =
 
 const arrayHashtagsToSet = (hashtags: Iterable<string>) => new Set(hashtags)
 
+const makeEmptyIdSet = () => new Set<string>()
+
 export class SearchTweetIdsByHashtagsFromIDB implements SearchTweetIdsByHashTags {
   constructor(readonly downloadIdb: DownloadIDB) {}
 
-  async process(command: Query): Promise<Result<Set<string>, Error>> {
+  async process(command: Query): Promise<Result<IdSet, Error>> {
     if (command.hashtags.length === 0) return toSuccessResult(new Set())
 
     const search = pipe(
@@ -47,30 +52,44 @@ export class SearchTweetIdsByHashtagsFromIDB implements SearchTweetIdsByHashTags
       ),
       TE.bind('ids', context =>
         TE.tryCatch(async () => {
-          let ids: Set<string> | undefined = undefined
+          let ids = makeEmptyIdSet()
+
+          const updateIds = (() => {
+            let isInitialized = false
+
+            return (newIds: IdSet) => (ids: IdSet) => {
+              if (!isInitialized) {
+                isInitialized = true
+                return ids.union(newIds)
+              } else {
+                return ids.intersection(newIds)
+              }
+            }
+          })()
 
           for (const hashtag of context.hashtags) {
             const item = await context.hashtagCollection.get(IDBKeyRange.only(hashtag))
-            if (!item || item.tweetIds.size === 0) return new Set<string>()
 
-            ids = ids
-              ? new Set(Array.from(ids).filter(id => item.tweetIds.has(id as string)))
-              : item.tweetIds
+            // if there is no id in item, we ignore remaining hashtags.
+            if (!item) return makeEmptyIdSet()
+            if (isEmpty(item.tweetIds)) return item.tweetIds
 
-            if (ids.size === 0) break
+            ids = updateIds(item.tweetIds)(ids)
+            if (isEmpty(ids)) return ids
           }
 
-          return ids ?? new Set<string>()
+          return ids
         }, toTransactionError(context.abortTx))
       ),
       TE.match(
-        e => ({ done: e.abort, result: toErrorResult(e.error) }),
+        e => ({ done: e.abort, result: toErrorResult<IdSet>(e.error) }),
         context => ({ done: context.completeTx, result: toSuccessResult(context.ids) })
       )
     )
 
     const searchTask = await search()
     searchTask.done()
+
     return searchTask.result
   }
 }
