@@ -19,16 +19,14 @@ const jestConfig: JestConfigWithTsJest = {
   },
   transformIgnorePatterns: ['/!node_modules\\/@faker-js\\/faker/'],
   setupFiles: ['fake-indexeddb/auto', 'jest-webextension-mock'],
-  setupFilesAfterEnv: [
-    './jest.setup.ts',
-    'jest-extended/all',
-  ],
+  setupFilesAfterEnv: ['./jest.setup.ts', 'jest-extended/all'],
   roots: ['<rootDir>'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     useESM: true,
     prefix: '<rootDir>/src',
   }),
   coveragePathIgnorePatterns: ['.mock.ts', '.mock.js', 'mocks', 'utils/test/*'],
+  coverageReporters: ['clover', 'json', 'lcov', ['text', { skipFull: true }]],
 }
 
 export default jestConfig
