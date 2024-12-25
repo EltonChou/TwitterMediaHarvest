@@ -22,7 +22,6 @@ const jestConfig: JestConfigWithTsJest = {
   setupFilesAfterEnv: [
     './jest.setup.ts',
     'jest-extended/all',
-    '@testing-library/jest-dom',
   ],
   roots: ['<rootDir>'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
