@@ -56,15 +56,21 @@ describe('integrated test for searching tweet ids by hashtags from idb', () => {
     const { value: _, error } = await useCase.process({ hashtags: ['a'] })
 
     expect(error).toBeDefined()
+    jest.restoreAllMocks()
   })
 
   it('can handle db error', async () => {
     jest.spyOn(IDBObjectStore.prototype, 'get').mockImplementationOnce(_ => {
       throw new Error('error')
     })
+    const mockAbort = jest
+      .spyOn(IDBTransaction.prototype, 'abort')
+      .mockImplementationOnce(jest.fn())
 
     const { value: _, error } = await useCase.process({ hashtags: ['a'] })
 
     expect(error).toBeDefined()
+    expect(mockAbort).toHaveBeenCalledOnce()
+    jest.restoreAllMocks()
   })
 })
