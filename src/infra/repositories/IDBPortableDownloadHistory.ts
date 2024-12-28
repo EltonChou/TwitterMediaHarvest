@@ -73,9 +73,9 @@ export class IDBPortableDownloadHistoryRepository
         })
       }
 
-      context.completeTx()
+      await context.completeTx()
     } catch (error) {
-      context?.abortTx()
+      await context?.abortTx()
       return toError(error)
     }
   }

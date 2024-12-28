@@ -2,7 +2,9 @@ import type {
   Query,
   SearchTweetIdsByHashTags,
 } from '#domain/useCases/searchTweetIdsByHashtags'
+import type { AbortTx } from '#libs/idb/base'
 import type { DownloadIDB } from '#libs/idb/download/db'
+import { nullAbort } from '#libs/idb/utils'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import * as TE from 'fp-ts/TaskEither'
 import { toError } from 'fp-ts/lib/Either'
@@ -13,11 +15,11 @@ type IdSet = Set<string>
 
 type TransactionError = {
   error: Error
-  abort: () => void
+  abort: AbortTx
 }
 
 const toTransactionError =
-  (abort = (): void => undefined) =>
+  (abort = nullAbort) =>
   (err: unknown): TransactionError => ({
     error: toError(err),
     abort,
@@ -33,7 +35,7 @@ export class SearchTweetIdsByHashtagsFromIDB implements SearchTweetIdsByHashTags
   async process(command: Query): Promise<Result<IdSet, Error>> {
     if (command.hashtags.length === 0) return toSuccessResult(new Set())
 
-    const search = pipe(
+    const searchTask = pipe(
       TE.tryCatch(
         () => this.downloadIdb.prepareTransaction('hashtag', 'readonly'),
         toTransactionError()
@@ -87,9 +89,13 @@ export class SearchTweetIdsByHashtagsFromIDB implements SearchTweetIdsByHashTags
       )
     )
 
-    const searchTask = await search()
-    searchTask.done()
+    const search = pipe(
+      searchTask,
+      TE.fromTask,
+      TE.tap(task => TE.tryCatch(() => task.done(), toError)),
+      TE.match(toErrorResult<IdSet>, ({ result }) => result)
+    )
 
-    return searchTask.result
+    return search()
   }
 }

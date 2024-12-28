@@ -1,10 +1,13 @@
 import { deleteDB, openDB } from 'idb'
 import type { DBSchema, IDBPTransaction, OpenDBCallbacks, StoreNames } from 'idb'
 
-interface TransactionContext<Tx> {
+export type CompleteTx = () => Promise<void>
+export type AbortTx = () => Promise<void>
+
+export interface TransactionContext<Tx> {
   tx: Tx
-  completeTx: () => void
-  abortTx: () => void
+  completeTx: CompleteTx
+  abortTx: AbortTx
 }
 
 export abstract class BaseIDB<Schema extends DBSchema, Version extends number> {
@@ -70,17 +73,29 @@ export abstract class BaseIDB<Schema extends DBSchema, Version extends number> {
     const client = await this.connect()
     const tx = client.transaction(storeNames, mode, options)
 
-    return {
+    return Object.freeze({
       tx,
-      completeTx: () => {
-        tx.commit()
-        client.close()
+      completeTx: async () => {
+        try {
+          await tx.done
+        } catch (error) {
+          throw error
+        } finally {
+          client.close()
+        }
       },
-      abortTx: () => {
-        tx.abort()
-        client.close()
-      },
-    }
+      abortTx: () =>
+        new Promise<void>((resolve, reject) => {
+          try {
+            tx.abort()
+            resolve()
+          } catch (error) {
+            reject(error)
+          } finally {
+            client.close()
+          }
+        }),
+    })
   }
 }
 
@@ -90,7 +105,10 @@ export const isSupportedIDB = () => {
 
 export type IDBMirgration<SchemaType> = OpenDBCallbacks<SchemaType>['upgrade']
 
-export function* versionRange<Version>(oldVersion: number, newVersion: number | null) {
+export function* versionRange<Version extends number>(
+  oldVersion: number,
+  newVersion: number | null
+) {
   if (newVersion !== null) {
     for (let i = oldVersion + 1; i <= newVersion; i++) {
       yield i as Version

@@ -5,9 +5,11 @@ import type {
   IDownloadHistoryRepository,
 } from '#domain/repositories/downloadHistory'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
+import type { AbortTx, CompleteTx } from '#libs/idb/base'
 import type { DownloadIDB } from '#libs/idb/download/db'
 import type { DownloadHistoryItem } from '#libs/idb/download/schema'
 import type { DownloadDBSchema } from '#libs/idb/download/schema'
+import { nullAbort } from '#libs/idb/utils'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import * as TE from 'fp-ts/TaskEither'
 import { toError } from 'fp-ts/lib/Either'
@@ -19,13 +21,13 @@ type WorkflowContext = {
   historyCollection: WritableHistoryCollection
   hashtagCollection: WritableHashtagCollection
   hashtagDelta: HashtagDelta
-  completeTransaction: () => void
-  abortTransaction: () => void
+  completeTransaction: CompleteTx
+  abortTransaction: AbortTx
 }
 
 type AbortableError = {
   error: Error | undefined
-  abort: () => void
+  abort: AbortTx
 }
 
 type WritableHistoryCollection =
@@ -53,7 +55,7 @@ const prepareTransactionContext = async (idb: DownloadIDB) => {
 }
 
 const toErrorWithAbort =
-  (abort: () => void) =>
+  (abort = nullAbort) =>
   (error: unknown): AbortableError => ({
     error: toError(error),
     abort,
@@ -91,11 +93,8 @@ export class IDBDownloadHistoryRepository implements IDownloadHistoryRepository 
   }
 
   async clear(): Promise<UnsafeTask> {
-    const clear = pipe(
-      TE.tryCatch(
-        () => prepareTransactionContext(this.idb),
-        toErrorWithAbort(() => undefined)
-      ),
+    const clearTask = pipe(
+      TE.tryCatch(() => prepareTransactionContext(this.idb), toErrorWithAbort(nullAbort)),
       TE.tap(context =>
         TE.tryCatch(
           () =>
@@ -112,18 +111,22 @@ export class IDBDownloadHistoryRepository implements IDownloadHistoryRepository 
       )
     )
 
-    const clearTask = await clear()
+    const clear = pipe(
+      clearTask,
+      TE.fromTask,
+      TE.tap(task => TE.tryCatch(() => task.complete(), toError)),
+      TE.match(
+        e => e,
+        r => r.error
+      )
+    )
 
-    clearTask.complete()
-    return clearTask.error
+    return clear()
   }
 
   async save(downloadHistory: DownloadHistory): Promise<UnsafeTask> {
     const prepareContext = pipe(
-      TE.tryCatch(
-        () => prepareTransactionContext(this.idb),
-        toErrorWithAbort(() => undefined)
-      ),
+      TE.tryCatch(() => prepareTransactionContext(this.idb), toErrorWithAbort(nullAbort)),
       TE.bind('tweetId', () => TE.right(downloadHistory.id.value)),
       TE.bind('hashtagDelta', context =>
         TE.tryCatch(async () => {
@@ -142,7 +145,7 @@ export class IDBDownloadHistoryRepository implements IDownloadHistoryRepository 
       )
     )
 
-    const process = pipe(
+    const saveTask = pipe(
       prepareContext,
       TE.tap(context =>
         TE.tryCatch(
@@ -168,9 +171,17 @@ export class IDBDownloadHistoryRepository implements IDownloadHistoryRepository 
       )
     )
 
-    const task = await process()
-    task.complete()
-    return task.error
+    const save = pipe(
+      saveTask,
+      TE.fromTask,
+      TE.tap(task => TE.tryCatch(() => task.complete(), toError)),
+      TE.match(
+        e => e,
+        r => r.error
+      )
+    )
+
+    return save()
   }
 
   async getByTweetId(tweetId: string): Promise<Result<DownloadHistory | undefined>> {
@@ -186,7 +197,7 @@ export class IDBDownloadHistoryRepository implements IDownloadHistoryRepository 
   async removeByTweetId(tweetId: string): Promise<UnsafeTask> {
     const prepare = TE.tryCatch(
       () => prepareTransactionContext(this.idb),
-      toErrorWithAbort(() => undefined)
+      toErrorWithAbort(nullAbort)
     )
 
     const process = pipe(

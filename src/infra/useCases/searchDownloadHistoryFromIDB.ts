@@ -7,9 +7,11 @@ import type {
   SearchDownloadHistory,
 } from '#domain/useCases/searchDownloadHistory'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
+import type { AbortTx } from '#libs/idb/base'
 import type { DownloadIDB } from '#libs/idb/download/db'
 import type { DownloadHistoryItem } from '#libs/idb/download/schema'
 import type { DownloadDBSchema } from '#libs/idb/download/schema'
+import { nullAbort } from '#libs/idb/utils'
 import * as TE from 'fp-ts/TaskEither'
 import { toError } from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/function'
@@ -17,11 +19,11 @@ import type { IndexNames } from 'idb'
 
 type TransactionError = {
   error: Error
-  abort: () => void
+  abort: AbortTx
 }
 
 const toTransactionError =
-  (abort: () => void) =>
+  (abort = nullAbort) =>
   (err: unknown): TransactionError => ({
     error: toError(err),
     abort,
@@ -31,10 +33,10 @@ export class SearchDownloadHistoryFromIDB implements SearchDownloadHistory {
   constructor(readonly downloadIDB: DownloadIDB) {}
 
   async process(command: Query): Promise<QueryResult> {
-    const search = pipe(
+    const searchTask = pipe(
       TE.tryCatch(
         () => this.downloadIDB.prepareTransaction('history', 'readonly'),
-        toTransactionError(() => undefined)
+        toTransactionError(nullAbort)
       ),
       TE.bind('historyCollection', context =>
         TE.tryCatch(
@@ -93,16 +95,19 @@ export class SearchDownloadHistoryFromIDB implements SearchDownloadHistory {
       )
     )
 
-    const searchTask = await search()
+    const search = pipe(
+      searchTask,
+      TE.fromTask,
+      TE.tap(task => TE.tryCatch(() => task.done(), toError)),
+      TE.match(makeErrorResult, ({ result }) => result)
+    )
 
-    searchTask.done()
-
-    return searchTask.result
+    return search()
   }
 }
 
-const makeErrorResult = (error: Error | unknown): QueryResult => ({
-  error: error as Error,
+const makeErrorResult = (error: Error): QueryResult => ({
+  error: error,
   matchedCount: -1,
   items: [],
 })
