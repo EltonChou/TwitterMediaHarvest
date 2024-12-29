@@ -175,7 +175,7 @@ export class DownloadTweetMedia
       // TODO: emit quota warning
     }
 
-    let errorRecords: { identity: string; failedReason: string }[] = []
+    const errorRecords: { identity: string; failedReason: string }[] = []
     let fetchError: Error | undefined = undefined
     for (const { fetchTweet, command } of solutions) {
       remainingSolutions--

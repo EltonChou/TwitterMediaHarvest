@@ -78,8 +78,6 @@ export abstract class BaseIDB<Schema extends DBSchema, Version extends number> {
       completeTx: async () => {
         try {
           await tx.done
-        } catch (error) {
-          throw error
         } finally {
           client.close()
         }
