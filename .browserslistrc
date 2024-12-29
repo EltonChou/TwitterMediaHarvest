@@ -1,2 +1,4 @@
-chrome > 100
-ff > 90
+chrome >= 100
+ff >= 90
+last 3 iOS versions
+last 3 safari versions

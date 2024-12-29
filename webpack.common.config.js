@@ -6,8 +6,9 @@ const { EnvironmentPlugin } = require('webpack')
 const Dotenv = require('dotenv-webpack')
 const PACKAGE = require('./package.json')
 
+/** @type {import('webpack').Configuration} */
 const config = {
-  // stats: 'errors-only',
+  stats: 'normal',
   devtool: 'source-map',
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
