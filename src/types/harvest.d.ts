@@ -105,4 +105,12 @@ type ListenerOf<T> = T extends {
   addListener: (callback: infer Listener, ...params: any[]) => void
 }
   ? Listener
+  : T extends {
+      addEventListener: (
+        type: infer T,
+        listener: infer Listener,
+        options?: infer Options
+      ) => void
+    }
+  ? Listener
   : never

@@ -10,35 +10,49 @@ export interface TransactionContext<Tx> {
   abortTx: AbortTx
 }
 
+interface TransactionCallbacks {
+  quotaExceeded?: () => Promise<void> | VoidFunction
+}
+
 export abstract class BaseIDB<Schema extends DBSchema, Version extends number> {
   abstract readonly databaseName: string
 
   readonly version: Version
   protected callbacks: OpenDBCallbacks<Schema>
+  protected transactionCallbacks: TransactionCallbacks
 
   constructor(version: Version) {
     this.version = version
     this.callbacks = {}
+    this.transactionCallbacks = {}
   }
 
+  /** @see {@link OpenDBCallbacks} */
   onUpgrade(handler: OpenDBCallbacks<Schema>['upgrade']) {
     this.callbacks.upgrade = handler
     return this
   }
 
+  /** @see {@link OpenDBCallbacks} */
   onBlocked(handler: OpenDBCallbacks<Schema>['blocked']) {
     this.callbacks.blocked = handler
     return this
   }
 
+  /** @see {@link OpenDBCallbacks} */
   onBlocking(handler: OpenDBCallbacks<Schema>['blocking']) {
     this.callbacks.blocking = handler
     return this
   }
 
+  /** @see {@link OpenDBCallbacks} */
   onTerminated(handler: OpenDBCallbacks<Schema>['terminated']) {
     this.callbacks.terminated = handler
     return this
+  }
+
+  onQuotaExceeded(handler: () => Promise<void> | VoidFunction) {
+    this.transactionCallbacks.quotaExceeded = handler
   }
 
   async connect() {
@@ -72,6 +86,19 @@ export abstract class BaseIDB<Schema extends DBSchema, Version extends number> {
   ) {
     const client = await this.connect()
     const tx = client.transaction(storeNames, mode, options)
+
+    /**
+     * @see {@link https://web.dev/articles/storage-for-the-web#indexeddb}
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction/error}
+     **/
+    const quotaExceededListener: ListenerOf<IDBTransaction> = async () => {
+      if (tx.error?.name === 'QuotaExceededError') {
+        const cb = this.transactionCallbacks?.quotaExceeded
+        if (cb) await cb()
+      }
+    }
+
+    tx.addEventListener('abort', quotaExceededListener)
 
     return Object.freeze({
       tx,
