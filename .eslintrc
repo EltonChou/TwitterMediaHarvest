@@ -53,21 +53,21 @@
       "always"
     ],
     "no-console": "warn",
-    // "sort-imports": [
-    //   "error",
-    //   {
-    //     "ignoreCase": true,
-    //     "ignoreDeclarationSort": true,
-    //     "ignoreMemberSort": false,
-    //     "memberSyntaxSortOrder": [
-    //       "none",
-    //       "all",
-    //       "single",
-    //       "multiple"
-    //     ],
-    //     "allowSeparatedGroups": false
-    //   }
-    // ],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": false,
+        "ignoreDeclarationSort": true,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": [
+          "none",
+          "all",
+          "single",
+          "multiple"
+        ],
+        "allowSeparatedGroups": true
+      }
+    ],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
   }
