@@ -17,7 +17,7 @@ import { SignatureV4 } from '@smithy/signature-v4'
 type CommandInputs = SyncClientCommandInput | CreateClientCommandInput
 type CommandOutputs = SyncClientCommandOutput | CreateClientCommandOutput
 
-interface ClientConfiguration {
+export interface ClientConfiguration {
   region: string
   apiKey: string
   clientVersion: string
@@ -28,6 +28,10 @@ interface ClientConfiguration {
 
 export class ApiClient implements Client<CommandInputs, CommandOutputs> {
   constructor(readonly config: ClientConfiguration) {}
+
+  static initWithConfig(config: ClientConfiguration) {
+    return new ApiClient(config)
+  }
 
   private get httpHandler() {
     return new FetchHttpHandler({
