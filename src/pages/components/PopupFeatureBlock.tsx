@@ -1,7 +1,7 @@
 import type { ISettingsRepository } from '#domain/repositories/settings'
+import { getText as i18n } from '#libs/i18n'
 import useFeatureSettings from '#pages/hooks/useFeatureSettings'
 import useLocaleVariables from '#pages/hooks/useLocaleVariables'
-import { i18n } from '#pages/utils'
 import type { FeatureSettings } from '#schema'
 import { FeatureSwitch } from './controls/featureControls'
 import { Stack } from '@chakra-ui/react'
@@ -27,12 +27,12 @@ const PopupFeatureBlock = memo((props: PopupFeatureBlockProps) => {
       <FeatureSwitch
         isOn={featureSettings.autoRevealNsfw}
         handleChange={toggler.nsfw}
-        labelContent={i18n("Auto-reveal NSFW", "popup")}
+        labelContent={i18n('Auto-reveal NSFW', 'popup')}
       />
       <FeatureSwitch
         isOn={featureSettings.includeVideoThumbnail}
         handleChange={toggler.thumbnail}
-        labelContent={i18n("Video thumbnail", "popup")}
+        labelContent={i18n('Video thumbnail', 'popup')}
       />
     </Stack>
   )

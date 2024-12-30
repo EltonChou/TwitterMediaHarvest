@@ -1,5 +1,5 @@
+import { getText as i18n } from '#libs/i18n'
 import { Path } from '#pages/routes'
-import { i18n } from '#pages/utils'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import {
   Box,

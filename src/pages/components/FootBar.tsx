@@ -1,5 +1,5 @@
+import { getText as i18n } from '#libs/i18n'
 import Links from '#pages/links'
-import { i18n } from '#pages/utils'
 import { StarIcon } from '@chakra-ui/icons'
 import { Box, Button, HStack, Link, Text } from '@chakra-ui/react'
 import React from 'react'
