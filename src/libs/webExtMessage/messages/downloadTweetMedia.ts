@@ -8,25 +8,25 @@ import {
 } from './base'
 import Joi from 'joi'
 
-type DonwloadTweetMediaMessagePayload = {
+type DownloadTweetMediaMessagePayload = {
   tweetId: string
   screenName: string
 }
 
 const payloadSchema: Joi.ObjectSchema<
-  WebExtMessagePayloadObject<WebExtAction.DownloadMedia, DonwloadTweetMediaMessagePayload>
+  WebExtMessagePayloadObject<WebExtAction.DownloadMedia, DownloadTweetMediaMessagePayload>
 > = Joi.object({
   action: Joi.valid(WebExtAction.DownloadMedia),
-  payload: Joi.object<DonwloadTweetMediaMessagePayload>({
+  payload: Joi.object<DownloadTweetMediaMessagePayload>({
     tweetId: Joi.string().required(),
     screenName: Joi.string().required(),
   }).required(),
 })
 
 export class DownloadTweetMediaMessage
-  implements WebExtMessage<WebExtAction.DownloadMedia, DonwloadTweetMediaMessagePayload>
+  implements WebExtMessage<WebExtAction.DownloadMedia, DownloadTweetMediaMessagePayload>
 {
-  constructor(readonly payload: DonwloadTweetMediaMessagePayload) {}
+  constructor(readonly payload: DownloadTweetMediaMessagePayload) {}
 
   makeResponse(isOk: true): WebExtMessageResponse
   makeResponse(isOk: false, reason: string): WebExtMessageErrorResponse
@@ -47,7 +47,7 @@ export class DownloadTweetMediaMessage
 
   toObject(): WebExtMessagePayloadObject<
     WebExtAction.DownloadMedia,
-    DonwloadTweetMediaMessagePayload
+    DownloadTweetMediaMessagePayload
   > {
     return {
       action: WebExtAction.DownloadMedia,

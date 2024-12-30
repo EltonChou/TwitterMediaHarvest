@@ -98,7 +98,7 @@ export class TweetFetchErrorNotificationConfig {
     )
 
     return makeGeneralTweetFetchErrorNotificationConfig({
-      title: getText('Download failed', 'notification:donwload:failed'),
+      title: getText('Download failed', 'notification:download:failed'),
       message: info,
       eventTime: params.eventTime,
     })
