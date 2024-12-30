@@ -4,13 +4,13 @@ const extractor = new GettextExtractor()
 
 extractor
   .createJsParser([
-    JsExtractors.callExpression(['_', 'getText'], {
+    JsExtractors.callExpression(['_', 'getText', 'i18n'], {
       arguments: {
         text: 0,
         context: 1,
       },
     }),
-    JsExtractors.callExpression('getTextPlural', {
+    JsExtractors.callExpression(['getTextPlural', 'plural'], {
       arguments: {
         text: 1,
         textPlural: 2,
