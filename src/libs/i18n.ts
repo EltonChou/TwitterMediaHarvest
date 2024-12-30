@@ -18,7 +18,7 @@ export const getText = (
   context?: string,
   placeholders?: Record<string, string>
 ) => {
-  const message = i18n.getMessage(makeMsgId(text)(context))
+  const message = i18n.getMessage(makeMsgId(text)(context)) ?? text
   return placeholders ? replaceMessagePlaceholders(placeholders)(message) : message
 }
 
@@ -31,8 +31,10 @@ export const getTextPlural = (
 ) => {
   const targetText = count > 1 ? pluralText : text
 
-  const message = i18n
-    .getMessage(makeMsgId(targetText)(context))
-    .replace(/\{\{[n|N]\}\}/, count.toString())
+  const message =
+    i18n
+      .getMessage(makeMsgId(targetText)(context))
+      ?.replace(/\{\{[n|N]\}\}/, count.toString()) ?? targetText
+
   return placeholders ? replaceMessagePlaceholders(placeholders)(message) : message
 }
