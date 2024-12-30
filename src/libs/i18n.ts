@@ -1,4 +1,38 @@
-import Browser from 'webextension-polyfill'
+import { i18n } from 'webextension-polyfill'
 
 export const i18nLocalize = (kw: string, substitutions?: string | string[]) =>
-  Browser.i18n.getMessage(kw, substitutions)
+  i18n.getMessage(kw, substitutions)
+
+const makeMsgId = (text: string) => (context?: string) =>
+  context ? `[${context}](${text})` : text
+
+const replaceMessagePlaceholders =
+  (placeholders: Record<string, string>) => (message: string) =>
+    Object.entries(placeholders).reduce(
+      (msg, [key, value]) => msg.replaceAll(`{{${key.toLowerCase()}}}`, value),
+      message
+    )
+
+export const getText = (
+  text: string,
+  context?: string,
+  placeholders?: Record<string, string>
+) => {
+  const message = i18n.getMessage(makeMsgId(text)(context))
+  return placeholders ? replaceMessagePlaceholders(placeholders)(message) : message
+}
+
+export const getTextPlural = (
+  count: number,
+  text: string,
+  pluralText: string,
+  context?: string,
+  placeholders?: Record<string, string>
+) => {
+  const targetText = count > 1 ? pluralText : text
+
+  const message = i18n
+    .getMessage(makeMsgId(targetText)(context))
+    .replace(/\{\{[n|N]\}\}/, count.toString())
+  return placeholders ? replaceMessagePlaceholders(placeholders)(message) : message
+}

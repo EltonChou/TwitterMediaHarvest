@@ -9,6 +9,7 @@ import { MockEventPublisher } from '#mocks/eventPublisher'
 import { MockDownloadRecordRepo } from '#mocks/repositories/downloadRecord'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import { notifyDownloadInterrupted } from './notifyDownloadInterrupted'
+import { i18n } from 'webextension-polyfill'
 
 afterEach(() => jest.resetAllMocks())
 
@@ -59,6 +60,7 @@ describe('unit test for notify download interrupted handler', () => {
     jest
       .spyOn(mockRecordRepo, 'getById')
       .mockResolvedValue(toSuccessResult(downloadRecord))
+    jest.spyOn(i18n, 'getMessage').mockImplementation(msg => msg)
     const mockNotify = jest.spyOn(notifier, 'notify')
 
     const handle = notifyDownloadInterrupted(notifier, mockRecordRepo)
