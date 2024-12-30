@@ -68,6 +68,7 @@
     "fake-indexeddb": "^4.0.2",
     "file-loader": "^6.1.1",
     "filemanager-webpack-plugin": "^8.0.0",
+    "gettext-extractor": "^3.8.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-extended": "^4.0.2",
@@ -106,7 +107,8 @@
     "watch:chrome:service:dev": "yarn build:chrome:service:dev --watch",
     "watch:chrome:injection:dev": "yarn build:chrome:injection:dev --watch",
     "watch": "yarn build:dev --watch",
-    "lint": "eslint --color --quiet --ext .js --ext .ts --ext .tsx src/ --fix"
+    "lint": "eslint --color --quiet --ext .js --ext .ts --ext .tsx src/ --fix",
+    "extract-locales": "node utils/locales-extractor.mjs"
   },
   "repository": {
     "type": "git",
