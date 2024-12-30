@@ -2,13 +2,13 @@ import type { ISettingsVORepository } from '#domain/repositories/settings'
 import { FilenameSetting } from '#domain/valueObjects/filenameSetting'
 import type { AggregationToken } from '#domain/valueObjects/filenameSetting'
 import type PatternToken from '#enums/patternToken'
+import { getText as i18n } from '#libs/i18n'
 import type { HelperMessage } from '#pages/components/controls/featureControls'
 import type {
   InitPayloadAction,
   PayloadAction,
   PureAction,
 } from '#pages/types/reducerAction'
-import { i18n } from '#pages/utils'
 import { useCallback, useEffect, useReducer, useState } from 'react'
 
 type DirectorySetAction = PayloadAction<'setDirectory', string>
@@ -216,7 +216,10 @@ const useFilenameSettingsForm = (
         ? undefined
         : {
             type: 'error',
-            content: i18n('options_general_filenameSettings_message_dir'),
+            content: i18n(
+              'Invalid directory name. Cannot contain <>:"\\|?*',
+              'options:hooks:useFilenameSettingsForm'
+            ),
           }
     )
     settingsDispatch({ type: 'setDirectory', payload: directory })
@@ -252,7 +255,10 @@ const useFilenameSettingsForm = (
           ? undefined
           : {
               type: 'error',
-              content: i18n('options_general_filenameSettings_message_pattern'),
+              content: i18n(
+                'Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`.',
+                'options:general'
+              ),
             }
       )
 

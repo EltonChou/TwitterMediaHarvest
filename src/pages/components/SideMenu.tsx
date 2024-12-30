@@ -47,32 +47,32 @@ const Nav = ({ closeMenu }: NavProps) => {
   return (
     <VStack spacing={6} align="normal">
       <NavItem
-        name={i18n('options_sidemenu_general')}
+        name={i18n('General', 'options:sideMenu')}
         target={Path.General}
         closeMenu={closeMenu}
         testId="nav-item-general"
       />
       <NavItem
-        name={i18n('options_sidemenu_features')}
+        name={i18n('Features', 'options:sideMenu')}
         target={Path.Features}
         closeMenu={closeMenu}
         testId="nav-item-features"
       />
       <NavItem
-        name={i18n('options_sidemenu_integrations')}
+        name={i18n('Integrations', 'options:sideMenu')}
         target={Path.Integrations}
         closeMenu={closeMenu}
         testId="nav-item-integrations"
       />
       <NavItem
-        name={i18n('options_sidemenu_history')}
+        name={i18n('History', 'options:sideMenu')}
         target={Path.History}
         closeMenu={closeMenu}
         testId="nav-item-history"
       />
       {/* <NavItem name="Statistics" target="/statistics" /> */}
       <NavItem
-        name={i18n('options_sidemenu_about')}
+        name={i18n('About', 'options:sideMenu')}
         target={Path.About}
         closeMenu={closeMenu}
         testId="nav-item-about"

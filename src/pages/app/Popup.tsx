@@ -1,4 +1,5 @@
 import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
+import { getText as i18n } from '#libs/i18n'
 import PopupFeatureBlock, {
   type PopupFeatureBlockProps,
 } from '#pages/components/PopupFeatureBlock'
@@ -6,7 +7,6 @@ import useLocaleVariables from '#pages/hooks/useLocaleVariables'
 import useStatsStore from '#pages/hooks/useStatsStore'
 import Links from '#pages/links'
 import { createStatsStore } from '#pages/stores/StatsStore'
-import { i18n } from '#pages/utils'
 import { getFullVersion } from '#utils/runtime'
 import {
   Box,
@@ -114,14 +114,14 @@ const ReactionsBlock = () => {
     <Stack spacing={2} fontSize={'0.8em'}>
       <Link href={Links.store} target="_blank" data-testid="reaction-rate">
         <Reaction
-          name={i18n('popup_reactions_rate')}
+          name={i18n('Rate it', 'popup')}
           iconColor={'brand.green'}
           icon={MdOutlineSentimentSatisfied}
         />
       </Link>
       <Link href={Links.issues} target="_blank" data-testid="reaction-report">
         <Reaction
-          name={i18n('popup_reactions_report')}
+          name={i18n('Report issues', 'popup')}
           iconColor={'brand.red'}
           icon={MdOutlineSentimentDissatisfied}
         />
@@ -183,7 +183,7 @@ const Footer = () => {
       <FooterActionButton
         icon={BiFile}
         label="Changelog"
-        info={i18n('popup_changeLog')}
+        info={i18n('Changelog', 'popup')}
         link={Links.changelog}
         setInfo={setInfo}
         infoReseter={resetInfo}
@@ -201,7 +201,7 @@ const Footer = () => {
       <FooterActionButton
         icon={BiCoffeeTogo}
         label="Donate"
-        info={i18n('popup_buyMeCoffee')}
+        info={i18n('Buy me a coffee!', 'popup')}
         link={Links.koFi}
         setInfo={setInfo}
         infoReseter={resetInfo}

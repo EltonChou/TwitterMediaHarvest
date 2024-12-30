@@ -2,11 +2,11 @@ import type { Factory } from '#domain/factories/base'
 import type { SearchDownloadHistory } from '#domain/useCases/searchDownloadHistory'
 import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
 import MediaType from '#enums/mediaType'
+import { getText as i18n } from '#libs/i18n'
 import { DownloadTweetMediaMessage, sendMessage } from '#libs/webExtMessage'
 import useDownloadHistory, {
   type DownloadHistoryItem,
 } from '#pages/hooks/useDownloadHistory'
-import { i18n } from '#pages/utils'
 import { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDownloadHistory'
 import {
   Box,
@@ -121,16 +121,16 @@ const ItemUser = memo((props: ItemUserProps) => {
 const convertMediaTypeToLocaleString = (mediaType: MediaType) => {
   switch (mediaType) {
     case 'image':
-      return i18n('options_history_table_mediaType_image')
+      return i18n('Image', 'options:history')
 
     case 'video':
-      return i18n('options_history_table_mediaType_video')
+      return i18n('Video', 'options:history')
 
     case 'mixed':
-      return i18n('options_history_table_mediaType_mixed')
+      return i18n('Mixed', 'options:history')
 
     default:
-      return i18n('options_history_table_mediaType_mixed')
+      return i18n('Mixed', 'options:history')
   }
 }
 
@@ -178,12 +178,12 @@ const ItemRow = (props: ItemRowProps) => (
 
 const TableHeads = () => (
   <Tr>
-    <Th>{i18n('options_history_table_thumbnail')}</Th>
-    <Th>{i18n('options_history_table_user')}</Th>
-    <Th>{i18n('options_history_table_mediaType')}</Th>
-    <Th>{i18n('options_history_table_tweetTime')}</Th>
-    <Th>{i18n('options_history_table_downloadTime')}</Th>
-    <Th>{i18n('options_history_table_actions')}</Th>
+    <Th>{i18n('thumbnail', 'options:history')}</Th>
+    <Th>{i18n('user', 'options:history')}</Th>
+    <Th>{i18n('type', 'options:history')}</Th>
+    <Th>{i18n('post time', 'options:history')}</Th>
+    <Th>{i18n('download time', 'options:history')}</Th>
+    <Th>{i18n('actions', 'options:history')}</Th>
   </Tr>
 )
 
@@ -259,7 +259,7 @@ interface PageNavigatorProps {
 export const PageNavigator = (props: PageNavigatorProps) => (
   <HStack>
     <IconButton
-      aria-label={i18n('options_history_table_ariaLabel_prevPage')}
+      aria-label={i18n('Previous page', 'options:history')}
       icon={<Icon boxSize={8} as={BiChevronLeft} />}
       onClick={props.prevPage}
       background={'transparent'}
@@ -269,7 +269,7 @@ export const PageNavigator = (props: PageNavigatorProps) => (
       <Text>{`${props.currentPage} / ${props.totalPages}`}</Text>
     </Box>
     <IconButton
-      aria-label={i18n('options_history_table_ariaLabel_nextPage')}
+      aria-label={i18n('Next page', 'options:history')}
       icon={<Icon boxSize={8} as={BiChevronRight} />}
       onClick={props.nextPage}
       background={'transparent'}
@@ -285,7 +285,7 @@ interface HistoryTableActionBarProps {
 export const ActionBar = (props: HistoryTableActionBarProps) => (
   <HStack>
     <IconButton
-      aria-label={i18n('options_history_table_ariaLabel_refresh')}
+      aria-label={i18n('Refresh', 'options:history')}
       icon={<Icon boxSize={5} as={BiRefresh} />}
       onClick={props.refresh}
       data-testid="table-action-refresh"
@@ -336,14 +336,14 @@ export const SearchForm = forwardRef(
           ref={usernameInputRef}
           type="search"
           name="username"
-          placeholder={i18n('options_history_table_input_placeholder_username')}
+          placeholder={i18n('Username', 'options:history')}
           onInput={lazyHandler(500)(props.update)}
           flexShrink={1}
           data-testid="username-input"
         />
         <Select
           ref={mediaTypeSelectRef}
-          title={i18n('options_history_table_select_title_mediaType')}
+          title={i18n('Select media type', 'options:history')}
           name="mediaType"
           onChange={() => props.update()}
           defaultValue={MediaTypeSelectToken.ALL}
@@ -351,16 +351,16 @@ export const SearchForm = forwardRef(
           data-testid="mediaType-select"
         >
           <option value={MediaTypeSelectToken.ALL}>
-            {i18n('options_history_table_select_mediaType_all')}
+            {i18n('All', 'options:history')}
           </option>
           <option value={MediaTypeSelectToken.IMAGE}>
-            {i18n('options_history_table_select_mediaType_image')}
+            {i18n('Image', 'options:history')}
           </option>
           <option value={MediaTypeSelectToken.VIDEO}>
-            {i18n('options_history_table_select_mediaType_video')}
+            {i18n('Video', 'options:history')}
           </option>
           <option value={MediaTypeSelectToken.MIXED}>
-            {i18n('options_history_table_select_mediaType_mixed')}
+            {i18n('Mixed', 'options:history')}
           </option>
         </Select>
       </form>

@@ -1,6 +1,6 @@
 import type { ISettingsRepository } from '#domain/repositories/settings'
+import { getText as i18n } from '#libs/i18n'
 import useFeatureSettings from '#pages/hooks/useFeatureSettings'
-import { i18n } from '#pages/utils'
 import type { FeatureSettings } from '#schema'
 import DownloadKey from '../../contentScript/KeyboardMonitor/DownloadKey'
 import { RichFeatureSwitch } from './controls/featureControls'
@@ -10,7 +10,7 @@ import React from 'react'
 const KeyboardShortcutDesc = () => {
   return (
     <Text as={'span'}>
-      {i18n('options_features_keyboardShortcut_desc')}
+      {i18n('Use keyboard shortcut to trigger download.', 'options:features')}
       <br />
       <Text as={'span'}>
         Twitter: <Kbd>{DownloadKey.Twitter.toUpperCase()}</Kbd>
@@ -33,22 +33,25 @@ const FeatureOptions = ({ featureSettingsRepo }: FeatureOptionsProps) => {
   return (
     <VStack>
       <RichFeatureSwitch
-        name={i18n('options_features_revealNsfw')}
-        desc={i18n('options_features_revealNsfw_desc')}
+        name={i18n('Auto-reveal sensitive content', 'options:features')}
+        desc={i18n(
+          'When the tweet was flagged as sensitive content, this feature can show the blured content automatically.',
+          'options:features'
+        )}
         isOn={featureSettings.autoRevealNsfw}
         handleClick={toggler.nsfw}
         testId="revealNsfw-feature-switch"
       />
       <RichFeatureSwitch
-        name={i18n('options_features_keyboardShortcut')}
+        name={i18n('Keyboard shortcut', 'options:features')}
         desc={<KeyboardShortcutDesc />}
         isOn={featureSettings.keyboardShortcut}
         handleClick={toggler.keyboardShortcut}
         testId="keyboardShortcut-feature-switch"
       />
       <RichFeatureSwitch
-        name={i18n('options_features_downloadVideoThumbnail')}
-        desc={i18n('options_features_downloadVideoThumbnail_desc')}
+        name={i18n('Download video thumbnail', 'options:features')}
+        desc={i18n('Download the thumbnail when the media is video.', 'options:features')}
         isOn={featureSettings.includeVideoThumbnail}
         handleClick={toggler.thumbnail}
         testId="videoThumbnail-feature-switch"

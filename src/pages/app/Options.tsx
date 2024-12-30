@@ -3,6 +3,7 @@ import type { ISettingsRepository } from '#domain/repositories/settings'
 import type { SearchDownloadHistory } from '#domain/useCases/searchDownloadHistory'
 import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
 import type { FilenameSetting } from '#domain/valueObjects/filenameSetting'
+import { getText as i18n } from '#libs/i18n'
 import About from '#pages/components/About'
 import FeatureOptions from '#pages/components/FeatureOptions'
 import FootBar from '#pages/components/FootBar'
@@ -10,7 +11,6 @@ import GeneralOptions from '#pages/components/GeneralOptions'
 import HistoryTable from '#pages/components/History'
 import IntegrationOptions from '#pages/components/IntegrationOptions'
 import SideMenu from '#pages/components/SideMenu'
-import { i18n } from '#pages/utils'
 import { DownloadSettings, FeatureSettings } from '#schema'
 import { Container, ContainerProps, HStack, Heading, Stack } from '@chakra-ui/react'
 import React from 'react'
@@ -64,7 +64,7 @@ const App = ({
             <Route
               path="/"
               element={
-                <Content title={i18n('options_sidemenu_general')}>
+                <Content title={i18n('General', 'options:sideMenu')}>
                   <GeneralOptions
                     downloadSettingsRepo={downloadSettingsRepo}
                     filenameSettingsRepo={filenameSettingsRepo}
@@ -75,7 +75,7 @@ const App = ({
             <Route
               path="/features"
               element={
-                <Content title={i18n('options_sidemenu_features')}>
+                <Content title={i18n('Feature', 'options:sideMenu')}>
                   <FeatureOptions featureSettingsRepo={featureSettingsRepo} />
                 </Content>
               }
@@ -83,7 +83,7 @@ const App = ({
             <Route
               path="/integrations"
               element={
-                <Content title={i18n('options_sidemenu_integrations')}>
+                <Content title={i18n('Integrations', 'options:sideMenu')}>
                   <IntegrationOptions downloadSettingsRepo={downloadSettingsRepo} />
                 </Content>
               }
@@ -91,7 +91,7 @@ const App = ({
             <Route
               path="/history"
               element={
-                <Content title={i18n('options_sidemenu_history')} maxW={'150ch'}>
+                <Content title={i18n('History', 'options:sideMenu')} maxW={'150ch'}>
                   <HistoryTable
                     searchDownloadHistory={searchDownloadHistory}
                     searchTweetIdsByHashtags={searchTweetIdsByHashtags}
@@ -103,7 +103,7 @@ const App = ({
             <Route
               path="/about"
               element={
-                <Content title={i18n('options_sidemenu_about')}>
+                <Content title={i18n('About', 'options:sideMenu')}>
                   <About clientRepo={clientRepo} />
                 </Content>
               }

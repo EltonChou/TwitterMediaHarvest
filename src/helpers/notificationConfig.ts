@@ -1,4 +1,4 @@
-import { i18nLocalize } from '#libs/i18n'
+import { getText } from '#libs/i18n'
 import { DownloadNotificationButton, TweetNotificationButton } from './notificationButton'
 import { isFirefox } from './runtime'
 import type { Notifications } from 'webextension-polyfill'
@@ -25,15 +25,16 @@ export class MediaDownloadNotificationConfig {
     tweetInfo: TweetInfo,
     eventTime: Date
   ): Notifications.CreateNotificationOptions {
-    const info = i18nLocalize('notificationDLFailedMessage', [
-      tweetInfo.screenName,
-      tweetInfo.tweetId,
-    ])
+    const info = getText(
+      'Media in {{account}}({{tweet-id}}) download failed.',
+      'notification:download:failed',
+      { account: tweetInfo.screenName, 'tweet-id': tweetInfo.tweetId }
+    )
 
     return {
       type: TemplateType.Basic,
       iconUrl: getNotificationIconUrl(),
-      title: i18nLocalize('notificationDLFailedTitle'),
+      title: getText('Download failed', 'notification:download:failed'),
       message: info,
       contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
       eventTime: eventTime.getTime(),
@@ -87,13 +88,17 @@ export class TweetFetchErrorNotificationConfig {
   static tooManyRequests(
     params: TweetFetchErrorNotificationConfigParams
   ): Notifications.CreateNotificationOptions {
-    const info = i18nLocalize('notificationDLFailedMessage', [
-      params.tweetInfo.screenName,
-      params.tweetInfo.tweetId,
-    ])
+    const info = getText(
+      'Media in {{account}}({{tweet-id}}) download failed.',
+      'notification:download:failed',
+      {
+        account: params.tweetInfo.screenName,
+        'tweet-id': params.tweetInfo.tweetId,
+      }
+    )
 
     return makeGeneralTweetFetchErrorNotificationConfig({
-      title: i18nLocalize('fetchFailedTooManyRequestsTitle'),
+      title: getText('Download failed', 'notification:donwload:failed'),
       message: info,
       eventTime: params.eventTime,
     })
@@ -103,8 +108,8 @@ export class TweetFetchErrorNotificationConfig {
     params: TweetFetchErrorNotificationConfigParams
   ): Notifications.CreateNotificationOptions {
     return makeGeneralTweetFetchErrorNotificationConfig({
-      title: i18nLocalize('fetchFailedNotFoundTitle'),
-      message: i18nLocalize('fetchFailedTooManyRequestsMessage'),
+      title: getText('The tweet cannot be found', 'notification:tweetFetch:error'),
+      message: getText('The tweet might be deleted.', 'notification:tweetFetch:error'),
       eventTime: params.eventTime,
     })
   }
@@ -113,8 +118,11 @@ export class TweetFetchErrorNotificationConfig {
     params: TweetFetchErrorNotificationConfigParams
   ): Notifications.CreateNotificationOptions {
     return makeGeneralTweetFetchErrorNotificationConfig({
-      title: i18nLocalize('backend_notification_title_unauth'),
-      message: i18nLocalize('backend_notification_message_unauth'),
+      title: getText('Unauthorized', 'notification:tweetFetch:error'),
+      message: getText(
+        'Please check your login session and your permission.',
+        'notification:tweetFetch:error'
+      ),
       eventTime: params.eventTime,
     })
   }
@@ -123,8 +131,11 @@ export class TweetFetchErrorNotificationConfig {
     params: TweetFetchErrorNotificationConfigParams
   ): Notifications.CreateNotificationOptions {
     return makeGeneralTweetFetchErrorNotificationConfig({
-      title: i18nLocalize('backend_notification_title_forbidden'),
-      message: i18nLocalize('backend_notification_message_forbidden'),
+      title: getText('Forbidden', 'notification:tweetFetch:error'),
+      message: getText(
+        'Your login session might be expired, please refresh the session.',
+        'notification:tweetFetch:error'
+      ),
       eventTime: params.eventTime,
     })
   }
@@ -133,8 +144,10 @@ export class TweetFetchErrorNotificationConfig {
     params: TweetFetchErrorNotificationConfigParams & { code: number }
   ): Notifications.CreateNotificationOptions {
     return makeGeneralTweetFetchErrorNotificationConfig({
-      title: i18nLocalize('fetchFailedUnknownTitle') + params.code,
-      message: i18nLocalize('fetchFailedUnknownMessage'),
+      title: getText('Unknown Error ({{code}})', 'notification:tweetFetch:error', {
+        code: params.code.toString(),
+      }),
+      message: getText('Please contact with developer', 'notification:tweetFetch:error'),
       eventTime: params.eventTime,
     })
   }
@@ -143,27 +156,16 @@ export class TweetFetchErrorNotificationConfig {
     return {
       type: TemplateType.Basic,
       iconUrl: getNotificationIconUrl(),
-      title: i18nLocalize('notification-failedToParseTweetInfo-title'),
-      message: i18nLocalize('notification-failedToParseTweetInfo-message'),
+      title: getText(
+        'Failed to parse tweet information',
+        'notification:parseTweetInfo:failed'
+      ),
+      message: getText(
+        'Failed to parse tweet information. Please report bug to developer.',
+        'notification:parseTweetInfo:failed'
+      ),
       contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
       eventTime: Date.now(),
     }
-  }
-}
-
-type MakeTweetParsingErrorNotificationConfigParams = {
-  tweetInfo: TweetInfo
-}
-
-export const makeTweetParsingErrorNotificationConfig = (
-  params: MakeTweetParsingErrorNotificationConfigParams
-): Notifications.CreateNotificationOptions => {
-  return {
-    type: TemplateType.Basic,
-    iconUrl: getNotificationIconUrl(),
-    title: i18nLocalize('notification-failedToParseTweetInfo-title'),
-    message: i18nLocalize('notification-failedToParseTweetInfo-message'),
-    contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
-    eventTime: Date.now(),
   }
 }

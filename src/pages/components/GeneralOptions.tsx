@@ -6,9 +6,9 @@ import type { FilenameSetting } from '#domain/valueObjects/filenameSetting'
 import { TweetMediaFile } from '#domain/valueObjects/tweetMediaFile'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
 import PatternToken from '#enums/patternToken'
+import { getText as i18n } from '#libs/i18n'
 import useDownloadSettings from '#pages/hooks/useDownloadSettings'
 import useFilenameSettingsForm from '#pages/hooks/useFilenameSettingsForm'
-import { i18n } from '#pages/utils'
 import type { DownloadSettings } from '#schema'
 import {
   HelperMessage,
@@ -47,42 +47,42 @@ type PatternTokenRecord = {
 
 const filenamTokenRecords: ReadonlyArray<PatternTokenRecord> = [
   {
-    localizedName: i18n('options_general_filenamePattern_token_account'),
+    localizedName: i18n('Account', 'options:general'),
     token: PatternToken.Account,
     testId: 'pattern-token-account',
   },
   {
-    localizedName: i18n('options_general_filenamePattern_token_accountId'),
+    localizedName: i18n('Account ID', 'options:general'),
     token: PatternToken.AccountId,
     testId: 'pattern-token-account-id',
   },
   {
-    localizedName: i18n('options_general_filenamePattern_token_tweetId'),
+    localizedName: i18n('Tweet ID', 'options:general'),
     token: PatternToken.TweetId,
     testId: 'pattern-token-token-id',
   },
   {
-    localizedName: i18n('options_general_filenamePattern_token_hash'),
+    localizedName: i18n('Hash', 'options:general'),
     token: PatternToken.Hash,
     testId: 'pattern-token-hash',
   },
   {
-    localizedName: i18n('options_general_filenamePattern_token_serial'),
+    localizedName: i18n('Serial', 'options:general'),
     token: PatternToken.Serial,
     testId: 'pattern-token-serial',
   },
   {
-    localizedName: i18n('options_general_filenamePattern_token_downloadDate'),
+    localizedName: i18n('Download Date', 'options:general'),
     token: PatternToken.Date,
     testId: 'pattern-token-date',
   },
   {
-    localizedName: i18n('options_general_filenamePattern_token_tweetDate'),
+    localizedName: i18n('Tweet Date', 'options:general'),
     token: PatternToken.TweetDate,
     testId: 'pattern-token-tweet-date',
   },
   {
-    localizedName: i18n('options_general_filenamePattern_token_tweetDatetime'),
+    localizedName: i18n('Tweet Datetime', 'options:general'),
     token: PatternToken.TweetDatetime,
     testId: 'pattern-token-tweet-date-time',
   },
@@ -189,8 +189,11 @@ const AskWherToSaveFeatureSwitch = ({
   handleClick,
 }: AskWherToSaveFeatureSwitchProps) => (
   <RichFeatureSwitch
-    name={i18n('options_general_askWhereToSave')}
-    desc={i18n('options_general_askWhereToSave_desc')}
+    name={i18n('Ask where to save files.', 'options:general')}
+    desc={i18n(
+      'Show the file chooser or not when download was triggered. Recommend to disable this option.',
+      'options:general'
+    )}
     isOn={isOn}
     handleClick={handleClick}
     testId="askWhereToSave-feature-switch"
@@ -203,8 +206,11 @@ interface FilenameControlFeatureProps extends TokenPanelProps {
 
 const FilenameControlFeature = (props: FilenameControlFeatureProps) => (
   <RichFeatureSwitch
-    name={i18n('options_general_filenamePattern')}
-    desc={i18n('options_general_filenamePattern_desc')}
+    name={i18n('Filename pattern', 'options:general')}
+    desc={i18n(
+      'You can choose what info to be included in the filename.',
+      'options:general'
+    )}
     message={props.message}
     cursor="default"
     isOn={true}
@@ -231,9 +237,12 @@ interface DirectoryControlFeatureProps
 
 const DirectoryControlFeature = (props: DirectoryControlFeatureProps) => (
   <RichFeatureSwitch
-    name={i18n('options_general_subDirectory')}
+    name={i18n('Create sub-directory', 'options:general')}
     message={props.message}
-    desc={i18n('options_general_subDirectory_desc')}
+    desc={i18n(
+      'Create sub-directory under the default download directory. Sub-directory can be seperated with "/".',
+      'options:general'
+    )}
     isOn={props.isOn}
     handleClick={props.handleClick}
     cursor="pointer"
@@ -266,17 +275,15 @@ interface FileAggregationFeatureProps
 
 const FileAggregationFeature = (props: FileAggregationFeatureProps) => (
   <RichFeatureSwitch
-    name={i18n('options_general_fileAggregation')}
-    desc={i18n('options_general_fileAggregation_desc')}
+    name={i18n('Group Files', 'options:general')}
+    desc={i18n('Group files by the selected attribute.', 'options:general')}
     isOn={props.isOn}
     handleClick={props.handleClick}
     cursor="pointer"
     testId="fileAggregation-feature-switch"
   >
     <Select isDisabled={props.isDisabled} onChange={props.toggle}>
-      <option value="{account}">
-        {i18n('options_general_filenamePattern_token_account')}
-      </option>
+      <option value="{account}">{i18n('Account', 'options:general')}</option>
     </Select>
   </RichFeatureSwitch>
 )
@@ -349,7 +356,7 @@ const GeneralOptions = (props: GeneralOptionsProps) => {
               variant={'outline'}
               data-testid="form-reset-button"
             >
-              {i18n('resetButtonText')}
+              {i18n('Reset', 'options:general')}
             </Button>
             <Button
               type="submit"
@@ -357,7 +364,7 @@ const GeneralOptions = (props: GeneralOptionsProps) => {
               isDisabled={!Object.values(formStatus).every(v => v)}
               data-testid="form-submit-button"
             >
-              {i18n('submitButtonText')}
+              {i18n('Save', 'options:general')}
             </Button>
           </HStack>
         </VStack>

@@ -1,7 +1,7 @@
 import type { IClientRepository } from '#domain/repositories/client'
+import { getText as i18n } from '#libs/i18n'
 import useClient from '#pages/hooks/useClient'
 import ExtLinks from '#pages/links'
-import { i18n } from '#pages/utils'
 import { getFullVersion, getName } from '#utils/runtime'
 import { Link, Skeleton, Stack, Text } from '@chakra-ui/react'
 import React, { memo } from 'react'
@@ -22,7 +22,7 @@ const ExtensionInformation = ({ clientRepo }: ExtensionInformationProps) => {
         </Text>
       </Skeleton>
       <Text color={'gray.400'}>
-        {i18n('options_about_version')} {getFullVersion()}
+        {i18n('Version', 'options:about')} {getFullVersion()}
       </Text>
     </Stack>
   )
@@ -49,12 +49,18 @@ const Links = () => {
   return (
     <Stack data-testid="information-links">
       <ExternalLink
-        name={i18n('options_about_officialWebsite')}
+        name={i18n('Official website', 'options:about')}
         href={ExtLinks.website}
       />
-      <ExternalLink name={i18n('options_about_privacyPolicy')} href={ExtLinks.privacy} />
-      <ExternalLink name={i18n('options_about_issues')} href={ExtLinks.issues} />
-      <ExternalLink name={i18n('options_about_changeLog')} href={ExtLinks.changelog} />
+      <ExternalLink
+        name={i18n('Privacy policy', 'options:about')}
+        href={ExtLinks.privacy}
+      />
+      <ExternalLink
+        name={i18n('Reoprt issues', 'options:about')}
+        href={ExtLinks.issues}
+      />
+      <ExternalLink name={i18n('Changelog', 'options:about')} href={ExtLinks.changelog} />
       <ExternalLink name="Github" href={ExtLinks.github} />
     </Stack>
   )
