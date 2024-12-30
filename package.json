@@ -59,7 +59,9 @@
     "babel-loader": "^9.2.1",
     "copy-webpack-plugin": "^11.0.0",
     "core-js": "^3.39.0",
+    "crypto": "^1.0.1",
     "css-loader": "^6.7.0",
+    "dayjs": "^1.11.13",
     "dotenv-webpack": "^8.0.1",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.3.0",
@@ -108,7 +110,7 @@
     "watch:chrome:injection:dev": "yarn build:chrome:injection:dev --watch",
     "watch": "yarn build:dev --watch",
     "lint": "eslint --color --quiet --ext .js --ext .ts --ext .tsx src/ --fix",
-    "extract-locales": "node utils/locales-extractor.mjs"
+    "extract-locales": "node utils/locales-extractor.cjs"
   },
   "repository": {
     "type": "git",
