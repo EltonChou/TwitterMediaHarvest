@@ -23,7 +23,7 @@ exports[`unit test for About component can render properly 1`] = `
       <p
         class="chakra-text css-qljqz"
       >
-        Translated&lt;options_about_version&gt;
+        Translated&lt;[options:about](Version)&gt;
          
       </p>
     </div>
@@ -39,7 +39,7 @@ exports[`unit test for About component can render properly 1`] = `
         rel="noopener"
         target="_blank"
       >
-        Translated&lt;options_about_officialWebsite&gt;
+        Translated&lt;[options:about](Official website)&gt;
       </a>
       <a
         class="chakra-link css-10iahqc"
@@ -49,7 +49,7 @@ exports[`unit test for About component can render properly 1`] = `
         rel="noopener"
         target="_blank"
       >
-        Translated&lt;options_about_privacyPolicy&gt;
+        Translated&lt;[options:about](Privacy policy)&gt;
       </a>
       <a
         class="chakra-link css-10iahqc"
@@ -59,7 +59,7 @@ exports[`unit test for About component can render properly 1`] = `
         rel="noopener"
         target="_blank"
       >
-        Translated&lt;options_about_issues&gt;
+        Translated&lt;[options:about](Reoprt issues)&gt;
       </a>
       <a
         class="chakra-link css-10iahqc"
@@ -69,7 +69,7 @@ exports[`unit test for About component can render properly 1`] = `
         rel="noopener"
         target="_blank"
       >
-        Translated&lt;options_about_changeLog&gt;
+        Translated&lt;[options:about](Changelog)&gt;
       </a>
       <a
         class="chakra-link css-10iahqc"

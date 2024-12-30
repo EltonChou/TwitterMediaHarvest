@@ -8,7 +8,7 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
     <div
       class="chakra-form-control css-0"
       data-testid="revealNsfw-feature-switch"
-      label="Translated<options_features_revealNsfw>"
+      label="Translated<[options:features](Auto-reveal sensitive content)>"
       role="group"
     >
       <label
@@ -27,12 +27,12 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
             <p
               class="chakra-text css-1tbqbam"
             >
-              Translated&lt;options_features_revealNsfw&gt;
+              Translated&lt;[options:features](Auto-reveal sensitive content)&gt;
             </p>
             <p
               class="chakra-text css-qljqz"
             >
-              Translated&lt;options_features_revealNsfw_desc&gt;
+              Translated&lt;[options:features](When the tweet was flagged as sensitive content, this feature can show the blured content automatically.)&gt;
             </p>
              
           </div>
@@ -68,7 +68,7 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
     <div
       class="chakra-form-control css-0"
       data-testid="keyboardShortcut-feature-switch"
-      label="Translated<options_features_keyboardShortcut>"
+      label="Translated<[options:features](Keyboard shortcut)>"
       role="group"
     >
       <label
@@ -87,7 +87,7 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
             <p
               class="chakra-text css-1tbqbam"
             >
-              Translated&lt;options_features_keyboardShortcut&gt;
+              Translated&lt;[options:features](Keyboard shortcut)&gt;
             </p>
             <p
               class="chakra-text css-qljqz"
@@ -95,7 +95,7 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
               <span
                 class="chakra-text css-0"
               >
-                Translated&lt;options_features_keyboardShortcut_desc&gt;
+                Translated&lt;[options:features](Use keyboard shortcut to trigger download.)&gt;
                 <br />
                 <span
                   class="chakra-text css-0"
@@ -158,7 +158,7 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
     <div
       class="chakra-form-control css-0"
       data-testid="videoThumbnail-feature-switch"
-      label="Translated<options_features_downloadVideoThumbnail>"
+      label="Translated<[options:features](Download video thumbnail)>"
       role="group"
     >
       <label
@@ -177,12 +177,12 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
             <p
               class="chakra-text css-1tbqbam"
             >
-              Translated&lt;options_features_downloadVideoThumbnail&gt;
+              Translated&lt;[options:features](Download video thumbnail)&gt;
             </p>
             <p
               class="chakra-text css-qljqz"
             >
-              Translated&lt;options_features_downloadVideoThumbnail_desc&gt;
+              Translated&lt;[options:features](Download the thumbnail when the media is video.)&gt;
             </p>
              
           </div>

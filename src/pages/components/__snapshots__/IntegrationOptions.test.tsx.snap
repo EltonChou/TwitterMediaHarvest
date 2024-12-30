@@ -8,7 +8,7 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
     <div
       class="chakra-form-control css-0"
       data-testid="dispatchToAria2-feature-switch"
-      label="Translated<options_integrations_dispatchToAria2>"
+      label="Translated<[options:integrations](Dispatch download to Aria2)>"
       role="group"
     >
       <label
@@ -27,12 +27,12 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
             <p
               class="chakra-text css-1tbqbam"
             >
-              Translated&lt;options_integrations_dispatchToAria2&gt;
+              Translated&lt;[options:integrations](Dispatch download to Aria2)&gt;
             </p>
             <p
               class="chakra-text css-qljqz"
             >
-              Translated&lt;options_integrations_dispatchToAria2_desc&gt;
+              Translated&lt;[options:integrations](Transfer the download to Aria2 via 
               <a
                 class="chakra-link css-p03q1r"
                 href="https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn"
@@ -40,6 +40,7 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
               >
                 Aria2-Explorer
               </a>
+              .)&gt;
             </p>
              
           </div>
@@ -75,7 +76,7 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
     <div
       class="chakra-form-control css-0"
       data-testid="aggressiveMode-feature-switch"
-      label="Translated<options_integrations_aggressiveMode>"
+      label="Translated<[options:integrations](Aggressive Mode)>"
       role="group"
     >
       <label
@@ -94,12 +95,12 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
             <p
               class="chakra-text css-1tbqbam"
             >
-              Translated&lt;options_integrations_aggressiveMode&gt;
+              Translated&lt;[options:integrations](Aggressive Mode)&gt;
             </p>
             <p
               class="chakra-text css-qljqz"
             >
-              Translated&lt;options_integrations_aggressiveMode_desc&gt;
+              Translated&lt;[options:integrations](Ensure the filename not to be modified by other extensions. This mode might be conflicted with other download management extensions.)&gt;
             </p>
              
           </div>
@@ -144,7 +145,7 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
     <div
       class="chakra-form-control css-0"
       data-testid="dispatchToAria2-feature-switch"
-      label="Translated<options_integrations_dispatchToAria2>"
+      label="Translated<[options:integrations](Dispatch download to Aria2)>"
       role="group"
     >
       <label
@@ -163,12 +164,12 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
             <p
               class="chakra-text css-1tbqbam"
             >
-              Translated&lt;options_integrations_dispatchToAria2&gt;
+              Translated&lt;[options:integrations](Dispatch download to Aria2)&gt;
             </p>
             <p
               class="chakra-text css-qljqz"
             >
-              Translated&lt;options_integrations_dispatchToAria2_desc&gt;
+              Translated&lt;[options:integrations](Transfer the download to Aria2 via 
               <a
                 class="chakra-link css-p03q1r"
                 href="https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn"
@@ -176,6 +177,7 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
               >
                 Aria2-Explorer
               </a>
+              .)&gt;
             </p>
              
           </div>
@@ -211,7 +213,7 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
     <div
       class="chakra-form-control css-0"
       data-testid="aggressiveMode-feature-switch"
-      label="Translated<options_integrations_aggressiveMode>"
+      label="Translated<[options:integrations](Aggressive Mode)>"
       role="group"
     >
       <label
@@ -230,12 +232,12 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
             <p
               class="chakra-text css-1tbqbam"
             >
-              Translated&lt;options_integrations_aggressiveMode&gt;
+              Translated&lt;[options:integrations](Aggressive Mode)&gt;
             </p>
             <p
               class="chakra-text css-qljqz"
             >
-              Translated&lt;options_integrations_aggressiveMode_desc&gt;
+              Translated&lt;[options:integrations](Ensure the filename not to be modified by other extensions. This mode might be conflicted with other download management extensions.)&gt;
             </p>
              
           </div>
@@ -281,7 +283,7 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
       class="chakra-form-control css-0"
       data-disabled=""
       data-testid="dispatchToAria2-feature-switch"
-      label="Translated<options_integrations_dispatchToAria2>"
+      label="Translated<[options:integrations](Dispatch download to Aria2)>"
       role="group"
     >
       <label
@@ -301,13 +303,14 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
             <p
               class="chakra-text css-1tbqbam"
             >
-              Translated&lt;options_integrations_dispatchToAria2&gt;
+              Translated&lt;[options:integrations](Dispatch download to Aria2)&gt;
             </p>
             <p
               class="chakra-text css-qljqz"
             >
-              Translated&lt;options_integrations_dispatchToAria2_desc&gt;
+              Translated&lt;[options:integrations](Transfer the download to Aria2 via 
                Aria2-Explorer 
+              .)&gt;
             </p>
             <div
               class="chakra-offset-slide"
@@ -331,7 +334,7 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
                   data-testid="feature-switch-helper-text"
                   id="field-:r9:-helptext"
                 >
-                  Translated&lt;options_integrations_notCompatibble&gt;
+                  Translated&lt;[options:integrations](This integration is not compatible with Firefox)&gt;
                 </div>
               </div>
             </div>
@@ -374,7 +377,7 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
       class="chakra-form-control css-0"
       data-disabled=""
       data-testid="aggressiveMode-feature-switch"
-      label="Translated<options_integrations_aggressiveMode>"
+      label="Translated<[options:integrations](Aggressive Mode)>"
       role="group"
     >
       <label
@@ -394,12 +397,12 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
             <p
               class="chakra-text css-1tbqbam"
             >
-              Translated&lt;options_integrations_aggressiveMode&gt;
+              Translated&lt;[options:integrations](Aggressive Mode)&gt;
             </p>
             <p
               class="chakra-text css-qljqz"
             >
-              Translated&lt;options_integrations_aggressiveMode_desc&gt;
+              Translated&lt;[options:integrations](Ensure the filename not to be modified by other extensions. This mode might be conflicted with other download management extensions.)&gt;
             </p>
             <div
               class="chakra-offset-slide"
@@ -423,7 +426,7 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
                   data-testid="feature-switch-helper-text"
                   id="field-:rc:-helptext"
                 >
-                  Translated&lt;options_integrations_notCompatibble&gt;
+                  Translated&lt;[options:integrations](This integration is not compatible with Firefox)&gt;
                 </div>
               </div>
             </div>
