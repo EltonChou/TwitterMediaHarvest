@@ -8,7 +8,11 @@ class EventPublisher implements DomainEventPublisher {
   }
 
   async publish(event: IDomainEvent): Promise<void> {
-    if (!(event.name in this.handlerMap)) return
+    if (!(event.name in this.handlerMap)) {
+      // eslint-disable-next-line no-console
+      console.info(`No handlers for ${event.name}`)
+      return
+    }
 
     for (const handle of this.handlerMap[event.name]) {
       try {
