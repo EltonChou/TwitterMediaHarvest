@@ -10,7 +10,7 @@ import { runtime } from 'webextension-polyfill'
 export const sendMessage = async <
   Action extends WebExtAction,
   Payload extends Record<string, unknown> = never,
-  ResponsePayload extends Record<string, unknown> = never
+  ResponsePayload extends Record<string, unknown> = never,
 >(
   message: WebExtMessage<Action, Payload, ResponsePayload>
 ): Promise<
@@ -25,7 +25,7 @@ export const sendMessage = async <
 export const sendExternalMessage = async <
   Action extends WebExtAction,
   Payload extends Record<string, unknown> = never,
-  ResponsePayload extends Record<string, unknown> = never
+  ResponsePayload extends Record<string, unknown> = never,
 >(
   externalExtId: string,
   message: WebExtMessage<Action, Payload, ResponsePayload>

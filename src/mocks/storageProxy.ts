@@ -4,7 +4,7 @@ import type { LocalStorageSchema } from '#libs/webExtStorage/local/schema'
 import type { SyncStorageSchema } from '#libs/webExtStorage/sync/schema'
 
 export class InMemoryStorageProxy<
-  T extends Partial<LocalStorageSchema | SyncStorageSchema>
+  T extends Partial<LocalStorageSchema | SyncStorageSchema>,
 > implements IStorageProxy<T>
 {
   constructor(protected storage: Record<string, any> = {}) {}

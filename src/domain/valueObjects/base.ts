@@ -30,8 +30,8 @@ export abstract class ValueObject<Props extends LiteraObject>
         thisProp instanceof ValueObject
           ? thisProp.is(thatProp)
           : Array.isArray(thisProp) && Array.isArray(thatProp)
-          ? arrayEquals(thisProp, thatProp)
-          : thisProp === thatProp
+            ? arrayEquals(thisProp, thatProp)
+            : thisProp === thatProp
 
       if (!isSameProp) return false
     }

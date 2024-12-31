@@ -11,7 +11,7 @@ const useStatsStore = (
   statsStore: StatsStore
 ): [
   UsageStatistics,
-  { criterias: Set<Criteria>; triggerChange: () => Promise<void> }
+  { criterias: Set<Criteria>; triggerChange: () => Promise<void> },
 ] => {
   const { getSnapShot, subscribe, triggerChange, init } = statsStore
   const stats = useSyncExternalStore(subscribe, getSnapShot)

@@ -9,7 +9,7 @@ export type WebExtMessageObject<Action extends WebExtAction> = {
 
 export type WebExtMessagePayloadObject<
   Action extends WebExtAction,
-  Payload extends Record<string, unknown>
+  Payload extends Record<string, unknown>,
 > = {
   action: Action
   payload: Payload
@@ -33,7 +33,7 @@ export interface WebExtMessage<
     : WebExtMessageObject<Action>,
   Response = keyof ResponsePayload extends string
     ? WebExtMessagePayloadResponse<ResponsePayload>
-    : WebExtMessageResponse
+    : WebExtMessageResponse,
 > {
   toObject(): MessageObject
   makeResponse(isOk: true, payload: ResponsePayload): Response

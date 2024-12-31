@@ -16,13 +16,16 @@ export class SyncUsageStatisticsWithLocalDownloadHistory
   async process(): Promise<void> {
     const pastItems = await this.downloadRepository.search({ limit: 0 })
 
-    const syncedStats = pastItems.reduce((stats, currItem) => {
-      if (!this.isDownlodedBySelfUseCase.process({ item: currItem })) return stats
-      return stats.increase({
-        downloadCount: 1,
-        trafficUsage: Math.max(0, currItem.fileSize),
-      })
-    }, new UsageStatistics({ downloadCount: 0, trafficUsage: 0 }))
+    const syncedStats = pastItems.reduce(
+      (stats, currItem) => {
+        if (!this.isDownlodedBySelfUseCase.process({ item: currItem })) return stats
+        return stats.increase({
+          downloadCount: 1,
+          trafficUsage: Math.max(0, currItem.fileSize),
+        })
+      },
+      new UsageStatistics({ downloadCount: 0, trafficUsage: 0 })
+    )
 
     const originalStats = await this.usageStatisticsRepo.get()
 

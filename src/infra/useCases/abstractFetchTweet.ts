@@ -202,7 +202,7 @@ export abstract class FetchTweetBase implements FetchTweet {
               error: undefined,
               value: tweet,
               remainingQuota: quota,
-            } satisfies TweetResult)
+            }) satisfies TweetResult
         )
       )
 

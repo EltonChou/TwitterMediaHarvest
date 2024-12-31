@@ -70,9 +70,8 @@ export class DownloadTweetMedia
       return false
     }
 
-    const { value: tweet, error: fetchTweetError } = await this.fetchTweetWithSolutions(
-      fetchTweetSolutions
-    )
+    const { value: tweet, error: fetchTweetError } =
+      await this.fetchTweetWithSolutions(fetchTweetSolutions)
 
     if (fetchTweetError) {
       this.handleFetchTweetError(command.tweetInfo)(fetchTweetError)

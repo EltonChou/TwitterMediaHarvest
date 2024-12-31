@@ -1,18 +1,18 @@
 export type SchemaKey<T> = string extends T
   ? never
   : number extends T
-  ? never
-  : boolean extends T
-  ? never
-  : keyof T
+    ? never
+    : boolean extends T
+      ? never
+      : keyof T
 
 export type SchemaValue<T> = string extends T
   ? never
   : number extends T
-  ? never
-  : boolean extends T
-  ? never
-  : T[SchemaKey<T>]
+    ? never
+    : boolean extends T
+      ? never
+      : T[SchemaKey<T>]
 
 export interface IStorageProxy<SchemaT> {
   getItemByKey<Key extends SchemaKey<SchemaT>>(

@@ -65,7 +65,7 @@ export abstract class BaseIDB<Schema extends DBSchema, Version extends number> {
 
   prepareTransaction<
     Name extends StoreNames<Schema>,
-    Mode extends IDBTransactionMode = 'readonly'
+    Mode extends IDBTransactionMode = 'readonly',
   >(
     storeNames: ArrayLike<Name>,
     mode: Mode,
@@ -73,7 +73,7 @@ export abstract class BaseIDB<Schema extends DBSchema, Version extends number> {
   ): Promise<TransactionContext<IDBPTransaction<Schema, ArrayLike<Name>, Mode>>>
   prepareTransaction<
     Name extends StoreNames<Schema>,
-    Mode extends IDBTransactionMode = 'readonly'
+    Mode extends IDBTransactionMode = 'readonly',
   >(
     storeNames: Name,
     mode: Mode,
