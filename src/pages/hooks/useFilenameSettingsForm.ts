@@ -267,7 +267,7 @@ const useFilenameSettingsForm = (
     [filenameSettings]
   )
   /**
-   * @see FormHandler#sortPatternToken for implementation details
+   * @see {@link FormHandler#sortPatternToken} for implementation details
    */
   const sortPatternToken = useCallback(
     (sourceIndex: number, destinationIndex: number) => {
