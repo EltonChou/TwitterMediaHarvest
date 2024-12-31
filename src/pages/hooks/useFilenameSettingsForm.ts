@@ -218,7 +218,7 @@ const useFilenameSettingsForm = (
             type: 'error',
             content: i18n(
               'Invalid directory name. Cannot contain <>:"\\|?*',
-              'options:hooks:useFilenameSettingsForm'
+              'options:general'
             ),
           }
     )
