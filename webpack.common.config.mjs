@@ -1,5 +1,6 @@
 import Dotenv from 'dotenv-webpack'
 import { createRequire } from 'node:module'
+import process from 'node:process'
 import { resolve } from 'path'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 import webpack from 'webpack'
@@ -29,7 +30,7 @@ const config = {
   },
   output: {
     filename: '[name].js',
-    path: resolve(import.meta.url, 'build'),
+    path: resolve(process.cwd(), 'build'),
     compareBeforeEmit: false,
   },
   module: {
@@ -57,7 +58,7 @@ export default (env, argv) => {
   const BROWSER = env.target.split('-')[0]
   const VERSION_NAME = `${VERSION} (${BROWSER})`
   const RELEASE_NAME = env.RELEASE_NAME || name + '(' + BROWSER + ')' + '@' + VERSION
-  const OUTPUT_DIR = resolve(import.meta.url, 'build', BUILD_TARGET)
+  const OUTPUT_DIR = resolve(process.cwd(), 'build', BUILD_TARGET)
 
   return merge(config, {
     mode: argv.mode,

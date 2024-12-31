@@ -13,7 +13,6 @@ export default (env, argv) => {
 
   return merge(baseConfig(env, argv), {
     name: 'service',
-    target: ['web', 'es6'],
     output: {
       chunkFormat: false,
     },
