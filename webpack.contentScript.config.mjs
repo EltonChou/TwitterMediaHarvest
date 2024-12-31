@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path')
-const baseConfig = require('./webpack.common.config')
-const { merge } = require('webpack-merge')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import { resolve } from 'path'
+import { merge } from 'webpack-merge'
+import baseConfig from './webpack.common.config.mjs'
 
-module.exports = (env, argv) => {
+export default (env, argv) => {
   return merge(baseConfig(env, argv), {
     name: 'content-script',
     entry: {
-      main: path.resolve('./src/contentScript/main.ts'),
+      main: resolve('./src/contentScript/main.ts'),
     },
     plugins: [new MiniCssExtractPlugin()],
     module: {

@@ -1,10 +1,13 @@
-const fs = require('fs')
-const path = require('path')
-const process = require('process')
-const crypto = require('crypto')
-const dayjs = require('dayjs')
-const { GettextExtractor, JsExtractors } = require('gettext-extractor')
-const packageInfo = require('../package.json')
+#!/usr/bin/env node
+import { createHash } from 'crypto'
+import dayjs from 'dayjs'
+import { existsSync, readFileSync, writeFileSync } from 'fs'
+import { GettextExtractor, JsExtractors } from 'gettext-extractor'
+import { resolve } from 'path'
+import { cwd } from 'process'
+import PACKAGE from '../package.json' with { type: 'json' }
+
+const { name, version } = PACKAGE
 
 const extractor = new GettextExtractor()
 
@@ -26,12 +29,18 @@ extractor
   ])
   .parseFilesGlob('src/**/!(*.test).@(js|jsx|ts|tsx)')
 
+extractor.addMessage({ text: 'appName', context: 'app' })
+extractor.addMessage({
+  text: 'appDesc',
+  context: 'app',
+})
+
 extractor.printStats()
 
-const dir = path.resolve(process.cwd(), 'src', 'locales')
+const dir = resolve(cwd(), 'src', 'locales')
 
-const FILENAME = path.resolve(dir, 'template.pot')
-const DIGEST_FILENAME = path.resolve(dir, 'template.pot.digest')
+const FILENAME = resolve(dir, 'template.pot')
+const DIGEST_FILENAME = resolve(dir, 'template.pot.digest')
 
 const savePot = () =>
   extractor.savePotFile(FILENAME, {
@@ -40,20 +49,19 @@ const savePot = () =>
   })
 
 const saveDigest = digest =>
-  fs.writeFileSync(DIGEST_FILENAME, digest, { encoding: 'utf-8', flag: 'w' })
+  writeFileSync(DIGEST_FILENAME, digest, { encoding: 'utf-8', flag: 'w' })
 
 /** @type {Partial<import('pofile').IHeaders>} */
 const poHeaders = {
-  'Project-Id-Version': `${packageInfo.name} (${packageInfo.version})`,
+  'Project-Id-Version': `${name} (${version})`,
 }
 
-const currDigest = crypto
-  .createHash('sha256')
+const currDigest = createHash('sha256')
   .update(extractor.getPotString(poHeaders))
   .digest('hex')
 
-if (fs.existsSync(DIGEST_FILENAME)) {
-  const prevDigest = fs.readFileSync(DIGEST_FILENAME, 'utf-8', 'r')
+if (existsSync(DIGEST_FILENAME)) {
+  const prevDigest = readFileSync(DIGEST_FILENAME, 'utf-8', 'r')
 
   console.info('Prev digest\t' + prevDigest)
   console.info('Curr digest\t' + currDigest + '\n')

@@ -1,23 +1,25 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path')
-const baseConfig = require('./webpack.common.config')
-const { merge } = require('webpack-merge')
-const CopyPlugin = require('copy-webpack-plugin')
-const PACKAGE = require('./package.json')
+import CopyPlugin from 'copy-webpack-plugin'
+import { resolve } from 'path'
+import { merge } from 'webpack-merge'
+import PACKAGE from './package.json' with { type: 'json' }
+import baseConfig from './webpack.common.config.mjs'
 
-module.exports = (env, argv) => {
-  const VERSION = PACKAGE.version
+const { version } = PACKAGE
+
+export default (env, argv) => {
+  const VERSION = version
   const BROWSER = env.target.split('-')[0]
   const VERSION_NAME = `${VERSION} (${BROWSER})`
 
   return merge(baseConfig(env, argv), {
     name: 'service',
+    target: ['web', 'es6'],
     output: {
       chunkFormat: false,
     },
     entry: {
-      sw: path.resolve('./src/serviceWorker/sw.ts'),
-      pages: path.resolve('./src/pages/index.tsx'),
+      sw: resolve('./src/serviceWorker/sw.ts'),
+      pages: resolve('./src/pages/index.tsx'),
     },
     module: {
       rules: [

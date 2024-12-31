@@ -1,10 +1,15 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path')
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
-const { merge } = require('webpack-merge')
-const { EnvironmentPlugin } = require('webpack')
-const Dotenv = require('dotenv-webpack')
-const PACKAGE = require('./package.json')
+import Dotenv from 'dotenv-webpack'
+import { createRequire } from 'node:module'
+import { resolve } from 'path'
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
+import webpack from 'webpack'
+import { merge } from 'webpack-merge'
+import PACKAGE from './package.json' with { type: 'json' }
+
+const require = createRequire(import.meta.url)
+
+const { name, version } = PACKAGE
+const { EnvironmentPlugin } = webpack
 
 /** @type {import('webpack').Configuration} */
 const config = {
@@ -24,7 +29,7 @@ const config = {
   },
   output: {
     filename: '[name].js',
-    path: path.join(__dirname, 'build'),
+    path: resolve(import.meta.url, 'build'),
     compareBeforeEmit: false,
   },
   module: {
@@ -43,17 +48,16 @@ const config = {
   },
 }
 
-module.exports = (env, argv) => {
+export default (env, argv) => {
   const isProduction = argv.mode === 'production'
 
   // Define environment variable
-  const VERSION = PACKAGE.version
+  const VERSION = version
   const BUILD_TARGET = env.target
   const BROWSER = env.target.split('-')[0]
   const VERSION_NAME = `${VERSION} (${BROWSER})`
-  const RELEASE_NAME =
-    env.RELEASE_NAME || PACKAGE.name + '(' + BROWSER + ')' + '@' + VERSION
-  const OUTPUT_DIR = path.join(__dirname, 'build', BUILD_TARGET)
+  const RELEASE_NAME = env.RELEASE_NAME || name + '(' + BROWSER + ')' + '@' + VERSION
+  const OUTPUT_DIR = resolve(import.meta.url, 'build', BUILD_TARGET)
 
   return merge(config, {
     mode: argv.mode,

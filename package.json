@@ -1,6 +1,7 @@
 {
   "name": "twitter-media-harvest",
   "version": "4.2.4",
+  "type": "module",
   "description": "The easiest way to get media from twitter-timeline.",
   "dependencies": {
     "@aws-crypto/sha256-browser": "^4.0.0",
@@ -65,7 +66,7 @@
     "dotenv-webpack": "^8.0.1",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "fake-indexeddb": "^4.0.2",
     "file-loader": "^6.1.1",
@@ -77,7 +78,7 @@
     "jest-transformer-svg": "^2.0.2",
     "jest-webextension-mock": "^3.9.0",
     "mini-css-extract-plugin": "^2.9.2",
-    "prettier": "^2.4.1",
+    "prettier": "^3.1.1",
     "prettier-eslint": "^15.0.1",
     "sass": "^1.45.1",
     "sass-loader": "^13.0.0",
@@ -110,7 +111,7 @@
     "watch:chrome:injection:dev": "yarn build:chrome:injection:dev --watch",
     "watch": "yarn build:dev --watch",
     "lint": "eslint --color --quiet --ext .js --ext .ts --ext .tsx src/ --fix",
-    "extract-locales": "node utils/locales-extractor.cjs"
+    "extract-locales": "./utils/locales-extractor.mjs"
   },
   "repository": {
     "type": "git",
