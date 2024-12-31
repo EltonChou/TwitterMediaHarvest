@@ -2,7 +2,15 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (4.2.4)\n"
-"POT-Creation-Date: 2024-12-31 18:26+0800\n"
+"POT-Creation-Date: 2024-12-31 19:45+0800\n"
+
+msgctxt "app"
+msgid "appDesc"
+msgstr ""
+
+msgctxt "app"
+msgid "appName"
+msgstr ""
 
 #: src/helpers/notificationConfig.ts:101
 #: src/helpers/notificationConfig.ts:37
