@@ -54,11 +54,18 @@ export type InfraProvider = {
   eventPublisher: DomainEventPublisher
 }
 
+export type DonwloadTweetMediaOptions = {
+  remainingQuotaThreshold: number
+}
+
 // TODO: Logger and Tracker (like sentry).
 export class DownloadTweetMedia
   implements AsyncUseCase<DownloadTweetMediaCommand, boolean>
 {
-  constructor(readonly infra: InfraProvider) {}
+  constructor(
+    readonly infra: InfraProvider,
+    readonly options: DonwloadTweetMediaOptions
+  ) {}
 
   async process(command: DownloadTweetMediaCommand): Promise<boolean> {
     const { value: fetchTweetSolutions, error: noValidCsrfToken } =
@@ -170,10 +177,6 @@ export class DownloadTweetMedia
   async fetchTweetWithSolutions(solutions: FetchTweetSolution[]): AsyncResult<Tweet> {
     let remainingSolutions = solutions.length
 
-    const emitQuotaWarning = (quota: number) => {
-      // TODO: emit quota warning
-    }
-
     const errorRecords: { identity: string; failedReason: string }[] = []
     let fetchError: Error | undefined = undefined
     for (const { fetchTweet, command } of solutions) {
@@ -181,7 +184,7 @@ export class DownloadTweetMedia
 
       const { value: tweet, error, remainingQuota } = await fetchTweet.process(command)
       if (error) {
-        // Only expose firt error to user.
+        // Only expose first error to user.
         fetchError ??= error
         errorRecords.push({
           identity: fetchTweet.identity,
@@ -189,12 +192,20 @@ export class DownloadTweetMedia
         })
       }
 
-      if (remainingSolutions === 0 && tweet) emitQuotaWarning(remainingQuota)
+      if (
+        remainingSolutions === 0 &&
+        remainingQuota <= this.options.remainingQuotaThreshold
+      )
+        this.emitQuotaWarning(remainingQuota)
       if (tweet) return toSuccessResult(tweet)
     }
 
     console.table(errorRecords)
     return toErrorResult(fetchError ?? new NoFetchTweetSolution())
+  }
+
+  private emitQuotaWarning(remainingQuota: number) {
+    // TODO: emit quota warning
   }
 }
 

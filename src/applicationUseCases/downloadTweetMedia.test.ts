@@ -38,16 +38,19 @@ describe('unit test for download tweet media use case', () => {
     browser: () => browserDownloader,
   }
 
-  const useCase = new DownloadTweetMedia({
-    tokenRepo: xTokenRepo,
-    downloadHistoryRepo,
-    filenameSettingRepo,
-    downloadSettingsRepo,
-    featureSettingsRepo,
-    fetchTweet: fetchTweetMap,
-    downloaderBuilder,
-    eventPublisher: getEventPublisher(),
-  })
+  const useCase = new DownloadTweetMedia(
+    {
+      tokenRepo: xTokenRepo,
+      downloadHistoryRepo,
+      filenameSettingRepo,
+      downloadSettingsRepo,
+      featureSettingsRepo,
+      fetchTweet: fetchTweetMap,
+      downloaderBuilder,
+      eventPublisher: getEventPublisher(),
+    },
+    { remainingQuotaThreshold: 10 }
+  )
 
   afterAll(() => jest.restoreAllMocks())
 

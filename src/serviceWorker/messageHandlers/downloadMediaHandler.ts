@@ -7,7 +7,9 @@ import {
 import { type MessageContextHandler, makeErrorResponse } from '../messageRouter'
 
 const downloadMessageHandler = (infraProvider: InfraProvider): MessageContextHandler => {
-  const downloadTweetMedia = new DownloadTweetMedia(infraProvider)
+  const downloadTweetMedia = new DownloadTweetMedia(infraProvider, {
+    remainingQuotaThreshold: 10,
+  })
 
   return async ctx => {
     const { value: message, error } = DownloadTweetMediaMessage.validate(ctx.message)
