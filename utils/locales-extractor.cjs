@@ -1,6 +1,8 @@
+const fs = require('fs')
+const path = require('path')
+const process = require('process')
 const crypto = require('crypto')
 const dayjs = require('dayjs')
-const fs = require('fs')
 const { GettextExtractor, JsExtractors } = require('gettext-extractor')
 const packageInfo = require('../package.json')
 
@@ -26,13 +28,15 @@ extractor
 
 extractor.printStats()
 
-const FILENAME = 'locales/template.pot'
-const DIGEST_FILENAME = 'locales/template.pot.digest'
+const dir = path.resolve(process.cwd(), 'src', 'locales')
+
+const FILENAME = path.resolve(dir, 'template.pot')
+const DIGEST_FILENAME = path.resolve(dir, 'template.pot.digest')
 
 const savePot = () =>
   extractor.savePotFile(FILENAME, {
     ...poHeaders,
-    'POT-Creation-Date': dayjs().format('YYYY-MM-DD HH:mm:ss ZZ'),
+    'POT-Creation-Date': dayjs().format('YYYY-MM-DD HH:mmZZ'),
   })
 
 const saveDigest = digest =>
