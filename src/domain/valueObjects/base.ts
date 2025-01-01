@@ -4,6 +4,8 @@ export interface IValueObject<Props extends LiteralObject> {
   duplicate(): this
 }
 
+export type PropsOf<T> = T extends ValueObject<infer P> ? P : never
+
 export abstract class ValueObject<Props extends LiteralObject>
   implements IValueObject<Props>
 {
