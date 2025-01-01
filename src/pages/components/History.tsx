@@ -121,16 +121,16 @@ const ItemUser = memo((props: ItemUserProps) => {
 const convertMediaTypeToLocaleString = (mediaType: MediaType) => {
   switch (mediaType) {
     case 'image':
-      return i18n('Image', 'options:history')
+      return i18n('Image', 'options:history:mediaType')
 
     case 'video':
-      return i18n('Video', 'options:history')
+      return i18n('Video', 'options:history:mediaType')
 
     case 'mixed':
-      return i18n('Mixed', 'options:history')
+      return i18n('Mixed', 'options:history:mediaType')
 
     default:
-      return i18n('Mixed', 'options:history')
+      return i18n('Mixed', 'options:history:mediaType')
   }
 }
 
@@ -178,12 +178,12 @@ const ItemRow = (props: ItemRowProps) => (
 
 const TableHeads = () => (
   <Tr>
-    <Th>{i18n('thumbnail', 'options:history')}</Th>
-    <Th>{i18n('user', 'options:history')}</Th>
-    <Th>{i18n('type', 'options:history')}</Th>
-    <Th>{i18n('post time', 'options:history')}</Th>
-    <Th>{i18n('download time', 'options:history')}</Th>
-    <Th>{i18n('actions', 'options:history')}</Th>
+    <Th>{i18n('thumbnail', 'options:history:table:head')}</Th>
+    <Th>{i18n('user', 'options:history:table:head')}</Th>
+    <Th>{i18n('type', 'options:history:table:head')}</Th>
+    <Th>{i18n('post time', 'options:history:table:head')}</Th>
+    <Th>{i18n('download time', 'options:history:table:head')}</Th>
+    <Th>{i18n('actions', 'options:history:table:head')}</Th>
   </Tr>
 )
 
@@ -336,14 +336,14 @@ export const SearchForm = forwardRef(
           ref={usernameInputRef}
           type="search"
           name="username"
-          placeholder={i18n('Username', 'options:history')}
+          placeholder={i18n('Username', 'options:history:input:placeholder')}
           onInput={lazyHandler(500)(props.update)}
           flexShrink={1}
           data-testid="username-input"
         />
         <Select
           ref={mediaTypeSelectRef}
-          title={i18n('Select media type', 'options:history')}
+          title={i18n('Select media type', 'options:history:select')}
           name="mediaType"
           onChange={() => props.update()}
           defaultValue={MediaTypeSelectToken.ALL}
@@ -351,16 +351,16 @@ export const SearchForm = forwardRef(
           data-testid="mediaType-select"
         >
           <option value={MediaTypeSelectToken.ALL}>
-            {i18n('All', 'options:history')}
+            {i18n('All', 'options:history:mediaType:option')}
           </option>
           <option value={MediaTypeSelectToken.IMAGE}>
-            {i18n('Image', 'options:history')}
+            {i18n('Image', 'options:history:mediaType:option')}
           </option>
           <option value={MediaTypeSelectToken.VIDEO}>
-            {i18n('Video', 'options:history')}
+            {i18n('Video', 'options:history:mediaType:option')}
           </option>
           <option value={MediaTypeSelectToken.MIXED}>
-            {i18n('Mixed', 'options:history')}
+            {i18n('Mixed', 'options:history:mediaType:option')}
           </option>
         </Select>
       </form>

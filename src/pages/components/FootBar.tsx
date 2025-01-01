@@ -16,7 +16,7 @@ const FootBar = () => {
       bg={'brand.blue'}
     >
       <HStack justify={'center'} spacing={[4, 4, 4, 8]}>
-        <Text>{i18n('Do you like Media Harvest?', 'options:footBar')}</Text>
+        <Text>{i18n('Do you like Media Harvest?', 'options:footBair:text')}</Text>
         <Link href={Links.store} _hover={{ textDecoration: 'none' }} isExternal>
           <Button
             colorScheme={'brand.yellow'}
@@ -24,10 +24,10 @@ const FootBar = () => {
             rightIcon={<StarIcon />}
             data-testid="rate-button"
           >
-            {i18n('Rate it', 'options:footBar')}
+            {i18n('Rate it', 'options:footBar:button')}
           </Button>
         </Link>
-        <Text>{i18n('or', 'options:footBar')}</Text>
+        <Text>{i18n('or', 'options:footBar:text')}</Text>
         <Link href={Links.koFi} _hover={{ textDecoration: 'none' }} isExternal>
           <Button
             colorScheme={'brand.pink'}
@@ -35,7 +35,7 @@ const FootBar = () => {
             rightIcon={<BiCoffeeTogo />}
             data-testid="coffee-button"
           >
-            {i18n('Buy me a coffee', 'options:footBar')}
+            {i18n('Buy me a coffee', 'options:footBar:button')}
           </Button>
         </Link>
       </HStack>

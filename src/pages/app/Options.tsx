@@ -75,7 +75,7 @@ const App = ({
             <Route
               path="/features"
               element={
-                <Content title={i18n('Feature', 'options:sideMenu')}>
+                <Content title={i18n('Features', 'options:sideMenu')}>
                   <FeatureOptions featureSettingsRepo={featureSettingsRepo} />
                 </Content>
               }

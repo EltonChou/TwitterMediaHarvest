@@ -45,44 +45,44 @@ type PatternTokenRecord = {
   localizedName: string
 }
 
-const filenamTokenRecords: ReadonlyArray<PatternTokenRecord> = [
+const filenameTokenRecords: ReadonlyArray<PatternTokenRecord> = [
   {
-    localizedName: i18n('Account', 'options:general'),
+    localizedName: i18n('Account', 'options:general:filenameToken'),
     token: PatternToken.Account,
     testId: 'pattern-token-account',
   },
   {
-    localizedName: i18n('Account ID', 'options:general'),
+    localizedName: i18n('Account ID', 'options:general:filenameToken'),
     token: PatternToken.AccountId,
     testId: 'pattern-token-account-id',
   },
   {
-    localizedName: i18n('Tweet ID', 'options:general'),
+    localizedName: i18n('Tweet ID', 'options:general:filenameToken'),
     token: PatternToken.TweetId,
     testId: 'pattern-token-token-id',
   },
   {
-    localizedName: i18n('Hash', 'options:general'),
+    localizedName: i18n('Hash', 'options:general:filenameToken'),
     token: PatternToken.Hash,
     testId: 'pattern-token-hash',
   },
   {
-    localizedName: i18n('Serial', 'options:general'),
+    localizedName: i18n('Serial', 'options:general:filenameToken'),
     token: PatternToken.Serial,
     testId: 'pattern-token-serial',
   },
   {
-    localizedName: i18n('Download Date', 'options:general'),
+    localizedName: i18n('Download Date', 'options:general:filenameToken'),
     token: PatternToken.Date,
     testId: 'pattern-token-date',
   },
   {
-    localizedName: i18n('Tweet Date', 'options:general'),
+    localizedName: i18n('Tweet Date', 'options:general:filenameToken'),
     token: PatternToken.TweetDate,
     testId: 'pattern-token-tweet-date',
   },
   {
-    localizedName: i18n('Tweet Datetime', 'options:general'),
+    localizedName: i18n('Tweet Datetime', 'options:general:filenameToken'),
     token: PatternToken.TweetDatetime,
     testId: 'pattern-token-tweet-date-time',
   },
@@ -221,7 +221,7 @@ const FilenameControlFeature = (props: FilenameControlFeatureProps) => (
       handleTokenToggle={props.handleTokenToggle}
       handleTokenSort={props.handleTokenSort}
       previewFilename={props.previewFilename}
-      patternRecords={filenamTokenRecords}
+      patternRecords={filenameTokenRecords}
     />
   </RichFeatureSwitch>
 )
@@ -331,7 +331,7 @@ const GeneralOptions = (props: GeneralOptionsProps) => {
             previewFilename={filenameSetting.makeFilename(previewMediaFile, {
               noDir: true,
             })}
-            patternRecords={filenamTokenRecords}
+            patternRecords={filenameTokenRecords}
             message={formMsg.filenamePattern}
           />
           <DirectoryControlFeature
@@ -356,7 +356,7 @@ const GeneralOptions = (props: GeneralOptionsProps) => {
               variant={'outline'}
               data-testid="form-reset-button"
             >
-              {i18n('Reset', 'options:general')}
+              {i18n('Reset', 'options:general:button')}
             </Button>
             <Button
               type="submit"
@@ -364,7 +364,7 @@ const GeneralOptions = (props: GeneralOptionsProps) => {
               isDisabled={!Object.values(formStatus).every(v => v)}
               data-testid="form-submit-button"
             >
-              {i18n('Save', 'options:general')}
+              {i18n('Save', 'options:general:button')}
             </Button>
           </HStack>
         </VStack>

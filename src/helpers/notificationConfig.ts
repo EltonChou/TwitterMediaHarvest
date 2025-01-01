@@ -93,18 +93,9 @@ export class TweetFetchErrorNotificationConfig {
   static tooManyRequests(
     params: TweetFetchErrorNotificationConfigParams
   ): Notifications.CreateNotificationOptions {
-    const info = getText(
-      'Media in {{account}}({{tweet-id}}) download failed.',
-      'notification:download',
-      {
-        account: params.tweetInfo.screenName,
-        'tweet-id': params.tweetInfo.tweetId,
-      }
-    )
-
     return makeGeneralTweetFetchErrorNotificationConfig({
-      title: getText('Download failed', 'notification:download'),
-      message: info,
+      title: getText('Too many requests', 'notification:download'),
+      message: getText('API Rate limit exceeded.', 'notification:download'),
       eventTime: params.eventTime,
     })
   }
@@ -152,7 +143,7 @@ export class TweetFetchErrorNotificationConfig {
       title: getText('Unknown Error ({{code}})', 'notification:tweetFetch', {
         code: params.code.toString(),
       }),
-      message: getText('Please contact with developer', 'notification:tweetFetch'),
+      message: getText('Please contact with developer.', 'notification:tweetFetch'),
       eventTime: params.eventTime,
     })
   }
@@ -161,10 +152,7 @@ export class TweetFetchErrorNotificationConfig {
     return {
       type: TemplateType.Basic,
       iconUrl: getNotificationIconUrl(),
-      title: getText(
-        'Failed to parse tweet information',
-        'notification:parseTweetInfo'
-      ),
+      title: getText('Failed to parse tweet information', 'notification:parseTweetInfo'),
       message: getText(
         'Failed to parse tweet information. Please report bug to developer.',
         'notification:parseTweetInfo'
