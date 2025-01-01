@@ -14,7 +14,7 @@ interface DomainEventMap {
   'download:status:completed': DownloadEvent
   'download:status:interrupted': DownloadInterruptedEvent
   'download:status:dispatched:browser': BrowserDownloadDispatchedEvent
-  'filename:overwritten': IDomainEvent
+  'filename:overwritten': FilenameOverwrittenEvent
   'notification:downloadFailed:self:clicked': DownloadFailedNotificationEvent
   'notification:downloadFailed:self:closed': DownloadFailedNotificationEvent
   'notification:downloadFailed:viewButton:clicked': DownloadFailedNotificationEvent
@@ -23,6 +23,8 @@ interface DomainEventMap {
   'notification:tweetFetchError:self:closed': TweetFetchingFailedNotificationEvent
   'notification:tweetFetchError:viewButton:clicked': TweetFetchingFailedNotificationEvent
   'notification:general:unknownButton:clicked': UnknownNotificationButtonClickedEvent
+  'notification:filenameOverwritten:self:clicked': IDomainEvent
+  'notification:filenameOverwritten:ignoreButton:clicked': IDomainEvent
   'api:twitter:failed': TweetApiErrorEvent
   'parse:tweet:failed': TweetInfoEvent
   'client:synced': IDomainEvent
@@ -75,4 +77,9 @@ interface TweetInfoEvent extends IDomainEvent {
 
 interface TweetApiErrorEvent extends TweetInfoEvent {
   readonly code: number
+}
+
+interface FilenameOverwrittenEvent extends IDomainEvent {
+  readonly expectedName: string
+  readonly finalName: string
 }

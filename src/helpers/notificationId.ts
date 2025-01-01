@@ -1,5 +1,9 @@
 type TweetNotificationId = `tweet_${string}`
 type DownloadNotificationId = `download_${number}`
+type FilenameOverwrittenNotificationId = 'filename is overwirrten'
+
+export const makeFilenameNotificationId = (): FilenameOverwrittenNotificationId =>
+  'filename is overwirrten'
 
 export const makeTweetFetchErrorNotificationId = (tweetId: string): TweetNotificationId =>
   `tweet_${tweetId}`
@@ -15,6 +19,11 @@ export const isTweetFetchId = (id: string): id is TweetNotificationId =>
 
 export const isDownloadId = (id: string): id is DownloadNotificationId =>
   Boolean(id.match(downloadIdPattern))
+
+export const isFilenameOverWrittenId: Assert<
+  string,
+  FilenameOverwrittenNotificationId
+> = id => id === 'filename is overwirrten'
 
 export const extractDownloadId = (id: DownloadNotificationId): number => {
   const result = id.match(downloadIdPattern)

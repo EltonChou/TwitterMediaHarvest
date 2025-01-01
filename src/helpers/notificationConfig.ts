@@ -1,5 +1,10 @@
+import type { Factory } from '#domain/factories/base'
 import { getText } from '#libs/i18n'
-import { DownloadNotificationButton, TweetNotificationButton } from './notificationButton'
+import {
+  DownloadNotificationButton,
+  FilenameNotificationButton,
+  TweetNotificationButton,
+} from './notificationButton'
 import { isFirefox } from './runtime'
 import type { Notifications } from 'webextension-polyfill'
 import Browser from 'webextension-polyfill'
@@ -167,5 +172,32 @@ export class TweetFetchErrorNotificationConfig {
       contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
       eventTime: Date.now(),
     }
+  }
+}
+
+export const enum FilenameOverwirrtenNotificationButton {
+  Ignore = 0,
+}
+
+export const makeFilenameIsOverwrittenNotificationConfig: Factory<
+  FilenameOverwrittenEvent,
+  Notifications.CreateNotificationOptions
+> = event => {
+  return {
+    type: TemplateType.Basic,
+    iconUrl: getNotificationIconUrl(),
+    title: getText('WARNING: Filename is modified', 'notification:filename'),
+    message: getText(
+      // eslint-disable-next-line quotes
+      "The filename is modified by other extensions, please check extensions' settings.",
+      'notification:filename'
+    ),
+    contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
+    eventTime: event.occuredAt.getTime(),
+    ...(isFirefox()
+      ? {}
+      : {
+          buttons: [FilenameNotificationButton.ignore()],
+        }),
   }
 }

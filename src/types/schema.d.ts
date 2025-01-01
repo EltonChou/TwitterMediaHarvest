@@ -19,6 +19,10 @@ type DownloadSettings = {
   askWhereToSave: boolean
 }
 
+type WarningSettings = {
+  ignoreFilenameOverwritten: boolean
+}
+
 type FeatureSettings = {
   autoRevealNsfw: boolean
   includeVideoThumbnail: boolean

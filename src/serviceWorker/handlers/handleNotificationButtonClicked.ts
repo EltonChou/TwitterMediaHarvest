@@ -1,9 +1,12 @@
 import type { DomainEventPublisher } from '#domain/eventPublisher'
 import DownloadFailedNotificationRetryButtonClicked from '#domain/events/DownloadFailedNotificationRetryButtonClicked'
 import DownloadFailedNotificationViewButtonClicked from '#domain/events/DownloadFailedNotificationViewButtonClicked'
+// eslint-disable-next-line max-len
+import { FilenameOverwrittenNotificationIgnoreButtonClicked } from '#domain/events/FilenameOverwrittenNotificationIgnoreButtonClicked'
 import TweetFetchErrorNotificationViewButtonClicked from '#domain/events/TweetFetchErrorNotificationViewButtonClicked'
 import { UnknownNotificationButtonClicked } from '#domain/events/UnknownNotificationButtonClicked'
 import {
+  FilenameOverwirrtenNotificationButton,
   GeneralTweetFetchErrorNotificationButton,
   MediaDownloadNotificationErrorButton,
 } from '#helpers/notificationConfig'
@@ -11,6 +14,7 @@ import {
   extractDownloadId,
   extractTweetId,
   isDownloadId,
+  isFilenameOverWrittenId,
   isTweetFetchId,
 } from '#helpers/notificationId'
 import type { Notifications } from 'webextension-polyfill'
@@ -59,6 +63,11 @@ const handleNotificationButtonClicked =
 
       await publisher.publish(event)
       return
+    }
+
+    if (isFilenameOverWrittenId(notificationId)) {
+      if (buttonIndex === FilenameOverwirrtenNotificationButton.Ignore)
+        await publisher.publish(new FilenameOverwrittenNotificationIgnoreButtonClicked())
     }
   }
 

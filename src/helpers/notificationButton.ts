@@ -15,3 +15,11 @@ export class DownloadNotificationButton {
     }
   }
 }
+
+export class FilenameNotificationButton {
+  static ignore(): chrome.notifications.ButtonOptions {
+    return {
+      title: getText('Ignore', 'notification:filename:button'),
+    }
+  }
+}

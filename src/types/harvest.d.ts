@@ -114,3 +114,5 @@ type ListenerOf<T> = T extends {
       }
     ? Listener
     : never
+
+type Assert<A, B extends A> = (a: A) => a is B
