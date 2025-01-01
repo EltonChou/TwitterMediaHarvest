@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (4.2.4)\n"
-"POT-Creation-Date: 2024-12-31 19:45+0800\n"
+"POT-Creation-Date: 2025-01-01 20:59+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -12,25 +12,40 @@ msgctxt "app"
 msgid "appName"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:101
-#: src/helpers/notificationConfig.ts:37
-msgctxt "notification:download:failed"
+#: src/helpers/notificationConfig.ts:106
+#: src/helpers/notificationConfig.ts:42
+msgctxt "notification:download"
 msgid "Download failed"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:28
-#: src/helpers/notificationConfig.ts:91
-msgctxt "notification:download:failed"
+#: src/helpers/notificationConfig.ts:33
+#: src/helpers/notificationConfig.ts:96
+msgctxt "notification:download"
 msgid "Media in {{account}}({{tweet-id}}) download failed."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:159
-msgctxt "notification:parseTweetInfo:failed"
+#: src/helpers/notificationConfig.ts:190
+msgctxt "notification:filename"
+msgid "The filename is modified by other extensions, please check extensions' settings."
+msgstr ""
+
+#: src/helpers/notificationConfig.ts:189
+msgctxt "notification:filename"
+msgid "WARNING: Filename is modified"
+msgstr ""
+
+#: src/helpers/notificationButton.ts:22
+msgctxt "notification:filename:button"
+msgid "Ignore"
+msgstr ""
+
+#: src/helpers/notificationConfig.ts:164
+msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:163
-msgctxt "notification:parseTweetInfo:failed"
+#: src/helpers/notificationConfig.ts:168
+msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr ""
 
@@ -44,43 +59,43 @@ msgctxt "notification:tweet:button"
 msgid "View"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:134
-msgctxt "notification:tweetFetch:error"
+#: src/helpers/notificationConfig.ts:139
+msgctxt "notification:tweetFetch"
 msgid "Forbidden"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:122
-msgctxt "notification:tweetFetch:error"
+#: src/helpers/notificationConfig.ts:127
+msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:150
-msgctxt "notification:tweetFetch:error"
+#: src/helpers/notificationConfig.ts:155
+msgctxt "notification:tweetFetch"
 msgid "Please contact with developer"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:111
-msgctxt "notification:tweetFetch:error"
+#: src/helpers/notificationConfig.ts:116
+msgctxt "notification:tweetFetch"
 msgid "The tweet cannot be found"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:112
-msgctxt "notification:tweetFetch:error"
+#: src/helpers/notificationConfig.ts:117
+msgctxt "notification:tweetFetch"
 msgid "The tweet might be deleted."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:121
-msgctxt "notification:tweetFetch:error"
+#: src/helpers/notificationConfig.ts:126
+msgctxt "notification:tweetFetch"
 msgid "Unauthorized"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:147
-msgctxt "notification:tweetFetch:error"
+#: src/helpers/notificationConfig.ts:152
+msgctxt "notification:tweetFetch"
 msgid "Unknown Error ({{code}})"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:135
-msgctxt "notification:tweetFetch:error"
+#: src/helpers/notificationConfig.ts:140
+msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr ""
 

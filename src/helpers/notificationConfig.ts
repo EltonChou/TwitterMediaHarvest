@@ -32,14 +32,14 @@ export class MediaDownloadNotificationConfig {
   ): Notifications.CreateNotificationOptions {
     const info = getText(
       'Media in {{account}}({{tweet-id}}) download failed.',
-      'notification:download:failed',
+      'notification:download',
       { account: tweetInfo.screenName, 'tweet-id': tweetInfo.tweetId }
     )
 
     return {
       type: TemplateType.Basic,
       iconUrl: getNotificationIconUrl(),
-      title: getText('Download failed', 'notification:download:failed'),
+      title: getText('Download failed', 'notification:download'),
       message: info,
       contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
       eventTime: eventTime.getTime(),
@@ -95,7 +95,7 @@ export class TweetFetchErrorNotificationConfig {
   ): Notifications.CreateNotificationOptions {
     const info = getText(
       'Media in {{account}}({{tweet-id}}) download failed.',
-      'notification:download:failed',
+      'notification:download',
       {
         account: params.tweetInfo.screenName,
         'tweet-id': params.tweetInfo.tweetId,
@@ -103,7 +103,7 @@ export class TweetFetchErrorNotificationConfig {
     )
 
     return makeGeneralTweetFetchErrorNotificationConfig({
-      title: getText('Download failed', 'notification:download:failed'),
+      title: getText('Download failed', 'notification:download'),
       message: info,
       eventTime: params.eventTime,
     })
@@ -113,8 +113,8 @@ export class TweetFetchErrorNotificationConfig {
     params: TweetFetchErrorNotificationConfigParams
   ): Notifications.CreateNotificationOptions {
     return makeGeneralTweetFetchErrorNotificationConfig({
-      title: getText('The tweet cannot be found', 'notification:tweetFetch:error'),
-      message: getText('The tweet might be deleted.', 'notification:tweetFetch:error'),
+      title: getText('The tweet cannot be found', 'notification:tweetFetch'),
+      message: getText('The tweet might be deleted.', 'notification:tweetFetch'),
       eventTime: params.eventTime,
     })
   }
@@ -123,10 +123,10 @@ export class TweetFetchErrorNotificationConfig {
     params: TweetFetchErrorNotificationConfigParams
   ): Notifications.CreateNotificationOptions {
     return makeGeneralTweetFetchErrorNotificationConfig({
-      title: getText('Unauthorized', 'notification:tweetFetch:error'),
+      title: getText('Unauthorized', 'notification:tweetFetch'),
       message: getText(
         'Please check your login session and your permission.',
-        'notification:tweetFetch:error'
+        'notification:tweetFetch'
       ),
       eventTime: params.eventTime,
     })
@@ -136,10 +136,10 @@ export class TweetFetchErrorNotificationConfig {
     params: TweetFetchErrorNotificationConfigParams
   ): Notifications.CreateNotificationOptions {
     return makeGeneralTweetFetchErrorNotificationConfig({
-      title: getText('Forbidden', 'notification:tweetFetch:error'),
+      title: getText('Forbidden', 'notification:tweetFetch'),
       message: getText(
         'Your login session might be expired, please refresh the session.',
-        'notification:tweetFetch:error'
+        'notification:tweetFetch'
       ),
       eventTime: params.eventTime,
     })
@@ -149,10 +149,10 @@ export class TweetFetchErrorNotificationConfig {
     params: TweetFetchErrorNotificationConfigParams & { code: number }
   ): Notifications.CreateNotificationOptions {
     return makeGeneralTweetFetchErrorNotificationConfig({
-      title: getText('Unknown Error ({{code}})', 'notification:tweetFetch:error', {
+      title: getText('Unknown Error ({{code}})', 'notification:tweetFetch', {
         code: params.code.toString(),
       }),
-      message: getText('Please contact with developer', 'notification:tweetFetch:error'),
+      message: getText('Please contact with developer', 'notification:tweetFetch'),
       eventTime: params.eventTime,
     })
   }
@@ -163,11 +163,11 @@ export class TweetFetchErrorNotificationConfig {
       iconUrl: getNotificationIconUrl(),
       title: getText(
         'Failed to parse tweet information',
-        'notification:parseTweetInfo:failed'
+        'notification:parseTweetInfo'
       ),
       message: getText(
         'Failed to parse tweet information. Please report bug to developer.',
-        'notification:parseTweetInfo:failed'
+        'notification:parseTweetInfo'
       ),
       contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
       eventTime: Date.now(),
