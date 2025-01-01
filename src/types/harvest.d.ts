@@ -76,7 +76,7 @@ interface JSONable {
   toJSON(): object
 }
 
-interface LiteraObject {
+interface LiteralObject {
   [index: string]: unknown
 }
 

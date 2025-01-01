@@ -1,10 +1,10 @@
-export interface IValueObject<Props extends LiteraObject> {
+export interface IValueObject<Props extends LiteralObject> {
   mapBy<T>(mapFunc: (props: Props) => T): T
   is(that: unknown): boolean
   duplicate(): this
 }
 
-export abstract class ValueObject<Props extends LiteraObject>
+export abstract class ValueObject<Props extends LiteralObject>
   implements IValueObject<Props>
 {
   protected props: Props

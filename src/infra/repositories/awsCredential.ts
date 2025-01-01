@@ -9,7 +9,7 @@ import type {
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers'
 
 class CredentialCache implements Storage {
-  constructor(readonly storageProxy: IStorageProxy<LiteraObject>) {}
+  constructor(readonly storageProxy: IStorageProxy<LiteralObject>) {}
 
   async getItem(key: string): Promise<string | null> {
     const record = await this.storageProxy.getItemByKey(key)
