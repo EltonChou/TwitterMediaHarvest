@@ -3,9 +3,9 @@ import FilenameIsOverwritten from '#domain/events/FilenameIsOverwritten'
 import type { Factory } from '#domain/factories/base'
 import type { IDownloadRepository } from '#domain/repositories/download'
 import type { IDownloadRecordRepository } from '#domain/repositories/downloadRecord'
-import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
-import { DownloadRecord } from '#domain/valueObjects/downloadRecord'
 import { pipe } from 'fp-ts/lib/function'
+import { toFilename } from '../mappers/downloadConfig'
+import { toDownloadConfig } from '../mappers/downloadRecord'
 import { posix as path } from 'path'
 
 export const checkCompletedDownload =
@@ -26,9 +26,9 @@ export const checkCompletedDownload =
       downloadRecord,
       toDownloadConfig,
       toFilename,
-      filenameToBasename
+      filenameToBaseName
     )
-    const finalBaseName = pipe(downloadItem.filename, filenameToBasename)
+    const finalBaseName = pipe(downloadItem.filename, filenameToBaseName)
 
     if (finalBaseName !== expectedBaseName)
       await eventPublisher.publish(
@@ -36,10 +36,4 @@ export const checkCompletedDownload =
       )
   }
 
-const toDownloadConfig: Factory<DownloadRecord, DownloadConfig> = record =>
-  record.mapBy(props => props.downloadConfig)
-
-const toFilename: Factory<DownloadConfig, string> = config =>
-  config.mapBy(props => props.filename)
-
-const filenameToBasename: Factory<string, string> = filename => path.parse(filename).base
+const filenameToBaseName: Factory<string, string> = filename => path.parse(filename).base
