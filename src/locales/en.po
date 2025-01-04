@@ -1,0 +1,493 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: twitter-media-harvest (4.2.4)\n"
+"POT-Creation-Date: 2025-01-05 00:41+0800\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Elton Chou <plscd748@gmail.com>\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+
+msgctxt "app"
+msgid "appDesc"
+msgstr ""
+"Download videos and images from twitter or TweetDeck with only one click."
+
+msgctxt "app"
+msgid "appName"
+msgstr "Media Harvest : twitter Media Downloader"
+
+#: src/helpers/notificationConfig.ts:98
+msgctxt "notification:download"
+msgid "API Rate limit exceeded."
+msgstr "API Rate limit exceeded."
+
+#: src/helpers/notificationConfig.ts:42
+msgctxt "notification:download"
+msgid "Download failed"
+msgstr "Download failed"
+
+#: src/helpers/notificationConfig.ts:33
+msgctxt "notification:download"
+msgid "Media in {{account}}({{tweet-id}}) download failed."
+msgstr "Media in {{account}}({{tweet-id}}) download failed."
+
+#: src/helpers/notificationConfig.ts:97
+msgctxt "notification:download"
+msgid "Too many requests"
+msgstr "Too many requests"
+
+#: src/helpers/notificationConfig.ts:178
+msgctxt "notification:filename"
+msgid ""
+"The filename is modified by other extensions, please check extensions' "
+"settings."
+msgstr ""
+"The filename is modified by other extensions, please check extensions' "
+"settings."
+
+#: src/helpers/notificationConfig.ts:177
+msgctxt "notification:filename"
+msgid "WARNING: Filename is modified"
+msgstr "WARNING: Filename is modified"
+
+#: src/helpers/notificationButton.ts:22
+msgctxt "notification:filename:button"
+msgid "Ignore"
+msgstr "Ignore"
+
+#: src/helpers/notificationConfig.ts:155
+msgctxt "notification:parseTweetInfo"
+msgid "Failed to parse tweet information"
+msgstr "Failed to parse tweet information"
+
+#: src/helpers/notificationConfig.ts:156
+msgctxt "notification:parseTweetInfo"
+msgid "Failed to parse tweet information. Please report bug to developer."
+msgstr "Failed to parse tweet information. Please report bug to developer."
+
+#: src/helpers/notificationButton.ts:14
+msgctxt "notification:tweet:button"
+msgid "Retry"
+msgstr "Retry"
+
+#: src/helpers/notificationButton.ts:6
+msgctxt "notification:tweet:button"
+msgid "View"
+msgstr "View"
+
+#: src/helpers/notificationConfig.ts:130
+msgctxt "notification:tweetFetch"
+msgid "Forbidden"
+msgstr "Forbidden"
+
+#: src/helpers/notificationConfig.ts:118
+msgctxt "notification:tweetFetch"
+msgid "Please check your login session and your permission."
+msgstr "Please check your login session and your permission."
+
+#: src/helpers/notificationConfig.ts:146
+msgctxt "notification:tweetFetch"
+msgid "Please contact with developer."
+msgstr "Please contact with developer."
+
+#: src/helpers/notificationConfig.ts:107
+msgctxt "notification:tweetFetch"
+msgid "The tweet cannot be found"
+msgstr "The tweet cannot be found"
+
+#: src/helpers/notificationConfig.ts:108
+msgctxt "notification:tweetFetch"
+msgid "The tweet might be deleted."
+msgstr "The tweet might be deleted."
+
+#: src/helpers/notificationConfig.ts:117
+msgctxt "notification:tweetFetch"
+msgid "Unauthorized"
+msgstr "Unauthorized"
+
+#: src/helpers/notificationConfig.ts:143
+msgctxt "notification:tweetFetch"
+msgid "Unknown Error ({{code}})"
+msgstr "Unknown Error ({{code}})"
+
+#: src/helpers/notificationConfig.ts:131
+msgctxt "notification:tweetFetch"
+msgid "Your login session might be expired, please refresh the session."
+msgstr "Your login session might be expired, please refresh the session."
+
+#: src/pages/components/About.tsx:63
+msgctxt "options:about"
+msgid "Changelog"
+msgstr "Changelog"
+
+#: src/pages/components/About.tsx:52
+msgctxt "options:about"
+msgid "Official website"
+msgstr "Official website"
+
+#: src/pages/components/About.tsx:56
+msgctxt "options:about"
+msgid "Privacy policy"
+msgstr "Privacy policy"
+
+#: src/pages/components/About.tsx:60
+msgctxt "options:about"
+msgid "Reoprt issues"
+msgstr "Reoprt issues"
+
+#: src/pages/components/About.tsx:25
+msgctxt "options:about"
+msgid "Version"
+msgstr "Version"
+
+#: src/pages/components/FeatureOptions.tsx:36
+msgctxt "options:features"
+msgid "Auto-reveal sensitive content"
+msgstr "Auto-reveal sensitive content"
+
+#: src/pages/components/FeatureOptions.tsx:54
+msgctxt "options:features"
+msgid "Download the thumbnail when the media is video."
+msgstr "Download the thumbnail when the media is video."
+
+#: src/pages/components/FeatureOptions.tsx:53
+msgctxt "options:features"
+msgid "Download video thumbnail"
+msgstr "Download video thumbnail"
+
+#: src/pages/components/FeatureOptions.tsx:46
+msgctxt "options:features"
+msgid "Keyboard shortcut"
+msgstr "Keyboard shortcut"
+
+#: src/pages/components/FeatureOptions.tsx:13
+msgctxt "options:features"
+msgid "Use keyboard shortcut to trigger download."
+msgstr "Use keyboard shortcut to trigger download."
+
+#: src/pages/components/FeatureOptions.tsx:37
+msgctxt "options:features"
+msgid ""
+"When the tweet was flagged as sensitive content, this feature can show the "
+"blured content automatically."
+msgstr ""
+"When the tweet was flagged as sensitive content, this feature can show the "
+"blured content automatically."
+
+#: src/pages/components/FootBar.tsx:19
+msgctxt "options:footBair:text"
+msgid "Do you like Media Harvest?"
+msgstr "Do you like Media Harvest?"
+
+#: src/pages/components/FootBar.tsx:38
+msgctxt "options:footBar:button"
+msgid "Buy me a coffee"
+msgstr "Buy me a coffee"
+
+#: src/pages/components/FootBar.tsx:27
+msgctxt "options:footBar:button"
+msgid "Rate it"
+msgstr "Rate it"
+
+#: src/pages/components/FootBar.tsx:30
+msgctxt "options:footBar:text"
+msgid "or"
+msgstr "or"
+
+#: src/pages/components/GeneralOptions.tsx:286
+msgctxt "options:general"
+msgid "Account"
+msgstr "Account"
+
+#: src/pages/components/GeneralOptions.tsx:192
+msgctxt "options:general"
+msgid "Ask where to save files."
+msgstr "Ask where to save files."
+
+#: src/pages/components/GeneralOptions.tsx:240
+msgctxt "options:general"
+msgid "Create sub-directory"
+msgstr "Create sub-directory"
+
+#: src/pages/components/GeneralOptions.tsx:242
+msgctxt "options:general"
+msgid ""
+"Create sub-directory under the default download directory. Sub-directory can "
+"be seperated with \"/\"."
+msgstr ""
+"Create sub-directory under the default download directory. Sub-directory can "
+"be seperated with \"/\"."
+
+#: src/pages/components/GeneralOptions.tsx:209
+msgctxt "options:general"
+msgid "Filename pattern"
+msgstr "Filename pattern"
+
+#: src/pages/components/GeneralOptions.tsx:278
+msgctxt "options:general"
+msgid "Group Files"
+msgstr "Group Files"
+
+#: src/pages/components/GeneralOptions.tsx:279
+msgctxt "options:general"
+msgid "Group files by the selected attribute."
+msgstr "Group files by the selected attribute."
+
+#: src/pages/hooks/useFilenameSettingsForm.ts:219
+msgctxt "options:general"
+msgid "Invalid directory name. Cannot contain <>:\"\\|?*"
+msgstr "Invalid directory name. Cannot contain <>:\"\\|?*"
+
+#: src/pages/hooks/useFilenameSettingsForm.ts:258
+msgctxt "options:general"
+msgid ""
+"Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+msgstr ""
+"Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+
+#: src/pages/components/GeneralOptions.tsx:193
+msgctxt "options:general"
+msgid ""
+"Show the file chooser or not when download was triggered. Recommend to "
+"disable this option."
+msgstr ""
+"Show the file chooser or not when download was triggered. Recommend to "
+"disable this option."
+
+#: src/pages/components/GeneralOptions.tsx:210
+msgctxt "options:general"
+msgid "You can choose what info to be included in the filename."
+msgstr "You can choose what info to be included in the filename."
+
+#: src/pages/components/GeneralOptions.tsx:359
+msgctxt "options:general:button"
+msgid "Reset"
+msgstr "Reset"
+
+#: src/pages/components/GeneralOptions.tsx:367
+msgctxt "options:general:button"
+msgid "Save"
+msgstr "Save"
+
+#: src/pages/components/GeneralOptions.tsx:50
+msgctxt "options:general:filenameToken"
+msgid "Account"
+msgstr "Account"
+
+#: src/pages/components/GeneralOptions.tsx:55
+msgctxt "options:general:filenameToken"
+msgid "Account ID"
+msgstr "Account ID"
+
+#: src/pages/components/GeneralOptions.tsx:75
+msgctxt "options:general:filenameToken"
+msgid "Download Date"
+msgstr "Download Date"
+
+#: src/pages/components/GeneralOptions.tsx:65
+msgctxt "options:general:filenameToken"
+msgid "Hash"
+msgstr "Hash"
+
+#: src/pages/components/GeneralOptions.tsx:70
+msgctxt "options:general:filenameToken"
+msgid "Serial"
+msgstr "Serial"
+
+#: src/pages/components/GeneralOptions.tsx:80
+msgctxt "options:general:filenameToken"
+msgid "Tweet Date"
+msgstr "Tweet Date"
+
+#: src/pages/components/GeneralOptions.tsx:85
+msgctxt "options:general:filenameToken"
+msgid "Tweet Datetime"
+msgstr "Tweet Datetime"
+
+#: src/pages/components/GeneralOptions.tsx:60
+msgctxt "options:general:filenameToken"
+msgid "Tweet ID"
+msgstr "Tweet ID"
+
+#: src/pages/components/History.tsx:272
+msgctxt "options:history"
+msgid "Next page"
+msgstr "Next page"
+
+#: src/pages/components/History.tsx:262
+msgctxt "options:history"
+msgid "Previous page"
+msgstr "Previous page"
+
+#: src/pages/components/History.tsx:288
+msgctxt "options:history"
+msgid "Refresh"
+msgstr "Refresh"
+
+#: src/pages/components/History.tsx:339
+msgctxt "options:history:input:placeholder"
+msgid "Username"
+msgstr "Username"
+
+#: src/pages/components/History.tsx:124
+msgctxt "options:history:mediaType"
+msgid "Image"
+msgstr "Image"
+
+#: src/pages/components/History.tsx:130 src/pages/components/History.tsx:133
+msgctxt "options:history:mediaType"
+msgid "Mixed"
+msgstr "Mixed"
+
+#: src/pages/components/History.tsx:127
+msgctxt "options:history:mediaType"
+msgid "Video"
+msgstr "Video"
+
+#: src/pages/components/History.tsx:354
+msgctxt "options:history:mediaType:option"
+msgid "All"
+msgstr "All"
+
+#: src/pages/components/History.tsx:357
+msgctxt "options:history:mediaType:option"
+msgid "Image"
+msgstr "Image"
+
+#: src/pages/components/History.tsx:363
+msgctxt "options:history:mediaType:option"
+msgid "Mixed"
+msgstr "Mixed"
+
+#: src/pages/components/History.tsx:360
+msgctxt "options:history:mediaType:option"
+msgid "Video"
+msgstr "Video"
+
+#: src/pages/components/History.tsx:346
+msgctxt "options:history:select"
+msgid "Select media type"
+msgstr "Select media type"
+
+#: src/pages/components/History.tsx:186
+msgctxt "options:history:table:head"
+msgid "actions"
+msgstr "actions"
+
+#: src/pages/components/History.tsx:185
+msgctxt "options:history:table:head"
+msgid "download time"
+msgstr "download time"
+
+#: src/pages/components/History.tsx:184
+msgctxt "options:history:table:head"
+msgid "post time"
+msgstr "post time"
+
+#: src/pages/components/History.tsx:181
+msgctxt "options:history:table:head"
+msgid "thumbnail"
+msgstr "thumbnail"
+
+#: src/pages/components/History.tsx:183
+msgctxt "options:history:table:head"
+msgid "type"
+msgstr "type"
+
+#: src/pages/components/History.tsx:182
+msgctxt "options:history:table:head"
+msgid "user"
+msgstr "user"
+
+#: src/pages/components/IntegrationOptions.tsx:76
+msgctxt "options:integrations"
+msgid "Aggressive Mode"
+msgstr "Aggressive Mode"
+
+#: src/pages/components/IntegrationOptions.tsx:14
+msgctxt "options:integrations"
+msgid "Aria2-Explorer"
+msgstr "Aria2-Explorer"
+
+#: src/pages/components/IntegrationOptions.tsx:67
+msgctxt "options:integrations"
+msgid "Dispatch download to Aria2"
+msgstr "Dispatch download to Aria2"
+
+#: src/pages/components/IntegrationOptions.tsx:77
+msgctxt "options:integrations"
+msgid ""
+"Ensure the filename not to be modified by other extensions. This mode might "
+"be conflicted with other download management extensions."
+msgstr ""
+"Ensure the filename not to be modified by other extensions. This mode might "
+"be conflicted with other download management extensions."
+
+#: src/pages/components/IntegrationOptions.tsx:56
+msgctxt "options:integrations"
+msgid "This integration is not compatible with {{platform}}"
+msgstr "This integration is not compatible with {{platform}}"
+
+#: src/pages/components/IntegrationOptions.tsx:15
+msgctxt "options:integrations"
+msgid "Transfer the download to Aria2 via {{aria2-extension}}."
+msgstr "Transfer the download to Aria2 via {{aria2-extension}}."
+
+#: src/pages/app/Options.tsx:106 src/pages/components/SideMenu.tsx:75
+msgctxt "options:sideMenu"
+msgid "About"
+msgstr "About"
+
+#: src/pages/app/Options.tsx:78 src/pages/components/SideMenu.tsx:56
+msgctxt "options:sideMenu"
+msgid "Features"
+msgstr "Features"
+
+#: src/pages/app/Options.tsx:67 src/pages/components/SideMenu.tsx:50
+msgctxt "options:sideMenu"
+msgid "General"
+msgstr "General"
+
+#: src/pages/app/Options.tsx:94 src/pages/components/SideMenu.tsx:68
+msgctxt "options:sideMenu"
+msgid "History"
+msgstr "History"
+
+#: src/pages/app/Options.tsx:86 src/pages/components/SideMenu.tsx:62
+msgctxt "options:sideMenu"
+msgid "Integrations"
+msgstr "Integrations"
+
+#: src/pages/components/PopupFeatureBlock.tsx:30
+msgctxt "popup"
+msgid "Auto-reveal NSFW"
+msgstr "Auto-reveal NSFW"
+
+#: src/pages/app/Popup.tsx:204
+msgctxt "popup"
+msgid "Buy me a coffee!"
+msgstr "Buy me a coffee!"
+
+#: src/pages/app/Popup.tsx:186
+msgctxt "popup"
+msgid "Changelog"
+msgstr "Changelog"
+
+#: src/pages/app/Popup.tsx:117
+msgctxt "popup"
+msgid "Rate it"
+msgstr "Rate it"
+
+#: src/pages/app/Popup.tsx:124
+msgctxt "popup"
+msgid "Report issues"
+msgstr "Report issues"
+
+#: src/pages/components/PopupFeatureBlock.tsx:35
+msgctxt "popup"
+msgid "Video thumbnail"
+msgstr "Video thumbnail"
