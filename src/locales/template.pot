@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (4.2.4)\n"
-"POT-Creation-Date: 2025-01-02 01:02+0800\n"
+"POT-Creation-Date: 2025-01-05 00:41+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -378,29 +378,34 @@ msgctxt "options:history:table:head"
 msgid "user"
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:72
+#: src/pages/components/IntegrationOptions.tsx:76
 msgctxt "options:integrations"
 msgid "Aggressive Mode"
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:63
+#: src/pages/components/IntegrationOptions.tsx:14
+msgctxt "options:integrations"
+msgid "Aria2-Explorer"
+msgstr ""
+
+#: src/pages/components/IntegrationOptions.tsx:67
 msgctxt "options:integrations"
 msgid "Dispatch download to Aria2"
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:73
+#: src/pages/components/IntegrationOptions.tsx:77
 msgctxt "options:integrations"
 msgid "Ensure the filename not to be modified by other extensions. This mode might be conflicted with other download management extensions."
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:52
+#: src/pages/components/IntegrationOptions.tsx:56
 msgctxt "options:integrations"
 msgid "This integration is not compatible with {{platform}}"
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:13
+#: src/pages/components/IntegrationOptions.tsx:15
 msgctxt "options:integrations"
-msgid "Transfer the download to Aria2 via Aria2-Explorer."
+msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr ""
 
 #: src/pages/app/Options.tsx:106
