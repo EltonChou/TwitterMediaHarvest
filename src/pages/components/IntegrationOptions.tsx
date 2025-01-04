@@ -3,6 +3,7 @@ import { isFirefox } from '#helpers/runtime'
 import { getText as i18n } from '#libs/i18n'
 import useDownloadSettings from '#pages/hooks/useDownloadSettings'
 import Links from '#pages/links'
+import { testIdProps } from '#pages/utils'
 import type { DownloadSettings } from '#schema'
 import type { HelperMessage } from './controls/featureControls'
 import { RichFeatureSwitch } from './controls/featureControls'
@@ -10,25 +11,28 @@ import { Link, VStack } from '@chakra-ui/react'
 import React from 'react'
 
 const Aria2Description = () => {
-  const desc = i18n(
-    'Transfer the download to Aria2 via Aria2-Explorer.',
-    'options:integrations'
+  const aria2Ext = i18n('Aria2-Explorer', 'options:integrations')
+  const full = i18n(
+    'Transfer the download to Aria2 via {{aria2-extension}}.',
+    'options:integrations',
+    { 'aria2-extension': aria2Ext }
   )
-  const [pre, post] = desc.split('Aria2-Explorer')
-  if (process.env.TARGET === 'firefox')
-    return (
-      <>
-        {pre} Aria2-Explorer {post}
-      </>
-    )
 
+  if (process.env.TARGET === 'firefox') return <>{full}</>
+
+  const [prefix, suffix] = full.split(aria2Ext)
   return (
     <>
-      {pre}
-      <Link href={Links.aria2Explorer} target="_blank" color={'blue.400'}>
-        Aria2-Explorer
+      {prefix}
+      <Link
+        href={Links.aria2Explorer}
+        target="_blank"
+        color={'blue.400'}
+        {...testIdProps('aria2-ext-link')}
+      >
+        {aria2Ext}
       </Link>
-      {post}
+      {suffix}
     </>
   )
 }

@@ -35,10 +35,11 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
               Translated&lt;[options:integrations](Transfer the download to Aria2 via 
               <a
                 class="chakra-link css-p03q1r"
+                data-testid="aria2-ext-link"
                 href="https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn"
                 target="_blank"
               >
-                Aria2-Explorer
+                Translated&lt;[options:integrations](Aria2-Explorer)&gt;
               </a>
               .)&gt;
             </p>
@@ -172,10 +173,11 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
               Translated&lt;[options:integrations](Transfer the download to Aria2 via 
               <a
                 class="chakra-link css-p03q1r"
+                data-testid="aria2-ext-link"
                 href="https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn"
                 target="_blank"
               >
-                Aria2-Explorer
+                Translated&lt;[options:integrations](Aria2-Explorer)&gt;
               </a>
               .)&gt;
             </p>
@@ -308,9 +310,7 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
             <p
               class="chakra-text css-qljqz"
             >
-              Translated&lt;[options:integrations](Transfer the download to Aria2 via 
-               Aria2-Explorer 
-              .)&gt;
+              Translated&lt;[options:integrations](Transfer the download to Aria2 via Translated&lt;[options:integrations](Aria2-Explorer)&gt;.)&gt;
             </p>
             <div
               class="chakra-offset-slide"
