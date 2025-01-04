@@ -11,7 +11,7 @@ exports[`unit test for FootBar component can render properly 1`] = `
       <p
         class="chakra-text css-0"
       >
-        Translated&lt;[options:footBar](Do you like Media Harvest?)&gt;
+        Translated&lt;[options:footBair:text](Do you like Media Harvest?)&gt;
       </p>
       <a
         class="chakra-link css-163zzif"
@@ -24,7 +24,7 @@ exports[`unit test for FootBar component can render properly 1`] = `
           data-testid="rate-button"
           type="button"
         >
-          Translated&lt;[options:footBar](Rate it)&gt;
+          Translated&lt;[options:footBar:button](Rate it)&gt;
           <span
             class="chakra-button__icon css-1hzyiq5"
           >
@@ -45,7 +45,7 @@ exports[`unit test for FootBar component can render properly 1`] = `
       <p
         class="chakra-text css-0"
       >
-        Translated&lt;[options:footBar](or)&gt;
+        Translated&lt;[options:footBar:text](or)&gt;
       </p>
       <a
         class="chakra-link css-163zzif"
@@ -58,7 +58,7 @@ exports[`unit test for FootBar component can render properly 1`] = `
           data-testid="coffee-button"
           type="button"
         >
-          Translated&lt;[options:footBar](Buy me a coffee)&gt;
+          Translated&lt;[options:footBar:button](Buy me a coffee)&gt;
           <span
             class="chakra-button__icon css-1hzyiq5"
           >
