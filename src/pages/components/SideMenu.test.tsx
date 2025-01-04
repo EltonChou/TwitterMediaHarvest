@@ -10,10 +10,10 @@ import { userEvent } from '@testing-library/user-event'
 import React from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 
-jest.mock('@chakra-ui/media-query', () => {
+jest.mock('@chakra-ui/react', () => {
   return {
     __esModule: true,
-    ...jest.requireActual('@chakra-ui/media-query'),
+    ...jest.requireActual('@chakra-ui/react'),
     useBreakpointValue: () => 'inherit',
   }
 })

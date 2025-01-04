@@ -10,7 +10,7 @@ exports[`unit test for SideMenu component can navigate 1`] = `
     >
       <button
         aria-label="Side menu"
-        class="chakra-button css-mpgmse"
+        class="chakra-button css-1j83tvo"
         data-testid="side-menu-burger"
         type="button"
       >

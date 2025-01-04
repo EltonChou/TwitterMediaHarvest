@@ -11,7 +11,7 @@ exports[`unit test for FootBar component can render properly 1`] = `
       <p
         class="chakra-text css-0"
       >
-        Translated&lt;[options:footBair:text](Do you like Media Harvest?)&gt;
+        Translated&lt;[options:footBar:text](Do you like Media Harvest?)&gt;
       </p>
       <a
         class="chakra-link css-163zzif"

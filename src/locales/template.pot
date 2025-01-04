@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (4.2.4)\n"
-"POT-Creation-Date: 2025-01-05 02:10+0800\n"
+"POT-Creation-Date: 2025-01-05 03:29+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -162,11 +162,6 @@ msgctxt "options:features"
 msgid "When the tweet was flagged as sensitive content, this feature can show the blured content automatically."
 msgstr ""
 
-#: src/pages/components/FootBar.tsx:19
-msgctxt "options:footBair:text"
-msgid "Do you like Media Harvest?"
-msgstr ""
-
 #: src/pages/components/FootBar.tsx:38
 msgctxt "options:footBar:button"
 msgid "Buy me a coffee"
@@ -175,6 +170,11 @@ msgstr ""
 #: src/pages/components/FootBar.tsx:27
 msgctxt "options:footBar:button"
 msgid "Rate it"
+msgstr ""
+
+#: src/pages/components/FootBar.tsx:19
+msgctxt "options:footBar:text"
+msgid "Do you like Media Harvest?"
 msgstr ""
 
 #: src/pages/components/FootBar.tsx:30

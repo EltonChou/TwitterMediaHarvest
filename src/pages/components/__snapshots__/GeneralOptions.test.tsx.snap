@@ -249,7 +249,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                 aria-live="assertive"
                 id="DndLiveRegion-2"
                 role="status"
-                style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+                style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
               />
               <div
                 class="css-1ouhky6"
@@ -744,7 +744,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 aria-live="assertive"
                 id="DndLiveRegion-3"
                 role="status"
-                style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+                style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
               />
               <div
                 class="css-1ouhky6"
@@ -1239,7 +1239,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 aria-live="assertive"
                 id="DndLiveRegion-3"
                 role="status"
-                style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+                style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
               />
               <div
                 class="css-1ouhky6"
@@ -1733,7 +1733,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 aria-live="assertive"
                 id="DndLiveRegion-4"
                 role="status"
-                style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+                style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
               />
               <div
                 class="css-1ouhky6"
@@ -2228,7 +2228,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 aria-live="assertive"
                 id="DndLiveRegion-4"
                 role="status"
-                style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+                style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
               />
               <div
                 class="css-1ouhky6"
@@ -2722,7 +2722,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 aria-live="assertive"
                 id="DndLiveRegion-3"
                 role="status"
-                style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+                style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
               />
               <div
                 class="css-1ouhky6"
@@ -3217,7 +3217,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 aria-live="assertive"
                 id="DndLiveRegion-4"
                 role="status"
-                style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+                style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
               />
               <div
                 class="css-1ouhky6"
@@ -3618,7 +3618,7 @@ exports[`unit test for TokenPanel component can drag & drop sortable token 1`] =
     aria-live="assertive"
     id="DndLiveRegion-0"
     role="status"
-    style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+    style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
   />
   <div
     class="css-1ouhky6"
@@ -3800,7 +3800,7 @@ exports[`unit test for TokenPanel component can toggle token: after-enable 1`] =
     aria-live="assertive"
     id="DndLiveRegion-1"
     role="status"
-    style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+    style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
   />
   <div
     class="css-1ouhky6"
@@ -3982,7 +3982,7 @@ exports[`unit test for TokenPanel component can toggle token: before-toggle 1`] 
     aria-live="assertive"
     id="DndLiveRegion-1"
     role="status"
-    style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+    style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
   />
   <div
     class="css-1ouhky6"
@@ -4164,7 +4164,7 @@ exports[`unit test for TokenPanel component can toggle token: before-toggle 2`] 
     aria-live="assertive"
     id="DndLiveRegion-1"
     role="status"
-    style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+    style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
   />
   <div
     class="css-1ouhky6"

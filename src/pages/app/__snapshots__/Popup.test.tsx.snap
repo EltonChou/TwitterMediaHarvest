@@ -10,7 +10,7 @@ exports[`unit test for Popup app component can render properly 1`] = `
     />
     <button
       aria-label="settings"
-      class="chakra-button css-18bcdds"
+      class="chakra-button css-1r7q37t"
       data-testid="navbar-options"
       type="button"
     >
@@ -238,7 +238,7 @@ exports[`unit test for Popup app component can render properly 1`] = `
       />
       <button
         aria-label="Changelog"
-        class="chakra-button css-13j2sr5"
+        class="chakra-button css-17b2lfw"
         data-testid="footer-action-changelog"
         type="button"
       >
@@ -264,7 +264,7 @@ exports[`unit test for Popup app component can render properly 1`] = `
       </button>
       <button
         aria-label="Github"
-        class="chakra-button css-13j2sr5"
+        class="chakra-button css-17b2lfw"
         data-testid="footer-action-github"
         type="button"
       >
@@ -287,7 +287,7 @@ exports[`unit test for Popup app component can render properly 1`] = `
       </button>
       <button
         aria-label="Donate"
-        class="chakra-button css-13j2sr5"
+        class="chakra-button css-17b2lfw"
         data-testid="footer-action-kofi"
         type="button"
       >
