@@ -235,7 +235,7 @@ msgstr "Group files by the selected attribute."
 #: src/pages/hooks/useFilenameSettingsForm.ts:219
 msgctxt "options:general"
 msgid "Invalid directory name. Cannot contain <>:\"\\|?*"
-msgstr "Invalid directory name. Cannot contain <>:\"\\|?*"
+msgstr "ディレクトリ名に次の文字は使えません <>:”\\|?*"
 
 #: src/pages/hooks/useFilenameSettingsForm.ts:258
 msgctxt "options:general"

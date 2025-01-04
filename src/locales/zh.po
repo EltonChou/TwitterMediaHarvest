@@ -208,7 +208,7 @@ msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory can "
 "be seperated with \"/\"."
-msgstr "在預設下載資料夾中新增一個子資料夾。使用 \\”/\\” 區分多個子資料夾。"
+msgstr "在預設下載資料夾中新增一個子資料夾。使用 ”/” 區分多個子資料夾。"
 
 #: src/pages/components/GeneralOptions.tsx:209
 msgctxt "options:general"
@@ -228,7 +228,7 @@ msgstr "使用選擇的屬性群組檔案。"
 #: src/pages/hooks/useFilenameSettingsForm.ts:219
 msgctxt "options:general"
 msgid "Invalid directory name. Cannot contain <>:\"\\|?*"
-msgstr "無效的資料夾名稱。不能含有 <>:\\”\\\\|?*"
+msgstr "無效的資料夾名稱。不能含有 <>:”\\|?*"
 
 #: src/pages/hooks/useFilenameSettingsForm.ts:258
 msgctxt "options:general"
