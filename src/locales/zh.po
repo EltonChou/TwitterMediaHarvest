@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.2.4)\n"
-"POT-Creation-Date: 2025-01-05 00:41+0800\n"
+"POT-Creation-Date: 2025-01-05 02:10+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -193,11 +193,6 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "或"
 
-#: src/pages/components/GeneralOptions.tsx:286
-msgctxt "options:general"
-msgid "Account"
-msgstr "帳號"
-
 #: src/pages/components/GeneralOptions.tsx:192
 msgctxt "options:general"
 msgid "Ask where to save files."
@@ -253,16 +248,17 @@ msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "選擇需要哪些資訊包含在檔案名稱。"
 
-#: src/pages/components/GeneralOptions.tsx:359
+#: src/pages/components/GeneralOptions.tsx:361
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "重置"
 
-#: src/pages/components/GeneralOptions.tsx:367
+#: src/pages/components/GeneralOptions.tsx:369
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "保存"
 
+#: src/pages/components/GeneralOptions.tsx:287
 #: src/pages/components/GeneralOptions.tsx:50
 msgctxt "options:general:filenameToken"
 msgid "Account"
@@ -479,3 +475,7 @@ msgstr "回報錯誤"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "下載影片縮圖"
+
+#~ msgctxt "options:general"
+#~ msgid "Account"
+#~ msgstr "帳號"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.2.4)\n"
-"POT-Creation-Date: 2025-01-05 00:41+0800\n"
+"POT-Creation-Date: 2025-01-05 02:10+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -198,11 +198,6 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "or"
 
-#: src/pages/components/GeneralOptions.tsx:286
-msgctxt "options:general"
-msgid "Account"
-msgstr "Account"
-
 #: src/pages/components/GeneralOptions.tsx:192
 msgctxt "options:general"
 msgid "Ask where to save files."
@@ -263,16 +258,17 @@ msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "You can choose what info to be included in the filename."
 
-#: src/pages/components/GeneralOptions.tsx:359
+#: src/pages/components/GeneralOptions.tsx:361
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "Reset"
 
-#: src/pages/components/GeneralOptions.tsx:367
+#: src/pages/components/GeneralOptions.tsx:369
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "Save"
 
+#: src/pages/components/GeneralOptions.tsx:287
 #: src/pages/components/GeneralOptions.tsx:50
 msgctxt "options:general:filenameToken"
 msgid "Account"
@@ -491,3 +487,7 @@ msgstr "Report issues"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "Video thumbnail"
+
+#~ msgctxt "options:general"
+#~ msgid "Account"
+#~ msgstr "Account"
