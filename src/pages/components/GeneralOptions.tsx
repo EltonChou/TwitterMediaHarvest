@@ -283,7 +283,9 @@ const FileAggregationFeature = (props: FileAggregationFeatureProps) => (
     testId="fileAggregation-feature-switch"
   >
     <Select isDisabled={props.isDisabled} onChange={props.toggle}>
-      <option value="{account}">{i18n('Account', 'options:general')}</option>
+      <option value="{account}">
+        {i18n('Account', 'options:general:filenameToken')}
+      </option>
     </Select>
   </RichFeatureSwitch>
 )
