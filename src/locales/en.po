@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.2.4)\n"
-"POT-Creation-Date: 2025-01-05 02:10+0800\n"
+"POT-Creation-Date: 2025-01-05 03:29+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -178,11 +178,6 @@ msgstr ""
 "When the tweet was flagged as sensitive content, this feature can show the "
 "blured content automatically."
 
-#: src/pages/components/FootBar.tsx:19
-msgctxt "options:footBair:text"
-msgid "Do you like Media Harvest?"
-msgstr "Do you like Media Harvest?"
-
 #: src/pages/components/FootBar.tsx:38
 msgctxt "options:footBar:button"
 msgid "Buy me a coffee"
@@ -192,6 +187,11 @@ msgstr "Buy me a coffee"
 msgctxt "options:footBar:button"
 msgid "Rate it"
 msgstr "Rate it"
+
+#: src/pages/components/FootBar.tsx:19
+msgctxt "options:footBar:text"
+msgid "Do you like Media Harvest?"
+msgstr "Do you like Media Harvest?"
 
 #: src/pages/components/FootBar.tsx:30
 msgctxt "options:footBar:text"
