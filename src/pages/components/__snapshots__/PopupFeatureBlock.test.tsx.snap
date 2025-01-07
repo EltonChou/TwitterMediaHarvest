@@ -13,7 +13,7 @@ exports[`unit test for PopupFeatureBlock component match snapshot 1`] = `
         data-testid="feature-switch-label"
         for=":r0:"
       >
-        Translated&lt;[popup](Auto-reveal NSFW)&gt;
+        Translated&lt;popup_Auto-reveal NSFW&gt;
       </label>
       <label
         class="chakra-switch css-7knp5j"
@@ -44,7 +44,7 @@ exports[`unit test for PopupFeatureBlock component match snapshot 1`] = `
         data-testid="feature-switch-label"
         for=":r1:"
       >
-        Translated&lt;[popup](Video thumbnail)&gt;
+        Translated&lt;popup_Video thumbnail&gt;
       </label>
       <label
         class="chakra-switch css-7knp5j"

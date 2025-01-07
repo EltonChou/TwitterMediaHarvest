@@ -127,7 +127,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Account)&gt;
+                    Translated&lt;options:general:filenameToken_Account&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -170,7 +170,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Tweet ID)&gt;
+                    Translated&lt;options:general:filenameToken_Tweet ID&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -213,7 +213,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Serial)&gt;
+                    Translated&lt;options:general:filenameToken_Serial&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -258,49 +258,49 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                   class="css-83xyci"
                   data-testid="pattern-token-account"
                 >
-                  Translated&lt;[options:general:filenameToken](Account)&gt;
+                  Translated&lt;options:general:filenameToken_Account&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-account-id"
                 >
-                  Translated&lt;[options:general:filenameToken](Account ID)&gt;
+                  Translated&lt;options:general:filenameToken_Account ID&gt;
                 </div>
                 <div
                   class="css-83xyci"
                   data-testid="pattern-token-token-id"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet ID)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet ID&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-hash"
                 >
-                  Translated&lt;[options:general:filenameToken](Hash)&gt;
+                  Translated&lt;options:general:filenameToken_Hash&gt;
                 </div>
                 <div
                   class="css-83xyci"
                   data-testid="pattern-token-serial"
                 >
-                  Translated&lt;[options:general:filenameToken](Serial)&gt;
+                  Translated&lt;options:general:filenameToken_Serial&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-date"
                 >
-                  Translated&lt;[options:general:filenameToken](Download Date)&gt;
+                  Translated&lt;options:general:filenameToken_Download Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet Date)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date-time"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet Datetime)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet Datetime&gt;
                 </div>
               </div>
             </div>
@@ -622,7 +622,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Account)&gt;
+                    Translated&lt;options:general:filenameToken_Account&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -665,7 +665,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Tweet ID)&gt;
+                    Translated&lt;options:general:filenameToken_Tweet ID&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -708,7 +708,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Serial)&gt;
+                    Translated&lt;options:general:filenameToken_Serial&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -753,49 +753,49 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   class="css-83xyci"
                   data-testid="pattern-token-account"
                 >
-                  Translated&lt;[options:general:filenameToken](Account)&gt;
+                  Translated&lt;options:general:filenameToken_Account&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-account-id"
                 >
-                  Translated&lt;[options:general:filenameToken](Account ID)&gt;
+                  Translated&lt;options:general:filenameToken_Account ID&gt;
                 </div>
                 <div
                   class="css-83xyci"
                   data-testid="pattern-token-token-id"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet ID)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet ID&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-hash"
                 >
-                  Translated&lt;[options:general:filenameToken](Hash)&gt;
+                  Translated&lt;options:general:filenameToken_Hash&gt;
                 </div>
                 <div
                   class="css-83xyci"
                   data-testid="pattern-token-serial"
                 >
-                  Translated&lt;[options:general:filenameToken](Serial)&gt;
+                  Translated&lt;options:general:filenameToken_Serial&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-date"
                 >
-                  Translated&lt;[options:general:filenameToken](Download Date)&gt;
+                  Translated&lt;options:general:filenameToken_Download Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet Date)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date-time"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet Datetime)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet Datetime&gt;
                 </div>
               </div>
             </div>
@@ -1117,7 +1117,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Account)&gt;
+                    Translated&lt;options:general:filenameToken_Account&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -1160,7 +1160,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Tweet ID)&gt;
+                    Translated&lt;options:general:filenameToken_Tweet ID&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -1203,7 +1203,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Serial)&gt;
+                    Translated&lt;options:general:filenameToken_Serial&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -1248,49 +1248,49 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   class="css-83xyci"
                   data-testid="pattern-token-account"
                 >
-                  Translated&lt;[options:general:filenameToken](Account)&gt;
+                  Translated&lt;options:general:filenameToken_Account&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-account-id"
                 >
-                  Translated&lt;[options:general:filenameToken](Account ID)&gt;
+                  Translated&lt;options:general:filenameToken_Account ID&gt;
                 </div>
                 <div
                   class="css-83xyci"
                   data-testid="pattern-token-token-id"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet ID)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet ID&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-hash"
                 >
-                  Translated&lt;[options:general:filenameToken](Hash)&gt;
+                  Translated&lt;options:general:filenameToken_Hash&gt;
                 </div>
                 <div
                   class="css-83xyci"
                   data-testid="pattern-token-serial"
                 >
-                  Translated&lt;[options:general:filenameToken](Serial)&gt;
+                  Translated&lt;options:general:filenameToken_Serial&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-date"
                 >
-                  Translated&lt;[options:general:filenameToken](Download Date)&gt;
+                  Translated&lt;options:general:filenameToken_Download Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet Date)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date-time"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet Datetime)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet Datetime&gt;
                 </div>
               </div>
             </div>
@@ -1611,7 +1611,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Account)&gt;
+                    Translated&lt;options:general:filenameToken_Account&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -1654,7 +1654,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Tweet ID)&gt;
+                    Translated&lt;options:general:filenameToken_Tweet ID&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -1697,7 +1697,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Serial)&gt;
+                    Translated&lt;options:general:filenameToken_Serial&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -1742,49 +1742,49 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   class="css-83xyci"
                   data-testid="pattern-token-account"
                 >
-                  Translated&lt;[options:general:filenameToken](Account)&gt;
+                  Translated&lt;options:general:filenameToken_Account&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-account-id"
                 >
-                  Translated&lt;[options:general:filenameToken](Account ID)&gt;
+                  Translated&lt;options:general:filenameToken_Account ID&gt;
                 </div>
                 <div
                   class="css-83xyci"
                   data-testid="pattern-token-token-id"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet ID)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet ID&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-hash"
                 >
-                  Translated&lt;[options:general:filenameToken](Hash)&gt;
+                  Translated&lt;options:general:filenameToken_Hash&gt;
                 </div>
                 <div
                   class="css-83xyci"
                   data-testid="pattern-token-serial"
                 >
-                  Translated&lt;[options:general:filenameToken](Serial)&gt;
+                  Translated&lt;options:general:filenameToken_Serial&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-date"
                 >
-                  Translated&lt;[options:general:filenameToken](Download Date)&gt;
+                  Translated&lt;options:general:filenameToken_Download Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet Date)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date-time"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet Datetime)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet Datetime&gt;
                 </div>
               </div>
             </div>
@@ -2106,7 +2106,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Account)&gt;
+                    Translated&lt;options:general:filenameToken_Account&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -2149,7 +2149,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Tweet ID)&gt;
+                    Translated&lt;options:general:filenameToken_Tweet ID&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -2192,7 +2192,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Serial)&gt;
+                    Translated&lt;options:general:filenameToken_Serial&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -2237,49 +2237,49 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   class="css-83xyci"
                   data-testid="pattern-token-account"
                 >
-                  Translated&lt;[options:general:filenameToken](Account)&gt;
+                  Translated&lt;options:general:filenameToken_Account&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-account-id"
                 >
-                  Translated&lt;[options:general:filenameToken](Account ID)&gt;
+                  Translated&lt;options:general:filenameToken_Account ID&gt;
                 </div>
                 <div
                   class="css-83xyci"
                   data-testid="pattern-token-token-id"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet ID)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet ID&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-hash"
                 >
-                  Translated&lt;[options:general:filenameToken](Hash)&gt;
+                  Translated&lt;options:general:filenameToken_Hash&gt;
                 </div>
                 <div
                   class="css-83xyci"
                   data-testid="pattern-token-serial"
                 >
-                  Translated&lt;[options:general:filenameToken](Serial)&gt;
+                  Translated&lt;options:general:filenameToken_Serial&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-date"
                 >
-                  Translated&lt;[options:general:filenameToken](Download Date)&gt;
+                  Translated&lt;options:general:filenameToken_Download Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet Date)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date-time"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet Datetime)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet Datetime&gt;
                 </div>
               </div>
             </div>
@@ -2600,7 +2600,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Account)&gt;
+                    Translated&lt;options:general:filenameToken_Account&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -2643,7 +2643,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Tweet ID)&gt;
+                    Translated&lt;options:general:filenameToken_Tweet ID&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -2686,7 +2686,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Serial)&gt;
+                    Translated&lt;options:general:filenameToken_Serial&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -2731,49 +2731,49 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   class="css-83xyci"
                   data-testid="pattern-token-account"
                 >
-                  Translated&lt;[options:general:filenameToken](Account)&gt;
+                  Translated&lt;options:general:filenameToken_Account&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-account-id"
                 >
-                  Translated&lt;[options:general:filenameToken](Account ID)&gt;
+                  Translated&lt;options:general:filenameToken_Account ID&gt;
                 </div>
                 <div
                   class="css-83xyci"
                   data-testid="pattern-token-token-id"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet ID)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet ID&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-hash"
                 >
-                  Translated&lt;[options:general:filenameToken](Hash)&gt;
+                  Translated&lt;options:general:filenameToken_Hash&gt;
                 </div>
                 <div
                   class="css-83xyci"
                   data-testid="pattern-token-serial"
                 >
-                  Translated&lt;[options:general:filenameToken](Serial)&gt;
+                  Translated&lt;options:general:filenameToken_Serial&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-date"
                 >
-                  Translated&lt;[options:general:filenameToken](Download Date)&gt;
+                  Translated&lt;options:general:filenameToken_Download Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet Date)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date-time"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet Datetime)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet Datetime&gt;
                 </div>
               </div>
             </div>
@@ -3095,7 +3095,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Account)&gt;
+                    Translated&lt;options:general:filenameToken_Account&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -3138,7 +3138,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Tweet ID)&gt;
+                    Translated&lt;options:general:filenameToken_Tweet ID&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -3181,7 +3181,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                         fill="currentColor"
                       />
                     </svg>
-                    Translated&lt;[options:general:filenameToken](Serial)&gt;
+                    Translated&lt;options:general:filenameToken_Serial&gt;
                   </div>
                   <button
                     aria-label="close"
@@ -3226,49 +3226,49 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   class="css-83xyci"
                   data-testid="pattern-token-account"
                 >
-                  Translated&lt;[options:general:filenameToken](Account)&gt;
+                  Translated&lt;options:general:filenameToken_Account&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-account-id"
                 >
-                  Translated&lt;[options:general:filenameToken](Account ID)&gt;
+                  Translated&lt;options:general:filenameToken_Account ID&gt;
                 </div>
                 <div
                   class="css-83xyci"
                   data-testid="pattern-token-token-id"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet ID)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet ID&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-hash"
                 >
-                  Translated&lt;[options:general:filenameToken](Hash)&gt;
+                  Translated&lt;options:general:filenameToken_Hash&gt;
                 </div>
                 <div
                   class="css-83xyci"
                   data-testid="pattern-token-serial"
                 >
-                  Translated&lt;[options:general:filenameToken](Serial)&gt;
+                  Translated&lt;options:general:filenameToken_Serial&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-date"
                 >
-                  Translated&lt;[options:general:filenameToken](Download Date)&gt;
+                  Translated&lt;options:general:filenameToken_Download Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet Date)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date-time"
                 >
-                  Translated&lt;[options:general:filenameToken](Tweet Datetime)&gt;
+                  Translated&lt;options:general:filenameToken_Tweet Datetime&gt;
                 </div>
               </div>
             </div>

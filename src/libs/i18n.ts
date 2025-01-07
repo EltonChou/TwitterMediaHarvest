@@ -3,8 +3,11 @@ import { i18n } from 'webextension-polyfill'
 export const i18nLocalize = (kw: string, substitutions?: string | string[]) =>
   i18n.getMessage(kw, substitutions)
 
+/**
+ * Web extension translation only allows `[A-Z][a-z][0-9]` and `_` as key.
+ */
 const makeMsgId = (text: string) => (context?: string) =>
-  context ? `[${context}](${text})` : text
+  context ? `${context}_${text}` : text
 
 const replaceMessagePlaceholders =
   (placeholders: Record<string, string>) => (message: string) =>

@@ -68,7 +68,7 @@ exports[`unit test for Popup app component can render properly 1`] = `
           data-testid="feature-switch-label"
           for=":r0:"
         >
-          Translated&lt;[popup](Auto-reveal NSFW)&gt;
+          Translated&lt;popup_Auto-reveal NSFW&gt;
         </label>
         <label
           class="chakra-switch css-7knp5j"
@@ -99,7 +99,7 @@ exports[`unit test for Popup app component can render properly 1`] = `
           data-testid="feature-switch-label"
           for=":r1:"
         >
-          Translated&lt;[popup](Video thumbnail)&gt;
+          Translated&lt;popup_Video thumbnail&gt;
         </label>
         <label
           class="chakra-switch css-7knp5j"
@@ -170,7 +170,7 @@ exports[`unit test for Popup app component can render properly 1`] = `
             <p
               class="chakra-text css-0"
             >
-              Translated&lt;[popup](Rate it)&gt;
+              Translated&lt;popup_Rate it&gt;
             </p>
           </div>
         </a>
@@ -215,7 +215,7 @@ exports[`unit test for Popup app component can render properly 1`] = `
             <p
               class="chakra-text css-0"
             >
-              Translated&lt;[popup](Report issues)&gt;
+              Translated&lt;popup_Report issues&gt;
             </p>
           </div>
         </a>
