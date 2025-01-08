@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 import { createHash } from 'crypto'
 import dayjs from 'dayjs'
 import { existsSync, readFileSync, writeFileSync } from 'fs'
