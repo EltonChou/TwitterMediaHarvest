@@ -1,0 +1,36 @@
+{
+  "name": "webext-i18n-loader",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "license": "MIT",
+  "peerDependencies": {
+    "typescript": "^5.7.2",
+    "webpack": "^5.97.1"
+  },
+  "dependencies": {
+    "schema-utils": "^4.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.5",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
+    "@typescript-eslint/typescript-estree": "^8.18.2",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.7.0",
+    "memfs": "^4.15.3",
+    "prettier": "^3.1.1",
+    "prettier-eslint": "^15.0.1",
+    "ts-jest": "^29.2.5",
+    "ts-loader": "^9.5.1",
+    "webpack-cli": "^6.0.1"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "tsc"
+  }
+}

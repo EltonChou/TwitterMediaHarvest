@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "module": "NodeNext",
+        "esModuleInterop": true
+    },
+    "exclude": [
+        "node_modules/**/*"
+    ]
+}

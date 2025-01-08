@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test 1`] = `
+""use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function i18n(msg, context, placeholders) {
+    return msg + context || '' + JSON.stringify(placeholders);
+}
+function nope(msg) {
+    return msg;
+}
+function getText(msg) {
+    return msg;
+}
+i18n("93b28fa830");
+i18n("93b28fa830", "6e94a0a");
+i18n("93b28fa830", "6e94a0a", { foo: 'bar' });
+nope('kappa');
+getText("13e0d5e94e");
+"
+`;
