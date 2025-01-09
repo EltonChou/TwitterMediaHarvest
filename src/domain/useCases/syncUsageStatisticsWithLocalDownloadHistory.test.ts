@@ -9,6 +9,11 @@ import { CheckDownloadWasTriggeredBySelf } from './checkDownloadWasTriggeredBySe
 describe('unit test for sync usage statistic with local download history', () => {
   const EXT_ID = 'EXT_ID'
 
+  beforeEach(() => {
+    jest.restoreAllMocks()
+    jest.resetAllMocks()
+  })
+
   afterAll(() => jest.resetAllMocks())
 
   it('can sync with download history', async () => {
