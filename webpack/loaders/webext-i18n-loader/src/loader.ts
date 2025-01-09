@@ -1,7 +1,7 @@
-import ts from 'typescript'
 import { getHashStore } from './hashStore.js'
-import type { LoaderDefinitionFunction } from 'webpack'
 import path from 'path'
+import ts from 'typescript'
+import type { LoaderDefinitionFunction } from 'webpack'
 
 function replaceContextId<T extends ts.Expression>(
   expression: T,

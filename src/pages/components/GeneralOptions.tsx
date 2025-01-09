@@ -109,7 +109,9 @@ export const TokenPanel = memo(
         <DndContext
           sensors={useSensors(
             useSensor(PointerSensor),
-            useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+            useSensor(KeyboardSensor, {
+              coordinateGetter: sortableKeyboardCoordinates,
+            })
           )}
           collisionDetection={closestCenter}
           onDragEnd={event => {
@@ -149,7 +151,9 @@ export const TokenPanel = memo(
               key={token}
               tokenName={localizedName}
               isOn={pattern.includes(token)}
-              handleChange={s => handleTokenToggle(token, s ? 'enable' : 'disable')}
+              handleChange={s =>
+                handleTokenToggle(token, s ? 'enable' : 'disable')
+              }
               testId={testId}
             />
           ))}

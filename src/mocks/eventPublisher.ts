@@ -1,7 +1,12 @@
-import type { DomainEventHandler, DomainEventPublisher } from '#domain/eventPublisher'
+import type {
+  DomainEventHandler,
+  DomainEventPublisher,
+} from '#domain/eventPublisher'
 
 export class MockEventPublisher implements DomainEventPublisher {
-  publish<K extends keyof DomainEventMap>(_event: DomainEventMap[K]): Promise<void> {
+  publish<K extends keyof DomainEventMap>(
+    _event: DomainEventMap[K]
+  ): Promise<void> {
     return Promise.resolve()
   }
   publishAll<K extends keyof DomainEventMap>(

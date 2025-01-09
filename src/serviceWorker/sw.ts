@@ -31,8 +31,12 @@ Browser.downloads.onChanged.addListener(
     eventPublisher
   )
 )
-Browser.notifications.onClosed.addListener(handleNotificationClosed(eventPublisher))
-Browser.notifications.onClicked.addListener(handleNotificationClicked(eventPublisher))
+Browser.notifications.onClosed.addListener(
+  handleNotificationClosed(eventPublisher)
+)
+Browser.notifications.onClicked.addListener(
+  handleNotificationClicked(eventPublisher)
+)
 Browser.notifications.onButtonClicked.addListener(
   handleNotificationButtonClicked(eventPublisher)
 )

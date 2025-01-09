@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { elementExists } from 'select-dom'
 import {
   isBetaTweetDeck,
   isBusinessRelatedTweet,
@@ -13,6 +12,7 @@ import {
   isTweetDeck,
   isTwitter,
 } from './checker'
+import { elementExists } from 'select-dom'
 
 const mockExists = elementExists as jest.MockedFunction<typeof elementExists>
 

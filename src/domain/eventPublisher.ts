@@ -7,8 +7,9 @@ export interface EventPublisher<E = IDomainEvent> {
   publishAll(...events: E[]): Promise<void>
 }
 
-export interface DomainEventPublisher<EventMap extends DomainEventMap = DomainEventMap>
-  extends EventPublisher {
+export interface DomainEventPublisher<
+  EventMap extends DomainEventMap = DomainEventMap,
+> extends EventPublisher {
   register<K extends keyof EventMap>(
     eventName: K,
     eventHandler: DomainEventHandler<EventMap[K]>

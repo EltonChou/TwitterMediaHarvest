@@ -9,8 +9,11 @@ export const notifyTweetApiError =
     notifier: Notifier<Notifications.CreateNotificationOptions>
   ): DomainEventHandler<TweetApiErrorEvent> =>
   async event => {
-    const notificationId = makeTweetFetchErrorNotificationId(event.tweetInfo.tweetId)
-    let notificatonConfig: Notifications.CreateNotificationOptions | undefined = undefined
+    const notificationId = makeTweetFetchErrorNotificationId(
+      event.tweetInfo.tweetId
+    )
+    let notificatonConfig: Notifications.CreateNotificationOptions | undefined =
+      undefined
 
     switch (event.code) {
       case 429:

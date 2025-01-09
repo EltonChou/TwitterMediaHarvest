@@ -26,9 +26,7 @@
     "open_in_tab": true
   },
   "background": {
-    "scripts": [
-      "sw.js"
-    ]
+    "scripts": ["sw.js"]
   },
   "content_scripts": [
     {
@@ -38,9 +36,7 @@
         "*://tweetdeck.twitter.com/*",
         "*://x.com/*"
       ],
-      "js": [
-        "main.js"
-      ],
+      "js": ["main.js"],
       "run_at": "document_end"
     }
   ],
@@ -52,12 +48,7 @@
     "*://x.com/*",
     "*://*.x.com/*"
   ],
-  "permissions": [
-    "downloads",
-    "cookies",
-    "storage",
-    "notifications"
-  ],
+  "permissions": ["downloads", "cookies", "storage", "notifications"],
   "content_security_policy": {
     "extension_page": "default-src 'self'; connect-src 'self' https://o1169684.ingest.sentry.io https://*.mediaharvest.app https://cognito-identity.ap-northeast-1.amazonaws.com https://twitter.com https://*.twitter.com; style-src https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; script-src 'self'; img-src https://via.placeholder.com https://pbs.twimg.com;"
   },

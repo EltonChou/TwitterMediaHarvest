@@ -6,13 +6,19 @@ import { faker } from '@faker-js/faker/locale/en'
 describe('unit test for filename settings', () => {
   const mediaFile = generateTweetMediaFile()
   const { tweetId, serial, ext, createdAt } = mediaFile.mapBy(props => props)
-  const { screenName } = mediaFile.mapBy(props => props.tweetUser.mapBy(props => props))
+  const { screenName } = mediaFile.mapBy(props =>
+    props.tweetUser.mapBy(props => props)
+  )
   const baseSettings = {
     directory: 'sub',
     groupBy: AggregationToken.Account,
     fileAggregation: true,
     noSubDirectory: false,
-    filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
+    filenamePattern: [
+      PatternToken.Account,
+      PatternToken.TweetId,
+      PatternToken.Serial,
+    ],
   }
   const year = createdAt.getFullYear()
   const month = createdAt.getMonth()
@@ -32,10 +38,9 @@ describe('unit test for filename settings', () => {
     },
     {
       settings: { ...baseSettings, noSubDirectory: true },
-      expectedPath: `${screenName}/${screenName}-${tweetId}-${String(serial).padStart(
-        2,
-        '0'
-      )}${ext}`,
+      expectedPath: `${screenName}/${screenName}-${tweetId}-${String(
+        serial
+      ).padStart(2, '0')}${ext}`,
     },
     {
       settings: {
@@ -69,7 +74,8 @@ describe('unit test for filename settings', () => {
     {
       directory: 'directory_with_invalid_character???<>!@',
       isValid: false,
-      description: 'directory should not contains reserved characters: `<>:"\\|?*`',
+      description:
+        'directory should not contains reserved characters: `<>:"\\|?*`',
     },
     {
       directory: 'd'.repeat(4097),
@@ -87,7 +93,11 @@ describe('unit test for filename settings', () => {
       groupBy: AggregationToken.Account,
       fileAggregation: true,
       noSubDirectory: true,
-      filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
+      filenamePattern: [
+        PatternToken.Account,
+        PatternToken.TweetId,
+        PatternToken.Serial,
+      ],
     })
 
     const reason = filenameSetting.validate()
@@ -101,7 +111,11 @@ describe('unit test for filename settings', () => {
 
   it.each([
     {
-      pattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
+      pattern: [
+        PatternToken.Account,
+        PatternToken.TweetId,
+        PatternToken.Serial,
+      ],
       isValid: true,
       description: 'pattern is unique with {tweetId} and {serial}',
     },

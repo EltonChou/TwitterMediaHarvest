@@ -9,7 +9,9 @@ type ClientInfoProps = {
 }
 
 const SYNC_PERIOD: number =
-  process.env.NODE_ENV === 'production' ? TimeHelper.minute(30) : TimeHelper.minute(10)
+  process.env.NODE_ENV === 'production'
+    ? TimeHelper.minute(30)
+    : TimeHelper.minute(10)
 
 /**
  * syncing period is 30 minutes in prodcution, otherwise 10 minutes.

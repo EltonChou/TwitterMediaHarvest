@@ -1,4 +1,7 @@
-import { DownloadHistory, DownloadHistoryId } from '#domain/entities/downloadHistory'
+import {
+  DownloadHistory,
+  DownloadHistoryId,
+} from '#domain/entities/downloadHistory'
 import type { Factory } from '#domain/factories/base'
 import type {
   OrderCriteria,
@@ -53,7 +56,10 @@ export class SearchDownloadHistoryFromIDB implements SearchDownloadHistory {
           () =>
             context.historyCollection
               .index(orderKeyMap.get(command.orderBy.key) ?? 'byDownloadTime')
-              .openCursor(null, orderTypeMap.get(command.orderBy.type) ?? 'prev'),
+              .openCursor(
+                null,
+                orderTypeMap.get(command.orderBy.type) ?? 'prev'
+              ),
           toTransactionError(context.abortTx)
         )
       ),
@@ -80,7 +86,9 @@ export class SearchDownloadHistoryFromIDB implements SearchDownloadHistory {
             if (isMatchedValue) increaseMatched()
             if (isMatchedValue && skipThisValue) consumeSkip()
             if (isMatchedValue && !skipThisValue && shouldAppendItem())
-              items.push(downloadHistoryItemToDownloadHistoryEntity(cursor.value))
+              items.push(
+                downloadHistoryItemToDownloadHistoryEntity(cursor.value)
+              )
 
             // Unsafe
             cursor = await cursor.continue()
@@ -129,10 +137,11 @@ const downloadHistoryItemToDownloadHistoryEntity: Factory<
     thumbnail: item.thumbnail,
   })
 
-const orderTypeMap: ReadonlyMap<OrderCriteria['type'], IDBCursorDirection> = new Map([
-  ['asc', 'next'],
-  ['desc', 'prev'],
-])
+const orderTypeMap: ReadonlyMap<OrderCriteria['type'], IDBCursorDirection> =
+  new Map([
+    ['asc', 'next'],
+    ['desc', 'prev'],
+  ])
 
 const orderKeyMap: ReadonlyMap<
   OrderCriteria['key'],
@@ -154,5 +163,8 @@ const _calcTweetIdKeyRange = (tweetIds: Set<string>): IDBKeyRange => {
     }
   )
 
-  return IDBKeyRange.bound([idRange.min, new Date(0)], [idRange.max, new Date(0)])
+  return IDBKeyRange.bound(
+    [idRange.min, new Date(0)],
+    [idRange.max, new Date(0)]
+  )
 }

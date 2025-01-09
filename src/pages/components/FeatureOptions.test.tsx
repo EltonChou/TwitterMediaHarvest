@@ -20,7 +20,9 @@ describe('unit test for FeatureOptions component', () => {
       <FeatureOptions featureSettingsRepo={featureSettingsRepo} />
     )
 
-    expect(queryAllByTestId(container, new RegExp(/.*-feature-switch$/))).toHaveLength(3)
+    expect(
+      queryAllByTestId(container, new RegExp(/.*-feature-switch$/))
+    ).toHaveLength(3)
     expect(container).toMatchSnapshot()
 
     unmount()

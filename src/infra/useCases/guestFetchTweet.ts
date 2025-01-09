@@ -53,8 +53,14 @@ export class GuestFetchTweet extends FetchTweetBase {
       'https://x.com/i/api/graphql/0hWvDhmW8YQ-S_ib3azIrw/TweetResultByRestId'
     )
     endpoint.searchParams.append('features', JSON.stringify(featureParams))
-    endpoint.searchParams.append('fieldToggles', JSON.stringify(fieldTogglesParams))
-    endpoint.searchParams.append('variables', JSON.stringify(makeVariableParams(tweetId)))
+    endpoint.searchParams.append(
+      'fieldToggles',
+      JSON.stringify(fieldTogglesParams)
+    )
+    endpoint.searchParams.append(
+      'variables',
+      JSON.stringify(makeVariableParams(tweetId))
+    )
     return endpoint.href
   }
 }

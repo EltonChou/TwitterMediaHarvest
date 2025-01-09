@@ -7,7 +7,13 @@ import { MockDownloadSettingsRepository } from '#mocks/repositories/downloadSett
 import { MockFilenameSettingRepository } from '#mocks/repositories/filenameSetting'
 import { TokenPanel } from './GeneralOptions'
 import GeneralOptions from './GeneralOptions'
-import { act, fireEvent, getByTestId, render, waitFor } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  getByTestId,
+  render,
+  waitFor,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 
@@ -26,7 +32,11 @@ describe('unit test for TokenPanel component', () => {
       <TokenPanel
         handleTokenToggle={mockToggle}
         handleTokenSort={mockSort}
-        pattern={[PatternToken.Account, PatternToken.AccountId, PatternToken.Hash]}
+        pattern={[
+          PatternToken.Account,
+          PatternToken.AccountId,
+          PatternToken.Hash,
+        ]}
         previewFilename={'preview filename'}
         patternRecords={[
           {
@@ -60,7 +70,11 @@ describe('unit test for TokenPanel component', () => {
       <TokenPanel
         handleTokenToggle={mockToggle}
         handleTokenSort={mockSort}
-        pattern={[PatternToken.Account, PatternToken.AccountId, PatternToken.Hash]}
+        pattern={[
+          PatternToken.Account,
+          PatternToken.AccountId,
+          PatternToken.Hash,
+        ]}
         previewFilename={'preview filename'}
         patternRecords={[
           {
@@ -158,14 +172,20 @@ describe('unit test for GeneralOptions component', () => {
           />
         )
 
-        const mockDownloadSettingsSave = jest.spyOn(mockDownloadSettingsRepo, 'save')
+        const mockDownloadSettingsSave = jest.spyOn(
+          mockDownloadSettingsRepo,
+          'save'
+        )
 
         expect(container).toMatchSnapshot('default-form')
 
         const user = userEvent.setup()
 
         await user.clear(getByTestId(container, 'subDirectory-input'))
-        await user.type(getByTestId(container, 'subDirectory-input'), 'a-valid-dir')
+        await user.type(
+          getByTestId(container, 'subDirectory-input'),
+          'a-valid-dir'
+        )
         await user.click(getByTestId(container, 'form-submit-button'))
 
         expect(container).toMatchSnapshot('submitted-form')

@@ -5,7 +5,10 @@ type VersionDelta = {
   previous: string
 }
 
-export default class RuntimeUpdated extends DomainEvent implements RuntimeUpdateEvent {
+export default class RuntimeUpdated
+  extends DomainEvent
+  implements RuntimeUpdateEvent
+{
   readonly currentVersion: string
   readonly previousVersion: string
 

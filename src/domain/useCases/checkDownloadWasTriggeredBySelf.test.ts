@@ -7,7 +7,10 @@ describe('unit test for chek download was triggered by self', () => {
   it('can check the download was triggered by self or not', async () => {
     const useCase = new CheckDownloadWasTriggeredBySelf(EXT_ID)
 
-    const correctItem = generateDownloadItem({ byExtensionId: EXT_ID, mime: 'image/png' })
+    const correctItem = generateDownloadItem({
+      byExtensionId: EXT_ID,
+      mime: 'image/png',
+    })
     const isDownloadBySelf = useCase.process({ item: correctItem })
     expect(isDownloadBySelf).toBeTruthy()
 

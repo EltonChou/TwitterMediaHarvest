@@ -15,9 +15,14 @@ type ClientProps = {
 export class ClientUUID extends EntityId<string> {}
 
 const SYNC_PERIOD: number =
-  process.env.NODE_ENV === 'production' ? TimeHelper.minute(30) : TimeHelper.minute(10)
+  process.env.NODE_ENV === 'production'
+    ? TimeHelper.minute(30)
+    : TimeHelper.minute(10)
 
-export class Client extends Entity<ClientUUID, ClientProps> implements DomainEventSource {
+export class Client
+  extends Entity<ClientUUID, ClientProps>
+  implements DomainEventSource
+{
   readonly events: IDomainEvent[]
 
   constructor(id: ClientUUID, props: ClientProps) {

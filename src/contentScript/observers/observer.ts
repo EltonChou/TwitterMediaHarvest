@@ -2,8 +2,9 @@ import { $ } from 'select-dom'
 
 export const OBSERVE_ID_CRITERIA = 'harvestObserveId'
 
-export const isElementObserved = <T extends HTMLElement = HTMLElement>(ele: T) =>
-  Object.hasOwn(ele.dataset, OBSERVE_ID_CRITERIA)
+export const isElementObserved = <T extends HTMLElement = HTMLElement>(
+  ele: T
+) => Object.hasOwn(ele.dataset, OBSERVE_ID_CRITERIA)
 
 export const setObserverId =
   (id: string) =>

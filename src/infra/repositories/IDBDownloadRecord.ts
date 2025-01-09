@@ -5,7 +5,10 @@ import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import { DownloadRecord } from '#domain/valueObjects/downloadRecord'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import type { DownloadIDB } from '#libs/idb/download/db'
-import type { DownloadDBSchema, DownloadRecordItem } from '#libs/idb/download/schema'
+import type {
+  DownloadDBSchema,
+  DownloadRecordItem,
+} from '#libs/idb/download/schema'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import { toError } from 'fp-ts/lib/Either'
 import type { IDBPDatabase } from 'idb'
@@ -19,7 +22,8 @@ export class IDBDownloadRecordRepository implements IDownloadRecordRepository {
 
     try {
       const item = await client.get('record', IDBKeyRange.only(downloadItemId))
-      if (!item) return toErrorResult(new DownloadRecordNotFound(downloadItemId))
+      if (!item)
+        return toErrorResult(new DownloadRecordNotFound(downloadItemId))
       return toSuccessResult(itemToDownloadRecord(item))
     } catch (error) {
       return toErrorResult(toError(error))
@@ -58,7 +62,10 @@ export class IDBDownloadRecordRepository implements IDownloadRecordRepository {
   }
 }
 
-const itemToDownloadRecord: Factory<DownloadRecordItem, DownloadRecord> = item =>
+const itemToDownloadRecord: Factory<
+  DownloadRecordItem,
+  DownloadRecord
+> = item =>
   new DownloadRecord({
     downloadConfig: new DownloadConfig({
       conflictAction: item.conflictAction,
@@ -71,7 +78,10 @@ const itemToDownloadRecord: Factory<DownloadRecordItem, DownloadRecord> = item =
     recordedAt: new Date(item.recordedAt),
   })
 
-const downloadRecordToItem: Factory<DownloadRecord, DownloadRecordItem> = record =>
+const downloadRecordToItem: Factory<
+  DownloadRecord,
+  DownloadRecordItem
+> = record =>
   record.mapBy(props => ({
     id: props.downloadId,
     recordedAt: props.recordedAt.getTime(),

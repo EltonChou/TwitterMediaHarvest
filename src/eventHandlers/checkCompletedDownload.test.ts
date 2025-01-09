@@ -37,7 +37,9 @@ it('can handle completed download event', async () => {
   })
   const handle = checkCompletedDownload(downloadRepo, downloadRecordRepo)
 
-  const mockPublish = jest.spyOn(publisher, 'publish').mockImplementationOnce(jest.fn())
+  const mockPublish = jest
+    .spyOn(publisher, 'publish')
+    .mockImplementationOnce(jest.fn())
   jest
     .spyOn(downloadRecordRepo, 'getById')
     .mockResolvedValueOnce(toSuccessResult(downloadRecord))
@@ -60,7 +62,9 @@ it('should do nothing if the record is lost.', async () => {
 
   const handle = checkCompletedDownload(downloadRepo, downloadRecordRepo)
 
-  const mockPublish = jest.spyOn(publisher, 'publish').mockImplementationOnce(jest.fn())
+  const mockPublish = jest
+    .spyOn(publisher, 'publish')
+    .mockImplementationOnce(jest.fn())
   jest.spyOn(downloadRepo, 'getById').mockResolvedValueOnce(item)
   jest
     .spyOn(downloadRecordRepo, 'getById')

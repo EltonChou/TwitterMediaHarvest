@@ -1,7 +1,7 @@
+import type { LoaderOptions } from '../src/loader.js'
+import { Volume, createFsFromVolume } from 'memfs'
 import path from 'path'
 import webpack from 'webpack'
-import { Volume, createFsFromVolume } from 'memfs'
-import type { LoaderOptions } from '../src/loader.js'
 
 const compiler = (fixture: string, options: LoaderOptions) => {
   const webpackCompiler = webpack({

@@ -10,7 +10,9 @@ import {
 import type { Notifications } from 'webextension-polyfill'
 
 const handleNotificationClosed =
-  (publisher: DomainEventPublisher): ListenerOf<Notifications.Static['onClosed']> =>
+  (
+    publisher: DomainEventPublisher
+  ): ListenerOf<Notifications.Static['onClosed']> =>
   async (notificationId, _byUser) => {
     if (isTweetFetchId(notificationId)) {
       const tweetId = extractTweetId(notificationId)

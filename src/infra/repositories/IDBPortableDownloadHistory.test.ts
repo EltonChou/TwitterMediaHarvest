@@ -6,7 +6,10 @@ import { faker } from '@faker-js/faker/locale/en'
 
 describe('unit test for indexedDB portable download history repository', () => {
   const mockBlobToUrl = jest.fn().mockResolvedValue('data-url')
-  const repo = new IDBPortableDownloadHistoryRepository(downloadIDB, mockBlobToUrl)
+  const repo = new IDBPortableDownloadHistoryRepository(
+    downloadIDB,
+    mockBlobToUrl
+  )
 
   beforeEach(async () => {
     const { tx, completeTx } = await downloadIDB.prepareTransaction(
@@ -15,7 +18,10 @@ describe('unit test for indexedDB portable download history repository', () => {
     )
 
     tx.objectStore('history').put(generateDownloadHistoryItem())
-    tx.objectStore('hashtag').put({ name: 'beast', tweetIds: new Set(['1145141919810']) })
+    tx.objectStore('hashtag').put({
+      name: 'beast',
+      tweetIds: new Set(['1145141919810']),
+    })
 
     completeTx()
   })
@@ -33,7 +39,9 @@ describe('unit test for indexedDB portable download history repository', () => {
   })
 
   it('can import history', async () => {
-    const histories = faker.helpers.multiple(generateDownloadHistory, { count: 10 })
+    const histories = faker.helpers.multiple(generateDownloadHistory, {
+      count: 10,
+    })
     const importError = await repo.import(histories)
 
     expect(importError).toBeUndefined()

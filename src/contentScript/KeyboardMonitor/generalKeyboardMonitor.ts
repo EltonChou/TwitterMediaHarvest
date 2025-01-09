@@ -21,7 +21,8 @@ export abstract class GeneralKeyboardMonitor implements KeyboardMonitor {
 
   #isValidTarget(target: unknown): boolean {
     if (target instanceof HTMLElement) {
-      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return false
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')
+        return false
       if (isTwitter() && 'classList' in target)
         return !target.classList.value.includes('Editor')
       return true
@@ -36,15 +37,23 @@ export abstract class GeneralKeyboardMonitor implements KeyboardMonitor {
   }
 
   handleKeyUp(e: KeyboardEvent): void {
-    if (!this.focusing || !this.#isValidTarget(e.target) || e.key !== this.downloadKey)
+    if (
+      !this.focusing ||
+      !this.#isValidTarget(e.target) ||
+      e.key !== this.downloadKey
+    )
       return
 
-    const tweetCanBeHarvested = getClosedTargetArticle(this.focusing as HTMLElement)
+    const tweetCanBeHarvested = getClosedTargetArticle(
+      this.focusing as HTMLElement
+    )
     if (tweetCanBeHarvested) {
       const harvesterButton = this.#getButton(tweetCanBeHarvested)
       if (harvesterButton) harvesterButton.click()
     }
   }
 
-  abstract updateFocusing(focusTarget: EventTarget | HTMLElement | Element): void
+  abstract updateFocusing(
+    focusTarget: EventTarget | HTMLElement | Element
+  ): void
 }

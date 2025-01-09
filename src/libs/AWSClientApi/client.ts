@@ -51,7 +51,10 @@ export class ApiClient implements Client<CommandInputs, CommandOutputs> {
     })
   }
 
-  async send<InputType extends CommandInputs, OutputType extends CommandOutputs>(
+  async send<
+    InputType extends CommandInputs,
+    OutputType extends CommandOutputs,
+  >(
     command: Command<InputType, OutputType>,
     options?: HttpHandlerOptions
   ): AsyncResult<OutputType, Error> {
@@ -70,7 +73,9 @@ export class ApiClient implements Client<CommandInputs, CommandOutputs> {
       const signer = await this.makeSigner()
       const signedRequest = await signer.sign(request)
       if (!HttpRequest.isInstance(signedRequest))
-        return toErrorResult(new Error('Signed request is not a valid HttpRequest.'))
+        return toErrorResult(
+          new Error('Signed request is not a valid HttpRequest.')
+        )
 
       handler = this.httpHandler
       const { response } = await this.httpHandler.handle(signedRequest, options)

@@ -13,7 +13,9 @@ const checkDownloadHistoryHandler = (
   )
 
   return async ctx => {
-    const { value: message, error } = CheckDownloadHistoryMessage.validate(ctx.message)
+    const { value: message, error } = CheckDownloadHistoryMessage.validate(
+      ctx.message
+    )
     if (error) return ctx.response(makeErrorResponse(error.message))
 
     const isExist = await checkMediaTweetHasBeenDownloaded.process({

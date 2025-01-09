@@ -1,8 +1,8 @@
 import FilenameIsOverwritten from '#domain/events/FilenameIsOverwritten'
 import { getNotifier } from '#infra/browserNotifier'
-import { notifyFilenameIsOverwritten } from './notifyFilenameIsOverwritten'
 import { MockEventPublisher } from '#mocks/eventPublisher'
 import { MockWarningSettingsRepo } from '#mocks/repositories/warningSettings'
+import { notifyFilenameIsOverwritten } from './notifyFilenameIsOverwritten'
 
 describe('unit test for notifyFilenameIsOverwritten handler', () => {
   afterEach(() => {
@@ -20,7 +20,10 @@ describe('unit test for notifyFilenameIsOverwritten handler', () => {
     const publisher = new MockEventPublisher()
     const event = new FilenameIsOverwritten('expected.png', 'final.png')
 
-    await notifyFilenameIsOverwritten(notifier, warningSettingsRepo)(event, publisher)
+    await notifyFilenameIsOverwritten(notifier, warningSettingsRepo)(
+      event,
+      publisher
+    )
 
     expect(mockNotify).toHaveBeenCalledOnce()
   })
@@ -35,7 +38,10 @@ describe('unit test for notifyFilenameIsOverwritten handler', () => {
     const publisher = new MockEventPublisher()
     const event = new FilenameIsOverwritten('expected.png', 'final.png')
 
-    await notifyFilenameIsOverwritten(notifier, warningSettingsRepo)(event, publisher)
+    await notifyFilenameIsOverwritten(notifier, warningSettingsRepo)(
+      event,
+      publisher
+    )
 
     expect(mockNotify).not.toHaveBeenCalled()
   })

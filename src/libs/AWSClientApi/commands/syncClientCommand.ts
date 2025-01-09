@@ -51,7 +51,9 @@ export class SyncClientCommand extends BaseCommand<
   /**
    * @internal
    */
-  async resolveResponse(response: HttpResponse): Promise<SyncClientCommandOutput> {
+  async resolveResponse(
+    response: HttpResponse
+  ): Promise<SyncClientCommandOutput> {
     const body = JSON.parse(
       new TextDecoder().decode(await streamCollector(response.body))
     )

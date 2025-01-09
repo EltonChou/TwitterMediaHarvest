@@ -13,7 +13,13 @@ import HistoryTable from '#pages/components/History'
 import IntegrationOptions from '#pages/components/IntegrationOptions'
 import SideMenu from '#pages/components/SideMenu'
 import { DownloadSettings, FeatureSettings } from '#schema'
-import { Container, ContainerProps, HStack, Heading, Stack } from '@chakra-ui/react'
+import {
+  Container,
+  ContainerProps,
+  HStack,
+  Heading,
+  Stack,
+} from '@chakra-ui/react'
 import React from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 
@@ -25,7 +31,13 @@ type ContentProps = {
 
 const Content = (props: ContentProps) => {
   return (
-    <Container fontSize={'lg'} pt={10} pb={10} flex={1} maxW={props.maxW || '80ch'}>
+    <Container
+      fontSize={'lg'}
+      pt={10}
+      pb={10}
+      flex={1}
+      maxW={props.maxW || '80ch'}
+    >
       <Stack maxH={'full'}>
         <Heading p={'1.5rem'}>{props.title}</Heading>
         {props.children}
@@ -85,14 +97,19 @@ const App = ({
               path="/integrations"
               element={
                 <Content title={i18n('Integrations', 'options:sideMenu')}>
-                  <IntegrationOptions downloadSettingsRepo={downloadSettingsRepo} />
+                  <IntegrationOptions
+                    downloadSettingsRepo={downloadSettingsRepo}
+                  />
                 </Content>
               }
             />
             <Route
               path="/history"
               element={
-                <Content title={i18n('History', 'options:sideMenu')} maxW={'150ch'}>
+                <Content
+                  title={i18n('History', 'options:sideMenu')}
+                  maxW={'150ch'}
+                >
                   <HistoryTable
                     searchDownloadHistory={searchDownloadHistory}
                     searchTweetIdsByHashtags={searchTweetIdsByHashtags}
@@ -100,7 +117,10 @@ const App = ({
                 </Content>
               }
             />
-            <Route path="/statistics" element={<Content title="Statistics" />} />
+            <Route
+              path="/statistics"
+              element={<Content title="Statistics" />}
+            />
             <Route
               path="/about"
               element={

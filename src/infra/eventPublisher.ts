@@ -1,10 +1,16 @@
-import type { DomainEventHandler, DomainEventPublisher } from '#domain/eventPublisher'
+import type {
+  DomainEventHandler,
+  DomainEventPublisher,
+} from '#domain/eventPublisher'
 
 class EventPublisher implements DomainEventPublisher {
   private handlerMap: Record<string, DomainEventHandler<IDomainEvent>[]>
 
   constructor() {
-    this.handlerMap = {} satisfies Record<string, DomainEventHandler<IDomainEvent>[]>
+    this.handlerMap = {} satisfies Record<
+      string,
+      DomainEventHandler<IDomainEvent>[]
+    >
   }
 
   async publish(event: IDomainEvent): Promise<void> {
@@ -36,7 +42,9 @@ class EventPublisher implements DomainEventPublisher {
 
   register<K extends keyof DomainEventMap>(
     eventName: K,
-    eventHandlers: DomainEventHandler<IDomainEvent> | DomainEventHandler<IDomainEvent>[]
+    eventHandlers:
+      | DomainEventHandler<IDomainEvent>
+      | DomainEventHandler<IDomainEvent>[]
   ): this {
     const isMulipleHandlers = Array.isArray(eventHandlers)
     if (eventName in this.handlerMap) {
@@ -48,7 +56,9 @@ class EventPublisher implements DomainEventPublisher {
       return this
     }
 
-    this.handlerMap[eventName] = isMulipleHandlers ? [...eventHandlers] : [eventHandlers]
+    this.handlerMap[eventName] = isMulipleHandlers
+      ? [...eventHandlers]
+      : [eventHandlers]
     return this
   }
 

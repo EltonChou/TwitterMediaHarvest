@@ -28,7 +28,13 @@ const setPath = (path: string) =>
 describe.each([
   {
     context: 'timeline',
-    filePath: sysPath.resolve(__dirname, '..', 'testCases', 'tweet', 'timeline.html'),
+    filePath: sysPath.resolve(
+      __dirname,
+      '..',
+      'testCases',
+      'tweet',
+      'timeline.html'
+    ),
     path: '/birdman46049238',
     statusPath: '/birdman46049238/status/1852311426666537322',
     screenName: 'birdman46049238',
@@ -37,7 +43,13 @@ describe.each([
   },
   {
     context: 'modal',
-    filePath: sysPath.resolve(__dirname, '..', 'testCases', 'tweet', 'modal.html'),
+    filePath: sysPath.resolve(
+      __dirname,
+      '..',
+      'testCases',
+      'tweet',
+      'modal.html'
+    ),
     path: '/birdman46049238/status/1852311426666537322/video/1',
     statusPath: '/birdman46049238/status/1852311426666537322',
     screenName: 'birdman46049238',
@@ -46,7 +58,13 @@ describe.each([
   },
   {
     context: 'status',
-    filePath: sysPath.resolve(__dirname, '..', 'testCases', 'tweet', 'status.html'),
+    filePath: sysPath.resolve(
+      __dirname,
+      '..',
+      'testCases',
+      'tweet',
+      'status.html'
+    ),
     path: '/birdman46049238/status/1852311426666537322',
     statusPath: '/birdman46049238/status/1852311426666537322',
     screenName: 'birdman46049238',
@@ -70,7 +88,13 @@ describe.each([
   },
   {
     context: 'edited-modal',
-    filePath: sysPath.resolve(__dirname, '..', 'testCases', 'tweet', 'edited-modal.html'),
+    filePath: sysPath.resolve(
+      __dirname,
+      '..',
+      'testCases',
+      'tweet',
+      'edited-modal.html'
+    ),
     path: '/seigura/status/1842037500065546723/photo/3',
     statusPath: '/seigura/status/1842037500065546723',
     screenName: 'seigura',

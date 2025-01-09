@@ -25,7 +25,10 @@ describe('unit test for handler to initialize client', () => {
 
     const setUninstallURL = jest.fn()
 
-    await initClient(repo, setUninstallURL)(new RuntimeInstalled('5.0.0'), publisher)
+    await initClient(repo, setUninstallURL)(
+      new RuntimeInstalled('5.0.0'),
+      publisher
+    )
 
     expect(mockClientGet).toHaveBeenCalled()
     expect(setUninstallURL).toHaveBeenCalledWith(client.uninstallUrl)
@@ -41,7 +44,10 @@ describe('unit test for handler to initialize client', () => {
 
     const setUninstallURL = jest.fn()
 
-    await initClient(repo, setUninstallURL)(new RuntimeInstalled('5.0.0'), publisher)
+    await initClient(repo, setUninstallURL)(
+      new RuntimeInstalled('5.0.0'),
+      publisher
+    )
 
     expect(mockClientGet).toHaveBeenCalled()
     expect(setUninstallURL).not.toHaveBeenCalled()

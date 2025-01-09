@@ -72,9 +72,10 @@ export class SearchDownloadHistoryUseCase
   async searchTweetIds(hashtags: string[]): AsyncResult<Set<string>> {
     if (hashtags.length === 0) return toSuccessResult(new Set<string>())
 
-    const { value: tweetIds, error } = await this.searchTweetIdsByHashtags.process({
-      hashtags: hashtags,
-    })
+    const { value: tweetIds, error } =
+      await this.searchTweetIdsByHashtags.process({
+        hashtags: hashtags,
+      })
 
     if (error) return toErrorResult(error)
     return toSuccessResult(tweetIds)
@@ -127,7 +128,10 @@ export class SearchDownloadHistoryUseCase
           total: Math.ceil(result.matchedCount / itemPerPage),
           prev: currentPage > 1 ? currentPage - 1 : null,
           current: currentPage,
-          next: currentPage * itemPerPage >= result.matchedCount ? null : currentPage + 1,
+          next:
+            currentPage * itemPerPage >= result.matchedCount
+              ? null
+              : currentPage + 1,
         },
         matchedCount: result.matchedCount,
       },
@@ -144,7 +148,8 @@ const toErrorQueryResult = (error: Error): QueryResult => ({
   error: error,
 })
 
-const calcSkip = (query: Query): number => Math.max(0, query.page - 1) * query.itemPerPage
+const calcSkip = (query: Query): number =>
+  Math.max(0, query.page - 1) * query.itemPerPage
 
 const tweetUserToUser: Factory<TweetUser, User> = tweetUser =>
   tweetUser.mapBy(props => ({
@@ -176,4 +181,6 @@ const makeUserNameFilter = (userName: string): Filter =>
   userName === '*'
     ? () => true
     : ({ screenName, displayName }) =>
-        [screenName, displayName].some(name => name.toLowerCase().includes(userName))
+        [screenName, displayName].some(name =>
+          name.toLowerCase().includes(userName)
+        )

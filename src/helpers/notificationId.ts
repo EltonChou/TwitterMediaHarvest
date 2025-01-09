@@ -2,11 +2,12 @@ type TweetNotificationId = `tweet_${string}`
 type DownloadNotificationId = `download_${number}`
 type FilenameOverwrittenNotificationId = 'filename is overwirrten'
 
-export const makeFilenameNotificationId = (): FilenameOverwrittenNotificationId =>
-  'filename is overwirrten'
+export const makeFilenameNotificationId =
+  (): FilenameOverwrittenNotificationId => 'filename is overwirrten'
 
-export const makeTweetFetchErrorNotificationId = (tweetId: string): TweetNotificationId =>
-  `tweet_${tweetId}`
+export const makeTweetFetchErrorNotificationId = (
+  tweetId: string
+): TweetNotificationId => `tweet_${tweetId}`
 export const makeDownloadFailedNotificationId = (
   downloadItemId: number
 ): DownloadNotificationId => `download_${downloadItemId}`

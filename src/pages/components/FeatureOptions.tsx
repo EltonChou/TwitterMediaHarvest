@@ -51,7 +51,10 @@ const FeatureOptions = ({ featureSettingsRepo }: FeatureOptionsProps) => {
       />
       <RichFeatureSwitch
         name={i18n('Download video thumbnail', 'options:features')}
-        desc={i18n('Download the thumbnail when the media is video.', 'options:features')}
+        desc={i18n(
+          'Download the thumbnail when the media is video.',
+          'options:features'
+        )}
         isOn={featureSettings.includeVideoThumbnail}
         handleClick={toggler.thumbnail}
         testId="videoThumbnail-feature-switch"

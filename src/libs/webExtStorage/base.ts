@@ -1,7 +1,9 @@
 import type { IStorageProxy, SchemaKey } from '#libs/storageProxy'
 import type { Storage } from 'webextension-polyfill'
 
-export abstract class WebExtStorageProxy<Schema> implements IStorageProxy<Schema> {
+export abstract class WebExtStorageProxy<Schema>
+  implements IStorageProxy<Schema>
+{
   constructor(readonly storage: Storage.StorageArea) {}
 
   async getItemByKey<Key extends SchemaKey<Schema>>(
@@ -25,7 +27,9 @@ export abstract class WebExtStorageProxy<Schema> implements IStorageProxy<Schema
     await this.storage.set(item)
   }
 
-  async removeItem<Key extends SchemaKey<Schema>>(keys: Key | Key[]): Promise<void> {
+  async removeItem<Key extends SchemaKey<Schema>>(
+    keys: Key | Key[]
+  ): Promise<void> {
     await this.storage.remove(
       Array.isArray(keys) ? [...keys].map(v => String(v)) : String(keys)
     )

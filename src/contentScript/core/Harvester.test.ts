@@ -32,17 +32,35 @@ jest.mock(
 describe.each([
   {
     context: 'timeline',
-    filePath: sysPath.resolve(__dirname, '..', 'testCases', 'tweet', 'timeline.html'),
+    filePath: sysPath.resolve(
+      __dirname,
+      '..',
+      'testCases',
+      'tweet',
+      'timeline.html'
+    ),
     path: '/birdman46049238',
   },
   {
     context: 'modal',
-    filePath: sysPath.resolve(__dirname, '..', 'testCases', 'tweet', 'modal.html'),
+    filePath: sysPath.resolve(
+      __dirname,
+      '..',
+      'testCases',
+      'tweet',
+      'modal.html'
+    ),
     path: '/birdman46049238/status/1852311426666537322/video/1',
   },
   {
     context: 'status',
-    filePath: sysPath.resolve(__dirname, '..', 'testCases', 'tweet', 'status.html'),
+    filePath: sysPath.resolve(
+      __dirname,
+      '..',
+      'testCases',
+      'tweet',
+      'status.html'
+    ),
     path: '/birdman46049238/status/1852311426666537322',
   },
   {
@@ -58,7 +76,13 @@ describe.each([
   },
   {
     context: 'edited-modal',
-    filePath: sysPath.resolve(__dirname, '..', 'testCases', 'tweet', 'edited-modal.html'),
+    filePath: sysPath.resolve(
+      __dirname,
+      '..',
+      'testCases',
+      'tweet',
+      'edited-modal.html'
+    ),
     path: '/seigura/status/1842037500065546723/photo/3',
   },
   {

@@ -75,7 +75,11 @@ describe('unit test for download tweet media use case', () => {
       saveHistoryError: true,
       noValidCsrfToken: false,
     },
-    { fetchTweetError: undefined, saveHistoryError: false, noValidCsrfToken: true },
+    {
+      fetchTweetError: undefined,
+      saveHistoryError: false,
+      noValidCsrfToken: true,
+    },
     {
       fetchTweetError: new FetchTweetError(404),
       saveHistoryError: false,
@@ -86,7 +90,11 @@ describe('unit test for download tweet media use case', () => {
       saveHistoryError: false,
       noValidCsrfToken: false,
     },
-    { fetchTweetError: undefined, saveHistoryError: false, noValidCsrfToken: false },
+    {
+      fetchTweetError: undefined,
+      saveHistoryError: false,
+      noValidCsrfToken: false,
+    },
   ])(
     'can download media files by tweet info.',
     async ({ fetchTweetError, saveHistoryError, noValidCsrfToken }) => {
@@ -114,11 +122,15 @@ describe('unit test for download tweet media use case', () => {
             }
       )
 
-      jest.spyOn(filenameSettingRepo, 'get').mockResolvedValue(generateFilenameSetting())
+      jest
+        .spyOn(filenameSettingRepo, 'get')
+        .mockResolvedValue(generateFilenameSetting())
       jest
         .spyOn(downloadSettingsRepo, 'get')
         .mockResolvedValue(generateDownloadSettings())
-      jest.spyOn(featureSettingsRepo, 'get').mockResolvedValue(generateFeatureSettings())
+      jest
+        .spyOn(featureSettingsRepo, 'get')
+        .mockResolvedValue(generateFeatureSettings())
       jest.spyOn(aria2Downloader, 'process').mockImplementation(jest.fn())
       jest.spyOn(browserDownloader, 'process').mockImplementation(jest.fn())
 

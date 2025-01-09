@@ -74,7 +74,10 @@ const HelperText = ({ message }: HelperTextProps) => {
       <SlideFade offsetY={'10px'} in={Boolean(message)} reverse={true}>
         <HStack height={'1em'}>
           <Icon as={icon} color={color} />
-          <FormHelperText color={color} data-testid="feature-switch-helper-text">
+          <FormHelperText
+            color={color}
+            data-testid="feature-switch-helper-text"
+          >
             {message.content}
           </FormHelperText>
         </HStack>
@@ -122,7 +125,11 @@ export const RichFeatureSwitch = ({
           style={{ transition: 'background 300ms' }}
         >
           <Stack flex={1}>
-            <Text fontSize={'1.5em'} lineHeight={'none'} textTransform={'capitalize'}>
+            <Text
+              fontSize={'1.5em'}
+              lineHeight={'none'}
+              textTransform={'capitalize'}
+            >
               {name}
             </Text>
             <Text color={'gray.400'}>{desc}</Text>

@@ -65,7 +65,8 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
       retryFailedDownload(
         downloadSettingsRepo,
         downloadRecordRepo,
-        params => new BrowserDownloadMediaFile(params.targetTweet, params.shouldPrompt)
+        params =>
+          new BrowserDownloadMediaFile(params.targetTweet, params.shouldPrompt)
       ),
       cleanDownloadRecord,
     ])
@@ -74,8 +75,14 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
       cleanDownloadRecord,
     ])
     .register('notification:tweetFetchError:self:closed', [])
-    .register('notification:tweetFetchError:self:clicked', openFailedTweetInNewTab)
-    .register('notification:tweetFetchError:viewButton:clicked', openFailedTweetInNewTab)
+    .register(
+      'notification:tweetFetchError:self:clicked',
+      openFailedTweetInNewTab
+    )
+    .register(
+      'notification:tweetFetchError:viewButton:clicked',
+      openFailedTweetInNewTab
+    )
 }
 
 export default initEventPublisher

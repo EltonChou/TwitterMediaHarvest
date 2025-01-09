@@ -10,7 +10,9 @@ describe('unit test for useStatsStore hook', () => {
   it('can update stats when the store is change', async () => {
     const getStats = jest
       .fn()
-      .mockResolvedValue(new UsageStatistics({ downloadCount: 0, trafficUsage: 0 }))
+      .mockResolvedValue(
+        new UsageStatistics({ downloadCount: 0, trafficUsage: 0 })
+      )
     const statsStore = createStatsStore({ getStats })
 
     const { result } = renderHook(() => useStatsStore(statsStore))

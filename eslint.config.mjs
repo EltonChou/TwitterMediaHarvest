@@ -8,7 +8,6 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config([
   js.configs.recommended,
-  eslintConfigPrettier,
   tseslint.configs.recommended,
   {
     languageOptions: {
@@ -31,23 +30,6 @@ export default tseslint.config([
       'react-hooks': reactHookPlugin,
     },
     rules: {
-      'max-len': [
-        'error',
-        {
-          code: 120,
-          ignoreComments: true,
-        },
-      ],
-      // "indent": [
-      //   "error",
-      //   2,
-      //   {
-      //     "SwitchCase": 1,
-      //     "ignoredNodes": [
-      //       "ArrowFunctionExpression"
-      //     ]
-      //   }
-      // ],
       'linebreak-style': ['error', 'unix'],
       quotes: ['error', 'single'],
       semi: ['error', 'never'],
@@ -79,4 +61,5 @@ export default tseslint.config([
       ],
     },
   },
+  eslintConfigPrettier,
 ])

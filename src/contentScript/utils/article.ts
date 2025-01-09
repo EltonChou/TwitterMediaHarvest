@@ -17,7 +17,9 @@ export const isArticleInStatus = (article: HTMLElement) => {
   if (article instanceof HTMLDivElement) return false
   const articleClassLength = article.classList.length
   const isMagicLength =
-    articleClassLength === 3 || articleClassLength === 7 || articleClassLength === 6
+    articleClassLength === 3 ||
+    articleClassLength === 7 ||
+    articleClassLength === 6
   return isInTweetStatus() && isMagicLength
 }
 
@@ -29,7 +31,11 @@ export const isArticleInStatus = (article: HTMLElement) => {
  */
 export const isArticleInStream = (article: HTMLElement) => {
   const articleClassLength = article.classList.length
-  return articleClassLength === 5 || articleClassLength === 9 || articleClassLength === 10
+  return (
+    articleClassLength === 5 ||
+    articleClassLength === 9 ||
+    articleClassLength === 10
+  )
 }
 
 /**
@@ -51,7 +57,9 @@ export const isAritcleHasQuotedContent = (article: HTMLElement): boolean =>
   $$('time', article).length > 1
 
 const makePhotoUrlPattern = (statusHref: string): string => {
-  const statusPath = URL.canParse(statusHref) ? new URL(statusHref).pathname : statusHref
+  const statusPath = URL.canParse(statusHref)
+    ? new URL(statusHref).pathname
+    : statusHref
   return statusPath.includes('/photo/') ? statusPath : `${statusPath}/photo`
 }
 
@@ -91,13 +99,18 @@ const isBelongsToCard = (ele: HTMLElement): boolean =>
 const isVideoInQuotedContent = (ele: HTMLElement) =>
   Boolean(ele?.closest('[role="link"]')?.querySelector('time'))
 const isPhotoInQuotedContent = (ele: HTMLElement) =>
-  Boolean(ele?.closest('[id^="id"]:not([aria-labelledby])')?.querySelector('time'))
+  Boolean(
+    ele?.closest('[id^="id"]:not([aria-labelledby])')?.querySelector('time')
+  )
 
 export const articleHasMedia = (article: HTMLElement) =>
   article && (articleHasVideo(article) || aricleHasPhoto(article))
 
 export const isArticleCanBeAppend = (article: HTMLElement) =>
-  !(elementExists('.deck-harvester', article) || elementExists('.harvester', article))
+  !(
+    elementExists('.deck-harvester', article) ||
+    elementExists('.harvester', article)
+  )
 
 export const parseTweetInfo = (article: HTMLElement) =>
   pipe(
@@ -147,7 +160,8 @@ export const getLinksFromArticle = (article: HTMLElement): string[] => {
     ? $$('[href*="analytics"]', article)
     : $$('[data-testid="User-Name"] [href]', article)
   const timeEle = $('a > time', article)
-  if (timeEle?.parentElement?.tagName === 'A') anchorEles.push(timeEle.parentElement)
+  if (timeEle?.parentElement?.tagName === 'A')
+    anchorEles.push(timeEle.parentElement)
   return anchorEles
     .filter(e => e.hasAttribute('href'))
     .map(e => e.getAttribute('href'))
@@ -155,7 +169,8 @@ export const getLinksFromArticle = (article: HTMLElement): string[] => {
     .map(path => path.replace(featureRegEx.editedHistoryUrl, ''))
 }
 
-export const getTweetIdFromLink = (link: string) => link.match(featureRegEx.id)?.at(1)
+export const getTweetIdFromLink = (link: string) =>
+  link.match(featureRegEx.id)?.at(1)
 export const getScreenNameFromLink = (link: string) =>
   link.match(featureRegEx.screenName)?.at(1)
 

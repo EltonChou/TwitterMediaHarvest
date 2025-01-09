@@ -8,7 +8,9 @@ import { showClientInfoInConsole } from './showClientInfoInConsole'
 test('handler to show client information in console', async () => {
   const mockLog = jest.spyOn(console, 'info').mockImplementation(jest.fn())
   const clientRepo = new MockClientRepository()
-  jest.spyOn(clientRepo, 'get').mockResolvedValueOnce(toSuccessResult(generateClient()))
+  jest
+    .spyOn(clientRepo, 'get')
+    .mockResolvedValueOnce(toSuccessResult(generateClient()))
 
   await showClientInfoInConsole(clientRepo)(
     new RuntimeUpdated({ current: '2.0.0', previous: '1.0.0' }),

@@ -10,7 +10,11 @@ describe('unit test for FeatureSwitch', () => {
     const mockChange = jest.fn()
 
     const { container, unmount } = render(
-      <FeatureSwitch isOn={true} handleChange={mockChange} labelContent="label-content" />
+      <FeatureSwitch
+        isOn={true}
+        handleChange={mockChange}
+        labelContent="label-content"
+      />
     )
 
     const label = screen.getByTestId('feature-switch-label')

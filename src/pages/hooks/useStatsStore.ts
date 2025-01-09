@@ -5,7 +5,10 @@ import { useEffect, useSyncExternalStore } from 'react'
 
 type Criteria = keyof V4Statistics
 
-export const CHANGE_CRITERIAS: Set<Criteria> = new Set(['downloadCount', 'trafficUsage'])
+export const CHANGE_CRITERIAS: Set<Criteria> = new Set([
+  'downloadCount',
+  'trafficUsage',
+])
 
 const useStatsStore = (
   statsStore: StatsStore

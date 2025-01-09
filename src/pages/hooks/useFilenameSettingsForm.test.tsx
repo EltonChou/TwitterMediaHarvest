@@ -1,7 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import { AggregationToken, FilenameSetting } from '#domain/valueObjects/filenameSetting'
+import {
+  AggregationToken,
+  FilenameSetting,
+} from '#domain/valueObjects/filenameSetting'
 import PatternToken from '#enums/patternToken'
 import { MockFilenameSettingRepository } from '#mocks/repositories/filenameSetting'
 import useFilenameSettingsForm from './useFilenameSettingsForm'
@@ -125,7 +128,11 @@ describe('unit test for useFilenameSettingForm hook', () => {
       const { result, unmount } = renderHook(() =>
         useFilenameSettingsForm(filenameSettingRepo)
       )
-      const { status: originalStatus, filenameSetting, handler } = result.current
+      const {
+        status: originalStatus,
+        filenameSetting,
+        handler,
+      } = result.current
       expect(originalStatus.dataIsChanged).toBeFalsy()
 
       act(() => handler.toggleSubDirectory())
@@ -222,30 +229,35 @@ describe('unit test for useFilenameSettingForm hook', () => {
       const initSettings = result.current.filenameSetting
       act(result.current.handler.toggleAggregationToken)
 
-      expect(result.current.filenameSetting.mapBy(props => props.fileAggregation)).toBe(
-        initSettings.mapBy(props => !props.fileAggregation)
-      )
+      expect(
+        result.current.filenameSetting.mapBy(props => props.fileAggregation)
+      ).toBe(initSettings.mapBy(props => !props.fileAggregation))
 
       unmount()
     })
 
-    it.each([AggregationToken.Account])('can set aggregation token', async token => {
-      const filenameSettingRepo = new MockFilenameSettingRepository()
-      const spyGet = jest.spyOn(filenameSettingRepo, 'get')
-      const { result, unmount } = renderHook(() =>
-        useFilenameSettingsForm(filenameSettingRepo)
-      )
+    it.each([AggregationToken.Account])(
+      'can set aggregation token',
+      async token => {
+        const filenameSettingRepo = new MockFilenameSettingRepository()
+        const spyGet = jest.spyOn(filenameSettingRepo, 'get')
+        const { result, unmount } = renderHook(() =>
+          useFilenameSettingsForm(filenameSettingRepo)
+        )
 
-      await waitFor(() => {
-        expect(spyGet).toHaveBeenCalled()
-      })
+        await waitFor(() => {
+          expect(spyGet).toHaveBeenCalled()
+        })
 
-      act(() => result.current.handler.setAggregationToken(token))
+        act(() => result.current.handler.setAggregationToken(token))
 
-      expect(result.current.filenameSetting.mapBy(props => props.groupBy)).toBe(token)
+        expect(
+          result.current.filenameSetting.mapBy(props => props.groupBy)
+        ).toBe(token)
 
-      unmount()
-    })
+        unmount()
+      }
+    )
   })
 
   describe('filename pattern', () => {
@@ -254,16 +266,18 @@ describe('unit test for useFilenameSettingForm hook', () => {
         'can enable token',
         async token => {
           const filenameSettingRepo = new MockFilenameSettingRepository()
-          const spyGet = jest.spyOn(filenameSettingRepo, 'get').mockResolvedValueOnce(
-            new FilenameSetting({
-              ...filenameSettingRepo.getDefault().mapBy(props => props),
-              filenamePattern: [
-                PatternToken.Account,
-                PatternToken.TweetId,
-                PatternToken.Serial,
-              ],
-            })
-          )
+          const spyGet = jest
+            .spyOn(filenameSettingRepo, 'get')
+            .mockResolvedValueOnce(
+              new FilenameSetting({
+                ...filenameSettingRepo.getDefault().mapBy(props => props),
+                filenamePattern: [
+                  PatternToken.Account,
+                  PatternToken.TweetId,
+                  PatternToken.Serial,
+                ],
+              })
+            )
           const { result, unmount } = renderHook(() =>
             useFilenameSettingsForm(filenameSettingRepo)
           )
@@ -272,7 +286,9 @@ describe('unit test for useFilenameSettingForm hook', () => {
             expect(spyGet).toHaveBeenCalled()
           })
 
-          act(() => result.current.handler.changePatternTokenState('enable')(token))
+          act(() =>
+            result.current.handler.changePatternTokenState('enable')(token)
+          )
 
           expect(
             result.current.filenameSetting.mapBy(props =>
@@ -288,16 +304,18 @@ describe('unit test for useFilenameSettingForm hook', () => {
         'can disable token',
         async token => {
           const filenameSettingRepo = new MockFilenameSettingRepository()
-          const spyGet = jest.spyOn(filenameSettingRepo, 'get').mockResolvedValueOnce(
-            new FilenameSetting({
-              ...filenameSettingRepo.getDefault().mapBy(props => props),
-              filenamePattern: [
-                PatternToken.Account,
-                PatternToken.TweetId,
-                PatternToken.Serial,
-              ],
-            })
-          )
+          const spyGet = jest
+            .spyOn(filenameSettingRepo, 'get')
+            .mockResolvedValueOnce(
+              new FilenameSetting({
+                ...filenameSettingRepo.getDefault().mapBy(props => props),
+                filenamePattern: [
+                  PatternToken.Account,
+                  PatternToken.TweetId,
+                  PatternToken.Serial,
+                ],
+              })
+            )
           const { result, unmount } = renderHook(() =>
             useFilenameSettingsForm(filenameSettingRepo)
           )
@@ -306,7 +324,9 @@ describe('unit test for useFilenameSettingForm hook', () => {
             expect(spyGet).toHaveBeenCalled()
           })
 
-          act(() => result.current.handler.changePatternTokenState('disable')(token))
+          act(() =>
+            result.current.handler.changePatternTokenState('disable')(token)
+          )
 
           expect(
             result.current.filenameSetting.mapBy(props =>
@@ -320,16 +340,18 @@ describe('unit test for useFilenameSettingForm hook', () => {
 
       it('can provide message if the pattern is invalid', async () => {
         const filenameSettingRepo = new MockFilenameSettingRepository()
-        const spyGet = jest.spyOn(filenameSettingRepo, 'get').mockResolvedValueOnce(
-          new FilenameSetting({
-            ...filenameSettingRepo.getDefault().mapBy(props => props),
-            filenamePattern: [
-              PatternToken.Account,
-              PatternToken.TweetId,
-              PatternToken.Serial,
-            ],
-          })
-        )
+        const spyGet = jest
+          .spyOn(filenameSettingRepo, 'get')
+          .mockResolvedValueOnce(
+            new FilenameSetting({
+              ...filenameSettingRepo.getDefault().mapBy(props => props),
+              filenamePattern: [
+                PatternToken.Account,
+                PatternToken.TweetId,
+                PatternToken.Serial,
+              ],
+            })
+          )
         const { result, unmount } = renderHook(() =>
           useFilenameSettingsForm(filenameSettingRepo)
         )
@@ -339,7 +361,9 @@ describe('unit test for useFilenameSettingForm hook', () => {
         })
 
         act(() =>
-          result.current.handler.changePatternTokenState('disable')(PatternToken.TweetId)
+          result.current.handler.changePatternTokenState('disable')(
+            PatternToken.TweetId
+          )
         )
 
         expect(result.current.status.filenamePatternIsValid).toBeFalsy()
@@ -351,16 +375,18 @@ describe('unit test for useFilenameSettingForm hook', () => {
 
     it('can sort pattern token', async () => {
       const filenameSettingRepo = new MockFilenameSettingRepository()
-      const spyGet = jest.spyOn(filenameSettingRepo, 'get').mockResolvedValueOnce(
-        new FilenameSetting({
-          ...filenameSettingRepo.getDefault().mapBy(props => props),
-          filenamePattern: [
-            PatternToken.Account,
-            PatternToken.TweetId,
-            PatternToken.Serial,
-          ],
-        })
-      )
+      const spyGet = jest
+        .spyOn(filenameSettingRepo, 'get')
+        .mockResolvedValueOnce(
+          new FilenameSetting({
+            ...filenameSettingRepo.getDefault().mapBy(props => props),
+            filenamePattern: [
+              PatternToken.Account,
+              PatternToken.TweetId,
+              PatternToken.Serial,
+            ],
+          })
+        )
       const { result, unmount } = renderHook(() =>
         useFilenameSettingsForm(filenameSettingRepo)
       )
@@ -373,35 +399,55 @@ describe('unit test for useFilenameSettingForm hook', () => {
 
       expect(
         result.current.filenameSetting.mapBy(props => props.filenamePattern)
-      ).toStrictEqual([PatternToken.TweetId, PatternToken.Serial, PatternToken.Account])
+      ).toStrictEqual([
+        PatternToken.TweetId,
+        PatternToken.Serial,
+        PatternToken.Account,
+      ])
       expect(result.current.status.filenamePatternIsValid).toBeTruthy()
 
       act(() => result.current.handler.sortPatternToken(5, 6))
 
       expect(
         result.current.filenameSetting.mapBy(props => props.filenamePattern)
-      ).toStrictEqual([PatternToken.TweetId, PatternToken.Serial, PatternToken.Account])
+      ).toStrictEqual([
+        PatternToken.TweetId,
+        PatternToken.Serial,
+        PatternToken.Account,
+      ])
       expect(result.current.status.filenamePatternIsValid).toBeTruthy()
 
       act(() => result.current.handler.sortPatternToken(1, 6))
 
       expect(
         result.current.filenameSetting.mapBy(props => props.filenamePattern)
-      ).toStrictEqual([PatternToken.TweetId, PatternToken.Account, PatternToken.Serial])
+      ).toStrictEqual([
+        PatternToken.TweetId,
+        PatternToken.Account,
+        PatternToken.Serial,
+      ])
       expect(result.current.status.filenamePatternIsValid).toBeTruthy()
 
       act(() => result.current.handler.sortPatternToken(1, -2))
 
       expect(
         result.current.filenameSetting.mapBy(props => props.filenamePattern)
-      ).toStrictEqual([PatternToken.Account, PatternToken.TweetId, PatternToken.Serial])
+      ).toStrictEqual([
+        PatternToken.Account,
+        PatternToken.TweetId,
+        PatternToken.Serial,
+      ])
       expect(result.current.status.filenamePatternIsValid).toBeTruthy()
 
       act(() => result.current.handler.sortPatternToken(1, 2))
 
       expect(
         result.current.filenameSetting.mapBy(props => props.filenamePattern)
-      ).toStrictEqual([PatternToken.Account, PatternToken.Serial, PatternToken.TweetId])
+      ).toStrictEqual([
+        PatternToken.Account,
+        PatternToken.Serial,
+        PatternToken.TweetId,
+      ])
       expect(result.current.status.filenamePatternIsValid).toBeTruthy()
 
       unmount()

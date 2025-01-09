@@ -39,6 +39,8 @@ describe('unit test for useFeatureSettings hook', () => {
     const [settings] = result.current
     expect(settings.autoRevealNsfw).toBe(!originalSettings.autoRevealNsfw)
     expect(settings.keyboardShortcut).toBe(!originalSettings.keyboardShortcut)
-    expect(settings.includeVideoThumbnail).toBe(!originalSettings.includeVideoThumbnail)
+    expect(settings.includeVideoThumbnail).toBe(
+      !originalSettings.includeVideoThumbnail
+    )
   })
 })

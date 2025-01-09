@@ -3,7 +3,9 @@ import { i18n } from 'webextension-polyfill'
 
 export type SupportLocale = 'en' | 'ja' | 'zh'
 
-export type LocaleVariableInit<T> = { fallback: T } & Partial<Record<SupportLocale, T>>
+export type LocaleVariableInit<T> = { fallback: T } & Partial<
+  Record<SupportLocale, T>
+>
 
 const useLocaleVariables = <T>(
   initVariables: LocaleVariableInit<T>,

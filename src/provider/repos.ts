@@ -17,13 +17,21 @@ export const downloadRepo = new BrowserDownloadRepository()
 export const xTokenRepo = new XTokenRepo()
 
 // Sync
-export const filenameSettingsRepo = new V4FilenameSettingsRepository(syncWebExtStorage)
+export const filenameSettingsRepo = new V4FilenameSettingsRepository(
+  syncWebExtStorage
+)
 
 // Local
 export const clientRepo = new AWSClientRepository(awsClient, localWebExtStorage)
-export const downloadSettingsRepo = new DownloadSettingsRepository(localWebExtStorage)
-export const featureSettingsRepo = new FeatureSettingsRepository(localWebExtStorage)
-export const usageStatisticsRepo = new WebExtUsageStatisticsRepository(localWebExtStorage)
+export const downloadSettingsRepo = new DownloadSettingsRepository(
+  localWebExtStorage
+)
+export const featureSettingsRepo = new FeatureSettingsRepository(
+  localWebExtStorage
+)
+export const usageStatisticsRepo = new WebExtUsageStatisticsRepository(
+  localWebExtStorage
+)
 
 export const downloadHistoryRepo = new IDBDownloadHistoryRepository(downloadIDB)
 export const downloadRecordRepo = new IDBDownloadRecordRepository(downloadIDB)

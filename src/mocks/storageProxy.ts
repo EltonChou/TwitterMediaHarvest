@@ -29,10 +29,10 @@ export class InMemoryStorageProxy<
   }
 
   async removeItem<Key extends SchemaKey<T>>(keys: Key | Key[]): Promise<void> {
-    if(Array.isArray(keys)) {
-       keys.forEach(key => delete this.storage[String(key)])
+    if (Array.isArray(keys)) {
+      keys.forEach(key => delete this.storage[String(key)])
     } else {
-       delete this.storage[String(keys)]
+      delete this.storage[String(keys)]
     }
   }
 }

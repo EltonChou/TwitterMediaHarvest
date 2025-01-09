@@ -1,7 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import useLocaleVariables, { type LocaleVariableInit } from './useLocaleVariables'
+import useLocaleVariables, {
+  type LocaleVariableInit,
+} from './useLocaleVariables'
 import { renderHook } from '@testing-library/react'
 import { i18n } from 'webextension-polyfill'
 

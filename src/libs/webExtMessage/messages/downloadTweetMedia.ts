@@ -14,7 +14,10 @@ type DownloadTweetMediaMessagePayload = {
 }
 
 const payloadSchema: Joi.ObjectSchema<
-  WebExtMessagePayloadObject<WebExtAction.DownloadMedia, DownloadTweetMediaMessagePayload>
+  WebExtMessagePayloadObject<
+    WebExtAction.DownloadMedia,
+    DownloadTweetMediaMessagePayload
+  >
 > = Joi.object({
   action: Joi.valid(WebExtAction.DownloadMedia),
   payload: Joi.object<DownloadTweetMediaMessagePayload>({
@@ -24,7 +27,8 @@ const payloadSchema: Joi.ObjectSchema<
 })
 
 export class DownloadTweetMediaMessage
-  implements WebExtMessage<WebExtAction.DownloadMedia, DownloadTweetMediaMessagePayload>
+  implements
+    WebExtMessage<WebExtAction.DownloadMedia, DownloadTweetMediaMessagePayload>
 {
   constructor(readonly payload: DownloadTweetMediaMessagePayload) {}
 

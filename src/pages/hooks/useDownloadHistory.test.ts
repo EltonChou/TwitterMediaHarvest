@@ -24,7 +24,8 @@ class MockSearchDownloadHistoryUseCase extends SearchDownloadHistoryUseCase {
 }
 
 describe('unit test for useDownloadHistory hook', () => {
-  const mockSearchDownloadHistoryUseCase = new MockSearchDownloadHistoryUseCase()
+  const mockSearchDownloadHistoryUseCase =
+    new MockSearchDownloadHistoryUseCase()
 
   afterAll(() => {
     jest.resetAllMocks()
@@ -142,7 +143,9 @@ describe('unit test for useDownloadHistory hook', () => {
 
       const mockCallback = jest.fn()
 
-      act(() => result.current.pageHandler.specifyPage(10, { cbs: [mockCallback] }))
+      act(() =>
+        result.current.pageHandler.specifyPage(10, { cbs: [mockCallback] })
+      )
 
       await waitFor(() => {
         expect(mockSearch).toHaveBeenCalledTimes(2)

@@ -8,7 +8,9 @@ describe('integration test for download changed event handler', () => {
   const mockDownloadCompletedHandler = jest.fn()
   const mcokDownloadInterruptedHandler = jest.fn()
   const extensionId = 'ext-id'
-  const checkDownloadIsOwnBySelf = new CheckDownloadWasTriggeredBySelf(extensionId)
+  const checkDownloadIsOwnBySelf = new CheckDownloadWasTriggeredBySelf(
+    extensionId
+  )
   const downloadRepo = new MockDownloadRepo()
   const handler = handleDownloadChanged(
     downloadRepo,
@@ -36,7 +38,10 @@ describe('integration test for download changed event handler', () => {
       filename: 'filename',
       byExtensionId: extensionId,
     })
-    await handler({ id: 1, state: { current: 'complete', previous: 'in_progress' } })
+    await handler({
+      id: 1,
+      state: { current: 'complete', previous: 'in_progress' },
+    })
     expect(mockDownloadCompletedHandler).toHaveBeenCalled()
   })
 
@@ -47,7 +52,10 @@ describe('integration test for download changed event handler', () => {
       filename: 'filename',
       byExtensionId: extensionId,
     })
-    await handler({ id: 1, state: { current: 'interrupted', previous: 'in_progress' } })
+    await handler({
+      id: 1,
+      state: { current: 'interrupted', previous: 'in_progress' },
+    })
     expect(mcokDownloadInterruptedHandler).toHaveBeenCalled()
   })
 
@@ -59,8 +67,14 @@ describe('integration test for download changed event handler', () => {
       byExtensionId: 'other',
     })
 
-    await handler({ id: 1, state: { current: 'interrupted', previous: 'in_progress' } })
-    await handler({ id: 1, state: { current: 'complete', previous: 'in_progress' } })
+    await handler({
+      id: 1,
+      state: { current: 'interrupted', previous: 'in_progress' },
+    })
+    await handler({
+      id: 1,
+      state: { current: 'complete', previous: 'in_progress' },
+    })
     expect(mcokDownloadInterruptedHandler).not.toHaveBeenCalled()
     expect(mockDownloadCompletedHandler).not.toHaveBeenCalled()
   })
@@ -68,8 +82,14 @@ describe('integration test for download changed event handler', () => {
   it('can ignore download which might be lost for some reason.', async () => {
     jest.spyOn(downloadRepo, 'getById').mockResolvedValue(undefined)
 
-    await handler({ id: 1, state: { current: 'interrupted', previous: 'in_progress' } })
-    await handler({ id: 1, state: { current: 'complete', previous: 'in_progress' } })
+    await handler({
+      id: 1,
+      state: { current: 'interrupted', previous: 'in_progress' },
+    })
+    await handler({
+      id: 1,
+      state: { current: 'complete', previous: 'in_progress' },
+    })
     expect(mcokDownloadInterruptedHandler).not.toHaveBeenCalled()
     expect(mockDownloadCompletedHandler).not.toHaveBeenCalled()
   })

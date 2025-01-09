@@ -3,7 +3,7 @@ import { articleHasMedia } from '../utils/article'
 import { isInTweetStatus, isStreamLoaded } from '../utils/checker'
 import { revealNsfw } from '../utils/helper'
 import observeElement from './observer'
-import {$, $$} from 'select-dom'
+import { $, $$ } from 'select-dom'
 
 const enum Query {
   Root = '#react-root',
@@ -58,7 +58,9 @@ export default class TwitterMediaObserver implements IHarvestObserver {
           if (!(addedNode instanceof HTMLElement)) return
 
           const mediaBlocks = $$('li', addedNode)
-          mediaBlocks.forEach(mediaBlock => this.autoRevealNsfw && revealNsfw(mediaBlock))
+          mediaBlocks.forEach(
+            mediaBlock => this.autoRevealNsfw && revealNsfw(mediaBlock)
+          )
 
           const article = $('article', addedNode)
           if (!article) return

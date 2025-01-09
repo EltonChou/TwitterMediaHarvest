@@ -8,11 +8,15 @@ const defaultIntegrationSettings: DownloadSettings = {
   askWhereToSave: false,
 }
 
-export class DownloadSettingsRepository implements ISettingsRepository<DownloadSettings> {
+export class DownloadSettingsRepository
+  implements ISettingsRepository<DownloadSettings>
+{
   constructor(readonly storageArea: IStorageProxy<DownloadSettings>) {}
 
   async get(): Promise<DownloadSettings> {
-    const settings = await this.storageArea.getItemByDefaults(defaultIntegrationSettings)
+    const settings = await this.storageArea.getItemByDefaults(
+      defaultIntegrationSettings
+    )
     return settings
   }
 

@@ -26,7 +26,9 @@ describe('unit test for handler to sync client', () => {
     const mockGet = jest
       .spyOn(clientRepo, 'get')
       .mockResolvedValue({ value: generateClient(0), error: undefined })
-    const mockSync = jest.spyOn(clientRepo, 'sync').mockImplementation(jest.fn())
+    const mockSync = jest
+      .spyOn(clientRepo, 'sync')
+      .mockImplementation(jest.fn())
 
     await handler(new TestEvent('download:status:completed'), publisher)
 
@@ -41,10 +43,13 @@ describe('unit test for handler to sync client', () => {
       .mockImplementation(async task => await task(lock))
     const handler = syncClient(lockCtx)(clientRepo)
 
-    const mockGet = jest
-      .spyOn(clientRepo, 'get')
-      .mockResolvedValue({ value: generateClient(Date.now()), error: undefined })
-    const mockSync = jest.spyOn(clientRepo, 'sync').mockImplementation(jest.fn())
+    const mockGet = jest.spyOn(clientRepo, 'get').mockResolvedValue({
+      value: generateClient(Date.now()),
+      error: undefined,
+    })
+    const mockSync = jest
+      .spyOn(clientRepo, 'sync')
+      .mockImplementation(jest.fn())
 
     await handler(new TestEvent('download:status:completed'), publisher)
 
@@ -62,7 +67,9 @@ describe('unit test for handler to sync client', () => {
     const mockGet = jest
       .spyOn(clientRepo, 'get')
       .mockResolvedValue({ value: generateClient(0), error: undefined })
-    const mockSync = jest.spyOn(clientRepo, 'sync').mockImplementation(jest.fn())
+    const mockSync = jest
+      .spyOn(clientRepo, 'sync')
+      .mockImplementation(jest.fn())
 
     await handler(new TestEvent('download:status:completed'), publisher)
 

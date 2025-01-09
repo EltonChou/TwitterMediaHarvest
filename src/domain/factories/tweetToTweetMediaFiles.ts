@@ -3,7 +3,10 @@ import { TweetMediaFile } from '#domain/valueObjects/tweetMediaFile'
 import type { Factory } from './base'
 import path from 'path'
 
-export const tweetToTweetMediaFiles: Factory<Tweet, TweetMediaFile[]> = tweet => {
+export const tweetToTweetMediaFiles: Factory<
+  Tweet,
+  TweetMediaFile[]
+> = tweet => {
   const files: TweetMediaFile[] = []
   const { id: tweetId, createdAt } = tweet.mapBy(props => ({
     id: props.id,
@@ -11,7 +14,9 @@ export const tweetToTweetMediaFiles: Factory<Tweet, TweetMediaFile[]> = tweet =>
   }))
 
   for (const media of tweet.medias) {
-    const pathInfo = path.parse(media.mapBy(props => new URL(props.url).pathname))
+    const pathInfo = path.parse(
+      media.mapBy(props => new URL(props.url).pathname)
+    )
     files.push(
       new TweetMediaFile({
         tweetId: tweetId,

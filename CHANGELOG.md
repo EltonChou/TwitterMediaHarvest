@@ -14,26 +14,22 @@
 - Fix auto-revealing nsfw in new medias ui.
 - Fix download button disappearing issue in modal with video content.
 
-
 ## [4.2.3] - 2023-11-26
 
 ### Added
 
 - The filename pattern token can be dragged now. (#117 by @Laurens256)
 
-
 ### Fixed
 
 - Fixed status anchor css selector.
 - Fixed button style due to the change of x's layout.
-
 
 ## [4.2.2] - 2023-10-29
 
 ### Fixed
 
 - Fixed download button position and gap due to layout change.
-
 
 ## [4.2.1] - 2023-10-01
 
@@ -47,7 +43,6 @@
 - Fixed quoted content checker.
 - Fixed history table page count.
 - Fixed download button style, due to change of the layout.
-
 
 ## [4.2.0] - 2023-09-07
 
@@ -68,7 +63,6 @@
 
 - Improve options page UI.
 
-
 ## [4.1.10] - 2023-07-24
 
 ### Added
@@ -79,7 +73,6 @@
 
 - Fixed thumbnail download options.
 
-
 ## [4.1.9] - 2023-07-19
 
 ### Fixed
@@ -88,20 +81,17 @@
 - Fixed that some tweet can't be parsed correctly due to the change of latest graphql api.
 - Fixed that undefined action bar cause error in legacy deck.
 
-
 ## [4.1.8] - 2023-07-10
 
 ### Fixed
 
 - Fixed twitter api parsing.
 
-
 ## [4.1.7] - 2023-07-09
 
 ### Added
 
 - Added legacy TweetDeck support.
-
 
 ## [4.1.6] - 2023-07-09
 
@@ -112,7 +102,6 @@
 ### Fixed
 
 - Fixed api tweet user parsing.
-
 
 ## [4.1.5] - 2023-07-07
 
@@ -133,14 +122,12 @@
 - Removed v2 endpoint support.
 - Removed Legacy tweetdeck support
 
-
 ## [4.1.4] - 2023-07-04
 
 ### Fixed
 
 - Fix filename pattern `date` incorrect month issue.
 - Fix CSP.
-
 
 ## [4.1.3] - 2023-07-02
 
@@ -154,7 +141,6 @@
 - Fix modal checking.
 - Fix download button bugs.
 
-
 ## [4.1.2] - 2023-07-01
 
 ### Fixed
@@ -162,13 +148,11 @@
 - Fix notification failure.
 - Fix the button style cannot be initialized in some situation.
 
-
 ## [4.1.1] - 2023-06-25
 
 ### Fixed
 
 - Fix Content Security Policy.
-
 
 ## [4.1.0] - 2023-06-25
 
@@ -184,7 +168,6 @@
 - Improve issue tracking.
 - Improve download record storage with IndexedDB (if supported).
 
-
 ## [4.0.1] - 2023-05-04
 
 ### Added
@@ -196,7 +179,6 @@
 
 - Fix TweetDeck (legacy) bugs.
 - Fix logic when the tweet is in photo mode.
-
 
 ## [4.0.0] - 2023-04-28
 

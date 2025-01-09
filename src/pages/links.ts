@@ -32,7 +32,8 @@ const Links = {
   changelog:
     'https://github.com/EltonChou/TwitterMediaHarvest/blob/main/CHANGELOG.md#' +
     Browser.runtime.getManifest().version,
-  privacy: 'https://github.com/EltonChou/TwitterMediaHarvest/blob/main/PRIVACY_POLICY.md',
+  privacy:
+    'https://github.com/EltonChou/TwitterMediaHarvest/blob/main/PRIVACY_POLICY.md',
   website: 'https://github.com/EltonChou/TwitterMediaHarvest',
 }
 

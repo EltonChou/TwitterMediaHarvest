@@ -36,9 +36,11 @@ async function extractPoCollection(filepath) {
   for (const [context, contextObject] of Object.entries(content.translations)) {
     for (const [msgId, _translation] of Object.entries(contextObject)) {
       if (msgId === '') break
-      Object.keys(collection).includes(context)
-        ? collection[context].add(msgId)
-        : (collection[context] = new Set([msgId]))
+      if (Object.keys(collection).includes(context)) {
+        collection[context].add(msgId)
+      } else {
+        collection[context] = new Set([msgId])
+      }
     }
   }
 
@@ -85,7 +87,9 @@ function compareSet(set) {
       .values()
       .map(v => /** @type {Diff} */ ({ type: 'minus', name: v }))
 
-    return [...plusDiffs, ...minusDiffs].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))
+    return [...plusDiffs, ...minusDiffs].sort((a, b) =>
+      a < b ? -1 : a > b ? 1 : 0
+    )
   }
 }
 
@@ -141,7 +145,9 @@ function toDiffNameWithCtx(ctx) {
 async function main() {
   let EXIT_CODE = 0
   const unqualify = () => (EXIT_CODE = 1)
-  const templateCollection = await extractPoCollection('./src/locales/template.pot')
+  const templateCollection = await extractPoCollection(
+    './src/locales/template.pot'
+  )
   const poFiles = await listPoFiles('./src/locales')
 
   const localeCollection = await getAllPoCollection(poFiles)
@@ -173,17 +179,25 @@ async function main() {
   }
 
   for (const [locale, diffs] of Object.entries(localesDiffs)) {
-    const plusCtx = diffs.contextDiffs.filter(byDiffType('plus')).map(toDiffName)
-    const minusCtx = diffs.contextDiffs.filter(byDiffType('minus')).map(toDiffName)
+    const plusCtx = diffs.contextDiffs
+      .filter(byDiffType('plus'))
+      .map(toDiffName)
+    const minusCtx = diffs.contextDiffs
+      .filter(byDiffType('minus'))
+      .map(toDiffName)
 
     const plusIds = Object.entries(diffs.diffs).reduce(
       (arr, [ctx, diffs]) =>
-        arr.concat(diffs.filter(byDiffType('plus')).map(toDiffNameWithCtx(ctx))),
+        arr.concat(
+          diffs.filter(byDiffType('plus')).map(toDiffNameWithCtx(ctx))
+        ),
       /** @type {string[]} */ ([])
     )
     const minusIds = Object.entries(diffs.diffs).reduce(
       (arr, [ctx, diffs]) =>
-        arr.concat(diffs.filter(byDiffType('minus')).map(toDiffNameWithCtx(ctx))),
+        arr.concat(
+          diffs.filter(byDiffType('minus')).map(toDiffNameWithCtx(ctx))
+        ),
       /** @type {string[]} */ ([])
     )
 

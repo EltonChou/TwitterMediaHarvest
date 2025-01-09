@@ -19,7 +19,10 @@ export class IDBPortableDownloadHistoryRepository
 
   async export(): AsyncResult<string> {
     try {
-      const { tx } = await this.downloadIDB.prepareTransaction('history', 'readonly')
+      const { tx } = await this.downloadIDB.prepareTransaction(
+        'history',
+        'readonly'
+      )
 
       const items = await tx.objectStore('history').getAll()
 
@@ -55,7 +58,9 @@ export class IDBPortableDownloadHistoryRepository
       for (const downloadHistory of downloadHistories) {
         await historyStore.put(downloadHistoryToIDBItem(downloadHistory))
 
-        for (const hashtag of downloadHistory.mapBy((_, props) => props.hashtags)) {
+        for (const hashtag of downloadHistory.mapBy(
+          (_, props) => props.hashtags
+        )) {
           if (hashtag in hashtagRecord) {
             hashtagRecord[hashtag].add(downloadHistory.id.value)
           } else {
@@ -69,7 +74,9 @@ export class IDBPortableDownloadHistoryRepository
 
         await hashtagStore.put({
           name: hashtag,
-          tweetIds: item ? new Set([...ids, ...Array.from(item.tweetIds)]) : new Set(ids),
+          tweetIds: item
+            ? new Set([...ids, ...Array.from(item.tweetIds)])
+            : new Set(ids),
         })
       }
 

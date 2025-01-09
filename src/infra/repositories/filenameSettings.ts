@@ -1,13 +1,21 @@
 import { ISettingsVORepository } from '#domain/repositories/settings'
-import { AggregationToken, FilenameSetting } from '#domain/valueObjects/filenameSetting'
+import {
+  AggregationToken,
+  FilenameSetting,
+} from '#domain/valueObjects/filenameSetting'
 import PatternToken from '#enums/patternToken'
 import type { IStorageProxy } from '#libs/storageProxy'
 import type { V4FilenameSettings } from '#schema'
 
 const defaultV4FilenameSettings = new FilenameSetting({
-  directory: process.env.NODE_ENV === 'production' ? 'twitter_media_harvest' : 'mh-dev',
+  directory:
+    process.env.NODE_ENV === 'production' ? 'twitter_media_harvest' : 'mh-dev',
   noSubDirectory: false,
-  filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
+  filenamePattern: [
+    PatternToken.Account,
+    PatternToken.TweetId,
+    PatternToken.Serial,
+  ],
   groupBy: AggregationToken.Account,
   fileAggregation: false,
 })

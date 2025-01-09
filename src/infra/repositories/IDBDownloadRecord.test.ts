@@ -10,15 +10,20 @@ import { IDBPDatabase } from 'idb'
 describe('integrated test for idb download record repository', () => {
   const repo = new IDBDownloadRecordRepository(downloadIDB)
 
-  const downloadRecordItems = faker.helpers.multiple(generateDownloadRecordItem, {
-    count: 10,
-  })
+  const downloadRecordItems = faker.helpers.multiple(
+    generateDownloadRecordItem,
+    {
+      count: 10,
+    }
+  )
 
   beforeEach(async () => {
     const context = await downloadIDB.prepareTransaction('record', 'readwrite')
 
     await Promise.all(
-      downloadRecordItems.map(item => context.tx.objectStore('record').put(item))
+      downloadRecordItems.map(item =>
+        context.tx.objectStore('record').put(item)
+      )
     )
     context.completeTx()
   })

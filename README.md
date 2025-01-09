@@ -11,6 +11,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EltonChou/TwitterMediaHarvest/test.yml?branch=main&style=flat-square)
 
 # TwitterMediaHarvest
+
 **Gather medias with just one-click.**
 
 If you are a firefox user, please download `xpi` file in release page.
@@ -24,8 +25,8 @@ If you are a firefox user, please download `xpi` file in release page.
 - [x] Support [TweetDeck](https://tweetdeck.twitter.com/)
 - [x] Integrate with [Aria2 Explorer](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn)
 
-
 ## Installation
+
 [![Microsoft store](assets/microsoft-badge.png)](https://microsoftedge.microsoft.com/addons/detail/media-harvest-twitter-m/mmijhjnobkeodfgoobnlmnpjllmlibkb)
 
 [![Chrome web store](assets/chrome-badge.jpg)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok)
@@ -35,7 +36,9 @@ If you are a firefox user, please download `xpi` file in release page.
 [![Support me on ko-fi](assets/ko-fi-badge.png)](https://ko-fi.com/eltonhy)
 
 ## Development
+
 ### Build
+
 This project is using `yarn` as package manager.
 
 To build the extension in local, you need to install the dependencies.
@@ -51,4 +54,3 @@ if you are a firefox user, use
 `yarn build:firefox`
 
 You will get some files under `dist` and `build` directory.
-

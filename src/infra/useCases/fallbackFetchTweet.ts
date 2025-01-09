@@ -48,9 +48,14 @@ export class FallbackFetchTweet extends FetchTweetBase {
     ])
   }
   makeEndpoint(tweetId: string): string {
-    const endpoint = new URL('https://x.com/i/api/BbCrSoXIR7z93lLCVFlQ2Q/TweetDetail')
+    const endpoint = new URL(
+      'https://x.com/i/api/BbCrSoXIR7z93lLCVFlQ2Q/TweetDetail'
+    )
     endpoint.searchParams.append('features', JSON.stringify(featureParams))
-    endpoint.searchParams.append('variables', JSON.stringify(makeVariableParams(tweetId)))
+    endpoint.searchParams.append(
+      'variables',
+      JSON.stringify(makeVariableParams(tweetId))
+    )
     return endpoint.href
   }
 }

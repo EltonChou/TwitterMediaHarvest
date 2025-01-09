@@ -63,7 +63,8 @@ export default (env, argv) => {
   const BUILD_TARGET = env.target
   const BROWSER = env.target.split('-')[0]
   const VERSION_NAME = `${VERSION} (${BROWSER})`
-  const RELEASE_NAME = env.RELEASE_NAME || name + '(' + BROWSER + ')' + '@' + VERSION
+  const RELEASE_NAME =
+    env.RELEASE_NAME || name + '(' + BROWSER + ')' + '@' + VERSION
   const OUTPUT_DIR = resolve(process.cwd(), 'build', BUILD_TARGET)
 
   return merge(config, {

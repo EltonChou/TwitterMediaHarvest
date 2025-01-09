@@ -2,8 +2,13 @@ import { DownloadTweetMediaMessage } from './downloadTweetMedia'
 
 describe('unit test for download tweet media web ext message', () => {
   it('can validate valid message', () => {
-    const message = new DownloadTweetMediaMessage({ screenName: '123', tweetId: '123' })
-    const { value, error } = DownloadTweetMediaMessage.validate(message.toObject())
+    const message = new DownloadTweetMediaMessage({
+      screenName: '123',
+      tweetId: '123',
+    })
+    const { value, error } = DownloadTweetMediaMessage.validate(
+      message.toObject()
+    )
 
     expect(value).toBeDefined()
     expect(error).toBeUndefined()
@@ -17,7 +22,10 @@ describe('unit test for download tweet media web ext message', () => {
   })
 
   it('can make response', () => {
-    const message = new DownloadTweetMediaMessage({ screenName: '123', tweetId: '123' })
+    const message = new DownloadTweetMediaMessage({
+      screenName: '123',
+      tweetId: '123',
+    })
 
     const okResp = message.makeResponse(true)
     expect(okResp.status).toBe('ok')

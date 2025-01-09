@@ -3,9 +3,9 @@ import FilenameIsOverwritten from '#domain/events/FilenameIsOverwritten'
 import type { Factory } from '#domain/factories/base'
 import type { IDownloadRepository } from '#domain/repositories/download'
 import type { IDownloadRecordRepository } from '#domain/repositories/downloadRecord'
-import { pipe } from 'fp-ts/lib/function'
 import { toFilename } from '../mappers/downloadConfig'
 import { toDownloadConfig } from '../mappers/downloadRecord'
+import { pipe } from 'fp-ts/lib/function'
 import { posix as path } from 'path'
 
 export const checkCompletedDownload =
@@ -36,4 +36,5 @@ export const checkCompletedDownload =
       )
   }
 
-const filenameToBaseName: Factory<string, string> = filename => path.parse(filename).base
+const filenameToBaseName: Factory<string, string> = filename =>
+  path.parse(filename).base

@@ -18,7 +18,9 @@ export class CheckMediaTweetHasBeenDownloaded
 {
   constructor(readonly infra: InfraProvider) {}
 
-  async process(command: CheckMediaTweetHasBeenDownloadedCommand): Promise<boolean> {
+  async process(
+    command: CheckMediaTweetHasBeenDownloadedCommand
+  ): Promise<boolean> {
     const { value: hasBeenDownloaded, error } =
       await this.infra.downloadHistoryRepo.hasTweetId(command.tweetId)
 

@@ -10,7 +10,9 @@ export class WarningSettingsRepo implements IWarningSettingsRepo {
   constructor(readonly storage: IStorageProxy<WarningSettings>) {}
 
   async get(): Promise<WarningSettings> {
-    const settings = await this.storage.getItemByDefaults(defaultWarningSettings)
+    const settings = await this.storage.getItemByDefaults(
+      defaultWarningSettings
+    )
     return settings
   }
 

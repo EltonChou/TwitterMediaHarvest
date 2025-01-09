@@ -27,7 +27,13 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import React, { ForwardedRef, forwardRef, memo, useImperativeHandle, useRef } from 'react'
+import React, {
+  ForwardedRef,
+  forwardRef,
+  memo,
+  useImperativeHandle,
+  useRef,
+} from 'react'
 import {
   BiChevronLeft,
   BiChevronRight,
@@ -51,7 +57,10 @@ export const ItemActions = (props: ItemActionsProps) => (
         href={`https://x.com/i/web/status/${props.tweetId}`}
         data-testid="item-action-openTweet"
       >
-        <IconButton aria-label="Open post" icon={<Icon as={BiLinkExternal} />} />
+        <IconButton
+          aria-label="Open post"
+          icon={<Icon as={BiLinkExternal} />}
+        />
       </Link>
     </Box>
     <IconButton
@@ -140,8 +149,16 @@ type ItemTypeIconProps = {
 
 const ItemTypeIcon = (props: ItemTypeIconProps) => (
   <HStack gap={3}>
-    <Icon as={BiImage} boxSize={5} color={props.type === 'video' ? 'dimgray' : 'white'} />
-    <Icon as={BiFilm} boxSize={5} color={props.type === 'image' ? 'dimgray' : 'white'} />
+    <Icon
+      as={BiImage}
+      boxSize={5}
+      color={props.type === 'video' ? 'dimgray' : 'white'}
+    />
+    <Icon
+      as={BiFilm}
+      boxSize={5}
+      color={props.type === 'image' ? 'dimgray' : 'white'}
+    />
   </HStack>
 )
 
@@ -171,7 +188,10 @@ const ItemRow = (props: ItemRowProps) => (
       <ItemTimestamp datetime={props.item.downloadTime} />
     </Td>
     <Td>
-      <ItemActions tweetId={props.item.id} screenName={props.item.user.screenName} />
+      <ItemActions
+        tweetId={props.item.id}
+        screenName={props.item.user.screenName}
+      />
     </Td>
   </Tr>
 )
@@ -410,7 +430,8 @@ const HistoryTable = ({
   const tableRef = useRef<HTMLTableElement>(null)
 
   const scrollTableToTop = () =>
-    tableRef.current && tableRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+    tableRef.current &&
+    tableRef.current.scrollTo({ top: 0, behavior: 'smooth' })
 
   const prevPage = () => {
     downloadHistory.pageHandler.prevPage({ cbs: [scrollTableToTop] })
@@ -466,7 +487,9 @@ const HistoryTable = ({
           </Thead>
           <Tbody>
             {downloadHistory.info.isLoaded ? (
-              downloadHistory.items.map(item => <ItemRow key={item.id} item={item} />)
+              downloadHistory.items.map(item => (
+                <ItemRow key={item.id} item={item} />
+              ))
             ) : (
               <LoadingBody />
             )}

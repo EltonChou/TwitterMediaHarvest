@@ -30,7 +30,10 @@ function reducer(
   }
 }
 
-type Toggler = Record<'nsfw' | 'thumbnail' | 'keyboardShortcut', () => Promise<void>>
+type Toggler = Record<
+  'nsfw' | 'thumbnail' | 'keyboardShortcut',
+  () => Promise<void>
+>
 
 const useFeatureSettings = (
   featureSettingsRepo: ISettingsRepository<FeatureSettings>

@@ -70,15 +70,24 @@ const useDownloadHistory = ({
   const [isLoaded, setLoaded] = useState(false)
   const [total, setTotal] = useState(0)
 
-  const setResultByResponse = useCallback((resp: DownloadHistoryQueryResponse) => {
-    console.count()
-    setItems(resp.result.items)
-    setTotal(resp.$metadata.matchedCount)
-    setPageInfo(resp.$metadata.page)
-  }, [])
+  const setResultByResponse = useCallback(
+    (resp: DownloadHistoryQueryResponse) => {
+      console.count()
+      setItems(resp.result.items)
+      setTotal(resp.$metadata.matchedCount)
+      setPageInfo(resp.$metadata.page)
+    },
+    []
+  )
 
   const loadLatest = useCallback(
-    async ({ itemPerPage, query }: { itemPerPage: number; query: SearchQuery }) => {
+    async ({
+      itemPerPage,
+      query,
+    }: {
+      itemPerPage: number
+      query: SearchQuery
+    }) => {
       const resp = await searchDownloadHistoryUseCase.process({
         ...query,
         itemPerPage: itemPerPage,
@@ -146,28 +155,29 @@ const useDownloadHistory = ({
     ]
   )
 
-  const specifyPage: DownloadHistory['pageHandler']['specifyPage'] = useCallback(
-    (page, options) => {
-      searchDownloadHistoryUseCase
-        .process({
-          filter: query.filter,
-          hashtags: query.hashtags,
-          itemPerPage: itemPerPage,
-          page: page,
-        })
-        .then(setResultByResponse)
-        .then(() => {
-          if (options) options.cbs.forEach(cb => cb())
-        })
-    },
-    [
-      itemPerPage,
-      query.filter,
-      query.hashtags,
-      searchDownloadHistoryUseCase,
-      setResultByResponse,
-    ]
-  )
+  const specifyPage: DownloadHistory['pageHandler']['specifyPage'] =
+    useCallback(
+      (page, options) => {
+        searchDownloadHistoryUseCase
+          .process({
+            filter: query.filter,
+            hashtags: query.hashtags,
+            itemPerPage: itemPerPage,
+            page: page,
+          })
+          .then(setResultByResponse)
+          .then(() => {
+            if (options) options.cbs.forEach(cb => cb())
+          })
+      },
+      [
+        itemPerPage,
+        query.filter,
+        query.hashtags,
+        searchDownloadHistoryUseCase,
+        setResultByResponse,
+      ]
+    )
 
   return {
     info: {

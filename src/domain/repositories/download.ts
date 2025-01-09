@@ -11,7 +11,10 @@ export type DownloadItem = {
   mime?: string
 }
 
-export interface IDownloadRepository<Query = DownloadQuery, Item = DownloadItem> {
+export interface IDownloadRepository<
+  Query = DownloadQuery,
+  Item = DownloadItem,
+> {
   getById(id: number): Promise<Item | undefined>
   search(query: Query): Promise<Item[]>
 }

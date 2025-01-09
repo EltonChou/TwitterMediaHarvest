@@ -3,7 +3,9 @@ import { i18n } from 'webextension-polyfill'
 
 test('getText', () => {
   jest.spyOn(i18n, 'getMessage').mockReturnValueOnce('This is {{fruit}}.')
-  expect(getText('This is {{fruit}}.', 'test', { fruit: 'apple' })).toBe('This is apple.')
+  expect(getText('This is {{fruit}}.', 'test', { fruit: 'apple' })).toBe(
+    'This is apple.'
+  )
 
   jest.spyOn(i18n, 'getMessage').mockReturnValueOnce('This is apple.')
   expect(getText('This is apple.', 'test')).toBe('This is apple.')

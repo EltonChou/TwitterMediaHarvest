@@ -19,11 +19,14 @@ export interface WebExtMessageRouter {
 
 export type MessageContextHandler = (ctx: MessageContext) => Promise<void>
 
-const messageSchema: Joi.ObjectSchema<WebExtMessageObject<WebExtAction>> = Joi.object({
-  action: Joi.string().required(),
-}).unknown(true)
+const messageSchema: Joi.ObjectSchema<WebExtMessageObject<WebExtAction>> =
+  Joi.object({
+    action: Joi.string().required(),
+  }).unknown(true)
 
-export const makeErrorResponse = (reason: string): WebExtMessageErrorResponse => ({
+export const makeErrorResponse = (
+  reason: string
+): WebExtMessageErrorResponse => ({
   status: 'error',
   reason,
 })
@@ -47,7 +50,9 @@ export class MessageRouter implements WebExtMessageRouter {
 
     return handler
       ? handler(ctx)
-      : ctx.response(makeErrorResponse('Invalid action' + `(action: ${value.action})`))
+      : ctx.response(
+          makeErrorResponse('Invalid action' + `(action: ${value.action})`)
+        )
   }
 
   route(action: WebExtAction, handler: MessageContextHandler): this {

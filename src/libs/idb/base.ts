@@ -1,5 +1,10 @@
 import { deleteDB, openDB } from 'idb'
-import type { DBSchema, IDBPTransaction, OpenDBCallbacks, StoreNames } from 'idb'
+import type {
+  DBSchema,
+  IDBPTransaction,
+  OpenDBCallbacks,
+  StoreNames,
+} from 'idb'
 
 export type CompleteTx = () => Promise<void>
 export type AbortTx = () => Promise<void>
@@ -125,7 +130,9 @@ export abstract class BaseIDB<Schema extends DBSchema, Version extends number> {
 }
 
 export const isSupportedIDB = () => {
-  return typeof window?.indexedDB !== 'undefined' || typeof indexedDB !== 'undefined'
+  return (
+    typeof window?.indexedDB !== 'undefined' || typeof indexedDB !== 'undefined'
+  )
 }
 
 export type IDBMirgration<SchemaType> = OpenDBCallbacks<SchemaType>['upgrade']

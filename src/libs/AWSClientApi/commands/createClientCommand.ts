@@ -48,7 +48,9 @@ export class CreateClientCommand extends BaseCommand<
   /**
    * @internal
    */
-  async resolveResponse(response: HttpResponse): Promise<CreateClientCommandOutput> {
+  async resolveResponse(
+    response: HttpResponse
+  ): Promise<CreateClientCommandOutput> {
     const body = JSON.parse(
       new TextDecoder().decode(await streamCollector(response.body))
     )

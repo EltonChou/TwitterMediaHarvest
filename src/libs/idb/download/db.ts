@@ -8,7 +8,10 @@ export class DownloadIDB extends BaseIDB<DownloadDBSchema, DownloadDBVersion> {
   databaseName = 'download'
 }
 
-const migrations: Map<DownloadDBVersion, IDBMirgration<DownloadDBSchema>> = new Map([
+const migrations: Map<
+  DownloadDBVersion,
+  IDBMirgration<DownloadDBSchema>
+> = new Map([
   [1, migrate1],
   [2, migrate2],
   [3, migrate3],
@@ -16,7 +19,10 @@ const migrations: Map<DownloadDBVersion, IDBMirgration<DownloadDBSchema>> = new 
 
 export const downloadIDB = new DownloadIDB(3).onUpgrade(
   (database, oldVersion, newVersion, transaction, event) => {
-    for (const version of versionRange<DownloadDBVersion>(oldVersion, newVersion)) {
+    for (const version of versionRange<DownloadDBVersion>(
+      oldVersion,
+      newVersion
+    )) {
       const migrate = migrations.get(version)
       if (migrate) migrate(database, oldVersion, newVersion, transaction, event)
     }

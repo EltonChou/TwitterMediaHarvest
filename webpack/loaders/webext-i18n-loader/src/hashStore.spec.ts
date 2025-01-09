@@ -1,5 +1,5 @@
-import crypto from 'crypto'
 import { HashStore, getHashStore } from './hashStore'
+import crypto from 'crypto'
 
 describe('unit test for hashStore', () => {
   it('can get same store', () => {

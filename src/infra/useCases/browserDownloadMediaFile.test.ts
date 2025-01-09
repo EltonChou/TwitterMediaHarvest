@@ -7,13 +7,19 @@ import { faker } from '@faker-js/faker/locale/en'
 import { downloads } from 'webextension-polyfill'
 
 const generateDownloadTarget = () =>
-  new DownloadTarget({ filename: faker.system.fileName(), url: faker.internet.url() })
+  new DownloadTarget({
+    filename: faker.system.fileName(),
+    url: faker.internet.url(),
+  })
 
 afterEach(() => jest.resetAllMocks())
 
 it('can download target file and emit browser download event', async () => {
   const mockDownload = jest.spyOn(downloads, 'download').mockResolvedValue(1)
-  const tweetInfo = new TweetInfo({ screenName: 'someone', tweetId: '1145141919810' })
+  const tweetInfo = new TweetInfo({
+    screenName: 'someone',
+    tweetId: '1145141919810',
+  })
   const useCase = new BrowserDownloadMediaFile(tweetInfo, false)
 
   const targets = faker.helpers.multiple(generateDownloadTarget, {
@@ -33,7 +39,10 @@ it('can emit internal error event when the browser download api has error', asyn
   const mockDownload = jest
     .spyOn(downloads, 'download')
     .mockResolvedValue(undefined as unknown as number)
-  const tweetInfo = new TweetInfo({ screenName: 'someone', tweetId: '1145141919810' })
+  const tweetInfo = new TweetInfo({
+    screenName: 'someone',
+    tweetId: '1145141919810',
+  })
   const useCase = new BrowserDownloadMediaFile(tweetInfo, false)
 
   const targets = faker.helpers.multiple(generateDownloadTarget, {

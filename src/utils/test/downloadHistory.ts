@@ -1,4 +1,7 @@
-import { DownloadHistory, DownloadHistoryId } from '#domain/entities/downloadHistory'
+import {
+  DownloadHistory,
+  DownloadHistoryId,
+} from '#domain/entities/downloadHistory'
 import MediaType from '#enums/mediaType'
 import { generateTweetUser } from './tweetUser'
 import { faker } from '@faker-js/faker/locale/en'

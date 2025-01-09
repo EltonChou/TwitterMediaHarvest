@@ -1,5 +1,8 @@
 import type { ISettingsVORepository } from '#domain/repositories/settings'
-import { AggregationToken, FilenameSetting } from '#domain/valueObjects/filenameSetting'
+import {
+  AggregationToken,
+  FilenameSetting,
+} from '#domain/valueObjects/filenameSetting'
 import PatternToken from '#enums/patternToken'
 
 export class MockFilenameSettingRepository
@@ -10,7 +13,11 @@ export class MockFilenameSettingRepository
     this.settings = new FilenameSetting({
       directory: 'download',
       fileAggregation: false,
-      filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
+      filenamePattern: [
+        PatternToken.Account,
+        PatternToken.TweetId,
+        PatternToken.Serial,
+      ],
       groupBy: AggregationToken.Account,
       noSubDirectory: false,
     })
@@ -28,7 +35,11 @@ export class MockFilenameSettingRepository
     return new FilenameSetting({
       directory: 'download',
       fileAggregation: false,
-      filenamePattern: [PatternToken.Account, PatternToken.TweetId, PatternToken.Serial],
+      filenamePattern: [
+        PatternToken.Account,
+        PatternToken.TweetId,
+        PatternToken.Serial,
+      ],
       groupBy: AggregationToken.Account,
       noSubDirectory: false,
     })

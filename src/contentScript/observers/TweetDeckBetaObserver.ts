@@ -16,7 +16,11 @@ export default class TweetDeckBetaObserver implements IHarvestObserver {
   initialize() {
     const modalQuery = '[aria-labelledby="modal-header"]'
     const modal = $(modalQuery)
-    if (modal && isInTweetStatus() && !elementExists('[aria-label="Loading"]')) {
+    if (
+      modal &&
+      isInTweetStatus() &&
+      !elementExists('[aria-label="Loading"]')
+    ) {
       makeHarvester(modal)
     }
 

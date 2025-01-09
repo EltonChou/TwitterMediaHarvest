@@ -1,4 +1,7 @@
-import { DownloadHistory, DownloadHistoryId } from '#domain/entities/downloadHistory'
+import {
+  DownloadHistory,
+  DownloadHistoryId,
+} from '#domain/entities/downloadHistory'
 import type { Factory } from '#domain/factories/base'
 import type {
   DownloadHistoryStats,
@@ -31,17 +34,30 @@ type AbortableError = {
 }
 
 type WritableHistoryCollection =
-  | IDBPObjectStore<DownloadDBSchema, ('history' | 'hashtag')[], 'history', 'readwrite'>
+  | IDBPObjectStore<
+      DownloadDBSchema,
+      ('history' | 'hashtag')[],
+      'history',
+      'readwrite'
+    >
   | IDBPObjectStore<DownloadDBSchema, 'history'[], 'history', 'readwrite'>
 
 type WritableHashtagCollection =
-  | IDBPObjectStore<DownloadDBSchema, ('history' | 'hashtag')[], 'hashtag', 'readwrite'>
+  | IDBPObjectStore<
+      DownloadDBSchema,
+      ('history' | 'hashtag')[],
+      'hashtag',
+      'readwrite'
+    >
   | IDBPObjectStore<DownloadDBSchema, 'hashtag'[], 'hashtag', 'readwrite'>
 
 type HashtagDelta = Delta<Set<string>>
 
 const prepareTransactionContext = async (idb: DownloadIDB) => {
-  const txContext = await idb.prepareTransaction(['hashtag', 'history'], 'readwrite')
+  const txContext = await idb.prepareTransaction(
+    ['hashtag', 'history'],
+    'readwrite'
+  )
 
   const historyCollection = txContext.tx.objectStore('history')
   const hashtagCollection = txContext.tx.objectStore('hashtag')
@@ -78,7 +94,9 @@ const calcHashtagDelta = ({
   }
 }
 
-export class IDBDownloadHistoryRepository implements IDownloadHistoryRepository {
+export class IDBDownloadHistoryRepository
+  implements IDownloadHistoryRepository
+{
   constructor(readonly idb: DownloadIDB) {}
 
   async total(): AsyncResult<DownloadHistoryStats> {
@@ -94,7 +112,10 @@ export class IDBDownloadHistoryRepository implements IDownloadHistoryRepository 
 
   async clear(): Promise<UnsafeTask> {
     const clearTask = pipe(
-      TE.tryCatch(() => prepareTransactionContext(this.idb), toErrorWithAbort(nullAbort)),
+      TE.tryCatch(
+        () => prepareTransactionContext(this.idb),
+        toErrorWithAbort(nullAbort)
+      ),
       TE.tap(context =>
         TE.tryCatch(
           () =>
@@ -126,7 +147,10 @@ export class IDBDownloadHistoryRepository implements IDownloadHistoryRepository 
 
   async save(downloadHistory: DownloadHistory): Promise<UnsafeTask> {
     const prepareContext = pipe(
-      TE.tryCatch(() => prepareTransactionContext(this.idb), toErrorWithAbort(nullAbort)),
+      TE.tryCatch(
+        () => prepareTransactionContext(this.idb),
+        toErrorWithAbort(nullAbort)
+      ),
       TE.bind('tweetId', () => TE.right(downloadHistory.id.value)),
       TE.bind('hashtagDelta', context =>
         TE.tryCatch(async () => {
@@ -184,7 +208,9 @@ export class IDBDownloadHistoryRepository implements IDownloadHistoryRepository 
     return save()
   }
 
-  async getByTweetId(tweetId: string): Promise<Result<DownloadHistory | undefined>> {
+  async getByTweetId(
+    tweetId: string
+  ): Promise<Result<DownloadHistory | undefined>> {
     try {
       const client = await this.idb.connect()
       const item = await client.get('history', tweetId)
@@ -255,7 +281,9 @@ const removeHashtagsRelationship = ({
     Array.from(hashtagDelta.previous)
       .filter(prevHashtag => !hashtagDelta.current.has(prevHashtag))
       .map(hashtag =>
-        removeHashtagTweetIdRelationship({ hashtag, tweetId })(hashtagCollection)
+        removeHashtagTweetIdRelationship({ hashtag, tweetId })(
+          hashtagCollection
+        )
       )
   )
 
@@ -306,7 +334,10 @@ const addHashtagTweetIdRelationship =
 
 // Mapper
 
-const dbItemToDownloadHistory: Factory<DownloadHistoryItem, DownloadHistory> = item => {
+const dbItemToDownloadHistory: Factory<
+  DownloadHistoryItem,
+  DownloadHistory
+> = item => {
   const id = new DownloadHistoryId(item.tweetId)
   const history = new DownloadHistory(id, {
     downloadTime: item.downloadTime,

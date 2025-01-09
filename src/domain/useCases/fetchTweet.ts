@@ -18,7 +18,8 @@ export type TweetResult =
       error: Error | FetchTweetError | ParseTweetError
     }
 
-export interface FetchTweet extends AsyncUseCase<FetchTweetCommand, TweetResult> {
+export interface FetchTweet
+  extends AsyncUseCase<FetchTweetCommand, TweetResult> {
   readonly identity: string
 }
 

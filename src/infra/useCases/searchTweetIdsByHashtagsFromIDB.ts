@@ -29,7 +29,9 @@ const arrayHashtagsToSet = (hashtags: Iterable<string>) => new Set(hashtags)
 
 const makeEmptyIdSet = () => new Set<string>()
 
-export class SearchTweetIdsByHashtagsFromIDB implements SearchTweetIdsByHashTags {
+export class SearchTweetIdsByHashtagsFromIDB
+  implements SearchTweetIdsByHashTags
+{
   constructor(readonly downloadIdb: DownloadIDB) {}
 
   async process(command: Query): Promise<Result<IdSet, Error>> {
@@ -70,7 +72,9 @@ export class SearchTweetIdsByHashtagsFromIDB implements SearchTweetIdsByHashTags
           })()
 
           for (const hashtag of context.hashtags) {
-            const item = await context.hashtagCollection.get(IDBKeyRange.only(hashtag))
+            const item = await context.hashtagCollection.get(
+              IDBKeyRange.only(hashtag)
+            )
 
             // if there is no id in item, we ignore remaining hashtags.
             if (!item) return makeEmptyIdSet()
@@ -85,7 +89,10 @@ export class SearchTweetIdsByHashtagsFromIDB implements SearchTweetIdsByHashTags
       ),
       TE.match(
         e => ({ done: e.abort, result: toErrorResult<IdSet>(e.error) }),
-        context => ({ done: context.completeTx, result: toSuccessResult(context.ids) })
+        context => ({
+          done: context.completeTx,
+          result: toSuccessResult(context.ids),
+        })
       )
     )
 

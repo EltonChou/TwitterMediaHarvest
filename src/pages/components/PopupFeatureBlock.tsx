@@ -12,8 +12,13 @@ export type PopupFeatureBlockProps = {
 }
 
 const PopupFeatureBlock = memo((props: PopupFeatureBlockProps) => {
-  const localizationPadding = useLocaleVariables({ fallback: '50px', ja: '40px' })
-  const [featureSettings, toggler] = useFeatureSettings(props.featureSettingsRepo)
+  const localizationPadding = useLocaleVariables({
+    fallback: '50px',
+    ja: '40px',
+  })
+  const [featureSettings, toggler] = useFeatureSettings(
+    props.featureSettingsRepo
+  )
 
   return (
     <Stack

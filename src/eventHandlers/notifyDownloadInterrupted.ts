@@ -30,7 +30,9 @@ export const notifyDownloadInterrupted =
     )
     if (error) return
 
-    const tweetInfo = downloadRecord.mapBy(props => props.tweetInfo).mapBy(props => props)
+    const tweetInfo = downloadRecord
+      .mapBy(props => props.tweetInfo)
+      .mapBy(props => props)
     const notificationConfig = MediaDownloadNotificationConfig.error(
       tweetInfo,
       event.occuredAt

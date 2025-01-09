@@ -22,7 +22,9 @@ describe('unit test for sync usage statistic with local download history', () =>
 
     jest
       .spyOn(mockUsageRepo, 'get')
-      .mockResolvedValue(new UsageStatistics({ downloadCount: 1, trafficUsage: 100 }))
+      .mockResolvedValue(
+        new UsageStatistics({ downloadCount: 1, trafficUsage: 100 })
+      )
     const mockUsageSaving = jest
       .spyOn(mockUsageRepo, 'save')
       .mockImplementation(jest.fn())

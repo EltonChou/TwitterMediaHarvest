@@ -59,21 +59,27 @@ describe('integration test for handler to handle notification clicked event ', (
       const handler = handleNotificationButtonClicked(eventPublisher)
       await handler(makeDownloadFailedNotificationId(100), 0)
 
-      expect(mockHandleDownloadFailedNotificationButtonClicked).toHaveBeenCalled()
+      expect(
+        mockHandleDownloadFailedNotificationButtonClicked
+      ).toHaveBeenCalled()
     })
 
     it('can emit notification:downloadFailed:retryButton:clicked event', async () => {
       const handler = handleNotificationButtonClicked(eventPublisher)
       await handler(makeDownloadFailedNotificationId(100), 1)
 
-      expect(mockHandleDownloadFailedNotificationButtonClicked).toHaveBeenCalled()
+      expect(
+        mockHandleDownloadFailedNotificationButtonClicked
+      ).toHaveBeenCalled()
     })
 
     it('can emit notification:general:unknownButton:clicked event', async () => {
       const handler = handleNotificationButtonClicked(eventPublisher)
       await handler(makeDownloadFailedNotificationId(100), 2)
 
-      expect(mockHandleDownloadFailedNotificationButtonClicked).not.toHaveBeenCalled()
+      expect(
+        mockHandleDownloadFailedNotificationButtonClicked
+      ).not.toHaveBeenCalled()
       expect(mockHandlekUnknownButtonClicked).toHaveBeenCalled()
     })
   })

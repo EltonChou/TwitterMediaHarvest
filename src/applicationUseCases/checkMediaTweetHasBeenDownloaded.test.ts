@@ -11,14 +11,18 @@ describe('unit test for checking media tweet has been downloaded or not', () => 
   afterEach(() => jest.restoreAllMocks())
 
   it('can return true if the tweet has been downloaded', async () => {
-    jest.spyOn(historyRepo, 'hasTweetId').mockResolvedValue(toSuccessResult(true))
+    jest
+      .spyOn(historyRepo, 'hasTweetId')
+      .mockResolvedValue(toSuccessResult(true))
 
     const hasBeenDownloaded = await useCase.process({ tweetId: '1' })
     expect(hasBeenDownloaded).toBeTruthy()
   })
 
   it('can return false if the tweet has not been downloaded', async () => {
-    jest.spyOn(historyRepo, 'hasTweetId').mockResolvedValue(toSuccessResult(false))
+    jest
+      .spyOn(historyRepo, 'hasTweetId')
+      .mockResolvedValue(toSuccessResult(false))
 
     const hasBeenDownloaded = await useCase.process({ tweetId: '1' })
     expect(hasBeenDownloaded).toBeFalsy()

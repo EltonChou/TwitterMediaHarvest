@@ -16,7 +16,9 @@ const FootBar = () => {
       bg={'brand.blue'}
     >
       <HStack justify={'center'} spacing={[4, 4, 4, 8]}>
-        <Text>{i18n('Do you like Media Harvest?', 'options:footBar:text')}</Text>
+        <Text>
+          {i18n('Do you like Media Harvest?', 'options:footBar:text')}
+        </Text>
         <Link href={Links.store} _hover={{ textDecoration: 'none' }} isExternal>
           <Button
             colorScheme={'brand.yellow'}

@@ -60,7 +60,10 @@ const Links = () => {
         name={i18n('Reoprt issues', 'options:about')}
         href={ExtLinks.issues}
       />
-      <ExternalLink name={i18n('Changelog', 'options:about')} href={ExtLinks.changelog} />
+      <ExternalLink
+        name={i18n('Changelog', 'options:about')}
+        href={ExtLinks.changelog}
+      />
       <ExternalLink name="Github" href={ExtLinks.github} />
     </Stack>
   )

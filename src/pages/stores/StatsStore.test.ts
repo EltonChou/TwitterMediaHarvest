@@ -3,7 +3,8 @@ import { createStatsStore } from './StatsStore'
 
 describe('unit test for StatsStore', () => {
   const { getSnapShot, subscribe, triggerChange } = createStatsStore({
-    getStats: async () => new UsageStatistics({ downloadCount: 10, trafficUsage: 10 }),
+    getStats: async () =>
+      new UsageStatistics({ downloadCount: 10, trafficUsage: 10 }),
   })
 
   it('can get snapshot', () => {

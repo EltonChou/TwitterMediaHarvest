@@ -18,7 +18,8 @@ const enum TemplateType {
   Progress = 'progress',
 }
 
-const getNotificationIconUrl = () => Browser.runtime.getURL('assets/icons/icon@128.png')
+const getNotificationIconUrl = () =>
+  Browser.runtime.getURL('assets/icons/icon@128.png')
 
 export const enum MediaDownloadNotificationErrorButton {
   ViewTweet = 0,
@@ -80,7 +81,10 @@ const makeGeneralTweetFetchErrorNotificationConfig = ({
     eventTime: eventTime.getTime(),
     ...(isFirefox()
       ? {}
-      : { buttons: [TweetNotificationButton.viewTweet()], requireInteraction: true }),
+      : {
+          buttons: [TweetNotificationButton.viewTweet()],
+          requireInteraction: true,
+        }),
   }
 }
 
@@ -105,7 +109,10 @@ export class TweetFetchErrorNotificationConfig {
   ): Notifications.CreateNotificationOptions {
     return makeGeneralTweetFetchErrorNotificationConfig({
       title: getText('The tweet cannot be found', 'notification:tweetFetch'),
-      message: getText('The tweet might be deleted.', 'notification:tweetFetch'),
+      message: getText(
+        'The tweet might be deleted.',
+        'notification:tweetFetch'
+      ),
       eventTime: params.eventTime,
     })
   }
@@ -143,24 +150,31 @@ export class TweetFetchErrorNotificationConfig {
       title: getText('Unknown Error ({{code}})', 'notification:tweetFetch', {
         code: params.code.toString(),
       }),
-      message: getText('Please contact with developer.', 'notification:tweetFetch'),
+      message: getText(
+        'Please contact with developer.',
+        'notification:tweetFetch'
+      ),
       eventTime: params.eventTime,
     })
   }
 
-  static failedToParseTweetInfo = (): Notifications.CreateNotificationOptions => {
-    return {
-      type: TemplateType.Basic,
-      iconUrl: getNotificationIconUrl(),
-      title: getText('Failed to parse tweet information', 'notification:parseTweetInfo'),
-      message: getText(
-        'Failed to parse tweet information. Please report bug to developer.',
-        'notification:parseTweetInfo'
-      ),
-      contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
-      eventTime: Date.now(),
+  static failedToParseTweetInfo =
+    (): Notifications.CreateNotificationOptions => {
+      return {
+        type: TemplateType.Basic,
+        iconUrl: getNotificationIconUrl(),
+        title: getText(
+          'Failed to parse tweet information',
+          'notification:parseTweetInfo'
+        ),
+        message: getText(
+          'Failed to parse tweet information. Please report bug to developer.',
+          'notification:parseTweetInfo'
+        ),
+        contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
+        eventTime: Date.now(),
+      }
     }
-  }
 }
 
 export const enum FilenameOverwirrtenNotificationButton {

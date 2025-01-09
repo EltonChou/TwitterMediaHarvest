@@ -1,4 +1,7 @@
-import { AggregationToken, FilenameSetting } from '#domain/valueObjects/filenameSetting'
+import {
+  AggregationToken,
+  FilenameSetting,
+} from '#domain/valueObjects/filenameSetting'
 import PatternToken from '#enums/patternToken'
 import { faker } from '@faker-js/faker/locale/en'
 

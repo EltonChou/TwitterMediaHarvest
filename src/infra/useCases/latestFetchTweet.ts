@@ -31,7 +31,8 @@ const featureParams = {
   creator_subscriptions_quote_tweet_preview_enabled: false,
   freedom_of_speech_not_reach_fetch_enabled: false,
   standardized_nudges_misinfo: false,
-  tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled: false,
+  tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled:
+    false,
   tweet_with_visibility_results_prefer_gql_media_interstitial_enabled: false,
   rweb_video_timestamps_enabled: false,
   longform_notetweets_rich_text_read_enabled: false,
@@ -63,8 +64,14 @@ export class LatestFetchTweet extends FetchTweetBase {
       'https://x.com/i/api/graphql/zJvfJs3gSbrVhC0MKjt_OQ/TweetDetail'
     )
     endpoint.searchParams.append('features', JSON.stringify(featureParams))
-    endpoint.searchParams.append('fieldToggles', JSON.stringify(fieldTogglesParams))
-    endpoint.searchParams.append('variables', JSON.stringify(makeVariableParams(tweetId)))
+    endpoint.searchParams.append(
+      'fieldToggles',
+      JSON.stringify(fieldTogglesParams)
+    )
+    endpoint.searchParams.append(
+      'variables',
+      JSON.stringify(makeVariableParams(tweetId))
+    )
     return endpoint.href
   }
 }

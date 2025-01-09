@@ -31,7 +31,9 @@ type CognitoPoolConfig = {
   identityPoolId: string
 }
 
-export class AWSCredentialRepository implements ICredentialRepository<AWSCredential> {
+export class AWSCredentialRepository
+  implements ICredentialRepository<AWSCredential>
+{
   constructor(
     readonly storageProxy: IStorageProxy<AWSCredentialsItem>,
     private cognitoPoolConfig: CognitoPoolConfig
@@ -54,7 +56,8 @@ export class AWSCredentialRepository implements ICredentialRepository<AWSCredent
   }
 
   async get(): Promise<AWSCredential> {
-    const credentialDBItem = await this.storageProxy.getItemByKey('awsCredential')
+    const credentialDBItem =
+      await this.storageProxy.getItemByKey('awsCredential')
     if (!credentialDBItem) {
       return this.fetch()
     }
@@ -64,7 +67,9 @@ export class AWSCredentialRepository implements ICredentialRepository<AWSCredent
   }
 }
 
-const credentialDBItemToValueObject = (dbItem: AWSCredentialsItem): AWSCredential => {
+const credentialDBItemToValueObject = (
+  dbItem: AWSCredentialsItem
+): AWSCredential => {
   return new AWSCredential({
     ...dbItem.awsCredential,
     expiration: new Date(dbItem.awsCredential.expiration),

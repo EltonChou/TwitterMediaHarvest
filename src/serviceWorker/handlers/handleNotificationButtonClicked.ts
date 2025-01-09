@@ -67,7 +67,9 @@ const handleNotificationButtonClicked =
 
     if (isFilenameOverWrittenId(notificationId)) {
       if (buttonIndex === FilenameOverwirrtenNotificationButton.Ignore)
-        await publisher.publish(new FilenameOverwrittenNotificationIgnoreButtonClicked())
+        await publisher.publish(
+          new FilenameOverwrittenNotificationIgnoreButtonClicked()
+        )
     }
   }
 

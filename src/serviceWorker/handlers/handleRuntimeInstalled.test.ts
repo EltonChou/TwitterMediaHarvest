@@ -37,7 +37,11 @@ describe('integration test for handler to handle runtime installed event ', () =
   it('can emit runtime:status:updated event', async () => {
     const handler = handleRuntimeInstalled(eventPublisher)
 
-    await handler({ reason: 'update', temporary: false, previousVersion: '4.0.0' })
+    await handler({
+      reason: 'update',
+      temporary: false,
+      previousVersion: '4.0.0',
+    })
     expect(mockHandlerRuntimeUpdated).toHaveBeenCalled()
   })
 

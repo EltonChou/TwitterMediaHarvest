@@ -12,8 +12,14 @@ describe('unit test for usage statistics value object', () => {
 
   it('can compare two statistics', () => {
     const stats = new UsageStatistics({ downloadCount: 2, trafficUsage: 200 })
-    const greaterStats = new UsageStatistics({ downloadCount: 3, trafficUsage: 300 })
-    const lessStats = new UsageStatistics({ downloadCount: 1, trafficUsage: 100 })
+    const greaterStats = new UsageStatistics({
+      downloadCount: 3,
+      trafficUsage: 300,
+    })
+    const lessStats = new UsageStatistics({
+      downloadCount: 1,
+      trafficUsage: 100,
+    })
 
     expect(greaterStats.isGreaterThan(stats)).toBeTruthy()
     expect(lessStats.isLessThan(stats)).toBeTruthy()

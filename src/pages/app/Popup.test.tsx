@@ -44,8 +44,14 @@ describe('unit test for Popup app component', () => {
     expect(runtime.openOptionsPage).toHaveBeenCalled()
 
     // Check reaction link.
-    expect(screen.getByTestId('reaction-rate')).toHaveAttribute('href', Links.store)
-    expect(screen.getByTestId('reaction-report')).toHaveAttribute('href', Links.issues)
+    expect(screen.getByTestId('reaction-rate')).toHaveAttribute(
+      'href',
+      Links.store
+    )
+    expect(screen.getByTestId('reaction-report')).toHaveAttribute(
+      'href',
+      Links.issues
+    )
 
     // Check footbar action
     const footerActionChangelog = screen.getByTestId('footer-action-changelog')
@@ -53,7 +59,10 @@ describe('unit test for Popup app component', () => {
       await user.hover(footerActionChangelog)
       await user.click(footerActionChangelog)
     })
-    expect(tabs.create).toHaveBeenLastCalledWith({ active: true, url: Links.changelog })
+    expect(tabs.create).toHaveBeenLastCalledWith({
+      active: true,
+      url: Links.changelog,
+    })
     expect(screen.getByTestId('footer-info')).toHaveTextContent(
       new RegExp('changelog', 'i')
     )
@@ -63,16 +72,26 @@ describe('unit test for Popup app component', () => {
       await user.hover(footerActionKofi)
       await user.click(footerActionKofi)
     })
-    expect(tabs.create).toHaveBeenLastCalledWith({ active: true, url: Links.koFi })
-    expect(screen.getByTestId('footer-info')).toHaveTextContent(new RegExp('coffee', 'i'))
+    expect(tabs.create).toHaveBeenLastCalledWith({
+      active: true,
+      url: Links.koFi,
+    })
+    expect(screen.getByTestId('footer-info')).toHaveTextContent(
+      new RegExp('coffee', 'i')
+    )
 
     const footerActionGithub = screen.getByTestId('footer-action-github')
     await act(async () => {
       await user.hover(footerActionGithub)
       await user.click(footerActionGithub)
     })
-    expect(tabs.create).toHaveBeenLastCalledWith({ active: true, url: Links.github })
-    expect(screen.getByTestId('footer-info')).toHaveTextContent(new RegExp('github', 'i'))
+    expect(tabs.create).toHaveBeenLastCalledWith({
+      active: true,
+      url: Links.github,
+    })
+    expect(screen.getByTestId('footer-info')).toHaveTextContent(
+      new RegExp('github', 'i')
+    )
 
     await act(async () => {
       storageChangeListeners.forEach(listener =>

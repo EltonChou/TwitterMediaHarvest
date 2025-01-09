@@ -25,7 +25,10 @@ describe('unit test for event publisher', () => {
       .register('download:status:completed', [mockHandler, mockHandler])
 
     await publisher.publishAll(
-      new TweetApiFailed(new TweetInfo({ screenName: 'Someone', tweetId: '123' }), 403),
+      new TweetApiFailed(
+        new TweetInfo({ screenName: 'Someone', tweetId: '123' }),
+        403
+      ),
       new DownloadCompleted(1)
     )
 
@@ -33,9 +36,11 @@ describe('unit test for event publisher', () => {
   })
 
   it('can publish event', async () => {
-    const mockConsoleError = jest.spyOn(console, 'error').mockImplementation(() => {
-      /** pass */
-    })
+    const mockConsoleError = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {
+        /** pass */
+      })
     const event = new TweetApiFailed(
       new TweetInfo({ screenName: 'Someone', tweetId: '123' }),
       403

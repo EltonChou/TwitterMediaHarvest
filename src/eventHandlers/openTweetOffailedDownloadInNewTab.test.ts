@@ -16,7 +16,10 @@ describe('unit test for handler to open tweet of failed download in new tab', ()
       .mockResolvedValue(toSuccessResult(generateDownloadRecord()))
     const mockCreateTab = jest.spyOn(tabs, 'create')
     const handler = openTweetOfFailedDownloadInNewTab(recordRepo)
-    await handler(new DownloadFailedNotificationViewButtonClicked(10), publisher)
+    await handler(
+      new DownloadFailedNotificationViewButtonClicked(10),
+      publisher
+    )
 
     expect(mockCreateTab).toHaveBeenCalled()
   })

@@ -30,7 +30,9 @@ describe('unit test for value object', () => {
   it('can be serialized', () => {
     const usd = new Money({ currency: 'USD', amount: 1000 })
 
-    expect(JSON.stringify(usd)).toBe(JSON.stringify({ currency: 'USD', amount: 1000 }))
+    expect(JSON.stringify(usd)).toBe(
+      JSON.stringify({ currency: 'USD', amount: 1000 })
+    )
   })
 
   it('can duplicate', () => {
@@ -42,7 +44,9 @@ describe('unit test for value object', () => {
   it.each([
     { a: new Box({ items: ['a', 'b'] }) },
     {
-      a: new CupBox({ items: [new Cup({ for: 'water' }), new Cup({ for: 'coke' })] }),
+      a: new CupBox({
+        items: [new Cup({ for: 'water' }), new Cup({ for: 'coke' })],
+      }),
     },
   ])('can compare array prop', ({ a }) => {
     const b = a.duplicate()

@@ -19,7 +19,9 @@ export type WebExtMessageErrorResponse = { status: 'error'; reason: string }
 
 export type WebExtMessageResponse = { status: 'ok' }
 
-export type WebExtMessagePayloadResponse<Payload extends Record<string, unknown>> = {
+export type WebExtMessagePayloadResponse<
+  Payload extends Record<string, unknown>,
+> = {
   status: 'ok'
   payload: Payload
 }

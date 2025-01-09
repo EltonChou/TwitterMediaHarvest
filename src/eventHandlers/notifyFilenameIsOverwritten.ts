@@ -15,6 +15,7 @@ export const notifyFilenameIsOverwritten =
     const { ignoreFilenameOverwritten } = await warningSettingsRepo.get()
     if (ignoreFilenameOverwritten) return
 
-    const notificationConfig = makeFilenameIsOverwrittenNotificationConfig(event)
+    const notificationConfig =
+      makeFilenameIsOverwrittenNotificationConfig(event)
     await notifier.notify(makeFilenameNotificationId(), notificationConfig)
   }

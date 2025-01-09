@@ -14,4 +14,7 @@ type DownloadHistoryProps = {
   downloadTime: Date
 }
 
-export class DownloadHistory extends Entity<DownloadHistoryId, DownloadHistoryProps> {}
+export class DownloadHistory extends Entity<
+  DownloadHistoryId,
+  DownloadHistoryProps
+> {}

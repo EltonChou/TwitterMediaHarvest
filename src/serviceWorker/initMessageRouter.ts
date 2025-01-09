@@ -31,9 +31,15 @@ export const initMessageRouter = (router: MessageRouter): MessageRouter =>
         downloaderBuilder: {
           // TODO: Implement aria2 download.
           aria2: params =>
-            new BrowserDownloadMediaFile(params.targetTweet, params.shouldPrompt),
+            new BrowserDownloadMediaFile(
+              params.targetTweet,
+              params.shouldPrompt
+            ),
           browser: params =>
-            new BrowserDownloadMediaFile(params.targetTweet, params.shouldPrompt),
+            new BrowserDownloadMediaFile(
+              params.targetTweet,
+              params.shouldPrompt
+            ),
         },
         fetchTweet: {
           fallback: new FallbackFetchTweet(),

@@ -33,7 +33,10 @@ it('can handle download:status:dispatched:browser event', async () => {
     saveAs: true,
     url: 'https://example.com',
   })
-  const tweetInfo = new TweetInfo({ screenName: 'screen_name', tweetId: 'tweet-id' })
+  const tweetInfo = new TweetInfo({
+    screenName: 'screen_name',
+    tweetId: 'tweet-id',
+  })
 
   const event = new BrowserDownloadDispatched({
     id: 114514,

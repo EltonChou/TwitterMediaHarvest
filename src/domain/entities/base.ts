@@ -21,7 +21,8 @@ export abstract class Entity<Id extends EntityId<unknown>, Props> {
   }
 
   is(that: unknown): boolean {
-    if (that === undefined || that === null || !(that instanceof Entity)) return false
+    if (that === undefined || that === null || !(that instanceof Entity))
+      return false
     return this.id.is(that.id)
   }
 }

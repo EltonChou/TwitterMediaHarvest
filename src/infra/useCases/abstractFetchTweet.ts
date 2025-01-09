@@ -60,7 +60,8 @@ export abstract class FetchTweetBase implements FetchTweet {
 
   protected parseBodyWithOptions(options: ParseOptions) {
     return (body: unknown): Result<Tweet> => {
-      if (!body || Object.hasOwn(body, 'errors')) return toErrorResult(new FetchTweetError(404))
+      if (!body || Object.hasOwn(body, 'errors'))
+        return toErrorResult(new FetchTweetError(404))
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const getResultFromBody = (body: any) =>
@@ -99,7 +100,10 @@ export abstract class FetchTweetBase implements FetchTweet {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const getTweetResultFromResult = (result: any) =>
-        pipe(result?.legacy ?? result, E.fromNullable('Failed to get tweet result'))
+        pipe(
+          result?.legacy ?? result,
+          E.fromNullable('Failed to get tweet result')
+        )
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const getTweetPropsFromTweetResult = (tweetResult: any) =>
@@ -134,8 +138,12 @@ export abstract class FetchTweetBase implements FetchTweet {
         pipe(
           E.Do,
           E.bind('result', () => getResultFromBody(body)),
-          E.bind('tweetResult', payload => getTweetResultFromResult(payload.result)),
-          E.bind('userProps', payload => getUserPropsFromResult(payload.result)),
+          E.bind('tweetResult', payload =>
+            getTweetResultFromResult(payload.result)
+          ),
+          E.bind('userProps', payload =>
+            getUserPropsFromResult(payload.result)
+          ),
           E.bind('medias', payload =>
             pipe(
               payload.tweetResult?.extended_entities?.media,
@@ -199,7 +207,8 @@ export abstract class FetchTweetBase implements FetchTweet {
             this.parseBodyWithOptions,
             apply({ targetTweetId: command.tweetId }),
             apply(body),
-            result => (result.error ? TE.left(result.error) : TE.right(result.value))
+            result =>
+              result.error ? TE.left(result.error) : TE.right(result.value)
           )
         ),
         TE.map(
@@ -215,7 +224,9 @@ export abstract class FetchTweetBase implements FetchTweet {
     const fetchTweet = pipe(
       callTweetApi,
       TE.chain(resp =>
-        resp.status === 200 ? TE.right(resp) : TE.left(new FetchTweetError(resp.status))
+        resp.status === 200
+          ? TE.right(resp)
+          : TE.left(new FetchTweetError(resp.status))
       ),
       TE.flatMap(flow(parseResponse)),
       TE.match(flow(E.toError, errorToErrorTweetResult), r => r)
@@ -309,7 +320,9 @@ const parseBestVideoVariant = (variants: VideoVariant[]): string | undefined =>
       currVariant?.bitrate >= prevVariant?.bitrate ? currVariant : prevVariant
     ).url
 
-const validationResultToEither = <T>(result: ValidationResult<T>): E.Either<string, T> =>
+const validationResultToEither = <T>(
+  result: ValidationResult<T>
+): E.Either<string, T> =>
   result.error ? E.left(result.error.message) : E.right(result.value)
 
 const errorToErrorTweetResult: Factory<Error, TweetResult> = error => ({

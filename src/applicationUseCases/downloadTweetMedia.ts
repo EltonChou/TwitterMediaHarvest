@@ -111,14 +111,16 @@ export class DownloadTweetMedia
    * we should capture the error by logger or issue tracker(e.g. Sentry) and solve it implicitly in future patch.
    */
   private async saveDownloadHistory(downloadHistory: DownloadHistory) {
-    const saveHistoryError = await this.infra.downloadHistoryRepo.save(downloadHistory)
+    const saveHistoryError =
+      await this.infra.downloadHistoryRepo.save(downloadHistory)
     if (saveHistoryError) {
       //** TODO: Capture and log error */
     }
   }
 
   private async buildDownloader(tweetInfo: TweetInfo) {
-    const { enableAria2, askWhereToSave } = await this.infra.downloadSettingsRepo.get()
+    const { enableAria2, askWhereToSave } =
+      await this.infra.downloadSettingsRepo.get()
     return (
       enableAria2
         ? this.infra.downloaderBuilder.aria2
@@ -131,7 +133,9 @@ export class DownloadTweetMedia
 
   private handleFetchTweetError(tweetInfo: TweetInfo) {
     return (error: Error) =>
-      this.infra.eventPublisher.publish(mapFetchTweetErrorToEvent(error, tweetInfo))
+      this.infra.eventPublisher.publish(
+        mapFetchTweetErrorToEvent(error, tweetInfo)
+      )
   }
 
   /**
@@ -166,15 +170,23 @@ export class DownloadTweetMedia
         tweetId: tweetId,
       }
       fetchTweetSolutions.push(
-        { fetchTweet: this.infra.fetchTweet.latest, command: fetchTweetCommand },
-        { fetchTweet: this.infra.fetchTweet.fallback, command: fetchTweetCommand }
+        {
+          fetchTweet: this.infra.fetchTweet.latest,
+          command: fetchTweetCommand,
+        },
+        {
+          fetchTweet: this.infra.fetchTweet.fallback,
+          command: fetchTweetCommand,
+        }
       )
     }
 
     return toSuccessResult(fetchTweetSolutions)
   }
 
-  async fetchTweetWithSolutions(solutions: FetchTweetSolution[]): AsyncResult<Tweet> {
+  async fetchTweetWithSolutions(
+    solutions: FetchTweetSolution[]
+  ): AsyncResult<Tweet> {
     let remainingSolutions = solutions.length
 
     const errorRecords: { identity: string; failedReason: string }[] = []
@@ -182,7 +194,11 @@ export class DownloadTweetMedia
     for (const { fetchTweet, command } of solutions) {
       remainingSolutions--
 
-      const { value: tweet, error, remainingQuota } = await fetchTweet.process(command)
+      const {
+        value: tweet,
+        error,
+        remainingQuota,
+      } = await fetchTweet.process(command)
       if (error) {
         // Only expose first error to user.
         fetchError ??= error

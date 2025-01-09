@@ -23,7 +23,10 @@ describe('unit test for v4 filename settings repository', () => {
     const newDir = 'kappa'
 
     await repo.save(
-      new FilenameSetting({ ...settings.mapBy(props => props), directory: newDir })
+      new FilenameSetting({
+        ...settings.mapBy(props => props),
+        directory: newDir,
+      })
     )
     const fetchedSettings = await repo.get()
 

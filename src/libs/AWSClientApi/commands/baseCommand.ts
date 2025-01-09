@@ -1,4 +1,9 @@
-import type { Command, HttpMethod, MetadataBearer, RequestContext } from './types'
+import type {
+  Command,
+  HttpMethod,
+  MetadataBearer,
+  RequestContext,
+} from './types'
 import type { HttpRequest, HttpResponse } from '@smithy/protocol-http'
 
 export abstract class BaseCommand<

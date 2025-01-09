@@ -13,11 +13,19 @@ import { useCallback, useEffect, useReducer, useState } from 'react'
 
 type DirectorySetAction = PayloadAction<'setDirectory', string>
 
-type FilenamePatternSetAction = PayloadAction<'setFilenamePattern', PatternToken[]>
+type FilenamePatternSetAction = PayloadAction<
+  'setFilenamePattern',
+  PatternToken[]
+>
 
-type AggregationTokenSetAction = PayloadAction<'setAggregationToken', AggregationToken>
+type AggregationTokenSetAction = PayloadAction<
+  'setAggregationToken',
+  AggregationToken
+>
 
-type FilenameSettingsPureAction = PureAction<'toggleDirectory' | 'toggleFileAggregation'>
+type FilenameSettingsPureAction = PureAction<
+  'toggleDirectory' | 'toggleFileAggregation'
+>
 
 type FilenameSettingsAction =
   | FilenameSettingsPureAction
@@ -51,7 +59,10 @@ const defaultFormStatus: FormStatus = {
   isLoaded: false,
 }
 
-function formStatusReducer(formStatus: FormStatus, action: FormStatusAction): FormStatus {
+function formStatusReducer(
+  formStatus: FormStatus,
+  action: FormStatusAction
+): FormStatus {
   switch (action.type) {
     case 'directoryIsInvalid':
       return {
@@ -119,7 +130,10 @@ function settingReducer(
       return new FilenameSetting({ ...settingProps, directory: action.payload })
 
     case 'setFilenamePattern':
-      return new FilenameSetting({ ...settingProps, filenamePattern: action.payload })
+      return new FilenameSetting({
+        ...settingProps,
+        filenamePattern: action.payload,
+      })
 
     case 'setAggregationToken':
       return new FilenameSetting({ ...settingProps, groupBy: action.payload })
@@ -147,7 +161,9 @@ type FormHandler = {
   reset: () => void
   setDirectory: (directory: string) => void
   toggleSubDirectory: () => void
-  changePatternTokenState: (state: PatternTokenState) => (token: PatternToken) => void
+  changePatternTokenState: (
+    state: PatternTokenState
+  ) => (token: PatternToken) => void
   /**
    * - If `sourceIndex` is out of range, do nothing.
    * - If *`destinationIndex < 0`*, the source element will be inserted into the begining of array.
@@ -177,12 +193,12 @@ const useFilenameSettingsForm = (
     formStatusReducer,
     defaultFormStatus
   )
-  const [directoryMessage, setDirectoryMessage] = useState<undefined | HelperMessage>(
-    undefined
-  )
-  const [patternMessage, setPatternMessage] = useState<undefined | HelperMessage>(
-    undefined
-  )
+  const [directoryMessage, setDirectoryMessage] = useState<
+    undefined | HelperMessage
+  >(undefined)
+  const [patternMessage, setPatternMessage] = useState<
+    undefined | HelperMessage
+  >(undefined)
 
   useEffect(() => {
     filenameSettingsRepo.get().then(settings => {
@@ -192,14 +208,20 @@ const useFilenameSettingsForm = (
   }, [filenameSettingsRepo])
 
   const submit = useCallback(async () => {
-    if (!isValidFormStatus(formStatus) || filenameSettings.validate() !== undefined)
+    if (
+      !isValidFormStatus(formStatus) ||
+      filenameSettings.validate() !== undefined
+    )
       return
     await filenameSettingsRepo.save(filenameSettings)
     formStatusDispatch({ type: 'formIsNotChanged' })
   }, [filenameSettingsRepo, filenameSettings, formStatus])
 
   const reset = useCallback(() => {
-    settingsDispatch({ type: 'reset', payload: filenameSettingsRepo.getDefault() })
+    settingsDispatch({
+      type: 'reset',
+      payload: filenameSettingsRepo.getDefault(),
+    })
     formStatusDispatch({ type: 'formIsChanged' })
   }, [filenameSettingsRepo])
 
@@ -244,7 +266,9 @@ const useFilenameSettingsForm = (
       const isPatternValid = invalidReason === undefined
 
       formStatusDispatch({
-        type: isPatternValid ? 'filenamePatternIsValid' : 'filenamePatternIsInvalid',
+        type: isPatternValid
+          ? 'filenamePatternIsValid'
+          : 'filenamePatternIsInvalid',
       })
       settingsDispatch({
         type: 'setFilenamePattern',
@@ -285,13 +309,16 @@ const useFilenameSettingsForm = (
     [filenameSettings]
   )
 
-  const setAggregationToken = useCallback((aggregationToken: AggregationToken) => {
-    settingsDispatch({
-      type: 'setAggregationToken',
-      payload: aggregationToken,
-    })
-    formStatusDispatch({ type: 'formIsChanged' })
-  }, [])
+  const setAggregationToken = useCallback(
+    (aggregationToken: AggregationToken) => {
+      settingsDispatch({
+        type: 'setAggregationToken',
+        payload: aggregationToken,
+      })
+      formStatusDispatch({ type: 'formIsChanged' })
+    },
+    []
+  )
 
   const toggleAggregationToken = useCallback(() => {
     settingsDispatch({

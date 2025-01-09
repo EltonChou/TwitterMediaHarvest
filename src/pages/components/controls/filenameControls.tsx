@@ -37,10 +37,16 @@ type SortablePatternTokenProps = {
 
 export const SortablePatternToken = memo(
   ({ token, name, handleRemove, testId }: SortablePatternTokenProps) => {
-    const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-      useSortable({
-        id: token,
-      })
+    const {
+      attributes,
+      listeners,
+      setNodeRef,
+      transform,
+      transition,
+      isDragging,
+    } = useSortable({
+      id: token,
+    })
 
     return (
       <Tag
@@ -55,7 +61,9 @@ export const SortablePatternToken = memo(
         bg="white"
         userSelect="none"
         transform={
-          transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined
+          transform
+            ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+            : undefined
         }
         cursor={isDragging ? 'grabbing' : 'grab'}
         opacity={isDragging ? 0.65 : 1}
@@ -70,7 +78,10 @@ export const SortablePatternToken = memo(
           />
           <>{name}</>
         </HStack>
-        <TagCloseButton onClick={handleRemove} data-testid={testId + '-close'} />
+        <TagCloseButton
+          onClick={handleRemove}
+          data-testid={testId + '-close'}
+        />
       </Tag>
     )
   }

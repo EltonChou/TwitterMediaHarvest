@@ -1,7 +1,9 @@
- 
 import { FeatureSettingsRepository } from '#infra/repositories/featureSettings'
 import { LocalExtensionStorageProxy } from '#infra/storageProxy'
-import { TweetDeckBetaKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'
+import {
+  TweetDeckBetaKeyboardMonitor,
+  TwitterKeyboardMonitor,
+} from './KeyboardMonitor'
 import './main.sass'
 import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'

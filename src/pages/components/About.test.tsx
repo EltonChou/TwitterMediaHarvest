@@ -13,7 +13,9 @@ describe('unit test for About component', () => {
   const clientRepo = new MockClientRepository()
 
   beforeAll(() => {
-    jest.spyOn(clientRepo, 'get').mockResolvedValue(toSuccessResult(generateClient()))
+    jest
+      .spyOn(clientRepo, 'get')
+      .mockResolvedValue(toSuccessResult(generateClient()))
   })
 
   afterAll(() => {

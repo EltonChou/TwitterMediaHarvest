@@ -8,7 +8,9 @@ const defaultFeature: FeatureSettings = {
   keyboardShortcut: true,
 }
 
-export class FeatureSettingsRepository implements ISettingsRepository<FeatureSettings> {
+export class FeatureSettingsRepository
+  implements ISettingsRepository<FeatureSettings>
+{
   constructor(readonly storageArea: IStorageProxy<FeatureSettings>) {}
 
   async get(): Promise<FeatureSettings> {

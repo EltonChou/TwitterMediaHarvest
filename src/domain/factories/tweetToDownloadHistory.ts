@@ -1,8 +1,14 @@
-import { DownloadHistory, DownloadHistoryId } from '#domain/entities/downloadHistory'
+import {
+  DownloadHistory,
+  DownloadHistoryId,
+} from '#domain/entities/downloadHistory'
 import type { Tweet } from '#domain/valueObjects/tweet'
 import type { Factory } from './base'
 
-export const tweetToDownloadHistory: Factory<Tweet, DownloadHistory> = tweet => {
+export const tweetToDownloadHistory: Factory<
+  Tweet,
+  DownloadHistory
+> = tweet => {
   const thumbnail = tweet.images
     .find(media => media.mapBy(props => props.index) === 0)
     ?.getVariantUrl('thumb')

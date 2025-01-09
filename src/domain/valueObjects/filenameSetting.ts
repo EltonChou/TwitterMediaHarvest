@@ -36,7 +36,8 @@ export class FilenameSetting extends ValueObject<FilenameSettingProps> {
   static validateDirectory(directory: string): InvalidReason | undefined {
     if (directory.length > PATH_MAX) return InvalidReason.PathTooLong
 
-    if (!dirPattern.test(directory)) return InvalidReason.ContainsReservedCharacters
+    if (!dirPattern.test(directory))
+      return InvalidReason.ContainsReservedCharacters
 
     if (!directory.split('/').every(dir => sanitize(dir) === dir))
       return InvalidReason.ContainsIllegalCharacters
@@ -57,7 +58,9 @@ export class FilenameSetting extends ValueObject<FilenameSettingProps> {
   }
 
   validate(): InvalidReason | undefined {
-    const invalidDirectoryReason = FilenameSetting.validateDirectory(this.props.directory)
+    const invalidDirectoryReason = FilenameSetting.validateDirectory(
+      this.props.directory
+    )
     if (invalidDirectoryReason) return invalidDirectoryReason
 
     const invalidPatternReason = FilenameSetting.validateFilenamePattern(
@@ -68,7 +71,10 @@ export class FilenameSetting extends ValueObject<FilenameSettingProps> {
     return undefined
   }
 
-  makeFilename(mediaFile: TweetMediaFile, options?: MakeFilenameOptions): string {
+  makeFilename(
+    mediaFile: TweetMediaFile,
+    options?: MakeFilenameOptions
+  ): string {
     const { screenName, id, createdAt, userId, hash, serial } = mediaFile.mapBy(
       props => ({
         id: props.tweetId,
@@ -94,14 +100,19 @@ export class FilenameSetting extends ValueObject<FilenameSettingProps> {
       .replace(PatternToken.TweetDate, makeDateString(createdAt))
       .replace(PatternToken.TweetDatetime, makeDatetimeString(createdAt))
       .replace(PatternToken.AccountId, userId)
-      .replace(PatternToken.UnderscoreDateTime, makeUnderscoreDatetimeString(currentDate))
+      .replace(
+        PatternToken.UnderscoreDateTime,
+        makeUnderscoreDatetimeString(currentDate)
+      )
       .replace(
         PatternToken.UnderscoreTweetDatetime,
         makeUnderscoreDatetimeString(createdAt)
       )
 
     return path.format({
-      dir: options?.noDir ? undefined : this.makeAggregationDirectory(mediaFile),
+      dir: options?.noDir
+        ? undefined
+        : this.makeAggregationDirectory(mediaFile),
       name: filename,
       ext: mediaFile.mapBy(props => props.ext),
     })
@@ -116,7 +127,9 @@ export class FilenameSetting extends ValueObject<FilenameSettingProps> {
       case AggregationToken.Account:
         return path.join(
           baseDir,
-          mediaFile.mapBy(props => props.tweetUser.mapBy(props => props.screenName))
+          mediaFile.mapBy(props =>
+            props.tweetUser.mapBy(props => props.screenName)
+          )
         )
 
       // It shouldn't happen unless someone modified the settings manually.

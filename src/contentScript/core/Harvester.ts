@@ -57,7 +57,9 @@ const makeButton = (mode: TweetMode) => (article: HTMLElement) =>
     E.bind('wipButton', () =>
       pipe(article, getSampleButton, E.flatMap(flow(bleachButton, E.of)))
     ),
-    E.tap(({ wipButton }) => pipe(wipButton, getIcon, E.flatMap(flow(swapIcon)))),
+    E.tap(({ wipButton }) =>
+      pipe(wipButton, getIcon, E.flatMap(flow(swapIcon)))
+    ),
     E.bind('fullButton', ({ wipButton }) => pipe(wipButton, wrapButton(mode))),
     E.tap(({ fullButton }) =>
       pipe(fullButton, getIcon, E.flatMap(flow(richIconSibling(mode), E.of)))
@@ -71,7 +73,9 @@ export const makeHarvestButton = (article: HTMLElement) =>
     IOE.Do,
     IOE.bind('mode', () => pipe(article, selectArtcleMode, IOE.of)),
     IOE.bind('actionBar', () => pipe(article, getActionBar, IOE.fromEither)),
-    IOE.bind('button', ctx => pipe(makeButton(ctx.mode)(article), IOE.fromEither)),
+    IOE.bind('button', ctx =>
+      pipe(makeButton(ctx.mode)(article), IOE.fromEither)
+    ),
     IOE.tap(ctx => pipe(ctx.actionBar.appendChild(ctx.button), IOE.of)),
     IOE.tap(ctx => pipe(checkButtonStatus(ctx.button), IOE.of)),
     IOE.map(() => 'ok')

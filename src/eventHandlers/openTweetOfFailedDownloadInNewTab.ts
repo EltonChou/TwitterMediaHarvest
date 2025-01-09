@@ -11,7 +11,9 @@ export const openTweetOfFailedDownloadInNewTab =
     downloadRecordRepo: IDownloadRecordRepository
   ): DomainEventHandler<DownloadFailedNotificationEvent> =>
   async event => {
-    const { value: record, error } = await downloadRecordRepo.getById(event.downloadId)
+    const { value: record, error } = await downloadRecordRepo.getById(
+      event.downloadId
+    )
 
     // TODO: Log error
     if (error) return

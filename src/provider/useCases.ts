@@ -2,5 +2,9 @@ import { SearchDownloadHistoryFromIDB } from '#infra/useCases/searchDownloadHist
 import { SearchTweetIdsByHashtagsFromIDB } from '#infra/useCases/searchTweetIdsByHashtagsFromIDB'
 import { downloadIDB } from '#libs/idb/download/db'
 
-export const searchDownloadHistory = new SearchDownloadHistoryFromIDB(downloadIDB)
-export const searchTweetIdsByHashtags = new SearchTweetIdsByHashtagsFromIDB(downloadIDB)
+export const searchDownloadHistory = new SearchDownloadHistoryFromIDB(
+  downloadIDB
+)
+export const searchTweetIdsByHashtags = new SearchTweetIdsByHashtagsFromIDB(
+  downloadIDB
+)
