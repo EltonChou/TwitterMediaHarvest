@@ -112,7 +112,7 @@
   },
   "scripts": {
     "test": "jest --env=node --coverage",
-    "test:all": "yarn workspaces foreach -A run test",
+    "test:all": "yarn workspaces foreach -p -A run test",
     "test:tools": "yarn workspaces foreach -p --include '@media-harvest/*' -A run test",
     "build:tools": "yarn workspaces foreach -p --include '@media-harvest/*' -A run build",
     "build:chrome:all": "webpack --mode=production --progress --color --env target=chrome",
