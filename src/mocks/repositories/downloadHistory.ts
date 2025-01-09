@@ -5,7 +5,7 @@ import type {
 } from '#domain/repositories/downloadHistory'
 
 export class MockDownloadHistoryRepository implements IDownloadHistoryRepository {
-  async hasTweetId(tweetId: string): AsyncResult<boolean> {
+  async hasTweetId(_tweetId: string): AsyncResult<boolean> {
     throw new Error('Method not implemented.')
   }
   async total(): AsyncResult<DownloadHistoryStats> {
@@ -14,13 +14,13 @@ export class MockDownloadHistoryRepository implements IDownloadHistoryRepository
   async clear(): Promise<UnsafeTask> {
     throw new Error('Method not implemented.')
   }
-  async save(item: DownloadHistory): Promise<UnsafeTask> {
+  async save(_item: DownloadHistory): Promise<UnsafeTask> {
     throw new Error('Method not implemented.')
   }
-  async getByTweetId(tweetId: string): Promise<Result<DownloadHistory | undefined>> {
+  async getByTweetId(_tweetId: string): Promise<Result<DownloadHistory | undefined>> {
     throw new Error('Method not implemented.')
   }
-  async removeByTweetId(tweetId: string): Promise<UnsafeTask> {
+  async removeByTweetId(_tweetId: string): Promise<UnsafeTask> {
     throw new Error('Method not implemented.')
   }
 }

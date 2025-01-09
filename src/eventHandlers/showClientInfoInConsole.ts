@@ -4,7 +4,7 @@ import { IClientRepository } from '#domain/repositories/client'
 /* eslint-disable no-console */
 export const showClientInfoInConsole =
   (clientRepo: IClientRepository): DomainEventHandler<IDomainEvent> =>
-  async event => {
+  async _event => {
     const { value: client, error } = await clientRepo.get()
     if (error) return
     console.group('Client Information')

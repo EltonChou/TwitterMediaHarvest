@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+ 
 import { FeatureSettingsRepository } from '#infra/repositories/featureSettings'
 import { LocalExtensionStorageProxy } from '#infra/storageProxy'
 import { TweetDeckBetaKeyboardMonitor, TwitterKeyboardMonitor } from './KeyboardMonitor'

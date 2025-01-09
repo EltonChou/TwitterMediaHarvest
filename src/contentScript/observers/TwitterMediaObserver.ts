@@ -3,7 +3,7 @@ import { articleHasMedia } from '../utils/article'
 import { isInTweetStatus, isStreamLoaded } from '../utils/checker'
 import { revealNsfw } from '../utils/helper'
 import observeElement from './observer'
-import select from 'select-dom'
+import {$, $$} from 'select-dom'
 
 const enum Query {
   Root = '#react-root',
@@ -38,16 +38,16 @@ export default class TwitterMediaObserver implements IHarvestObserver {
   }
 
   initialize() {
-    const modal = select(Query.Modal)
+    const modal = $(Query.Modal)
     if (modal && isInTweetStatus()) makeHarvester(modal)
 
-    const articles = select.all('article')
+    const articles = $$('article')
     for (const article of articles) {
       if (this.autoRevealNsfw) revealNsfw(article)
       if (articleHasMedia(article)) makeHarvester(article)
     }
 
-    const mediaBlocks = select.all(Query.MediaBlock)
+    const mediaBlocks = $$(Query.MediaBlock)
     mediaBlocks.forEach(b => this.autoRevealNsfw && revealNsfw(b))
   }
 
@@ -57,10 +57,10 @@ export default class TwitterMediaObserver implements IHarvestObserver {
         for (const addedNode of mutation.addedNodes) {
           if (!(addedNode instanceof HTMLElement)) return
 
-          const mediaBlocks = select.all('li', addedNode)
+          const mediaBlocks = $$('li', addedNode)
           mediaBlocks.forEach(mediaBlock => this.autoRevealNsfw && revealNsfw(mediaBlock))
 
-          const article = select('article', addedNode)
+          const article = $('article', addedNode)
           if (!article) return
           if (this.autoRevealNsfw) revealNsfw(article)
           if (articleHasMedia(article)) makeHarvester(article)
@@ -110,7 +110,7 @@ export default class TwitterMediaObserver implements IHarvestObserver {
 
     const modalMutationCallback: MutationCallback = () => {
       this.initialize()
-      const modalThread = select(Query.ModalThread)
+      const modalThread = $(Query.ModalThread)
 
       if (modalThread) {
         observeElement('Modal Thread', modalThread, threadCallback)

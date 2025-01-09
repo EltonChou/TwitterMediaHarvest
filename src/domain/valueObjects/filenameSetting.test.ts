@@ -91,7 +91,12 @@ describe('unit test for filename settings', () => {
     })
 
     const reason = filenameSetting.validate()
-    isValid ? expect(reason).toBeUndefined() : expect(reason).toBeDefined()
+
+    if (isValid) {
+      expect(reason).toBeUndefined()
+    } else {
+      expect(reason).toBeDefined()
+    }
   })
 
   it.each([
@@ -124,7 +129,11 @@ describe('unit test for filename settings', () => {
     })
 
     const reason = filenameSetting.validate()
-    isValid ? expect(reason).toBeUndefined() : expect(reason).toBeDefined()
+    if (isValid) {
+      expect(reason).toBeUndefined()
+    } else {
+      expect(reason).toBeDefined()
+    }
   })
 
   it('can make filename without dir', () => {

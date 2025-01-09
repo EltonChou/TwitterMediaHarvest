@@ -23,9 +23,11 @@ describe('unit test for IntegrationOptions component', () => {
 
     waitFor(() => {
       expect(container).toMatchSnapshot(target)
-      target !== 'firefox'
-        ? expect(aria2ExtLink).toBeInTheDocument()
-        : expect(aria2ExtLink).not.toBeInTheDocument()
+      if (target !== 'firefox') {
+        expect(aria2ExtLink).toBeInTheDocument()
+      } else {
+        expect(aria2ExtLink).not.toBeInTheDocument()
+      }
     })
 
     unmount()

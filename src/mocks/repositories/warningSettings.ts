@@ -5,7 +5,7 @@ export class MockWarningSettingsRepo implements IWarningSettingsRepo {
   get(): Promise<WarningSettings> {
     throw new Error('Method not implemented.')
   }
-  save(settings: Partial<WarningSettings>): Promise<void> {
+  save(_settings: Partial<WarningSettings>): Promise<void> {
     throw new Error('Method not implemented.')
   }
   reset(): Promise<void> {

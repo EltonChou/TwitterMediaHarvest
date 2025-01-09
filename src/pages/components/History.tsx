@@ -118,7 +118,7 @@ const ItemUser = memo((props: ItemUserProps) => {
   )
 })
 
-const convertMediaTypeToLocaleString = (mediaType: MediaType) => {
+const _convertMediaTypeToLocaleString = (mediaType: MediaType) => {
   switch (mediaType) {
     case 'image':
       return i18n('Image', 'options:history:mediaType')

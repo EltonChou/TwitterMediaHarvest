@@ -18,7 +18,7 @@ export const downloadIDB = new DownloadIDB(3).onUpgrade(
   (database, oldVersion, newVersion, transaction, event) => {
     for (const version of versionRange<DownloadDBVersion>(oldVersion, newVersion)) {
       const migrate = migrations.get(version)
-      migrate && migrate(database, oldVersion, newVersion, transaction, event)
+      if (migrate) migrate(database, oldVersion, newVersion, transaction, event)
     }
   }
 )

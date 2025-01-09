@@ -27,6 +27,7 @@ type TimelineInstruction = {
 
 type InstructionEntry = {
   entryId: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   content: any
 }
 
@@ -58,9 +59,10 @@ export abstract class FetchTweetBase implements FetchTweet {
   abstract makeHeaders(params: MakeHeaderParams): Headers
 
   protected parseBodyWithOptions(options: ParseOptions) {
-    return (body: any): Result<Tweet> => {
-      if (Object.hasOwn(body, 'errors')) return toErrorResult(new FetchTweetError(404))
+    return (body: unknown): Result<Tweet> => {
+      if (!body || Object.hasOwn(body, 'errors')) return toErrorResult(new FetchTweetError(404))
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const getResultFromBody = (body: any) =>
         pipe(
           O.some<TimelineInstruction[]>(
@@ -95,9 +97,11 @@ export abstract class FetchTweetBase implements FetchTweet {
           )
         )
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const getTweetResultFromResult = (result: any) =>
         pipe(result?.legacy ?? result, E.fromNullable('Failed to get tweet result'))
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const getTweetPropsFromTweetResult = (tweetResult: any) =>
         pipe(
           tweetPartialPropsSchema.validate({
@@ -108,6 +112,7 @@ export abstract class FetchTweetBase implements FetchTweet {
           validationResultToEither
         )
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const getUserPropsFromResult = (result: any) =>
         pipe(
           result?.core?.user_results?.result,
@@ -124,6 +129,7 @@ export abstract class FetchTweetBase implements FetchTweet {
           )
         )
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const parseTweetFromBody = (body: any): Result<Tweet> =>
         pipe(
           E.Do,
@@ -152,7 +158,7 @@ export abstract class FetchTweetBase implements FetchTweet {
           })),
           E.map(props => new Tweet(props)),
           E.mapLeft(r => new ParseTweetError(r)),
-          E.match(toErrorResult, toSuccessResult)
+          E.match(toErrorResult<Tweet>, toSuccessResult<Tweet>)
         )
 
       return parseTweetFromBody(body)

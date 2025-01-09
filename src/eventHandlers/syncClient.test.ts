@@ -18,7 +18,7 @@ describe('unit test for handler to sync client', () => {
   afterEach(() => jest.resetAllMocks())
 
   it('can sync client', async () => {
-    const lockCtx: LockContext<any> = jest
+    const lockCtx: LockContext<UnsafeTask> = jest
       .fn()
       .mockImplementation(async task => await task(lock))
     const handler = syncClient(lockCtx)(clientRepo)
@@ -36,7 +36,7 @@ describe('unit test for handler to sync client', () => {
   })
 
   it('can skip syncing if the client has been synced in this time window', async () => {
-    const lockCtx: LockContext<any> = jest
+    const lockCtx: LockContext<UnsafeTask> = jest
       .fn()
       .mockImplementation(async task => await task(lock))
     const handler = syncClient(lockCtx)(clientRepo)
@@ -54,7 +54,7 @@ describe('unit test for handler to sync client', () => {
   })
 
   it('can skip syncing if handler failed to get the lock', async () => {
-    const lockCtx: LockContext<any> = jest
+    const lockCtx: LockContext<UnsafeTask> = jest
       .fn()
       .mockImplementation(async task => await task(null))
     const handler = syncClient(lockCtx)(clientRepo)

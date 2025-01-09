@@ -18,16 +18,6 @@ import {
 import React from 'react'
 
 describe('unit test for useFilenameSettingForm hook', () => {
-  // Suppressing unnecessary warnings on React DOM 16.8
-  beforeAll(() => {
-    jest.spyOn(console, 'error').mockImplementation((...args) => {
-      if (/Warning.*not wrapped in act/.test(args[0])) {
-        return
-      }
-      console.error(console, ...args)
-    })
-  })
-
   afterAll(() => {
     jest.restoreAllMocks()
   })
@@ -201,13 +191,17 @@ describe('unit test for useFilenameSettingForm hook', () => {
 
       expect(status.dataIsChanged).toBeTruthy()
 
-      expectError
-        ? expect(status.directoryIsValid).toBeFalsy()
-        : expect(status.directoryIsValid).toBeTruthy()
+      if (expectError) {
+        expect(status.directoryIsValid).toBeFalsy()
+      } else {
+        expect(status.directoryIsValid).toBeTruthy()
+      }
 
-      expectError
-        ? expect(message.directory?.type).toBe('error')
-        : expect(message.directory).toBeUndefined()
+      if (expectError) {
+        expect(message.directory?.type).toBe('error')
+      } else {
+        expect(message.directory).toBeUndefined()
+      }
 
       unmount()
     })

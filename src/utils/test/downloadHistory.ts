@@ -6,7 +6,7 @@ import { faker } from '@faker-js/faker/locale/en'
 export const generateDownloadHistory = () =>
   new DownloadHistory(new DownloadHistoryId(faker.string.numeric(10)), {
     downloadTime: faker.date.past(),
-    hashtags: faker.helpers.multiple(faker.word.noun),
+    hashtags: faker.helpers.multiple(() => faker.word.noun()),
     mediaType: faker.helpers.arrayElement([
       MediaType.Image,
       MediaType.Mixed,

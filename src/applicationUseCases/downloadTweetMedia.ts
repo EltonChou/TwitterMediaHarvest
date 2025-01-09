@@ -200,11 +200,12 @@ export class DownloadTweetMedia
       if (tweet) return toSuccessResult(tweet)
     }
 
+    // eslint-disable-next-line no-console
     console.table(errorRecords)
     return toErrorResult(fetchError ?? new NoFetchTweetSolution())
   }
 
-  private emitQuotaWarning(remainingQuota: number) {
+  private emitQuotaWarning(_remainingQuota: number) {
     // TODO: emit quota warning
   }
 }

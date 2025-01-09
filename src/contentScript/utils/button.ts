@@ -48,6 +48,7 @@ const buttonClickHandler = (e: MouseEvent) => {
   setButtonStatus(ButtonStatus.Downloading)(button)
   const { value, error } = getTweetInfoFromArticleChildElement(button)
   if (error) {
+    // eslint-disable-next-line no-console
     console.error(error)
     return setButtonStatus(ButtonStatus.Error)(button)
   }

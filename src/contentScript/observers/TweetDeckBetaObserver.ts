@@ -5,7 +5,7 @@ import { revealNsfw } from '../utils/helper'
 import observeElement from './observer'
 import { $, $$, elementExists } from 'select-dom'
 
-const isColumnLoaded = () =>
+const _isColumnLoaded = () =>
   !elementExists(
     '[data-testid*="multi-column-layout-column-content"] [role="progressbar"]'
   )

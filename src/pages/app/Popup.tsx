@@ -7,6 +7,7 @@ import useLocaleVariables from '#pages/hooks/useLocaleVariables'
 import useStatsStore from '#pages/hooks/useStatsStore'
 import Links from '#pages/links'
 import { createStatsStore } from '#pages/stores/StatsStore'
+import { V4Statistics } from '#schema'
 import { getFullVersion } from '#utils/runtime'
 import {
   Box,
@@ -34,7 +35,6 @@ import {
 import { type Storage, runtime, storage, tabs } from 'webextension-polyfill'
 
 const NavBar = () => {
-  const settingsSize = 6
   return (
     <Flex w="100%" h="75px" p={5} align="center">
       <Spacer />
@@ -62,6 +62,8 @@ export type StatsProps = {
   usageStatisticsRepo: IUsageStatisticsRepository
 }
 
+const isStatisticsKey = (key: string): key is keyof V4Statistics => true
+
 const Stats = (props: StatsProps) => {
   const [stats, { criterias, triggerChange }] = useStatsStore(
     createStatsStore({ getStats: async () => props.usageStatisticsRepo.get() })
@@ -70,9 +72,9 @@ const Stats = (props: StatsProps) => {
   useEffect(() => {
     const statsListener: ListenerOf<Storage.Static['onChanged']> = (
       changes,
-      areaName
+      _areaName
     ) => {
-      if (Object.keys(changes).some(storageKey => criterias.has(storageKey as any)))
+      if (Object.keys(changes).some(storageKey => isStatisticsKey(storageKey) && criterias.has(storageKey)))
         triggerChange()
     }
 

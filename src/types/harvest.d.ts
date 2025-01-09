@@ -11,17 +11,6 @@ type TweetInfo = {
   tweetId: string
 }
 
-type TweetMediaCatalog = {
-  images: string[]
-  videos: string[]
-}
-
-interface FetchErrorReason {
-  status: number
-  title: string
-  message: string
-}
-
 interface IHarvestObserver {
   observeRoot: () => void
   initialize: () => void
@@ -31,49 +20,12 @@ interface IHarvester {
   appendButton: () => void
 }
 
-type ButtonStatus = 'downloading' | 'success' | 'error'
-
-type ClientTokenResponse = {
-  token: string
-  uninstallCode: string
-}
-
 type Provider<T> = (() => T) | (() => Promise<T>)
 
 interface IProcessLock {
   isLocked(): Promise<boolean>
   acquire(): Promise<void>
   release(): Promise<void>
-}
-
-type Aria2DownloadOption = {
-  url: string
-  filename: string
-  referrer: string
-  options?: object
-}
-
-interface TweetDetail {
-  id: string
-  userId: string
-  displayName: string
-  screenName: string
-  createdAt: Date
-}
-
-interface ITweetMediaFileDetail {
-  src: string
-  ext: string
-  hashName: string
-  order: number
-}
-
-type Entries<T> = {
-  [K in keyof T]: [K, T[K]]
-}[keyof T][]
-
-interface JSONable {
-  toJSON(): object
 }
 
 interface LiteralObject {
@@ -102,12 +54,12 @@ type Result<T, Err extends Error = Error> =
 type AsyncResult<T, Err extends Error = Error> = Promise<Result<T, Err>>
 
 type ListenerOf<T> = T extends {
-  addListener: (callback: infer Listener, ...params: any[]) => void
+  addListener: (callback: infer Listener, ...params: infer Args) => void
 }
   ? Listener
   : T extends {
         addEventListener: (
-          type: infer T,
+          type: infer Type,
           listener: infer Listener,
           options?: infer Options
         ) => void

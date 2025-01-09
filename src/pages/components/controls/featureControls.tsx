@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import useLocaleVariables from '#pages/hooks/useLocaleVariables'
 import { InfoIcon, WarningTwoIcon } from '@chakra-ui/icons'
 import {

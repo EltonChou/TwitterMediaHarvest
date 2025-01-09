@@ -6,7 +6,7 @@ import * as E from 'fp-ts/Either'
 import { fromPredicate as optionFromPredicate } from 'fp-ts/lib/Option'
 import { flow, pipe } from 'fp-ts/lib/function'
 import { isEmpty, isString } from 'fp-ts/lib/string'
-import { elementExists, $, $$ } from 'select-dom'
+import { $, $$, elementExists } from 'select-dom'
 
 /**
  * <article role="article" data-focusable="true" tabindex="0" class="css-1dbjc4n r-18u37iz r-1ny4l3l r-1udh08x r-1yt7n81 r-ry3cjt">
@@ -192,5 +192,5 @@ export const getTweetInfoFromArticleChildElement = <T extends HTMLElement>(
     getClosedTargetArticle,
     E.fromNullable('Failed to get target article when parsing tweet info.'),
     E.flatMap(parseTweetInfo),
-    E.match(flow(E.toError, toErrorResult), toSuccessResult)
+    E.match(flow(E.toError, toErrorResult<TweetInfo>), toSuccessResult)
   )

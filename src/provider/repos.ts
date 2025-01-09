@@ -2,7 +2,6 @@ import { IDBDownloadHistoryRepository } from '#infra/repositories/IDBDownloadHis
 import { IDBDownloadRecordRepository } from '#infra/repositories/IDBDownloadRecord'
 import { IDBPortableDownloadHistoryRepository } from '#infra/repositories/IDBPortableDownloadHistory'
 import { AWSClientRepository } from '#infra/repositories/awsClient'
-import { AWSCredentialRepository } from '#infra/repositories/awsCredential'
 import { BrowserDownloadRepository } from '#infra/repositories/browserDownload'
 import { DownloadSettingsRepository } from '#infra/repositories/downloadSettings'
 import { FeatureSettingsRepository } from '#infra/repositories/featureSettings'

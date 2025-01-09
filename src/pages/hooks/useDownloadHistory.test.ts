@@ -15,10 +15,10 @@ class MockSearchDownloadHistoryUseCase extends SearchDownloadHistoryUseCase {
   constructor() {
     super(new MockSearchDownloadHistory(), new MockSearchTweetIdsByHashTags())
   }
-  searchTweetIds(hashtags: string[]): AsyncResult<Set<string>> {
+  searchTweetIds(_hashtags: string[]): AsyncResult<Set<string>> {
     throw new Error('Method not implemented.')
   }
-  process(query: Query): Promise<DownloadHistoryQueryResponse> {
+  process(_query: Query): Promise<DownloadHistoryQueryResponse> {
     throw new Error('Method not implemented.')
   }
 }

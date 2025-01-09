@@ -7,7 +7,7 @@ export class InMemoryStorageProxy<
   T extends Partial<LocalStorageSchema | SyncStorageSchema>,
 > implements IStorageProxy<T>
 {
-  constructor(protected storage: Record<string, any> = {}) {}
+  constructor(protected storage: Record<string, unknown> = {}) {}
 
   async setItem(item: Partial<T>): Promise<void> {
     this.storage = { ...this.storage, ...item }
@@ -29,8 +29,10 @@ export class InMemoryStorageProxy<
   }
 
   async removeItem<Key extends SchemaKey<T>>(keys: Key | Key[]): Promise<void> {
-    Array.isArray(keys)
-      ? keys.forEach(key => delete this.storage[String(key)])
-      : delete this.storage[String(keys)]
+    if(Array.isArray(keys)) {
+       keys.forEach(key => delete this.storage[String(key)])
+    } else {
+       delete this.storage[String(keys)]
+    }
   }
 }

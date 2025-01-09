@@ -1,4 +1,4 @@
-export const toErrorResult = <T = any>(error: Error): Result<T> => ({
+export const toErrorResult = <T = unknown>(error: Error): Result<T> => ({
   error: error,
   value: undefined,
 })

@@ -7,7 +7,7 @@ export class MockDownloadMediaFile implements DownloadMediaFileUseCase {
   isOk = true
   events: IDomainEvent[] = []
 
-  process(command: DownloadMediaFileCommand): Promise<void> {
+  process(_command: DownloadMediaFileCommand): Promise<void> {
     throw new Error('Method not implemented.')
   }
 }

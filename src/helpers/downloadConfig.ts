@@ -41,3 +41,10 @@ export const makeAria2DownloadConfig = (
     options: options,
   }
 }
+
+export type Aria2DownloadOption = {
+  url: string
+  filename: string
+  referrer: string
+  options?: object
+}

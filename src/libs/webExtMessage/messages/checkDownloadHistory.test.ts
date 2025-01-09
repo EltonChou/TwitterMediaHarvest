@@ -21,7 +21,7 @@ describe('unit test for download tweet media web ext message', () => {
 
     const okResp = message.makeResponse(true, { isExist: true })
     expect(okResp.status).toBe('ok')
-    expect(okResp.payload.isExist).toBeTruthy
+    expect(okResp.payload.isExist).toBeTruthy()
 
     const errResp = message.makeResponse(false, 'nope')
     expect(errResp.status).toBe('error')

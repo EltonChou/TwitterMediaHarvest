@@ -142,7 +142,7 @@ const orderKeyMap: ReadonlyMap<
   ['tweetTime', 'byTweetTime'],
 ])
 
-const calcTweetIdKeyRange = (tweetIds: Set<string>): IDBKeyRange => {
+const _calcTweetIdKeyRange = (tweetIds: Set<string>): IDBKeyRange => {
   const idRange = Array.from(tweetIds).reduce(
     ({ min, max }, id) => ({
       min: min ? (id <= min ? id : min) : id,
