@@ -42,6 +42,12 @@ const config = {
           {
             loader: 'babel-loader',
           },
+          {
+            loader: '@media-harvest/webext-i18n-loader',
+            options: {
+              expression: ['i18n', 'getText', '_'],
+            },
+          },
           { loader: 'ts-loader' },
         ],
       },
