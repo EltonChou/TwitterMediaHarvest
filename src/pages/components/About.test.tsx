@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import 'core-js/stable/structured-clone'
 import { MockClientRepository } from '#mocks/repositories/client'
 import { toSuccessResult } from '#utils/result'
 import { generateClient } from '#utils/test/client'

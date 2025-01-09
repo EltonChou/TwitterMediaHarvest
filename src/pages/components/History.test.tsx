@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import 'core-js/stable/structured-clone'
 import { MockSearchDownloadHistory } from '#mocks/useCases/searchDownloadHistory'
 import { MockSearchTweetIdsByHashTags } from '#mocks/useCases/searchTweetIdsByHashtags'
 import { generateDownloadHistory } from '#utils/test/downloadHistory'

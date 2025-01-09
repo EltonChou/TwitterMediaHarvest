@@ -6,7 +6,7 @@ import * as E from 'fp-ts/Either'
 import { fromPredicate as optionFromPredicate } from 'fp-ts/lib/Option'
 import { flow, pipe } from 'fp-ts/lib/function'
 import { isEmpty, isString } from 'fp-ts/lib/string'
-import select from 'select-dom'
+import { elementExists, $, $$ } from 'select-dom'
 
 /**
  * <article role="article" data-focusable="true" tabindex="0" class="css-1dbjc4n r-18u37iz r-1ny4l3l r-1udh08x r-1yt7n81 r-ry3cjt">
@@ -48,7 +48,7 @@ export const selectArtcleMode = (article: HTMLElement): TweetMode => {
 }
 
 export const isAritcleHasQuotedContent = (article: HTMLElement): boolean =>
-  select.all('time', article).length > 1
+  $$('time', article).length > 1
 
 const makePhotoUrlPattern = (statusHref: string): string => {
   const statusPath = URL.canParse(statusHref) ? new URL(statusHref).pathname : statusHref
@@ -58,9 +58,10 @@ const makePhotoUrlPattern = (statusHref: string): string => {
 const getPhotoElementByUrl =
   (photoUrl: string) =>
   (article: HTMLElement): HTMLElement | undefined =>
-    select(`[href*="${photoUrl}"]`, article)
+    $<HTMLElement>(`href*="${photoUrl}"]`, article)
 
-const getArticleAnchor = (article: HTMLElement) => select('[href*="/status/"]', article)
+const getArticleAnchor = (article: HTMLElement) =>
+  $('[href*="/status/"]', article)
 
 const aricleHasPhoto = (article: HTMLElement): boolean => {
   const articleAnchor = getArticleAnchor(article)
@@ -72,9 +73,9 @@ const aricleHasPhoto = (article: HTMLElement): boolean => {
 }
 
 const getVideoCompoent = (article: HTMLElement): HTMLElement | undefined =>
-  select('[data-testid="videoPlayer"]', article) ||
-  select('[data-testid="playButton"]', article) ||
-  select('[data-testid="videoComponent"]', article)
+  $<HTMLElement>('[data-testid="videoPlayer"]', article) ||
+  $<HTMLElement>('[data-testid="playButton"]', article) ||
+  $<HTMLElement>('[data-testid="videoComponent"]', article)
 
 const articleHasVideo = (article: HTMLElement): boolean => {
   const videoComponent = getVideoCompoent(article)
@@ -96,7 +97,7 @@ export const articleHasMedia = (article: HTMLElement) =>
   article && (articleHasVideo(article) || aricleHasPhoto(article))
 
 export const isArticleCanBeAppend = (article: HTMLElement) =>
-  !(select.exists('.deck-harvester', article) || select.exists('.harvester', article))
+  !(elementExists('.deck-harvester', article) || elementExists('.harvester', article))
 
 export const parseTweetInfo = (article: HTMLElement) =>
   pipe(
@@ -143,9 +144,9 @@ const featureRegEx = Object.freeze({
 
 export const getLinksFromArticle = (article: HTMLElement): string[] => {
   const anchorEles = isArticlePhotoMode(article)
-    ? select.all('[href*="analytics"]', article)
-    : select.all('[data-testid="User-Name"] [href]', article)
-  const timeEle = select('a > time', article)
+    ? $$('[href*="analytics"]', article)
+    : $$('[data-testid="User-Name"] [href]', article)
+  const timeEle = $('a > time', article)
   if (timeEle?.parentElement?.tagName === 'A') anchorEles.push(timeEle.parentElement)
   return anchorEles
     .filter(e => e.hasAttribute('href'))

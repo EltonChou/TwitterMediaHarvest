@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { elementExists } from 'select-dom'
 import {
   isBetaTweetDeck,
   isBusinessRelatedTweet,
@@ -12,9 +13,10 @@ import {
   isTweetDeck,
   isTwitter,
 } from './checker'
-import select from 'select-dom'
 
-const mockExists = jest.spyOn(select, 'exists')
+const mockExists = elementExists as jest.MockedFunction<typeof elementExists>
+
+jest.mock('select-dom')
 
 const setHost = (host: string) =>
   Object.defineProperty(window, 'location', {

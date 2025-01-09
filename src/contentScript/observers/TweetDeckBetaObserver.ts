@@ -3,10 +3,10 @@ import { articleHasMedia } from '../utils/article'
 import { isInTweetStatus } from '../utils/checker'
 import { revealNsfw } from '../utils/helper'
 import observeElement from './observer'
-import select from 'select-dom'
+import { $, $$, elementExists } from 'select-dom'
 
 const isColumnLoaded = () =>
-  !select.exists(
+  !elementExists(
     '[data-testid*="multi-column-layout-column-content"] [role="progressbar"]'
   )
 
@@ -15,12 +15,12 @@ export default class TweetDeckBetaObserver implements IHarvestObserver {
 
   initialize() {
     const modalQuery = '[aria-labelledby="modal-header"]'
-    const modal = select(modalQuery)
-    if (modal && isInTweetStatus() && !select.exists('[aria-label="Loading"]')) {
+    const modal = $(modalQuery)
+    if (modal && isInTweetStatus() && !elementExists('[aria-label="Loading"]')) {
       makeHarvester(modal)
     }
 
-    select.all('article').forEach(article => {
+    $$('article').forEach(article => {
       if (this.autoRevealNsfw) revealNsfw(article)
       if (articleHasMedia(article)) makeHarvester(article)
     })
@@ -62,7 +62,7 @@ export default class TweetDeckBetaObserver implements IHarvestObserver {
         mutation.addedNodes.forEach(node => {
           if (!(node instanceof HTMLElement)) return
 
-          const article = select('article', node)
+          const article = $('article', node)
           if (!article) return
           if (this.autoRevealNsfw) revealNsfw(article)
           if (articleHasMedia(article)) makeHarvester(article)
@@ -70,7 +70,7 @@ export default class TweetDeckBetaObserver implements IHarvestObserver {
       })
     }
 
-    const streams = select.all(
+    const streams = $$(
       '[data-testid="multi-column-layout-column-content"] > section[role="region"] > div[aria-label] > div'
     )
     streams.forEach(stream => {

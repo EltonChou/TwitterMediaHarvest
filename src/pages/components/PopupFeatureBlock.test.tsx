@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import 'core-js/stable/structured-clone'
 import { MockFeatureSettingsRepository } from '#mocks/repositories/fetureSettings'
 import PopupFeatureBlock from './PopupFeatureBlock'
 import { render, waitFor } from '@testing-library/react'

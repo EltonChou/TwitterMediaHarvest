@@ -24,7 +24,6 @@ exports[`unit test for PopupFeatureBlock component match snapshot 1`] = `
           id=":r0:"
           style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
           type="checkbox"
-          value=""
         />
         <span
           aria-hidden="true"
@@ -55,7 +54,6 @@ exports[`unit test for PopupFeatureBlock component match snapshot 1`] = `
           id=":r1:"
           style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
           type="checkbox"
-          value=""
         />
         <span
           aria-hidden="true"

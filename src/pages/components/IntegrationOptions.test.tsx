@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import 'core-js/stable/structured-clone'
 import { MockDownloadSettingsRepository } from '#mocks/repositories/downloadSettings'
 import { queryByTestId, render, waitFor } from '@testing-library/react'
 import React from 'react'

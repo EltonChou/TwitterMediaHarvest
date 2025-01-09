@@ -1,4 +1,4 @@
-import select from 'select-dom'
+import { $ } from 'select-dom'
 
 export const OBSERVE_ID_CRITERIA = 'harvestObserveId'
 
@@ -25,7 +25,7 @@ export const observeElement = (
   observerCallback: MutationCallback,
   options: MutationObserverInit = { childList: true }
 ): MutationObserver | undefined => {
-  const observedElement = element instanceof HTMLElement ? element : select(element)
+  const observedElement = element instanceof HTMLElement ? element : $(element)
 
   if (observedElement && !isElementObserved(observedElement)) {
     const observer = new MutationObserver(observerCallback)

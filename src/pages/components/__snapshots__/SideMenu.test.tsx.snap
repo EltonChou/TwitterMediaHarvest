@@ -46,6 +46,7 @@ exports[`unit test for SideMenu component can navigate 1`] = `
     >
       <a
         class="chakra-link css-4a6x12"
+        data-discover="true"
         data-testid="nav-item-general"
         href="#/"
       >
@@ -58,6 +59,7 @@ exports[`unit test for SideMenu component can navigate 1`] = `
       </a>
       <a
         class="chakra-link css-4a6x12"
+        data-discover="true"
         data-testid="nav-item-features"
         href="#/features"
       >
@@ -70,6 +72,7 @@ exports[`unit test for SideMenu component can navigate 1`] = `
       </a>
       <a
         class="chakra-link css-4a6x12"
+        data-discover="true"
         data-testid="nav-item-integrations"
         href="#/integrations"
       >
@@ -82,6 +85,7 @@ exports[`unit test for SideMenu component can navigate 1`] = `
       </a>
       <a
         class="chakra-link css-4a6x12"
+        data-discover="true"
         data-testid="nav-item-history"
         href="#/history"
       >
@@ -94,6 +98,7 @@ exports[`unit test for SideMenu component can navigate 1`] = `
       </a>
       <a
         class="chakra-link css-4a6x12"
+        data-discover="true"
         data-testid="nav-item-about"
         href="#/about"
       >

@@ -26,16 +26,6 @@ class MockSearchDownloadHistoryUseCase extends SearchDownloadHistoryUseCase {
 describe('unit test for useDownloadHistory hook', () => {
   const mockSearchDownloadHistoryUseCase = new MockSearchDownloadHistoryUseCase()
 
-  // Suppressing unnecessary warnings on React DOM 16.8
-  beforeAll(() => {
-    jest.spyOn(console, 'error').mockImplementation((...args) => {
-      if (/Warning.*not wrapped in act/.test(args[0])) {
-        return
-      }
-      console.error(console, ...args)
-    })
-  })
-
   afterAll(() => {
     jest.resetAllMocks()
     jest.restoreAllMocks()
@@ -104,7 +94,7 @@ describe('unit test for useDownloadHistory hook', () => {
       })
 
       // The `refresh()` will set query to the default.
-      // We need to make query changed firest so the hook can be triggered.
+      // We need to make query changed first so the hook can be triggered.
       act(() => {
         result.current.handler.search({
           filter: { userName: 'kappa', mediaType: '*' },
@@ -162,18 +152,19 @@ describe('unit test for useDownloadHistory hook', () => {
     })
 
     it('can navigate to previous page', async () => {
-      const mockSearch = jest.spyOn(mockSearchDownloadHistoryUseCase, 'process')
-      mockSearch.mockResolvedValue({
-        $metadata: {
-          itemPerPage: 20,
-          matchedCount: 10,
-          page: { current: 5, next: 6, prev: 4, total: 10 },
-        },
-        result: {
-          items: [],
-          error: undefined,
-        },
-      })
+      const mockSearch = jest
+        .spyOn(mockSearchDownloadHistoryUseCase, 'process')
+        .mockResolvedValue({
+          $metadata: {
+            itemPerPage: 20,
+            matchedCount: 10,
+            page: { current: 5, next: 6, prev: 4, total: 10 },
+          },
+          result: {
+            items: [],
+            error: undefined,
+          },
+        })
 
       const { result } = renderHook(() =>
         useDownloadHistory({
@@ -184,6 +175,7 @@ describe('unit test for useDownloadHistory hook', () => {
 
       await waitFor(() => {
         expect(mockSearch).toHaveBeenCalledTimes(1)
+        expect(result.current.info.currentPage).toBe(5)
       })
 
       const mockCallback = jest.fn()
@@ -202,10 +194,10 @@ describe('unit test for useDownloadHistory hook', () => {
       act(() => result.current.pageHandler.prevPage({ cbs: [mockCallback] }))
 
       await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalled()
         expect(result.current.items).toStrictEqual([])
         expect(result.current.info.currentPage).toBe(4)
         expect(mockSearch).toHaveBeenCalledTimes(2)
-        expect(mockCallback).toHaveBeenCalled()
       })
     })
 
@@ -263,6 +255,7 @@ describe('unit test for useDownloadHistory hook', () => {
 
       await waitFor(() => {
         expect(mockSearch).toHaveBeenCalledTimes(1)
+        expect(result.current.info.currentPage).toBe(5)
       })
 
       const mockCallback = jest.fn()

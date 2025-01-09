@@ -51,7 +51,6 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                   id=":r0:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -361,7 +360,6 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                   id=":r4:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -456,7 +454,6 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                   id=":r6:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -546,7 +543,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":r8:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -856,7 +852,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":rc:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -951,7 +946,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":re:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -1041,7 +1035,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":r8:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -1351,7 +1344,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":rc:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -1446,7 +1438,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":re:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -1535,7 +1526,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":rg:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -1845,7 +1835,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":rk:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -1940,7 +1929,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":rm:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -2030,7 +2018,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":rg:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -2340,7 +2327,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":rk:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -2435,7 +2421,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":rm:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -2524,7 +2509,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":r8:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -2834,7 +2818,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":rc:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -2929,7 +2912,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":re:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -3019,7 +3001,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":rg:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -3329,7 +3310,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":rk:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"
@@ -3424,7 +3404,6 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                   id=":rm:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
-                  value=""
                 />
                 <span
                   aria-hidden="true"

@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import 'core-js/stable/structured-clone'
 import PatternToken from '#enums/patternToken'
 import { MockDownloadSettingsRepository } from '#mocks/repositories/downloadSettings'
 import { MockFilenameSettingRepository } from '#mocks/repositories/filenameSetting'

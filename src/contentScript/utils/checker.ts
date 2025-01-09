@@ -1,7 +1,7 @@
-import select from 'select-dom'
+import { elementExists } from 'select-dom'
 
 export const isStreamLoaded = () =>
-  select.exists('[role="region"]') && select.exists('article')
+  elementExists('[role="region"]') && elementExists('article')
 
 const getHost = (): string => window.location.host
 
@@ -47,10 +47,10 @@ export const isInTweetStatus = (): boolean =>
   Boolean(window.location.pathname.match(TweetStatusRegEx))
 
 export const isBetaTweetDeck = (): boolean =>
-  isTweetDeck() && select.exists('#react-root')
+  isTweetDeck() && elementExists('#react-root')
 
 export const isBusinessRelatedTweet = (ele: HTMLElement): boolean =>
-  select.exists('[data-testid="placementTracking"]', ele) ||
+  elementExists('[data-testid="placementTracking"]', ele) ||
   Boolean(ele.closest('[data-testid="placementTracking"]'))
 
 export const isDefined = (...parms: unknown[]): boolean =>

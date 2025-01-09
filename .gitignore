@@ -14,6 +14,8 @@ temp/
 *.exe
 public_keys/
 src/assets/icons/Legacy
+.yarn
+.pnp.*
 
 # Logs
 logs

@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import 'core-js/stable/structured-clone'
 import { MockFeatureSettingsRepository } from '#mocks/repositories/fetureSettings'
 import FeatureOptions from './FeatureOptions'
 import { queryAllByTestId, render } from '@testing-library/react'

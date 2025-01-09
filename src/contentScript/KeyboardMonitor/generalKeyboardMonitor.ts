@@ -2,7 +2,7 @@ import { getClosedTargetArticle } from '../utils/article'
 import { isTwitter } from '../utils/checker'
 import type DownloadKey from './DownloadKey'
 import type { KeyboardMonitor } from './types'
-import select from 'select-dom'
+import { $ } from 'select-dom'
 
 export abstract class GeneralKeyboardMonitor implements KeyboardMonitor {
   readonly downloadKey: DownloadKey
@@ -16,7 +16,7 @@ export abstract class GeneralKeyboardMonitor implements KeyboardMonitor {
   }
 
   #getButton(target: HTMLElement): HTMLElement | undefined {
-    return select<string, HTMLElement>(this.buttonQuery, target)
+    return $<HTMLElement>(this.buttonQuery, target)
   }
 
   #isValidTarget(target: unknown): boolean {

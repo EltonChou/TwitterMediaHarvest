@@ -31,12 +31,17 @@ describe('integrated test for searching download history from indexedDB.', () =>
     context.completeTx()
   })
 
+  beforeEach(() => {
+    jest.resetAllMocks()
+    jest.restoreAllMocks()
+  })
+
   afterAll(async () => {
     const client = await downloadIDB.connect()
     await client.clear('history')
   })
 
-  it.failing('can search download history', async () => {
+  it('can search download history', async () => {
     const result = await useCase.process({
       limit: 10,
       skip: 0,

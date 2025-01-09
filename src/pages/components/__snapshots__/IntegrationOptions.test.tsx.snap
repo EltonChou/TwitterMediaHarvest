@@ -59,7 +59,6 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
                 id=":r0:"
                 style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                 type="checkbox"
-                value=""
               />
               <span
                 aria-hidden="true"
@@ -119,7 +118,6 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
                 id=":r2:"
                 style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                 type="checkbox"
-                value=""
               />
               <span
                 aria-hidden="true"
@@ -197,7 +195,6 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
                 id=":r4:"
                 style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                 type="checkbox"
-                value=""
               />
               <span
                 aria-hidden="true"
@@ -257,7 +254,6 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
                 id=":r6:"
                 style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                 type="checkbox"
-                value=""
               />
               <span
                 aria-hidden="true"
@@ -314,7 +310,7 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
             </p>
             <div
               class="chakra-offset-slide"
-              style="opacity: 0; transform: translateX(0px) translateY(10px) translateZ(0);"
+              style="opacity: 0; transform: translateY(10px);"
             >
               <div
                 class="chakra-stack css-ng2lei"
@@ -356,7 +352,6 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
                 id=":r8:"
                 style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                 type="checkbox"
-                value=""
               />
               <span
                 aria-hidden="true"
@@ -406,7 +401,7 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
             </p>
             <div
               class="chakra-offset-slide"
-              style="opacity: 0; transform: translateX(0px) translateY(10px) translateZ(0);"
+              style="opacity: 0; transform: translateY(10px);"
             >
               <div
                 class="chakra-stack css-ng2lei"
@@ -448,7 +443,6 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
                 id=":rb:"
                 style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                 type="checkbox"
-                value=""
               />
               <span
                 aria-hidden="true"

@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import 'core-js/stable/structured-clone'
 import { MockFeatureSettingsRepository } from '#mocks/repositories/fetureSettings'
 import { MockUsageStatisticsRepository } from '#mocks/repositories/usageStatistics'
 import { CHANGE_CRITERIAS } from '#pages/hooks/useStatsStore'

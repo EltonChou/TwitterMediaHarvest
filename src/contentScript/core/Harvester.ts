@@ -5,10 +5,10 @@ import { createElementFromHTML } from '../utils/helper'
 import * as E from 'fp-ts/Either'
 import * as IOE from 'fp-ts/IOEither'
 import { flow, pipe } from 'fp-ts/function'
-import select from 'select-dom'
+import { $ } from 'select-dom'
 
 const removeButtonStatsText = (btnContainer: HTMLElement) =>
-  select(
+  $(
     '[data-testid="app-text-transition-container"] > span > span',
     btnContainer
   )?.remove()
@@ -20,7 +20,7 @@ const bleachButton = <T extends HTMLElement>(sampleButton: T) => {
 }
 
 const getIcon = <T extends HTMLElement>(button: T) =>
-  pipe(select('svg', button), E.fromNullable('Failed to get icon svg.'))
+  pipe($('svg', button), E.fromNullable('Failed to get icon svg.'))
 
 const getIconStyle = <T extends HTMLElement>(icon: T) =>
   icon?.classList?.value ??
@@ -40,14 +40,14 @@ const richIconSibling =
 
 const getActionBar = (article: HTMLElement) =>
   pipe(
-    select('[role="group"][aria-label]', article) ||
-      select('.r-18u37iz[role="group"][id^="id__"]', article),
+    $('[role="group"][aria-label]', article) ||
+      $('.r-18u37iz[role="group"][id^="id__"]', article),
     E.fromNullable('Failed to get action bar.')
   )
 
 const getSampleButton = (article: HTMLElement) =>
   pipe(
-    select('[data-testid="reply"] > div', article),
+    $('[data-testid="reply"] > div', article),
     E.fromNullable('Failed to get sample button')
   )
 

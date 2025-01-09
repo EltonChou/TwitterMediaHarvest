@@ -23,7 +23,6 @@ exports[`unit test for FeatureSwitch can render properly 1`] = `
         id=":r0:"
         style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
         type="checkbox"
-        value=""
       />
       <span
         aria-hidden="true"
@@ -75,7 +74,7 @@ exports[`unit test for RichFeatureSwitch can render properly when disabled 1`] =
           </p>
           <div
             class="chakra-offset-slide"
-            style="opacity: 0; transform: translateX(0px) translateY(10px) translateZ(0);"
+            style="opacity: 0; transform: translateY(10px);"
           >
             <div
               class="chakra-stack css-ng2lei"
@@ -122,7 +121,6 @@ exports[`unit test for RichFeatureSwitch can render properly when disabled 1`] =
               id=":r9:"
               style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
               type="checkbox"
-              value=""
             />
             <span
               aria-hidden="true"
@@ -194,7 +192,6 @@ exports[`unit test for RichFeatureSwitch can render properly with empty message 
               id=":r7:"
               style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
               type="checkbox"
-              value=""
             />
             <span
               aria-hidden="true"
@@ -245,7 +242,7 @@ exports[`unit test for RichFeatureSwitch can render properly with error message 
           </p>
           <div
             class="chakra-offset-slide"
-            style="opacity: 0; transform: translateX(0px) translateY(10px) translateZ(0);"
+            style="opacity: 0; transform: translateY(10px);"
           >
             <div
               class="chakra-stack css-ng2lei"
@@ -290,7 +287,6 @@ exports[`unit test for RichFeatureSwitch can render properly with error message 
               id=":r4:"
               style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
               type="checkbox"
-              value=""
             />
             <span
               aria-hidden="true"
@@ -341,7 +337,7 @@ exports[`unit test for RichFeatureSwitch can render properly with info message 1
           </p>
           <div
             class="chakra-offset-slide"
-            style="opacity: 0; transform: translateX(0px) translateY(10px) translateZ(0);"
+            style="opacity: 0; transform: translateY(10px);"
           >
             <div
               class="chakra-stack css-ng2lei"
@@ -386,7 +382,6 @@ exports[`unit test for RichFeatureSwitch can render properly with info message 1
               id=":r1:"
               style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
               type="checkbox"
-              value=""
             />
             <span
               aria-hidden="true"
