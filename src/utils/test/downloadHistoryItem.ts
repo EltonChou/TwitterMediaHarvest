@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker/locale/en'
 
 export const generateDownloadHistoryItem = (): DownloadHistoryItem => ({
   displayName: faker.internet.displayName(),
-  screenName: faker.internet.userName(),
+  screenName: faker.internet.username(),
   downloadTime: faker.date.recent(),
   hashtags: new Set(['a', 'b', 'c']),
   mediaType: faker.helpers.arrayElement([

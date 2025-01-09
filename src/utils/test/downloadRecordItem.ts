@@ -14,7 +14,7 @@ export const generateDownloadRecordItem = (): DownloadRecordItem => ({
   saveAs: faker.datatype.boolean(),
   url: faker.internet.url(),
   tweetInfo: {
-    screenName: faker.internet.userName(),
+    screenName: faker.internet.username(),
     tweetId: faker.string.numeric(),
   },
 })

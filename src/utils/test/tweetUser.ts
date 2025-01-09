@@ -4,6 +4,6 @@ import { faker } from '@faker-js/faker/locale/en'
 export const generateTweetUser = () =>
   new TweetUser({
     displayName: faker.internet.displayName(),
-    screenName: faker.internet.userName(),
+    screenName: faker.internet.username(),
     userId: faker.string.numeric(),
   })

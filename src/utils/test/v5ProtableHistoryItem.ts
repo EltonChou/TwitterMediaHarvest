@@ -5,7 +5,7 @@ import { faker } from '@faker-js/faker/locale/en'
 export const generatePortableDownloadHistoryItem = () =>
   new V5PortableDownloadHistoryItem({
     displayName: faker.internet.displayName(),
-    screenName: faker.internet.userName(),
+    screenName: faker.internet.username(),
     downloadTime: faker.date.recent(),
     hashtags: faker.helpers.arrayElements(['a', 'b', 'c']),
     mediaType: faker.helpers.arrayElement([
