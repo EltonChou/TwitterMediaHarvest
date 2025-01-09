@@ -1,2 +1,6 @@
 **/build/*
 **/dist/*
+**/node_modules/*
+**/assets/*
+.github
+*.json

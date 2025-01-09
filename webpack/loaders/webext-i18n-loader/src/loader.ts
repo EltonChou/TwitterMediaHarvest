@@ -67,7 +67,7 @@ function replaceI18nArguments(
 }
 
 export function isI18nCallExpression(
-  expression: LoaderOptions['expression']
+  expression: LoaderOptions['expressions']
 ): (node: ts.CallExpression) => boolean {
   return Array.isArray(expression)
     ? node =>
@@ -82,7 +82,7 @@ const transformer =
     const visitChild: ts.Visitor<ts.Node, ts.Node> = node => {
       if (
         ts.isCallExpression(node) &&
-        isI18nCallExpression(options.expression)(node)
+        isI18nCallExpression(options.expressions)(node)
       ) {
         const newExpr = replaceI18nArguments(node, ctx)
         if (newExpr) return newExpr
@@ -97,7 +97,7 @@ const transformer =
   }
 
 export type LoaderOptions = {
-  expression: string | RegExp | (RegExp | string)[]
+  expressions: string | RegExp | (RegExp | string)[]
 }
 
 const loader: LoaderDefinitionFunction<LoaderOptions> = function loader(
@@ -120,7 +120,7 @@ const loader: LoaderDefinitionFunction<LoaderOptions> = function loader(
   const options = this.getOptions({
     type: 'object',
     properties: {
-      expression: {
+      expressions: {
         anyOf: [
           { type: 'array' },
           { type: 'string' },

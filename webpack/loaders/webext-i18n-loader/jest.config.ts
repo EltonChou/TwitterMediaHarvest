@@ -8,7 +8,8 @@ const presetConfig = createDefaultEsmPreset({
 
 const jestConfig: JestConfigWithTsJest = {
   ...presetConfig,
-  verbose: true,
+  verbose: false,
+  coveragePathIgnorePatterns: ['dist/*'],
 }
 
 export default jestConfig

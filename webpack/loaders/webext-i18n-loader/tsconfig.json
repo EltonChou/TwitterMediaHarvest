@@ -38,6 +38,6 @@
         "node_modules/**/*",
         "src/**/*.spec.ts",
         "src/**/*.test.ts",
-        "tests/**"
+        "integrated_tests/**"
     ]
 }

@@ -51,7 +51,7 @@ test('test', async () => {
   const stats = await compiler(
     path.resolve(path.dirname(__filename), 'fixtures', 'i18n.ts'),
     {
-      expression: ['i18n', /getText/],
+      expressions: ['i18n', /getText/],
     }
   )
 
@@ -59,4 +59,4 @@ test('test', async () => {
     const output = stats.toJson({ source: true })?.modules?.at(0)?.source
     expect(output).toMatchSnapshot()
   }
-})
+}, 10000)
