@@ -1,8 +1,8 @@
+import PACKAGE from './package.json' with { type: 'json' }
+import baseConfig from './webpack.common.config.mjs'
 import CopyPlugin from 'copy-webpack-plugin'
 import { resolve } from 'path'
 import { merge } from 'webpack-merge'
-import PACKAGE from './package.json' with { type: 'json' }
-import baseConfig from './webpack.common.config.mjs'
 
 const { version } = PACKAGE
 
@@ -53,11 +53,6 @@ export default (env, argv) => {
             from: 'pages/*.html',
             context: 'src',
             to: '[name][ext]',
-          },
-          {
-            from: '_locales',
-            context: 'src',
-            to: '_locales',
           },
         ],
       }),

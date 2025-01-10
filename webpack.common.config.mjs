@@ -1,3 +1,5 @@
+import PACKAGE from './package.json' with { type: 'json' }
+import { WebextI18nPlugin } from '@media-harvest/webext-i18n-loader'
 import Dotenv from 'dotenv-webpack'
 import { createRequire } from 'node:module'
 import process from 'node:process'
@@ -5,7 +7,6 @@ import { resolve } from 'path'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 import webpack from 'webpack'
 import { merge } from 'webpack-merge'
-import PACKAGE from './package.json' with { type: 'json' }
 
 const require = createRequire(import.meta.url)
 
@@ -45,7 +46,7 @@ const config = {
           {
             loader: '@media-harvest/webext-i18n-loader',
             options: {
-              expression: ['i18n', 'getText', '_'],
+              expressions: ['i18n', 'getText', '_'],
             },
           },
           { loader: 'ts-loader' },
@@ -78,6 +79,9 @@ export default (env, argv) => {
       path: OUTPUT_DIR,
     },
     plugins: [
+      new WebextI18nPlugin({
+        poDir: resolve(process.cwd(), 'src', 'locales'),
+      }),
       new EnvironmentPlugin({
         RELEASE: RELEASE_NAME,
         TARGET: BROWSER,
