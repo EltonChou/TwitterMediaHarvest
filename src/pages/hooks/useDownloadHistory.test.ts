@@ -27,13 +27,9 @@ describe('unit test for useDownloadHistory hook', () => {
   const mockSearchDownloadHistoryUseCase =
     new MockSearchDownloadHistoryUseCase()
 
-  afterAll(() => {
-    jest.resetAllMocks()
-    jest.restoreAllMocks()
-  })
-
   afterEach(() => {
     jest.resetAllMocks()
+    jest.restoreAllMocks()
   })
 
   describe('unit test for handler', () => {
@@ -331,6 +327,55 @@ describe('unit test for useDownloadHistory hook', () => {
       expect(result.current.info.currentPage).toBe(1)
       expect(result.current.info.hasNextPage).toBeFalsy()
       expect(mockCallback).not.toHaveBeenCalled()
+    })
+
+    it('can set the item count of page', async () => {
+      const mockSearch = jest.spyOn(mockSearchDownloadHistoryUseCase, 'process')
+      mockSearch.mockResolvedValue({
+        $metadata: {
+          itemPerPage: 20,
+          matchedCount: 10,
+          page: { current: 5, next: 6, prev: 4, total: 10 },
+        },
+        result: {
+          items: [],
+          error: undefined,
+        },
+      })
+
+      const { result } = renderHook(() =>
+        useDownloadHistory({
+          searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
+          initItemPerPage: 20,
+        })
+      )
+
+      await waitFor(() => {
+        expect(mockSearch).toHaveBeenCalledTimes(1)
+        expect(result.current.info.currentPage).toBe(5)
+      })
+
+      const mockCallback = jest.fn()
+
+      mockSearch.mockResolvedValue({
+        $metadata: {
+          itemPerPage: 10,
+          matchedCount: 10,
+          page: { current: 6, next: 7, prev: 5, total: 10 },
+        },
+        result: {
+          items: [],
+          error: undefined,
+        },
+      })
+      act(() => result.current.pageHandler.setItemPerPage(10, { cbs: [mockCallback] }))
+
+      await waitFor(() => {
+        expect(result.current.items).toStrictEqual([])
+        expect(result.current.info.currentPage).toBe(6)
+        expect(mockSearch).toHaveBeenCalledTimes(2)
+        expect(mockCallback).toHaveBeenCalled()
+      })
     })
   })
 })

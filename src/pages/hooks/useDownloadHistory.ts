@@ -27,7 +27,7 @@ type DownloadHistory = {
   }
   items: DownloadHistoryInfo[]
   pageHandler: {
-    setItemPerPage: (count: number) => void
+    setItemPerPage: (count: number, options?: WithCallbacks) => void
     nextPage: (option?: WithCallbacks) => void
     prevPage: (option?: WithCallbacks) => void
     specifyPage: (page: number, option?: WithCallbacks) => void
@@ -102,7 +102,8 @@ const useDownloadHistory = ({
     loadLatest({ itemPerPage, query }).then(() => {
       setLoaded(true)
     })
-  }, [itemPerPage, query])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const prevPage: DownloadHistory['pageHandler']['prevPage'] = useCallback(
     options => {
@@ -178,6 +179,31 @@ const useDownloadHistory = ({
       ]
     )
 
+  const setItemCount: DownloadHistory['pageHandler']['setItemPerPage'] =
+    useCallback(
+      (count, options) => {
+        setItemPerPage(count)
+        searchDownloadHistoryUseCase
+          .process({
+            filter: query.filter,
+            hashtags: query.hashtags,
+            itemPerPage: count,
+            page: pageInfo.current,
+          })
+          .then(setResultByResponse)
+          .then(() => {
+            if (options) options.cbs.forEach(cb => cb())
+          })
+      },
+      [
+        pageInfo,
+        query.filter,
+        query.hashtags,
+        searchDownloadHistoryUseCase,
+        setResultByResponse,
+      ]
+    )
+
   return {
     info: {
       isLoaded: isLoaded,
@@ -191,10 +217,16 @@ const useDownloadHistory = ({
       specifyPage,
       nextPage,
       prevPage,
-      setItemPerPage,
+      setItemPerPage: setItemCount,
     },
     handler: {
-      search: useCallback(query => setQuery(query), []),
+      search: useCallback(
+        query => {
+          setQuery(query)
+          loadLatest({ itemPerPage, query })
+        },
+        [itemPerPage, loadLatest]
+      ),
       refresh: useCallback(
         options => {
           loadLatest({ itemPerPage, query: DEFAULT_QUERY }).then(() => {
