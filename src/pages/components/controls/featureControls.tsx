@@ -1,5 +1,5 @@
-import type { JSX } from 'react'
 import useLocaleVariables from '#pages/hooks/useLocaleVariables'
+import type { TestableComponent } from '#pages/types/props'
 import { InfoIcon, WarningTwoIcon } from '@chakra-ui/icons'
 import {
   Box,
@@ -13,6 +13,7 @@ import {
   Switch,
   Text,
 } from '@chakra-ui/react'
+import type { JSX } from 'react'
 import React, { useId } from 'react'
 
 type FeatureSwitchProps = {

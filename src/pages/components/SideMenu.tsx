@@ -1,5 +1,6 @@
 import { getText as i18n } from '#libs/i18n'
 import { Path } from '#pages/routes'
+import type { TestableComponent } from '#pages/types/props'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import {
   Box,

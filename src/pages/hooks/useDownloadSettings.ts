@@ -1,5 +1,6 @@
 import type { ISettingsRepository } from '#domain/repositories/settings'
 import { isFirefox } from '#helpers/runtime'
+import type { InitPayloadAction, PureAction } from '#pages/types/reducerAction'
 import type { DownloadSettings } from '#schema'
 import { useEffect, useReducer } from 'react'
 
@@ -7,7 +8,7 @@ function reducer(
   settings: DownloadSettings,
   action:
     | PureAction<'toggleAria2' | 'toggleAggressive' | 'toggleAskWhere'>
-    | DataInitAction<DownloadSettings>
+    | InitPayloadAction<DownloadSettings>
 ): DownloadSettings {
   switch (action.type) {
     case 'toggleAggressive':

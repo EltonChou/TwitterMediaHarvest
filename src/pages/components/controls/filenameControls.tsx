@@ -1,3 +1,4 @@
+import type { TestableComponent } from '#pages/types/props'
 import { DragHandleIcon } from '@chakra-ui/icons'
 import { Box, HStack, Tag, TagCloseButton } from '@chakra-ui/react'
 import { useSortable } from '@dnd-kit/sortable'

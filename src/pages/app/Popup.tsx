@@ -7,6 +7,7 @@ import useLocaleVariables from '#pages/hooks/useLocaleVariables'
 import useStatsStore from '#pages/hooks/useStatsStore'
 import Links from '#pages/links'
 import { createStatsStore } from '#pages/stores/StatsStore'
+import type { TestableComponent } from '#pages/types/props'
 import { V4Statistics } from '#schema'
 import { getFullVersion } from '#utils/runtime'
 import {

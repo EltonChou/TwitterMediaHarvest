@@ -7,4 +7,4 @@ export type PayloadAction<T, PT> = {
   payload: PT
 }
 
-export type InitPayloadAction<T> = DataActionWithPayload<'init', T>
+export type InitPayloadAction<T> = PayloadAction<'init', T>
