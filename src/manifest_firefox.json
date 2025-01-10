@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "__MSG_appName__",
+  "name": "__MSG_app_appName__",
   "short_name": "MediaHarvest",
-  "description": "__MSG_appDesc__",
+  "description": "__MSG_app_appDesc__",
   "version": "__MANIFEST_RELEASE_VERSION__",
   "version_name": "__MANIFEST_VERSION_NAME__",
   "default_locale": "en",
