@@ -10,6 +10,12 @@ export default function (api) {
           corejs: { version: '3.39', proposals: true },
         },
       ],
+      [
+        '@babel/preset-react',
+        {
+          runtime: 'automatic',
+        },
+      ],
     ],
   }
 }
