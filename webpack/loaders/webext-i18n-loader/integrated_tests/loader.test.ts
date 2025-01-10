@@ -18,12 +18,7 @@ const compiler = (fixture: string, options: LoaderOptions) => {
           use: [
             { loader: 'ts-loader' },
             {
-              loader: path.resolve(
-                path.dirname(__filename),
-                '..',
-                'dist',
-                'index.js'
-              ),
+              loader: path.resolve(process.cwd(), 'dist', 'index.js'),
               options,
             },
           ],
@@ -55,6 +50,7 @@ test('test', async () => {
     }
   )
 
+  expect(stats).toBeDefined()
   if (stats) {
     const output = stats.toJson({ source: true })?.modules?.at(0)?.source
     expect(output).toMatchSnapshot()

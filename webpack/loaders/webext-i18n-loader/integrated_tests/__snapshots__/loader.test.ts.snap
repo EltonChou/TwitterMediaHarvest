@@ -12,10 +12,10 @@ function nope(msg) {
 function getText(msg) {
     return msg;
 }
-i18n("93b28fa830");
-i18n("93b28fa830", "6e94a0a");
-i18n("93b28fa830", "6e94a0a", { foo: 'bar' });
+i18n("6a30f630de");
+i18n("6a30f630de", "9f86d08");
+i18n("6a30f630de", "9f86d08", { foo: 'bar' });
 nope('kappa');
-getText("13e0d5e94e");
+getText("ea38562ecb");
 "
 `;

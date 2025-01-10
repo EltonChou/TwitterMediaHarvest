@@ -9,7 +9,7 @@ function replaceContextId<T extends ts.Expression>(
 ) {
   return ts.isStringLiteral(expression)
     ? transformerCtx.factory.createStringLiteral(
-        getHashStore().saveContext(expression.getText())
+        getHashStore().saveContext(expression.text)
       )
     : expression
 }
@@ -20,7 +20,7 @@ function replaceMsgId<T extends ts.Expression>(
 ) {
   return ts.isStringLiteral(expression)
     ? transformerCtx.factory.createStringLiteral(
-        getHashStore().saveMsgId(expression.getText())
+        getHashStore().saveMsgId(expression.text)
       )
     : expression
 }
