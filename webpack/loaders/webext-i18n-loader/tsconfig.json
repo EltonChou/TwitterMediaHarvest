@@ -27,9 +27,7 @@
         "noUnusedLocals": true, // Report errors on unused local variables.
         "noUnusedParameters": true, // Report errors on unused parameters in functions
         "declaration": true,
-        "typeRoots": [
-            "node_modules/@types"
-        ]
+        "skipLibCheck": true,
     },
     "include": [
         "src/**/*.ts",
