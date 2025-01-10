@@ -101,7 +101,7 @@ export class WebextI18nPlugin implements WebpackPluginInstance {
       } else {
         const ctxHash = hashStore.getContextHash(context)
         const msgIdHash = hashStore.getMsgIdHash(msgId)
-        return this.makeMsgId(msgIdHash ?? msgId, ctxHash)
+        return this.makeMsgId(msgIdHash ?? msgId, ctxHash ?? context)
       }
     }
   }
