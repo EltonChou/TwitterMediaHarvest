@@ -151,11 +151,13 @@ export class WebextI18nPlugin implements WebpackPluginInstance {
 
             const outputFile = path.join('_locales', locale, 'messages.json')
 
-            logger.log(`locale ${locale}: ${poFile} => ${outputFile}`)
             compilation.emitAsset(
               outputFile,
               new RawSource(JSON.stringify(webextTranslations)),
-              { javascriptModule: false, sourceFilename: poFile }
+              {
+                javascriptModule: false,
+                sourceFilename: path.relative(compiler.context, poFile),
+              }
             )
           }
         }
