@@ -1,14 +1,13 @@
 import type { JestConfigWithTsJest } from 'ts-jest'
-import { createDefaultEsmPreset } from 'ts-jest'
+import { createJsWithBabelPreset } from 'ts-jest'
 
-const presetConfig = createDefaultEsmPreset({
+const presetConfig = createJsWithBabelPreset({
   //...options
   tsconfig: './tsconfig.test.json',
 })
 
 const jestConfig: JestConfigWithTsJest = {
   ...presetConfig,
-  verbose: false,
   coveragePathIgnorePatterns: ['dist/*'],
 }
 
