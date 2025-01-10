@@ -66,7 +66,7 @@ const makePhotoUrlPattern = (statusHref: string): string => {
 const getPhotoElementByUrl =
   (photoUrl: string) =>
   (article: HTMLElement): HTMLElement | undefined =>
-    $<HTMLElement>(`href*="${photoUrl}"]`, article)
+    $<HTMLElement>(`[href*="${photoUrl}"]`, article)
 
 const getArticleAnchor = (article: HTMLElement) =>
   $('[href*="/status/"]', article)
