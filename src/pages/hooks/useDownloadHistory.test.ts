@@ -368,7 +368,10 @@ describe('unit test for useDownloadHistory hook', () => {
           error: undefined,
         },
       })
-      act(() => result.current.pageHandler.setItemPerPage(10, { cbs: [mockCallback] }))
+
+      act(() =>
+        result.current.pageHandler.setItemPerPage(10, { cbs: [mockCallback] })
+      )
 
       await waitFor(() => {
         expect(result.current.items).toStrictEqual([])
