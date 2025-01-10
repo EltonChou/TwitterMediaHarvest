@@ -125,6 +125,7 @@
     "watch:chrome:service:dev": "yarn build:chrome:service:dev --watch",
     "watch:chrome:injection:dev": "yarn build:chrome:injection:dev --watch",
     "lint": "eslint --color --quiet src/ --fix && prettier **/*.ts **/*.js -c --write",
+    "typecheck": "tsc --noEmit --skipLibCheck",
     "extract-locales": "./utils/locales-extractor.mjs",
     "check-locales": "./utils/check-locales.mjs"
   },
