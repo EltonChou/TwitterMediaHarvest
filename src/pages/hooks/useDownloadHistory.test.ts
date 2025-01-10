@@ -37,7 +37,7 @@ describe('unit test for useDownloadHistory hook', () => {
   })
 
   describe('unit test for handler', () => {
-    it('can search by query', () => {
+    it('can search by query', async () => {
       const mockSearch = jest.spyOn(mockSearchDownloadHistoryUseCase, 'process')
       mockSearch.mockResolvedValue({
         $metadata: {
@@ -58,6 +58,10 @@ describe('unit test for useDownloadHistory hook', () => {
         })
       )
 
+      await waitFor(() => {
+        expect(mockSearch).toHaveBeenCalledTimes(1)
+      })
+
       act(() =>
         result.current.handler.search({
           filter: { userName: '*', mediaType: '*' },
@@ -65,8 +69,10 @@ describe('unit test for useDownloadHistory hook', () => {
         })
       )
 
-      expect(mockSearch).toHaveBeenCalledTimes(2)
-      expect(result.current.items).toStrictEqual([])
+      await waitFor(() => {
+        expect(mockSearch).toHaveBeenCalledTimes(2)
+        expect(result.current.items).toStrictEqual([])
+      })
     })
 
     it('can refresh', async () => {
@@ -141,6 +147,10 @@ describe('unit test for useDownloadHistory hook', () => {
         })
       )
 
+      await waitFor(() => {
+        expect(mockSearch).toHaveBeenCalledTimes(1)
+      })
+
       const mockCallback = jest.fn()
 
       act(() =>
@@ -204,7 +214,7 @@ describe('unit test for useDownloadHistory hook', () => {
       })
     })
 
-    it('cannot navigate to previous page when there is no previous page', () => {
+    it('cannot navigate to previous page when there is no previous page', async () => {
       const mockSearch = jest.spyOn(mockSearchDownloadHistoryUseCase, 'process')
       mockSearch.mockResolvedValue({
         $metadata: {
@@ -224,6 +234,10 @@ describe('unit test for useDownloadHistory hook', () => {
           initItemPerPage: 20,
         })
       )
+
+      await waitFor(() => {
+        expect(mockSearch).toHaveBeenCalledTimes(1)
+      })
 
       const mockCallback = jest.fn()
       act(() => result.current.pageHandler.prevPage({ cbs: [mockCallback] }))
@@ -284,7 +298,7 @@ describe('unit test for useDownloadHistory hook', () => {
       })
     })
 
-    it('cannot navigate to next page when there is no next page', () => {
+    it('cannot navigate to next page when there is no next page', async () => {
       const mockSearch = jest.spyOn(mockSearchDownloadHistoryUseCase, 'process')
       mockSearch.mockResolvedValue({
         $metadata: {
@@ -304,6 +318,10 @@ describe('unit test for useDownloadHistory hook', () => {
           initItemPerPage: 20,
         })
       )
+
+      await waitFor(() => {
+        expect(mockSearch).toHaveBeenCalledTimes(1)
+      })
 
       const mockCallback = jest.fn()
       act(() => result.current.pageHandler.nextPage({ cbs: [mockCallback] }))
