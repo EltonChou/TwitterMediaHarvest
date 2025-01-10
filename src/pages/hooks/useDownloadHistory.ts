@@ -72,7 +72,6 @@ const useDownloadHistory = ({
 
   const setResultByResponse = useCallback(
     (resp: DownloadHistoryQueryResponse) => {
-      console.count()
       setItems(resp.result.items)
       setTotal(resp.$metadata.matchedCount)
       setPageInfo(resp.$metadata.page)
