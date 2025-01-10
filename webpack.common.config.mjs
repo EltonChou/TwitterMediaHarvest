@@ -1,5 +1,4 @@
 import PACKAGE from './package.json' with { type: 'json' }
-import { WebextI18nPlugin } from '@media-harvest/webext-i18n-loader'
 import Dotenv from 'dotenv-webpack'
 import { createRequire } from 'node:module'
 import process from 'node:process'
@@ -79,9 +78,6 @@ export default (env, argv) => {
       path: OUTPUT_DIR,
     },
     plugins: [
-      new WebextI18nPlugin({
-        poDir: resolve(process.cwd(), 'src', 'locales'),
-      }),
       new EnvironmentPlugin({
         RELEASE: RELEASE_NAME,
         TARGET: BROWSER,

@@ -1,5 +1,6 @@
 import PACKAGE from './package.json' with { type: 'json' }
 import baseConfig from './webpack.common.config.mjs'
+import { WebextI18nPlugin } from '@media-harvest/webext-i18n-loader'
 import CopyPlugin from 'copy-webpack-plugin'
 import { resolve } from 'path'
 import { merge } from 'webpack-merge'
@@ -29,6 +30,9 @@ export default (env, argv) => {
       ],
     },
     plugins: [
+      new WebextI18nPlugin({
+        poDir: resolve(process.cwd(), 'src', 'locales'),
+      }),
       new CopyPlugin({
         patterns: [
           {
