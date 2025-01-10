@@ -102,8 +102,8 @@ export type LoaderOptions = {
 
 const loader: LoaderDefinitionFunction<LoaderOptions> = function loader(
   content,
-  _map,
-  _meta
+  sourceMap?,
+  meta?
 ) {
   const callback = this.async()
   const tsConfig = ts.readConfigFile(
@@ -139,13 +139,12 @@ const loader: LoaderDefinitionFunction<LoaderOptions> = function loader(
   )
   const result = ts.transform([srcFile], [transformer(options)])
   const transformedContent = result.transformed.at(0)
+  const outputContent = transformedContent
+    ? ts.createPrinter().printFile(transformedContent)
+    : content
 
-  return callback(
-    null,
-    transformedContent
-      ? ts.createPrinter().printFile(transformedContent)
-      : content
-  )
+  // It should be okay if we directly pass the sourcemap, since we only modify the `StringLiteral` expression.
+  return callback(null, outputContent, sourceMap, meta)
 }
 
 export default loader
