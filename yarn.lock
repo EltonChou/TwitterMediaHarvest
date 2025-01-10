@@ -5753,7 +5753,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:4.1.2, chalk@npm:^4.0.0, chalk@npm:^4.0.2, chalk@npm:^4.1.0":
+"chalk@npm:4.1.2, chalk@npm:^4.0.0, chalk@npm:^4.0.2, chalk@npm:^4.1.0, chalk@npm:~4.1.2":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
@@ -5797,7 +5797,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^5.3.0, chalk@npm:^5.4.1":
+"chalk@npm:^5.3.0":
   version: 5.4.1
   resolution: "chalk@npm:5.4.1"
   checksum: 10c0/b23e88132c702f4855ca6d25cb5538b1114343e41472d5263ee8a37cccfccd9c4216d111e1097c6a27830407a1dc81fecdf2a56f2c63033d4dbbd88c10b0dcef
@@ -12706,7 +12706,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:^8.19.1"
     "@typescript-eslint/typescript-estree": "npm:^8.19.1"
     babel-loader: "npm:^9.2.1"
-    chalk: "npm:^5.4.1"
+    chalk: "npm:~4.1.2"
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.40.0"
     crypto: "npm:^1.0.1"
