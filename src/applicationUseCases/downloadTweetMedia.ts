@@ -191,6 +191,8 @@ export class DownloadTweetMedia
 
     const errorRecords: { identity: string; failedReason: string }[] = []
     let fetchError: Error | undefined = undefined
+    let guestFetchError: Error | undefined = undefined
+
     for (const { fetchTweet, command } of solutions) {
       remainingSolutions--
 
@@ -200,25 +202,35 @@ export class DownloadTweetMedia
         remainingQuota,
       } = await fetchTweet.process(command)
       if (error) {
-        // Only expose first error to user.
-        fetchError ??= error
         errorRecords.push({
           identity: fetchTweet.identity,
           failedReason: error.message || error.name,
         })
+
+        if (isGuestFetchTweet(fetchTweet)) {
+          guestFetchError = error
+        } else {
+          // Only expose first non-guest error to user.
+          fetchError ??= error
+        }
       }
 
+      // TODO: Determine the timing to emit quota warning.
       if (
+        !isGuestFetchTweet(fetchTweet) &&
         remainingSolutions === 0 &&
         remainingQuota <= this.options.remainingQuotaThreshold
       )
         this.emitQuotaWarning(remainingQuota)
+
       if (tweet) return toSuccessResult(tweet)
     }
 
     // eslint-disable-next-line no-console
     console.table(errorRecords)
-    return toErrorResult(fetchError ?? new NoFetchTweetSolution())
+    return toErrorResult(
+      fetchError ?? guestFetchError ?? new NoFetchTweetSolution()
+    )
   }
 
   private emitQuotaWarning(_remainingQuota: number) {
@@ -242,6 +254,9 @@ const mapFetchTweetErrorToEvent = (
     isExplicit: true,
   })
 }
+
+const isGuestFetchTweet = (fetchTweet: FetchTweet): boolean =>
+  fetchTweet.identity === 'guest'
 
 const tweetMediaFileToDownloadTargetWithFilenameSettting =
   (filenameSetting: FilenameSetting) =>
