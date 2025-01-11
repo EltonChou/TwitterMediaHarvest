@@ -192,7 +192,6 @@ export const makeFilenameIsOverwrittenNotificationConfig: Factory<
     iconUrl: getNotificationIconUrl(),
     title: getText('WARNING: Filename is modified', 'notification:filename'),
     message: getText(
-      // eslint-disable-next-line quotes
       "The filename is modified by other extensions, please check extensions' settings.",
       'notification:filename'
     ),
