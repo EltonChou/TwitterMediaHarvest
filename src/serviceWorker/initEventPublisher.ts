@@ -4,6 +4,7 @@ import { cleanDownloadRecord as cleanDownloadRecordHandler } from '#eventHandler
 import { increaseUsageStatistics } from '#eventHandlers/increaseUsageStatistics'
 import { initClient } from '#eventHandlers/initClient'
 import { notifyDownloadInterrupted } from '#eventHandlers/notifyDownloadInterrupted'
+import { notifyFilenameIsOverwritten } from '#eventHandlers/notifyFilenameIsOverwritten'
 import { notifyTweetApiError } from '#eventHandlers/notifyTweetApiError'
 import { openFailedTweetInNewTab } from '#eventHandlers/openFailedTweetInNewTab'
 import { openTweetOfFailedDownloadInNewTab } from '#eventHandlers/openTweetOfFailedDownloadInNewTab'
@@ -23,6 +24,7 @@ import {
   downloadRepo,
   downloadSettingsRepo,
   usageStatisticsRepo,
+  warningSettingsRepo,
 } from '#provider'
 import { runtime } from 'webextension-polyfill'
 
@@ -54,7 +56,7 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
       notifyDownloadInterrupted(notifier, downloadRecordRepo),
     ])
     .register('filename:overwritten', [
-      //TODO: Notify user that the filename was overwritten.
+      notifyFilenameIsOverwritten(notifier, warningSettingsRepo),
     ])
     .register('api:twitter:failed', [notifyTweetApiError(notifier)])
     .register('parse:tweet:failed', [

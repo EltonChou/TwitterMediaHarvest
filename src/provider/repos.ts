@@ -7,6 +7,7 @@ import { DownloadSettingsRepository } from '#infra/repositories/downloadSettings
 import { FeatureSettingsRepository } from '#infra/repositories/featureSettings'
 import { V4FilenameSettingsRepository } from '#infra/repositories/filenameSettings'
 import { WebExtUsageStatisticsRepository } from '#infra/repositories/usageStatistics'
+import { WarningSettingsRepo } from '#infra/repositories/warningSettings'
 import { XTokenRepo } from '#infra/repositories/xToken'
 import { downloadIDB } from '#libs/idb/download/db'
 import { blobToUrlWithFileReader } from '#utils/blob'
@@ -39,3 +40,4 @@ export const portableDownloadRepo = new IDBPortableDownloadHistoryRepository(
   downloadIDB,
   blobToUrlWithFileReader
 )
+export const warningSettingsRepo = new WarningSettingsRepo(localWebExtStorage)
