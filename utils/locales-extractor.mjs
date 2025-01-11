@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
+import PACKAGE from '../package.json' with { type: 'json' }
 import { createHash } from 'crypto'
 import dayjs from 'dayjs'
 import { existsSync, readFileSync, writeFileSync } from 'fs'
 import { GettextExtractor, JsExtractors } from 'gettext-extractor'
 import { resolve } from 'path'
 import { cwd } from 'process'
-import PACKAGE from '../package.json' with { type: 'json' }
 
 const { name, version } = PACKAGE
 
@@ -38,7 +38,7 @@ extractor.addMessage({
 
 extractor.printStats()
 
-const dir = resolve(cwd(), 'src', 'locales')
+const dir = resolve(cwd(), 'locales')
 
 const FILENAME = resolve(dir, 'template.pot')
 const DIGEST_FILENAME = resolve(dir, 'template.pot.digest')

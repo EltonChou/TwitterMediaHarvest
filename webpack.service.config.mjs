@@ -31,7 +31,7 @@ export default (env, argv) => {
     },
     plugins: [
       new WebextI18nPlugin({
-        poDir: resolve(process.cwd(), 'src', 'locales'),
+        poDir: resolve(process.cwd(), 'locales'),
       }),
       new CopyPlugin({
         patterns: [
