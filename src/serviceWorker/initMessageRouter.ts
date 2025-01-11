@@ -1,4 +1,5 @@
 import { getEventPublisher } from '#infra/eventPublisher'
+import { Aria2DownloadMediaFile } from '#infra/useCases/aria2DownloadMediaFile'
 import { BrowserDownloadMediaFile } from '#infra/useCases/browserDownloadMediaFile'
 import { FallbackFetchTweet } from '#infra/useCases/fallbackFetchTweet'
 import { GuestFetchTweet } from '#infra/useCases/guestFetchTweet'
@@ -29,12 +30,7 @@ export const initMessageRouter = (router: MessageRouter): MessageRouter =>
         filenameSettingRepo: filenameSettingsRepo,
         featureSettingsRepo,
         downloaderBuilder: {
-          // TODO: Implement aria2 download.
-          aria2: params =>
-            new BrowserDownloadMediaFile(
-              params.targetTweet,
-              params.shouldPrompt
-            ),
+          aria2: params => new Aria2DownloadMediaFile(params.targetTweet),
           browser: params =>
             new BrowserDownloadMediaFile(
               params.targetTweet,

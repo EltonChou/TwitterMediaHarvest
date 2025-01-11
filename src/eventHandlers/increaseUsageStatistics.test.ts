@@ -1,3 +1,4 @@
+import Aria2DownloadIsDispatched from '#domain/events/Aria2DownloadIsDispatched'
 import DownloadCompleted from '#domain/events/DownloadCompleted'
 import { MockEventPublisher } from '#mocks/eventPublisher'
 import { MockDownloadRepo } from '#mocks/repositories/download'
@@ -33,6 +34,34 @@ describe('unit test for handler to increase usage statistics', () => {
     expect(mockStatsIncrease).toHaveBeenCalledWith({
       downloadCount: 1,
       trafficUsage: downloadItem.fileSize,
+    })
+    expect(mockStatsSave).toHaveBeenCalled()
+    expect(mockStatsSave).not.toHaveBeenCalledWith(stats)
+  })
+
+  it('can increase only download count if event is not download event', async () => {
+    const downloadItem = {
+      fileSize: 10,
+      filename: 'filename',
+    }
+    jest
+      .spyOn(downloadRepo, 'getById')
+      .mockImplementation(async id => ({ ...downloadItem, id: id }))
+
+    const stats = generateUsageStatistics()
+    const mockStatsIncrease = jest.spyOn(stats, 'increase')
+
+    const mockStatsGet = jest.spyOn(statsRepo, 'get').mockResolvedValue(stats)
+    const mockStatsSave = jest.spyOn(statsRepo, 'save').mockResolvedValue()
+
+    const handler = increaseUsageStatistics(statsRepo, downloadRepo)
+
+    await handler(new Aria2DownloadIsDispatched(), publisher)
+
+    expect(mockStatsGet).toHaveBeenCalled()
+    expect(mockStatsIncrease).toHaveBeenCalledWith({
+      downloadCount: 1,
+      trafficUsage: 0,
     })
     expect(mockStatsSave).toHaveBeenCalled()
     expect(mockStatsSave).not.toHaveBeenCalledWith(stats)

@@ -1,5 +1,8 @@
-import type {
+import { getAria2ExtId } from '#utils/runtime'
+import {
   WebExtAction,
+  WebExtExternalAction,
+  WebExtExternalMessage,
   WebExtMessage,
   WebExtMessageErrorResponse,
   WebExtMessagePayloadResponse,
@@ -9,8 +12,8 @@ import { runtime } from 'webextension-polyfill'
 
 export const sendMessage = async <
   Action extends WebExtAction,
-  Payload extends Record<string, unknown> = never,
-  ResponsePayload extends Record<string, unknown> = never,
+  Payload extends LiteralObject = never,
+  ResponsePayload extends LiteralObject = never,
 >(
   message: WebExtMessage<Action, Payload, ResponsePayload>
 ): Promise<
@@ -23,17 +26,25 @@ export const sendMessage = async <
 }
 
 export const sendExternalMessage = async <
-  Action extends WebExtAction,
-  Payload extends Record<string, unknown> = never,
-  ResponsePayload extends Record<string, unknown> = never,
+  Action extends WebExtExternalAction,
+  Payload extends LiteralObject,
+  Response = never,
 >(
-  externalExtId: string,
-  message: WebExtMessage<Action, Payload, ResponsePayload>
-): Promise<
-  | (keyof ResponsePayload extends string
-      ? WebExtMessagePayloadResponse<ResponsePayload>
-      : WebExtMessageResponse)
-  | WebExtMessageErrorResponse
-> => {
-  return runtime.sendMessage(externalExtId, message.toObject())
+  message: WebExtExternalMessage<Action, Payload, Response>
+): Promise<Response | WebExtMessageErrorResponse> => {
+  const { action, payload } = message.toObject()
+
+  switch (action) {
+    case WebExtExternalAction.Aria2Download: {
+      const aria2ExtId = getAria2ExtId()
+      if (!aria2ExtId) break
+
+      return runtime.sendMessage(
+        aria2ExtId,
+        payload
+      ) satisfies Promise<Response>
+    }
+  }
+
+  return { reason: 'No target extension', status: 'error' }
 }

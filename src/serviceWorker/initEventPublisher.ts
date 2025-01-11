@@ -33,6 +33,13 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
   const notifier = getNotifier()
 
   const cleanDownloadRecord = cleanDownloadRecordHandler(downloadRecordRepo)
+  const increaseUsageStats = increaseUsageStatistics(
+    usageStatisticsRepo,
+    downloadRepo
+  )
+  const syncClientInfoWithLock = syncClient(
+    runWithWebLock(LockCriteria.ClientSync)
+  )(clientRepo)
 
   publisher
     .register('runtime:status:installed', [
@@ -43,13 +50,17 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
       showUpdateMessageInConsole,
       showClientInfoInConsole(clientRepo),
     ])
+    .register('download:status:dispatched:aria2', [
+      increaseUsageStats,
+      syncClientInfoWithLock,
+    ])
     .register('download:status:dispatched:browser', [
       recordDispatchedDownloadConfiguration(downloadRecordRepo),
     ])
     .register('download:status:completed', [
       checkCompletedDownload(downloadRepo, downloadRecordRepo),
-      increaseUsageStatistics(usageStatisticsRepo, downloadRepo),
-      syncClient(runWithWebLock(LockCriteria.ClientSync))(clientRepo),
+      increaseUsageStats,
+      syncClientInfoWithLock,
       cleanDownloadRecord,
     ])
     .register('download:status:interrupted', [

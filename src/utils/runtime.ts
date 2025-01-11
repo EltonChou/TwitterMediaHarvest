@@ -8,3 +8,5 @@ export const getFullVersion = () =>
 export const getRuntimeId = () => Browser.runtime.id
 
 export const getName = () => Browser.runtime.getManifest().name
+
+export const getAria2ExtId = () => process.env.ARIA2_EXT_ID

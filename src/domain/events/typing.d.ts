@@ -14,6 +14,7 @@ interface DomainEventMap {
   'download:status:completed': DownloadEvent
   'download:status:interrupted': DownloadInterruptedEvent
   'download:status:dispatched:browser': BrowserDownloadDispatchedEvent
+  'download:status:dispatched:aria2': IDomainEvent
   'filename:overwritten': FilenameOverwrittenEvent
   'notification:downloadFailed:self:clicked': DownloadFailedNotificationEvent
   'notification:downloadFailed:self:closed': DownloadFailedNotificationEvent

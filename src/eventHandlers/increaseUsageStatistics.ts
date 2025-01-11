@@ -6,13 +6,26 @@ export const increaseUsageStatistics =
   (
     statsRepo: IUsageStatisticsRepository,
     downloadRepo: IDownloadRepository
-  ): DomainEventHandler<DownloadEvent> =>
+  ): DomainEventHandler<DownloadEvent | IDomainEvent> =>
   async event => {
-    const item = await downloadRepo.getById(event.downloadId)
-    const stats = await statsRepo.get()
-    const newStats = stats.increase({
-      downloadCount: 1,
-      trafficUsage: item ? item.fileSize : 0,
-    })
-    await statsRepo.save(newStats)
+    if (assertDownloadEvent(event)) {
+      const item = await downloadRepo.getById(event.downloadId)
+      const stats = await statsRepo.get()
+      const newStats = stats.increase({
+        downloadCount: 1,
+        trafficUsage: item ? item.fileSize : 0,
+      })
+      await statsRepo.save(newStats)
+    } else {
+      const stats = await statsRepo.get()
+      const newStats = stats.increase({
+        downloadCount: 1,
+        trafficUsage: 0,
+      })
+      await statsRepo.save(newStats)
+    }
   }
+
+const assertDownloadEvent: Assert<IDomainEvent, DownloadEvent> = (
+  event
+): event is DownloadEvent => Object.hasOwn(event, 'downloadId')
