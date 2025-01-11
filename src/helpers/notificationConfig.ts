@@ -1,4 +1,6 @@
 import type { Factory } from '#domain/factories/base'
+import type { PropsOf } from '#domain/valueObjects/base'
+import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { getText } from '#libs/i18n'
 import {
   DownloadNotificationButton,
@@ -28,7 +30,7 @@ export const enum MediaDownloadNotificationErrorButton {
 
 export class MediaDownloadNotificationConfig {
   static error(
-    tweetInfo: TweetInfo,
+    tweetInfo: PropsOf<TweetInfo>,
     eventTime: Date
   ): Notifications.CreateNotificationOptions {
     const info = getText(
@@ -89,7 +91,7 @@ const makeGeneralTweetFetchErrorNotificationConfig = ({
 }
 
 type TweetFetchErrorNotificationConfigParams = {
-  tweetInfo: TweetInfo
+  tweetInfo: PropsOf<TweetInfo>
   eventTime: Date
 }
 

@@ -6,11 +6,6 @@ declare module '*.svg' {
 
 type TweetMode = 'photo' | 'status' | 'stream'
 
-type TweetInfo = {
-  screenName: string
-  tweetId: string
-}
-
 interface IHarvestObserver {
   observeRoot: () => void
   initialize: () => void
