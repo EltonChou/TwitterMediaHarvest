@@ -1,4 +1,6 @@
+import type { PropsOf } from '#domain/valueObjects/base'
 import type { Tweet } from '#domain/valueObjects/tweet'
+import type { TweetMedia } from '#domain/valueObjects/tweetMedia'
 import { TweetMediaFile } from '#domain/valueObjects/tweetMediaFile'
 import type { Factory } from './base'
 import path from 'path'
@@ -7,40 +9,52 @@ export const tweetToTweetMediaFiles: Factory<
   Tweet,
   TweetMediaFile[]
 > = tweet => {
-  const files: TweetMediaFile[] = []
+  const mediaToTweetMediaFile = mediaFromTweetToTweetMediaFile(tweet)
+  return tweet.medias.map(mediaToTweetMediaFile)
+}
+
+const mediaFromTweetToTweetMediaFile = (
+  tweet: Tweet
+): Factory<TweetMedia, TweetMediaFile> => {
   const { id: tweetId, createdAt } = tweet.mapBy(props => ({
     id: props.id,
     createdAt: props.createdAt,
   }))
 
-  for (const media of tweet.medias) {
-    const pathInfo = path.parse(
-      media.mapBy(props => new URL(props.url).pathname)
-    )
-    files.push(
-      new TweetMediaFile({
-        tweetId: tweetId,
-        createdAt: createdAt,
-        tweetUser: tweet.user,
-        type: media.mapBy(props => {
-          switch (props.type) {
-            case 'photo':
-              return 'image'
-
-            case 'thumbnail':
-              return 'thumbnail'
-
-            case 'video':
-              return 'video'
-          }
-        }),
-        source: media.getVariantUrl('orig'),
-        serial: media.mapBy(props => props.index + 1),
-        ext: pathInfo.ext,
-        hash: pathInfo.base,
-      })
-    )
+  return tweetMedia => {
+    const pathInfo = mediaToParsedPath(tweetMedia)
+    return new TweetMediaFile({
+      tweetId: tweetId,
+      createdAt: createdAt,
+      tweetUser: tweet.user,
+      type: mediaToTweetMediaType(tweetMedia),
+      source: tweetMedia.getVariantUrl('orig'),
+      serial: mediaToSerial(tweetMedia),
+      ext: pathInfo.ext,
+      hash: pathInfo.base,
+    })
   }
-
-  return files
 }
+
+const mediaToTweetMediaType: Factory<
+  TweetMedia,
+  PropsOf<TweetMediaFile>['type']
+> = media =>
+  media.mapBy(props => {
+    switch (props.type) {
+      case 'photo':
+        return 'image'
+
+      case 'thumbnail':
+        return 'thumbnail'
+
+      case 'video':
+        return 'video'
+    }
+  })
+
+const mediaToSerial: Factory<TweetMedia, number> = media =>
+  media.mapBy(props => props.index + 1)
+
+const mediaToParsedPath: Factory<TweetMedia, path.ParsedPath> = media =>
+  media.mapBy(props => path.parse(props.url))
