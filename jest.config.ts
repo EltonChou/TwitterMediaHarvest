@@ -28,13 +28,13 @@ const jestConfig: JestConfigWithTsJest = {
   setupFiles: ['fake-indexeddb/auto', 'jest-webextension-mock'],
   setupFilesAfterEnv: ['./jest.setup.ts', 'jest-extended/all'],
   roots: ['<rootDir>'],
-  moduleNameMapper: pathsToModuleNameMapper(
-    tsConfig.config.compilerOptions.paths,
-    {
+  moduleNameMapper: {
+    ...pathsToModuleNameMapper(tsConfig.config.compilerOptions.paths, {
       useESM: true,
       prefix: '<rootDir>/src',
-    }
-  ),
+    }),
+    '#monitor': '<rootDir>/src/monitors/console.ts',
+  },
   coveragePathIgnorePatterns: ['.mock.ts', '.mock.js', 'mocks', 'utils/test/*'],
   coverageReporters: ['clover', 'json', 'lcov', ['text', { skipFull: true }]],
 }

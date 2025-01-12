@@ -1,5 +1,6 @@
 import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadWasTriggeredBySelf'
 import { getEventPublisher } from '#infra/eventPublisher'
+import { init as initMonitor } from '#monitor'
 import { downloadRepo } from '#provider'
 import { getRuntimeId } from '#utils/runtime'
 import handleDownloadChanged from './handlers/handleDownloadChanged'
@@ -11,6 +12,8 @@ import initEventPublisher from './initEventPublisher'
 import { initMessageRouter } from './initMessageRouter'
 import { getMessageRouter } from './messageRouter'
 import Browser from 'webextension-polyfill'
+
+initMonitor()
 
 const eventPublisher = getEventPublisher()
 initEventPublisher(eventPublisher)

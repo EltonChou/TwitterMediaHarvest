@@ -10,6 +10,7 @@ import { openFailedTweetInNewTab } from '#eventHandlers/openFailedTweetInNewTab'
 import { openTweetOfFailedDownloadInNewTab } from '#eventHandlers/openTweetOfFailedDownloadInNewTab'
 import { recordDispatchedDownloadConfiguration } from '#eventHandlers/recordDispatchedDownloadConfiguration'
 import { retryFailedDownload } from '#eventHandlers/retryFailedDownload'
+import { setMonitorUser } from '#eventHandlers/setMonitorUser'
 import { showClientInfoInConsole } from '#eventHandlers/showClientInfoInConsole'
 import { showUpdateMessageInConsole } from '#eventHandlers/showUpdateMessageInConsole'
 import { syncClient } from '#eventHandlers/syncClient'
@@ -40,11 +41,13 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
   const syncClientInfoWithLock = syncClient(
     runWithWebLock(LockCriteria.ClientSync)
   )(clientRepo)
+  const setUser = setMonitorUser(clientRepo)
 
   publisher
     .register('runtime:status:installed', [
       initClient(clientRepo, runtime.setUninstallURL),
       showClientInfoInConsole(clientRepo),
+      setUser,
     ])
     .register('runtime:status:updated', [
       showUpdateMessageInConsole,
@@ -96,6 +99,7 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
       'notification:tweetFetchError:viewButton:clicked',
       openFailedTweetInNewTab
     )
+    .register('client:synced', setUser)
 }
 
 export default initEventPublisher

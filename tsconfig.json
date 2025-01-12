@@ -72,6 +72,9 @@
       ],
       "#provider": [
         "./provider"
+      ],
+      "#monitor": [
+        "./monitors/sentry.ts",
       ]
     }
   }
