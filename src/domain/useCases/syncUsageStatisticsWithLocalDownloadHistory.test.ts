@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-len
 import { SyncUsageStatisticsWithLocalDownloadHistory } from '#domain/useCases/syncUsageStatisticsWithLocalDownloadHistory'
 import { UsageStatistics } from '#domain/valueObjects/usageStatistics'
 import { MockDownloadRepo } from '#mocks/repositories/download'
