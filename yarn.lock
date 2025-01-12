@@ -3112,10 +3112,19 @@ __metadata:
     ts-jest: "npm:^29.2.5"
     ts-loader: "npm:^9.5.1"
     typescript: "npm:^5.7.3"
-    webpack: "npm:^5.97.1"
     webpack-cli: "npm:^6.0.1"
   peerDependencies:
-    typescript: ">5.5.2"
+    typescript: ^5
+    webpack: ^5
+  languageName: unknown
+  linkType: soft
+
+"@media-harvest/webext-manifest-transform-plugin@workspace:webpack/plugins/webext-manifest-transform-plugin":
+  version: 0.0.0-use.local
+  resolution: "@media-harvest/webext-manifest-transform-plugin@workspace:webpack/plugins/webext-manifest-transform-plugin"
+  dependencies:
+    schema-utils: "npm:^4.3.0"
+    webpack: "npm:^5.97.1"
   languageName: unknown
   linkType: soft
 
