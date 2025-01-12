@@ -42,6 +42,7 @@
     "@babel/preset-typescript": "^7.26.0",
     "@eslint/js": "^9.17.0",
     "@faker-js/faker": "^9.3.0",
+    "@media-harvest-config/prettier": "workspace:^",
     "@media-harvest/webext-i18n-loader": "workspace:^",
     "@smithy/types": "^4.0.0",
     "@testing-library/dom": "^10.4.0",
@@ -140,7 +141,9 @@
   },
   "workspaces": {
     "packages": [
-      "webpack/loaders/*"
+      "webpack/loaders/*",
+      "webpack/plugins/*",
+      "configs/*"
     ]
   },
   "homepage": "https://github.com/EltonChou/TwitterMediaHarvest#readme",

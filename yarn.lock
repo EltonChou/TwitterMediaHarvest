@@ -3086,6 +3086,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@media-harvest-config/prettier@workspace:^, @media-harvest-config/prettier@workspace:configs/prettier":
+  version: 0.0.0-use.local
+  resolution: "@media-harvest-config/prettier@workspace:configs/prettier"
+  dependencies:
+    "@trivago/prettier-plugin-sort-imports": "npm:^5.2.1"
+    prettier: "npm:^3.4.2"
+  languageName: unknown
+  linkType: soft
+
 "@media-harvest/webext-i18n-loader@workspace:^, @media-harvest/webext-i18n-loader@workspace:webpack/loaders/webext-i18n-loader":
   version: 0.0.0-use.local
   resolution: "@media-harvest/webext-i18n-loader@workspace:webpack/loaders/webext-i18n-loader"
@@ -3116,15 +3125,6 @@ __metadata:
   peerDependencies:
     typescript: ^5
     webpack: ^5
-  languageName: unknown
-  linkType: soft
-
-"@media-harvest/webext-manifest-transform-plugin@workspace:webpack/plugins/webext-manifest-transform-plugin":
-  version: 0.0.0-use.local
-  resolution: "@media-harvest/webext-manifest-transform-plugin@workspace:webpack/plugins/webext-manifest-transform-plugin"
-  dependencies:
-    schema-utils: "npm:^4.3.0"
-    webpack: "npm:^5.97.1"
   languageName: unknown
   linkType: soft
 
@@ -12690,6 +12690,7 @@ __metadata:
     "@emotion/styled": "npm:^11.14.0"
     "@eslint/js": "npm:^9.17.0"
     "@faker-js/faker": "npm:^9.3.0"
+    "@media-harvest-config/prettier": "workspace:^"
     "@media-harvest/webext-i18n-loader": "workspace:^"
     "@sentry/browser": "npm:^8.48.0"
     "@smithy/fetch-http-handler": "npm:^5.0.0"
