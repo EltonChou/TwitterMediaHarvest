@@ -52,6 +52,7 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
     .register('runtime:status:updated', [
       showUpdateMessageInConsole,
       showClientInfoInConsole(clientRepo),
+      setUser,
     ])
     .register('download:status:dispatched:aria2', [
       increaseUsageStats,
