@@ -1,6 +1,6 @@
 {
   "name": "twitter-media-harvest",
-  "version": "4.2.4",
+  "version": "5.0.0",
   "type": "module",
   "description": "The easiest way to get media from twitter-timeline.",
   "dependencies": {
