@@ -69,7 +69,7 @@ export class AWSClientRepository implements IClientRepository {
     const clientId = new ClientUUID(item.uuid)
     const client = new Client(clientId, {
       syncToken: item.csrfToken,
-      syncedAt: 0,
+      syncedAt: item.syncedAt,
       uninstallCode: item.uninstallCode,
       usageStatistics: new UsageStatistics({
         downloadCount: item.downloadCount,
