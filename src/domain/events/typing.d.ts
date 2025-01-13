@@ -72,6 +72,10 @@ interface UnknownNotificationButtonClickedEvent extends IDomainEvent {
   readonly buttonIndex: number
 }
 
+interface TweetIdEvent extends IDomainEvent {
+  readonly tweetId: string
+}
+
 interface TweetInfoEvent extends IDomainEvent {
   readonly tweetInfo: import('#domain/valueObjects/tweetInfo').TweetInfo
 }
