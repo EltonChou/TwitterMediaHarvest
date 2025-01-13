@@ -101,6 +101,9 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
       openFailedTweetInNewTab
     )
     .register('client:synced', setUser)
+    .register('download:status:failed:browser', [
+      // TODO: Handle brower download failed event
+    ])
 }
 
 export default initEventPublisher

@@ -1,5 +1,5 @@
 import BrowserDownloadDispatched from '#domain/events/BrowserDownloadDispatched'
-import InternalErrorHappened from '#domain/events/InternalErrorHappened'
+import BrowserDownloadIsFailed from '#domain/events/BrowserDownloadFailed'
 import type {
   DownloadMediaFileCommand,
   DownloadMediaFileUseCase,
@@ -61,10 +61,11 @@ export class BrowserDownloadMediaFile implements DownloadMediaFileUseCase {
       this.#events.push(event)
     } else {
       this.#events.push(
-        new InternalErrorHappened(
-          'Failed to trigger browser download api',
-          Browser.runtime.lastError as Error
-        )
+        new BrowserDownloadIsFailed({
+          reason: (Browser.runtime.lastError as Error) ?? 'Failed to download',
+          config: config,
+          tweetInfo: this.targetTweet,
+        })
       )
       this.#ok = false
     }

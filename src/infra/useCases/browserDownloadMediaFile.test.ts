@@ -1,5 +1,5 @@
 import BrowserDownloadDispatched from '#domain/events/BrowserDownloadDispatched'
-import InternalErrorHappened from '#domain/events/InternalErrorHappened'
+import BrowserDownloadIsFailed from '#domain/events/BrowserDownloadFailed'
 import { DownloadTarget } from '#domain/valueObjects/downloadTarget'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { BrowserDownloadMediaFile } from './browserDownloadMediaFile'
@@ -54,6 +54,6 @@ it('can emit internal error event when the browser download api has error', asyn
   expect(mockDownload).toHaveBeenCalledTimes(targets.length)
   expect(useCase.events.length).toBe(targets.length)
   expect(
-    useCase.events.every(event => event instanceof InternalErrorHappened)
+    useCase.events.every(event => event instanceof BrowserDownloadIsFailed)
   ).toBeTruthy()
 })
