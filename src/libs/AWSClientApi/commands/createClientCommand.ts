@@ -41,7 +41,15 @@ export class CreateClientCommand extends BaseCommand<
    */
   prepareRequest(context: RequestContext): HttpRequest {
     return new HttpRequest({
-      ...context,
+      protocol: context.protocol,
+      method: this.method,
+      hostname: context.hostname,
+      path: this.path,
+      headers: {
+        ...context.headers,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(this.config.initStats),
     })
   }
 
