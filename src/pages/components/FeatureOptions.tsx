@@ -7,17 +7,19 @@ import { RichFeatureSwitch } from './controls/featureControls'
 import { Kbd, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
 
+const getKey = (downloadKey: DownloadKey): string => downloadKey.slice(-1)
+
 const KeyboardShortcutDesc = () => {
   return (
     <Text as={'span'}>
       {i18n('Use keyboard shortcut to trigger download.', 'options:features')}
       <br />
       <Text as={'span'}>
-        Twitter: <Kbd>{DownloadKey.Twitter.toUpperCase()}</Kbd>
+        Twitter: <Kbd>{getKey(DownloadKey.Twitter)}</Kbd>
       </Text>
       <br />
       <Text as={'span'}>
-        TweetDeck: <Kbd>{DownloadKey.BetaTweetDeck.toUpperCase()}</Kbd>
+        TweetDeck: <Kbd>{getKey(DownloadKey.BetaTweetDeck)}</Kbd>
       </Text>
     </Text>
   )

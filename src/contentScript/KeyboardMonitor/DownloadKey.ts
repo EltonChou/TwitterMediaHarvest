@@ -1,7 +1,7 @@
 const enum DownloadKey {
-  Twitter = 'd',
-  LegacyTweetDeck = 'o',
-  BetaTweetDeck = 'p',
+  Twitter = 'KeyD',
+  LegacyTweetDeck = 'KeyO',
+  BetaTweetDeck = 'KeyP',
 }
 
 export default DownloadKey

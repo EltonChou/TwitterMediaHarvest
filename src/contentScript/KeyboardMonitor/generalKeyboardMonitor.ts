@@ -31,7 +31,7 @@ export abstract class GeneralKeyboardMonitor implements KeyboardMonitor {
   }
 
   handleKeyDown(e: KeyboardEvent): void {
-    if (!this.#isValidTarget(e.target) || e.key !== this.downloadKey) return
+    if (!this.#isValidTarget(e.target) || e.code !== this.downloadKey) return
 
     if (e.target) this.updateFocusing(e.target)
   }
@@ -40,7 +40,7 @@ export abstract class GeneralKeyboardMonitor implements KeyboardMonitor {
     if (
       !this.focusing ||
       !this.#isValidTarget(e.target) ||
-      e.key !== this.downloadKey
+      e.code !== this.downloadKey
     )
       return
 

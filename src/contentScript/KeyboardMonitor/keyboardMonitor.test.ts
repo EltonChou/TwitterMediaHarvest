@@ -29,11 +29,11 @@ describe.each([
     const getEditor = () => getElement('#editor')
 
     const keyDownEvent = new KeyboardEvent('keydown', {
-      key: downloadKey,
+      code: downloadKey,
       bubbles: true,
     })
     const keyUpEvent = new KeyboardEvent('keyup', {
-      key: downloadKey,
+      code: downloadKey,
       bubbles: true,
     })
 
