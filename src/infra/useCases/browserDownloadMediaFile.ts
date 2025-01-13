@@ -9,7 +9,8 @@ import { DownloadTarget } from '#domain/valueObjects/downloadTarget'
 import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import ConflictAction from '#enums/ConflictAction'
 import { isFirefox } from '#helpers/runtime'
-import Browser from 'webextension-polyfill'
+import { downloads, runtime } from 'webextension-polyfill'
+import type { Downloads } from 'webextension-polyfill'
 
 export class BrowserDownloadMediaFile implements DownloadMediaFileUseCase {
   #ok: boolean
@@ -47,7 +48,7 @@ export class BrowserDownloadMediaFile implements DownloadMediaFileUseCase {
         ? this.downloadTargetToConfig(command.target)
         : command.target
 
-    const downloadId = await Browser.downloads.download(
+    const downloadId = await downloads.download(
       downloadConfigToBrowserDownloadOptions(config)
     )
 
@@ -62,7 +63,7 @@ export class BrowserDownloadMediaFile implements DownloadMediaFileUseCase {
     } else {
       this.#events.push(
         new BrowserDownloadIsFailed({
-          reason: (Browser.runtime.lastError as Error) ?? 'Failed to download',
+          reason: (runtime.lastError as Error) ?? 'Failed to download',
           config: config,
           tweetInfo: this.targetTweet,
         })
@@ -74,7 +75,7 @@ export class BrowserDownloadMediaFile implements DownloadMediaFileUseCase {
 
 const downloadConfigToBrowserDownloadOptions = (
   config: DownloadConfig
-): Browser.Downloads.DownloadOptionsType =>
+): Downloads.DownloadOptionsType =>
   config.mapBy(props => ({
     filename: props.filename,
     conflictAction: props.conflictAction,
