@@ -3121,6 +3121,7 @@ __metadata:
     ts-jest: "npm:^29.2.5"
     ts-loader: "npm:^9.5.1"
     typescript: "npm:^5.7.3"
+    webpack: "npm:^5"
     webpack-cli: "npm:^6.0.1"
   peerDependencies:
     typescript: ^5
@@ -13326,7 +13327,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.97.1":
+"webpack@npm:^5, webpack@npm:^5.97.1":
   version: 5.97.1
   resolution: "webpack@npm:5.97.1"
   dependencies:
