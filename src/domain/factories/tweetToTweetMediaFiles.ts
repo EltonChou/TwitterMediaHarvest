@@ -31,7 +31,7 @@ const mediaFromTweetToTweetMediaFile = (
       source: tweetMedia.getVariantUrl('orig'),
       serial: mediaToSerial(tweetMedia),
       ext: pathInfo.ext,
-      hash: pathInfo.base,
+      hash: pathInfo.name,
     })
   }
 }
@@ -56,5 +56,12 @@ const mediaToTweetMediaType: Factory<
 const mediaToSerial: Factory<TweetMedia, number> = media =>
   media.mapBy(props => props.index + 1)
 
-const mediaToParsedPath: Factory<TweetMedia, path.ParsedPath> = media =>
-  media.mapBy(props => path.parse(props.url))
+const mediaToParsedPath: Factory<TweetMedia, path.ParsedPath> = media => {
+  const url = media.mapBy(props => new URL(props.url))
+
+  for (const key of url.searchParams.keys()) {
+    url.searchParams.delete(key)
+  }
+
+  return path.parse(url.pathname)
+}
