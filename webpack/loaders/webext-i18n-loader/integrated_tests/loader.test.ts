@@ -55,4 +55,4 @@ test('test', async () => {
     const output = stats.toJson({ source: true })?.modules?.at(0)?.source
     expect(output).toMatchSnapshot()
   }
-}, 10000)
+})

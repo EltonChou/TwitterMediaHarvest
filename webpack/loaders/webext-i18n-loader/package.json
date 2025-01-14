@@ -36,8 +36,8 @@
     "webpack-cli": "^6.0.1"
   },
   "scripts": {
-    "test": "yarn build && jest --coverage",
+    "test": "yarn build && jest --coverage --testTimeout 10000",
     "build": "tsc",
-    "ci": "yarn build && jest --coverage --ci --silent"
+    "ci": "yarn build && jest --coverage --ci --silent --testTimeout 20000"
   }
 }
