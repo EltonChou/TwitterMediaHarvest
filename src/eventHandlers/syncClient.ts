@@ -8,15 +8,21 @@ export const syncClient =
   async (_, publisher) => {
     const { value: client, error: clientError } = await clientRepo.get()
 
-    // TODO: log error.
-    if (clientError) return
+    if (clientError) {
+      // eslint-disable-next-line no-console
+      console.error(clientError)
+      return
+    }
     if (!client.shouldSync) return
 
     const syncError = await lockContext(async lock =>
       lock ? await clientRepo.sync(client) : undefined
     )
 
-    // TODO: log error.
-    if (syncError) return
+    if (syncError) {
+      // eslint-disable-next-line no-console
+      console.error(syncError)
+      return
+    }
     await publisher.publishAll(...client.events)
   }

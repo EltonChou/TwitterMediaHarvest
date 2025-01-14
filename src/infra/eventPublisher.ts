@@ -16,18 +16,18 @@ class EventPublisher implements DomainEventPublisher {
   async publish(event: IDomainEvent): Promise<void> {
     if (!(event.name in this.handlerMap)) {
       // eslint-disable-next-line no-console
-      console.info(`No handlers for ${event.name}`)
+      console.info(`[${event.name}]: no handler to handle`)
       return
     }
 
     for (const handle of this.handlerMap[event.name]) {
       try {
         // eslint-disable-next-line no-console
-        console.info(`Handle ${event.name}.`)
+        console.info(`[${event.name}]: handled`)
         await handle(event, this)
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.info(`Failed to handle ${event.name}.`)
+        console.info(`[${event.name}]: failed to handle`)
         // eslint-disable-next-line no-console
         console.error(error)
       }

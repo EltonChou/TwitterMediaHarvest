@@ -15,8 +15,11 @@ export const openTweetOfFailedDownloadInNewTab =
       event.downloadId
     )
 
-    // TODO: Log error
-    if (error) return
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.error(error)
+      return
+    }
 
     await tabs.create({
       url: tweetUrl(recordToTweetId(record)),

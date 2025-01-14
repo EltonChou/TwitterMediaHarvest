@@ -58,7 +58,6 @@ export type DonwloadTweetMediaOptions = {
   remainingQuotaThreshold: number
 }
 
-// TODO: Logger and Tracker (like sentry).
 export class DownloadTweetMedia
   implements AsyncUseCase<DownloadTweetMediaCommand, boolean>
 {
@@ -114,7 +113,8 @@ export class DownloadTweetMedia
     const saveHistoryError =
       await this.infra.downloadHistoryRepo.save(downloadHistory)
     if (saveHistoryError) {
-      //** TODO: Capture and log error */
+      // eslint-disable-next-line no-console
+      console.error(saveHistoryError)
     }
   }
 

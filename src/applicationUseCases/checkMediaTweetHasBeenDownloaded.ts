@@ -24,8 +24,11 @@ export class CheckMediaTweetHasBeenDownloaded
     const { value: hasBeenDownloaded, error } =
       await this.infra.downloadHistoryRepo.hasTweetId(command.tweetId)
 
-    // TODO: log error
-    if (error) return false
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.error(error)
+      return false
+    }
     return hasBeenDownloaded
   }
 }

@@ -9,8 +9,11 @@ export const initClient =
   async () => {
     const { value: client, error: clientError } = await clientRepo.get()
 
-    // TODO: record error
-    if (clientError) return
+    if (clientError) {
+      // eslint-disable-next-line no-console
+      console.error(clientError)
+      return
+    }
 
     await setUninstallURL(client.uninstallUrl)
   }
