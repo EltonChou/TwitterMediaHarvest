@@ -68,8 +68,11 @@ const getPhotoElementByUrl =
   (article: HTMLElement): HTMLElement | undefined =>
     $<HTMLElement>(`[href*="${photoUrl}"]`, article)
 
-const getArticleAnchor = (article: HTMLElement) =>
-  $('[href*="/status/"]', article)
+const getArticleAnchor = (article: HTMLElement) => {
+  const anchorTime = $('a[href*="/status/"] > time', article)
+  if (anchorTime) return anchorTime.closest('a')
+  return $('[href*="/status/"]', article)
+}
 
 const aricleHasPhoto = (article: HTMLElement): boolean => {
   const articleAnchor = getArticleAnchor(article)
