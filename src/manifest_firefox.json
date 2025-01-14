@@ -26,9 +26,7 @@
     "open_in_tab": true
   },
   "background": {
-    "scripts": [
-      "sw.js"
-    ]
+    "scripts": ["sw.js"]
   },
   "content_scripts": [
     {
@@ -37,9 +35,7 @@
         "*://mobile.twitter.com/*",
         "*://tweetdeck.twitter.com/*"
       ],
-      "js": [
-        "main.js"
-      ],
+      "js": ["main.js"],
       "run_at": "document_end"
     }
   ],

@@ -1,9 +1,7 @@
 {
-    "compilerOptions": {
-        "module": "NodeNext",
-        "esModuleInterop": true
-    },
-    "exclude": [
-        "node_modules/**/*"
-    ]
+  "compilerOptions": {
+    "module": "NodeNext",
+    "esModuleInterop": true
+  },
+  "exclude": ["node_modules/**/*"]
 }

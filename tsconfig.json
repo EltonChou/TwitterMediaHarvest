@@ -1,14 +1,6 @@
 {
-  "exclude": [
-    "node_modules",
-    "build",
-    "dist",
-    "coverage"
-  ],
-  "include": [
-    "src/**/*",
-    "*.[m]js"
-  ],
+  "exclude": ["node_modules", "build", "dist", "coverage"],
+  "include": ["src/**/*", "*.[m]js"],
   "files": [
     "node_modules/jest-extended/types/index.d.ts",
     "node_modules/@testing-library/jest-dom/types/index.d.ts"
@@ -29,53 +21,22 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "sourceMap": true,
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext",
-      "WebWorker"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext", "WebWorker"],
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "#domain/*": [
-        "./domain/*"
-      ],
-      "#helpers/*": [
-        "./helpers/*"
-      ],
-      "#enums/*": [
-        "./enums/*"
-      ],
-      "#schema": [
-        "types/schema.d.ts"
-      ],
-      "#libs/*": [
-        "./libs/*"
-      ],
-      "#infra/*": [
-        "./infra/*"
-      ],
-      "#utils/*": [
-        "./utils/*"
-      ],
-      "#eventHandlers/*": [
-        "./eventHandlers/*"
-      ],
-      "#mocks/*": [
-        "./mocks/*"
-      ],
-      "#pages/*": [
-        "./pages/*"
-      ],
-      "#assets/*": [
-        "./assets/*"
-      ],
-      "#provider": [
-        "./provider"
-      ],
-      "#monitor": [
-        "./monitors/sentry.ts",
-      ]
+      "#domain/*": ["./domain/*"],
+      "#helpers/*": ["./helpers/*"],
+      "#enums/*": ["./enums/*"],
+      "#schema": ["types/schema.d.ts"],
+      "#libs/*": ["./libs/*"],
+      "#infra/*": ["./infra/*"],
+      "#utils/*": ["./utils/*"],
+      "#eventHandlers/*": ["./eventHandlers/*"],
+      "#mocks/*": ["./mocks/*"],
+      "#pages/*": ["./pages/*"],
+      "#assets/*": ["./assets/*"],
+      "#provider": ["./provider"],
+      "#monitor": ["./monitors/sentry.ts"]
     }
   }
 }
