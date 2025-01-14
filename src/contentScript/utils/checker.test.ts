@@ -135,14 +135,12 @@ describe('isBetaTweetDeck', () => {
 })
 
 describe('isBusinessRelatedTweet', () => {
-  // eslint-disable-next-line max-len
   it('should return true if the element has a data-testid of placementTracking or is within an element that has it', () => {
     const element = document.createElement('div')
     mockExists.mockReturnValueOnce(true)
     expect(isBusinessRelatedTweet(element)).toBe(true)
   })
 
-  // eslint-disable-next-line max-len
   it('should return false if the element does not have a data-testid of placementTracking or is not within an element that has it', () => {
     const element = document.createElement('div')
     mockExists.mockReturnValueOnce(false)

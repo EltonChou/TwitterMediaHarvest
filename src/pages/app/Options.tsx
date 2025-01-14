@@ -3,7 +3,6 @@ import type { ISettingsRepository } from '#domain/repositories/settings'
 import type { SearchDownloadHistory } from '#domain/useCases/searchDownloadHistory'
 import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
 import type { FilenameSetting } from '#domain/valueObjects/filenameSetting'
-import type { JSX } from 'react'
 import { getText as i18n } from '#libs/i18n'
 import About from '#pages/components/About'
 import FeatureOptions from '#pages/components/FeatureOptions'
@@ -20,6 +19,7 @@ import {
   Heading,
   Stack,
 } from '@chakra-ui/react'
+import type { JSX } from 'react'
 import React from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 

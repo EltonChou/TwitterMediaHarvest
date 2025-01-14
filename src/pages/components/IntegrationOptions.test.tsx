@@ -1,11 +1,11 @@
 /**
  * @jest-environment jsdom
  */
-import 'core-js/stable/structured-clone'
 import { MockDownloadSettingsRepository } from '#mocks/repositories/downloadSettings'
-import { queryByTestId, render, waitFor } from '@testing-library/react'
-import React from 'react'
 import IntegrationOptions from './IntegrationOptions'
+import { queryByTestId, render, waitFor } from '@testing-library/react'
+import 'core-js/stable/structured-clone'
+import React from 'react'
 
 describe('unit test for IntegrationOptions component', () => {
   const downloadSettingsRepo = new MockDownloadSettingsRepository()

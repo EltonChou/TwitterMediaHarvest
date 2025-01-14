@@ -21,7 +21,7 @@ const useStatsStore = (
 
   useEffect(() => {
     init()
-  }, [])
+  }, [init])
 
   return [stats, { criterias: CHANGE_CRITERIAS, triggerChange }]
 }

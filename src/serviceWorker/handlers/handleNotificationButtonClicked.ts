@@ -1,7 +1,6 @@
 import type { DomainEventPublisher } from '#domain/eventPublisher'
 import DownloadFailedNotificationRetryButtonClicked from '#domain/events/DownloadFailedNotificationRetryButtonClicked'
 import DownloadFailedNotificationViewButtonClicked from '#domain/events/DownloadFailedNotificationViewButtonClicked'
-// eslint-disable-next-line max-len
 import { FilenameOverwrittenNotificationIgnoreButtonClicked } from '#domain/events/FilenameOverwrittenNotificationIgnoreButtonClicked'
 import TweetFetchErrorNotificationViewButtonClicked from '#domain/events/TweetFetchErrorNotificationViewButtonClicked'
 import { UnknownNotificationButtonClicked } from '#domain/events/UnknownNotificationButtonClicked'

@@ -1,12 +1,12 @@
 /**
  * @jest-environment jsdom
  */
-import 'core-js/stable/structured-clone'
 import { MockClientRepository } from '#mocks/repositories/client'
 import { toSuccessResult } from '#utils/result'
 import { generateClient } from '#utils/test/client'
 import About from './About'
 import { render, screen } from '@testing-library/react'
+import 'core-js/stable/structured-clone'
 import React from 'react'
 
 describe('unit test for About component', () => {

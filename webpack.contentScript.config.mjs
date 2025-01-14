@@ -1,7 +1,7 @@
+import baseConfig from './webpack.common.config.mjs'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import { resolve } from 'path'
 import { merge } from 'webpack-merge'
-import baseConfig from './webpack.common.config.mjs'
 
 export default (env, argv) => {
   return merge(baseConfig(env, argv), {

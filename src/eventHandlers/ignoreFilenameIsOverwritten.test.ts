@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-len
 import { FilenameOverwrittenNotificationIgnoreButtonClicked } from '#domain/events/FilenameOverwrittenNotificationIgnoreButtonClicked'
 import { MockEventPublisher } from '#mocks/eventPublisher'
 import { MockWarningSettingsRepo } from '#mocks/repositories/warningSettings'

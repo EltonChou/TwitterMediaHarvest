@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import 'core-js/stable/structured-clone'
 import { MockFeatureSettingsRepository } from '#mocks/repositories/fetureSettings'
 import { MockUsageStatisticsRepository } from '#mocks/repositories/usageStatistics'
 import { CHANGE_CRITERIAS } from '#pages/hooks/useStatsStore'
@@ -10,6 +9,7 @@ import Popup from './Popup'
 import { faker } from '@faker-js/faker'
 import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import 'core-js/stable/structured-clone'
 import React from 'react'
 import { runtime, storage, tabs } from 'webextension-polyfill'
 

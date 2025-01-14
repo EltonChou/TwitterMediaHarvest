@@ -40,7 +40,7 @@ export default (env, argv) => {
             context: 'src',
             to: '[name][ext]',
             transform: content => {
-              let contentStr = content
+              const contentStr = content
                 .toString()
                 .replace('__MANIFEST_RELEASE_VERSION__', VERSION)
                 .replace('__MANIFEST_VERSION_NAME__', VERSION_NAME)

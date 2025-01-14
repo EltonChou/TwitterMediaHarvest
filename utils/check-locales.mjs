@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
 // @ts-check
+import chalk from 'chalk'
 import gettextParser from 'gettext-parser'
 import { glob } from 'glob'
 import fs from 'node:fs/promises'
-import path from 'path/posix'
-import chalk from 'chalk'
 import process from 'node:process'
+import path from 'path/posix'
 
 /**
  * Web-extension locale message object
@@ -145,9 +145,7 @@ function toDiffNameWithCtx(ctx) {
 async function main() {
   let EXIT_CODE = 0
   const unqualify = () => (EXIT_CODE = 1)
-  const templateCollection = await extractPoCollection(
-    './locales/template.pot'
-  )
+  const templateCollection = await extractPoCollection('./locales/template.pot')
   const poFiles = await listPoFiles('./locales')
 
   const localeCollection = await getAllPoCollection(poFiles)

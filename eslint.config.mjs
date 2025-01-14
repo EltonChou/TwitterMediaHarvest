@@ -6,10 +6,18 @@ import reactHookPlugin from 'eslint-plugin-react-hooks'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
-export default tseslint.config([
-  js.configs.recommended,
-  tseslint.configs.recommended,
+export default tseslint.config(
   {
+    ignores: [
+      '**/build/**/*',
+      '**/dist/**',
+      '**/node_modules/**',
+      '**/coverage/**',
+    ],
+  },
+  {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ['**/*.{ts,tsx,js,jsx,cjs,mjs}'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
@@ -24,7 +32,6 @@ export default tseslint.config([
         sourceType: 'module',
       },
     },
-    ignores: ['build/', 'dist/', 'node_modules/'],
     plugins: {
       '@typescript-eslint': tsPlugin,
       'react-hooks': reactHookPlugin,
@@ -61,5 +68,5 @@ export default tseslint.config([
       ],
     },
   },
-  eslintConfigPrettier,
-])
+  eslintConfigPrettier
+)

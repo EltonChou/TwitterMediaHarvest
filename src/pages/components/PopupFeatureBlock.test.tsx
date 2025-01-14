@@ -1,10 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import 'core-js/stable/structured-clone'
 import { MockFeatureSettingsRepository } from '#mocks/repositories/fetureSettings'
 import PopupFeatureBlock from './PopupFeatureBlock'
 import { render, waitFor } from '@testing-library/react'
+import 'core-js/stable/structured-clone'
 import React from 'react'
 
 describe('unit test for PopupFeatureBlock component', () => {

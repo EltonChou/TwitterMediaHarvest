@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import 'core-js/stable/structured-clone'
 import PatternToken from '#enums/patternToken'
 import { MockDownloadSettingsRepository } from '#mocks/repositories/downloadSettings'
 import { MockFilenameSettingRepository } from '#mocks/repositories/filenameSetting'
@@ -15,6 +14,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import 'core-js/stable/structured-clone'
 import React from 'react'
 
 describe('unit test for TokenPanel component', () => {
