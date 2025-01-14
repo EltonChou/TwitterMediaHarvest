@@ -146,9 +146,9 @@ async function main() {
   let EXIT_CODE = 0
   const unqualify = () => (EXIT_CODE = 1)
   const templateCollection = await extractPoCollection(
-    './src/locales/template.pot'
+    './locales/template.pot'
   )
-  const poFiles = await listPoFiles('./src/locales')
+  const poFiles = await listPoFiles('./locales')
 
   const localeCollection = await getAllPoCollection(poFiles)
 
