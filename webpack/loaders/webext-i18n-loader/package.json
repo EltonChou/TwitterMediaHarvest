@@ -37,6 +37,7 @@
   },
   "scripts": {
     "test": "yarn build && jest --coverage",
-    "build": "tsc"
+    "build": "tsc",
+    "ci": "yarn build && jest --coverage --ci --silent"
   }
 }

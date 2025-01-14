@@ -115,6 +115,8 @@
     "test": "jest --env=node --coverage",
     "test:all": "yarn workspaces foreach -p -A run test",
     "test:tools": "yarn workspaces foreach -p --include '@media-harvest/*' -A run test",
+    "ci": "jest --coverage --silent --ci",
+    "ci:all": "yarn workspaces foreach -p -A run ci",
     "build:all": "yarn build:tools && yarn build:chrome:all",
     "build:tools": "yarn workspaces foreach -p --include '@media-harvest/*' -A run build && yarn install",
     "build:chrome:all": "webpack --mode=production --progress --color --env target=chrome",
