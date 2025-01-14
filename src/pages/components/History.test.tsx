@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import 'core-js/stable/structured-clone'
 import { MockSearchDownloadHistory } from '#mocks/useCases/searchDownloadHistory'
 import { MockSearchTweetIdsByHashTags } from '#mocks/useCases/searchTweetIdsByHashtags'
 import { generateDownloadHistory } from '#utils/test/downloadHistory'
@@ -24,6 +23,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import 'core-js/stable/structured-clone'
 import React from 'react'
 import { runtime } from 'webextension-polyfill'
 
@@ -109,7 +109,6 @@ describe('unit test for HistoryTable components', () => {
   })
 
   describe('unit test for SearchForm component', () => {
-    // eslint-disable-next-line quotes
     it("can react to user' behaviors", async () => {
       const mockUpdateResult = jest.fn()
       const user = userEvent.setup()

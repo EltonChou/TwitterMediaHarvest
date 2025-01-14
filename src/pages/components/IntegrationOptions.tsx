@@ -75,7 +75,6 @@ const IntegrationOptions = (props: IntegrationOptionsProps) => {
       <RichFeatureSwitch
         name={i18n('Aggressive Mode', 'options:integrations')}
         desc={i18n(
-          // eslint-disable-next-line max-len
           'Ensure the filename not to be modified by other extensions. This mode might be conflicted with other download management extensions.',
           'options:integrations'
         )}

@@ -8,16 +8,6 @@ import { act, renderHook, waitFor } from '@testing-library/react'
 describe('unit test for useFeatureSettings hook', () => {
   const downloadSettingsRepo = new MockDownloadSettingsRepository()
 
-  // Suppressing unnecessary warnings on React DOM 16.8
-  beforeAll(() => {
-    jest.spyOn(console, 'error').mockImplementation((...args) => {
-      if (/Warning.*not wrapped in act/.test(args[0])) {
-        return
-      }
-      console.error(console, ...args)
-    })
-  })
-
   afterAll(() => {
     process.env.TARGET = 'test'
     jest.resetAllMocks()
