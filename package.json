@@ -137,7 +137,8 @@
     "lint": "eslint --color --quiet --fix && prettier . -l --write",
     "typecheck": "tsc --noEmit --skipLibCheck",
     "extract-locales": "./utils/locales-extractor.mjs",
-    "check-locales": "./utils/check-locales.mjs"
+    "check-locales": "./utils/check-locales.mjs",
+    "check-changelog": "./utils/check-changelog.mjs"
   },
   "repository": {
     "type": "git",

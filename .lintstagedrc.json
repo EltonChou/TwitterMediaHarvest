@@ -11,5 +11,8 @@
     ],
     "*.json": [
         "prettier --write"
+    ],
+    "CHANGELOG.md": [
+        "yarn check-changelog"
     ]
 }
