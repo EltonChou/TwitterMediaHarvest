@@ -37,7 +37,7 @@ jobs:
         run: |
           yarn install
           yarn lint
-          yarn test:all
+          yarn ci:all
           yarn check-locales
 
       - name: Build the application
