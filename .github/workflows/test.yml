@@ -7,10 +7,12 @@ on:
   push:
     branches:
       - v5_dev
-
   # pull_request:
   #   branches:
   #     - main
+
+env:
+  HUSKY: 0
 
 jobs:
   test_and_build:
