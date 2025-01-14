@@ -1,11 +1,42 @@
 # Changelog
 
-## Unreleased
+All notable changes to this project will be documented in this file.
 
-### Fxied
+The format is based on [Keep a Changelog](https://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](https://semver.org/).
+
+## [Unreleased]
+
+## [4.2.9] - 2024-09-14
+
+### Fixed
+
+- Fix issue that download button disappeared in quoted tweet. (#191)
+
+## [4.2.8] - 2024-08-21
+
+### Fixed
+
+- Fix issue about some video media cannot be downloaded. (#182)
+
+## [4.2.7] - 2024-05-26
+
+### Fixed
+
+- Fix video thumbnail download issue.
+
+## [4.2.6] - 2024-05-17
+
+### Fixed
+
+- Fix token error caused by domain force redirecting.
+
+## [4.2.5] - 2024-05-16
+
+### Fixed
 
 - Fix inconsistent download behavior in photo mode.
--
+- Fix content script permission and observer selector issues. (#146)
 
 ## [4.2.4] - 2023-12-23
 
@@ -52,16 +83,16 @@
 - Added file aggregation option.
 - Added download history.
 
+### Changed
+
+- Improve options page UI.
+
 ### Fixed
 
 - Fixed media checker.
 - Fixed tweet information parsing.
 - Fixed process in guest mode.
 - Fixed photo mode download button disappearing issue.
-
-### Changed
-
-- Improve options page UI.
 
 ## [4.1.10] - 2023-07-24
 
@@ -109,10 +140,6 @@
 
 - Added more filename pattern tokens. (#78)
 
-### Fixed
-
-- Fixed bug that ad-tweet would be open when enable auto-revealing nsfw. (#79)
-
 ### Changed
 
 - Changed some i18n.
@@ -121,6 +148,10 @@
 
 - Removed v2 endpoint support.
 - Removed Legacy tweetdeck support
+
+### Fixed
+
+- Fixed bug that ad-tweet would be open when enable auto-revealing nsfw. (#79)
 
 ## [4.1.4] - 2023-07-04
 
@@ -156,17 +187,17 @@
 
 ## [4.1.0] - 2023-06-25
 
-### Fixed
-
-- Improve functional path checking.
-- Fix stats refresh issue in popup.
-- Fix twitter graphQL api parsing.
-
 ### Changed
 
 - Change keyboard shorcut visual in options page.
 - Improve issue tracking.
 - Improve download record storage with IndexedDB (if supported).
+
+### Fixed
+
+- Improve functional path checking.
+- Fix stats refresh issue in popup.
+- Fix twitter graphQL api parsing.
 
 ## [4.0.1] - 2023-05-04
 
@@ -196,3 +227,28 @@
 - Prevent triggering download when the user is composing tweet.
 - Fixed download button color in reply-restricted tweet.
 - Fixed media checking in embed tweet.
+
+[Unreleased]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.9...HEAD
+[4.2.9]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.8...v4.2.9
+[4.2.8]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.7...v4.2.8
+[4.2.7]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.6...v4.2.7
+[4.2.6]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.5...v4.2.6
+[4.2.5]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.4...v4.2.5
+[4.2.4]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.3...v4.2.4
+[4.2.3]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.2...v4.2.3
+[4.2.2]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.1...v4.2.2
+[4.2.1]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.0...v4.2.1
+[4.2.0]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.1.10...v4.2.0
+[4.1.10]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.1.9...v4.1.10
+[4.1.9]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.1.8...v4.1.9
+[4.1.8]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.1.7...v4.1.8
+[4.1.7]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.1.6...v4.1.7
+[4.1.6]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.1.5...v4.1.6
+[4.1.5]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.1.4...v4.1.5
+[4.1.4]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.1.3...v4.1.4
+[4.1.3]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.1.2...v4.1.3
+[4.1.2]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.1.1...v4.1.2
+[4.1.1]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.1.0...v4.1.1
+[4.1.0]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.0.1...v4.1.0
+[4.0.1]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.0.0...v4.0.1
+[4.0.0]: https://github.com/EltonChou/TwitterMediaHarvest/releases/tag/v4.0.0
