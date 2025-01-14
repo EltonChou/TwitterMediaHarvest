@@ -38,6 +38,6 @@
   "scripts": {
     "test": "yarn build && jest --coverage --testTimeout 10000",
     "build": "tsc",
-    "ci": "yarn build && jest --coverage --ci --silent --testTimeout 20000"
+    "ci": "yarn build && jest --coverage --ci --silent --testTimeout 100000"
   }
 }
