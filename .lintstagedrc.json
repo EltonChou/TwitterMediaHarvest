@@ -3,7 +3,7 @@
   "*.{js,cjs,mjs,jsx,ts,tsx}": [
     "eslint --fix",
     "prettier --write",
-    "yarn test --quiet --findRelatedTests"
+    "yarn test --silent --findRelatedTests --passWithNoTests --bail 5"
   ],
   "*.md": ["prettier --write"],
   "*.json": ["prettier --write"],
