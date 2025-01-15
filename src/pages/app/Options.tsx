@@ -1,5 +1,6 @@
 import type { IClientRepository } from '#domain/repositories/client'
 import type { ISettingsRepository } from '#domain/repositories/settings'
+import type { IWarningSettingsRepo } from '#domain/repositories/warningSettings'
 import type { SearchDownloadHistory } from '#domain/useCases/searchDownloadHistory'
 import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
 import type { FilenameSetting } from '#domain/valueObjects/filenameSetting'
@@ -51,6 +52,7 @@ type RepoProvider = {
   downloadSettingsRepo: ISettingsRepository<DownloadSettings>
   filenameSettingsRepo: ISettingsRepository<FilenameSetting>
   featureSettingsRepo: ISettingsRepository<FeatureSettings>
+  warningSettingsRepo: IWarningSettingsRepo
 }
 
 type UseCaseProvider = {
@@ -67,6 +69,7 @@ const App = ({
   featureSettingsRepo,
   searchDownloadHistory,
   searchTweetIdsByHashtags,
+  warningSettingsRepo,
 }: InfraProvider) => {
   return (
     <HStack flex={1} spacing={0} overflow={'hidden'}>
@@ -99,6 +102,7 @@ const App = ({
                 <Content title={i18n('Integrations', 'options:sideMenu')}>
                   <IntegrationOptions
                     downloadSettingsRepo={downloadSettingsRepo}
+                    warningSettingsRepo={warningSettingsRepo}
                   />
                 </Content>
               }

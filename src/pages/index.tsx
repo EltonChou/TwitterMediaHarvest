@@ -6,6 +6,7 @@ import {
   searchDownloadHistory,
   searchTweetIdsByHashtags,
   usageStatisticsRepo,
+  warningSettingsRepo,
 } from '#provider'
 import Options from './app/Options'
 import Popup from './app/Popup'
@@ -54,6 +55,7 @@ switch (params.get('tab')) {
             filenameSettingsRepo={filenameSettingsRepo}
             searchDownloadHistory={searchDownloadHistory}
             searchTweetIdsByHashtags={searchTweetIdsByHashtags}
+            warningSettingsRepo={warningSettingsRepo}
           />
         </ChakraProvider>
       </React.StrictMode>
