@@ -49,7 +49,7 @@ export class FallbackFetchTweet extends FetchTweetBase {
   }
   makeEndpoint(tweetId: string): string {
     const endpoint = new URL(
-      'https://x.com/i/api/BbCrSoXIR7z93lLCVFlQ2Q/TweetDetail'
+      'https://x.com/i/api/graphql/BbCrSoXIR7z93lLCVFlQ2Q/TweetDetail'
     )
     endpoint.searchParams.append('features', JSON.stringify(featureParams))
     endpoint.searchParams.append(
