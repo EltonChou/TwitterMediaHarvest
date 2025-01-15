@@ -1,7 +1,9 @@
 import type { ISettingsRepository } from '#domain/repositories/settings'
+import type { IWarningSettingsRepo } from '#domain/repositories/warningSettings'
 import { isFirefox } from '#helpers/runtime'
 import { getText as i18n } from '#libs/i18n'
 import useDownloadSettings from '#pages/hooks/useDownloadSettings'
+import useWarningSettings from '#pages/hooks/useWarningSettings'
 import Links from '#pages/links'
 import { testIdProps } from '#pages/utils'
 import type { DownloadSettings } from '#schema'
@@ -39,15 +41,17 @@ const Aria2Description = () => {
 
 type IntegrationOptionsProps = {
   downloadSettingsRepo: ISettingsRepository<DownloadSettings>
+  warningSettingsRepo: IWarningSettingsRepo
 }
 
 /**
  * Some switches is disabled when `process.env.TARGET` is `firefox`.
  */
 const IntegrationOptions = (props: IntegrationOptionsProps) => {
-  const { settings: integrationSettings, toggler } = useDownloadSettings(
-    props.downloadSettingsRepo
-  )
+  const { settings: integrationSettings, toggler: downloadSettingsToggler } =
+    useDownloadSettings(props.downloadSettingsRepo)
+  const { settings: warningSettings, toggler: warningSettingsToggler } =
+    useWarningSettings(props.warningSettingsRepo)
   const isInFireFox = isFirefox()
 
   const message: HelperMessage | undefined = isInFireFox
@@ -67,10 +71,10 @@ const IntegrationOptions = (props: IntegrationOptionsProps) => {
         name={i18n('Dispatch download to Aria2', 'options:integrations')}
         desc={<Aria2Description />}
         isOn={integrationSettings.enableAria2}
-        handleClick={toggler.enableAria2}
+        handleClick={downloadSettingsToggler.enableAria2}
         isDisable={isInFireFox}
         message={message}
-        testId="dispatchToAria2-feature-switch"
+        testId="dispatchToAria2-integration-switch"
       />
       <RichFeatureSwitch
         name={i18n('Aggressive Mode', 'options:integrations')}
@@ -79,10 +83,22 @@ const IntegrationOptions = (props: IntegrationOptionsProps) => {
           'options:integrations'
         )}
         isOn={integrationSettings.aggressiveMode}
-        handleClick={toggler.aggressiveMode}
+        handleClick={downloadSettingsToggler.aggressiveMode}
         isDisable={isInFireFox}
         message={message}
-        testId="aggressiveMode-feature-switch"
+        testId="aggressiveMode-integration-switch"
+      />
+      <RichFeatureSwitch
+        name={i18n('Filename Detector', 'options:integrations')}
+        desc={i18n(
+          'The detector can notify user when the filename is modified by other extensions.',
+          'options:integrations'
+        )}
+        isOn={warningSettings.ignoreFilenameOverwritten}
+        handleClick={warningSettingsToggler.ignoreFilenameOverwritten}
+        isDisable={isInFireFox}
+        message={message}
+        testId="filenameDetector-integration-switch"
       />
     </VStack>
   )
