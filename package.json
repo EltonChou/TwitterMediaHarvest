@@ -119,7 +119,7 @@
   "scripts": {
     "postinstall": "husky",
     "postpack": "pinst --enable",
-    "test": "cross-env NODE_ENV=test jest --env=node --coverage",
+    "test": "cross-env NODE_ENV=test yarn typecheck && jest --env=node --coverage",
     "test:all": "cross-env NODE_ENV=test yarn workspaces foreach -p -A run test",
     "test:tools": "cross-env NODE_ENV=test yarn workspaces foreach -p --include '@media-harvest/*' -A run test",
     "ci": "cross-env NODE_ENV=test jest --coverage --silent --ci",
