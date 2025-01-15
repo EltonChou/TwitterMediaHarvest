@@ -7,8 +7,8 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
   >
     <div
       class="chakra-form-control css-0"
-      data-testid="dispatchToAria2-integration-switch"
-      label="Translated<options:integrations_Dispatch download to Aria2>"
+      data-testid="filenameDetector-integration-switch"
+      label="Translated<options:integrations_Filename Detector>"
       role="group"
     >
       <label
@@ -16,6 +16,69 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
         data-testid="feature-switch-label"
         for=":r0:"
         id="field-:r1:-label"
+      >
+        <div
+          class="chakra-stack css-mz2o5n"
+          style="transition: background 300ms;"
+        >
+          <div
+            class="chakra-stack css-1bef4uc"
+          >
+            <p
+              class="chakra-text css-1tbqbam"
+            >
+              Translated&lt;options:integrations_Filename Detector&gt;
+            </p>
+            <p
+              class="chakra-text css-qljqz"
+            >
+              Translated&lt;options:integrations_The detector can notify user when the filename is modified by other extensions.&gt;
+            </p>
+             
+          </div>
+          <div
+            class="css-fzqoy4"
+          >
+            <label
+              class="chakra-switch css-16pgy8f"
+              data-checked=""
+              data-testid="feature-switch"
+            >
+              <input
+                aria-disabled="false"
+                aria-invalid="false"
+                checked=""
+                class="chakra-switch__input"
+                id=":r0:"
+                style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                type="checkbox"
+              />
+              <span
+                aria-hidden="true"
+                class="chakra-switch__track css-14qxnv8"
+                data-checked=""
+              >
+                <span
+                  class="chakra-switch__thumb css-0"
+                  data-checked=""
+                />
+              </span>
+            </label>
+          </div>
+        </div>
+      </label>
+    </div>
+    <div
+      class="chakra-form-control css-0"
+      data-testid="dispatchToAria2-integration-switch"
+      label="Translated<options:integrations_Dispatch download to Aria2>"
+      role="group"
+    >
+      <label
+        class="chakra-form__label css-28a6i0"
+        data-testid="feature-switch-label"
+        for=":r2:"
+        id="field-:r3:-label"
       >
         <div
           class="chakra-stack css-mz2o5n"
@@ -56,65 +119,6 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
                 aria-disabled="false"
                 aria-invalid="false"
                 class="chakra-switch__input"
-                id=":r0:"
-                style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
-                type="checkbox"
-              />
-              <span
-                aria-hidden="true"
-                class="chakra-switch__track css-14qxnv8"
-              >
-                <span
-                  class="chakra-switch__thumb css-0"
-                />
-              </span>
-            </label>
-          </div>
-        </div>
-      </label>
-    </div>
-    <div
-      class="chakra-form-control css-0"
-      data-testid="aggressiveMode-integration-switch"
-      label="Translated<options:integrations_Aggressive Mode>"
-      role="group"
-    >
-      <label
-        class="chakra-form__label css-28a6i0"
-        data-testid="feature-switch-label"
-        for=":r2:"
-        id="field-:r3:-label"
-      >
-        <div
-          class="chakra-stack css-mz2o5n"
-          style="transition: background 300ms;"
-        >
-          <div
-            class="chakra-stack css-1bef4uc"
-          >
-            <p
-              class="chakra-text css-1tbqbam"
-            >
-              Translated&lt;options:integrations_Aggressive Mode&gt;
-            </p>
-            <p
-              class="chakra-text css-qljqz"
-            >
-              Translated&lt;options:integrations_Ensure the filename not to be modified by other extensions. This mode might be conflicted with other download management extensions.&gt;
-            </p>
-             
-          </div>
-          <div
-            class="css-fzqoy4"
-          >
-            <label
-              class="chakra-switch css-16pgy8f"
-              data-testid="feature-switch"
-            >
-              <input
-                aria-disabled="false"
-                aria-invalid="false"
-                class="chakra-switch__input"
                 id=":r2:"
                 style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                 type="checkbox"
@@ -132,6 +136,15 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
         </div>
       </label>
     </div>
+  </div>
+</div>
+`;
+
+exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`] = `
+<div>
+  <div
+    class="chakra-stack css-tl3ftk"
+  >
     <div
       class="chakra-form-control css-0"
       data-testid="filenameDetector-integration-switch"
@@ -168,11 +181,13 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
           >
             <label
               class="chakra-switch css-16pgy8f"
+              data-checked=""
               data-testid="feature-switch"
             >
               <input
                 aria-disabled="false"
                 aria-invalid="false"
+                checked=""
                 class="chakra-switch__input"
                 id=":r4:"
                 style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
@@ -181,9 +196,11 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
               <span
                 aria-hidden="true"
                 class="chakra-switch__track css-14qxnv8"
+                data-checked=""
               >
                 <span
                   class="chakra-switch__thumb css-0"
+                  data-checked=""
                 />
               </span>
             </label>
@@ -191,15 +208,6 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
         </div>
       </label>
     </div>
-  </div>
-</div>
-`;
-
-exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`] = `
-<div>
-  <div
-    class="chakra-stack css-tl3ftk"
-  >
     <div
       class="chakra-form-control css-0"
       data-testid="dispatchToAria2-integration-switch"
@@ -268,76 +276,28 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
         </div>
       </label>
     </div>
+  </div>
+</div>
+`;
+
+exports[`unit test for IntegrationOptions component match firefox snapshot: firefox 1`] = `
+<div>
+  <div
+    class="chakra-stack css-tl3ftk"
+  >
     <div
       class="chakra-form-control css-0"
-      data-testid="aggressiveMode-integration-switch"
-      label="Translated<options:integrations_Aggressive Mode>"
-      role="group"
-    >
-      <label
-        class="chakra-form__label css-28a6i0"
-        data-testid="feature-switch-label"
-        for=":r8:"
-        id="field-:r9:-label"
-      >
-        <div
-          class="chakra-stack css-mz2o5n"
-          style="transition: background 300ms;"
-        >
-          <div
-            class="chakra-stack css-1bef4uc"
-          >
-            <p
-              class="chakra-text css-1tbqbam"
-            >
-              Translated&lt;options:integrations_Aggressive Mode&gt;
-            </p>
-            <p
-              class="chakra-text css-qljqz"
-            >
-              Translated&lt;options:integrations_Ensure the filename not to be modified by other extensions. This mode might be conflicted with other download management extensions.&gt;
-            </p>
-             
-          </div>
-          <div
-            class="css-fzqoy4"
-          >
-            <label
-              class="chakra-switch css-16pgy8f"
-              data-testid="feature-switch"
-            >
-              <input
-                aria-disabled="false"
-                aria-invalid="false"
-                class="chakra-switch__input"
-                id=":r8:"
-                style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
-                type="checkbox"
-              />
-              <span
-                aria-hidden="true"
-                class="chakra-switch__track css-14qxnv8"
-              >
-                <span
-                  class="chakra-switch__thumb css-0"
-                />
-              </span>
-            </label>
-          </div>
-        </div>
-      </label>
-    </div>
-    <div
-      class="chakra-form-control css-0"
+      data-disabled=""
       data-testid="filenameDetector-integration-switch"
       label="Translated<options:integrations_Filename Detector>"
       role="group"
     >
       <label
-        class="chakra-form__label css-28a6i0"
+        class="chakra-form__label css-qf9lcl"
+        data-disabled=""
         data-testid="feature-switch-label"
-        for=":ra:"
-        id="field-:rb:-label"
+        for=":r8:"
+        id="field-:r9:-label"
       >
         <div
           class="chakra-stack css-mz2o5n"
@@ -356,29 +316,63 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
             >
               Translated&lt;options:integrations_The detector can notify user when the filename is modified by other extensions.&gt;
             </p>
-             
+            <div
+              class="chakra-offset-slide"
+              style="opacity: 0; transform: translateY(10px);"
+            >
+              <div
+                class="chakra-stack css-ng2lei"
+              >
+                <svg
+                  class="chakra-icon chakra-icon css-raeoph"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                <div
+                  class="chakra-form__helper-text css-s0rnn6"
+                  data-testid="feature-switch-helper-text"
+                  id="field-:r9:-helptext"
+                >
+                  Translated&lt;options:integrations_This integration is not compatible with Firefox&gt;
+                </div>
+              </div>
+            </div>
           </div>
           <div
             class="css-fzqoy4"
           >
             <label
               class="chakra-switch css-16pgy8f"
+              data-checked=""
+              data-disabled=""
               data-testid="feature-switch"
             >
               <input
-                aria-disabled="false"
+                aria-describedby="field-:r9:-helptext"
+                aria-disabled="true"
                 aria-invalid="false"
+                checked=""
                 class="chakra-switch__input"
-                id=":ra:"
+                disabled=""
+                id=":r8:"
                 style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                 type="checkbox"
               />
               <span
                 aria-hidden="true"
                 class="chakra-switch__track css-14qxnv8"
+                data-checked=""
+                data-disabled=""
               >
                 <span
                   class="chakra-switch__thumb css-0"
+                  data-checked=""
+                  data-disabled=""
                 />
               </span>
             </label>
@@ -386,15 +380,6 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
         </div>
       </label>
     </div>
-  </div>
-</div>
-`;
-
-exports[`unit test for IntegrationOptions component match firefox snapshot: firefox 1`] = `
-<div>
-  <div
-    class="chakra-stack css-tl3ftk"
-  >
     <div
       class="chakra-form-control css-0"
       data-disabled=""
@@ -406,8 +391,8 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
         class="chakra-form__label css-qf9lcl"
         data-disabled=""
         data-testid="feature-switch-label"
-        for=":rc:"
-        id="field-:rd:-label"
+        for=":rb:"
+        id="field-:rc:-label"
       >
         <div
           class="chakra-stack css-mz2o5n"
@@ -446,7 +431,7 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
                 <div
                   class="chakra-form__helper-text css-s0rnn6"
                   data-testid="feature-switch-helper-text"
-                  id="field-:rd:-helptext"
+                  id="field-:rc:-helptext"
                 >
                   Translated&lt;options:integrations_This integration is not compatible with Firefox&gt;
                 </div>
@@ -462,194 +447,12 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
               data-testid="feature-switch"
             >
               <input
-                aria-describedby="field-:rd:-helptext"
+                aria-describedby="field-:rc:-helptext"
                 aria-disabled="true"
                 aria-invalid="false"
                 class="chakra-switch__input"
                 disabled=""
-                id=":rc:"
-                style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
-                type="checkbox"
-              />
-              <span
-                aria-hidden="true"
-                class="chakra-switch__track css-14qxnv8"
-                data-disabled=""
-              >
-                <span
-                  class="chakra-switch__thumb css-0"
-                  data-disabled=""
-                />
-              </span>
-            </label>
-          </div>
-        </div>
-      </label>
-    </div>
-    <div
-      class="chakra-form-control css-0"
-      data-disabled=""
-      data-testid="aggressiveMode-integration-switch"
-      label="Translated<options:integrations_Aggressive Mode>"
-      role="group"
-    >
-      <label
-        class="chakra-form__label css-qf9lcl"
-        data-disabled=""
-        data-testid="feature-switch-label"
-        for=":rf:"
-        id="field-:rg:-label"
-      >
-        <div
-          class="chakra-stack css-mz2o5n"
-          style="transition: background 300ms;"
-        >
-          <div
-            class="chakra-stack css-1bef4uc"
-          >
-            <p
-              class="chakra-text css-1tbqbam"
-            >
-              Translated&lt;options:integrations_Aggressive Mode&gt;
-            </p>
-            <p
-              class="chakra-text css-qljqz"
-            >
-              Translated&lt;options:integrations_Ensure the filename not to be modified by other extensions. This mode might be conflicted with other download management extensions.&gt;
-            </p>
-            <div
-              class="chakra-offset-slide"
-              style="opacity: 0; transform: translateY(10px);"
-            >
-              <div
-                class="chakra-stack css-ng2lei"
-              >
-                <svg
-                  class="chakra-icon chakra-icon css-raeoph"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                <div
-                  class="chakra-form__helper-text css-s0rnn6"
-                  data-testid="feature-switch-helper-text"
-                  id="field-:rg:-helptext"
-                >
-                  Translated&lt;options:integrations_This integration is not compatible with Firefox&gt;
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="css-fzqoy4"
-          >
-            <label
-              class="chakra-switch css-16pgy8f"
-              data-disabled=""
-              data-testid="feature-switch"
-            >
-              <input
-                aria-describedby="field-:rg:-helptext"
-                aria-disabled="true"
-                aria-invalid="false"
-                class="chakra-switch__input"
-                disabled=""
-                id=":rf:"
-                style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
-                type="checkbox"
-              />
-              <span
-                aria-hidden="true"
-                class="chakra-switch__track css-14qxnv8"
-                data-disabled=""
-              >
-                <span
-                  class="chakra-switch__thumb css-0"
-                  data-disabled=""
-                />
-              </span>
-            </label>
-          </div>
-        </div>
-      </label>
-    </div>
-    <div
-      class="chakra-form-control css-0"
-      data-disabled=""
-      data-testid="filenameDetector-integration-switch"
-      label="Translated<options:integrations_Filename Detector>"
-      role="group"
-    >
-      <label
-        class="chakra-form__label css-qf9lcl"
-        data-disabled=""
-        data-testid="feature-switch-label"
-        for=":ri:"
-        id="field-:rj:-label"
-      >
-        <div
-          class="chakra-stack css-mz2o5n"
-          style="transition: background 300ms;"
-        >
-          <div
-            class="chakra-stack css-1bef4uc"
-          >
-            <p
-              class="chakra-text css-1tbqbam"
-            >
-              Translated&lt;options:integrations_Filename Detector&gt;
-            </p>
-            <p
-              class="chakra-text css-qljqz"
-            >
-              Translated&lt;options:integrations_The detector can notify user when the filename is modified by other extensions.&gt;
-            </p>
-            <div
-              class="chakra-offset-slide"
-              style="opacity: 0; transform: translateY(10px);"
-            >
-              <div
-                class="chakra-stack css-ng2lei"
-              >
-                <svg
-                  class="chakra-icon chakra-icon css-raeoph"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                <div
-                  class="chakra-form__helper-text css-s0rnn6"
-                  data-testid="feature-switch-helper-text"
-                  id="field-:rj:-helptext"
-                >
-                  Translated&lt;options:integrations_This integration is not compatible with Firefox&gt;
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="css-fzqoy4"
-          >
-            <label
-              class="chakra-switch css-16pgy8f"
-              data-disabled=""
-              data-testid="feature-switch"
-            >
-              <input
-                aria-describedby="field-:rj:-helptext"
-                aria-disabled="true"
-                aria-invalid="false"
-                class="chakra-switch__input"
-                disabled=""
-                id=":ri:"
+                id=":rb:"
                 style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                 type="checkbox"
               />

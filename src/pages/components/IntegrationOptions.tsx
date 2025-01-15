@@ -68,6 +68,18 @@ const IntegrationOptions = (props: IntegrationOptionsProps) => {
   return (
     <VStack>
       <RichFeatureSwitch
+        name={i18n('Filename Detector', 'options:integrations')}
+        desc={i18n(
+          'The detector can notify user when the filename is modified by other extensions.',
+          'options:integrations'
+        )}
+        isOn={!warningSettings.ignoreFilenameOverwritten}
+        handleClick={warningSettingsToggler.ignoreFilenameOverwritten}
+        isDisable={isInFireFox}
+        message={message}
+        testId="filenameDetector-integration-switch"
+      />
+      <RichFeatureSwitch
         name={i18n('Dispatch download to Aria2', 'options:integrations')}
         desc={<Aria2Description />}
         isOn={integrationSettings.enableAria2}
@@ -75,30 +87,6 @@ const IntegrationOptions = (props: IntegrationOptionsProps) => {
         isDisable={isInFireFox}
         message={message}
         testId="dispatchToAria2-integration-switch"
-      />
-      <RichFeatureSwitch
-        name={i18n('Aggressive Mode', 'options:integrations')}
-        desc={i18n(
-          'Ensure the filename not to be modified by other extensions. This mode might be conflicted with other download management extensions.',
-          'options:integrations'
-        )}
-        isOn={integrationSettings.aggressiveMode}
-        handleClick={downloadSettingsToggler.aggressiveMode}
-        isDisable={isInFireFox}
-        message={message}
-        testId="aggressiveMode-integration-switch"
-      />
-      <RichFeatureSwitch
-        name={i18n('Filename Detector', 'options:integrations')}
-        desc={i18n(
-          'The detector can notify user when the filename is modified by other extensions.',
-          'options:integrations'
-        )}
-        isOn={warningSettings.ignoreFilenameOverwritten}
-        handleClick={warningSettingsToggler.ignoreFilenameOverwritten}
-        isDisable={isInFireFox}
-        message={message}
-        testId="filenameDetector-integration-switch"
       />
     </VStack>
   )
