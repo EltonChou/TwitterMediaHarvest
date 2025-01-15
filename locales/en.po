@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: twitter-media-harvest (4.2.4)\n"
-"POT-Creation-Date: 2025-01-11 04:15+0800\n"
+"Project-Id-Version: twitter-media-harvest (5.0.0)\n"
+"POT-Creation-Date: 2025-01-15 17:48+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -20,27 +20,27 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : twitter Media Downloader"
 
-#: src/helpers/notificationConfig.ts:102
+#: src/helpers/notificationConfig.ts:104
 msgctxt "notification:download"
 msgid "API Rate limit exceeded."
 msgstr "API Rate limit exceeded."
 
-#: src/helpers/notificationConfig.ts:43
+#: src/helpers/notificationConfig.ts:45
 msgctxt "notification:download"
 msgid "Download failed"
 msgstr "Download failed"
 
-#: src/helpers/notificationConfig.ts:34
+#: src/helpers/notificationConfig.ts:36
 msgctxt "notification:download"
 msgid "Media in {{account}}({{tweet-id}}) download failed."
 msgstr "Media in {{account}}({{tweet-id}}) download failed."
 
-#: src/helpers/notificationConfig.ts:101
+#: src/helpers/notificationConfig.ts:103
 msgctxt "notification:download"
 msgid "Too many requests"
 msgstr "Too many requests"
 
-#: src/helpers/notificationConfig.ts:192
+#: src/helpers/notificationConfig.ts:194
 msgctxt "notification:filename"
 msgid ""
 "The filename is modified by other extensions, please check extensions' "
@@ -49,7 +49,7 @@ msgstr ""
 "The filename is modified by other extensions, please check extensions' "
 "settings."
 
-#: src/helpers/notificationConfig.ts:191
+#: src/helpers/notificationConfig.ts:193
 msgctxt "notification:filename"
 msgid "WARNING: Filename is modified"
 msgstr "WARNING: Filename is modified"
@@ -59,12 +59,12 @@ msgctxt "notification:filename:button"
 msgid "Ignore"
 msgstr "Ignore"
 
-#: src/helpers/notificationConfig.ts:166
+#: src/helpers/notificationConfig.ts:168
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information"
 msgstr "Failed to parse tweet information"
 
-#: src/helpers/notificationConfig.ts:170
+#: src/helpers/notificationConfig.ts:172
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr "Failed to parse tweet information. Please report bug to developer."
@@ -79,42 +79,42 @@ msgctxt "notification:tweet:button"
 msgid "View"
 msgstr "View"
 
-#: src/helpers/notificationConfig.ts:137
+#: src/helpers/notificationConfig.ts:139
 msgctxt "notification:tweetFetch"
 msgid "Forbidden"
 msgstr "Forbidden"
 
-#: src/helpers/notificationConfig.ts:125
+#: src/helpers/notificationConfig.ts:127
 msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
 msgstr "Please check your login session and your permission."
 
-#: src/helpers/notificationConfig.ts:153
+#: src/helpers/notificationConfig.ts:155
 msgctxt "notification:tweetFetch"
 msgid "Please contact with developer."
 msgstr "Please contact with developer."
 
-#: src/helpers/notificationConfig.ts:111
+#: src/helpers/notificationConfig.ts:113
 msgctxt "notification:tweetFetch"
 msgid "The tweet cannot be found"
 msgstr "The tweet cannot be found"
 
-#: src/helpers/notificationConfig.ts:112
+#: src/helpers/notificationConfig.ts:114
 msgctxt "notification:tweetFetch"
 msgid "The tweet might be deleted."
 msgstr "The tweet might be deleted."
 
-#: src/helpers/notificationConfig.ts:124
+#: src/helpers/notificationConfig.ts:126
 msgctxt "notification:tweetFetch"
 msgid "Unauthorized"
 msgstr "Unauthorized"
 
-#: src/helpers/notificationConfig.ts:150
+#: src/helpers/notificationConfig.ts:152
 msgctxt "notification:tweetFetch"
 msgid "Unknown Error ({{code}})"
 msgstr "Unknown Error ({{code}})"
 
-#: src/helpers/notificationConfig.ts:138
+#: src/helpers/notificationConfig.ts:140
 msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "Your login session might be expired, please refresh the session."
@@ -144,32 +144,32 @@ msgctxt "options:about"
 msgid "Version"
 msgstr "Version"
 
-#: src/pages/components/FeatureOptions.tsx:36
+#: src/pages/components/FeatureOptions.tsx:38
 msgctxt "options:features"
 msgid "Auto-reveal sensitive content"
 msgstr "Auto-reveal sensitive content"
 
-#: src/pages/components/FeatureOptions.tsx:54
+#: src/pages/components/FeatureOptions.tsx:56
 msgctxt "options:features"
 msgid "Download the thumbnail when the media is video."
 msgstr "Download the thumbnail when the media is video."
 
-#: src/pages/components/FeatureOptions.tsx:53
+#: src/pages/components/FeatureOptions.tsx:55
 msgctxt "options:features"
 msgid "Download video thumbnail"
 msgstr "Download video thumbnail"
 
-#: src/pages/components/FeatureOptions.tsx:46
+#: src/pages/components/FeatureOptions.tsx:48
 msgctxt "options:features"
 msgid "Keyboard shortcut"
 msgstr "Keyboard shortcut"
 
-#: src/pages/components/FeatureOptions.tsx:13
+#: src/pages/components/FeatureOptions.tsx:15
 msgctxt "options:features"
 msgid "Use keyboard shortcut to trigger download."
 msgstr "Use keyboard shortcut to trigger download."
 
-#: src/pages/components/FeatureOptions.tsx:37
+#: src/pages/components/FeatureOptions.tsx:39
 msgctxt "options:features"
 msgid ""
 "When the tweet was flagged as sensitive content, this feature can show the "
@@ -399,61 +399,61 @@ msgctxt "options:history:table:head"
 msgid "user"
 msgstr "user"
 
-#: src/pages/components/IntegrationOptions.tsx:76
-msgctxt "options:integrations"
-msgid "Aggressive Mode"
-msgstr "Aggressive Mode"
-
-#: src/pages/components/IntegrationOptions.tsx:14
+#: src/pages/components/IntegrationOptions.tsx:16
 msgctxt "options:integrations"
 msgid "Aria2-Explorer"
 msgstr "Aria2-Explorer"
 
-#: src/pages/components/IntegrationOptions.tsx:67
+#: src/pages/components/IntegrationOptions.tsx:83
 msgctxt "options:integrations"
 msgid "Dispatch download to Aria2"
 msgstr "Dispatch download to Aria2"
 
-#: src/pages/components/IntegrationOptions.tsx:77
+#: src/pages/components/IntegrationOptions.tsx:71
+msgctxt "options:integrations"
+msgid "Filename Detector"
+msgstr "Filename Detector"
+
+#: src/pages/components/IntegrationOptions.tsx:72
 msgctxt "options:integrations"
 msgid ""
-"Ensure the filename not to be modified by other extensions. This mode might "
-"be conflicted with other download management extensions."
+"The detector can notify user when the filename is modified by other "
+"extensions."
 msgstr ""
-"Ensure the filename not to be modified by other extensions. This mode might "
-"be conflicted with other download management extensions."
+"The detector can notify user when the filename is modified by other "
+"extensions."
 
-#: src/pages/components/IntegrationOptions.tsx:56
+#: src/pages/components/IntegrationOptions.tsx:60
 msgctxt "options:integrations"
 msgid "This integration is not compatible with {{platform}}"
 msgstr "This integration is not compatible with {{platform}}"
 
-#: src/pages/components/IntegrationOptions.tsx:15
+#: src/pages/components/IntegrationOptions.tsx:17
 msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "Transfer the download to Aria2 via {{aria2-extension}}."
 
-#: src/pages/app/Options.tsx:127 src/pages/components/SideMenu.tsx:76
+#: src/pages/app/Options.tsx:131 src/pages/components/SideMenu.tsx:76
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "About"
 
-#: src/pages/app/Options.tsx:91 src/pages/components/SideMenu.tsx:57
+#: src/pages/app/Options.tsx:94 src/pages/components/SideMenu.tsx:57
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "Features"
 
-#: src/pages/app/Options.tsx:80 src/pages/components/SideMenu.tsx:51
+#: src/pages/app/Options.tsx:83 src/pages/components/SideMenu.tsx:51
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "General"
 
-#: src/pages/app/Options.tsx:110 src/pages/components/SideMenu.tsx:69
+#: src/pages/app/Options.tsx:114 src/pages/components/SideMenu.tsx:69
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "History"
 
-#: src/pages/app/Options.tsx:99 src/pages/components/SideMenu.tsx:63
+#: src/pages/app/Options.tsx:102 src/pages/components/SideMenu.tsx:63
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "Integrations"
@@ -487,6 +487,18 @@ msgstr "Report issues"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "Video thumbnail"
+
+#~ msgctxt "options:integrations"
+#~ msgid "Aggressive Mode"
+#~ msgstr "Aggressive Mode"
+
+#~ msgctxt "options:integrations"
+#~ msgid ""
+#~ "Ensure the filename not to be modified by other extensions. This mode "
+#~ "might be conflicted with other download management extensions."
+#~ msgstr ""
+#~ "Ensure the filename not to be modified by other extensions. This mode "
+#~ "might be conflicted with other download management extensions."
 
 #~ msgctxt "options:general"
 #~ msgid "Account"

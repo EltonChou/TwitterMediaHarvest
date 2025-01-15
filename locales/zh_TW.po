@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: twitter-media-harvest (4.2.4)\n"
-"POT-Creation-Date: 2025-01-11 04:15+0800\n"
+"Project-Id-Version: twitter-media-harvest (5.0.0)\n"
+"POT-Creation-Date: 2025-01-15 17:48+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -19,34 +19,34 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : twitter 多媒體下載器"
 
-#: src/helpers/notificationConfig.ts:102
+#: src/helpers/notificationConfig.ts:104
 msgctxt "notification:download"
 msgid "API Rate limit exceeded."
 msgstr "已超過 Twitter API 速率限制。"
 
-#: src/helpers/notificationConfig.ts:43
+#: src/helpers/notificationConfig.ts:45
 msgctxt "notification:download"
 msgid "Download failed"
 msgstr "下載失敗"
 
-#: src/helpers/notificationConfig.ts:34
+#: src/helpers/notificationConfig.ts:36
 msgctxt "notification:download"
 msgid "Media in {{account}}({{tweet-id}}) download failed."
 msgstr "於  {{account}}({{tweet-id}})  的多媒體下載失敗。"
 
-#: src/helpers/notificationConfig.ts:101
+#: src/helpers/notificationConfig.ts:103
 msgctxt "notification:download"
 msgid "Too many requests"
 msgstr "短時間發出過多請求"
 
-#: src/helpers/notificationConfig.ts:192
+#: src/helpers/notificationConfig.ts:194
 msgctxt "notification:filename"
 msgid ""
 "The filename is modified by other extensions, please check extensions' "
 "settings."
 msgstr "檔案名稱可能已經被其他擴充功能修改，請確認其他擴充功能的設定。"
 
-#: src/helpers/notificationConfig.ts:191
+#: src/helpers/notificationConfig.ts:193
 msgctxt "notification:filename"
 msgid "WARNING: Filename is modified"
 msgstr "警告：檔案名稱與設定格式不一致"
@@ -56,12 +56,12 @@ msgctxt "notification:filename:button"
 msgid "Ignore"
 msgstr "忽視"
 
-#: src/helpers/notificationConfig.ts:166
+#: src/helpers/notificationConfig.ts:168
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information"
 msgstr "推特資訊分析失敗"
 
-#: src/helpers/notificationConfig.ts:170
+#: src/helpers/notificationConfig.ts:172
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr "推特資訊分析失敗。請向開發者回報錯誤。"
@@ -76,42 +76,42 @@ msgctxt "notification:tweet:button"
 msgid "View"
 msgstr "查看"
 
-#: src/helpers/notificationConfig.ts:137
+#: src/helpers/notificationConfig.ts:139
 msgctxt "notification:tweetFetch"
 msgid "Forbidden"
 msgstr "存取遭拒絕"
 
-#: src/helpers/notificationConfig.ts:125
+#: src/helpers/notificationConfig.ts:127
 msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
 msgstr "你的登錄資訊可能已經過期或是沒有查看此推文的權限。"
 
-#: src/helpers/notificationConfig.ts:153
+#: src/helpers/notificationConfig.ts:155
 msgctxt "notification:tweetFetch"
 msgid "Please contact with developer."
 msgstr "請聯絡開發者。"
 
-#: src/helpers/notificationConfig.ts:111
+#: src/helpers/notificationConfig.ts:113
 msgctxt "notification:tweetFetch"
 msgid "The tweet cannot be found"
 msgstr "無法取得推文資料"
 
-#: src/helpers/notificationConfig.ts:112
+#: src/helpers/notificationConfig.ts:114
 msgctxt "notification:tweetFetch"
 msgid "The tweet might be deleted."
 msgstr "推特內容可能已經被刪除。"
 
-#: src/helpers/notificationConfig.ts:124
+#: src/helpers/notificationConfig.ts:126
 msgctxt "notification:tweetFetch"
 msgid "Unauthorized"
 msgstr "未授權"
 
-#: src/helpers/notificationConfig.ts:150
+#: src/helpers/notificationConfig.ts:152
 msgctxt "notification:tweetFetch"
 msgid "Unknown Error ({{code}})"
 msgstr "未知的錯誤 ({{code}})"
 
-#: src/helpers/notificationConfig.ts:138
+#: src/helpers/notificationConfig.ts:140
 msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "你的登錄資訊可能已經過期，請重新整理頁面。"
@@ -141,32 +141,32 @@ msgctxt "options:about"
 msgid "Version"
 msgstr "版本"
 
-#: src/pages/components/FeatureOptions.tsx:36
+#: src/pages/components/FeatureOptions.tsx:38
 msgctxt "options:features"
 msgid "Auto-reveal sensitive content"
 msgstr "自動顯示敏感內容"
 
-#: src/pages/components/FeatureOptions.tsx:54
+#: src/pages/components/FeatureOptions.tsx:56
 msgctxt "options:features"
 msgid "Download the thumbnail when the media is video."
 msgstr "檔案為影片時，自動下載縮圖。"
 
-#: src/pages/components/FeatureOptions.tsx:53
+#: src/pages/components/FeatureOptions.tsx:55
 msgctxt "options:features"
 msgid "Download video thumbnail"
 msgstr "下載影片縮圖"
 
-#: src/pages/components/FeatureOptions.tsx:46
+#: src/pages/components/FeatureOptions.tsx:48
 msgctxt "options:features"
 msgid "Keyboard shortcut"
 msgstr "鍵盤快捷鍵"
 
-#: src/pages/components/FeatureOptions.tsx:13
+#: src/pages/components/FeatureOptions.tsx:15
 msgctxt "options:features"
 msgid "Use keyboard shortcut to trigger download."
 msgstr "使用鍵盤快捷鍵來觸發下載。"
 
-#: src/pages/components/FeatureOptions.tsx:37
+#: src/pages/components/FeatureOptions.tsx:39
 msgctxt "options:features"
 msgid ""
 "When the tweet was flagged as sensitive content, this feature can show the "
@@ -389,59 +389,59 @@ msgctxt "options:history:table:head"
 msgid "user"
 msgstr "用戶"
 
-#: src/pages/components/IntegrationOptions.tsx:76
-msgctxt "options:integrations"
-msgid "Aggressive Mode"
-msgstr "積極模式"
-
-#: src/pages/components/IntegrationOptions.tsx:14
+#: src/pages/components/IntegrationOptions.tsx:16
 msgctxt "options:integrations"
 msgid "Aria2-Explorer"
 msgstr "Aria2-Explorer"
 
-#: src/pages/components/IntegrationOptions.tsx:67
+#: src/pages/components/IntegrationOptions.tsx:83
 msgctxt "options:integrations"
 msgid "Dispatch download to Aria2"
 msgstr "傳送下載任務到 Aria2"
 
-#: src/pages/components/IntegrationOptions.tsx:77
+#: src/pages/components/IntegrationOptions.tsx:71
+msgctxt "options:integrations"
+msgid "Filename Detector"
+msgstr "檔案名稱偵測"
+
+#: src/pages/components/IntegrationOptions.tsx:72
 msgctxt "options:integrations"
 msgid ""
-"Ensure the filename not to be modified by other extensions. This mode might "
-"be conflicted with other download management extensions."
-msgstr "防止檔案名稱被其他擴充功能修改。此功能可能與其他下載管理擴充功能衝突。"
+"The detector can notify user when the filename is modified by other "
+"extensions."
+msgstr "當檔案名稱可能被其他擴充功能修改時發出警告通知。"
 
-#: src/pages/components/IntegrationOptions.tsx:56
+#: src/pages/components/IntegrationOptions.tsx:60
 msgctxt "options:integrations"
 msgid "This integration is not compatible with {{platform}}"
 msgstr "{{platform}} 瀏覽器不支援此項功能"
 
-#: src/pages/components/IntegrationOptions.tsx:15
+#: src/pages/components/IntegrationOptions.tsx:17
 msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "透過 {{aria2-extension}} 傳送下載任務到 Aria2。"
 
-#: src/pages/app/Options.tsx:127 src/pages/components/SideMenu.tsx:76
+#: src/pages/app/Options.tsx:131 src/pages/components/SideMenu.tsx:76
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "關於"
 
-#: src/pages/app/Options.tsx:91 src/pages/components/SideMenu.tsx:57
+#: src/pages/app/Options.tsx:94 src/pages/components/SideMenu.tsx:57
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "功能"
 
-#: src/pages/app/Options.tsx:80 src/pages/components/SideMenu.tsx:51
+#: src/pages/app/Options.tsx:83 src/pages/components/SideMenu.tsx:51
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "通用"
 
-#: src/pages/app/Options.tsx:110 src/pages/components/SideMenu.tsx:69
+#: src/pages/app/Options.tsx:114 src/pages/components/SideMenu.tsx:69
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "下載歷史"
 
-#: src/pages/app/Options.tsx:99 src/pages/components/SideMenu.tsx:63
+#: src/pages/app/Options.tsx:102 src/pages/components/SideMenu.tsx:63
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "整合"
@@ -475,6 +475,17 @@ msgstr "回報錯誤"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "下載影片縮圖"
+
+#~ msgctxt "options:integrations"
+#~ msgid "Aggressive Mode"
+#~ msgstr "積極模式"
+
+#~ msgctxt "options:integrations"
+#~ msgid ""
+#~ "Ensure the filename not to be modified by other extensions. This mode "
+#~ "might be conflicted with other download management extensions."
+#~ msgstr ""
+#~ "防止檔案名稱被其他擴充功能修改。此功能可能與其他下載管理擴充功能衝突。"
 
 #~ msgctxt "options:general"
 #~ msgid "Account"
