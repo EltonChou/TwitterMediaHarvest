@@ -7,5 +7,6 @@
   ],
   "*.md": ["prettier --write"],
   "*.json": ["prettier --write"],
-  "CHANGELOG.md": ["yarn check-changelog"]
+  "CHANGELOG.md": ["yarn check-changelog"],
+  "*.{po,pot}": ["yarn check-locales"]
 }
