@@ -2,16 +2,27 @@ import type { IWarningSettingsRepo } from '#domain/repositories/warningSettings'
 import { WarningSettings } from '#schema'
 
 export class MockWarningSettingsRepo implements IWarningSettingsRepo {
-  get(): Promise<WarningSettings> {
-    throw new Error('Method not implemented.')
+  protected settings: WarningSettings
+
+  constructor() {
+    this.settings = {
+      ignoreFilenameOverwritten: false,
+    }
   }
-  save(_settings: Partial<WarningSettings>): Promise<void> {
-    throw new Error('Method not implemented.')
+
+  async get(): Promise<WarningSettings> {
+    return this.settings
   }
-  reset(): Promise<void> {
-    throw new Error('Method not implemented.')
+
+  async save(settings: Partial<WarningSettings>): Promise<void> {
+    this.settings = { ...this.settings, ...settings }
   }
+
+  async reset(): Promise<void> {
+    this.settings = this.getDefault()
+  }
+
   getDefault(): WarningSettings {
-    throw new Error('Method not implemented.')
+    return { ignoreFilenameOverwritten: false }
   }
 }
