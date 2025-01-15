@@ -29,7 +29,7 @@ export class FetchTweetError extends Error {
   readonly statusCode: number
 
   constructor(statusCode: number) {
-    super()
+    super(`FetchTweetError (${statusCode})`)
     this.statusCode = statusCode
   }
 }
