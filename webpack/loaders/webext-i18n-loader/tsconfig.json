@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     // project options
+    "strict": true,
     "lib": ["ESNext"], // specifies which default set of type definitions to use ("DOM", "ES6", etc)
     "outDir": "dist", // .js (as well as .d.ts, .js.map, etc.) files will be emitted into this directory.,
     "module": "NodeNext",
@@ -25,7 +26,8 @@
     "noUnusedLocals": true, // Report errors on unused local variables.
     "noUnusedParameters": true, // Report errors on unused parameters in functions
     "declaration": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*.ts"],
   "exclude": [

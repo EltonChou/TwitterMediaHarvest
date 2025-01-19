@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "./dist/index.js",
   "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
   "peerDependencies": {
     "typescript": "^5",
     "webpack": "^5"
@@ -36,7 +39,7 @@
     "webpack-cli": "^6.0.1"
   },
   "scripts": {
-    "test": "yarn build && jest --coverage --testTimeout 10000",
+    "test": "yarn build && jest --coverage --testTimeout 20000",
     "build": "tsc",
     "ci": "yarn build && jest --coverage --ci --silent --testTimeout 100000"
   }

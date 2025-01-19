@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
+    "strict": true,
     "module": "NodeNext",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
   },
   "exclude": ["node_modules/**/*"]
 }
