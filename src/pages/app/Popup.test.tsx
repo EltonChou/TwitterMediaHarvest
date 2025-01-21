@@ -28,8 +28,6 @@ describe('unit test for Popup app component', () => {
   })
 
   it('can render properly', async () => {
-    const user = userEvent.setup()
-
     const { container, unmount } = render(
       <Popup
         featureSettingsRepo={mockFeatureSettingsRepo}
@@ -40,6 +38,7 @@ describe('unit test for Popup app component', () => {
     waitFor(() => expect(container).toMatchSnapshot())
 
     // Check navbar
+    const user = userEvent.setup()
     await user.click(screen.getByTestId('navbar-options'))
     expect(runtime.openOptionsPage).toHaveBeenCalled()
 
@@ -85,6 +84,7 @@ describe('unit test for Popup app component', () => {
       await user.hover(footerActionGithub)
       await user.click(footerActionGithub)
     })
+
     expect(tabs.create).toHaveBeenLastCalledWith({
       active: true,
       url: Links.github,
