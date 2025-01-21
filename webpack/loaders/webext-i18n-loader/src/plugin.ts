@@ -1,6 +1,7 @@
 import { type HashStore, getHashStore } from './hashStore'
 import fs from 'fs/promises'
 import { glob } from 'glob'
+import process from 'node:process'
 import path from 'path'
 import { validate } from 'schema-utils'
 import { Compilation, sources } from 'webpack'
@@ -123,7 +124,10 @@ export class WebextI18nPlugin implements WebpackPluginInstance {
         async _unusedAssets => {
           logger.log(`Finding po files from ${this.options.poDir}`)
           const localePoMap = new Map<string, string>()
-          const poFiles = await glob(path.resolve(this.options.poDir, '*.po'))
+
+          const poFiles = await glob(path.resolve(this.options.poDir, '*.po'), {
+            windowsPathsNoEscape: isWindows(),
+          })
 
           compilation.fileDependencies.addAll(poFiles)
 
@@ -188,4 +192,8 @@ async function readTranslationsFromPo(poFile: string): Promise<Translation[]> {
   }
 
   return translations
+}
+
+function isWindows(): boolean {
+  return process.platform === 'win32'
 }

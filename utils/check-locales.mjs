@@ -5,8 +5,8 @@ import chalk from 'chalk'
 import gettextParser from 'gettext-parser'
 import { glob } from 'glob'
 import fs from 'node:fs/promises'
+import path from 'node:path'
 import process from 'node:process'
-import path from 'path/posix'
 
 /**
  * Web-extension locale message object
@@ -47,13 +47,20 @@ async function extractPoCollection(filepath) {
   return collection
 }
 
+function isWindows() {
+  return process.platform === 'win32'
+}
+
 /**
  * @param {string} dir
  * @returns {Promise<string[]>}
  */
 async function listPoFiles(dir) {
-  const pathPattern = path.resolve(dir, '*.po')
-  return glob(pathPattern)
+  return glob(path.resolve(dir, '*.po'), {
+    dotRelative: true,
+    nodir: true,
+    windowsPathsNoEscape: isWindows(),
+  })
 }
 
 /**
