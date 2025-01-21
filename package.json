@@ -140,9 +140,9 @@
     "watch:chrome:injection:dev": "yarn build:chrome:injection:dev --watch",
     "lint": "eslint --color --quiet --fix && prettier . -l --write",
     "typecheck": "tsc --noEmit --skipLibCheck",
-    "extract-locales": "./utils/locales-extractor.mjs",
-    "check-locales": "./utils/check-locales.mjs",
-    "check-changelog": "./utils/check-changelog.mjs"
+    "extract-locales": "cross-env ./utils/locales-extractor.mjs",
+    "check-locales": "cross-env ./utils/check-locales.mjs",
+    "check-changelog": "cross-env ./utils/check-changelog.mjs"
   },
   "repository": {
     "type": "git",
