@@ -107,6 +107,8 @@ export class FilenameSetting extends ValueObject<FilenameSettingProps> {
         PatternToken.UnderscoreTweetDatetime,
         makeUnderscoreDatetimeString(createdAt)
       )
+      .replace(PatternToken.TweetTimestamp, createdAt.getTime().toString())
+      .replace(PatternToken.Timestamp, currentDate.getTime().toString())
 
     return path.format({
       dir: options?.noDir

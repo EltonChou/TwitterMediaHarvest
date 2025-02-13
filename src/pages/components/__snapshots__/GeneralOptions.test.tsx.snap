@@ -291,15 +291,45 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                 </div>
                 <div
                   class="css-1a5orfg"
+                  data-testid="pattern-token-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Download Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-underscore-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Download_Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-timestamp"
+                >
+                  Translated&lt;options:general:filenameToken_Download Timestamp&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date"
                 >
                   Translated&lt;options:general:filenameToken_Tweet Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
-                  data-testid="pattern-token-tweet-date-time"
+                  data-testid="pattern-token-tweet-datetime"
                 >
                   Translated&lt;options:general:filenameToken_Tweet Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-underscore-tweet-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Tweet_Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-timestamp"
+                >
+                  Translated&lt;options:general:filenameToken_Tweet Timestamp&gt;
                 </div>
               </div>
             </div>
@@ -783,15 +813,45 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 </div>
                 <div
                   class="css-1a5orfg"
+                  data-testid="pattern-token-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Download Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-underscore-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Download_Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-timestamp"
+                >
+                  Translated&lt;options:general:filenameToken_Download Timestamp&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date"
                 >
                   Translated&lt;options:general:filenameToken_Tweet Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
-                  data-testid="pattern-token-tweet-date-time"
+                  data-testid="pattern-token-tweet-datetime"
                 >
                   Translated&lt;options:general:filenameToken_Tweet Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-underscore-tweet-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Tweet_Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-timestamp"
+                >
+                  Translated&lt;options:general:filenameToken_Tweet Timestamp&gt;
                 </div>
               </div>
             </div>
@@ -1275,15 +1335,45 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 </div>
                 <div
                   class="css-1a5orfg"
+                  data-testid="pattern-token-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Download Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-underscore-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Download_Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-timestamp"
+                >
+                  Translated&lt;options:general:filenameToken_Download Timestamp&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date"
                 >
                   Translated&lt;options:general:filenameToken_Tweet Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
-                  data-testid="pattern-token-tweet-date-time"
+                  data-testid="pattern-token-tweet-datetime"
                 >
                   Translated&lt;options:general:filenameToken_Tweet Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-underscore-tweet-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Tweet_Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-timestamp"
+                >
+                  Translated&lt;options:general:filenameToken_Tweet Timestamp&gt;
                 </div>
               </div>
             </div>
@@ -1766,15 +1856,45 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 </div>
                 <div
                   class="css-1a5orfg"
+                  data-testid="pattern-token-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Download Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-underscore-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Download_Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-timestamp"
+                >
+                  Translated&lt;options:general:filenameToken_Download Timestamp&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date"
                 >
                   Translated&lt;options:general:filenameToken_Tweet Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
-                  data-testid="pattern-token-tweet-date-time"
+                  data-testid="pattern-token-tweet-datetime"
                 >
                   Translated&lt;options:general:filenameToken_Tweet Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-underscore-tweet-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Tweet_Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-timestamp"
+                >
+                  Translated&lt;options:general:filenameToken_Tweet Timestamp&gt;
                 </div>
               </div>
             </div>
@@ -2258,15 +2378,45 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 </div>
                 <div
                   class="css-1a5orfg"
+                  data-testid="pattern-token-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Download Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-underscore-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Download_Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-timestamp"
+                >
+                  Translated&lt;options:general:filenameToken_Download Timestamp&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date"
                 >
                   Translated&lt;options:general:filenameToken_Tweet Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
-                  data-testid="pattern-token-tweet-date-time"
+                  data-testid="pattern-token-tweet-datetime"
                 >
                   Translated&lt;options:general:filenameToken_Tweet Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-underscore-tweet-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Tweet_Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-timestamp"
+                >
+                  Translated&lt;options:general:filenameToken_Tweet Timestamp&gt;
                 </div>
               </div>
             </div>
@@ -2749,15 +2899,45 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 </div>
                 <div
                   class="css-1a5orfg"
+                  data-testid="pattern-token-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Download Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-underscore-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Download_Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-timestamp"
+                >
+                  Translated&lt;options:general:filenameToken_Download Timestamp&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date"
                 >
                   Translated&lt;options:general:filenameToken_Tweet Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
-                  data-testid="pattern-token-tweet-date-time"
+                  data-testid="pattern-token-tweet-datetime"
                 >
                   Translated&lt;options:general:filenameToken_Tweet Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-underscore-tweet-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Tweet_Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-timestamp"
+                >
+                  Translated&lt;options:general:filenameToken_Tweet Timestamp&gt;
                 </div>
               </div>
             </div>
@@ -3241,15 +3421,45 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
                 </div>
                 <div
                   class="css-1a5orfg"
+                  data-testid="pattern-token-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Download Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-underscore-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Download_Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-timestamp"
+                >
+                  Translated&lt;options:general:filenameToken_Download Timestamp&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
                   data-testid="pattern-token-tweet-date"
                 >
                   Translated&lt;options:general:filenameToken_Tweet Date&gt;
                 </div>
                 <div
                   class="css-1a5orfg"
-                  data-testid="pattern-token-tweet-date-time"
+                  data-testid="pattern-token-tweet-datetime"
                 >
                   Translated&lt;options:general:filenameToken_Tweet Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-underscore-tweet-datetime"
+                >
+                  Translated&lt;options:general:filenameToken_Tweet_Datetime&gt;
+                </div>
+                <div
+                  class="css-1a5orfg"
+                  data-testid="pattern-token-tweet-timestamp"
+                >
+                  Translated&lt;options:general:filenameToken_Tweet Timestamp&gt;
                 </div>
               </div>
             </div>

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-01-15 17:48+0800\n"
+"POT-Creation-Date: 2025-02-13 17:14+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -198,17 +198,17 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "or"
 
-#: src/pages/components/GeneralOptions.tsx:196
+#: src/pages/components/GeneralOptions.tsx:221
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "Ask where to save files."
 
-#: src/pages/components/GeneralOptions.tsx:244
+#: src/pages/components/GeneralOptions.tsx:269
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "Create sub-directory"
 
-#: src/pages/components/GeneralOptions.tsx:246
+#: src/pages/components/GeneralOptions.tsx:271
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory can "
@@ -217,17 +217,17 @@ msgstr ""
 "Create sub-directory under the default download directory. Sub-directory can "
 "be seperated with \"/\"."
 
-#: src/pages/components/GeneralOptions.tsx:213
+#: src/pages/components/GeneralOptions.tsx:238
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "Filename pattern"
 
-#: src/pages/components/GeneralOptions.tsx:282
+#: src/pages/components/GeneralOptions.tsx:307
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "Group Files"
 
-#: src/pages/components/GeneralOptions.tsx:283
+#: src/pages/components/GeneralOptions.tsx:308
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "Group files by the selected attribute."
@@ -244,7 +244,7 @@ msgid ""
 msgstr ""
 "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 
-#: src/pages/components/GeneralOptions.tsx:197
+#: src/pages/components/GeneralOptions.tsx:222
 msgctxt "options:general"
 msgid ""
 "Show the file chooser or not when download was triggered. Recommend to "
@@ -253,22 +253,22 @@ msgstr ""
 "Show the file chooser or not when download was triggered. Recommend to "
 "disable this option."
 
-#: src/pages/components/GeneralOptions.tsx:214
+#: src/pages/components/GeneralOptions.tsx:239
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "You can choose what info to be included in the filename."
 
-#: src/pages/components/GeneralOptions.tsx:365
+#: src/pages/components/GeneralOptions.tsx:390
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "Reset"
 
-#: src/pages/components/GeneralOptions.tsx:373
+#: src/pages/components/GeneralOptions.tsx:398
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "Save"
 
-#: src/pages/components/GeneralOptions.tsx:291
+#: src/pages/components/GeneralOptions.tsx:316
 #: src/pages/components/GeneralOptions.tsx:50
 msgctxt "options:general:filenameToken"
 msgid "Account"
@@ -284,6 +284,21 @@ msgctxt "options:general:filenameToken"
 msgid "Download Date"
 msgstr "Download Date"
 
+#: src/pages/components/GeneralOptions.tsx:80
+msgctxt "options:general:filenameToken"
+msgid "Download Datetime"
+msgstr "Download Datetime"
+
+#: src/pages/components/GeneralOptions.tsx:90
+msgctxt "options:general:filenameToken"
+msgid "Download Timestamp"
+msgstr "Download Timestamp"
+
+#: src/pages/components/GeneralOptions.tsx:85
+msgctxt "options:general:filenameToken"
+msgid "Download_Datetime"
+msgstr "Download_Datetime"
+
 #: src/pages/components/GeneralOptions.tsx:65
 msgctxt "options:general:filenameToken"
 msgid "Hash"
@@ -294,12 +309,12 @@ msgctxt "options:general:filenameToken"
 msgid "Serial"
 msgstr "Serial"
 
-#: src/pages/components/GeneralOptions.tsx:80
+#: src/pages/components/GeneralOptions.tsx:95
 msgctxt "options:general:filenameToken"
 msgid "Tweet Date"
 msgstr "Tweet Date"
 
-#: src/pages/components/GeneralOptions.tsx:85
+#: src/pages/components/GeneralOptions.tsx:100
 msgctxt "options:general:filenameToken"
 msgid "Tweet Datetime"
 msgstr "Tweet Datetime"
@@ -309,92 +324,102 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet ID"
 msgstr "Tweet ID"
 
-#: src/pages/components/History.tsx:292
+#: src/pages/components/GeneralOptions.tsx:110
+msgctxt "options:general:filenameToken"
+msgid "Tweet Timestamp"
+msgstr "Tweet Timestamp"
+
+#: src/pages/components/GeneralOptions.tsx:105
+msgctxt "options:general:filenameToken"
+msgid "Tweet_Datetime"
+msgstr "Tweet_Datetime"
+
+#: src/pages/components/History.tsx:289
 msgctxt "options:history"
 msgid "Next page"
 msgstr "Next page"
 
-#: src/pages/components/History.tsx:282
+#: src/pages/components/History.tsx:279
 msgctxt "options:history"
 msgid "Previous page"
 msgstr "Previous page"
 
-#: src/pages/components/History.tsx:308
+#: src/pages/components/History.tsx:305
 msgctxt "options:history"
 msgid "Refresh"
 msgstr "Refresh"
 
-#: src/pages/components/History.tsx:359
+#: src/pages/components/History.tsx:356
 msgctxt "options:history:input:placeholder"
 msgid "Username"
 msgstr "Username"
 
-#: src/pages/components/History.tsx:133
+#: src/pages/components/History.tsx:134
 msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "Image"
 
-#: src/pages/components/History.tsx:139 src/pages/components/History.tsx:142
+#: src/pages/components/History.tsx:140 src/pages/components/History.tsx:143
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "Mixed"
 
-#: src/pages/components/History.tsx:136
+#: src/pages/components/History.tsx:137
 msgctxt "options:history:mediaType"
 msgid "Video"
 msgstr "Video"
 
-#: src/pages/components/History.tsx:374
+#: src/pages/components/History.tsx:371
 msgctxt "options:history:mediaType:option"
 msgid "All"
 msgstr "All"
 
-#: src/pages/components/History.tsx:377
+#: src/pages/components/History.tsx:374
 msgctxt "options:history:mediaType:option"
 msgid "Image"
 msgstr "Image"
 
-#: src/pages/components/History.tsx:383
+#: src/pages/components/History.tsx:380
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
 msgstr "Mixed"
 
-#: src/pages/components/History.tsx:380
+#: src/pages/components/History.tsx:377
 msgctxt "options:history:mediaType:option"
 msgid "Video"
 msgstr "Video"
 
-#: src/pages/components/History.tsx:366
+#: src/pages/components/History.tsx:363
 msgctxt "options:history:select"
 msgid "Select media type"
 msgstr "Select media type"
 
-#: src/pages/components/History.tsx:206
+#: src/pages/components/History.tsx:207
 msgctxt "options:history:table:head"
 msgid "actions"
 msgstr "actions"
 
-#: src/pages/components/History.tsx:205
+#: src/pages/components/History.tsx:206
 msgctxt "options:history:table:head"
 msgid "download time"
 msgstr "download time"
 
-#: src/pages/components/History.tsx:204
+#: src/pages/components/History.tsx:205
 msgctxt "options:history:table:head"
 msgid "post time"
 msgstr "post time"
 
-#: src/pages/components/History.tsx:201
+#: src/pages/components/History.tsx:202
 msgctxt "options:history:table:head"
 msgid "thumbnail"
 msgstr "thumbnail"
 
-#: src/pages/components/History.tsx:203
+#: src/pages/components/History.tsx:204
 msgctxt "options:history:table:head"
 msgid "type"
 msgstr "type"
 
-#: src/pages/components/History.tsx:202
+#: src/pages/components/History.tsx:203
 msgctxt "options:history:table:head"
 msgid "user"
 msgstr "user"
@@ -433,27 +458,27 @@ msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "Transfer the download to Aria2 via {{aria2-extension}}."
 
-#: src/pages/app/Options.tsx:131 src/pages/components/SideMenu.tsx:76
+#: src/pages/app/Options.tsx:135 src/pages/components/SideMenu.tsx:76
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "About"
 
-#: src/pages/app/Options.tsx:94 src/pages/components/SideMenu.tsx:57
+#: src/pages/app/Options.tsx:97 src/pages/components/SideMenu.tsx:57
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "Features"
 
-#: src/pages/app/Options.tsx:83 src/pages/components/SideMenu.tsx:51
+#: src/pages/app/Options.tsx:86 src/pages/components/SideMenu.tsx:51
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "General"
 
-#: src/pages/app/Options.tsx:114 src/pages/components/SideMenu.tsx:69
+#: src/pages/app/Options.tsx:117 src/pages/components/SideMenu.tsx:69
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "History"
 
-#: src/pages/app/Options.tsx:102 src/pages/components/SideMenu.tsx:63
+#: src/pages/app/Options.tsx:105 src/pages/components/SideMenu.tsx:63
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "Integrations"

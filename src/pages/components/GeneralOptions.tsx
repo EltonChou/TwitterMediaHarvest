@@ -77,6 +77,21 @@ const filenameTokenRecords: ReadonlyArray<PatternTokenRecord> = [
     testId: 'pattern-token-date',
   },
   {
+    localizedName: i18n('Download Datetime', 'options:general:filenameToken'),
+    token: PatternToken.Datetime,
+    testId: 'pattern-token-datetime',
+  },
+  {
+    localizedName: i18n('Download_Datetime', 'options:general:filenameToken'),
+    token: PatternToken.UnderscoreDateTime,
+    testId: 'pattern-token-underscore-datetime',
+  },
+  {
+    localizedName: i18n('Download Timestamp', 'options:general:filenameToken'),
+    token: PatternToken.Timestamp,
+    testId: 'pattern-token-timestamp',
+  },
+  {
     localizedName: i18n('Tweet Date', 'options:general:filenameToken'),
     token: PatternToken.TweetDate,
     testId: 'pattern-token-tweet-date',
@@ -84,7 +99,17 @@ const filenameTokenRecords: ReadonlyArray<PatternTokenRecord> = [
   {
     localizedName: i18n('Tweet Datetime', 'options:general:filenameToken'),
     token: PatternToken.TweetDatetime,
-    testId: 'pattern-token-tweet-date-time',
+    testId: 'pattern-token-tweet-datetime',
+  },
+  {
+    localizedName: i18n('Tweet_Datetime', 'options:general:filenameToken'),
+    token: PatternToken.UnderscoreTweetDatetime,
+    testId: 'pattern-token-underscore-tweet-datetime',
+  },
+  {
+    localizedName: i18n('Tweet Timestamp', 'options:general:filenameToken'),
+    token: PatternToken.TweetTimestamp,
+    testId: 'pattern-token-tweet-timestamp',
   },
 ]
 

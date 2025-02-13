@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-01-15 17:48+0800\n"
+"POT-Creation-Date: 2025-02-13 17:14+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -201,34 +201,34 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "それとも"
 
-#: src/pages/components/GeneralOptions.tsx:196
+#: src/pages/components/GeneralOptions.tsx:221
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "ファイルごとに保存先を指定します。"
 
-#: src/pages/components/GeneralOptions.tsx:244
+#: src/pages/components/GeneralOptions.tsx:269
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "サブディレクトリの作成"
 
-#: src/pages/components/GeneralOptions.tsx:246
+#: src/pages/components/GeneralOptions.tsx:271
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory can "
 "be seperated with \"/\"."
 msgstr "ディフォルトディレクトリの下にサブディレクトリを作成します。"
 
-#: src/pages/components/GeneralOptions.tsx:213
+#: src/pages/components/GeneralOptions.tsx:238
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "ファイルネームパターン"
 
-#: src/pages/components/GeneralOptions.tsx:282
+#: src/pages/components/GeneralOptions.tsx:307
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "ファイルをグループ化"
 
-#: src/pages/components/GeneralOptions.tsx:283
+#: src/pages/components/GeneralOptions.tsx:308
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "選択した属性でファイルをグループ化します。"
@@ -246,7 +246,7 @@ msgstr ""
 "無効なパータン。 `ツイート ID` + `シリアル番号` や `ハッシュ` を含めてくださ"
 "い."
 
-#: src/pages/components/GeneralOptions.tsx:197
+#: src/pages/components/GeneralOptions.tsx:222
 msgctxt "options:general"
 msgid ""
 "Show the file chooser or not when download was triggered. Recommend to "
@@ -255,22 +255,22 @@ msgstr ""
 "ファイルごとに保存先を指定します。\n"
 "推奨：オフ"
 
-#: src/pages/components/GeneralOptions.tsx:214
+#: src/pages/components/GeneralOptions.tsx:239
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "ツイートの情報をファイルネームに含めます。"
 
-#: src/pages/components/GeneralOptions.tsx:365
+#: src/pages/components/GeneralOptions.tsx:390
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "リセット"
 
-#: src/pages/components/GeneralOptions.tsx:373
+#: src/pages/components/GeneralOptions.tsx:398
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "保存"
 
-#: src/pages/components/GeneralOptions.tsx:291
+#: src/pages/components/GeneralOptions.tsx:316
 #: src/pages/components/GeneralOptions.tsx:50
 msgctxt "options:general:filenameToken"
 msgid "Account"
@@ -286,6 +286,21 @@ msgctxt "options:general:filenameToken"
 msgid "Download Date"
 msgstr "ダウンロード日付"
 
+#: src/pages/components/GeneralOptions.tsx:80
+msgctxt "options:general:filenameToken"
+msgid "Download Datetime"
+msgstr "ダウンロード時間"
+
+#: src/pages/components/GeneralOptions.tsx:90
+msgctxt "options:general:filenameToken"
+msgid "Download Timestamp"
+msgstr "ダウンロードタイムスタンプ"
+
+#: src/pages/components/GeneralOptions.tsx:85
+msgctxt "options:general:filenameToken"
+msgid "Download_Datetime"
+msgstr "ダウンロード＿日付"
+
 #: src/pages/components/GeneralOptions.tsx:65
 msgctxt "options:general:filenameToken"
 msgid "Hash"
@@ -296,12 +311,12 @@ msgctxt "options:general:filenameToken"
 msgid "Serial"
 msgstr "シリアル番号"
 
-#: src/pages/components/GeneralOptions.tsx:80
+#: src/pages/components/GeneralOptions.tsx:95
 msgctxt "options:general:filenameToken"
 msgid "Tweet Date"
 msgstr "投稿日付"
 
-#: src/pages/components/GeneralOptions.tsx:85
+#: src/pages/components/GeneralOptions.tsx:100
 msgctxt "options:general:filenameToken"
 msgid "Tweet Datetime"
 msgstr "投稿時間"
@@ -311,92 +326,102 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet ID"
 msgstr "ツイート ID"
 
-#: src/pages/components/History.tsx:292
+#: src/pages/components/GeneralOptions.tsx:110
+msgctxt "options:general:filenameToken"
+msgid "Tweet Timestamp"
+msgstr "投稿タイムスタンプ"
+
+#: src/pages/components/GeneralOptions.tsx:105
+msgctxt "options:general:filenameToken"
+msgid "Tweet_Datetime"
+msgstr "投稿＿時間"
+
+#: src/pages/components/History.tsx:289
 msgctxt "options:history"
 msgid "Next page"
 msgstr "次のページ"
 
-#: src/pages/components/History.tsx:282
+#: src/pages/components/History.tsx:279
 msgctxt "options:history"
 msgid "Previous page"
 msgstr "前のページ"
 
-#: src/pages/components/History.tsx:308
+#: src/pages/components/History.tsx:305
 msgctxt "options:history"
 msgid "Refresh"
 msgstr "更新"
 
-#: src/pages/components/History.tsx:359
+#: src/pages/components/History.tsx:356
 msgctxt "options:history:input:placeholder"
 msgid "Username"
 msgstr "ユーザー名"
 
-#: src/pages/components/History.tsx:133
+#: src/pages/components/History.tsx:134
 msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "画像"
 
-#: src/pages/components/History.tsx:139 src/pages/components/History.tsx:142
+#: src/pages/components/History.tsx:140 src/pages/components/History.tsx:143
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "画像 + ビデオ"
 
-#: src/pages/components/History.tsx:136
+#: src/pages/components/History.tsx:137
 msgctxt "options:history:mediaType"
 msgid "Video"
 msgstr "ビデオ"
 
-#: src/pages/components/History.tsx:374
+#: src/pages/components/History.tsx:371
 msgctxt "options:history:mediaType:option"
 msgid "All"
 msgstr "全種類"
 
-#: src/pages/components/History.tsx:377
+#: src/pages/components/History.tsx:374
 msgctxt "options:history:mediaType:option"
 msgid "Image"
 msgstr "画像"
 
-#: src/pages/components/History.tsx:383
+#: src/pages/components/History.tsx:380
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
 msgstr "画像 + ビデオ"
 
-#: src/pages/components/History.tsx:380
+#: src/pages/components/History.tsx:377
 msgctxt "options:history:mediaType:option"
 msgid "Video"
 msgstr "ビデオ"
 
-#: src/pages/components/History.tsx:366
+#: src/pages/components/History.tsx:363
 msgctxt "options:history:select"
 msgid "Select media type"
 msgstr "タイプ"
 
-#: src/pages/components/History.tsx:206
+#: src/pages/components/History.tsx:207
 msgctxt "options:history:table:head"
 msgid "actions"
 msgstr "操作"
 
-#: src/pages/components/History.tsx:205
+#: src/pages/components/History.tsx:206
 msgctxt "options:history:table:head"
 msgid "download time"
 msgstr "ダウンロード時間"
 
-#: src/pages/components/History.tsx:204
+#: src/pages/components/History.tsx:205
 msgctxt "options:history:table:head"
 msgid "post time"
 msgstr "投稿時間"
 
-#: src/pages/components/History.tsx:201
+#: src/pages/components/History.tsx:202
 msgctxt "options:history:table:head"
 msgid "thumbnail"
 msgstr "サムネイル"
 
-#: src/pages/components/History.tsx:203
+#: src/pages/components/History.tsx:204
 msgctxt "options:history:table:head"
 msgid "type"
 msgstr "タイプ"
 
-#: src/pages/components/History.tsx:202
+#: src/pages/components/History.tsx:203
 msgctxt "options:history:table:head"
 msgid "user"
 msgstr "ユーザー"
@@ -433,27 +458,27 @@ msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "ダウンロードを {{aria2-extension}} 経由して Aria2 に転送。"
 
-#: src/pages/app/Options.tsx:131 src/pages/components/SideMenu.tsx:76
+#: src/pages/app/Options.tsx:135 src/pages/components/SideMenu.tsx:76
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "拡張について"
 
-#: src/pages/app/Options.tsx:94 src/pages/components/SideMenu.tsx:57
+#: src/pages/app/Options.tsx:97 src/pages/components/SideMenu.tsx:57
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "機能"
 
-#: src/pages/app/Options.tsx:83 src/pages/components/SideMenu.tsx:51
+#: src/pages/app/Options.tsx:86 src/pages/components/SideMenu.tsx:51
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "一般"
 
-#: src/pages/app/Options.tsx:114 src/pages/components/SideMenu.tsx:69
+#: src/pages/app/Options.tsx:117 src/pages/components/SideMenu.tsx:69
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "ダウンロード履歴"
 
-#: src/pages/app/Options.tsx:102 src/pages/components/SideMenu.tsx:63
+#: src/pages/app/Options.tsx:105 src/pages/components/SideMenu.tsx:63
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "統合"
