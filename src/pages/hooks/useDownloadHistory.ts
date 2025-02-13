@@ -3,10 +3,7 @@ import {
   V5JsonSchema,
   V5PortableHistory,
 } from '#domain/valueObjects/portableDownloadHistory'
-import {
-  V5PortableDownloadHistoryItem,
-  V5PortableDownloadHistoryItemProps,
-} from '#domain/valueObjects/portableDownloadHistoryItem'
+import { V5PortableDownloadHistoryItemProps } from '#domain/valueObjects/portableDownloadHistoryItem'
 import MediaType from '#enums/mediaType'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import type {
@@ -16,6 +13,7 @@ import type {
 } from '../../applicationUseCases/searchDownloadHistory'
 import { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDownloadHistory'
 import { v5PortableDownloadHistoryToDownloadHistories } from '../../mappers/portableDownloadHistory'
+import { toError } from 'fp-ts/lib/Either'
 import Joi from 'joi'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -37,7 +35,7 @@ type DownloadHistory = {
   handler: {
     search: (query: SearchQuery, option?: WithCallbacks) => void
     refresh: (option?: WithCallbacks) => void
-    import: (data: AllowSharedBufferSource | string) => Promise<UnsafeTask>
+    import: (data: ArrayBuffer | string) => Promise<UnsafeTask>
     export: () => Promise<Result<string>>
   }
   items: DownloadHistoryInfo[]
@@ -252,8 +250,8 @@ const useDownloadHistory = ({
         },
         [itemPerPage, loadLatest]
       ),
-      import: useCallback(
-        async (data: AllowSharedBufferSource | string) => {
+      import: useCallback<DownloadHistory['handler']['import']>(
+        async data => {
           const { value: portableHistory, error } =
             validatePortableHistoryData(data)
 
@@ -299,29 +297,34 @@ const portableHistoryItemSchema: Joi.ObjectPropertiesSchema<V5PortableDownloadHi
   })
 
 const portableHistorySchema: Joi.ObjectSchema<V5JsonSchema> = Joi.object({
-  version: Joi.string().valid('5.0.0'),
-  items: Joi.array().items(portableHistoryItemSchema),
+  version: Joi.string().valid('5.0.0').required(),
+  items: Joi.array().items(portableHistoryItemSchema).required(),
 })
 
 const validatePortableHistoryData = (
-  data: AllowSharedBufferSource | string
+  data: ArrayBuffer | string
 ): Result<V5PortableHistory> => {
   const dataString =
     typeof data === 'string' ? data : new TextDecoder().decode(data)
 
-  const dataJson = JSON.parse(dataString)
+  const jsonResult = parseJson(dataString)
+  if (jsonResult.error) return jsonResult
+
   const { value: portableHistoryObject, error } =
-    portableHistorySchema.validate(dataJson)
+    portableHistorySchema.validate(jsonResult.value)
 
   if (error) return toErrorResult(error)
 
-  return toSuccessResult(
-    new V5PortableHistory({
-      items: portableHistoryObject.items.map(
-        itemProps => new V5PortableDownloadHistoryItem(itemProps)
-      ),
-    })
-  )
+  return toSuccessResult(V5PortableHistory.fromJSON(portableHistoryObject))
+}
+
+const parseJson = (data: string) => {
+  try {
+    const dataJson = JSON.parse(data)
+    return toSuccessResult(dataJson)
+  } catch (error) {
+    return toErrorResult(toError(error))
+  }
 }
 
 export default useDownloadHistory

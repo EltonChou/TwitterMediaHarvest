@@ -1,4 +1,4 @@
-import { generatePortableDownloadHistoryItem } from '#utils/test/v5ProtableHistoryItem'
+import { generatePortableDownloadHistoryItem } from '#utils/test/v5ProtableDownloadHistoryItem'
 import { V5PortableHistory } from './portableDownloadHistory'
 import { faker } from '@faker-js/faker/locale/en'
 

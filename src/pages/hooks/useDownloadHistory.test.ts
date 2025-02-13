@@ -1,13 +1,12 @@
 /**
  * @jest-environment jsdom
  */
-import { V5PortableHistory } from '#domain/valueObjects/portableDownloadHistory'
 import { MockSearchDownloadHistoryUseCase } from '#mocks/applicationUseCases/searchDownloadHistory'
 import { MockPortableDownloadHistoryRepo } from '#mocks/repositories/portableDownloadHistory'
 import { MockSearchDownloadHistory } from '#mocks/useCases/searchDownloadHistory'
 import { MockSearchTweetIdsByHashTags } from '#mocks/useCases/searchTweetIdsByHashtags'
-import { toSuccessResult } from '#utils/result'
-import { generatePortableDownloadHistoryItem } from '#utils/test/v5ProtableHistoryItem'
+import { toErrorResult, toSuccessResult } from '#utils/result'
+import { generatePortableV5DownloadHistory } from '#utils/test/v5PortableDownloadHistory'
 import useDownloadHistory from './useDownloadHistory'
 import { faker } from '@faker-js/faker/.'
 import { act, renderHook, waitFor } from '@testing-library/react'
@@ -114,7 +113,31 @@ describe('unit test for useDownloadHistory hook', () => {
       })
     })
 
-    it('can import history', async () => {
+    it.each([
+      {
+        data: JSON.stringify(generatePortableV5DownloadHistory(10)),
+        isValid: true,
+      },
+      {
+        data: JSON.stringify({ version: '5.0.0' }),
+        isValid: false,
+      },
+      {
+        data: new TextEncoder().encode(
+          JSON.stringify(generatePortableV5DownloadHistory(10))
+        ).buffer,
+        isValid: true,
+      },
+      {
+        data: new TextEncoder().encode(JSON.stringify({ version: '5.0.0' }))
+          .buffer,
+        isValid: false,
+      },
+      {
+        data: 'fa01}',
+        isValid: false,
+      },
+    ])('can import history', async ({ data, isValid }) => {
       const mockImport = jest
         .spyOn(mockPortableDownloadHistoryRepo, 'import')
         .mockResolvedValueOnce(undefined)
@@ -127,14 +150,17 @@ describe('unit test for useDownloadHistory hook', () => {
         })
       )
 
-      const portableDownloadHistory = new V5PortableHistory({
-        items: Array.from({ length: 10 }, generatePortableDownloadHistoryItem),
-      })
+      const importError = await result.current.handler.import(
+        data as string | ArrayBuffer
+      )
 
-      const dataString = JSON.stringify(portableDownloadHistory)
-      const importError = await result.current.handler.import(dataString)
-      expect(importError).toBeUndefined()
-      expect(mockImport).toHaveBeenCalledOnce()
+      if (isValid) {
+        expect(importError).toBeUndefined()
+        expect(mockImport).toHaveBeenCalledOnce()
+      } else {
+        expect(importError).toBeDefined()
+        expect(mockImport).not.toHaveBeenCalled()
+      }
     })
 
     it('can export history', async () => {
@@ -154,6 +180,24 @@ describe('unit test for useDownloadHistory hook', () => {
       const exportResult = await result.current.handler.export()
       expect(exportResult.value).toBe(expectedDownloadLink)
       expect(mockExport).toHaveBeenCalledOnce()
+    })
+
+    it('can handle export history error', async () => {
+      const mockExport = jest
+        .spyOn(mockPortableDownloadHistoryRepo, 'export')
+        .mockResolvedValueOnce(toErrorResult(new Error()))
+
+      const { result } = renderHook(() =>
+        useDownloadHistory({
+          searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
+          initItemPerPage: 20,
+          portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+        })
+      )
+
+      const exportResult = await result.current.handler.export()
+      expect(mockExport).toHaveBeenCalledOnce()
+      expect(exportResult.error).toBeDefined()
     })
   })
 
