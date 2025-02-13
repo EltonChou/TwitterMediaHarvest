@@ -1,9 +1,22 @@
+import { IPortableDownloadHistoryRepository } from '#domain/repositories/portableDownloadHistory'
+import {
+  V5JsonSchema,
+  V5PortableHistory,
+} from '#domain/valueObjects/portableDownloadHistory'
+import {
+  V5PortableDownloadHistoryItem,
+  V5PortableDownloadHistoryItemProps,
+} from '#domain/valueObjects/portableDownloadHistoryItem'
+import MediaType from '#enums/mediaType'
+import { toErrorResult, toSuccessResult } from '#utils/result'
 import type {
   DownloadHistoryInfo,
   DownloadHistoryQueryResponse,
   Query,
 } from '../../applicationUseCases/searchDownloadHistory'
 import { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDownloadHistory'
+import { v5PortableDownloadHistoryToDownloadHistories } from '../../mappers/portableDownloadHistory'
+import Joi from 'joi'
 import { useCallback, useEffect, useState } from 'react'
 
 export type DownloadHistoryItem = DownloadHistoryInfo
@@ -24,6 +37,8 @@ type DownloadHistory = {
   handler: {
     search: (query: SearchQuery, option?: WithCallbacks) => void
     refresh: (option?: WithCallbacks) => void
+    import: (data: AllowSharedBufferSource | string) => Promise<UnsafeTask>
+    export: () => Promise<Result<string>>
   }
   items: DownloadHistoryInfo[]
   pageHandler: {
@@ -52,11 +67,13 @@ const DEFAULT_QUERY = Object.freeze<SearchQuery>({
 type UseDownloadHistoryProps = {
   initItemPerPage: number
   searchDownloadHistoryUseCase: SearchDownloadHistoryUseCase
+  portableDownloadHistoryRepo: IPortableDownloadHistoryRepository
 }
 
 const useDownloadHistory = ({
   searchDownloadHistoryUseCase,
   initItemPerPage,
+  portableDownloadHistoryRepo,
 }: UseDownloadHistoryProps): DownloadHistory => {
   const [items, setItems] = useState<DownloadHistoryInfo[]>([])
   const [query, setQuery] = useState<SearchQuery>(DEFAULT_QUERY)
@@ -235,9 +252,76 @@ const useDownloadHistory = ({
         },
         [itemPerPage, loadLatest]
       ),
+      import: useCallback(
+        async (data: AllowSharedBufferSource | string) => {
+          const { value: portableHistory, error } =
+            validatePortableHistoryData(data)
+
+          if (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
+            return error
+          }
+
+          return await portableDownloadHistoryRepo.import(
+            v5PortableDownloadHistoryToDownloadHistories(portableHistory)
+          )
+        },
+        [portableDownloadHistoryRepo]
+      ),
+      export: useCallback(async () => {
+        const result = await portableDownloadHistoryRepo.export()
+
+        if (result.error) {
+          // eslint-disable-next-line no-console
+          console.error(result.error)
+          return toErrorResult(result.error)
+        }
+
+        return toSuccessResult(result.value)
+      }, [portableDownloadHistoryRepo]),
     },
     items: items,
   }
+}
+
+const portableHistoryItemSchema: Joi.ObjectPropertiesSchema<V5PortableDownloadHistoryItemProps> =
+  Joi.object({
+    tweetId: Joi.string(),
+    displayName: Joi.string(),
+    screenName: Joi.string(),
+    userId: Joi.string(),
+    mediaType: Joi.string<MediaType>().valid('mixed', 'video', 'image'),
+    hashtags: Joi.array().items(Joi.string()),
+    thumbnail: Joi.string(),
+    tweetTime: Joi.date(),
+    downloadTime: Joi.date(),
+  })
+
+const portableHistorySchema: Joi.ObjectSchema<V5JsonSchema> = Joi.object({
+  version: Joi.string().valid('5.0.0'),
+  items: Joi.array().items(portableHistoryItemSchema),
+})
+
+const validatePortableHistoryData = (
+  data: AllowSharedBufferSource | string
+): Result<V5PortableHistory> => {
+  const dataString =
+    typeof data === 'string' ? data : new TextDecoder().decode(data)
+
+  const dataJson = JSON.parse(dataString)
+  const { value: portableHistoryObject, error } =
+    portableHistorySchema.validate(dataJson)
+
+  if (error) return toErrorResult(error)
+
+  return toSuccessResult(
+    new V5PortableHistory({
+      items: portableHistoryObject.items.map(
+        itemProps => new V5PortableDownloadHistoryItem(itemProps)
+      ),
+    })
+  )
 }
 
 export default useDownloadHistory

@@ -1,4 +1,5 @@
 import type { Factory } from '#domain/factories/base'
+import { IPortableDownloadHistoryRepository } from '#domain/repositories/portableDownloadHistory'
 import type { SearchDownloadHistory } from '#domain/useCases/searchDownloadHistory'
 import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
 import MediaType from '#enums/mediaType'
@@ -413,11 +414,13 @@ const mediaTypeSelectTokenToMediaType: Factory<
 type HistoryTableProps = {
   searchDownloadHistory: SearchDownloadHistory
   searchTweetIdsByHashtags: SearchTweetIdsByHashTags
+  portableDownloadHistoryRepo: IPortableDownloadHistoryRepository
 }
 
 const HistoryTable = ({
   searchDownloadHistory,
   searchTweetIdsByHashtags,
+  portableDownloadHistoryRepo,
 }: HistoryTableProps) => {
   const downloadHistory = useDownloadHistory({
     initItemPerPage: 20,
@@ -425,6 +428,7 @@ const HistoryTable = ({
       searchDownloadHistory,
       searchTweetIdsByHashtags
     ),
+    portableDownloadHistoryRepo: portableDownloadHistoryRepo,
   })
   const searchFormRef = useRef<SearchFormComponent>(null)
   const tableRef = useRef<HTMLTableElement>(null)

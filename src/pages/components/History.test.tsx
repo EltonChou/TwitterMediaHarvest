@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { MockPortableDownloadHistoryRepo } from '#mocks/repositories/portableDownloadHistory'
 import { MockSearchDownloadHistory } from '#mocks/useCases/searchDownloadHistory'
 import { MockSearchTweetIdsByHashTags } from '#mocks/useCases/searchTweetIdsByHashtags'
 import { generateDownloadHistory } from '#utils/test/downloadHistory'
@@ -158,6 +159,8 @@ describe('unit test for HistoryTable components', () => {
   test('user behavior', async () => {
     const mockSearchDownloadHistory = new MockSearchDownloadHistory()
     const mockSearchTweetIdsByHashTags = new MockSearchTweetIdsByHashTags()
+    const mockPortableDownloadHistoryRepo =
+      new MockPortableDownloadHistoryRepo()
     HTMLDivElement.prototype.scrollTo = jest.fn()
 
     jest.spyOn(mockSearchDownloadHistory, 'process').mockResolvedValue({
@@ -174,6 +177,7 @@ describe('unit test for HistoryTable components', () => {
         <HistoryTable
           searchDownloadHistory={mockSearchDownloadHistory}
           searchTweetIdsByHashtags={mockSearchTweetIdsByHashTags}
+          portableDownloadHistoryRepo={mockPortableDownloadHistoryRepo}
         />
       )
     })

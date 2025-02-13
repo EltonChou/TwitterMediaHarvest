@@ -1,7 +1,7 @@
 import MediaType from '#enums/mediaType'
 import { ValueObject } from './base'
 
-type V5PortableDownloadHistoryItemProps = {
+export type V5PortableDownloadHistoryItemProps = {
   tweetId: string
   screenName: string
   displayName: string
