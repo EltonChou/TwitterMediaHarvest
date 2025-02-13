@@ -6,7 +6,6 @@ import type { IDownloadRecordRepository } from '#domain/repositories/downloadRec
 import { toFilename } from '../mappers/downloadConfig'
 import { toDownloadConfig } from '../mappers/downloadRecord'
 import { pipe } from 'fp-ts/lib/function'
-import { posix as path } from 'path'
 
 export const checkCompletedDownload =
   (
@@ -36,5 +35,9 @@ export const checkCompletedDownload =
       )
   }
 
-const filenameToBaseName: Factory<string, string> = filename =>
-  path.parse(filename).base
+const baseNamePattern = /[^\\/]+$/
+const filenameToBaseName: Factory<string, string> = filename => {
+  const matched = filename.match(baseNamePattern)
+  if (matched) return matched.at(0) ?? ''
+  return ''
+}

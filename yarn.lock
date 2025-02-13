@@ -4353,6 +4353,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/path-browserify@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@types/path-browserify@npm:1.0.3"
+  checksum: 10c0/6ed6de375c210dbc20d171ab547be6065ce9904463ca8ca63443a3b23efc7234ff5400d62be05b9be36fc2e863b77592c2e607896988ad39a45276b8a7e42d70
+  languageName: node
+  linkType: hard
+
 "@types/react-dom@npm:^19.0.2":
   version: 19.0.3
   resolution: "@types/react-dom@npm:19.0.3"
@@ -12924,6 +12931,7 @@ __metadata:
     "@types/jsdom": "npm:^21.1.7"
     "@types/jws": "npm:^3.2.10"
     "@types/node": "npm:^22.10.5"
+    "@types/path-browserify": "npm:^1.0.3"
     "@types/react": "npm:^19.0.4"
     "@types/react-dom": "npm:^19.0.2"
     "@types/webextension-polyfill": "npm:^0.12.1"

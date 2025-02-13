@@ -60,6 +60,7 @@
     "@types/jsdom": "^21.1.7",
     "@types/jws": "^3.2.10",
     "@types/node": "^22.10.5",
+    "@types/path-browserify": "^1.0.3",
     "@types/react": "^19.0.4",
     "@types/react-dom": "^19.0.2",
     "@types/webextension-polyfill": "^0.12.1",
