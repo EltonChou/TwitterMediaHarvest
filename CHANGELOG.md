@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Filename detector
+- More filename pattern tokens
+
+### Removed
+
+- Aggressive mode
+
 ## [4.2.9] - 2024-09-14
 
 ### Fixed
