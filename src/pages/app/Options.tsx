@@ -1,5 +1,6 @@
 import type { IClientRepository } from '#domain/repositories/client'
-import { IPortableDownloadHistoryRepository } from '#domain/repositories/portableDownloadHistory'
+import type { IDownloadHistoryRepository } from '#domain/repositories/downloadHistory'
+import type { IPortableDownloadHistoryRepository } from '#domain/repositories/portableDownloadHistory'
 import type { ISettingsRepository } from '#domain/repositories/settings'
 import type { IWarningSettingsRepo } from '#domain/repositories/warningSettings'
 import type { SearchDownloadHistory } from '#domain/useCases/searchDownloadHistory'
@@ -55,6 +56,7 @@ type RepoProvider = {
   featureSettingsRepo: ISettingsRepository<FeatureSettings>
   warningSettingsRepo: IWarningSettingsRepo
   portableDownloadHistoryRepo: IPortableDownloadHistoryRepository
+  downloadHistoryRepo: IDownloadHistoryRepository
 }
 
 type UseCaseProvider = {
@@ -73,6 +75,7 @@ const App = ({
   searchTweetIdsByHashtags,
   warningSettingsRepo,
   portableDownloadHistoryRepo,
+  downloadHistoryRepo,
 }: InfraProvider) => {
   return (
     <HStack flex={1} spacing={0} overflow={'hidden'}>
@@ -121,6 +124,7 @@ const App = ({
                     searchDownloadHistory={searchDownloadHistory}
                     searchTweetIdsByHashtags={searchTweetIdsByHashtags}
                     portableDownloadHistoryRepo={portableDownloadHistoryRepo}
+                    downloadHistoryRepo={downloadHistoryRepo}
                   />
                 </Content>
               }

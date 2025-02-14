@@ -1,4 +1,5 @@
-import { IPortableDownloadHistoryRepository } from '#domain/repositories/portableDownloadHistory'
+import type { IDownloadHistoryRepository } from '#domain/repositories/downloadHistory'
+import type { IPortableDownloadHistoryRepository } from '#domain/repositories/portableDownloadHistory'
 import {
   V5JsonSchema,
   V5PortableHistory,
@@ -37,6 +38,8 @@ type DownloadHistory = {
     refresh: (option?: WithCallbacks) => void
     import: (data: ArrayBuffer | string) => Promise<UnsafeTask>
     export: () => Promise<Result<string>>
+    clear: () => Promise<UnsafeTask>
+    deleteItemById: (id: string) => Promise<UnsafeTask>
   }
   items: DownloadHistoryInfo[]
   pageHandler: {
@@ -66,12 +69,14 @@ type UseDownloadHistoryProps = {
   initItemPerPage: number
   searchDownloadHistoryUseCase: SearchDownloadHistoryUseCase
   portableDownloadHistoryRepo: IPortableDownloadHistoryRepository
+  downloadHistoryRepo: IDownloadHistoryRepository
 }
 
 const useDownloadHistory = ({
   searchDownloadHistoryUseCase,
   initItemPerPage,
   portableDownloadHistoryRepo,
+  downloadHistoryRepo,
 }: UseDownloadHistoryProps): DownloadHistory => {
   const [items, setItems] = useState<DownloadHistoryInfo[]>([])
   const [query, setQuery] = useState<SearchQuery>(DEFAULT_QUERY)
@@ -235,6 +240,8 @@ const useDownloadHistory = ({
       setItemPerPage: setItemCount,
     },
     handler: {
+      clear: async () => downloadHistoryRepo.clear(),
+      deleteItemById: async id => downloadHistoryRepo.removeByTweetId(id),
       search: useCallback(
         query => {
           setQuery(query)

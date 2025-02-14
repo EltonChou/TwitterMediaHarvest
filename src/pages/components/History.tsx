@@ -1,5 +1,6 @@
 import type { Factory } from '#domain/factories/base'
-import { IPortableDownloadHistoryRepository } from '#domain/repositories/portableDownloadHistory'
+import type { IDownloadHistoryRepository } from '#domain/repositories/downloadHistory'
+import type { IPortableDownloadHistoryRepository } from '#domain/repositories/portableDownloadHistory'
 import type { SearchDownloadHistory } from '#domain/useCases/searchDownloadHistory'
 import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
 import MediaType from '#enums/mediaType'
@@ -8,6 +9,7 @@ import { DownloadTweetMediaMessage, sendMessage } from '#libs/webExtMessage'
 import useDownloadHistory, {
   type DownloadHistoryItem,
 } from '#pages/hooks/useDownloadHistory'
+import { downloadHistoryRepo } from '#provider'
 import { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDownloadHistory'
 import {
   Box,
@@ -415,6 +417,7 @@ type HistoryTableProps = {
   searchDownloadHistory: SearchDownloadHistory
   searchTweetIdsByHashtags: SearchTweetIdsByHashTags
   portableDownloadHistoryRepo: IPortableDownloadHistoryRepository
+  downloadHistoryRepo: IDownloadHistoryRepository
 }
 
 const HistoryTable = ({
@@ -429,6 +432,7 @@ const HistoryTable = ({
       searchTweetIdsByHashtags
     ),
     portableDownloadHistoryRepo: portableDownloadHistoryRepo,
+    downloadHistoryRepo: downloadHistoryRepo,
   })
   const searchFormRef = useRef<SearchFormComponent>(null)
   const tableRef = useRef<HTMLTableElement>(null)

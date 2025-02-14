@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import { MockSearchDownloadHistoryUseCase } from '#mocks/applicationUseCases/searchDownloadHistory'
+import { MockDownloadHistoryRepository } from '#mocks/repositories/downloadHistory'
 import { MockPortableDownloadHistoryRepo } from '#mocks/repositories/portableDownloadHistory'
 import { MockSearchDownloadHistory } from '#mocks/useCases/searchDownloadHistory'
 import { MockSearchTweetIdsByHashTags } from '#mocks/useCases/searchTweetIdsByHashtags'
@@ -17,6 +18,7 @@ describe('unit test for useDownloadHistory hook', () => {
     new MockSearchTweetIdsByHashTags()
   )
   const mockPortableDownloadHistoryRepo = new MockPortableDownloadHistoryRepo()
+  const mockDownloadHistoryRepo = new MockDownloadHistoryRepository()
 
   afterEach(() => {
     jest.resetAllMocks()
@@ -43,6 +45,7 @@ describe('unit test for useDownloadHistory hook', () => {
           searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
           initItemPerPage: 20,
           portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+          downloadHistoryRepo: mockDownloadHistoryRepo,
         })
       )
 
@@ -82,6 +85,7 @@ describe('unit test for useDownloadHistory hook', () => {
           searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
           initItemPerPage: 20,
           portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+          downloadHistoryRepo: mockDownloadHistoryRepo,
         })
       )
 
@@ -141,14 +145,30 @@ describe('unit test for useDownloadHistory hook', () => {
       const mockImport = jest
         .spyOn(mockPortableDownloadHistoryRepo, 'import')
         .mockResolvedValueOnce(undefined)
+      const mockSearch = jest
+        .spyOn(mockSearchDownloadHistoryUseCase, 'process')
+        .mockResolvedValue({
+          $metadata: {
+            itemPerPage: 20,
+            matchedCount: 10,
+            page: { current: 1, next: null, prev: null, total: 10 },
+          },
+          result: {
+            items: [],
+            error: undefined,
+          },
+        })
 
       const { result } = renderHook(() =>
         useDownloadHistory({
           searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
           initItemPerPage: 20,
           portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+          downloadHistoryRepo: mockDownloadHistoryRepo,
         })
       )
+
+      waitFor(() => expect(mockSearch).toHaveBeenCalledOnce())
 
       const importError = await result.current.handler.import(
         data as string | ArrayBuffer
@@ -174,6 +194,7 @@ describe('unit test for useDownloadHistory hook', () => {
           searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
           initItemPerPage: 20,
           portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+          downloadHistoryRepo: mockDownloadHistoryRepo,
         })
       )
 
@@ -192,12 +213,59 @@ describe('unit test for useDownloadHistory hook', () => {
           searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
           initItemPerPage: 20,
           portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+          downloadHistoryRepo: mockDownloadHistoryRepo,
         })
       )
 
       const exportResult = await result.current.handler.export()
       expect(mockExport).toHaveBeenCalledOnce()
       expect(exportResult.error).toBeDefined()
+    })
+
+    it('can clear history', async () => {
+      const mockClear = jest
+        .spyOn(mockDownloadHistoryRepo, 'clear')
+        .mockImplementationOnce(jest.fn())
+
+      const { result } = renderHook(() =>
+        useDownloadHistory({
+          searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
+          initItemPerPage: 20,
+          portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+          downloadHistoryRepo: mockDownloadHistoryRepo,
+        })
+      )
+
+      await act(async () => {
+        await result.current.handler.clear()
+      })
+
+      waitFor(() => {
+        expect(mockClear).toHaveBeenCalledOnce()
+      })
+    })
+
+    it('can delete history item by id', async () => {
+      const mockRemove = jest
+        .spyOn(mockDownloadHistoryRepo, 'removeByTweetId')
+        .mockImplementationOnce(jest.fn())
+
+      const { result } = renderHook(() =>
+        useDownloadHistory({
+          searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
+          initItemPerPage: 20,
+          portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+          downloadHistoryRepo: mockDownloadHistoryRepo,
+        })
+      )
+
+      await act(async () => {
+        await result.current.handler.deleteItemById('1')
+      })
+
+      waitFor(() => {
+        expect(mockRemove).toHaveBeenCalledOnce()
+      })
     })
   })
 
@@ -222,6 +290,7 @@ describe('unit test for useDownloadHistory hook', () => {
           searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
           initItemPerPage: 20,
           portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+          downloadHistoryRepo: mockDownloadHistoryRepo,
         })
       )
 
@@ -262,6 +331,7 @@ describe('unit test for useDownloadHistory hook', () => {
           searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
           initItemPerPage: 20,
           portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+          downloadHistoryRepo: mockDownloadHistoryRepo,
         })
       )
 
@@ -312,6 +382,7 @@ describe('unit test for useDownloadHistory hook', () => {
           searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
           initItemPerPage: 20,
           portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+          downloadHistoryRepo: mockDownloadHistoryRepo,
         })
       )
 
@@ -348,6 +419,7 @@ describe('unit test for useDownloadHistory hook', () => {
           searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
           initItemPerPage: 20,
           portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+          downloadHistoryRepo: mockDownloadHistoryRepo,
         })
       )
 
@@ -398,6 +470,7 @@ describe('unit test for useDownloadHistory hook', () => {
           searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
           initItemPerPage: 20,
           portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+          downloadHistoryRepo: mockDownloadHistoryRepo,
         })
       )
 
@@ -434,6 +507,7 @@ describe('unit test for useDownloadHistory hook', () => {
           searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
           initItemPerPage: 20,
           portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+          downloadHistoryRepo: mockDownloadHistoryRepo,
         })
       )
 

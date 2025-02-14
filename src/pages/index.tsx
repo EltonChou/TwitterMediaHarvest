@@ -1,5 +1,6 @@
 import {
   clientRepo,
+  downloadHistoryRepo,
   downloadSettingsRepo,
   featureSettingsRepo,
   filenameSettingsRepo,
@@ -58,6 +59,7 @@ switch (params.get('tab')) {
             searchTweetIdsByHashtags={searchTweetIdsByHashtags}
             warningSettingsRepo={warningSettingsRepo}
             portableDownloadHistoryRepo={portableDownloadRepo}
+            downloadHistoryRepo={downloadHistoryRepo}
           />
         </ChakraProvider>
       </React.StrictMode>

@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { MockDownloadHistoryRepository } from '#mocks/repositories/downloadHistory'
 import { MockPortableDownloadHistoryRepo } from '#mocks/repositories/portableDownloadHistory'
 import { MockSearchDownloadHistory } from '#mocks/useCases/searchDownloadHistory'
 import { MockSearchTweetIdsByHashTags } from '#mocks/useCases/searchTweetIdsByHashtags'
@@ -157,6 +158,7 @@ describe('unit test for HistoryTable components', () => {
   })
 
   test('user behavior', async () => {
+    const mockDownloadHistoryRepo = new MockDownloadHistoryRepository()
     const mockSearchDownloadHistory = new MockSearchDownloadHistory()
     const mockSearchTweetIdsByHashTags = new MockSearchTweetIdsByHashTags()
     const mockPortableDownloadHistoryRepo =
@@ -178,6 +180,7 @@ describe('unit test for HistoryTable components', () => {
           searchDownloadHistory={mockSearchDownloadHistory}
           searchTweetIdsByHashtags={mockSearchTweetIdsByHashTags}
           portableDownloadHistoryRepo={mockPortableDownloadHistoryRepo}
+          downloadHistoryRepo={mockDownloadHistoryRepo}
         />
       )
     })
