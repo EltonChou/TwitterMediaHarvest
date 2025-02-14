@@ -68,17 +68,30 @@ const getPhotoElementByUrl =
   (article: HTMLElement): HTMLElement | undefined =>
     $<HTMLElement>(`[href*="${photoUrl}"]`, article)
 
+/**
+ * The anchor might be history anchor.
+ * e.g. `https://x.com/i/web/status/{tweetId}/history`
+ */
 const getArticleAnchor = (article: HTMLElement) => {
   const anchorTime = $('a[href*="/status/"] > time', article)
   if (anchorTime) return anchorTime.closest('a')
-  return $('[href*="/status/"]', article)
+  return $('a[href*="/status/"]', article)
 }
 
+const historyAnchorPattern = /\/history$/
+
 const aricleHasPhoto = (article: HTMLElement): boolean => {
+  if (isArticlePhotoMode(article)) return true
   const articleAnchor = getArticleAnchor(article)
   if (!articleAnchor) return false
+
+  const href = (articleAnchor.getAttribute('href') ?? '').replace(
+    historyAnchorPattern,
+    ''
+  )
+
   // this href is relative path.
-  const photoUrl = makePhotoUrlPattern(articleAnchor.getAttribute('href') ?? '')
+  const photoUrl = makePhotoUrlPattern(href)
   const photoEle = getPhotoElementByUrl(photoUrl)(article)
   return photoEle ? !isPhotoInQuotedContent(photoEle) : false
 }

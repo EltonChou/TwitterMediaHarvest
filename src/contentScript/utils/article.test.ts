@@ -3,6 +3,7 @@
  */
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import {
+  articleHasMedia,
   getLinksFromArticle,
   getScreenNameFromLink,
   getTweetIdFromLink,
@@ -13,6 +14,7 @@ import {
   selectArtcleMode,
 } from './article'
 import { getAllByTestId } from '@testing-library/dom'
+import 'core-js/actual/url/can-parse'
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/lib/function'
@@ -177,6 +179,10 @@ describe.each([
       expect(isArticleInStatus(article)).toBe(mode === 'status')
       expect(isArticleInStream(article)).toBe(mode === 'stream')
       expect(selectArtcleMode(article)).toBe(mode)
+    })
+
+    it('can check article has media', () => {
+      expect(articleHasMedia(getArticle())).toBeTrue()
     })
   }
 )
