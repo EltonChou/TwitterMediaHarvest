@@ -30,13 +30,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import React, {
-  ForwardedRef,
-  forwardRef,
-  memo,
-  useImperativeHandle,
-  useRef,
-} from 'react'
+import React, { ForwardedRef, memo, useImperativeHandle, useRef } from 'react'
 import {
   BiChevronLeft,
   BiChevronRight,
@@ -318,6 +312,7 @@ export const ActionBar = (props: HistoryTableActionBarProps) => (
 
 interface SearchFormProps {
   update: () => void
+  ref: ForwardedRef<SearchFormComponent>
 }
 
 export interface SearchFormComponent {
@@ -328,68 +323,66 @@ export interface SearchFormComponent {
   }
 }
 
-export const SearchForm = forwardRef(
-  (props: SearchFormProps, ref: ForwardedRef<SearchFormComponent>) => {
-    const usernameInputRef = useRef<HTMLInputElement>(null)
-    const mediaTypeSelectRef = useRef<HTMLSelectElement>(null)
-    const formRef = useRef<HTMLFormElement>(null)
+export const SearchForm = ({ ref, ...props }: SearchFormProps) => {
+  const usernameInputRef = useRef<HTMLInputElement>(null)
+  const mediaTypeSelectRef = useRef<HTMLSelectElement>(null)
+  const formRef = useRef<HTMLFormElement>(null)
 
-    useImperativeHandle<SearchFormComponent, SearchFormComponent>(ref, () => ({
-      reset() {
-        return formRef.current?.reset
-      },
-      get value() {
-        return {
-          username: usernameInputRef.current?.value,
-          mediaType: mediaTypeSelectRef.current?.value as
-            | MediaTypeSelectToken
-            | undefined,
-        }
-      },
-    }))
+  useImperativeHandle<SearchFormComponent, SearchFormComponent>(ref, () => ({
+    reset() {
+      return formRef.current?.reset
+    },
+    get value() {
+      return {
+        username: usernameInputRef.current?.value,
+        mediaType: mediaTypeSelectRef.current?.value as
+          | MediaTypeSelectToken
+          | undefined,
+      }
+    },
+  }))
 
-    return (
-      <form
-        ref={formRef}
-        style={{ display: 'flex', flex: 1, gap: '0.5rem' }}
-        onSubmit={e => e.preventDefault()}
-        data-testid="search-form"
+  return (
+    <form
+      ref={formRef}
+      style={{ display: 'flex', flex: 1, gap: '0.5rem' }}
+      onSubmit={e => e.preventDefault()}
+      data-testid="search-form"
+    >
+      <Input
+        ref={usernameInputRef}
+        type="search"
+        name="username"
+        placeholder={i18n('Username', 'options:history:input:placeholder')}
+        onInput={lazyHandler(500)(props.update)}
+        flexShrink={1}
+        data-testid="username-input"
+      />
+      <Select
+        ref={mediaTypeSelectRef}
+        title={i18n('Select media type', 'options:history:select')}
+        name="mediaType"
+        onChange={() => props.update()}
+        defaultValue={MediaTypeSelectToken.ALL}
+        flexShrink={4}
+        data-testid="mediaType-select"
       >
-        <Input
-          ref={usernameInputRef}
-          type="search"
-          name="username"
-          placeholder={i18n('Username', 'options:history:input:placeholder')}
-          onInput={lazyHandler(500)(props.update)}
-          flexShrink={1}
-          data-testid="username-input"
-        />
-        <Select
-          ref={mediaTypeSelectRef}
-          title={i18n('Select media type', 'options:history:select')}
-          name="mediaType"
-          onChange={() => props.update()}
-          defaultValue={MediaTypeSelectToken.ALL}
-          flexShrink={4}
-          data-testid="mediaType-select"
-        >
-          <option value={MediaTypeSelectToken.ALL}>
-            {i18n('All', 'options:history:mediaType:option')}
-          </option>
-          <option value={MediaTypeSelectToken.IMAGE}>
-            {i18n('Image', 'options:history:mediaType:option')}
-          </option>
-          <option value={MediaTypeSelectToken.VIDEO}>
-            {i18n('Video', 'options:history:mediaType:option')}
-          </option>
-          <option value={MediaTypeSelectToken.MIXED}>
-            {i18n('Mixed', 'options:history:mediaType:option')}
-          </option>
-        </Select>
-      </form>
-    )
-  }
-)
+        <option value={MediaTypeSelectToken.ALL}>
+          {i18n('All', 'options:history:mediaType:option')}
+        </option>
+        <option value={MediaTypeSelectToken.IMAGE}>
+          {i18n('Image', 'options:history:mediaType:option')}
+        </option>
+        <option value={MediaTypeSelectToken.VIDEO}>
+          {i18n('Video', 'options:history:mediaType:option')}
+        </option>
+        <option value={MediaTypeSelectToken.MIXED}>
+          {i18n('Mixed', 'options:history:mediaType:option')}
+        </option>
+      </Select>
+    </form>
+  )
+}
 
 const mediaTypeSelectTokenToMediaType: Factory<
   MediaTypeSelectToken | undefined,
