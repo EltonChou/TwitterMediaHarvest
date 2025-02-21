@@ -82,10 +82,6 @@ export class SearchDownloadHistoryUseCase
   }
 
   async process(query: Query): Promise<DownloadHistoryQueryResponse> {
-    const { value: tweetIds, error: tweetIdsError } = await this.searchTweetIds(
-      query.hashtags
-    )
-
     const itemPerPage = Math.abs(query.itemPerPage)
     const currentPage = Math.max(1, Math.abs(query.page))
 
@@ -103,6 +99,9 @@ export class SearchDownloadHistoryUseCase
       result: toErrorQueryResult(error),
     })
 
+    const { value: tweetIds, error: tweetIdsError } = await this.searchTweetIds(
+      query.hashtags
+    )
     if (tweetIdsError) return toErrorResponse(tweetIdsError)
 
     const result = await this.searchDownloadHistory.process({
@@ -118,20 +117,22 @@ export class SearchDownloadHistoryUseCase
         type: 'desc',
       },
     })
-
     if (result.error) return toErrorResponse(result.error)
+
+    const getTotalPage = (matchedCount: number) =>
+      Math.ceil(matchedCount / itemPerPage)
+    const getPrevPage = () => (currentPage > 1 ? currentPage - 1 : null)
+    const getNextPage = (matchedCount: number) =>
+      currentPage * itemPerPage >= matchedCount ? null : currentPage + 1
 
     return {
       $metadata: {
         itemPerPage,
         page: {
-          total: Math.ceil(result.matchedCount / itemPerPage),
-          prev: currentPage > 1 ? currentPage - 1 : null,
+          total: getTotalPage(result.matchedCount),
+          prev: getPrevPage(),
           current: currentPage,
-          next:
-            currentPage * itemPerPage >= result.matchedCount
-              ? null
-              : currentPage + 1,
+          next: getNextPage(result.matchedCount),
         },
         matchedCount: result.matchedCount,
       },
