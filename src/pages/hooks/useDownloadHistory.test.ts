@@ -203,10 +203,10 @@ describe('unit test for useDownloadHistory hook', () => {
       expect(mockExport).toHaveBeenCalledOnce()
     })
 
-    it('can handle export history error', async () => {
+    it('can handle history export error', async () => {
       const mockExport = jest
         .spyOn(mockPortableDownloadHistoryRepo, 'export')
-        .mockResolvedValueOnce(toErrorResult(new Error()))
+        .mockResolvedValueOnce(toErrorResult(new Error('mock error')))
 
       const { result } = renderHook(() =>
         useDownloadHistory({
