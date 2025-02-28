@@ -265,7 +265,9 @@ const useDownloadHistory = ({
           if (error) {
             // eslint-disable-next-line no-console
             console.error(error)
-            return error
+            return new PortableHistoryFormatErrror('Invalid format', {
+              cause: error,
+            })
           }
 
           return await portableDownloadHistoryRepo.import(
@@ -333,5 +335,7 @@ const parseJson = (data: string) => {
     return toErrorResult(toError(error))
   }
 }
+
+export class PortableHistoryFormatErrror extends Error {}
 
 export default useDownloadHistory
