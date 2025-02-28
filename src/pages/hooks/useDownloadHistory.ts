@@ -298,7 +298,11 @@ const portableHistoryItemSchema: Joi.ObjectPropertiesSchema<V5PortableDownloadHi
     displayName: Joi.string(),
     screenName: Joi.string(),
     userId: Joi.string(),
-    mediaType: Joi.string<MediaType>().valid('mixed', 'video', 'image'),
+    mediaType: Joi.string<MediaType>().valid(
+      MediaType.Mixed,
+      MediaType.Video,
+      MediaType.Image
+    ),
     hashtags: Joi.array().items(Joi.string()),
     thumbnail: Joi.string(),
     tweetTime: Joi.date(),
