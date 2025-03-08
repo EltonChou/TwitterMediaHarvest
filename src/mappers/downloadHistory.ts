@@ -13,4 +13,5 @@ export const downloadHistoryToIDBItem: Factory<
     tweetId: id.value,
     tweetTime: props.tweetTime,
     downloadTime: props.downloadTime,
+    thumbnail: props.thumbnail,
   }))
