@@ -42,7 +42,7 @@ type NullableDelta<T> =
       current?: T
     }
 
-type UnsafeTask = Error | void
+type UnsafeTask<Err extends Error = Error> = Err | Error | void
 type Result<T, Err extends Error = Error> =
   | { value: undefined; error: Err }
   | { value: T; error: undefined }

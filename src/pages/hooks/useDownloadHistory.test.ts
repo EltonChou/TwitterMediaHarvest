@@ -123,6 +123,20 @@ describe('unit test for useDownloadHistory hook', () => {
         isValid: true,
       },
       {
+        data: JSON.stringify({
+          ...generatePortableV5DownloadHistory(10).toJSON(),
+          version: '3.0.0',
+        }),
+        isValid: false,
+      },
+      {
+        data: JSON.stringify({
+          ...generatePortableV5DownloadHistory(10).toJSON(),
+          version: '4.0.0',
+        }),
+        isValid: true,
+      },
+      {
         data: JSON.stringify({ version: '5.0.0' }),
         isValid: false,
       },

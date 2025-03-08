@@ -33,6 +33,7 @@
     "react-router-dom": "^7.1.1",
     "sanitize-filename": "^1.6.3",
     "select-dom": "^9.3.0",
+    "semver": "^7.7.1",
     "webextension-polyfill": "^0.12.0"
   },
   "devDependencies": {
@@ -63,6 +64,7 @@
     "@types/path-browserify": "^1.0.3",
     "@types/react": "^19.0.4",
     "@types/react-dom": "^19.0.2",
+    "@types/semver": "^7",
     "@types/webextension-polyfill": "^0.12.1",
     "@typescript-eslint/eslint-plugin": "^8.19.1",
     "@typescript-eslint/parser": "^8.19.1",
@@ -142,7 +144,7 @@
     "lint": "eslint --color --quiet --fix && prettier . -l --write",
     "typecheck": "tsc --noEmit --skipLibCheck",
     "extract-locales": "cross-env ./utils/locales-extractor.mjs",
-    "check-locales": "cross-env ./utils/check-locales.mjs",
+    "check-locales": "yarn extract-locales && cross-env ./utils/check-locales.mjs",
     "check-changelog": "cross-env ./utils/check-changelog.mjs"
   },
   "repository": {

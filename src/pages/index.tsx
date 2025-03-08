@@ -1,4 +1,5 @@
 import {
+  browserDownloadFile,
   clientRepo,
   downloadHistoryRepo,
   downloadSettingsRepo,
@@ -60,6 +61,7 @@ switch (params.get('tab')) {
             warningSettingsRepo={warningSettingsRepo}
             portableDownloadHistoryRepo={portableDownloadRepo}
             downloadHistoryRepo={downloadHistoryRepo}
+            browserDownload={browserDownloadFile}
           />
         </ChakraProvider>
       </React.StrictMode>

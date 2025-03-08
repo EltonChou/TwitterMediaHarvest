@@ -17,8 +17,10 @@ import { v5PortableDownloadHistoryToDownloadHistories } from '../../mappers/port
 import { toError } from 'fp-ts/lib/Either'
 import Joi from 'joi'
 import { useCallback, useEffect, useState } from 'react'
+import semver from 'semver'
 
 export type DownloadHistoryItem = DownloadHistoryInfo
+export class PortableHistoryFormatError extends Error {}
 
 interface WithCallbacks {
   cbs: Callback[]
@@ -36,7 +38,9 @@ type DownloadHistory = {
   handler: {
     search: (query: SearchQuery, option?: WithCallbacks) => void
     refresh: (option?: WithCallbacks) => void
-    import: (data: ArrayBuffer | string) => Promise<UnsafeTask>
+    import: (
+      data: ArrayBuffer | string
+    ) => Promise<UnsafeTask<PortableHistoryFormatError>>
     export: () => Promise<Result<string>>
     clear: () => Promise<UnsafeTask>
     deleteItemById: (id: string) => Promise<UnsafeTask>
@@ -265,7 +269,7 @@ const useDownloadHistory = ({
           if (error) {
             // eslint-disable-next-line no-console
             console.error(error)
-            return new PortableHistoryFormatErrror('Invalid format', {
+            return new PortableHistoryFormatError('Invalid format', {
               cause: error,
             })
           }
@@ -303,14 +307,21 @@ const portableHistoryItemSchema: Joi.ObjectPropertiesSchema<V5PortableDownloadHi
       MediaType.Video,
       MediaType.Image
     ),
-    hashtags: Joi.array().items(Joi.string()),
+    hashtags: Joi.array().items(Joi.string()).default([]),
     thumbnail: Joi.string(),
     tweetTime: Joi.date(),
     downloadTime: Joi.date(),
   })
 
 const portableHistorySchema: Joi.ObjectSchema<V5JsonSchema> = Joi.object({
-  version: Joi.string().valid('5.0.0').required(),
+  version: Joi.string()
+    .required()
+    .custom((value, helpers) => {
+      const isValid = semver.satisfies(value, '>=4')
+      if (!isValid)
+        return helpers.error('The history file version must satisfies `>=4`.')
+      return true
+    }),
   items: Joi.array().items(portableHistoryItemSchema).required(),
 })
 
@@ -339,7 +350,5 @@ const parseJson = (data: string) => {
     return toErrorResult(toError(error))
   }
 }
-
-export class PortableHistoryFormatErrror extends Error {}
 
 export default useDownloadHistory

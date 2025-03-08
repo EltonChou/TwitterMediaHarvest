@@ -3,6 +3,7 @@ import type { IDownloadHistoryRepository } from '#domain/repositories/downloadHi
 import type { IPortableDownloadHistoryRepository } from '#domain/repositories/portableDownloadHistory'
 import type { ISettingsRepository } from '#domain/repositories/settings'
 import type { IWarningSettingsRepo } from '#domain/repositories/warningSettings'
+import { DownloadFileUseCase } from '#domain/useCases/downloadFile'
 import type { SearchDownloadHistory } from '#domain/useCases/searchDownloadHistory'
 import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
 import type { FilenameSetting } from '#domain/valueObjects/filenameSetting'
@@ -62,6 +63,7 @@ type RepoProvider = {
 type UseCaseProvider = {
   searchDownloadHistory: SearchDownloadHistory
   searchTweetIdsByHashtags: SearchTweetIdsByHashTags
+  browserDownload: DownloadFileUseCase
 }
 
 type InfraProvider = RepoProvider & UseCaseProvider
@@ -76,6 +78,7 @@ const App = ({
   warningSettingsRepo,
   portableDownloadHistoryRepo,
   downloadHistoryRepo,
+  browserDownload,
 }: InfraProvider) => {
   return (
     <HStack flex={1} spacing={0} overflow={'hidden'}>
@@ -125,6 +128,7 @@ const App = ({
                     searchTweetIdsByHashtags={searchTweetIdsByHashtags}
                     portableDownloadHistoryRepo={portableDownloadHistoryRepo}
                     downloadHistoryRepo={downloadHistoryRepo}
+                    browserDownload={browserDownload}
                   />
                 </Content>
               }

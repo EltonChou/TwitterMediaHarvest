@@ -1,18 +1,24 @@
 import type { Factory } from '#domain/factories/base'
 import type { IDownloadHistoryRepository } from '#domain/repositories/downloadHistory'
 import type { IPortableDownloadHistoryRepository } from '#domain/repositories/portableDownloadHistory'
+import type { DownloadFileUseCase } from '#domain/useCases/downloadFile'
 import type { SearchDownloadHistory } from '#domain/useCases/searchDownloadHistory'
 import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
+import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
+import ConflictAction from '#enums/ConflictAction'
 import MediaType from '#enums/mediaType'
 import { getText as i18n } from '#libs/i18n'
 import { DownloadTweetMediaMessage, sendMessage } from '#libs/webExtMessage'
 import useDownloadHistory, {
   type DownloadHistoryItem,
+  PortableHistoryFormatError,
 } from '#pages/hooks/useDownloadHistory'
 import { downloadHistoryRepo } from '#provider'
+import { isObjectUrl } from '#utils/url'
 import { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDownloadHistory'
 import {
   Box,
+  Button,
   HStack,
   Icon,
   IconButton,
@@ -21,6 +27,7 @@ import {
   Link,
   Select,
   Skeleton,
+  Stack,
   Table,
   TableContainer,
   Tbody,
@@ -40,6 +47,7 @@ import {
   BiLinkExternal,
   BiRefresh,
 } from 'react-icons/bi'
+import { FaFileExport, FaFileImport } from 'react-icons/fa'
 
 type ItemActionsProps = {
   tweetId: string
@@ -310,6 +318,34 @@ export const ActionBar = (props: HistoryTableActionBarProps) => (
   </HStack>
 )
 
+interface PortableHistoryActionBarProps {
+  export: () => Promise<void>
+  import: () => Promise<void>
+}
+
+export const PortableHistoryActionBar = (
+  props: PortableHistoryActionBarProps
+) => (
+  <HStack>
+    <Button
+      aria-label={i18n('Import', 'options:history')}
+      leftIcon={<Icon boxSize={5} as={FaFileExport} />}
+      onClick={props.import}
+      data-testid="history-action-import"
+    >
+      {i18n('Import', 'options:history')}
+    </Button>
+    <Button
+      aria-label={i18n('Export', 'options:history')}
+      leftIcon={<Icon boxSize={5} as={FaFileImport} />}
+      onClick={props.export}
+      data-testid="history-action-export"
+    >
+      {i18n('Export', 'options:history')}
+    </Button>
+  </HStack>
+)
+
 interface SearchFormProps {
   update: () => void
   ref: ForwardedRef<SearchFormComponent>
@@ -406,17 +442,23 @@ const mediaTypeSelectTokenToMediaType: Factory<
   }
 }
 
+const makePortableHistoryFilename = () => {
+  return `mediaharvest-history-${new Date().getTime()}.json`
+}
+
 type HistoryTableProps = {
   searchDownloadHistory: SearchDownloadHistory
   searchTweetIdsByHashtags: SearchTweetIdsByHashTags
   portableDownloadHistoryRepo: IPortableDownloadHistoryRepository
   downloadHistoryRepo: IDownloadHistoryRepository
+  browserDownload: DownloadFileUseCase
 }
 
 const HistoryTable = ({
   searchDownloadHistory,
   searchTweetIdsByHashtags,
   portableDownloadHistoryRepo,
+  browserDownload,
 }: HistoryTableProps) => {
   const downloadHistory = useDownloadHistory({
     initItemPerPage: 20,
@@ -429,6 +471,7 @@ const HistoryTable = ({
   })
   const searchFormRef = useRef<SearchFormComponent>(null)
   const tableRef = useRef<HTMLTableElement>(null)
+  const uploadFileRef = useRef<HTMLInputElement>(null)
 
   const scrollTableToTop = () =>
     tableRef.current &&
@@ -443,6 +486,59 @@ const HistoryTable = ({
   const refresh = () => {
     downloadHistory.handler.refresh({ cbs: [scrollTableToTop] })
     searchFormRef.current?.reset()
+  }
+
+  const resetUploadFile = () => {
+    if (uploadFileRef.current === null) return
+    uploadFileRef.current.value = ''
+  }
+
+  const importHistory = async () => {
+    if (uploadFileRef.current === null) return
+    const uploadedFiles = uploadFileRef.current.files
+    if (uploadedFiles === null) return
+
+    const file = uploadedFiles[0]
+    const confirmationMessage = i18n(
+      'Are you sure you want to import this history file?',
+      'options:history'
+    )
+    const isConfirmed = confirm(`${confirmationMessage}\n${file.name}`)
+    if (!isConfirmed) return
+
+    const content = await file.arrayBuffer()
+    const error = await downloadHistory.handler.import(content)
+    resetUploadFile()
+
+    if (error) {
+      if (error instanceof PortableHistoryFormatError) {
+        alert(i18n('Invalid format.', 'options:history'))
+        return
+      }
+      alert(i18n('Failed to import file.', 'options:history'))
+      return
+    }
+
+    alert(i18n('The history file is imported successfully.', 'options:history'))
+  }
+
+  const exportHistory: PortableHistoryActionBarProps['export'] = async () => {
+    const { value: fileUrl, error } = await downloadHistory.handler.export()
+    if (error) {
+      alert(i18n('Failed to export file.', 'options:history'))
+      return
+    }
+
+    await browserDownload.process({
+      target: new DownloadConfig({
+        conflictAction: ConflictAction.Prompt,
+        filename: makePortableHistoryFilename(),
+        saveAs: true,
+        url: fileUrl,
+      }),
+    })
+
+    if (isObjectUrl(fileUrl)) URL.revokeObjectURL(fileUrl)
   }
 
   const search = () => {
@@ -464,6 +560,15 @@ const HistoryTable = ({
 
   return (
     <>
+      <Stack hidden>
+        <Input
+          ref={uploadFileRef}
+          type="file"
+          accept="application/json"
+          multiple={false}
+          onChange={importHistory}
+        />
+      </Stack>
       <HStack>
         <SearchForm update={updateResult} ref={searchFormRef} />
         <HStack>
@@ -497,6 +602,13 @@ const HistoryTable = ({
           </Tbody>
         </Table>
       </TableContainer>
+      <PortableHistoryActionBar
+        export={exportHistory}
+        import={async () => {
+          if (uploadFileRef.current === null) return
+          uploadFileRef.current.click()
+        }}
+      />
     </>
   )
 }

@@ -3,6 +3,7 @@
  */
 import { MockDownloadHistoryRepository } from '#mocks/repositories/downloadHistory'
 import { MockPortableDownloadHistoryRepo } from '#mocks/repositories/portableDownloadHistory'
+import { MockDownloadFile } from '#mocks/useCases/downloadFile'
 import { MockSearchDownloadHistory } from '#mocks/useCases/searchDownloadHistory'
 import { MockSearchTweetIdsByHashTags } from '#mocks/useCases/searchTweetIdsByHashtags'
 import { generateDownloadHistory } from '#utils/test/downloadHistory'
@@ -11,6 +12,7 @@ import HistoryTable, {
   ItemActions,
   MediaTypeSelectToken,
   PageNavigator,
+  PortableHistoryActionBar,
   SearchForm,
   SearchFormComponent,
   lazyHandler,
@@ -110,6 +112,40 @@ describe('unit test for HistoryTable components', () => {
     })
   })
 
+  describe('unit test for PortableHistoryActionBar component', () => {
+    it('can trigger import', async () => {
+      const mockImport = jest.fn()
+      const mockExport = jest.fn()
+      const user = userEvent.setup()
+
+      const { container, unmount } = render(
+        <PortableHistoryActionBar export={mockExport} import={mockImport} />
+      )
+
+      await user.click(getByTestId(container, 'history-action-import'))
+
+      expect(mockImport).toHaveBeenCalledOnce()
+
+      unmount()
+    })
+
+    it('can trigger export', async () => {
+      const mockImport = jest.fn()
+      const mockExport = jest.fn()
+      const user = userEvent.setup()
+
+      const { container, unmount } = render(
+        <PortableHistoryActionBar export={mockExport} import={mockImport} />
+      )
+
+      await user.click(getByTestId(container, 'history-action-export'))
+
+      expect(mockExport).toHaveBeenCalledOnce()
+
+      unmount()
+    })
+  })
+
   describe('unit test for SearchForm component', () => {
     it("can react to user' behaviors", async () => {
       const mockUpdateResult = jest.fn()
@@ -158,6 +194,7 @@ describe('unit test for HistoryTable components', () => {
   })
 
   test('user behavior', async () => {
+    const mockDownloadFile = new MockDownloadFile()
     const mockDownloadHistoryRepo = new MockDownloadHistoryRepository()
     const mockSearchDownloadHistory = new MockSearchDownloadHistory()
     const mockSearchTweetIdsByHashTags = new MockSearchTweetIdsByHashTags()
@@ -181,6 +218,7 @@ describe('unit test for HistoryTable components', () => {
           searchTweetIdsByHashtags={mockSearchTweetIdsByHashTags}
           portableDownloadHistoryRepo={mockPortableDownloadHistoryRepo}
           downloadHistoryRepo={mockDownloadHistoryRepo}
+          browserDownload={mockDownloadFile}
         />
       )
     })
