@@ -325,12 +325,14 @@ const addHashtagTweetIdRelationship =
     } else {
       hashtagItem = {
         name: relationship.hashtag,
-        tweetIds: new Set(relationship.tweetId),
+        tweetIds: makeTweetIdsSet(relationship.tweetId),
       }
     }
 
     await collection.put(hashtagItem)
   }
+
+const makeTweetIdsSet = (...tweetIds: string[]) => new Set(tweetIds)
 
 // Mapper
 
