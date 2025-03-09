@@ -120,7 +120,7 @@ export class SearchDownloadHistoryUseCase
     if (result.error) return toErrorResponse(result.error)
 
     const getTotalPage = (matchedCount: number) =>
-      Math.ceil(matchedCount / itemPerPage)
+      Math.max(1, Math.ceil(matchedCount / itemPerPage))
     const getPrevPage = () => (currentPage > 1 ? currentPage - 1 : null)
     const getNextPage = (matchedCount: number) =>
       currentPage * itemPerPage >= matchedCount ? null : currentPage + 1
