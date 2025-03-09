@@ -15,6 +15,9 @@ describe('unit test for sync usage statistic with local download history', () =>
 
   afterAll(() => jest.resetAllMocks())
 
+  /**
+   *  FIXME: **NEED TRIAGE** This test result is not consistent.
+   */
   it('can sync with download history', async () => {
     const mockUsageRepo = new MockUsageStatisticsRepository()
     const mockDownloadRepo = new MockDownloadRepo()
@@ -24,9 +27,7 @@ describe('unit test for sync usage statistic with local download history', () =>
       .mockResolvedValue(
         new UsageStatistics({ downloadCount: 1, trafficUsage: 100 })
       )
-    const mockUsageSaving = jest
-      .spyOn(mockUsageRepo, 'save')
-      .mockImplementation(jest.fn())
+    const mockUsageSaving = jest.spyOn(mockUsageRepo, 'save')
     const mockDownloadSearching = jest
       .spyOn(mockDownloadRepo, 'search')
       .mockResolvedValue([
