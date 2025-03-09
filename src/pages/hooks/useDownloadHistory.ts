@@ -316,11 +316,11 @@ const portableHistoryItemSchema: Joi.ObjectPropertiesSchema<V5PortableDownloadHi
 const portableHistorySchema: Joi.ObjectSchema<V5JsonSchema> = Joi.object({
   version: Joi.string()
     .required()
-    .custom((value, helpers) => {
-      const isValid = semver.satisfies(value, '>=4')
-      if (!isValid)
-        return helpers.error('The history file version must satisfies `>=4`.')
-      return true
+    .custom((value, _helpers) => {
+      if (!semver.satisfies(value, '>=4'))
+        throw new Error('version must satisfies `>=4`')
+
+      return value
     }),
   items: Joi.array().items(portableHistoryItemSchema).required(),
 })
