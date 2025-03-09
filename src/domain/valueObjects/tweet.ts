@@ -14,6 +14,10 @@ export type TweetProps = {
 }
 
 export class Tweet extends ValueObject<TweetProps> {
+  get isPrivate(): boolean {
+    return this.user.isProtected
+  }
+
   get user(): TweetUser {
     return this.props.user
   }

@@ -6,4 +6,5 @@ export const generateTweetUser = () =>
     displayName: faker.internet.displayName(),
     screenName: faker.internet.username(),
     userId: faker.string.numeric(),
+    isProtected: faker.datatype.boolean(),
   })

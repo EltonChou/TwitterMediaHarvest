@@ -40,14 +40,15 @@ const tweetPartialPropsSchema = Joi.object<
   Omit<TweetProps, 'user' | 'videos' | 'images'>
 >({
   id: Joi.string().required(),
-  hashtags: Joi.array().items(Joi.string()),
-  createdAt: Joi.date().required(),
+  hashtags: Joi.array().items(Joi.string()).required(),
+  createdAt: Joi.date().required().required(),
 })
 
 const tweetUserPropsSchema = Joi.object<TweetUserProps, true>({
-  displayName: Joi.string(),
-  screenName: Joi.string(),
-  userId: Joi.string(),
+  displayName: Joi.string().required(),
+  screenName: Joi.string().required(),
+  userId: Joi.string().required(),
+  isProtected: Joi.boolean().default(false),
 })
 
 export abstract class FetchTweetBase implements FetchTweet {
@@ -124,6 +125,7 @@ export abstract class FetchTweetBase implements FetchTweet {
           E.chain(userResult =>
             pipe(
               tweetUserPropsSchema.validate({
+                isProtected: userResult?.legacy?.protected,
                 displayName: userResult?.legacy?.name,
                 screenName: userResult?.legacy?.screen_name,
                 userId: userResult?.rest_id,

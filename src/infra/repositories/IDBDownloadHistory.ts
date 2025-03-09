@@ -7,7 +7,7 @@ import type {
   DownloadHistoryStats,
   IDownloadHistoryRepository,
 } from '#domain/repositories/downloadHistory'
-import { TweetUser } from '#domain/valueObjects/tweetUser'
+import { DownloadHistoryTweetUser } from '#domain/valueObjects/downloadHistoryTweetUser'
 import type { AbortTx, CompleteTx } from '#libs/idb/base'
 import type { DownloadIDB } from '#libs/idb/download/db'
 import type { DownloadHistoryItem } from '#libs/idb/download/schema'
@@ -347,7 +347,7 @@ const dbItemToDownloadHistory: Factory<
     thumbnail: item.thumbnail,
     mediaType: item.mediaType,
     tweetTime: item.tweetTime,
-    tweetUser: new TweetUser({
+    tweetUser: new DownloadHistoryTweetUser({
       displayName: item.displayName,
       screenName: item.screenName,
       userId: item.userId,

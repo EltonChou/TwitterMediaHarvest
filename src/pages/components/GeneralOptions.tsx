@@ -194,6 +194,7 @@ const previewMediaFile = new TweetMediaFile({
     screenName: 'tweetUser',
     userId: '306048589',
     displayName: 'NickName',
+    isProtected: false,
   }),
   createdAt: new Date(2222, 1, 2, 12, 5, 38),
   serial: 2,

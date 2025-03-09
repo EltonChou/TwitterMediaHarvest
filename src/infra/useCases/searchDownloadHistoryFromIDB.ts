@@ -9,7 +9,7 @@ import type {
   QueryResult,
   SearchDownloadHistory,
 } from '#domain/useCases/searchDownloadHistory'
-import { TweetUser } from '#domain/valueObjects/tweetUser'
+import { DownloadHistoryTweetUser } from '#domain/valueObjects/downloadHistoryTweetUser'
 import type { AbortTx } from '#libs/idb/base'
 import type { DownloadIDB } from '#libs/idb/download/db'
 import type { DownloadHistoryItem } from '#libs/idb/download/schema'
@@ -129,7 +129,7 @@ const downloadHistoryItemToDownloadHistoryEntity: Factory<
     hashtags: Array.from(item?.hashtags ?? []),
     mediaType: item.mediaType,
     tweetTime: item.tweetTime,
-    tweetUser: new TweetUser({
+    tweetUser: new DownloadHistoryTweetUser({
       displayName: item.displayName,
       userId: item.userId,
       screenName: item.screenName,

@@ -3,9 +3,9 @@ import {
   DownloadHistoryId,
 } from '#domain/entities/downloadHistory'
 import type { Factory } from '#domain/factories/base'
+import { DownloadHistoryTweetUser } from '#domain/valueObjects/downloadHistoryTweetUser'
 import type { V5PortableHistory } from '#domain/valueObjects/portableDownloadHistory'
 import { V5PortableDownloadHistoryItem } from '#domain/valueObjects/portableDownloadHistoryItem'
-import { TweetUser } from '#domain/valueObjects/tweetUser'
 
 export const v5PortableDownloadHistoryToDownloadHistories: Factory<
   V5PortableHistory,
@@ -26,7 +26,7 @@ export const v5PortableDownloadHistoryItemToDownloadHistory: Factory<
         hashtags: props.hashtags,
         mediaType: props.mediaType,
         tweetTime: props.tweetTime,
-        tweetUser: new TweetUser({
+        tweetUser: new DownloadHistoryTweetUser({
           displayName: props.displayName,
           screenName: props.screenName,
           userId: props.userId,

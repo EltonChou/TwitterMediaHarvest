@@ -3,7 +3,7 @@ import type { Factory } from '#domain/factories/base'
 import type { SearchDownloadHistory } from '#domain/useCases/searchDownloadHistory'
 import type { Filter } from '#domain/useCases/searchDownloadHistory'
 import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
-import type { TweetUser } from '#domain/valueObjects/tweetUser'
+import type { DownloadHistoryTweetUser } from '#domain/valueObjects/downloadHistoryTweetUser'
 import type MediaType from '#enums/mediaType'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import type { AsyncUseCase } from '../domain/useCases/base'
@@ -152,7 +152,7 @@ const toErrorQueryResult = (error: Error): QueryResult => ({
 const calcSkip = (query: Query): number =>
   Math.max(0, query.page - 1) * query.itemPerPage
 
-const tweetUserToUser: Factory<TweetUser, User> = tweetUser =>
+const tweetUserToUser: Factory<DownloadHistoryTweetUser, User> = tweetUser =>
   tweetUser.mapBy(props => ({
     id: props.userId,
     screenName: props.screenName,
