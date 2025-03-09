@@ -10,7 +10,6 @@ import { WebExtUsageStatisticsRepository } from '#infra/repositories/usageStatis
 import { WarningSettingsRepo } from '#infra/repositories/warningSettings'
 import { XTokenRepo } from '#infra/repositories/xToken'
 import { downloadIDB } from '#libs/idb/download/db'
-import { blobToUrlWithFileReader } from '#utils/blob'
 import { awsClient } from './client'
 import { localWebExtStorage, syncWebExtStorage } from './proxy'
 
@@ -37,7 +36,6 @@ export const usageStatisticsRepo = new WebExtUsageStatisticsRepository(
 export const downloadHistoryRepo = new IDBDownloadHistoryRepository(downloadIDB)
 export const downloadRecordRepo = new IDBDownloadRecordRepository(downloadIDB)
 export const portableDownloadRepo = new IDBPortableDownloadHistoryRepository(
-  downloadIDB,
-  blobToUrlWithFileReader
+  downloadIDB
 )
 export const warningSettingsRepo = new WarningSettingsRepo(localWebExtStorage)

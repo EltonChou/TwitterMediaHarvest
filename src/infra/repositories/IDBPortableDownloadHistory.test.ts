@@ -6,10 +6,7 @@ import { faker } from '@faker-js/faker/locale/en'
 
 describe('unit test for indexedDB portable download history repository', () => {
   const mockBlobToUrl = jest.fn().mockResolvedValue('data-url')
-  const repo = new IDBPortableDownloadHistoryRepository(
-    downloadIDB,
-    mockBlobToUrl
-  )
+  const repo = new IDBPortableDownloadHistoryRepository(downloadIDB)
 
   beforeEach(async () => {
     const { tx, completeTx } = await downloadIDB.prepareTransaction(
@@ -31,7 +28,7 @@ describe('unit test for indexedDB portable download history repository', () => {
   })
 
   it('can export history and return url of exported file', async () => {
-    const { value: url, error } = await repo.export()
+    const { value: url, error } = await repo.export(mockBlobToUrl)
 
     expect(mockBlobToUrl).toHaveBeenCalled()
     expect(error).toBeUndefined()

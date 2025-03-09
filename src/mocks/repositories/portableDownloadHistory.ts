@@ -4,10 +4,14 @@ import type { IPortableDownloadHistoryRepository } from '#domain/repositories/po
 export class MockPortableDownloadHistoryRepo
   implements IPortableDownloadHistoryRepository
 {
-  import(_downloadHistories: DownloadHistory[]): Promise<UnsafeTask> {
+  export(): AsyncResult<Blob>
+  export<T>(convertBlob: (blob: Blob) => Promise<T>): AsyncResult<T>
+  export<T>(
+    _convertBlob?: (blob: Blob) => Promise<T>
+  ): AsyncResult<Blob, Error> | AsyncResult<T, Error> {
     throw new Error('Method not implemented.')
   }
-  export(): AsyncResult<string> {
+  import(_downloadHistories: DownloadHistory[]): Promise<UnsafeTask> {
     throw new Error('Method not implemented.')
   }
 }

@@ -7,6 +7,7 @@ import {
 import { V5PortableDownloadHistoryItemProps } from '#domain/valueObjects/portableDownloadHistoryItem'
 import MediaType from '#enums/mediaType'
 import { toErrorResult, toSuccessResult } from '#utils/result'
+import type { ObjectUrl } from '#utils/url'
 import type {
   DownloadHistoryInfo,
   DownloadHistoryQueryResponse,
@@ -41,7 +42,10 @@ type DownloadHistory = {
     import: (
       data: ArrayBuffer | string
     ) => Promise<UnsafeTask<PortableHistoryFormatError>>
-    export: () => Promise<Result<string>>
+    /**
+     * @returns Object url of history file
+     */
+    export: () => Promise<Result<ObjectUrl>>
     clear: () => Promise<UnsafeTask>
     deleteItemById: (id: string) => Promise<UnsafeTask>
   }
@@ -281,7 +285,9 @@ const useDownloadHistory = ({
         [portableDownloadHistoryRepo]
       ),
       export: useCallback(async () => {
-        const result = await portableDownloadHistoryRepo.export()
+        const result = await portableDownloadHistoryRepo.export(async blob =>
+          URL.createObjectURL(blob)
+        )
 
         if (result.error) {
           // eslint-disable-next-line no-console

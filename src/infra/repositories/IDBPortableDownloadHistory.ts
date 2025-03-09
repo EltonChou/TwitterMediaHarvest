@@ -12,12 +12,11 @@ import { toError } from 'fp-ts/lib/Either'
 export class IDBPortableDownloadHistoryRepository
   implements IPortableDownloadHistoryRepository
 {
-  constructor(
-    readonly downloadIDB: DownloadIDB,
-    readonly blobToUrl: (blob: Blob) => Promise<string>
-  ) {}
+  constructor(readonly downloadIDB: DownloadIDB) {}
 
-  async export(): AsyncResult<string> {
+  export(): AsyncResult<Blob>
+  export<T>(convertBlob: (blob: Blob) => Promise<T>): AsyncResult<T>
+  async export<T>(convertBlob?: (blob: Blob) => Promise<T>) {
     try {
       const { tx } = await this.downloadIDB.prepareTransaction(
         'history',
@@ -34,9 +33,7 @@ export class IDBPortableDownloadHistoryRepository
         type: 'application/json',
       })
 
-      const fileUrl = await this.blobToUrl(blob)
-
-      return toSuccessResult(fileUrl)
+      return toSuccessResult(convertBlob ? convertBlob(blob) : blob)
     } catch (error) {
       return toErrorResult(toError(error))
     }
