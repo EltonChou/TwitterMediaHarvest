@@ -42,6 +42,10 @@ export class BrowserDownloadMediaFile implements DownloadMediaFileUseCase {
     })
   }
 
+  /**
+   * @fires BrowserDownloadDispatched - When the download operation is dispatched successfully.
+   * @fires BrowserDownloadFailed - When the download operation is failed.
+   */
   async process(command: DownloadMediaFileCommand): Promise<void> {
     const config =
       command.target instanceof DownloadTarget
@@ -52,15 +56,7 @@ export class BrowserDownloadMediaFile implements DownloadMediaFileUseCase {
       downloadConfigToBrowserDownloadOptions(config)
     )
 
-    // If the download api was failed downloadId would be `undefined` and lastError would be set.
-    if (downloadId) {
-      const event = new BrowserDownloadDispatched({
-        id: downloadId,
-        config: config,
-        tweetInfo: this.targetTweet,
-      })
-      this.#events.push(event)
-    } else {
+    if (isDownloadFailed(downloadId)) {
       this.#events.push(
         new BrowserDownloadIsFailed({
           reason: (runtime.lastError as Error) ?? 'Failed to download',
@@ -69,9 +65,25 @@ export class BrowserDownloadMediaFile implements DownloadMediaFileUseCase {
         })
       )
       this.#ok = false
+      return
     }
+
+    this.#events.push(
+      new BrowserDownloadDispatched({
+        id: downloadId,
+        config: config,
+        tweetInfo: this.targetTweet,
+      })
+    )
   }
 }
+
+/**
+ * If the download api was failed downloadId would be `undefined` and lastError would be set.
+ */
+const isDownloadFailed = (
+  downloadId: number | undefined
+): downloadId is undefined => downloadId === undefined
 
 const downloadConfigToBrowserDownloadOptions = (
   config: DownloadConfig
