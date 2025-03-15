@@ -1,135 +1,31 @@
-import { getHashStore } from './hashStore.js'
+import type { LoaderOptions } from './options.js'
+import { getOptions } from './options.js'
+import { transformer } from './transformer.js'
 import path from 'path'
 import ts from 'typescript'
 import type { LoaderDefinitionFunction } from 'webpack'
 
-function replaceContextId<T extends ts.Expression>(
-  expression: T,
-  transformerCtx: ts.TransformationContext
-) {
-  return ts.isStringLiteral(expression)
-    ? transformerCtx.factory.createStringLiteral(
-        getHashStore().saveContext(expression.text)
-      )
-    : expression
-}
-
-function replaceMsgId<T extends ts.Expression>(
-  expression: T,
-  transformerCtx: ts.TransformationContext
-) {
-  return ts.isStringLiteral(expression)
-    ? transformerCtx.factory.createStringLiteral(
-        getHashStore().saveMsgId(expression.text)
-      )
-    : expression
-}
-
-function replaceI18nArguments(
-  expr: ts.CallExpression,
-  ctx: ts.TransformationContext
-) {
-  const [msgIdArg, contextArg, placeholders] = expr.arguments
-
-  if (
-    msgIdArg !== undefined &&
-    contextArg !== undefined &&
-    placeholders !== undefined
-  ) {
-    return ts.factory.createCallExpression(
-      ts.factory.createIdentifier(expr.expression.getText()),
-      undefined,
-      [
-        replaceMsgId(msgIdArg, ctx),
-        replaceContextId(contextArg, ctx),
-        placeholders,
-      ]
-    )
-  }
-
-  if (msgIdArg !== undefined && contextArg !== undefined) {
-    return ts.factory.createCallExpression(
-      ts.factory.createIdentifier(expr.expression.getText()),
-      undefined,
-      [replaceMsgId(msgIdArg, ctx), replaceContextId(contextArg, ctx)]
-    )
-  }
-
-  if (msgIdArg !== undefined) {
-    return ts.factory.createCallExpression(
-      ts.factory.createIdentifier(expr.expression.getText()),
-      undefined,
-      [replaceMsgId(msgIdArg, ctx)]
-    )
-  }
-
-  return expr
-}
-
-export function isI18nCallExpression(
-  expression: LoaderOptions['expressions']
-): (node: ts.CallExpression) => boolean {
-  return Array.isArray(expression)
-    ? node =>
-        expression.some(expr => node.expression.getText().match(expr) !== null)
-    : node => node.expression.getText().match(expression) !== null
-}
-
-const transformer =
-  (options: LoaderOptions): ts.TransformerFactory<ts.SourceFile> =>
-  ctx =>
-  node => {
-    const visitChild: ts.Visitor<ts.Node, ts.Node> = node => {
-      if (
-        ts.isCallExpression(node) &&
-        isI18nCallExpression(options.expressions)(node)
-      ) {
-        const newExpr = replaceI18nArguments(node, ctx)
-        if (newExpr) return newExpr
-      }
-      return ts.visitEachChild(node, visitChild, ctx)
-    }
-
-    const visitNode: ts.Visitor<ts.Node, ts.Node> = node =>
-      ts.visitEachChild(node, visitChild, ctx)
-
-    return ts.visitNode(node, visitNode, ts.isSourceFile)
-  }
-
-export type LoaderOptions = {
-  expressions: string | RegExp | (RegExp | string)[]
-}
-
+/**
+ * TODO: Try to make this loader can be placed in front or behind `ts-loader`.
+ * If the loader is placed in front, it should transforme code only.
+ * If the loader is placed behind, it should transform code and update sourcemap.
+ **/
 const loader: LoaderDefinitionFunction<LoaderOptions> = function loader(
-  content,
-  sourceMap?,
-  meta?
+  content
 ) {
   const callback = this.async()
+  const logger = this.getLogger('i18n-loader')
+  const options = getOptions(this)
+
   const tsConfig = ts.readConfigFile(
     path.resolve(process.cwd(), 'tsconfig.json'),
     ts.sys.readFile
   )
-  const logger = this.getLogger('i18n-loader')
 
   if (tsConfig.error) {
     logger.error(tsConfig.error)
     return callback(new Error('Failed to load typescript configuration file.'))
   }
-
-  const options = this.getOptions({
-    type: 'object',
-    properties: {
-      expressions: {
-        anyOf: [
-          { type: 'array' },
-          { type: 'string' },
-          { instanceof: 'RegExp' },
-        ],
-      },
-    },
-    additionalProperties: false,
-  })
 
   const srcFile = ts.createSourceFile(
     'temp',
@@ -137,14 +33,13 @@ const loader: LoaderDefinitionFunction<LoaderOptions> = function loader(
     tsConfig.config.compilerOptions.target,
     true
   )
-  const result = ts.transform([srcFile], [transformer(options)])
+  const result = ts.transform([srcFile], [transformer({ config: options })])
   const transformedContent = result.transformed.at(0)
   const outputContent = transformedContent
     ? ts.createPrinter().printFile(transformedContent)
     : content
 
-  // It should be okay if we directly pass the sourcemap, since we only modify the `StringLiteral` expression.
-  return callback(null, outputContent, sourceMap, meta)
+  return callback(null, outputContent)
 }
 
 export default loader

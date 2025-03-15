@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformer: transformed 1`] = `
+"function i18n(msg: string, context?: string, placeholders?: Record<string, string>) {
+    return msg + context || '' + JSON.stringify(placeholders);
+}
+function nope(msg: string) {
+    return msg;
+}
+function getText(msg: string) {
+    return msg;
+}
+const enum Context {
+    TEST = 'test'
+}
+i18n("6a30f630de");
+i18n("6a30f630de", Context.TEST);
+i18n("6a30f630de", "9f86d08", { foo: 'bar' });
+nope('kappa');
+getText('keepo');
+"
+`;

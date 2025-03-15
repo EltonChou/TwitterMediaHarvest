@@ -1,4 +1,4 @@
-import type { LoaderOptions } from '../src/loader.js'
+import type { LoaderOptions } from '../src/options.js'
 import { Volume, createFsFromVolume } from 'memfs'
 import path from 'path'
 import webpack from 'webpack'
@@ -16,11 +16,11 @@ const compiler = (fixture: string, options: LoaderOptions) => {
         {
           test: /\.ts$/,
           use: [
-            { loader: 'ts-loader' },
             {
               loader: path.resolve(process.cwd(), 'dist', 'index.js'),
               options,
             },
+            { loader: 'ts-loader' },
           ],
         },
       ],
@@ -44,7 +44,7 @@ const compiler = (fixture: string, options: LoaderOptions) => {
 
 test('test', async () => {
   const stats = await compiler(
-    path.resolve(path.dirname(__filename), 'fixtures', 'i18n.ts'),
+    path.resolve(path.dirname(__filename), '..', 'fixtures', 'i18n.ts'),
     {
       expressions: ['i18n', /getText/],
     }

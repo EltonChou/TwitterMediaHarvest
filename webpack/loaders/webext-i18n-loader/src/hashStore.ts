@@ -40,7 +40,13 @@ export class HashStore {
     return crypto.hash(this.options.alg, msgId, 'hex').slice(0, 10)
   }
 
+  /**
+   * @returns digested hash
+   */
   saveContext(context: string) {
+    const digestedHash = this.contextHash.get(context)
+    if (digestedHash) return digestedHash
+
     const hash = this.digsetContext(context)
     this.contextHash.set(context, hash)
     return hash
@@ -50,7 +56,13 @@ export class HashStore {
     return this.contextHash.get(context)
   }
 
+  /**
+   * @returns digested hash
+   */
   saveMsgId(msgId: string) {
+    const digestedHash = this.msgIdHash.get(msgId)
+    if (digestedHash) return digestedHash
+
     const hash = this.digsetMsgId(msgId)
     this.msgIdHash.set(msgId, hash)
     return hash
