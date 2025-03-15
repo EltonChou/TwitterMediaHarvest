@@ -1,4 +1,5 @@
 import PACKAGE from './package.json' with { type: 'json' }
+import { transformer as i18nTransformer } from '@media-harvest/webext-i18n-loader'
 import Dotenv from 'dotenv-webpack'
 import { createRequire } from 'node:module'
 import process from 'node:process'
@@ -43,12 +44,19 @@ const config = {
             loader: 'babel-loader',
           },
           {
-            loader: '@media-harvest/webext-i18n-loader',
+            loader: 'ts-loader',
             options: {
-              expressions: ['i18n', 'getText', '_'],
+              getCustomTransformers: () => ({
+                before: [
+                  i18nTransformer({
+                    config: {
+                      expressions: ['i18n', 'getText', '_'],
+                    },
+                  }),
+                ],
+              }),
             },
           },
-          { loader: 'ts-loader' },
         ],
       },
     ],
