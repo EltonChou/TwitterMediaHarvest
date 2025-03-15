@@ -175,22 +175,20 @@ export abstract class FetchTweetBase implements FetchTweet {
     }
   }
 
-  async process(command: FetchTweetCommand): Promise<TweetResult> {
-    const callTweetApi = TE.tryCatch(
-      () =>
-        fetch(this.makeEndpoint(command.tweetId), {
-          method: 'GET',
-          headers: this.makeHeaders({
-            bearerToken: this.bearerToken,
-            csrfToken: command.csrfToken,
-          }),
-          mode: 'cors',
-          referrer: `https://x.com/i/web/status/${command.tweetId}`,
-        }),
-      E.toError
-    )
+  private makeRequest(command: FetchTweetCommand) {
+    return new Request(this.makeEndpoint(command.tweetId), {
+      method: 'GET',
+      headers: this.makeHeaders({
+        bearerToken: this.bearerToken,
+        csrfToken: command.csrfToken,
+      }),
+      mode: 'cors',
+      referrer: `https://x.com/i/web/status/${command.tweetId}`,
+    })
+  }
 
-    const parseResponse = (resp: Response) =>
+  private parseResponseForTweetId(tweetId: string) {
+    return (resp: Response): TE.TaskEither<Error, TweetResult> =>
       pipe(
         TE.Do,
         TE.bind('quota', () =>
@@ -207,34 +205,54 @@ export abstract class FetchTweetBase implements FetchTweet {
         TE.bind('tweet', ({ body }) =>
           pipe(
             this.parseBodyWithOptions,
-            apply({ targetTweetId: command.tweetId }),
+            apply({ targetTweetId: tweetId }),
             apply(body),
             result =>
               result.error ? TE.left(result.error) : TE.right(result.value)
           )
         ),
-        TE.map(
-          ({ tweet, quota }) =>
-            ({
-              error: undefined,
-              value: tweet,
-              remainingQuota: quota,
-            }) satisfies TweetResult
-        )
+        TE.map(({ tweet, quota }) => ({
+          error: undefined,
+          value: tweet,
+          remainingQuota: quota,
+        }))
       )
+  }
 
-    const fetchTweet = pipe(
+  private async getCache() {
+    return caches.open('fetch-tweet')
+  }
+
+  async process(command: FetchTweetCommand): Promise<TweetResult> {
+    const parseResponse = this.parseResponseForTweetId(command.tweetId)
+    const req = this.makeRequest(command)
+    const cache = await this.getCache()
+    const cachedResponse = await cache.match(req.url)
+
+    if (cachedResponse) {
+      // eslint-disable-next-line no-console
+      console.info(`tweet cache hit\n${req.url}`)
+      return pipe(
+        parseResponse(cachedResponse),
+        TE.match(flow(E.toError, errorToErrorTweetResult), r => r)
+      )()
+    }
+
+    const callTweetApi = TE.tryCatch(() => fetch(req), E.toError)
+
+    return pipe(
       callTweetApi,
       TE.chain(resp =>
         resp.status === 200
           ? TE.right(resp)
           : TE.left(new FetchTweetError(resp.status))
       ),
+      TE.tap(resp =>
+        TE.tryCatch(() => cache.put(req, resp.clone()), E.toError)
+      ),
       TE.flatMap(flow(parseResponse)),
       TE.match(flow(E.toError, errorToErrorTweetResult), r => r)
-    )
-
-    return fetchTweet()
+    )()
   }
 }
 
