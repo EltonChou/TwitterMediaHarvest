@@ -53,6 +53,24 @@ describe('unit test for filename settings', () => {
         minute
       )}${padTwo(second)}${ext}`,
     },
+    {
+      settings: {
+        ...baseSettings,
+        directory: '',
+      },
+      expectedPath: `${screenName}/${screenName}-${tweetId}-${String(
+        serial
+      ).padStart(2, '0')}${ext}`,
+    },
+    {
+      settings: {
+        ...baseSettings,
+        filenamePattern: [PatternToken.Account, PatternToken.TweetId],
+      },
+      expectedPath: `${
+        baseSettings.directory
+      }/${screenName}/${screenName}-${tweetId}${ext}`,
+    },
   ])('can make filename', ({ settings, expectedPath }) => {
     const filenameSetting = new FilenameSetting(settings)
     const fullPath = filenameSetting.makeFilename(mediaFile)
@@ -160,6 +178,17 @@ describe('unit test for filename settings', () => {
 
     expect(filename).toBe(
       `${screenName}-${tweetId}-${String(serial).padStart(2, '0')}${ext}`
+    )
+  })
+
+  it('should handle empty filename pattern', () => {
+    const filenameSetting = new FilenameSetting({
+      ...baseSettings,
+      filenamePattern: [],
+    })
+
+    expect(() => filenameSetting.makeFilename(mediaFile)).toThrow(
+      "Filename pattern can't be empty."
     )
   })
 })

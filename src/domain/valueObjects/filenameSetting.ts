@@ -88,6 +88,9 @@ export class FilenameSetting extends ValueObject<FilenameSettingProps> {
     )
     const currentDate = new Date()
 
+    if (this.props.filenamePattern.length === 0)
+      throw new Error("Filename pattern can't be empty.")
+
     const filename = this.props.filenamePattern
       .join('-')
       .replace(PatternToken.Account, screenName)
