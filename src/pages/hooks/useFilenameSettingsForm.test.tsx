@@ -66,6 +66,7 @@ describe('unit test for useFilenameSettingForm hook', () => {
         <form data-testid="form" onSubmit={result.current.handler.submit}>
           <input
             data-testid="directory-input"
+            placeholder="Enter directory"
             onChange={e => result.current.handler.setDirectory(e.target.value)}
           />
         </form>
@@ -183,10 +184,15 @@ describe('unit test for useFilenameSettingForm hook', () => {
       const { handler } = result.current
 
       render(
-        <input
-          data-testid="directory-input"
-          onChange={e => handler.setDirectory(e.target.value)}
-        />
+        <>
+          <label htmlFor="directory-input">Directory</label>
+          <input
+            id="directory-input"
+            data-testid="directory-input"
+            placeholder="Enter directory"
+            onChange={e => handler.setDirectory(e.target.value)}
+          />
+        </>
       )
       act(() => {
         fireEvent.change(screen.getByTestId('directory-input'), {
