@@ -8,6 +8,9 @@ export type TweetUserProps = {
 }
 
 export class TweetUser extends ValueObject<TweetUserProps> {
+  /**
+   * Indicate the user's timeline is private or not.
+   */
   get isProtected() {
     return this.props.isProtected
   }

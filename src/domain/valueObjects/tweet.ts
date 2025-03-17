@@ -14,6 +14,9 @@ export type TweetProps = {
 }
 
 export class Tweet extends ValueObject<TweetProps> {
+  /**
+   * Indicate the tweet is private or not.
+   */
   get isPrivate(): boolean {
     return this.user.isProtected
   }
