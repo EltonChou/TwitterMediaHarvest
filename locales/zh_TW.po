@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-03-08 23:51+0800\n"
+"POT-Creation-Date: 2025-03-20 02:39+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -17,7 +17,7 @@ msgstr "一鍵從 twitter 或 TweetDeck 下載影片和圖片。"
 
 msgctxt "app"
 msgid "appName"
-msgstr "Media Harvest : twitter 多媒體下載器"
+msgstr "Media Harvest : X (twitter) 多媒體下載器"
 
 #: src/helpers/notificationConfig.ts:104
 msgctxt "notification:download"
@@ -193,34 +193,34 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "或"
 
-#: src/pages/components/GeneralOptions.tsx:221
+#: src/pages/components/GeneralOptions.tsx:222
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "詢問檔案存放位置。"
 
-#: src/pages/components/GeneralOptions.tsx:269
+#: src/pages/components/GeneralOptions.tsx:270
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "新增子資料夾"
 
-#: src/pages/components/GeneralOptions.tsx:271
+#: src/pages/components/GeneralOptions.tsx:272
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory can "
 "be seperated with \"/\"."
 msgstr "在預設下載資料夾中新增一個子資料夾。使用 ”/” 區分多個子資料夾。"
 
-#: src/pages/components/GeneralOptions.tsx:238
+#: src/pages/components/GeneralOptions.tsx:239
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "檔案名稱樣式"
 
-#: src/pages/components/GeneralOptions.tsx:307
+#: src/pages/components/GeneralOptions.tsx:308
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "群組檔案"
 
-#: src/pages/components/GeneralOptions.tsx:308
+#: src/pages/components/GeneralOptions.tsx:309
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "使用選擇的屬性群組檔案。"
@@ -236,29 +236,29 @@ msgid ""
 "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "無效的樣式。 必須包含 `推特 ID` + `序列號` 或 `雜湊值`。"
 
-#: src/pages/components/GeneralOptions.tsx:222
+#: src/pages/components/GeneralOptions.tsx:223
 msgctxt "options:general"
 msgid ""
 "Show the file chooser or not when download was triggered. Recommend to "
 "disable this option."
 msgstr "每次下載都詢問檔案存放位置。 推薦關閉此設定。"
 
-#: src/pages/components/GeneralOptions.tsx:239
+#: src/pages/components/GeneralOptions.tsx:240
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "選擇需要哪些資訊包含在檔案名稱。"
 
-#: src/pages/components/GeneralOptions.tsx:390
+#: src/pages/components/GeneralOptions.tsx:391
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "重置"
 
-#: src/pages/components/GeneralOptions.tsx:398
+#: src/pages/components/GeneralOptions.tsx:399
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "保存"
 
-#: src/pages/components/GeneralOptions.tsx:316
+#: src/pages/components/GeneralOptions.tsx:317
 #: src/pages/components/GeneralOptions.tsx:50
 msgctxt "options:general:filenameToken"
 msgid "Account"

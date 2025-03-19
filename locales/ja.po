@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-03-08 23:51+0800\n"
+"POT-Creation-Date: 2025-03-20 02:39+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 
 msgctxt "app"
 msgid "appName"
-msgstr "Media Harvest : ツイッターメディアダウンローダー"
+msgstr "Media Harvest : X (ツイッター) メディアダウンローダー"
 
 #: src/helpers/notificationConfig.ts:104
 msgctxt "notification:download"
@@ -201,34 +201,34 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "それとも"
 
-#: src/pages/components/GeneralOptions.tsx:221
+#: src/pages/components/GeneralOptions.tsx:222
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "ファイルごとに保存先を指定します。"
 
-#: src/pages/components/GeneralOptions.tsx:269
+#: src/pages/components/GeneralOptions.tsx:270
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "サブディレクトリの作成"
 
-#: src/pages/components/GeneralOptions.tsx:271
+#: src/pages/components/GeneralOptions.tsx:272
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory can "
 "be seperated with \"/\"."
 msgstr "ディフォルトディレクトリの下にサブディレクトリを作成します。"
 
-#: src/pages/components/GeneralOptions.tsx:238
+#: src/pages/components/GeneralOptions.tsx:239
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "ファイルネームパターン"
 
-#: src/pages/components/GeneralOptions.tsx:307
+#: src/pages/components/GeneralOptions.tsx:308
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "ファイルをグループ化"
 
-#: src/pages/components/GeneralOptions.tsx:308
+#: src/pages/components/GeneralOptions.tsx:309
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "選択した属性でファイルをグループ化します。"
@@ -246,7 +246,7 @@ msgstr ""
 "無効なパータン。 `ツイート ID` + `シリアル番号` や `ハッシュ` を含めてくださ"
 "い."
 
-#: src/pages/components/GeneralOptions.tsx:222
+#: src/pages/components/GeneralOptions.tsx:223
 msgctxt "options:general"
 msgid ""
 "Show the file chooser or not when download was triggered. Recommend to "
@@ -255,22 +255,22 @@ msgstr ""
 "ファイルごとに保存先を指定します。\n"
 "推奨：オフ"
 
-#: src/pages/components/GeneralOptions.tsx:239
+#: src/pages/components/GeneralOptions.tsx:240
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "ツイートの情報をファイルネームに含めます。"
 
-#: src/pages/components/GeneralOptions.tsx:390
+#: src/pages/components/GeneralOptions.tsx:391
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "リセット"
 
-#: src/pages/components/GeneralOptions.tsx:398
+#: src/pages/components/GeneralOptions.tsx:399
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "保存"
 
-#: src/pages/components/GeneralOptions.tsx:316
+#: src/pages/components/GeneralOptions.tsx:317
 #: src/pages/components/GeneralOptions.tsx:50
 msgctxt "options:general:filenameToken"
 msgid "Account"

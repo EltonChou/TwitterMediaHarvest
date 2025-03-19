@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-03-08 23:51+0800\n"
+"POT-Creation-Date: 2025-03-20 02:39+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -182,32 +182,32 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:221
+#: src/pages/components/GeneralOptions.tsx:222
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:269
+#: src/pages/components/GeneralOptions.tsx:270
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:271
+#: src/pages/components/GeneralOptions.tsx:272
 msgctxt "options:general"
 msgid "Create sub-directory under the default download directory. Sub-directory can be seperated with \"/\"."
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:238
+#: src/pages/components/GeneralOptions.tsx:239
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:307
+#: src/pages/components/GeneralOptions.tsx:308
 msgctxt "options:general"
 msgid "Group Files"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:308
+#: src/pages/components/GeneralOptions.tsx:309
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr ""
@@ -222,27 +222,27 @@ msgctxt "options:general"
 msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:222
+#: src/pages/components/GeneralOptions.tsx:223
 msgctxt "options:general"
 msgid "Show the file chooser or not when download was triggered. Recommend to disable this option."
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:239
+#: src/pages/components/GeneralOptions.tsx:240
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:390
+#: src/pages/components/GeneralOptions.tsx:391
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:398
+#: src/pages/components/GeneralOptions.tsx:399
 msgctxt "options:general:button"
 msgid "Save"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:316
+#: src/pages/components/GeneralOptions.tsx:317
 #: src/pages/components/GeneralOptions.tsx:50
 msgctxt "options:general:filenameToken"
 msgid "Account"
