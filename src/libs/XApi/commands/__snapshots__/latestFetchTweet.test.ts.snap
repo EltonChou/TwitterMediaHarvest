@@ -1,0 +1,163 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`unit test for latest fetch tweet command should handle FetchTweetError 1`] = `
+{
+  "$metadata": {
+    "httpStatusCode": 404,
+    "quotaResetTime": 1970-08-07T14:54:48.000Z,
+    "remainingQuota": 100,
+  },
+  "tweetResult": {
+    "error": [FetchTweetError: Failed to fetch tweet],
+    "value": undefined,
+  },
+}
+`;
+
+exports[`unit test for latest fetch tweet command should handle a parse error 1`] = `
+{
+  "$metadata": {
+    "httpStatusCode": 200,
+    "quotaResetTime": 1970-08-07T14:54:48.000Z,
+    "remainingQuota": 100,
+  },
+  "tweetResult": {
+    "error": [ParseTweetError: invalid json],
+    "value": undefined,
+  },
+}
+`;
+
+exports[`unit test for latest fetch tweet command should handle a parse error when body is not json 1`] = `
+{
+  "$metadata": {
+    "httpStatusCode": 200,
+    "quotaResetTime": 1970-08-07T14:54:48.000Z,
+    "remainingQuota": 100,
+  },
+  "tweetResult": {
+    "error": [ParseTweetError: Failed to parse body],
+    "value": undefined,
+  },
+}
+`;
+
+exports[`unit test for latest fetch tweet command should return a successful result when the image response is ok 1`] = `
+{
+  "$metadata": {
+    "httpStatusCode": 200,
+    "quotaResetTime": 1970-08-07T14:54:48.000Z,
+    "remainingQuota": 100,
+  },
+  "tweetResult": {
+    "error": undefined,
+    "value": {
+      "createdAt": 2025-03-15T23:48:27.000Z,
+      "hashtags": [],
+      "id": "1901057939403608167",
+      "images": [
+        {
+          "index": 0,
+          "type": "photo",
+          "url": "https://pbs.twimg.com/media/GmHqHpmWsAAuk_y.jpg",
+        },
+      ],
+      "user": {
+        "displayName": "Elon Musk",
+        "isProtected": false,
+        "screenName": "elonmusk",
+        "userId": "44196397",
+      },
+      "videos": [],
+    },
+  },
+}
+`;
+
+exports[`unit test for latest fetch tweet command should return a successful result when the tagged-video response is ok 1`] = `
+{
+  "$metadata": {
+    "httpStatusCode": 200,
+    "quotaResetTime": 1970-08-07T14:54:48.000Z,
+    "remainingQuota": 100,
+  },
+  "tweetResult": {
+    "error": undefined,
+    "value": {
+      "createdAt": 2024-08-31T10:56:18.000Z,
+      "hashtags": [
+        "今月描いた絵を晒そう",
+      ],
+      "id": "1829835601941823508",
+      "images": [
+        {
+          "index": 0,
+          "type": "thumbnail",
+          "url": "https://pbs.twimg.com/tweet_video_thumb/GWThuAObQAEwO3_.jpg",
+        },
+        {
+          "index": 1,
+          "type": "thumbnail",
+          "url": "https://pbs.twimg.com/tweet_video_thumb/GWThvdZbQAI2bgw.jpg",
+        },
+      ],
+      "user": {
+        "displayName": "birdman🦊",
+        "isProtected": false,
+        "screenName": "birdman46049238",
+        "userId": "1287977244023914496",
+      },
+      "videos": [
+        {
+          "index": 0,
+          "type": "video",
+          "url": "https://video.twimg.com/tweet_video/GWThuAObQAEwO3_.mp4",
+        },
+        {
+          "index": 1,
+          "type": "video",
+          "url": "https://video.twimg.com/tweet_video/GWThvdZbQAI2bgw.mp4",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`unit test for latest fetch tweet command should return a successful result when the video response is ok 1`] = `
+{
+  "$metadata": {
+    "httpStatusCode": 200,
+    "quotaResetTime": 1970-08-07T14:54:48.000Z,
+    "remainingQuota": 100,
+  },
+  "tweetResult": {
+    "error": undefined,
+    "value": {
+      "createdAt": 2025-03-15T12:05:37.000Z,
+      "hashtags": [],
+      "id": "1900881067713982967",
+      "images": [
+        {
+          "index": 0,
+          "type": "thumbnail",
+          "url": "https://pbs.twimg.com/tweet_video_thumb/GmFIv_7bcAM-RZa.jpg",
+        },
+      ],
+      "user": {
+        "displayName": "birdman🦊",
+        "isProtected": false,
+        "screenName": "birdman46049238",
+        "userId": "1287977244023914496",
+      },
+      "videos": [
+        {
+          "index": 0,
+          "type": "video",
+          "url": "https://video.twimg.com/tweet_video/GmFIv_7bcAM-RZa.mp4",
+        },
+      ],
+    },
+  },
+}
+`;
