@@ -1,6 +1,5 @@
 import type { DownloadHistory } from '#domain/entities/downloadHistory'
 import type { DomainEventPublisher } from '#domain/eventPublisher'
-import InternalErrorHappened from '#domain/events/InternalErrorHappened'
 import TweetApiFailed from '#domain/events/TweetApiFailed'
 import TweetParsingFailed from '#domain/events/TweetParsingFailed'
 import { tweetToDownloadHistory } from '#domain/factories/tweetToDownloadHistory'
@@ -10,21 +9,28 @@ import type {
   ISettingsRepository,
   ISettingsVORepository,
 } from '#domain/repositories/settings'
-import type { ITwitterTokenRepository } from '#domain/repositories/twitterToken'
 import type { AsyncUseCase } from '#domain/useCases/base'
 import type {
   DownloadMediaFileCommand,
   DownloadMediaFileUseCaseBuilder,
 } from '#domain/useCases/downloadMediaFile'
-import type { FetchTweet, FetchTweetCommand } from '#domain/useCases/fetchTweet'
-import { FetchTweetError, ParseTweetError } from '#domain/useCases/fetchTweet'
+import type {
+  FetchTweetSolution,
+  SolutionReport,
+} from '#domain/useCases/fetchTweetSolution'
+import {
+  FetchTweetSolutionError,
+  InsufficientQuota,
+  NoValidSolutionToken,
+  TweetIsNotFound,
+  TweetProcessingError,
+} from '#domain/useCases/fetchTweetSolution'
 import { DownloadTarget } from '#domain/valueObjects/downloadTarget'
 import type { FilenameSetting } from '#domain/valueObjects/filenameSetting'
-import type { Tweet } from '#domain/valueObjects/tweet'
+import { Tweet } from '#domain/valueObjects/tweet'
 import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import type { TweetMediaFile } from '#domain/valueObjects/tweetMediaFile'
 import type { DownloadSettings, FeatureSettings } from '#schema'
-import { toErrorResult, toSuccessResult } from '#utils/result'
 
 type DownloadTweetMediaCommand = {
   tweetInfo: TweetInfo
@@ -35,73 +41,86 @@ export type DownloaderBuilderMap = {
   aria2: DownloadMediaFileUseCaseBuilder
 }
 
-export type FetchTweetMap = {
-  latest: FetchTweet
-  fallback: FetchTweet
-  guest: FetchTweet
-}
-
-type FetchTweetSolution = { fetchTweet: FetchTweet; command: FetchTweetCommand }
-
 export type InfraProvider = {
-  tokenRepo: ITwitterTokenRepository
   downloadHistoryRepo: IDownloadHistoryRepository
   filenameSettingRepo: ISettingsVORepository<FilenameSetting>
   downloadSettingsRepo: ISettingsRepository<DownloadSettings>
   featureSettingsRepo: ISettingsRepository<FeatureSettings>
-  fetchTweet: FetchTweetMap
   downloaderBuilder: DownloaderBuilderMap
   eventPublisher: DomainEventPublisher
-}
-
-export type DonwloadTweetMediaOptions = {
-  remainingQuotaThreshold: number
+  solutionProvider: () => FetchTweetSolution
 }
 
 export class DownloadTweetMedia
   implements AsyncUseCase<DownloadTweetMediaCommand, boolean>
 {
-  constructor(
-    readonly infra: InfraProvider,
-    readonly options: DonwloadTweetMediaOptions
-  ) {}
+  constructor(readonly infra: InfraProvider) {}
 
   async process(command: DownloadTweetMediaCommand): Promise<boolean> {
-    const { value: fetchTweetSolutions, error: noValidCsrfToken } =
-      await this.buildFetchTweetSolutions(command.tweetInfo.tweetId)
+    const tweetInfo = command.tweetInfo
+    const solution = this.infra.solutionProvider()
+    const { tweetResult, statistics } = await solution.process({
+      tweetId: tweetInfo.tweetId,
+    })
 
-    if (noValidCsrfToken) {
-      const event = new TweetApiFailed(command.tweetInfo, 401)
-      this.infra.eventPublisher.publish(event)
-      return false
-    }
+    await this.infra.eventPublisher.publishAll(...solution.events)
+    await this.reportSolutionStatistics(statistics)
 
-    const { value: tweet, error: fetchTweetError } =
-      await this.fetchTweetWithSolutions(fetchTweetSolutions)
+    if (tweetResult.error)
+      return this.failDownload(tweetResult.error, tweetInfo)
 
-    if (fetchTweetError) {
-      this.handleFetchTweetError(command.tweetInfo)(fetchTweetError)
-      return false
-    }
+    await this.saveDownloadHistory(tweetToDownloadHistory(tweetResult.value))
 
-    await this.saveDownloadHistory(tweetToDownloadHistory(tweet))
+    return this.processDownload(command.tweetInfo, tweetResult.value)
+  }
 
+  private async processDownload(tweetInfo: TweetInfo, tweet: Tweet) {
+    const downloader = await this.buildDownloader(tweetInfo)
+    const downloadCommands = await this.createDownloadCommands(tweet)
+
+    await Promise.allSettled(
+      downloadCommands.map(command => downloader.process(command))
+    )
+
+    await this.infra.eventPublisher.publishAll(...downloader.events)
+    return downloader.isOk
+  }
+
+  private async createDownloadCommands(tweet: Tweet) {
     const filenameSetting = await this.infra.filenameSettingRepo.get()
     const { includeVideoThumbnail } = await this.infra.featureSettingsRepo.get()
-    const downloader = await this.buildDownloader(command.tweetInfo)
 
-    const downloadCommands = tweetToTweetMediaFiles(tweet)
+    return tweetToTweetMediaFiles(tweet)
       .filter(mediaFile => includeVideoThumbnail || !mediaFile.isThumbnail)
       .map(tweetMediaFileToDownloadTargetWithFilenameSettting(filenameSetting))
       .map(downloadTargetToDownloadCommand)
+  }
 
-    for (const command of downloadCommands) {
-      await downloader.process(command)
+  private async failDownload(
+    error: FetchTweetSolutionError,
+    tweetInfo: TweetInfo
+  ) {
+    if (error instanceof NoValidSolutionToken) {
+      const errorCode = ensureErrorHasCode(error?.cause) ?? 401
+      await this.infra.eventPublisher.publish(
+        new TweetApiFailed(tweetInfo, errorCode)
+      )
+    } else if (error instanceof TweetIsNotFound) {
+      const errorCode = ensureErrorHasCode(error?.cause) ?? 404
+      await this.infra.eventPublisher.publish(
+        new TweetApiFailed(tweetInfo, errorCode)
+      )
+    } else if (error instanceof InsufficientQuota) {
+      await this.infra.eventPublisher.publish(
+        new TweetApiFailed(tweetInfo, 429)
+      )
+    } else if (error instanceof TweetProcessingError) {
+      await this.infra.eventPublisher.publish(new TweetParsingFailed(tweetInfo))
+    } else {
+      // Handle other errors
+      console.error('An unexpected error occurred', error)
     }
-
-    this.infra.eventPublisher.publishAll(...downloader.events)
-
-    return downloader.isOk
+    return false
   }
 
   /**
@@ -121,142 +140,23 @@ export class DownloadTweetMedia
   private async buildDownloader(tweetInfo: TweetInfo) {
     const { enableAria2, askWhereToSave } =
       await this.infra.downloadSettingsRepo.get()
-    return (
-      enableAria2
-        ? this.infra.downloaderBuilder.aria2
-        : this.infra.downloaderBuilder.browser
-    )({
+
+    const buildDownloaderWith = enableAria2
+      ? this.infra.downloaderBuilder.aria2
+      : this.infra.downloaderBuilder.browser
+
+    return buildDownloaderWith({
       targetTweet: tweetInfo,
       shouldPrompt: askWhereToSave,
     })
   }
 
-  private handleFetchTweetError(tweetInfo: TweetInfo) {
-    return (error: Error) =>
-      this.infra.eventPublisher.publish(
-        mapFetchTweetErrorToEvent(error, tweetInfo)
-      )
-  }
-
-  /**
-   * Always try guest solution first.
-   * When all solutions failed, we will use last error (401, 403, 429 or else) to notify user.
-   * If last solution is guest solution, we may always get 403 (or 401) even the root cause is 429 in protected content.
-   */
-  private async buildFetchTweetSolutions(
-    tweetId: string
-  ): AsyncResult<FetchTweetSolution[], NoValidCsrfToken> {
-    const csrfToken = await this.infra.tokenRepo.getCsrfToken()
-    const guestToken = await this.infra.tokenRepo.getGuestToken()
-
-    if (!csrfToken && !guestToken) return toErrorResult(new NoValidCsrfToken())
-
-    const fetchTweetSolutions: FetchTweetSolution[] = []
-
-    if (guestToken) {
-      const fetchTweetCommand = {
-        csrfToken: guestToken.value,
-        tweetId: tweetId,
-      }
-      fetchTweetSolutions.push({
-        fetchTweet: this.infra.fetchTweet.guest,
-        command: fetchTweetCommand,
-      })
-    }
-
-    if (csrfToken) {
-      const fetchTweetCommand = {
-        csrfToken: csrfToken.value,
-        tweetId: tweetId,
-      }
-      fetchTweetSolutions.push(
-        {
-          fetchTweet: this.infra.fetchTweet.latest,
-          command: fetchTweetCommand,
-        },
-        {
-          fetchTweet: this.infra.fetchTweet.fallback,
-          command: fetchTweetCommand,
-        }
-      )
-    }
-
-    return toSuccessResult(fetchTweetSolutions)
-  }
-
-  async fetchTweetWithSolutions(
-    solutions: FetchTweetSolution[]
-  ): AsyncResult<Tweet> {
-    let remainingSolutions = solutions.length
-
-    const errorRecords: { identity: string; failedReason: string }[] = []
-    let fetchError: Error | undefined = undefined
-    let guestFetchError: Error | undefined = undefined
-
-    for (const { fetchTweet, command } of solutions) {
-      remainingSolutions--
-
-      const {
-        value: tweet,
-        error,
-        remainingQuota,
-      } = await fetchTweet.process(command)
-      if (error) {
-        errorRecords.push({
-          identity: fetchTweet.identity,
-          failedReason: error.message || error.name,
-        })
-
-        if (isGuestFetchTweet(fetchTweet)) {
-          guestFetchError = error
-        } else {
-          // Only expose first non-guest error to user.
-          fetchError ??= error
-        }
-      }
-
-      // TODO: Determine the timing to emit quota warning.
-      if (
-        !isGuestFetchTweet(fetchTweet) &&
-        remainingSolutions === 0 &&
-        remainingQuota <= this.options.remainingQuotaThreshold
-      )
-        this.emitQuotaWarning(remainingQuota)
-
-      if (tweet) return toSuccessResult(tweet)
-    }
-
-    // eslint-disable-next-line no-console
-    console.table(errorRecords)
-    return toErrorResult(
-      fetchError ?? guestFetchError ?? new NoFetchTweetSolution()
-    )
-  }
-
-  private emitQuotaWarning(_remainingQuota: number) {
-    // TODO: emit quota warning
+  private async reportSolutionStatistics(
+    _statistics: SolutionReport['statistics']
+  ) {
+    // TODO: report statistics
   }
 }
-
-const mapFetchTweetErrorToEvent = (
-  fetchTweetError: Error,
-  tweetInfo: TweetInfo
-): IDomainEvent => {
-  if (fetchTweetError instanceof ParseTweetError) {
-    return new TweetParsingFailed(tweetInfo)
-  }
-
-  if (fetchTweetError instanceof FetchTweetError) {
-    return new TweetApiFailed(tweetInfo, fetchTweetError.statusCode)
-  }
-
-  return new InternalErrorHappened(fetchTweetError.message, fetchTweetError, {
-    isExplicit: true,
-  })
-}
-
-const isGuestFetchTweet = (fetchTweet: FetchTweet): boolean =>
-  fetchTweet.identity === 'guest'
 
 const tweetMediaFileToDownloadTargetWithFilenameSettting =
   (filenameSetting: FilenameSetting) =>
@@ -270,14 +170,26 @@ const downloadTargetToDownloadCommand = (
   target: DownloadTarget
 ): DownloadMediaFileCommand => ({ target })
 
-class NoValidCsrfToken extends Error {
-  constructor() {
-    super('No valid csrf token.')
-  }
-}
+/**
+ * Ensures that the error cause has a numeric code property.
+ * This is used to extract HTTP status codes or other error codes from various error objects.
+ * @param cause The error cause to check
+ * @returns The error code as a number, or undefined if no valid code is found
+ */
+const ensureErrorHasCode = (cause: unknown): number | undefined => {
+  if (!cause) return undefined
 
-class NoFetchTweetSolution extends Error {
-  constructor() {
-    super('No fetch tweet solution.')
+  if (typeof cause === 'object') {
+    // Check for code property
+    if ('code' in cause && typeof cause.code === 'number') {
+      return cause.code
+    }
+
+    // Check for statusCode property
+    if ('statusCode' in cause && typeof cause.statusCode === 'number') {
+      return cause.statusCode
+    }
   }
+
+  return undefined
 }

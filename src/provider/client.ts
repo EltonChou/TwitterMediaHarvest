@@ -1,5 +1,6 @@
 import { AWSCredentialRepository } from '#infra/repositories/awsCredential'
-import { ApiClient } from '#libs/AWSClientApi'
+import { ApiClient as AwsApiClient } from '#libs/AWSClientApi'
+import { ApiClient as XApiClient } from '#libs/XApi'
 import { getVersion } from '#utils/runtime'
 import { AWSCredentailToCognitoIdentityCredentials } from '../mappers/awsCredential'
 import { syncWebExtStorage } from './proxy'
@@ -9,7 +10,7 @@ const awsCredentialRepo = new AWSCredentialRepository(syncWebExtStorage, {
   region: process.env['IDENTITY_POOL_REGION'] as string,
 })
 
-export const awsClient = new ApiClient({
+export const awsClient = new AwsApiClient({
   apiKey: process.env['API_KEY'] as string,
   clientVersion: getVersion(),
   hostName: process.env['API_HOSTNAME'] as string,
@@ -19,3 +20,5 @@ export const awsClient = new ApiClient({
     return AWSCredentailToCognitoIdentityCredentials(credential)
   },
 })
+
+export const xApiClient = new XApiClient({ timeout: 10000 })

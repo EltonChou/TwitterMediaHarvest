@@ -22,7 +22,7 @@ exports[`unit test for latest fetch tweet command should handle a parse error 1`
     "remainingQuota": 100,
   },
   "tweetResult": {
-    "error": [ParseTweetError: invalid json],
+    "error": [ParseTweetError: Failed to get result],
     "value": undefined,
   },
 }

@@ -1,146 +1,279 @@
-import { FetchTweetError, ParseTweetError } from '#domain/useCases/fetchTweet'
+import TweetApiFailed from '#domain/events/TweetApiFailed'
+import TweetParsingFailed from '#domain/events/TweetParsingFailed'
+import {
+  InsufficientQuota,
+  NoValidSolutionToken,
+  TweetIsNotFound,
+  TweetProcessingError,
+} from '#domain/useCases/fetchTweetSolution'
+import { FilenameSetting } from '#domain/valueObjects/filenameSetting'
+import { AggregationToken } from '#domain/valueObjects/filenameSetting'
+import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
-import { TwitterToken } from '#domain/valueObjects/twitterToken'
-import { getEventPublisher } from '#infra/eventPublisher'
+import { TweetUser } from '#domain/valueObjects/tweetUser'
+import PatternToken from '#enums/patternToken'
+import { MockEventPublisher } from '#mocks/eventPublisher'
 import { MockDownloadHistoryRepository } from '#mocks/repositories/downloadHistory'
 import { MockDownloadSettingsRepository } from '#mocks/repositories/downloadSettings'
 import { MockFeatureSettingsRepository } from '#mocks/repositories/fetureSettings'
 import { MockFilenameSettingRepository } from '#mocks/repositories/filenameSetting'
-import { MockXTokenRepository } from '#mocks/repositories/xToken'
 import { MockDownloadMediaFile } from '#mocks/useCases/downloadMediaFile'
-import { MockFetchTweet } from '#mocks/useCases/fetchTweet'
+import { MockFetchTweetSolution } from '#mocks/useCases/fetchTweetSolution'
 import { generateDownloadSettings } from '#utils/test/downloadSettings'
-import { generateFeatureSettings } from '#utils/test/fetureSettings'
-import { generateFilenameSetting } from '#utils/test/filenameSetting'
-import { generateTweet } from '#utils/test/tweet'
 import { DownloadTweetMedia } from './downloadTweetMedia'
-import type { DownloaderBuilderMap, FetchTweetMap } from './downloadTweetMedia'
+import type { DownloaderBuilderMap } from './downloadTweetMedia'
 
-describe('unit test for download tweet media use case', () => {
-  const downloadHistoryRepo = new MockDownloadHistoryRepository()
-  const downloadSettingsRepo = new MockDownloadSettingsRepository()
-  const featureSettingsRepo = new MockFeatureSettingsRepository()
-  const filenameSettingRepo = new MockFilenameSettingRepository()
-  const xTokenRepo = new MockXTokenRepository()
-
-  const fetchTweet = new MockFetchTweet()
-  const fetchTweetMap: FetchTweetMap = {
-    fallback: fetchTweet,
-    latest: fetchTweet,
-    guest: fetchTweet,
+describe('DownloadTweetMedia', () => {
+  const mockDownloadHistoryRepo = new MockDownloadHistoryRepository()
+  const mockFilenameSettingRepo = new MockFilenameSettingRepository()
+  const mockDownloadSettingsRepo = new MockDownloadSettingsRepository()
+  const mockFeatureSettingsRepo = new MockFeatureSettingsRepository()
+  const mockDownloadMediaFile = new MockDownloadMediaFile()
+  const mockDownloaderBuilder: DownloaderBuilderMap = {
+    aria2: () => mockDownloadMediaFile,
+    browser: () => mockDownloadMediaFile,
   }
+  const mockEventPublisher = new MockEventPublisher()
+  const mockNativeFetchTweetSolution = new MockFetchTweetSolution()
 
-  const aria2Downloader = new MockDownloadMediaFile()
-  const browserDownloader = new MockDownloadMediaFile()
+  const downloadTweetMedia = new DownloadTweetMedia({
+    downloadHistoryRepo: mockDownloadHistoryRepo,
+    filenameSettingRepo: mockFilenameSettingRepo,
+    downloadSettingsRepo: mockDownloadSettingsRepo,
+    featureSettingsRepo: mockFeatureSettingsRepo,
+    downloaderBuilder: mockDownloaderBuilder,
+    eventPublisher: mockEventPublisher,
+    solutionProvider: () => mockNativeFetchTweetSolution,
+  })
 
-  const downloaderBuilder: DownloaderBuilderMap = {
-    aria2: () => aria2Downloader,
-    browser: () => browserDownloader,
-  }
+  const mockTweetUser = new TweetUser({
+    userId: 'user123',
+    displayName: 'Test User',
+    screenName: 'testuser',
+    isProtected: false,
+  })
 
-  const useCase = new DownloadTweetMedia(
-    {
-      tokenRepo: xTokenRepo,
-      downloadHistoryRepo,
-      filenameSettingRepo,
-      downloadSettingsRepo,
-      featureSettingsRepo,
-      fetchTweet: fetchTweetMap,
-      downloaderBuilder,
-      eventPublisher: getEventPublisher(),
-    },
-    { remainingQuotaThreshold: 10 }
-  )
+  const mockTweet = new Tweet({
+    id: '123',
+    createdAt: new Date(),
+    hashtags: ['test'],
+    user: mockTweetUser,
+    images: [],
+    videos: [],
+  })
 
-  afterAll(() => jest.restoreAllMocks())
+  const mockTweetInfo = new TweetInfo({
+    screenName: 'testuser',
+    tweetId: '123',
+  })
 
-  it.each([
-    {
-      fetchTweetError: undefined,
-      saveHistoryError: true,
-      noValidCsrfToken: true,
-    },
-    {
-      fetchTweetError: undefined,
-      saveHistoryError: true,
-      noValidCsrfToken: true,
-    },
-    {
-      fetchTweetError: undefined,
-      saveHistoryError: false,
-      noValidCsrfToken: true,
-    },
-    {
-      fetchTweetError: new ParseTweetError('kappa'),
-      saveHistoryError: true,
-      noValidCsrfToken: false,
-    },
-    {
-      fetchTweetError: undefined,
-      saveHistoryError: false,
-      noValidCsrfToken: true,
-    },
-    {
-      fetchTweetError: new FetchTweetError(404),
-      saveHistoryError: false,
-      noValidCsrfToken: false,
-    },
-    {
-      fetchTweetError: new Error(),
-      saveHistoryError: false,
-      noValidCsrfToken: false,
-    },
-    {
-      fetchTweetError: undefined,
-      saveHistoryError: false,
-      noValidCsrfToken: false,
-    },
-  ])(
-    'can download media files by tweet info.',
-    async ({ fetchTweetError, saveHistoryError, noValidCsrfToken }) => {
-      const shouldBeGood = [fetchTweetError, noValidCsrfToken].every(v => !v)
+  const _mockFilenameSetting = new FilenameSetting({
+    directory: 'downloads',
+    groupBy: AggregationToken.Account,
+    fileAggregation: true,
+    noSubDirectory: false,
+    filenamePattern: [
+      PatternToken.Account,
+      PatternToken.TweetId,
+      PatternToken.Serial,
+    ],
+  })
 
+  afterEach(() => {
+    jest.resetAllMocks()
+    jest.restoreAllMocks()
+  })
+
+  describe('process', () => {
+    it('should successfully download tweet using browser downloader', async () => {
       jest
-        .spyOn(xTokenRepo, 'getByName')
-        .mockResolvedValue(
-          noValidCsrfToken
-            ? undefined
-            : new TwitterToken({ name: 'gt', value: 'csrf_token' })
-        )
+        .spyOn(mockNativeFetchTweetSolution, 'process')
+        .mockResolvedValueOnce({
+          tweetResult: {
+            value: mockTweet,
+            error: undefined,
+          },
+          statistics: {},
+        })
 
-      jest
-        .spyOn(downloadHistoryRepo, 'save')
-        .mockResolvedValue(saveHistoryError ? new Error() : undefined)
+      const mockhistorySave = jest
+        .spyOn(mockDownloadHistoryRepo, 'save')
+        .mockResolvedValueOnce()
 
-      jest.spyOn(fetchTweet, 'process').mockResolvedValue(
-        fetchTweetError
-          ? { value: undefined, remainingQuota: -1, error: fetchTweetError }
-          : {
-              value: generateTweet(),
-              remainingQuota: 150,
-              error: undefined,
-            }
+      const browserDownloaderBuilder = jest.spyOn(
+        mockDownloaderBuilder,
+        'browser'
+      )
+      const mockPublishAll = jest.spyOn(mockEventPublisher, 'publishAll')
+
+      // Act
+      const result = await downloadTweetMedia.process({
+        tweetInfo: mockTweetInfo,
+      })
+
+      // Assert
+      expect(result).toBe(true)
+      expect(mockhistorySave).toHaveBeenCalled()
+      expect(mockPublishAll).toHaveBeenCalled()
+      expect(browserDownloaderBuilder).toHaveBeenCalled()
+
+      browserDownloaderBuilder.mockRestore()
+      browserDownloaderBuilder.mockReset()
+    })
+
+    it('should successfully download tweet using aria2 downloader', async () => {
+      // Arrange
+      jest.spyOn(mockDownloadSettingsRepo, 'get').mockResolvedValueOnce({
+        ...generateDownloadSettings(),
+        enableAria2: true,
+        askWhereToSave: true,
+      })
+
+      jest.spyOn(mockDownloadHistoryRepo, 'save').mockResolvedValueOnce()
+
+      const mockAria2DownloadBuilder = jest.spyOn(
+        mockDownloaderBuilder,
+        'aria2'
       )
 
       jest
-        .spyOn(filenameSettingRepo, 'get')
-        .mockResolvedValue(generateFilenameSetting())
-      jest
-        .spyOn(downloadSettingsRepo, 'get')
-        .mockResolvedValue(generateDownloadSettings())
-      jest
-        .spyOn(featureSettingsRepo, 'get')
-        .mockResolvedValue(generateFeatureSettings())
-      jest.spyOn(aria2Downloader, 'process').mockImplementation(jest.fn())
-      jest.spyOn(browserDownloader, 'process').mockImplementation(jest.fn())
+        .spyOn(mockNativeFetchTweetSolution, 'process')
+        .mockResolvedValueOnce({
+          tweetResult: {
+            value: mockTweet,
+            error: undefined,
+          },
+          statistics: {},
+        })
 
-      const tweetInfo = new TweetInfo({
-        screenName: 'scree_name',
-        tweetId: '1145141919810',
+      // Act
+      const result = await downloadTweetMedia.process({
+        tweetInfo: mockTweetInfo,
       })
 
-      const isGood = await useCase.process({ tweetInfo })
-      expect(isGood).toBe(shouldBeGood)
-    }
-  )
+      // Assert
+      expect(result).toBe(true)
+      expect(mockAria2DownloadBuilder).toHaveBeenCalled()
+    })
+
+    it('should handle tweet not found error', async () => {
+      // Arrange
+      const mockPublish = jest.spyOn(mockEventPublisher, 'publish')
+      jest
+        .spyOn(mockNativeFetchTweetSolution, 'process')
+        .mockResolvedValueOnce({
+          tweetResult: {
+            value: undefined,
+            error: new TweetIsNotFound('Tweet not found'),
+          },
+          statistics: {},
+        })
+
+      // Act
+      const result = await downloadTweetMedia.process({
+        tweetInfo: mockTweetInfo,
+      })
+
+      // Assert
+      expect(result).toBe(false)
+      expect(mockPublish).toHaveBeenCalledWith(expect.any(TweetApiFailed))
+    })
+
+    it('should handle invalid token error', async () => {
+      // Arrange
+      const mockPublish = jest.spyOn(mockEventPublisher, 'publish')
+      jest
+        .spyOn(mockNativeFetchTweetSolution, 'process')
+        .mockResolvedValueOnce({
+          tweetResult: {
+            value: undefined,
+            error: new NoValidSolutionToken('Invalid token'),
+          },
+          statistics: {},
+        })
+
+      // Act
+      const result = await downloadTweetMedia.process({
+        tweetInfo: mockTweetInfo,
+      })
+
+      // Assert
+      expect(result).toBe(false)
+      expect(mockPublish).toHaveBeenCalledWith(expect.any(TweetApiFailed))
+    })
+
+    it('should handle insufficient quota error', async () => {
+      // Arrange
+      const mockPublish = jest.spyOn(mockEventPublisher, 'publish')
+      jest
+        .spyOn(mockNativeFetchTweetSolution, 'process')
+        .mockResolvedValueOnce({
+          tweetResult: {
+            value: undefined,
+            error: new InsufficientQuota('Rate limit exceeded'),
+          },
+          statistics: {},
+        })
+
+      // Act
+      const result = await downloadTweetMedia.process({
+        tweetInfo: mockTweetInfo,
+      })
+
+      // Assert
+      expect(result).toBe(false)
+      expect(mockPublish).toHaveBeenCalledWith(expect.any(TweetApiFailed))
+    })
+
+    it('should handle tweet processing error', async () => {
+      // Arrange
+      const mockPublish = jest.spyOn(mockEventPublisher, 'publish')
+      jest
+        .spyOn(mockNativeFetchTweetSolution, 'process')
+        .mockResolvedValueOnce({
+          tweetResult: {
+            value: undefined,
+            error: new TweetProcessingError('Failed to parse tweet'),
+          },
+          statistics: {},
+        })
+
+      // Act
+      const result = await downloadTweetMedia.process({
+        tweetInfo: mockTweetInfo,
+      })
+
+      // Assert
+      expect(result).toBe(false)
+      expect(mockPublish).toHaveBeenCalledWith(expect.any(TweetParsingFailed))
+    })
+
+    it('should handle download history save error gracefully', async () => {
+      // Arrange
+      jest
+        .spyOn(mockNativeFetchTweetSolution, 'process')
+        .mockResolvedValueOnce({
+          tweetResult: {
+            value: mockTweet,
+            error: undefined,
+          },
+          statistics: {},
+        })
+      jest
+        .spyOn(mockDownloadSettingsRepo, 'get')
+        .mockResolvedValueOnce(generateDownloadSettings())
+
+      jest
+        .spyOn(mockDownloadHistoryRepo, 'save')
+        .mockResolvedValueOnce(new Error('Save failed'))
+
+      // Act
+      const result = await downloadTweetMedia.process({
+        tweetInfo: mockTweetInfo,
+      })
+
+      // Assert
+      expect(result).toBe(true) // Should still succeed even if history save fails
+    })
+  })
 })

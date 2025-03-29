@@ -1,15 +1,14 @@
 import { getEventPublisher } from '#infra/eventPublisher'
 import { Aria2DownloadMediaFile } from '#infra/useCases/aria2DownloadMediaFile'
 import { BrowserDownloadMediaFile } from '#infra/useCases/browserDownloadMediaFile'
-import { FallbackFetchTweet } from '#infra/useCases/fallbackFetchTweet'
-import { GuestFetchTweet } from '#infra/useCases/guestFetchTweet'
-import { LatestFetchTweet } from '#infra/useCases/latestFetchTweet'
+import { NativeFetchTweetSolution } from '#infra/useCases/nativeFetchTweetSolution'
 import { WebExtAction } from '#libs/webExtMessage'
 import {
   downloadHistoryRepo,
   downloadSettingsRepo,
   featureSettingsRepo,
   filenameSettingsRepo,
+  xApiClient,
   xTokenRepo,
 } from '#provider'
 import checkDownloadHistoryHandler from './messageHandlers/checkDownloadHistory'
@@ -25,7 +24,6 @@ export const initMessageRouter = (router: MessageRouter): MessageRouter =>
       downloadMessageHandler({
         eventPublisher,
         downloadHistoryRepo,
-        tokenRepo: xTokenRepo,
         downloadSettingsRepo,
         filenameSettingRepo: filenameSettingsRepo,
         featureSettingsRepo,
@@ -37,11 +35,11 @@ export const initMessageRouter = (router: MessageRouter): MessageRouter =>
               params.shouldPrompt
             ),
         },
-        fetchTweet: {
-          fallback: new FallbackFetchTweet(),
-          guest: new GuestFetchTweet(),
-          latest: new LatestFetchTweet(),
-        },
+        solutionProvider: () =>
+          new NativeFetchTweetSolution(
+            { xApiClient: xApiClient, xTokenRepo: xTokenRepo },
+            { quotaThreshold: 20 }
+          ),
       })
     )
     .route(

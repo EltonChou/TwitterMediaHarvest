@@ -105,14 +105,13 @@ export abstract class FetchTweetCommand
   }
 
   protected parseBody(body: unknown): Result<Tweet> {
-    if (!body || Object.hasOwn(body, 'errors') || Object.hasOwn(body, 'error'))
-      return toErrorResult(
-        new ParseTweetError(
-          (body as { error?: string; errors?: string })?.error ??
-            (body as { error?: string; errors?: string })?.errors ??
-            'Invalid body'
-        )
-      )
+    if (!body) {
+      return hasErrorProperty(body)
+        ? toErrorResult(
+            new ParseTweetError(body.error ?? body.errors ?? 'Invalid body')
+          )
+        : toErrorResult(new ParseTweetError('Invalid body'))
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const getTweetResultFromResult = (result: any) =>
@@ -246,27 +245,29 @@ export abstract class FetchTweetCommand
 
   async resolveResponse(response: Response): Promise<FetchTweetCommandOutput> {
     const metadata = this.parseMetadata(response)
-    if (response.ok) {
-      try {
-        const body = await response.json()
-        const result = this.parseBody(body)
-        return {
-          $metadata: metadata,
-          tweetResult: result,
-        }
-      } catch (error) {
-        return {
-          $metadata: metadata,
-          tweetResult: toErrorResult(
-            new ParseTweetError('Failed to parse body', { cause: error })
-          ),
-        }
-      }
-    }
 
-    return {
-      $metadata: metadata,
-      tweetResult: toErrorResult(new FetchTweetError('Failed to fetch tweet')),
+    if (!response.ok)
+      return {
+        $metadata: metadata,
+        tweetResult: toErrorResult(
+          new FetchTweetError('Failed to fetch tweet', response.status)
+        ),
+      }
+
+    try {
+      const body = await response.json()
+      const result = this.parseBody(body)
+      return {
+        $metadata: metadata,
+        tweetResult: result,
+      }
+    } catch (error) {
+      return {
+        $metadata: metadata,
+        tweetResult: toErrorResult(
+          new ParseTweetError('Failed to parse body', { cause: error })
+        ),
+      }
     }
   }
 }
@@ -360,10 +361,26 @@ const parseBestVideoVariant = (variants: VideoVariant[]): string | undefined =>
       currVariant?.bitrate >= prevVariant?.bitrate ? currVariant : prevVariant
     ).url
 
+const hasErrorProperty = (
+  body: unknown
+): body is { error?: string; errors?: string } => {
+  return (
+    typeof body === 'object' &&
+    body !== null &&
+    ('error' in body || 'errors' in body)
+  )
+}
+
 export class ParseTweetError extends Error {
   name = 'ParseTweetError'
 }
 
 export class FetchTweetError extends Error {
   name = 'FetchTweetError'
+  readonly statusCode: number
+
+  constructor(message: string, statusCode: number, cause?: Error) {
+    super(message, { cause })
+    this.statusCode = statusCode
+  }
 }

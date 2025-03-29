@@ -30,6 +30,7 @@ interface DomainEventMap {
   'api:twitter:failed': TweetApiErrorEvent
   'parse:tweet:failed': TweetInfoEvent
   'client:synced': IDomainEvent
+  'tweetSolution:native:quota:insufficient': QuotaEvent
 }
 
 interface InternalErrorEvent extends IDomainEvent {
@@ -93,4 +94,9 @@ interface TweetApiErrorEvent extends TweetInfoEvent {
 interface FilenameOverwrittenEvent extends IDomainEvent {
   readonly expectedName: string
   readonly finalName: string
+}
+
+interface QuotaEvent extends IDomainEvent {
+  readonly remainingQuota: number
+  readonly resetTime: Date
 }
