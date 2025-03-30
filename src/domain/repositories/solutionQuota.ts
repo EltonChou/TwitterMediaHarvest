@@ -1,7 +1,7 @@
-import type { SolutionQuota } from '../valueObjects/solutionQuota'
+import type { SolutionId, SolutionQuota } from '#domain/entities/solutionQuota'
 
 export interface ISolutionQuotaRepository {
-  get(): Promise<SolutionQuota | null>
+  get(solutionId: SolutionId): Promise<SolutionQuota | null>
   save(solutionQuota: SolutionQuota): Promise<void>
-  delete(): Promise<void>
+  delete(solutionId: SolutionId): Promise<void>
 }
