@@ -37,3 +37,22 @@ export const extractTweetId = (id: TweetNotificationId): string => {
   if (!result) throw new Error(`${id} is not a tweet notification id.`)
   return result[1]
 }
+
+type SolutionQuotaWarningId = `solution-quota-warning:${string}`
+
+export const makeSolutionQuotaWarningId = (
+  solutionId: string
+): SolutionQuotaWarningId => `solution-quota-warning:${solutionId}`
+
+const solutionQuotaWarningPattern = /^solution-quota-warning:(.+)$/
+
+export const isSolutionQuotaWarningId = (
+  id: string
+): id is SolutionQuotaWarningId =>
+  Boolean(id.match(solutionQuotaWarningPattern))
+
+export const extractSolutionId = (id: SolutionQuotaWarningId): string => {
+  const result = id.match(solutionQuotaWarningPattern)
+  if (!result) throw new Error(`${id} is not a solution quota warning id.`)
+  return result[1]
+}

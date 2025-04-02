@@ -204,3 +204,28 @@ export const makeFilenameIsOverwrittenNotificationConfig: Factory<
         }),
   }
 }
+
+export class SolutionQuotaWarningNotificationConfig {
+  static native(params: {
+    remainingQuota: number
+    resetTime: Date
+    eventTime?: Date
+  }): Notifications.CreateNotificationOptions {
+    return {
+      type: TemplateType.Basic,
+      iconUrl: getNotificationIconUrl(),
+      title: getText('Download Quota Warning', 'notification:quota'),
+      message: getText(
+        'Remaining quota: {{quota}}. Resets at {{time}}',
+        'notification:quota',
+        {
+          quota: params.remainingQuota.toString(),
+          time: params.resetTime.toLocaleString(),
+        }
+      ),
+      contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
+      eventTime: params.eventTime ? params.eventTime.getTime() : Date.now(),
+      // TODO: Add a button which will redirect user to Q&A page when clicked.
+    }
+  }
+}
