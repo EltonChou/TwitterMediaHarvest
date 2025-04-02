@@ -10,7 +10,7 @@ type CommandInputs = FetchTweetCommandInput
 type CommandOutputs = FetchTweetCommandOutput
 
 export class ApiClient implements Client<CommandInputs, CommandOutputs> {
-  constructor(readonly config: ClientConfiguration) {}
+  constructor(readonly config?: ClientConfiguration) {}
 
   static with(config: ClientConfiguration) {
     return new ApiClient(config)
@@ -43,7 +43,7 @@ export class ApiClient implements Client<CommandInputs, CommandOutputs> {
         hostname: 'x.com',
       })
 
-      if (this.config.cookieStore)
+      if (this.config?.cookieStore)
         request.headers.set(
           'cookie',
           await this.config.cookieStore.get('x.com')
@@ -61,11 +61,11 @@ export class ApiClient implements Client<CommandInputs, CommandOutputs> {
         cachedResponse ??
         (await fetch(request, {
           signal: AbortSignal.timeout(
-            this.config.timeout ? Math.abs(this.config.timeout) : 10000
+            this.config?.timeout ? Math.abs(this.config.timeout) : 10000
           ),
         }))
       if (shouldCache) await command.putIntoCache(request, response)
-      if (!isCachedResponse && this.config.cookieStore) {
+      if (!isCachedResponse && this.config?.cookieStore) {
         const cookies = response.headers.get('set-cookie')
         if (cookies) await this.config.cookieStore.set('x.com', cookies)
       }

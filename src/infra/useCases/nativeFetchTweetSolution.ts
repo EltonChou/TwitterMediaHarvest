@@ -1,12 +1,14 @@
-import SolutionQuotaInsufficient from '#domain/events/NativeTweetSolutionQuotaInsufficient'
+import { SolutionQuota } from '#domain/entities/solutionQuota'
+import TweetSolutionQuotaChanged from '#domain/events/TweetSolutionQuotaChanged'
+import TweetSolutionQuotaInsufficient from '#domain/events/TweetSolutionQuotaInsufficient'
 import type { Factory } from '#domain/factories/base'
+import { ISolutionQuotaRepository } from '#domain/repositories/solutionQuota'
 import type { ITwitterTokenRepository } from '#domain/repositories/twitterToken'
 import type {
   FetchTweetSolution,
   FetchTweetSolutionCommand,
   FetchTweetSolutionError,
   QuotaStatistic,
-  SolutionReport,
   SolutionStatistics,
 } from '#domain/useCases/fetchTweetSolution'
 import {
@@ -15,6 +17,8 @@ import {
   TweetIsNotFound,
   TweetProcessingError,
 } from '#domain/useCases/fetchTweetSolution'
+import { Tweet } from '#domain/valueObjects/tweet'
+import FetchTweetSolutionId from '#enums/FetchTweetSolution'
 import type {
   FetchTweetCommand,
   FetchTweetCommandInput,
@@ -32,6 +36,7 @@ import type { CommandCache } from '#libs/XApi/commands/types'
 import { toErrorResult } from '#utils/result'
 
 export interface InfraProvider {
+  solutionQuotaRepo: ISolutionQuotaRepository
   xTokenRepo: ITwitterTokenRepository
   xApiClient: XApiClient
 }
@@ -66,16 +71,26 @@ export class NativeFetchTweetSolution
   private options: SolutionOptions
   private cache: CacheStorage | undefined
   private _events: IDomainEvent[]
+  private _statistics: SolutionStatistics<StatisticIdentity>
 
   constructor(infraProvider: InfraProvider, options: SolutionOptions) {
     this.infra = infraProvider
     this.options = options
     this.cache = undefined
     this._events = []
+    this._statistics = {}
+  }
+
+  get statistics(): SolutionStatistics<StatisticIdentity> {
+    return this._statistics
   }
 
   get events() {
     return this._events
+  }
+
+  private setStatistics(identity: StatisticIdentity) {
+    return (stat: QuotaStatistic) => (this._statistics[identity] = stat)
   }
 
   private async getCacheStorage() {
@@ -89,17 +104,17 @@ export class NativeFetchTweetSolution
     return async (config: {
       tweetId: string
       csrfToken: string
-      setStat: (stat: QuotaStatistic) => void
+      statIdentity: StatisticIdentity
     }) => {
       const command = new CommandConstructor({
         tweetId: config.tweetId,
         csrfToken: config.csrfToken,
-        cacheProvider: () => this.getCacheStorage(),
+        cacheProvider: this.getCacheStorage,
       })
 
       const { value, error } = await this.infra.xApiClient.exec(command)
 
-      config.setStat({
+      this.setStatistics(config.statIdentity)({
         error: error ?? value.tweetResult.error,
         ...(value ? commandOutputToQuotaStats(value) : {}),
       })
@@ -110,83 +125,87 @@ export class NativeFetchTweetSolution
 
   async process(
     command: FetchTweetSolutionCommand
-  ): Promise<SolutionReport<StatisticIdentity>> {
-    const stats: SolutionStatistics<StatisticIdentity> = {}
+  ): Promise<Result<Tweet, FetchTweetSolutionError>> {
     const csrfToken = await this.infra.xTokenRepo.getCsrfToken()
     const guestToken = await this.infra.xTokenRepo.getGuestToken()
 
     if (guestToken) {
       const guestResult = await this.execCommand(GuestFetchTweetCommand)({
+        statIdentity: 'guest',
         tweetId: command.tweetId,
         csrfToken: guestToken.value,
-        setStat: stat => (stats.guest = stat),
       })
 
-      if (isSuccessfulTweetResult(guestResult)) {
-        return {
-          statistics: stats,
-          tweetResult: guestResult.value.tweetResult,
-        }
-      }
+      if (isSuccessfulTweetResult(guestResult))
+        return guestResult.value.tweetResult
+    }
+
+    const solutionQuota = await this.infra.solutionQuotaRepo.get(
+      FetchTweetSolutionId.Native
+    )
+
+    if (!this.hasEnoughQuota(solutionQuota)) {
+      return toErrorResult(
+        new InsufficientQuota(
+          `Remaining quota is less than threshold (${this.options.quotaThreshold}). `,
+          { isInternalControl: true }
+        )
+      )
     }
 
     if (csrfToken) {
       const generalResult = await this.execCommand(LatestFetchTweetCommand)({
+        statIdentity: 'general',
         tweetId: command.tweetId,
         csrfToken: csrfToken.value,
-        setStat: stat => (stats.general = stat),
       })
+
+      if (hasValidQuotaValue(generalResult.value)) {
+        this._events.push(
+          new TweetSolutionQuotaChanged(
+            FetchTweetSolutionId.Native,
+            generalResult.value.$metadata.remainingQuota,
+            generalResult.value.$metadata.quotaResetTime
+          )
+        )
+      }
 
       if (isSuccessfulTweetResult(generalResult)) {
         if (this.isQuotaLow(generalResult.value))
           this._events.push(
-            new SolutionQuotaInsufficient(
+            new TweetSolutionQuotaInsufficient(
+              FetchTweetSolutionId.Native,
               generalResult.value.$metadata.remainingQuota,
               generalResult.value.$metadata.quotaResetTime
             )
           )
 
-        return {
-          statistics: stats,
-          tweetResult: generalResult.value.tweetResult,
-        }
+        return generalResult.value.tweetResult
       }
 
       const fallbackResult = await this.execCommand(FallbackFetchTweet)({
+        statIdentity: 'fallback',
         tweetId: command.tweetId,
         csrfToken: csrfToken.value,
-        setStat: stat => (stats.fallback = stat),
       })
 
-      if (isSuccessfulTweetResult(fallbackResult)) {
-        return {
-          statistics: stats,
-          tweetResult: fallbackResult.value.tweetResult,
-        }
-      }
+      if (isSuccessfulTweetResult(fallbackResult))
+        return fallbackResult.value.tweetResult
 
       const exposedCommandError = generalResult.error ?? fallbackResult.error
 
-      return {
-        statistics: stats,
-        tweetResult: toErrorResult(
-          this.parseCommandError(exposedCommandError) ??
-            new TweetIsNotFound(
-              `Specified tweet is not found (${command.tweetId})`,
-              {
-                cause: exposedCommandError,
-              }
-            )
-        ),
-      }
+      return toErrorResult(
+        this.parseCommandError(exposedCommandError) ??
+          new TweetIsNotFound(
+            `Specified tweet is not found (${command.tweetId})`,
+            {
+              cause: exposedCommandError,
+            }
+          )
+      )
     }
 
-    return {
-      statistics: stats,
-      tweetResult: toErrorResult(
-        new NoValidSolutionToken('No valid solution token')
-      ),
-    }
+    return toErrorResult(new NoValidSolutionToken('No valid solution token'))
   }
 
   /**
@@ -241,6 +260,20 @@ export class NativeFetchTweetSolution
       commandOutput.$metadata.remainingQuota <= this.options.quotaThreshold
     )
   }
+
+  /**
+   * Check if the remaining quota is sufficient for normal usage.
+   *
+   * @param solutionQuota - The solution quota entity
+   * @returns True if the remaining quota is above threshold, false otherwise.
+   */
+  private hasEnoughQuota(solutionQuota: SolutionQuota | null): boolean {
+    if (!solutionQuota) return true
+    return (
+      !solutionQuota.quota.isReseted &&
+      solutionQuota.quota.remaining > this.options.quotaThreshold
+    )
+  }
 }
 
 type ValidQuotaValue = {
@@ -268,3 +301,13 @@ const isSuccessfulTweetResult = (result: {
     }
   }
 } => result.value?.tweetResult?.value !== undefined
+
+const hasValidQuotaValue = (
+  output?: FetchTweetCommandOutput
+): output is FetchTweetCommandOutput & ValidQuotaValue => {
+  return (
+    output !== undefined &&
+    typeof output.$metadata.remainingQuota === 'number' &&
+    output.$metadata.quotaResetTime instanceof Date
+  )
+}

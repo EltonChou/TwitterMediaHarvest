@@ -15,17 +15,14 @@ export type SolutionStatistics<Identify extends string = string> = {
   [key in Identify]?: QuotaStatistic
 }
 
-export type SolutionReport<StatisticIdentity extends string = string> = {
-  tweetResult: Result<Tweet, FetchTweetSolutionError>
-  statistics: SolutionStatistics<StatisticIdentity>
-}
-
 export interface FetchTweetSolution<StatisticIdentity extends string = string>
   extends AsyncUseCase<
       FetchTweetSolutionCommand,
-      SolutionReport<StatisticIdentity>
+      Result<Tweet, FetchTweetSolutionError>
     >,
-    DomainEventSource {}
+    DomainEventSource {
+  readonly statistics: SolutionStatistics<StatisticIdentity>
+}
 
 export abstract class FetchTweetSolutionError extends Error {
   name = 'FetchTweetSolutionError'
@@ -39,10 +36,36 @@ export class TweetIsNotFound extends FetchTweetSolutionError {
   name = 'TweetIsNotFound'
 }
 
-export class InsufficientQuota extends FetchTweetSolutionError {
+type InsufficientQuotaErrorOptions = {
+  isInternalControl: boolean
+}
+
+export class InsufficientQuota
+  extends FetchTweetSolutionError
+  implements IsInternalControl
+{
   name = 'InsufficientQuota'
+
+  /** When it is true that means the error is raised by internal quota control. */
+  readonly isInternalControl: boolean
+
+  constructor(
+    msg: string,
+    options?: ErrorOptions & Partial<InsufficientQuotaErrorOptions>
+  ) {
+    const { isInternalControl, ...errorOptions } = options ?? {
+      isInternalControl: false,
+    }
+    super(msg, errorOptions)
+    this.isInternalControl = isInternalControl ?? false
+  }
 }
 
 export class TweetProcessingError extends FetchTweetSolutionError {
   name = 'TweetProcessingError'
+}
+
+interface IsInternalControl {
+  /** When it is true that means the error is raised by internal quota control. */
+  readonly isInternalControl: boolean
 }

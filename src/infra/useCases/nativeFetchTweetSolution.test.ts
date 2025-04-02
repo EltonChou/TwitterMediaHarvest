@@ -1,200 +1,122 @@
-import SolutionQuotaInsufficient from '#domain/events/NativeTweetSolutionQuotaInsufficient'
-import type { ITwitterTokenRepository } from '#domain/repositories/twitterToken'
+import { SolutionQuota } from '#domain/entities/solutionQuota'
+import TweetSolutionQuotaChanged from '#domain/events/TweetSolutionQuotaChanged'
+import TweetSolutionQuotaInsufficient from '#domain/events/TweetSolutionQuotaInsufficient'
+import { ISolutionQuotaRepository } from '#domain/repositories/solutionQuota'
+import { ITwitterTokenRepository } from '#domain/repositories/twitterToken'
 import {
   InsufficientQuota,
   NoValidSolutionToken,
   TweetIsNotFound,
-  TweetProcessingError,
 } from '#domain/useCases/fetchTweetSolution'
+import { ResettableQuota } from '#domain/valueObjects/resettableQuota'
 import { TwitterToken } from '#domain/valueObjects/twitterToken'
-import type { ApiClient as XApiClient } from '#libs/XApi'
-import { FetchTweetError, ParseTweetError } from '#libs/XApi'
+import FetchTweetSolutionId from '#enums/FetchTweetSolution'
+import { ApiClient, FetchTweetError } from '#libs/XApi'
+import { MockSolutionQuotaRepository } from '#mocks/repositories/solutionQuota'
+import { MockXTokenRepository } from '#mocks/repositories/xToken'
+import { toErrorResult, toSuccessResult } from '#utils/result'
 import { generateTweet } from '#utils/test/tweet'
 import { NativeFetchTweetSolution } from './nativeFetchTweetSolution'
 
-// Mock the caches API
-global.caches = {
-  open: jest.fn().mockResolvedValue({
-    match: jest.fn(),
-    put: jest.fn(),
-  }),
-} as unknown as CacheStorage
-
 describe('NativeFetchTweetSolution', () => {
-  let mockXTokenRepo: ITwitterTokenRepository
-  let mockXApiClient: XApiClient
+  const csrfToken = new TwitterToken({ name: 'ct0', value: 'csrf' })
+  let solutionQuotaRepo: ISolutionQuotaRepository
+  let xTokenRepo: ITwitterTokenRepository
+  let xApiClient: ApiClient
   let solution: NativeFetchTweetSolution
 
-  const mockTweet = generateTweet()
-
-  const mockTweetResult = {
-    value: mockTweet,
-    error: undefined,
-  }
-
-  const mockCommandOutput = {
-    $metadata: {
-      remainingQuota: 100,
-      quotaResetTime: new Date(),
-    },
-    tweetResult: mockTweetResult,
-  }
-
   beforeEach(() => {
-    mockXTokenRepo = {
-      getCsrfToken: jest.fn(),
-      getGuestToken: jest.fn(),
-      getByName: jest.fn(),
-    }
-
-    mockXApiClient = {
-      exec: jest.fn(),
-      config: {},
-      makeCacheResult: jest.fn(),
-    }
+    solutionQuotaRepo = jest.mocked(new MockSolutionQuotaRepository())
+    xTokenRepo = jest.mocked(new MockXTokenRepository())
+    xApiClient = jest.mocked(new ApiClient())
 
     solution = new NativeFetchTweetSolution(
-      {
-        xTokenRepo: mockXTokenRepo,
-        xApiClient: mockXApiClient,
-      },
-      { quotaThreshold: 50 }
+      { solutionQuotaRepo, xTokenRepo, xApiClient },
+      { quotaThreshold: 10 }
     )
   })
 
   describe('process', () => {
-    it('should successfully fetch tweet using guest token', async () => {
-      // Arrange
-      const guestToken = new TwitterToken({
-        name: 'guest',
-        value: 'guest-token',
-      })
-      jest.mocked(mockXTokenRepo.getGuestToken).mockResolvedValue(guestToken)
-      jest
-        .mocked(mockXApiClient.exec)
-        .mockResolvedValue({ value: mockCommandOutput, error: undefined })
+    it('should return error when no tokens available', async () => {
+      jest.spyOn(xTokenRepo, 'getCsrfToken').mockResolvedValue(undefined)
+      jest.spyOn(xTokenRepo, 'getGuestToken').mockResolvedValue(undefined)
 
-      // Act
       const result = await solution.process({ tweetId: '123' })
 
-      // Assert
-      expect(result.tweetResult.value).toBeDefined()
-      expect(result.tweetResult.error).toBeUndefined()
-      expect(result.statistics.guest).toBeDefined()
-      expect(result.statistics.general).toBeUndefined()
-      expect(result.statistics.fallback).toBeUndefined()
+      expect(result.error).toBeInstanceOf(NoValidSolutionToken)
     })
 
-    it('should fall back to general token when guest token fails', async () => {
-      // Arrange
-      const csrfToken = new TwitterToken({ name: 'csrf', value: 'csrf-token' })
-      jest.mocked(mockXTokenRepo.getGuestToken).mockResolvedValue(undefined)
-      jest.mocked(mockXTokenRepo.getCsrfToken).mockResolvedValue(csrfToken)
-      jest
-        .mocked(mockXApiClient.exec)
-        .mockResolvedValueOnce({
-          value: undefined,
-          error: new Error('Guest token failed'),
+    it('should return insufficient quota error when quota is below threshold', async () => {
+      jest.spyOn(xTokenRepo, 'getByName').mockResolvedValue(csrfToken)
+      jest.spyOn(solutionQuotaRepo, 'get').mockResolvedValue(
+        SolutionQuota.create(FetchTweetSolutionId.Native, {
+          quota: new ResettableQuota({ quota: 5, resetAt: new Date() }),
+          isRealtime: false,
         })
-        .mockResolvedValueOnce({ value: mockCommandOutput, error: undefined })
-
-      // Act
-      const result = await solution.process({ tweetId: '123' })
-
-      // Assert
-      expect(result.tweetResult.value).toBeDefined()
-      expect(result.tweetResult.error).toBeUndefined()
-      expect(result.statistics.general).toBeDefined()
-    })
-
-    it('should handle rate limit exceeded error', async () => {
-      // Arrange
-      const csrfToken = new TwitterToken({ name: 'csrf', value: 'csrf-token' })
-      jest.mocked(mockXTokenRepo.getGuestToken).mockResolvedValue(undefined)
-      jest.mocked(mockXTokenRepo.getCsrfToken).mockResolvedValue(csrfToken)
-      jest.mocked(mockXApiClient.exec).mockResolvedValue({
-        value: undefined,
-        error: new FetchTweetError('Rate limit exceeded', 429),
-      })
-
-      // Act
-      const result = await solution.process({ tweetId: '123' })
-
-      // Assert
-      expect(result.tweetResult.error).toBeInstanceOf(InsufficientQuota)
-    })
-
-    it('should handle tweet not found error', async () => {
-      // Arrange
-      const csrfToken = new TwitterToken({ name: 'csrf', value: 'csrf-token' })
-      jest.mocked(mockXTokenRepo.getGuestToken).mockResolvedValue(undefined)
-      jest.mocked(mockXTokenRepo.getCsrfToken).mockResolvedValue(csrfToken)
-      jest.mocked(mockXApiClient.exec).mockResolvedValue({
-        value: undefined,
-        error: new FetchTweetError('Tweet not found', 404),
-      })
-
-      // Act
-      const result = await solution.process({ tweetId: '123' })
-
-      // Assert
-      expect(result.tweetResult.error).toBeInstanceOf(TweetIsNotFound)
-    })
-
-    it('should handle parse error', async () => {
-      // Arrange
-      const csrfToken = new TwitterToken({ name: 'csrf', value: 'csrf-token' })
-      jest.mocked(mockXTokenRepo.getGuestToken).mockResolvedValue(undefined)
-      jest.mocked(mockXTokenRepo.getCsrfToken).mockResolvedValue(csrfToken)
-      jest.mocked(mockXApiClient.exec).mockResolvedValue({
-        value: undefined,
-        error: new ParseTweetError('Failed to parse'),
-      })
-
-      // Act
-      const result = await solution.process({ tweetId: '123' })
-
-      // Assert
-      expect(result.tweetResult.error).toBeInstanceOf(TweetProcessingError)
-    })
-
-    it('should return quota shortage warning when quota is low', async () => {
-      // Arrange
-      const csrfToken = new TwitterToken({ name: 'csrf', value: 'csrf-token' })
-      const lowQuotaOutput = {
-        ...mockCommandOutput,
-        $metadata: {
-          ...mockCommandOutput.$metadata,
-          remainingQuota: 10, // Below threshold of 50
-        },
-      }
-      jest.mocked(mockXTokenRepo.getGuestToken).mockResolvedValue(undefined)
-      jest.mocked(mockXTokenRepo.getCsrfToken).mockResolvedValue(csrfToken)
-      jest
-        .mocked(mockXApiClient.exec)
-        .mockResolvedValue({ value: lowQuotaOutput, error: undefined })
-
-      // Act
-      await solution.process({ tweetId: '123' })
-      const [quotaEvent] = solution.events.filter(
-        event => event instanceof SolutionQuotaInsufficient
       )
 
-      // Assert
-      expect(quotaEvent).toBeDefined()
-      expect(quotaEvent.remainingQuota).toBe(10)
-    })
-
-    it('should return no valid solution token when no tokens are available', async () => {
-      // Arrange
-      jest.mocked(mockXTokenRepo.getGuestToken).mockResolvedValue(undefined)
-      jest.mocked(mockXTokenRepo.getCsrfToken).mockResolvedValue(undefined)
-
-      // Act
       const result = await solution.process({ tweetId: '123' })
 
-      // Assert
-      expect(result.tweetResult.error).toBeInstanceOf(NoValidSolutionToken)
+      expect(result.error).toBeInstanceOf(InsufficientQuota)
+    })
+
+    it('should emit quota changed event when valid quota metadata received', async () => {
+      jest.spyOn(xTokenRepo, 'getCsrfToken').mockResolvedValue(csrfToken)
+      jest.spyOn(xTokenRepo, 'getGuestToken').mockResolvedValue(csrfToken)
+      jest
+        .spyOn(xApiClient, 'exec')
+        // The guest command should be failed first.
+        .mockResolvedValueOnce(toErrorResult(new Error('Ignore')))
+        .mockResolvedValueOnce(
+          toSuccessResult({
+            tweetResult: toSuccessResult(generateTweet()),
+            $metadata: {
+              remainingQuota: 20,
+              quotaResetTime: new Date(),
+            },
+          })
+        )
+
+      await solution.process({ tweetId: '123' })
+
+      expect(solution.events).toContainEqual(
+        expect.any(TweetSolutionQuotaChanged)
+      )
+    })
+
+    it('should emit quota insufficient event when quota is low', async () => {
+      jest.spyOn(xTokenRepo, 'getByName').mockResolvedValue(csrfToken)
+      jest
+        .spyOn(xApiClient, 'exec') // The guest command should be failed first.
+        .mockResolvedValueOnce(toErrorResult(new Error('Ignore')))
+        .mockResolvedValueOnce(
+          toSuccessResult({
+            tweetResult: toSuccessResult(generateTweet()),
+            $metadata: {
+              remainingQuota: 5,
+              quotaResetTime: new Date(),
+            },
+          })
+        )
+
+      await solution.process({ tweetId: '123' })
+
+      expect(solution.events).toContainEqual(
+        expect.any(TweetSolutionQuotaInsufficient)
+      )
+    })
+
+    it('should return tweet not found for 404 errors', async () => {
+      jest.spyOn(xTokenRepo, 'getByName').mockResolvedValue(csrfToken)
+      jest
+        .spyOn(xApiClient, 'exec')
+        .mockResolvedValueOnce(
+          toErrorResult(new FetchTweetError('Not Found', 404))
+        )
+
+      const result = await solution.process({ tweetId: '123' })
+
+      expect(result.error).toBeInstanceOf(TweetIsNotFound)
     })
   })
 })

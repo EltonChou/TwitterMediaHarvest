@@ -19,6 +19,7 @@ import { MockFeatureSettingsRepository } from '#mocks/repositories/fetureSetting
 import { MockFilenameSettingRepository } from '#mocks/repositories/filenameSetting'
 import { MockDownloadMediaFile } from '#mocks/useCases/downloadMediaFile'
 import { MockFetchTweetSolution } from '#mocks/useCases/fetchTweetSolution'
+import { toErrorResult, toSuccessResult } from '#utils/result'
 import { generateDownloadSettings } from '#utils/test/downloadSettings'
 import { DownloadTweetMedia } from './downloadTweetMedia'
 import type { DownloaderBuilderMap } from './downloadTweetMedia'
@@ -88,13 +89,7 @@ describe('DownloadTweetMedia', () => {
     it('should successfully download tweet using browser downloader', async () => {
       jest
         .spyOn(mockNativeFetchTweetSolution, 'process')
-        .mockResolvedValueOnce({
-          tweetResult: {
-            value: mockTweet,
-            error: undefined,
-          },
-          statistics: {},
-        })
+        .mockResolvedValueOnce(toSuccessResult(mockTweet))
 
       const mockhistorySave = jest
         .spyOn(mockDownloadHistoryRepo, 'save')
@@ -138,13 +133,7 @@ describe('DownloadTweetMedia', () => {
 
       jest
         .spyOn(mockNativeFetchTweetSolution, 'process')
-        .mockResolvedValueOnce({
-          tweetResult: {
-            value: mockTweet,
-            error: undefined,
-          },
-          statistics: {},
-        })
+        .mockResolvedValueOnce(toSuccessResult(mockTweet))
 
       // Act
       const result = await downloadTweetMedia.process({
@@ -161,13 +150,9 @@ describe('DownloadTweetMedia', () => {
       const mockPublish = jest.spyOn(mockEventPublisher, 'publish')
       jest
         .spyOn(mockNativeFetchTweetSolution, 'process')
-        .mockResolvedValueOnce({
-          tweetResult: {
-            value: undefined,
-            error: new TweetIsNotFound('Tweet not found'),
-          },
-          statistics: {},
-        })
+        .mockResolvedValueOnce(
+          toErrorResult(new TweetIsNotFound('Tweet not found'))
+        )
 
       // Act
       const result = await downloadTweetMedia.process({
@@ -184,13 +169,9 @@ describe('DownloadTweetMedia', () => {
       const mockPublish = jest.spyOn(mockEventPublisher, 'publish')
       jest
         .spyOn(mockNativeFetchTweetSolution, 'process')
-        .mockResolvedValueOnce({
-          tweetResult: {
-            value: undefined,
-            error: new NoValidSolutionToken('Invalid token'),
-          },
-          statistics: {},
-        })
+        .mockResolvedValueOnce(
+          toErrorResult(new NoValidSolutionToken('Invalid token'))
+        )
 
       // Act
       const result = await downloadTweetMedia.process({
@@ -207,13 +188,9 @@ describe('DownloadTweetMedia', () => {
       const mockPublish = jest.spyOn(mockEventPublisher, 'publish')
       jest
         .spyOn(mockNativeFetchTweetSolution, 'process')
-        .mockResolvedValueOnce({
-          tweetResult: {
-            value: undefined,
-            error: new InsufficientQuota('Rate limit exceeded'),
-          },
-          statistics: {},
-        })
+        .mockResolvedValueOnce(
+          toErrorResult(new InsufficientQuota('Rate limit exceeded'))
+        )
 
       // Act
       const result = await downloadTweetMedia.process({
@@ -230,13 +207,9 @@ describe('DownloadTweetMedia', () => {
       const mockPublish = jest.spyOn(mockEventPublisher, 'publish')
       jest
         .spyOn(mockNativeFetchTweetSolution, 'process')
-        .mockResolvedValueOnce({
-          tweetResult: {
-            value: undefined,
-            error: new TweetProcessingError('Failed to parse tweet'),
-          },
-          statistics: {},
-        })
+        .mockResolvedValueOnce(
+          toErrorResult(new TweetProcessingError('Failed to parse tweet'))
+        )
 
       // Act
       const result = await downloadTweetMedia.process({
@@ -252,13 +225,7 @@ describe('DownloadTweetMedia', () => {
       // Arrange
       jest
         .spyOn(mockNativeFetchTweetSolution, 'process')
-        .mockResolvedValueOnce({
-          tweetResult: {
-            value: mockTweet,
-            error: undefined,
-          },
-          statistics: {},
-        })
+        .mockResolvedValueOnce(toSuccessResult(mockTweet))
       jest
         .spyOn(mockDownloadSettingsRepo, 'get')
         .mockResolvedValueOnce(generateDownloadSettings())

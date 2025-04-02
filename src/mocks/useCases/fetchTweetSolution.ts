@@ -1,17 +1,23 @@
 import type {
   FetchTweetSolution,
   FetchTweetSolutionCommand,
-  SolutionReport,
+  FetchTweetSolutionError,
+  SolutionStatistics,
 } from '#domain/useCases/fetchTweetSolution'
+import { Tweet } from '#domain/valueObjects/tweet'
 
 export class MockFetchTweetSolution implements FetchTweetSolution {
   get events(): IDomainEvent[] {
     return []
   }
 
-  async process(
+  get statistics(): SolutionStatistics<string> {
+    return {}
+  }
+
+  process(
     _command: FetchTweetSolutionCommand
-  ): Promise<SolutionReport<string>> {
-    throw new Error('Method not implemented')
+  ): Promise<Result<Tweet, FetchTweetSolutionError>> {
+    throw new Error('Method not implemented.')
   }
 }

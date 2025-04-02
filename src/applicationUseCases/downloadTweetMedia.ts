@@ -16,7 +16,7 @@ import type {
 } from '#domain/useCases/downloadMediaFile'
 import type {
   FetchTweetSolution,
-  SolutionReport,
+  SolutionStatistics,
 } from '#domain/useCases/fetchTweetSolution'
 import {
   FetchTweetSolutionError,
@@ -56,22 +56,21 @@ export class DownloadTweetMedia
 {
   constructor(readonly infra: InfraProvider) {}
 
-  async process(command: DownloadTweetMediaCommand): Promise<boolean> {
-    const tweetInfo = command.tweetInfo
+  async process({ tweetInfo }: DownloadTweetMediaCommand): Promise<boolean> {
     const solution = this.infra.solutionProvider()
-    const { tweetResult, statistics } = await solution.process({
+    const tweetResult = await solution.process({
       tweetId: tweetInfo.tweetId,
     })
 
     await this.infra.eventPublisher.publishAll(...solution.events)
-    await this.reportSolutionStatistics(statistics)
+    await this.reportSolutionStatistics(solution.statistics)
 
     if (tweetResult.error)
       return this.failDownload(tweetResult.error, tweetInfo)
 
     await this.saveDownloadHistory(tweetToDownloadHistory(tweetResult.value))
 
-    return this.processDownload(command.tweetInfo, tweetResult.value)
+    return this.processDownload(tweetInfo, tweetResult.value)
   }
 
   private async processDownload(tweetInfo: TweetInfo, tweet: Tweet) {
@@ -110,7 +109,10 @@ export class DownloadTweetMedia
       await this.infra.eventPublisher.publish(
         new TweetApiFailed(tweetInfo, errorCode)
       )
-    } else if (error instanceof InsufficientQuota) {
+    } else if (
+      error instanceof InsufficientQuota &&
+      error.isInternalControl === false
+    ) {
       await this.infra.eventPublisher.publish(
         new TweetApiFailed(tweetInfo, 429)
       )
@@ -151,9 +153,7 @@ export class DownloadTweetMedia
     })
   }
 
-  private async reportSolutionStatistics(
-    _statistics: SolutionReport['statistics']
-  ) {
+  private async reportSolutionStatistics(_statistics: SolutionStatistics) {
     // TODO: report statistics
   }
 }
