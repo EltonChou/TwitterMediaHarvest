@@ -17,6 +17,7 @@ import { MockXTokenRepository } from '#mocks/repositories/xToken'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import { generateTweet } from '#utils/test/tweet'
 import { NativeFetchTweetSolution } from './nativeFetchTweetSolution'
+import { faker } from '@faker-js/faker'
 
 describe('NativeFetchTweetSolution', () => {
   const csrfToken = new TwitterToken({ name: 'ct0', value: 'csrf' })
@@ -50,7 +51,10 @@ describe('NativeFetchTweetSolution', () => {
       jest.spyOn(xTokenRepo, 'getByName').mockResolvedValue(csrfToken)
       jest.spyOn(solutionQuotaRepo, 'get').mockResolvedValue(
         SolutionQuota.create(FetchTweetSolutionId.Native, {
-          quota: new ResettableQuota({ quota: 5, resetAt: new Date() }),
+          quota: new ResettableQuota({
+            quota: 5,
+            resetAt: faker.date.future(),
+          }),
           isRealtime: false,
         })
       )
@@ -58,6 +62,34 @@ describe('NativeFetchTweetSolution', () => {
       const result = await solution.process({ tweetId: '123' })
 
       expect(result.error).toBeInstanceOf(InsufficientQuota)
+    })
+
+    it('should not return insufficient quota error when quota is below threshold but it was reset', async () => {
+      jest.spyOn(xTokenRepo, 'getCsrfToken').mockResolvedValue(csrfToken)
+      jest.spyOn(xTokenRepo, 'getGuestToken').mockResolvedValue(undefined)
+      jest.spyOn(solutionQuotaRepo, 'get').mockResolvedValue(
+        SolutionQuota.create(FetchTweetSolutionId.Native, {
+          quota: new ResettableQuota({
+            quota: 5,
+            resetAt: faker.date.past(),
+          }),
+          isRealtime: false,
+        })
+      )
+      jest.spyOn(xApiClient, 'exec').mockResolvedValueOnce(
+        toSuccessResult({
+          tweetResult: toSuccessResult(generateTweet()),
+          $metadata: {
+            remainingQuota: 5,
+            quotaResetTime: new Date(),
+          },
+        })
+      )
+
+      const result = await solution.process({ tweetId: '123' })
+
+      expect(result.error).toBeUndefined()
+      expect(result.value).toBeDefined()
     })
 
     it('should emit quota changed event when valid quota metadata received', async () => {
