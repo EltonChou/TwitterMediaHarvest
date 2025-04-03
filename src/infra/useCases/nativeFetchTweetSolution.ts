@@ -2,7 +2,7 @@ import { SolutionQuota } from '#domain/entities/solutionQuota'
 import TweetSolutionQuotaChanged from '#domain/events/TweetSolutionQuotaChanged'
 import TweetSolutionQuotaInsufficient from '#domain/events/TweetSolutionQuotaInsufficient'
 import type { Factory } from '#domain/factories/base'
-import { ISolutionQuotaRepository } from '#domain/repositories/solutionQuota'
+import type { ISolutionQuotaRepository } from '#domain/repositories/solutionQuota'
 import type { ITwitterTokenRepository } from '#domain/repositories/twitterToken'
 import type {
   FetchTweetSolution,
@@ -60,10 +60,56 @@ class CacheStorage implements CommandCache {
 type StatisticIdentity = 'general' | 'fallback' | 'guest'
 
 type SolutionOptions = {
-  /** How much quota should be reserved for normal usage */
+  /** How much quota should be reserved for normal usage. */
+  reservedQuota: number
+  /**
+   * Threshold to triiger `TweetSolutionQuotaInsufficient`.
+   *
+   * The comparision is `<=`
+   */
   quotaThreshold: number
 }
 
+/**
+ * Implementation of FetchTweetSolution that handles fetching tweets using native Twitter/X API.
+ * This solution manages different fetch strategies including guest access, general access, and fallback mechanisms.
+ * It also handles quota management, caching, and error handling for tweet fetching operations.
+ *
+ * @implements {FetchTweetSolution<StatisticIdentity>}
+ *
+ * @example
+ * ```typescript
+ * const infraProvider = {
+ *   solutionQuotaRepo,
+ *   xTokenRepo,
+ *   xApiClient
+ * };
+ * const options = { reservedQuota: 100, quotaThreshold: 50 };
+ * const solution = new NativeFetchTweetSolution(infraProvider, options);
+ * const result = await solution.process({ tweetId: '123456789' });
+ * ```
+ *
+ * @remarks
+ * The solution implements a multi-layered approach to fetch tweets:
+ * 1. Attempts guest token access first
+ * 2. Checks quota availability
+ * 3. Tries general access with latest API
+ * 4. Falls back to alternative endpoint if needed
+ *
+ * @remarks
+ * The error would be return in the result, no need to use try-catch statement.
+ *
+ * @throws {InsufficientQuota} When the remaining quota is below the reserved threshold
+ * @throws {NoValidSolutionToken} When no valid authentication token is available
+ * @throws {TweetIsNotFound} When the requested tweet cannot be found
+ * @throws {TweetProcessingError} When the tweet data cannot be parsed
+ *
+ * @emits {TweetSolutionQuotaChanged} When the remaining quota changes after a successful API call
+ * @see {@link TweetSolutionQuotaChanged}
+ *
+ * @emits {TweetSolutionQuotaInsufficient}  When remaining quota falls below or equals quota threshold provided in option
+ * @see {@link TweetSolutionQuotaInsufficient}
+ */
 export class NativeFetchTweetSolution
   implements FetchTweetSolution<StatisticIdentity>
 {
@@ -147,7 +193,7 @@ export class NativeFetchTweetSolution
     if (!this.hasEnoughQuota(solutionQuota)) {
       return toErrorResult(
         new InsufficientQuota(
-          `Remaining quota is less than threshold (${this.options.quotaThreshold}). `,
+          `Remaining quota is less than reserved quota (${this.options.reservedQuota}). `,
           { isInternalControl: true }
         )
       )
@@ -164,18 +210,22 @@ export class NativeFetchTweetSolution
         this._events.push(
           new TweetSolutionQuotaChanged(
             FetchTweetSolutionId.Native,
-            generalResult.value.$metadata.remainingQuota,
+            this.calculateUsableQuota(
+              generalResult.value.$metadata.remainingQuota
+            ),
             generalResult.value.$metadata.quotaResetTime
           )
         )
       }
 
       if (isSuccessfulTweetResult(generalResult)) {
-        if (this.isQuotaLow(generalResult.value))
+        if (this.isCommandOutputLowQuota(generalResult.value))
           this._events.push(
             new TweetSolutionQuotaInsufficient(
               FetchTweetSolutionId.Native,
-              generalResult.value.$metadata.remainingQuota,
+              this.calculateUsableQuota(
+                generalResult.value.$metadata.remainingQuota
+              ),
               generalResult.value.$metadata.quotaResetTime
             )
           )
@@ -251,7 +301,7 @@ export class NativeFetchTweetSolution
    * @param commandOutput - The command output.
    * @returns True if the remaining quota is low, false otherwise.
    */
-  private isQuotaLow(
+  private isCommandOutputLowQuota(
     commandOutput: FetchTweetCommandOutput
   ): commandOutput is FetchTweetCommandOutput & ValidQuotaValue {
     return (
@@ -262,7 +312,7 @@ export class NativeFetchTweetSolution
   }
 
   /**
-   * Check if the remaining quota is sufficient for normal usage.
+   * Check if the remaining quota is sufficient for download usage.
    *
    * @param solutionQuota - The solution quota entity
    * @returns True if the remaining quota is above threshold, false otherwise.
@@ -270,7 +320,15 @@ export class NativeFetchTweetSolution
   private hasEnoughQuota(solutionQuota: SolutionQuota | undefined): boolean {
     if (!solutionQuota) return true
     if (solutionQuota.quota.isReset) return true
-    return solutionQuota.quota.remaining > this.options.quotaThreshold
+    return solutionQuota.quota.remaining > this.options.reservedQuota
+  }
+
+  /**
+   * @param remainingQuota
+   * @returns usable quota which is not less than 0.
+   */
+  private calculateUsableQuota(remainingQuota: number): number {
+    return Math.max(remainingQuota - this.options.reservedQuota, 0)
   }
 }
 

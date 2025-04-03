@@ -43,7 +43,7 @@ export const initMessageRouter = (router: MessageRouter): MessageRouter =>
               xTokenRepo: xTokenRepo,
               solutionQuotaRepo: solutionQuotaRepo,
             },
-            { quotaThreshold: 20 }
+            { quotaThreshold: 20, reservedQuota: 20 }
           ),
       })
     )

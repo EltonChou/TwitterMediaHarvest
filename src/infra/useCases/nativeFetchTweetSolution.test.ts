@@ -33,7 +33,7 @@ describe('NativeFetchTweetSolution', () => {
 
     solution = new NativeFetchTweetSolution(
       { solutionQuotaRepo, xTokenRepo, xApiClient },
-      { quotaThreshold: 10 }
+      { quotaThreshold: 10, reservedQuota: 20 }
     )
   })
 
@@ -47,7 +47,7 @@ describe('NativeFetchTweetSolution', () => {
       expect(result.error).toBeInstanceOf(NoValidSolutionToken)
     })
 
-    it('should return insufficient quota error when quota is below threshold', async () => {
+    it('should return insufficient quota error when quota is below reserved quota', async () => {
       jest.spyOn(xTokenRepo, 'getByName').mockResolvedValue(csrfToken)
       jest.spyOn(solutionQuotaRepo, 'get').mockResolvedValue(
         SolutionQuota.create(FetchTweetSolutionId.Native, {
@@ -64,7 +64,7 @@ describe('NativeFetchTweetSolution', () => {
       expect(result.error).toBeInstanceOf(InsufficientQuota)
     })
 
-    it('should not return insufficient quota error when quota is below threshold but it was reset', async () => {
+    it('should not return insufficient quota error when quota is below reserved quota but it was reset', async () => {
       jest.spyOn(xTokenRepo, 'getCsrfToken').mockResolvedValue(csrfToken)
       jest.spyOn(xTokenRepo, 'getGuestToken').mockResolvedValue(undefined)
       jest.spyOn(solutionQuotaRepo, 'get').mockResolvedValue(
