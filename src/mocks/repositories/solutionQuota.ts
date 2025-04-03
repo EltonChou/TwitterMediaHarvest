@@ -4,8 +4,8 @@ import type { ISolutionQuotaRepository } from '#domain/repositories/solutionQuot
 export class MockSolutionQuotaRepository implements ISolutionQuotaRepository {
   private storage = new Map<SolutionId, SolutionQuota>()
 
-  async get(solutionId: SolutionId): Promise<SolutionQuota | null> {
-    return this.storage.get(solutionId) ?? null
+  async get(solutionId: SolutionId): Promise<SolutionQuota | undefined> {
+    return this.storage.get(solutionId)
   }
 
   async save(solutionQuota: SolutionQuota): Promise<void> {

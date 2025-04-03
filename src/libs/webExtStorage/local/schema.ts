@@ -3,6 +3,7 @@ import type {
   DownloadSettings,
   FeatureSettings,
   SentryExceptionRecord,
+  SolutionQuotaCollection,
   V4Statistics,
   WarningSettings,
 } from '#schema'
@@ -13,4 +14,5 @@ export interface LocalStorageSchema
     ClientInfo,
     V4Statistics,
     SentryExceptionRecord,
-    WarningSettings {}
+    WarningSettings,
+    SolutionQuotaCollection {}

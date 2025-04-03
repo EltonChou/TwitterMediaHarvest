@@ -55,3 +55,15 @@ type SentryLastException = {
 type SentryExceptionRecord = {
   lastException: SentryLastException
 }
+
+type SolutionQuota = {
+  quota: number
+  resetAt: Date
+  warnedAt?: Date
+}
+
+type SolutionQuotaCollection<SolutionKey extends string = string> = {
+  solutionQuotaCollection: {
+    [K in SolutionKey]: SolutionQuota
+  }
+}

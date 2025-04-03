@@ -3,12 +3,12 @@ import { Aria2DownloadMediaFile } from '#infra/useCases/aria2DownloadMediaFile'
 import { BrowserDownloadMediaFile } from '#infra/useCases/browserDownloadMediaFile'
 import { NativeFetchTweetSolution } from '#infra/useCases/nativeFetchTweetSolution'
 import { WebExtAction } from '#libs/webExtMessage'
-import { MockSolutionQuotaRepository } from '#mocks/repositories/solutionQuota'
 import {
   downloadHistoryRepo,
   downloadSettingsRepo,
   featureSettingsRepo,
   filenameSettingsRepo,
+  solutionQuotaRepo,
   xApiClient,
   xTokenRepo,
 } from '#provider'
@@ -41,8 +41,7 @@ export const initMessageRouter = (router: MessageRouter): MessageRouter =>
             {
               xApiClient: xApiClient,
               xTokenRepo: xTokenRepo,
-              // TODO: Implement solution quota repository
-              solutionQuotaRepo: new MockSolutionQuotaRepository(),
+              solutionQuotaRepo: solutionQuotaRepo,
             },
             { quotaThreshold: 20 }
           ),

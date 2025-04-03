@@ -267,7 +267,7 @@ export class NativeFetchTweetSolution
    * @param solutionQuota - The solution quota entity
    * @returns True if the remaining quota is above threshold, false otherwise.
    */
-  private hasEnoughQuota(solutionQuota: SolutionQuota | null): boolean {
+  private hasEnoughQuota(solutionQuota: SolutionQuota | undefined): boolean {
     if (!solutionQuota) return true
     return (
       !solutionQuota.quota.isReseted &&

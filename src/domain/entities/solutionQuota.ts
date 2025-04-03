@@ -2,12 +2,9 @@ import type { ResettableQuota } from '#domain/valueObjects/resettableQuota'
 import { TimeHelper } from '#helpers/time'
 import { Entity, EntityId } from './base'
 
-interface InitialProps {
+interface QuotaProps extends LiteralObject {
   isRealtime: boolean
   quota: ResettableQuota
-}
-
-interface QuotaProps extends LiteralObject, InitialProps {
   warnedAt?: Date
 }
 
@@ -37,7 +34,7 @@ export class SolutionQuota extends Entity<SolutionQuotaId, QuotaProps> {
     return this.props.isRealtime
   }
 
-  static create(id: SolutionId, props: InitialProps): SolutionQuota {
+  static create(id: SolutionId, props: QuotaProps): SolutionQuota {
     return new SolutionQuota(new SolutionQuotaId(id), {
       ...props,
     })

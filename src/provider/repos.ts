@@ -6,6 +6,7 @@ import { BrowserDownloadRepository } from '#infra/repositories/browserDownload'
 import { DownloadSettingsRepository } from '#infra/repositories/downloadSettings'
 import { FeatureSettingsRepository } from '#infra/repositories/featureSettings'
 import { V4FilenameSettingsRepository } from '#infra/repositories/filenameSettings'
+import { SolutionQuotaRepository } from '#infra/repositories/solutionQuota'
 import { WebExtUsageStatisticsRepository } from '#infra/repositories/usageStatistics'
 import { WarningSettingsRepo } from '#infra/repositories/warningSettings'
 import { XTokenRepo } from '#infra/repositories/xToken'
@@ -39,3 +40,4 @@ export const portableDownloadRepo = new IDBPortableDownloadHistoryRepository(
   downloadIDB
 )
 export const warningSettingsRepo = new WarningSettingsRepo(localWebExtStorage)
+export const solutionQuotaRepo = new SolutionQuotaRepository(localWebExtStorage)
