@@ -5,7 +5,7 @@ import type { Filter } from '#domain/useCases/searchDownloadHistory'
 import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
 import type { DownloadHistoryTweetUser } from '#domain/valueObjects/downloadHistoryTweetUser'
 import type MediaType from '#enums/mediaType'
-import { toErrorResult, toSuccessResult } from '#utils/result'
+import { isErrorResult, toSuccessResult } from '#utils/result'
 import type { AsyncUseCase } from '../domain/useCases/base'
 
 export type User = {
@@ -70,15 +70,11 @@ export class SearchDownloadHistoryUseCase
   ) {}
 
   async searchTweetIds(hashtags: string[]): AsyncResult<Set<string>> {
-    if (hashtags.length === 0) return toSuccessResult(new Set<string>())
-
-    const { value: tweetIds, error } =
-      await this.searchTweetIdsByHashtags.process({
-        hashtags: hashtags,
-      })
-
-    if (error) return toErrorResult(error)
-    return toSuccessResult(tweetIds)
+    return hashtags.length === 0
+      ? toSuccessResult(new Set())
+      : this.searchTweetIdsByHashtags.process({
+          hashtags: hashtags,
+        })
   }
 
   async process(query: Query): Promise<DownloadHistoryQueryResponse> {
@@ -99,13 +95,12 @@ export class SearchDownloadHistoryUseCase
       result: toErrorQueryResult(error),
     })
 
-    const { value: tweetIds, error: tweetIdsError } = await this.searchTweetIds(
-      query.hashtags
-    )
-    if (tweetIdsError) return toErrorResponse(tweetIdsError)
+    const idSearchResult = await this.searchTweetIds(query.hashtags)
+    if (isErrorResult(idSearchResult))
+      return toErrorResponse(idSearchResult.error)
 
     const result = await this.searchDownloadHistory.process({
-      tweetIds: tweetIds,
+      tweetIds: idSearchResult.value,
       limit: itemPerPage,
       skip: calcSkip(query),
       filters: [

@@ -31,6 +31,7 @@ import { Tweet } from '#domain/valueObjects/tweet'
 import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import type { TweetMediaFile } from '#domain/valueObjects/tweetMediaFile'
 import type { DownloadSettings, FeatureSettings } from '#schema'
+import { isErrorResult } from '#utils/result'
 
 type DownloadTweetMediaCommand = {
   tweetInfo: TweetInfo
@@ -65,7 +66,7 @@ export class DownloadTweetMedia
     await this.infra.eventPublisher.publishAll(...solution.events)
     await this.reportSolutionStatistics(solution.statistics)
 
-    if (tweetResult.error)
+    if (isErrorResult(tweetResult))
       return this.failDownload(tweetResult.error, tweetInfo)
 
     await this.saveDownloadHistory(tweetToDownloadHistory(tweetResult.value))

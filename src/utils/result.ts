@@ -7,3 +7,15 @@ export const toSuccessResult = <T>(value: T): Result<T> => ({
   error: undefined,
   value: value,
 })
+
+export const isErrorResult = <T>(
+  result: Result<T>
+): result is { error: Error; value: undefined } => {
+  return result.error !== undefined
+}
+
+export const isSuccessResult = <T>(
+  result: Result<T>
+): result is { error: undefined; value: T } => {
+  return result.error === undefined && result.value !== undefined
+}
