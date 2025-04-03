@@ -58,8 +58,8 @@ type SentryExceptionRecord = {
 
 type SolutionQuota = {
   quota: number
-  resetAt: Date
-  warnedAt?: Date
+  resetAt: number
+  warnedAt?: number
 }
 
 type SolutionQuotaCollection<SolutionKey extends string = string> = {

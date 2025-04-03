@@ -28,8 +28,9 @@ export class SolutionQuotaRepository implements ISolutionQuotaRepository {
       isRealtime: false,
       quota: new ResettableQuota({
         quota: props.quota,
-        resetAt: props.resetAt,
+        resetAt: new Date(props.resetAt),
       }),
+      warnedAt: props.warnedAt ? new Date(props.warnedAt) : undefined,
     })
   }
 
@@ -64,8 +65,8 @@ const solutionQuotaEntityToSolutionQuotaDBItem: Factory<
     return {
       [id.value as LazySolutionId]: {
         quota: props.quota.remaining,
-        resetAt: props.quota.resetTime,
-        warnedAt: props.warnedAt,
+        resetAt: props.quota.resetTime.getTime(),
+        warnedAt: props.warnedAt?.getTime(),
       },
     }
   })
