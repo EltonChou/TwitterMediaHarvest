@@ -109,13 +109,11 @@ export class DownloadTweetMedia
       await this.infra.eventPublisher.publish(
         new TweetApiFailed(tweetInfo, errorCode)
       )
-    } else if (
-      error instanceof InsufficientQuota &&
-      error.isInternalControl === false
-    ) {
-      await this.infra.eventPublisher.publish(
-        new TweetApiFailed(tweetInfo, 429)
-      )
+    } else if (error instanceof InsufficientQuota) {
+      if (error.isInternalControl === false)
+        await this.infra.eventPublisher.publish(
+          new TweetApiFailed(tweetInfo, 429)
+        )
     } else if (error instanceof TweetProcessingError) {
       await this.infra.eventPublisher.publish(new TweetParsingFailed(tweetInfo))
     } else {
