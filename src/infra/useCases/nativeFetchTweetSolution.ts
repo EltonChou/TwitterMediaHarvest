@@ -270,7 +270,7 @@ export class NativeFetchTweetSolution
   private hasEnoughQuota(solutionQuota: SolutionQuota | undefined): boolean {
     if (!solutionQuota) return true
     return (
-      !solutionQuota.quota.isReseted &&
+      !solutionQuota.quota.isReset &&
       solutionQuota.quota.remaining > this.options.quotaThreshold
     )
   }

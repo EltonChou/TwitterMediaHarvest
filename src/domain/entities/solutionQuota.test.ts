@@ -44,7 +44,7 @@ describe('SolutionQuota', () => {
       isRealtime: false,
     }
     const solutionQuota = SolutionQuota.create('native', props)
-    expect(solutionQuota.quota.isReseted).toBe(true)
+    expect(solutionQuota.quota.isReset).toBe(true)
   })
 
   it('should return false if the quota reset time has not passed', () => {
@@ -57,7 +57,7 @@ describe('SolutionQuota', () => {
       isRealtime: false,
     }
     const solutionQuota = SolutionQuota.create('native', props)
-    expect(solutionQuota.quota.isReseted).toBe(false)
+    expect(solutionQuota.quota.isReset).toBe(false)
   })
 
   it('should return true if the quota is realtime', () => {

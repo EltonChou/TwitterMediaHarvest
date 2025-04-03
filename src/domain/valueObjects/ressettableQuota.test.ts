@@ -27,7 +27,7 @@ describe('ResettableQuota', () => {
   it('should not be reseted before reset time', () => {
     const resetAt = new Date('2024-01-02T00:00:00Z')
     const quota = new ResettableQuota({ quota: 100, resetAt })
-    expect(quota.isReseted).toBe(false)
+    expect(quota.isReset).toBe(false)
   })
 
   it('should be reseted after reset time', () => {
@@ -35,7 +35,7 @@ describe('ResettableQuota', () => {
     const quota = new ResettableQuota({ quota: 100, resetAt })
 
     jest.setSystemTime(new Date('2024-01-02T00:00:01Z'))
-    expect(quota.isReseted).toBe(true)
+    expect(quota.isReset).toBe(true)
   })
 
   it('should be equal when props are the same', () => {

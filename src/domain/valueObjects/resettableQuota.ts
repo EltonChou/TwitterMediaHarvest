@@ -14,7 +14,7 @@ export class ResettableQuota extends ValueObject<ResettableQuotaProps> {
     return this.props.resetAt
   }
 
-  get isReseted(): boolean {
+  get isReset(): boolean {
     return new Date(Date.now()) >= this.props.resetAt
   }
 }
