@@ -1,19 +1,22 @@
 import { DomainEventPublisher } from '#domain/eventPublisher'
-import { checkCompletedDownload } from '#eventHandlers/checkCompletedDownload'
-import { cleanDownloadRecord as cleanDownloadRecordHandler } from '#eventHandlers/cleanDownloadRecord'
-import { increaseUsageStatistics } from '#eventHandlers/increaseUsageStatistics'
-import { initClient } from '#eventHandlers/initClient'
-import { notifyDownloadInterrupted } from '#eventHandlers/notifyDownloadInterrupted'
-import { notifyFilenameIsOverwritten } from '#eventHandlers/notifyFilenameIsOverwritten'
-import { notifyTweetApiError } from '#eventHandlers/notifyTweetApiError'
-import { openFailedTweetInNewTab } from '#eventHandlers/openFailedTweetInNewTab'
-import { openTweetOfFailedDownloadInNewTab } from '#eventHandlers/openTweetOfFailedDownloadInNewTab'
-import { recordDispatchedDownloadConfiguration } from '#eventHandlers/recordDispatchedDownloadConfiguration'
-import { retryFailedDownload } from '#eventHandlers/retryFailedDownload'
-import { setMonitorUser } from '#eventHandlers/setMonitorUser'
-import { showClientInfoInConsole } from '#eventHandlers/showClientInfoInConsole'
-import { showUpdateMessageInConsole } from '#eventHandlers/showUpdateMessageInConsole'
-import { syncClient } from '#eventHandlers/syncClient'
+import {
+  checkCompletedDownload,
+  cleanDownloadRecord as cleanDownloadRecordHandler,
+  increaseUsageStatistics,
+  initClient,
+  notifyDownloadInterrupted,
+  notifyFilenameIsOverwritten,
+  notifyTweetApiError,
+  openFailedTweetInNewTab,
+  openTweetOfFailedDownloadInNewTab,
+  recordDispatchedDownloadConfiguration,
+  retryFailedDownload,
+  setMonitorUser,
+  showClientInfoInConsole,
+  showUpdateMessageInConsole,
+  syncClient,
+  warnInsufficientNativeSolutionQuota,
+} from '#eventHandlers'
 import { getNotifier } from '#infra/browserNotifier'
 import { getEventPublisher } from '#infra/eventPublisher'
 import { BrowserDownloadMediaFile } from '#infra/useCases/browserDownloadMediaFile'
@@ -24,6 +27,7 @@ import {
   downloadRecordRepo,
   downloadRepo,
   downloadSettingsRepo,
+  solutionQuotaRepo,
   usageStatisticsRepo,
   warningSettingsRepo,
 } from '#provider'
@@ -104,6 +108,10 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
     .register('download:status:failed:browser', [
       // TODO: Handle brower download failed event
     ])
+    .register('tweetSolution:quota:insufficient', [
+      warnInsufficientNativeSolutionQuota(solutionQuotaRepo, notifier),
+    ])
+    .register('tweetSolution:quota:changed', [])
 }
 
 export default initEventPublisher

@@ -32,6 +32,7 @@
       "#infra/*": ["./infra/*"],
       "#utils/*": ["./utils/*"],
       "#eventHandlers/*": ["./eventHandlers/*"],
+      "#eventHandlers": ["./eventHandlers"],
       "#mocks/*": ["./mocks/*"],
       "#pages/*": ["./pages/*"],
       "#assets/*": ["./assets/*"],
