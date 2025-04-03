@@ -17,12 +17,6 @@ interface IHarvester {
 
 type Provider<T> = (() => T) | (() => Promise<T>)
 
-interface IProcessLock {
-  isLocked(): Promise<boolean>
-  acquire(): Promise<void>
-  release(): Promise<void>
-}
-
 interface LiteralObject {
   [index: string]: unknown
 }
@@ -47,6 +41,17 @@ type Result<T, Err extends Error = Error> =
   | { value: undefined; error: Err }
   | { value: T; error: undefined }
 type AsyncResult<T, Err extends Error = Error> = Promise<Result<T, Err>>
+
+type SuccessResult<ResultT> =
+  ResultT extends Result<infer T> ? { value: T; error: undefined } : never
+type FailedResult<ResultT> =
+  ResultT extends Result<unknown, infer E>
+    ? { value: undefined; error: E }
+    : never
+type ValueOfResult<ResultT> =
+  ResultT extends Result<infer T> ? NonNullable<T> : never
+type ErrorOfResult<ResultT> =
+  ResultT extends Result<unknown, infer E> ? NonNullable<E> : never
 
 type ListenerOf<T> = T extends {
   addListener: (callback: infer Listener, ...params: infer Args) => void
