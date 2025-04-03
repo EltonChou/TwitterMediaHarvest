@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-03-20 02:39+0800\n"
+"POT-Creation-Date: 2025-04-03 08:45+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -65,6 +65,16 @@ msgstr "推特資訊分析失敗"
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr "推特資訊分析失敗。請向開發者回報錯誤。"
+
+#: src/helpers/notificationConfig.ts:217
+msgctxt "notification:quota"
+msgid "Download Quota Warning"
+msgstr "下載額度警示"
+
+#: src/helpers/notificationConfig.ts:218
+msgctxt "notification:quota"
+msgid "Remaining quota: {{quota}}. Resets at {{time}}"
+msgstr "剩餘額度: {{quota}}，將重置於 {{time}}"
 
 #: src/helpers/notificationButton.ts:14
 msgctxt "notification:tweet:button"
