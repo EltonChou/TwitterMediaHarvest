@@ -23,6 +23,31 @@ const enum TemplateType {
 const getNotificationIconUrl = () =>
   Browser.runtime.getURL('assets/icons/icon@128.png')
 
+const createNotificationOptions = ({
+  buttons,
+  requireInteraction,
+  ...options
+}: { type?: TemplateType } & Omit<
+  Notifications.CreateNotificationOptions,
+  'type'
+> &
+  Pick<
+    chrome.notifications.NotificationOptions,
+    'buttons' | 'requireInteraction'
+  >): Notifications.CreateNotificationOptions => ({
+  type: TemplateType.Basic,
+  iconUrl: getNotificationIconUrl(),
+  contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
+  eventTime: Date.now(),
+  ...options,
+  ...(isFirefox()
+    ? {}
+    : {
+        buttons,
+        requireInteraction,
+      }),
+})
+
 export const enum MediaDownloadNotificationErrorButton {
   ViewTweet = 0,
   RetryDownload = 1,
@@ -39,23 +64,16 @@ export class MediaDownloadNotificationConfig {
       { account: tweetInfo.screenName, 'tweet-id': tweetInfo.tweetId }
     )
 
-    return {
-      type: TemplateType.Basic,
-      iconUrl: getNotificationIconUrl(),
+    return createNotificationOptions({
       title: getText('Download failed', 'notification:download'),
       message: info,
-      contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
       eventTime: eventTime.getTime(),
-      ...(isFirefox()
-        ? {}
-        : {
-            buttons: [
-              TweetNotificationButton.viewTweet(),
-              DownloadNotificationButton.retryDownload(),
-            ],
-            requireInteraction: true,
-          }),
-    }
+      buttons: [
+        TweetNotificationButton.viewTweet(),
+        DownloadNotificationButton.retryDownload(),
+      ],
+      requireInteraction: true,
+    })
   }
 }
 
@@ -74,20 +92,13 @@ const makeGeneralTweetFetchErrorNotificationConfig = ({
   message,
   eventTime,
 }: GeneralTweetFetchErrorNotificationConfigParams): Notifications.CreateNotificationOptions => {
-  return {
-    type: TemplateType.Basic,
-    iconUrl: getNotificationIconUrl(),
+  return createNotificationOptions({
     title: title,
     message: message,
-    contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
     eventTime: eventTime.getTime(),
-    ...(isFirefox()
-      ? {}
-      : {
-          buttons: [TweetNotificationButton.viewTweet()],
-          requireInteraction: true,
-        }),
-  }
+    buttons: [TweetNotificationButton.viewTweet()],
+    requireInteraction: true,
+  })
 }
 
 type TweetFetchErrorNotificationConfigParams = {
@@ -160,23 +171,18 @@ export class TweetFetchErrorNotificationConfig {
     })
   }
 
-  static failedToParseTweetInfo =
-    (): Notifications.CreateNotificationOptions => {
-      return {
-        type: TemplateType.Basic,
-        iconUrl: getNotificationIconUrl(),
-        title: getText(
-          'Failed to parse tweet information',
-          'notification:parseTweetInfo'
-        ),
-        message: getText(
-          'Failed to parse tweet information. Please report bug to developer.',
-          'notification:parseTweetInfo'
-        ),
-        contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
-        eventTime: Date.now(),
-      }
-    }
+  static failedToParseTweetInfo(): Notifications.CreateNotificationOptions {
+    return createNotificationOptions({
+      title: getText(
+        'Failed to parse tweet information',
+        'notification:parseTweetInfo'
+      ),
+      message: getText(
+        'Failed to parse tweet information. Please report bug to developer.',
+        'notification:parseTweetInfo'
+      ),
+    })
+  }
 }
 
 export const enum FilenameOverwirrtenNotificationButton {
@@ -186,24 +192,16 @@ export const enum FilenameOverwirrtenNotificationButton {
 export const makeFilenameIsOverwrittenNotificationConfig: Factory<
   FilenameOverwrittenEvent,
   Notifications.CreateNotificationOptions
-> = event => {
-  return {
-    type: TemplateType.Basic,
-    iconUrl: getNotificationIconUrl(),
+> = event =>
+  createNotificationOptions({
     title: getText('WARNING: Filename is modified', 'notification:filename'),
     message: getText(
       "The filename is modified by other extensions, please check extensions' settings.",
       'notification:filename'
     ),
-    contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
     eventTime: event.occuredAt.getTime(),
-    ...(isFirefox()
-      ? {}
-      : {
-          buttons: [FilenameNotificationButton.ignore()],
-        }),
-  }
-}
+    buttons: [FilenameNotificationButton.ignore()],
+  })
 
 export class SolutionQuotaWarningNotificationConfig {
   static native(params: {
@@ -211,9 +209,7 @@ export class SolutionQuotaWarningNotificationConfig {
     resetTime: Date
     eventTime?: Date
   }): Notifications.CreateNotificationOptions {
-    return {
-      type: TemplateType.Basic,
-      iconUrl: getNotificationIconUrl(),
+    return createNotificationOptions({
       title: getText('Download Quota Warning', 'notification:quota'),
       message: getText(
         'Remaining quota: {{quota}}. Resets at {{time}}',
@@ -223,9 +219,8 @@ export class SolutionQuotaWarningNotificationConfig {
           time: params.resetTime.toLocaleString(),
         }
       ),
-      contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
       eventTime: params.eventTime ? params.eventTime.getTime() : Date.now(),
       // TODO: Add a button which will redirect user to Q&A page when clicked.
-    }
+    })
   }
 }
