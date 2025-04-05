@@ -125,7 +125,7 @@ describe('NativeFetchTweetSolution', () => {
           toSuccessResult({
             tweetResult: toSuccessResult(generateTweet()),
             $metadata: {
-              remainingQuota: 5,
+              remainingQuota: 30,
               quotaResetTime: new Date(),
             },
           })

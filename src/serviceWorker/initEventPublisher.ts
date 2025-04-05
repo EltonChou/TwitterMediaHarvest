@@ -4,6 +4,7 @@ import {
   cleanDownloadRecord as cleanDownloadRecordHandler,
   increaseUsageStatistics,
   initClient,
+  logEventInConsole,
   notifyDownloadInterrupted,
   notifyFilenameIsOverwritten,
   notifyTweetApiError,
@@ -15,6 +16,7 @@ import {
   showClientInfoInConsole,
   showUpdateMessageInConsole,
   syncClient,
+  updateSolutionQuota,
   warnInsufficientNativeSolutionQuota,
 } from '#eventHandlers'
 import { getNotifier } from '#infra/browserNotifier'
@@ -111,7 +113,10 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
     .register('tweetSolution:quota:insufficient', [
       warnInsufficientNativeSolutionQuota(solutionQuotaRepo, notifier),
     ])
-    .register('tweetSolution:quota:changed', [])
+    .register('tweetSolution:quota:changed', [
+      updateSolutionQuota(solutionQuotaRepo),
+      logEventInConsole,
+    ])
 }
 
 export default initEventPublisher

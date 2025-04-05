@@ -175,11 +175,12 @@ export class NativeFetchTweetSolution
     const csrfToken = await this.infra.xTokenRepo.getCsrfToken()
     const guestToken = await this.infra.xTokenRepo.getGuestToken()
 
-    if (guestToken) {
+    const guestCsrfToken = guestToken?.value ?? csrfToken?.value
+    if (guestCsrfToken) {
       const guestResult = await this.execCommand(GuestFetchTweetCommand)({
         statIdentity: 'guest',
         tweetId: command.tweetId,
-        csrfToken: guestToken.value,
+        csrfToken: guestCsrfToken,
       })
 
       if (isSuccessfulTweetResult(guestResult))
@@ -190,7 +191,15 @@ export class NativeFetchTweetSolution
       FetchTweetSolutionId.Native
     )
 
-    if (!this.hasEnoughQuota(solutionQuota)) {
+    if (solutionQuota !== undefined && !this.hasEnoughQuota(solutionQuota)) {
+      this._events.push(
+        new TweetSolutionQuotaInsufficient(
+          FetchTweetSolutionId.Native,
+          this.calculateUsableQuota(solutionQuota.quota.remaining),
+          solutionQuota.quota.resetTime
+        )
+      )
+
       return toErrorResult(
         new InsufficientQuota(
           `Remaining quota is less than reserved quota (${this.options.reservedQuota}). `,
@@ -210,9 +219,7 @@ export class NativeFetchTweetSolution
         this._events.push(
           new TweetSolutionQuotaChanged(
             FetchTweetSolutionId.Native,
-            this.calculateUsableQuota(
-              generalResult.value.$metadata.remainingQuota
-            ),
+            generalResult.value.$metadata.remainingQuota,
             generalResult.value.$metadata.quotaResetTime
           )
         )
@@ -307,7 +314,8 @@ export class NativeFetchTweetSolution
     return (
       typeof commandOutput.$metadata.remainingQuota === 'number' &&
       commandOutput.$metadata.quotaResetTime instanceof Date &&
-      commandOutput.$metadata.remainingQuota <= this.options.quotaThreshold
+      this.calculateUsableQuota(commandOutput.$metadata.remainingQuota) <=
+        this.options.quotaThreshold + this.options.reservedQuota
     )
   }
 
@@ -317,8 +325,7 @@ export class NativeFetchTweetSolution
    * @param solutionQuota - The solution quota entity
    * @returns True if the remaining quota is above threshold, false otherwise.
    */
-  private hasEnoughQuota(solutionQuota: SolutionQuota | undefined): boolean {
-    if (!solutionQuota) return true
+  private hasEnoughQuota(solutionQuota: SolutionQuota): boolean {
     if (solutionQuota.quota.isReset) return true
     return solutionQuota.quota.remaining > this.options.reservedQuota
   }

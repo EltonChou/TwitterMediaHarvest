@@ -1,74 +1,92 @@
 import { SolutionQuota } from '#domain/entities/solutionQuota'
 import TweetSolutionQuotaInsufficient from '#domain/events/TweetSolutionQuotaInsufficient'
 import { ResettableQuota } from '#domain/valueObjects/resettableQuota'
+import FetchTweetSolutionId from '#enums/FetchTweetSolution'
 import { getNotifier } from '#infra/browserNotifier'
 import { MockEventPublisher } from '#mocks/eventPublisher'
 import { MockSolutionQuotaRepository } from '#mocks/repositories/solutionQuota'
 import { warnInsufficientNativeSolutionQuota } from './warnInsufficientNativeSolutionQuota'
 
 describe('warnInsufficientNativeSolutionQuota', () => {
-  const solutionQuotaRepo = new MockSolutionQuotaRepository()
-  const notifier = getNotifier()
-  const publisher = new MockEventPublisher()
-  const handler = warnInsufficientNativeSolutionQuota(
-    solutionQuotaRepo,
-    notifier
-  )
+  const mockSolutionQuotaRepo = new MockSolutionQuotaRepository()
 
-  const event = new TweetSolutionQuotaInsufficient(
-    'native',
-    100,
-    new Date('2023-01-01T00:00:00Z')
-  )
+  const mockNotifier = getNotifier()
+
+  const mockQuota = SolutionQuota.create(FetchTweetSolutionId.Native, {
+    quota: new ResettableQuota({ quota: 10, resetAt: new Date() }),
+    isRealtime: false,
+  })
+
+  const mockEvent = new TweetSolutionQuotaInsufficient('native', 5, new Date())
+
+  const publisher = new MockEventPublisher()
 
   beforeEach(() => {
-    solutionQuotaRepo.clear()
-    jest.resetAllMocks()
+    jest.clearAllMocks()
   })
 
-  it('should create new quota and send notification if quota does not exist', async () => {
-    const mockSave = jest.spyOn(solutionQuotaRepo, 'save')
-    const mockNotify = jest.spyOn(notifier, 'notify')
+  it('should do nothing if no quota found', async () => {
+    jest.spyOn(mockSolutionQuotaRepo, 'get').mockResolvedValueOnce(undefined)
+    const mockSave = jest
+      .spyOn(mockSolutionQuotaRepo, 'save')
+      .mockResolvedValueOnce(undefined)
+    const mockNotify = jest.spyOn(mockNotifier, 'notify')
 
-    await handler(event, publisher)
+    await warnInsufficientNativeSolutionQuota(
+      mockSolutionQuotaRepo,
+      mockNotifier
+    )(mockEvent, publisher)
 
-    expect(mockSave).toHaveBeenCalledOnce()
-    expect(mockNotify).toHaveBeenCalledTimes(1)
+    expect(mockNotify).not.toHaveBeenCalled()
+    expect(mockSave).not.toHaveBeenCalled()
   })
 
-  it('should use existing quota and send notification if quota exists', async () => {
-    const existingQuota = SolutionQuota.create('native', {
-      isRealtime: true,
-      quota: new ResettableQuota({ quota: 200, resetAt: new Date() }),
-    })
+  it('should call warnBy when remaining quota > 0', async () => {
+    jest.spyOn(mockSolutionQuotaRepo, 'get').mockResolvedValueOnce(mockQuota)
+    const mockWarn = jest
+      .spyOn(mockQuota, 'warnBy')
+      .mockResolvedValueOnce(undefined)
 
-    await solutionQuotaRepo.save(existingQuota)
+    await warnInsufficientNativeSolutionQuota(
+      mockSolutionQuotaRepo,
+      mockNotifier
+    )(mockEvent, publisher)
 
-    const mockSave = jest.spyOn(solutionQuotaRepo, 'save')
-    const mockNotify = jest.spyOn(notifier, 'notify')
-    mockSave.mockReset()
-
-    await handler(event, publisher)
-
-    expect(mockSave).toHaveBeenCalledTimes(1)
-    expect(mockNotify).toHaveBeenCalledTimes(1)
+    expect(mockWarn).toHaveBeenCalled()
+    expect(mockSolutionQuotaRepo.save).toHaveBeenCalledWith(mockQuota)
   })
 
-  it('should handle notification error gracefully', async () => {
-    const consoleErrorSpy = jest.spyOn(console, 'error')
-
-    jest
-      .spyOn(notifier, 'notify')
-      .mockRejectedValueOnce(new Error('Notification failed'))
-
-    const mockSave = jest.spyOn(solutionQuotaRepo, 'save')
-
-    await handler(event, publisher)
-
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'Failed to send quota warning notification:',
-      expect.any(Error)
+  it('should notify directly when remaining quota is 0', async () => {
+    const zeroQuotaEvent = new TweetSolutionQuotaInsufficient(
+      'native',
+      0,
+      new Date()
     )
-    expect(mockSave).toHaveBeenCalledOnce()
+    jest.spyOn(mockSolutionQuotaRepo, 'get').mockResolvedValueOnce(mockQuota)
+    const mockNotify = jest.spyOn(mockNotifier, 'notify')
+
+    await warnInsufficientNativeSolutionQuota(
+      mockSolutionQuotaRepo,
+      mockNotifier
+    )(zeroQuotaEvent, publisher)
+
+    expect(mockNotify).toHaveBeenCalledOnce()
+  })
+
+  it('should log error if warning notification fails', async () => {
+    const mockError = new Error('Notification failed')
+    jest.spyOn(mockSolutionQuotaRepo, 'get').mockResolvedValueOnce(mockQuota)
+    jest.spyOn(mockQuota, 'warnBy').mockResolvedValueOnce(mockError)
+    const mockConsoleError = jest.spyOn(console, 'error')
+
+    await warnInsufficientNativeSolutionQuota(
+      mockSolutionQuotaRepo,
+      mockNotifier
+    )(mockEvent, publisher)
+
+    expect(mockConsoleError).toHaveBeenCalledWith(
+      'Failed to send quota warning notification.',
+      mockError
+    )
   })
 })

@@ -1,13 +1,9 @@
-import { SolutionQuota } from '#domain/entities/solutionQuota'
 import type { DomainEventHandler } from '#domain/eventPublisher'
 import type { Notifier } from '#domain/notifier'
 import type { ISolutionQuotaRepository } from '#domain/repositories/solutionQuota'
-import { ResettableQuota } from '#domain/valueObjects/resettableQuota'
 import { SolutionQuotaWarningNotificationConfig } from '#helpers/notificationConfig'
 import { makeSolutionQuotaWarningId } from '#helpers/notificationId'
 import type { Notifications } from 'webextension-polyfill'
-
-const solutionId = 'native'
 
 export const warnInsufficientNativeSolutionQuota =
   (
@@ -15,40 +11,28 @@ export const warnInsufficientNativeSolutionQuota =
     notifier: Notifier<Notifications.CreateNotificationOptions>
   ): DomainEventHandler<DomainEventMap['tweetSolution:quota:insufficient']> =>
   async event => {
-    let quota = await solutionQuotaRepo.get(solutionId)
-
-    if (!quota) {
-      quota = SolutionQuota.create(solutionId, {
-        isRealtime: true,
-        quota: new ResettableQuota({
-          quota: event.remainingQuota,
-          resetAt: event.resetTime,
-        }),
-      })
-    } else {
-      quota.updateQuota(
-        new ResettableQuota({
-          quota: event.remainingQuota,
-          resetAt: event.resetTime,
+    const notify = async () => {
+      notifier.notify(
+        makeSolutionQuotaWarningId(event.solutionId),
+        SolutionQuotaWarningNotificationConfig.native({
+          remainingQuota: event.remainingQuota,
+          resetTime: event.resetTime,
         })
       )
     }
 
-    await quota.warnBy(async () => {
-      try {
-        await notifier.notify(
-          makeSolutionQuotaWarningId(event.solutionId),
-          SolutionQuotaWarningNotificationConfig.native({
-            remainingQuota: event.remainingQuota,
-            resetTime: event.resetTime,
-          })
-        )
-        return undefined
-      } catch (error) {
-        console.error('Failed to send quota warning notification:', error)
-        return error as Error
-      }
-    })
+    if (event.remainingQuota === 0) await notify()
 
-    await solutionQuotaRepo.save(quota)
+    // If the remaining quota is 0, notify immediately for better user experience
+    // and to avoid waiting for the next warning notification
+    if (event.remainingQuota > 0) {
+      const quota = await solutionQuotaRepo.get(event.solutionId)
+      if (!quota) return
+
+      const error = await quota.warnBy(notify)
+      if (error)
+        // eslint-disable-next-line no-console
+        console.error('Failed to send quota warning notification.', error)
+      await solutionQuotaRepo.save(quota)
+    }
   }
