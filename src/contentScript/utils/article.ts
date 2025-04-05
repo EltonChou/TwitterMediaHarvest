@@ -119,6 +119,10 @@ const isPhotoInQuotedContent = (ele: HTMLElement) =>
     ele?.closest('[id^="id"]:not([aria-labelledby])')?.querySelector('time')
   )
 
+export const findButton = (article: HTMLElement): HTMLElement | undefined =>
+  $<HTMLElement>('.deck-harvester', article) ||
+  $<HTMLElement>('.harvester', article)
+
 export const articleHasMedia = (article: HTMLElement) =>
   article && (articleHasVideo(article) || aricleHasPhoto(article))
 

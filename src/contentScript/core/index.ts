@@ -1,10 +1,16 @@
-import { isArticleCanBeAppend } from '../utils/article'
-import { setTargetArticle } from '../utils/article'
+import { isArticleCanBeAppend, isArticlePhotoMode } from '../utils/article'
+import { findButton, setTargetArticle } from '../utils/article'
+import { checkButtonStatus } from '../utils/button'
 import { isFunctionablePath } from '../utils/checker'
 import { makeHarvestButton } from './Harvester'
 import { pipe } from 'fp-ts/lib/function'
 
 const makeHarvester = (article: HTMLElement) => {
+  if (isArticlePhotoMode(article) && !isArticleCanBeAppend(article)) {
+    const button = findButton(article)
+    if (button) checkButtonStatus(button)
+  }
+
   if (isFunctionablePath() && isArticleCanBeAppend(article)) {
     const makeButton = makeHarvestButton
     const task = pipe(
