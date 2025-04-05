@@ -53,8 +53,8 @@ describe('unit test for handler to sync client', () => {
 
     await handler(new TestEvent('download:status:completed'), publisher)
 
+    expect(lockCtx).toHaveBeenCalledOnce()
     expect(mockGet).toHaveBeenCalled()
-    expect(lockCtx).not.toHaveBeenCalled()
     expect(mockSync).not.toHaveBeenCalled()
   })
 
@@ -73,8 +73,8 @@ describe('unit test for handler to sync client', () => {
 
     await handler(new TestEvent('download:status:completed'), publisher)
 
-    expect(mockGet).toHaveBeenCalled()
-    expect(lockCtx).toHaveBeenCalled()
+    expect(lockCtx).toHaveBeenCalledOnce()
+    expect(mockGet).not.toHaveBeenCalled()
     expect(mockSync).not.toHaveBeenCalled()
   })
 })

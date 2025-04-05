@@ -6,23 +6,20 @@ export const syncClient =
   (lockContext: LockContext<UnsafeTask>) =>
   (clientRepo: IClientRepository): DomainEventHandler<IDomainEvent> =>
   async (_, publisher) => {
-    const { value: client, error: clientError } = await clientRepo.get()
+    const syncError = await lockContext(async lock => {
+      if (!lock) return undefined
 
-    if (clientError) {
-      // eslint-disable-next-line no-console
-      console.error(clientError)
-      return
-    }
-    if (!client.shouldSync) return
+      const { value: client, error: clientError } = await clientRepo.get()
 
-    const syncError = await lockContext(async lock =>
-      lock ? await clientRepo.sync(client) : undefined
-    )
+      if (clientError) return clientError
+      if (!client.shouldSync) return
 
-    if (syncError) {
-      // eslint-disable-next-line no-console
-      console.error(syncError)
-      return
-    }
-    await publisher.publishAll(...client.events)
+      const syncError = await clientRepo.sync(client)
+      if (syncError) return syncError
+
+      await publisher.publishAll(...client.events)
+    })
+
+    // eslint-disable-next-line no-console
+    if (syncError) console.error(syncError)
   }
