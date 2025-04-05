@@ -3,6 +3,12 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import { resolve } from 'path'
 import { merge } from 'webpack-merge'
 
+/**
+ * Webpack configuration function
+ * @param {Record<string, boolean | string>} env - Environment variables passed to webpack
+ * @param {import('webpack').WebpackOptionsNormalized} argv - Webpack CLI arguments
+ * @returns {import('webpack').Configuration} Webpack configuration object
+ */
 export default (env, argv) => {
   return merge(baseConfig(env, argv), {
     name: 'content-script',

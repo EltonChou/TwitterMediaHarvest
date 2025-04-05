@@ -1,4 +1,5 @@
 import PACKAGE from './package.json' with { type: 'json' }
+import { isProduction as isProductionMode } from './webpack/utils.mjs'
 import { transformer as i18nTransformer } from '@media-harvest/webext-i18n-loader'
 import Dotenv from 'dotenv-webpack'
 import { createRequire } from 'node:module'
@@ -63,10 +64,14 @@ const config = {
   },
 }
 
+/**
+ * Webpack configuration function
+ * @param {Record<string, boolean | string>} env - Environment variables passed to webpack
+ * @param {import('webpack').WebpackOptionsNormalized} argv - Webpack CLI arguments
+ * @returns {import('webpack').Configuration} Webpack configuration object
+ */
 export default (env, argv) => {
-  const isProduction = argv.mode === 'production'
-
-  // Define environment variable
+  const isProduction = isProductionMode(argv)
   const VERSION = version
   const BUILD_TARGET = env.target
   const BROWSER = env.target.split('-')[0]
