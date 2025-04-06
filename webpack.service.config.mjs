@@ -1,12 +1,49 @@
 import PACKAGE from './package.json' with { type: 'json' }
+import PublicKey from './public_key.json' with { type: 'json' }
 import baseConfig from './webpack.common.config.mjs'
-import { isProduction as isProductionMode } from './webpack/utils.mjs'
+import {
+  getTarget,
+  isProduction as isProductionMode,
+} from './webpack/utils.mjs'
 import { WebextI18nPlugin } from '@media-harvest/webext-i18n-loader'
 import CopyPlugin from 'copy-webpack-plugin'
 import { resolve } from 'path'
 import { merge } from 'webpack-merge'
 
 const { version } = PACKAGE
+
+const appendDevelopmentManifestAttributes = manifest => {
+  return {
+    ...manifest,
+    ...{
+      web_accessible_resources: [
+        {
+          resources: ['*.map'],
+          matches: ['<all_urls>'],
+        },
+      ],
+    },
+  }
+}
+
+/**
+ * @param {unknown} manifest
+ * @param {string} addOnId
+ * @returns
+ */
+const appendFirefoxSpecificManifestAttributes = (manifest, addOnId) => {
+  return {
+    ...manifest,
+    ...{
+      browser_specific_settings: {
+        gecko: {
+          id: addOnId,
+          strict_min_version: '90.0',
+        },
+      },
+    },
+  }
+}
 
 /**
  * Webpack configuration function
@@ -17,8 +54,13 @@ const { version } = PACKAGE
 export default (env, argv) => {
   const isProduction = isProductionMode(argv)
   const VERSION = version
-  const BROWSER = env.target.split('-')[0]
+  const BROWSER = getTarget(env)
   const VERSION_NAME = `${VERSION} (${BROWSER})`
+  const isSelfSign = 'self-sign' in env
+  const isFirefox = BROWSER === 'firefox'
+  const isChrome = BROWSER === 'chrome'
+  const isEdge = BROWSER === 'edge'
+  const isChromium = isChrome || isEdge
 
   return merge(baseConfig(env, argv), {
     name: 'service',
@@ -44,30 +86,44 @@ export default (env, argv) => {
       new CopyPlugin({
         patterns: [
           {
-            from: 'manifest.json',
+            from: isChromium ? 'manifest.json' : 'manifest_firefox_v3.json',
             context: 'src',
-            to: '[name][ext]',
+            to: 'manifest.json',
             transform: content => {
-              const contentStr = content
-                .toString()
-                .replace('__MANIFEST_RELEASE_VERSION__', VERSION)
-                .replace('__MANIFEST_VERSION_NAME__', VERSION_NAME)
+              let manifest = JSON.parse(content.toString())
+
+              manifest['version'] = VERSION
+              manifest['version_name'] = VERSION_NAME
 
               if (!isProduction) {
-                return JSON.stringify({
-                  ...JSON.parse(contentStr),
-                  ...{
-                    web_accessible_resources: [
-                      {
-                        resources: ['*.map'],
-                        matches: ['<all_urls>'],
-                      },
-                    ],
-                  },
-                })
+                manifest = appendDevelopmentManifestAttributes(manifest)
               }
 
-              return Buffer.from(contentStr)
+              if (isChrome && isProduction) {
+                manifest['key'] = PublicKey.chrome
+              }
+
+              if (isEdge && !isProduction) {
+                manifest['key'] = PublicKey.edge
+              }
+
+              if (isFirefox) {
+                if (isProduction) {
+                  manifest = appendFirefoxSpecificManifestAttributes(
+                    manifest,
+                    isSelfSign
+                      ? 'mediaharvest@mediaharvest.app'
+                      : 'mediaharvest@addons.mozilla.org'
+                  )
+                } else {
+                  manifest = appendFirefoxSpecificManifestAttributes(
+                    manifest,
+                    'mediaharvest@development'
+                  )
+                }
+              }
+
+              return Buffer.from(JSON.stringify(manifest))
             },
           },
           {

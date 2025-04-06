@@ -72,13 +72,14 @@ const config = {
  */
 export default (env, argv) => {
   const isProduction = isProductionMode(argv)
+  const isSelfSign = env['self-sign'] ?? false
   const VERSION = version
-  const BUILD_TARGET = env.target
-  const BROWSER = env.target.split('-')[0]
+  const BROWSER = env.target
   const VERSION_NAME = `${VERSION} (${BROWSER})`
   const RELEASE_NAME =
     env.RELEASE_NAME || name + '(' + BROWSER + ')' + '@' + VERSION
-  const OUTPUT_DIR = resolve(process.cwd(), 'build', BUILD_TARGET)
+  const BROWSER_DIR = isSelfSign ? BROWSER + '-signed' : BROWSER
+  const OUTPUT_DIR = resolve(process.cwd(), 'build', BROWSER_DIR)
 
   return merge(config, {
     mode: argv.mode,
