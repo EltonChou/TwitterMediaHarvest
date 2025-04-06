@@ -1,3 +1,8 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 import { getEventPublisher } from '#infra/eventPublisher'
 import { Aria2DownloadMediaFile } from '#infra/useCases/aria2DownloadMediaFile'
 import { BrowserDownloadMediaFile } from '#infra/useCases/browserDownloadMediaFile'
@@ -43,7 +48,7 @@ export const initMessageRouter = (router: MessageRouter): MessageRouter =>
               xTokenRepo: xTokenRepo,
               solutionQuotaRepo: solutionQuotaRepo,
             },
-            { quotaThreshold: 20, reservedQuota: 20 }
+            { quotaThreshold: 10, reservedQuota: 10 }
           ),
       })
     )
