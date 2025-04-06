@@ -29,11 +29,13 @@ export abstract class GraphQLCommand {
   readonly bearerToken =
     'AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
 
+  readonly rootPath: string = '/i/api/graphql/'
+
   constructor(protected query: Query) {}
 
   protected makeEndpoint(context: RequestContext): string {
     const endpoint = new URL(
-      `${context.protocol}://${context.hostname}/i/api/graphql/${this.query.id}/${this.query.name}`
+      `${context.protocol}://${context.hostname}${this.rootPath}${this.query.id}/${this.query.name}`
     )
 
     if (this.query.params.feature) {
