@@ -13,12 +13,18 @@ const enum DownloadState {
 
 export const isDownloadInterrupted = (
   stateDelta: Downloads.StringDelta
-): boolean =>
+): stateDelta is {
+  current: DownloadState.Interrupted
+  previous: DownloadState.InProgress
+} =>
   stateDelta.current === DownloadState.Interrupted &&
   stateDelta.previous === DownloadState.InProgress
 
 export const isDownloadCompleted = (
   stateDelta: Downloads.StringDelta
-): boolean =>
+): stateDelta is {
+  current: DownloadState.Complete
+  previous: DownloadState.InProgress
+} =>
   stateDelta.current === DownloadState.Complete &&
   stateDelta.previous === DownloadState.InProgress
