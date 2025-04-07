@@ -9,8 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- Filename detector
-- More filename pattern tokens
+- Filename detector for notify user that filename was be modified by other extensions.
+- More filename pattern tokens.
+- User will be warned when download quota is low.
+- Download history can be imported or exported.
+
+### Fixed
+
+- Status of button is unmatched when switching different tweet in photo mode.
 
 ### Removed
 
