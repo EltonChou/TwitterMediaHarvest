@@ -12,16 +12,24 @@ import { merge } from 'webpack-merge'
 
 const { version } = PACKAGE
 
-const appendDevelopmentManifestAttributes = manifest => {
+/**
+ * @template T {Record<string, unknown>}
+ * @param {T} manifest
+ * @param {boolean} isLegacy
+ * @returns T
+ */
+const appendDevelopmentManifestAttributes = (manifest, isLegacy) => {
   return {
     ...manifest,
     ...{
-      web_accessible_resources: [
-        {
-          resources: ['*.map'],
-          matches: ['<all_urls>'],
-        },
-      ],
+      web_accessible_resources: isLegacy
+        ? ['*.map']
+        : [
+            {
+              resources: ['*.map'],
+              matches: ['<all_urls>'],
+            },
+          ],
     },
   }
 }
