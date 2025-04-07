@@ -371,7 +371,7 @@ export const SearchForm = ({ ref, ...props }: SearchFormProps) => {
 
   useImperativeHandle<SearchFormComponent, SearchFormComponent>(ref, () => ({
     reset() {
-      return formRef.current?.reset
+      return formRef.current?.reset()
     },
     get value() {
       return {
