@@ -35,6 +35,7 @@ import {
   GuestFetchTweetCommand,
   LatestFetchTweetCommand,
   ParseTweetError,
+  RestIdFetchTweetCommand,
 } from '#libs/XApi'
 import { FetchTweetError } from '#libs/XApi'
 import type { CommandCache } from '#libs/XApi/commands/types'
@@ -182,11 +183,17 @@ export class NativeFetchTweetSolution
 
     const guestCsrfToken = guestToken?.value ?? csrfToken?.value
     if (guestCsrfToken) {
-      const guestResult = await this.execCommand(GuestFetchTweetCommand)({
-        statIdentity: 'guest',
-        tweetId: command.tweetId,
-        csrfToken: guestCsrfToken,
-      })
+      const guestResult = guestCsrfToken.match(guestTokenPattern)
+        ? await this.execCommand(GuestFetchTweetCommand)({
+            statIdentity: 'guest',
+            tweetId: command.tweetId,
+            csrfToken: guestCsrfToken,
+          })
+        : await this.execCommand(RestIdFetchTweetCommand)({
+            statIdentity: 'guest',
+            tweetId: command.tweetId,
+            csrfToken: guestCsrfToken,
+          })
 
       if (isSuccessfulTweetResult(guestResult))
         return guestResult.value.tweetResult
@@ -379,3 +386,5 @@ const hasValidQuotaValue = (
     output.$metadata.quotaResetTime instanceof Date
   )
 }
+
+const guestTokenPattern = /^\d+$/

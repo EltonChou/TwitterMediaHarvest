@@ -5,6 +5,7 @@
  */
 
 export * from './abstractFetchTweet'
-export * from './guestFetchTweet'
+export * from './restIdFetchTweet'
 export * from './fallbackFetchTweet'
 export * from './latestFetchTweet'
+export * from './guestFetchTweet'

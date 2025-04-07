@@ -71,8 +71,7 @@ export abstract class GraphQLCommand {
     if (this.authType === AuthType.Guest) {
       return new Headers([
         ['x-twitter-active-user', 'yes'],
-        ['x-csrf-token', csrfToken],
-        ['x-twitter-auth-type', 'OAuth2Session'],
+        ['x-guest-token', csrfToken],
       ])
     }
 

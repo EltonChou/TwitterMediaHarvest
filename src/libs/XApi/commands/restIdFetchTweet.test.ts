@@ -1,6 +1,6 @@
 import { MockCommandCache } from '../mock/commandCache'
 import { FetchTweetError, ParseTweetError } from './abstractFetchTweet'
-import { GuestFetchTweetCommand } from './guestFetchTweet'
+import { RestIdFetchTweetCommand } from './restIdFetchTweet'
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -25,7 +25,7 @@ describe('unit test for latest fetch tweet command', () => {
     { cacheProvider: async () => mockCache },
     { cacheProvider: mockCache },
   ])('can cache', async ({ cacheProvider }) => {
-    const command = new GuestFetchTweetCommand({
+    const command = new RestIdFetchTweetCommand({
       tweetId: '1901057939403608167',
       csrfToken: 'token',
       cacheProvider: cacheProvider,
@@ -48,7 +48,7 @@ describe('unit test for latest fetch tweet command', () => {
   })
 
   it('can prepare request', () => {
-    const command = new GuestFetchTweetCommand({
+    const command = new RestIdFetchTweetCommand({
       tweetId: '1901057939403608167',
       csrfToken: 'token',
       cacheProvider: mockCache,
@@ -68,7 +68,7 @@ describe('unit test for latest fetch tweet command', () => {
   ])(
     'should return a successful result when the $responseType response is ok',
     async ({ responseType, tweetId }) => {
-      const command = new GuestFetchTweetCommand({
+      const command = new RestIdFetchTweetCommand({
         tweetId: tweetId,
         csrfToken: 'token',
         cacheProvider: mockCache,
@@ -98,7 +98,7 @@ describe('unit test for latest fetch tweet command', () => {
   )
 
   it('should handle a parse error when body is not json', async () => {
-    const command = new GuestFetchTweetCommand({
+    const command = new RestIdFetchTweetCommand({
       tweetId: '1587894226695884800',
       csrfToken: 'token',
       cacheProvider: mockCache,
@@ -128,7 +128,7 @@ describe('unit test for latest fetch tweet command', () => {
   })
 
   it('should handle a parse error', async () => {
-    const command = new GuestFetchTweetCommand({
+    const command = new RestIdFetchTweetCommand({
       tweetId: '1587894226695884800',
       csrfToken: 'token',
       cacheProvider: mockCache,
@@ -158,7 +158,7 @@ describe('unit test for latest fetch tweet command', () => {
   })
 
   it('should handle FetchTweetError', async () => {
-    const command = new GuestFetchTweetCommand({
+    const command = new RestIdFetchTweetCommand({
       tweetId: '1587894226695884800',
       csrfToken: 'token',
       cacheProvider: mockCache,
