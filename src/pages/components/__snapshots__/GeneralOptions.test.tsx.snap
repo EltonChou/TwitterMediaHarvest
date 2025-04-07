@@ -33,7 +33,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
               <p
                 class="chakra-text css-qljqz"
               >
-                Show the file chooser or not when download was triggered. Recommend to disable this option.
+                Show the file chooser or not when download is triggered. Recommend to disable this option.
               </p>
                
             </div>
@@ -555,7 +555,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
               <p
                 class="chakra-text css-qljqz"
               >
-                Show the file chooser or not when download was triggered. Recommend to disable this option.
+                Show the file chooser or not when download is triggered. Recommend to disable this option.
               </p>
                
             </div>
@@ -1077,7 +1077,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
               <p
                 class="chakra-text css-qljqz"
               >
-                Show the file chooser or not when download was triggered. Recommend to disable this option.
+                Show the file chooser or not when download is triggered. Recommend to disable this option.
               </p>
                
             </div>
@@ -1598,7 +1598,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
               <p
                 class="chakra-text css-qljqz"
               >
-                Show the file chooser or not when download was triggered. Recommend to disable this option.
+                Show the file chooser or not when download is triggered. Recommend to disable this option.
               </p>
                
             </div>
@@ -2120,7 +2120,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
               <p
                 class="chakra-text css-qljqz"
               >
-                Show the file chooser or not when download was triggered. Recommend to disable this option.
+                Show the file chooser or not when download is triggered. Recommend to disable this option.
               </p>
                
             </div>
@@ -2641,7 +2641,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
               <p
                 class="chakra-text css-qljqz"
               >
-                Show the file chooser or not when download was triggered. Recommend to disable this option.
+                Show the file chooser or not when download is triggered. Recommend to disable this option.
               </p>
                
             </div>
@@ -3163,7 +3163,7 @@ exports[`unit test for GeneralOptions component test user behavior the form can 
               <p
                 class="chakra-text css-qljqz"
               >
-                Show the file chooser or not when download was triggered. Recommend to disable this option.
+                Show the file chooser or not when download is triggered. Recommend to disable this option.
               </p>
                
             </div>

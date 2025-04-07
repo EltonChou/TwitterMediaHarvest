@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-04-03 08:45+0800\n"
+"POT-Creation-Date: 2025-04-08 00:56+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -12,526 +12,526 @@ msgctxt "app"
 msgid "appName"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:104
+#: src/helpers/notificationConfig.ts:120
 msgctxt "notification:download"
 msgid "API Rate limit exceeded."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:45
+#: src/helpers/notificationConfig.ts:73
 msgctxt "notification:download"
 msgid "Download failed"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:36
+#: src/helpers/notificationConfig.ts:66
 msgctxt "notification:download"
 msgid "Media in {{account}}({{tweet-id}}) download failed."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:103
+#: src/helpers/notificationConfig.ts:119
 msgctxt "notification:download"
 msgid "Too many requests"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:194
+#: src/helpers/notificationConfig.ts:203
 msgctxt "notification:filename"
 msgid "The filename is modified by other extensions, please check extensions' settings."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:193
+#: src/helpers/notificationConfig.ts:202
 msgctxt "notification:filename"
 msgid "WARNING: Filename is modified"
 msgstr ""
 
-#: src/helpers/notificationButton.ts:22
+#: src/helpers/notificationButton.ts:27
 msgctxt "notification:filename:button"
 msgid "Ignore"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:168
+#: src/helpers/notificationConfig.ts:181
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:172
+#: src/helpers/notificationConfig.ts:185
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:217
+#: src/helpers/notificationConfig.ts:218
 msgctxt "notification:quota"
 msgid "Download Quota Warning"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:218
+#: src/helpers/notificationConfig.ts:219
 msgctxt "notification:quota"
 msgid "Remaining quota: {{quota}}. Resets at {{time}}"
 msgstr ""
 
-#: src/helpers/notificationButton.ts:14
+#: src/helpers/notificationButton.ts:19
 msgctxt "notification:tweet:button"
 msgid "Retry"
 msgstr ""
 
-#: src/helpers/notificationButton.ts:6
+#: src/helpers/notificationButton.ts:11
 msgctxt "notification:tweet:button"
 msgid "View"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:139
+#: src/helpers/notificationConfig.ts:155
 msgctxt "notification:tweetFetch"
 msgid "Forbidden"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:127
+#: src/helpers/notificationConfig.ts:143
 msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:155
+#: src/helpers/notificationConfig.ts:171
 msgctxt "notification:tweetFetch"
 msgid "Please contact with developer."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:113
+#: src/helpers/notificationConfig.ts:129
 msgctxt "notification:tweetFetch"
 msgid "The tweet cannot be found"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:114
+#: src/helpers/notificationConfig.ts:130
 msgctxt "notification:tweetFetch"
 msgid "The tweet might be deleted."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:126
+#: src/helpers/notificationConfig.ts:142
 msgctxt "notification:tweetFetch"
 msgid "Unauthorized"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:152
+#: src/helpers/notificationConfig.ts:168
 msgctxt "notification:tweetFetch"
 msgid "Unknown Error ({{code}})"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:140
+#: src/helpers/notificationConfig.ts:156
 msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr ""
 
-#: src/pages/components/About.tsx:64
+#: src/pages/components/About.tsx:69
 msgctxt "options:about"
 msgid "Changelog"
 msgstr ""
 
-#: src/pages/components/About.tsx:52
+#: src/pages/components/About.tsx:57
 msgctxt "options:about"
 msgid "Official website"
 msgstr ""
 
-#: src/pages/components/About.tsx:56
+#: src/pages/components/About.tsx:61
 msgctxt "options:about"
 msgid "Privacy policy"
 msgstr ""
 
-#: src/pages/components/About.tsx:60
+#: src/pages/components/About.tsx:65
 msgctxt "options:about"
 msgid "Reoprt issues"
 msgstr ""
 
-#: src/pages/components/About.tsx:25
+#: src/pages/components/About.tsx:30
 msgctxt "options:about"
 msgid "Version"
 msgstr ""
 
-#: src/pages/components/FeatureOptions.tsx:38
+#: src/pages/components/FeatureOptions.tsx:43
 msgctxt "options:features"
 msgid "Auto-reveal sensitive content"
 msgstr ""
 
-#: src/pages/components/FeatureOptions.tsx:56
+#: src/pages/components/FeatureOptions.tsx:61
 msgctxt "options:features"
 msgid "Download the thumbnail when the media is video."
 msgstr ""
 
-#: src/pages/components/FeatureOptions.tsx:55
+#: src/pages/components/FeatureOptions.tsx:60
 msgctxt "options:features"
 msgid "Download video thumbnail"
 msgstr ""
 
-#: src/pages/components/FeatureOptions.tsx:48
+#: src/pages/components/FeatureOptions.tsx:53
 msgctxt "options:features"
 msgid "Keyboard shortcut"
 msgstr ""
 
-#: src/pages/components/FeatureOptions.tsx:15
+#: src/pages/components/FeatureOptions.tsx:20
 msgctxt "options:features"
 msgid "Use keyboard shortcut to trigger download."
 msgstr ""
 
-#: src/pages/components/FeatureOptions.tsx:39
+#: src/pages/components/FeatureOptions.tsx:44
 msgctxt "options:features"
 msgid "When the tweet was flagged as sensitive content, this feature can show the blured content automatically."
 msgstr ""
 
-#: src/pages/components/FootBar.tsx:40
+#: src/pages/components/FootBar.tsx:45
 msgctxt "options:footBar:button"
 msgid "Buy me a coffee"
 msgstr ""
 
-#: src/pages/components/FootBar.tsx:29
+#: src/pages/components/FootBar.tsx:34
 msgctxt "options:footBar:button"
 msgid "Rate it"
 msgstr ""
 
-#: src/pages/components/FootBar.tsx:20
+#: src/pages/components/FootBar.tsx:25
 msgctxt "options:footBar:text"
 msgid "Do you like Media Harvest?"
 msgstr ""
 
-#: src/pages/components/FootBar.tsx:32
+#: src/pages/components/FootBar.tsx:37
 msgctxt "options:footBar:text"
 msgid "or"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:222
+#: src/pages/components/GeneralOptions.tsx:227
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:270
+#: src/pages/components/GeneralOptions.tsx:275
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:272
+#: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid "Create sub-directory under the default download directory. Sub-directory can be seperated with \"/\"."
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:239
+#: src/pages/components/GeneralOptions.tsx:244
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:308
+#: src/pages/components/GeneralOptions.tsx:313
 msgctxt "options:general"
 msgid "Group Files"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:309
+#: src/pages/components/GeneralOptions.tsx:314
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr ""
 
-#: src/pages/hooks/useFilenameSettingsForm.ts:241
+#: src/pages/hooks/useFilenameSettingsForm.ts:246
 msgctxt "options:general"
 msgid "Invalid directory name. Cannot contain <>:\"\\|?*"
 msgstr ""
 
-#: src/pages/hooks/useFilenameSettingsForm.ts:282
+#: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
 msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:223
+#: src/pages/components/GeneralOptions.tsx:228
 msgctxt "options:general"
-msgid "Show the file chooser or not when download was triggered. Recommend to disable this option."
+msgid "Show the file chooser or not when download is triggered. Recommend to disable this option."
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:240
+#: src/pages/components/GeneralOptions.tsx:245
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:391
+#: src/pages/components/GeneralOptions.tsx:396
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:399
+#: src/pages/components/GeneralOptions.tsx:404
 msgctxt "options:general:button"
 msgid "Save"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:317
-#: src/pages/components/GeneralOptions.tsx:50
+#: src/pages/components/GeneralOptions.tsx:322
+#: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:55
+#: src/pages/components/GeneralOptions.tsx:60
 msgctxt "options:general:filenameToken"
 msgid "Account ID"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:75
+#: src/pages/components/GeneralOptions.tsx:80
 msgctxt "options:general:filenameToken"
 msgid "Download Date"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:80
+#: src/pages/components/GeneralOptions.tsx:85
 msgctxt "options:general:filenameToken"
 msgid "Download Datetime"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:90
+#: src/pages/components/GeneralOptions.tsx:95
 msgctxt "options:general:filenameToken"
 msgid "Download Timestamp"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:85
+#: src/pages/components/GeneralOptions.tsx:90
 msgctxt "options:general:filenameToken"
 msgid "Download_Datetime"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:65
+#: src/pages/components/GeneralOptions.tsx:70
 msgctxt "options:general:filenameToken"
 msgid "Hash"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:70
+#: src/pages/components/GeneralOptions.tsx:75
 msgctxt "options:general:filenameToken"
 msgid "Serial"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:95
+#: src/pages/components/GeneralOptions.tsx:100
 msgctxt "options:general:filenameToken"
 msgid "Tweet Date"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:100
+#: src/pages/components/GeneralOptions.tsx:105
 msgctxt "options:general:filenameToken"
 msgid "Tweet Datetime"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:60
+#: src/pages/components/GeneralOptions.tsx:65
 msgctxt "options:general:filenameToken"
 msgid "Tweet ID"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:110
+#: src/pages/components/GeneralOptions.tsx:115
 msgctxt "options:general:filenameToken"
 msgid "Tweet Timestamp"
 msgstr ""
 
-#: src/pages/components/GeneralOptions.tsx:105
+#: src/pages/components/GeneralOptions.tsx:110
 msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr ""
 
-#: src/pages/components/History.tsx:502
+#: src/pages/components/History.tsx:507
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr ""
 
-#: src/pages/components/History.tsx:339
 #: src/pages/components/History.tsx:344
+#: src/pages/components/History.tsx:349
 msgctxt "options:history"
 msgid "Export"
 msgstr ""
 
-#: src/pages/components/History.tsx:528
+#: src/pages/components/History.tsx:533
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr ""
 
-#: src/pages/components/History.tsx:518
+#: src/pages/components/History.tsx:523
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr ""
 
-#: src/pages/components/History.tsx:331
 #: src/pages/components/History.tsx:336
+#: src/pages/components/History.tsx:341
 msgctxt "options:history"
 msgid "Import"
 msgstr ""
 
-#: src/pages/components/History.tsx:515
+#: src/pages/components/History.tsx:520
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr ""
 
-#: src/pages/components/History.tsx:297
+#: src/pages/components/History.tsx:302
 msgctxt "options:history"
 msgid "Next page"
 msgstr ""
 
-#: src/pages/components/History.tsx:287
+#: src/pages/components/History.tsx:292
 msgctxt "options:history"
 msgid "Previous page"
 msgstr ""
 
-#: src/pages/components/History.tsx:313
+#: src/pages/components/History.tsx:318
 msgctxt "options:history"
 msgid "Refresh"
 msgstr ""
 
-#: src/pages/components/History.tsx:522
+#: src/pages/components/History.tsx:527
 msgctxt "options:history"
 msgid "The history file is imported successfully."
 msgstr ""
 
-#: src/pages/components/History.tsx:392
+#: src/pages/components/History.tsx:397
 msgctxt "options:history:input:placeholder"
 msgid "Username"
 msgstr ""
 
-#: src/pages/components/History.tsx:138
+#: src/pages/components/History.tsx:143
 msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr ""
 
-#: src/pages/components/History.tsx:144
-#: src/pages/components/History.tsx:147
+#: src/pages/components/History.tsx:149
+#: src/pages/components/History.tsx:152
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr ""
 
-#: src/pages/components/History.tsx:141
+#: src/pages/components/History.tsx:146
 msgctxt "options:history:mediaType"
 msgid "Video"
 msgstr ""
 
-#: src/pages/components/History.tsx:407
+#: src/pages/components/History.tsx:412
 msgctxt "options:history:mediaType:option"
 msgid "All"
 msgstr ""
 
-#: src/pages/components/History.tsx:410
+#: src/pages/components/History.tsx:415
 msgctxt "options:history:mediaType:option"
 msgid "Image"
 msgstr ""
 
-#: src/pages/components/History.tsx:416
+#: src/pages/components/History.tsx:421
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
 msgstr ""
 
-#: src/pages/components/History.tsx:413
+#: src/pages/components/History.tsx:418
 msgctxt "options:history:mediaType:option"
 msgid "Video"
 msgstr ""
 
-#: src/pages/components/History.tsx:399
+#: src/pages/components/History.tsx:404
 msgctxt "options:history:select"
 msgid "Select media type"
 msgstr ""
 
-#: src/pages/components/History.tsx:211
+#: src/pages/components/History.tsx:216
 msgctxt "options:history:table:head"
 msgid "actions"
 msgstr ""
 
-#: src/pages/components/History.tsx:210
+#: src/pages/components/History.tsx:215
 msgctxt "options:history:table:head"
 msgid "download time"
 msgstr ""
 
-#: src/pages/components/History.tsx:209
+#: src/pages/components/History.tsx:214
 msgctxt "options:history:table:head"
 msgid "post time"
 msgstr ""
 
-#: src/pages/components/History.tsx:206
+#: src/pages/components/History.tsx:211
 msgctxt "options:history:table:head"
 msgid "thumbnail"
 msgstr ""
 
-#: src/pages/components/History.tsx:208
+#: src/pages/components/History.tsx:213
 msgctxt "options:history:table:head"
 msgid "type"
 msgstr ""
 
-#: src/pages/components/History.tsx:207
+#: src/pages/components/History.tsx:212
 msgctxt "options:history:table:head"
 msgid "user"
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:16
+#: src/pages/components/IntegrationOptions.tsx:21
 msgctxt "options:integrations"
 msgid "Aria2-Explorer"
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:83
+#: src/pages/components/IntegrationOptions.tsx:88
 msgctxt "options:integrations"
 msgid "Dispatch download to Aria2"
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:71
+#: src/pages/components/IntegrationOptions.tsx:76
 msgctxt "options:integrations"
 msgid "Filename Detector"
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:72
+#: src/pages/components/IntegrationOptions.tsx:77
 msgctxt "options:integrations"
 msgid "The detector can notify user when the filename is modified by other extensions."
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:60
+#: src/pages/components/IntegrationOptions.tsx:65
 msgctxt "options:integrations"
 msgid "This integration is not compatible with {{platform}}"
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:17
+#: src/pages/components/IntegrationOptions.tsx:22
 msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr ""
 
-#: src/pages/app/Options.tsx:143
-#: src/pages/components/SideMenu.tsx:76
+#: src/pages/app/Options.tsx:148
+#: src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr ""
 
-#: src/pages/app/Options.tsx:103
-#: src/pages/components/SideMenu.tsx:57
+#: src/pages/app/Options.tsx:108
+#: src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr ""
 
-#: src/pages/app/Options.tsx:92
-#: src/pages/components/SideMenu.tsx:51
+#: src/pages/app/Options.tsx:97
+#: src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr ""
 
-#: src/pages/app/Options.tsx:123
-#: src/pages/components/SideMenu.tsx:69
+#: src/pages/app/Options.tsx:128
+#: src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr ""
 
-#: src/pages/app/Options.tsx:111
-#: src/pages/components/SideMenu.tsx:63
+#: src/pages/app/Options.tsx:116
+#: src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr ""
 
-#: src/pages/components/PopupFeatureBlock.tsx:35
+#: src/pages/components/PopupFeatureBlock.tsx:40
 msgctxt "popup"
 msgid "Auto-reveal NSFW"
 msgstr ""
 
-#: src/pages/app/Popup.tsx:211
+#: src/pages/app/Popup.tsx:216
 msgctxt "popup"
 msgid "Buy me a coffee!"
 msgstr ""
 
-#: src/pages/app/Popup.tsx:193
+#: src/pages/app/Popup.tsx:198
 msgctxt "popup"
 msgid "Changelog"
 msgstr ""
 
-#: src/pages/app/Popup.tsx:124
+#: src/pages/app/Popup.tsx:129
 msgctxt "popup"
 msgid "Rate it"
 msgstr ""
 
-#: src/pages/app/Popup.tsx:131
+#: src/pages/app/Popup.tsx:136
 msgctxt "popup"
 msgid "Report issues"
 msgstr ""
 
-#: src/pages/components/PopupFeatureBlock.tsx:40
+#: src/pages/components/PopupFeatureBlock.tsx:45
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr ""

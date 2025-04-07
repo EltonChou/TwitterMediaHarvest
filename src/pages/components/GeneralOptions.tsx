@@ -226,7 +226,7 @@ const AskWherToSaveFeatureSwitch = ({
   <RichFeatureSwitch
     name={i18n('Ask where to save files.', 'options:general')}
     desc={i18n(
-      'Show the file chooser or not when download was triggered. Recommend to disable this option.',
+      'Show the file chooser or not when download is triggered. Recommend to disable this option.',
       'options:general'
     )}
     isOn={isOn}

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-04-03 08:45+0800\n"
+"POT-Creation-Date: 2025-04-08 00:56+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -20,27 +20,27 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : X (ツイッター) メディアダウンローダー"
 
-#: src/helpers/notificationConfig.ts:104
+#: src/helpers/notificationConfig.ts:120
 msgctxt "notification:download"
 msgid "API Rate limit exceeded."
 msgstr "API 回数制限を超えました。"
 
-#: src/helpers/notificationConfig.ts:45
+#: src/helpers/notificationConfig.ts:73
 msgctxt "notification:download"
 msgid "Download failed"
 msgstr "ダウンロード失敗しました"
 
-#: src/helpers/notificationConfig.ts:36
+#: src/helpers/notificationConfig.ts:66
 msgctxt "notification:download"
 msgid "Media in {{account}}({{tweet-id}}) download failed."
 msgstr "{{account}}({{tweet-id}}) のメディアがダウンロード失敗しました。"
 
-#: src/helpers/notificationConfig.ts:103
+#: src/helpers/notificationConfig.ts:119
 msgctxt "notification:download"
 msgid "Too many requests"
 msgstr "リクエストが多すぎます"
 
-#: src/helpers/notificationConfig.ts:194
+#: src/helpers/notificationConfig.ts:203
 msgctxt "notification:filename"
 msgid ""
 "The filename is modified by other extensions, please check extensions' "
@@ -48,141 +48,141 @@ msgid ""
 msgstr ""
 "ファイルネームが他の拡張に変更されました、他の拡張の設定を確認してください。"
 
-#: src/helpers/notificationConfig.ts:193
+#: src/helpers/notificationConfig.ts:202
 msgctxt "notification:filename"
 msgid "WARNING: Filename is modified"
 msgstr "⚠️ 警告：ファイルネームが変更されました"
 
-#: src/helpers/notificationButton.ts:22
+#: src/helpers/notificationButton.ts:27
 msgctxt "notification:filename:button"
 msgid "Ignore"
 msgstr "無視する"
 
-#: src/helpers/notificationConfig.ts:168
+#: src/helpers/notificationConfig.ts:181
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information"
 msgstr "ツイートの解析は失敗しました"
 
-#: src/helpers/notificationConfig.ts:172
+#: src/helpers/notificationConfig.ts:185
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr "ツイートの解析は失敗しました。開発者に報告してください。"
 
-#: src/helpers/notificationConfig.ts:217
+#: src/helpers/notificationConfig.ts:218
 msgctxt "notification:quota"
 msgid "Download Quota Warning"
 msgstr "ダウンロード割当の警告"
 
-#: src/helpers/notificationConfig.ts:218
+#: src/helpers/notificationConfig.ts:219
 msgctxt "notification:quota"
 msgid "Remaining quota: {{quota}}. Resets at {{time}}"
 msgstr " 残りの割当: {{quota}}。{{time}} にリセットされます。"
 
-#: src/helpers/notificationButton.ts:14
+#: src/helpers/notificationButton.ts:19
 msgctxt "notification:tweet:button"
 msgid "Retry"
 msgstr "やり直し"
 
-#: src/helpers/notificationButton.ts:6
+#: src/helpers/notificationButton.ts:11
 msgctxt "notification:tweet:button"
 msgid "View"
 msgstr "ツイッターへ"
 
-#: src/helpers/notificationConfig.ts:139
+#: src/helpers/notificationConfig.ts:155
 msgctxt "notification:tweetFetch"
 msgid "Forbidden"
 msgstr "読込み禁止されているになっています"
 
-#: src/helpers/notificationConfig.ts:127
+#: src/helpers/notificationConfig.ts:143
 msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
 msgstr ""
 "ログインセッションの有効期限が切れましたが、まだ閲覧の権限を持ちませんでし"
 "た。"
 
-#: src/helpers/notificationConfig.ts:155
+#: src/helpers/notificationConfig.ts:171
 msgctxt "notification:tweetFetch"
 msgid "Please contact with developer."
 msgstr "開発者に報告してください。"
 
-#: src/helpers/notificationConfig.ts:113
+#: src/helpers/notificationConfig.ts:129
 msgctxt "notification:tweetFetch"
 msgid "The tweet cannot be found"
 msgstr "該当のツイートのデータが取得できませんでした"
 
-#: src/helpers/notificationConfig.ts:114
+#: src/helpers/notificationConfig.ts:130
 msgctxt "notification:tweetFetch"
 msgid "The tweet might be deleted."
 msgstr "該当のツイートがすでに削除された。"
 
-#: src/helpers/notificationConfig.ts:126
+#: src/helpers/notificationConfig.ts:142
 msgctxt "notification:tweetFetch"
 msgid "Unauthorized"
 msgstr "無許可"
 
-#: src/helpers/notificationConfig.ts:152
+#: src/helpers/notificationConfig.ts:168
 msgctxt "notification:tweetFetch"
 msgid "Unknown Error ({{code}})"
 msgstr "不明なエラー ({{code}})"
 
-#: src/helpers/notificationConfig.ts:140
+#: src/helpers/notificationConfig.ts:156
 msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "ログイン状態やツイートの閲覧権限を確認してください。"
 
-#: src/pages/components/About.tsx:64
+#: src/pages/components/About.tsx:69
 msgctxt "options:about"
 msgid "Changelog"
 msgstr "更新履歴"
 
-#: src/pages/components/About.tsx:52
+#: src/pages/components/About.tsx:57
 msgctxt "options:about"
 msgid "Official website"
 msgstr "公式サイト"
 
-#: src/pages/components/About.tsx:56
+#: src/pages/components/About.tsx:61
 msgctxt "options:about"
 msgid "Privacy policy"
 msgstr "プライバシーポリシー"
 
-#: src/pages/components/About.tsx:60
+#: src/pages/components/About.tsx:65
 msgctxt "options:about"
 msgid "Reoprt issues"
 msgstr "不具合を報告する"
 
-#: src/pages/components/About.tsx:25
+#: src/pages/components/About.tsx:30
 msgctxt "options:about"
 msgid "Version"
 msgstr "バージョン"
 
-#: src/pages/components/FeatureOptions.tsx:38
+#: src/pages/components/FeatureOptions.tsx:43
 msgctxt "options:features"
 msgid "Auto-reveal sensitive content"
 msgstr "センシティブ内容の自動表示"
 
-#: src/pages/components/FeatureOptions.tsx:56
+#: src/pages/components/FeatureOptions.tsx:61
 msgctxt "options:features"
 msgid "Download the thumbnail when the media is video."
 msgstr ""
 "ビデオサムネイルのダウンロードメディアはビデオの時、サムネイルをダウンロード"
 "します。"
 
-#: src/pages/components/FeatureOptions.tsx:55
+#: src/pages/components/FeatureOptions.tsx:60
 msgctxt "options:features"
 msgid "Download video thumbnail"
 msgstr "ビデオサムネイルのダウンロード"
 
-#: src/pages/components/FeatureOptions.tsx:48
+#: src/pages/components/FeatureOptions.tsx:53
 msgctxt "options:features"
 msgid "Keyboard shortcut"
 msgstr "キーボードショートカット"
 
-#: src/pages/components/FeatureOptions.tsx:15
+#: src/pages/components/FeatureOptions.tsx:20
 msgctxt "options:features"
 msgid "Use keyboard shortcut to trigger download."
 msgstr "キーボードショートカットキーを利用してメディアをダウンロードします。"
 
-#: src/pages/components/FeatureOptions.tsx:39
+#: src/pages/components/FeatureOptions.tsx:44
 msgctxt "options:features"
 msgid ""
 "When the tweet was flagged as sensitive content, this feature can show the "
@@ -191,64 +191,64 @@ msgstr ""
 "ツイートをセンシティブな内容として設定されている際、センシティブ内容を自動的"
 "に表示します。"
 
-#: src/pages/components/FootBar.tsx:40
+#: src/pages/components/FootBar.tsx:45
 msgctxt "options:footBar:button"
 msgid "Buy me a coffee"
 msgstr "コーヒーをおごって"
 
-#: src/pages/components/FootBar.tsx:29
+#: src/pages/components/FootBar.tsx:34
 msgctxt "options:footBar:button"
 msgid "Rate it"
 msgstr "評価する"
 
-#: src/pages/components/FootBar.tsx:20
+#: src/pages/components/FootBar.tsx:25
 msgctxt "options:footBar:text"
 msgid "Do you like Media Harvest?"
 msgstr "Media Harvest を気に入っていますか？"
 
-#: src/pages/components/FootBar.tsx:32
+#: src/pages/components/FootBar.tsx:37
 msgctxt "options:footBar:text"
 msgid "or"
 msgstr "それとも"
 
-#: src/pages/components/GeneralOptions.tsx:222
+#: src/pages/components/GeneralOptions.tsx:227
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "ファイルごとに保存先を指定します。"
 
-#: src/pages/components/GeneralOptions.tsx:270
+#: src/pages/components/GeneralOptions.tsx:275
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "サブディレクトリの作成"
 
-#: src/pages/components/GeneralOptions.tsx:272
+#: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory can "
 "be seperated with \"/\"."
 msgstr "ディフォルトディレクトリの下にサブディレクトリを作成します。"
 
-#: src/pages/components/GeneralOptions.tsx:239
+#: src/pages/components/GeneralOptions.tsx:244
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "ファイルネームパターン"
 
-#: src/pages/components/GeneralOptions.tsx:308
+#: src/pages/components/GeneralOptions.tsx:313
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "ファイルをグループ化"
 
-#: src/pages/components/GeneralOptions.tsx:309
+#: src/pages/components/GeneralOptions.tsx:314
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "選択した属性でファイルをグループ化します。"
 
-#: src/pages/hooks/useFilenameSettingsForm.ts:241
+#: src/pages/hooks/useFilenameSettingsForm.ts:246
 msgctxt "options:general"
 msgid "Invalid directory name. Cannot contain <>:\"\\|?*"
 msgstr "ディレクトリ名に次の文字は使えません <>:”\\|?*"
 
-#: src/pages/hooks/useFilenameSettingsForm.ts:282
+#: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
 msgid ""
 "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
@@ -256,304 +256,309 @@ msgstr ""
 "無効なパータン。 `ツイート ID` + `シリアル番号` や `ハッシュ` を含めてくださ"
 "い."
 
-#: src/pages/components/GeneralOptions.tsx:223
+#: src/pages/components/GeneralOptions.tsx:228
+#, fuzzy
+#| msgctxt "options:general"
+#| msgid ""
+#| "Show the file chooser or not when download was triggered. Recommend to "
+#| "disable this option."
 msgctxt "options:general"
 msgid ""
-"Show the file chooser or not when download was triggered. Recommend to "
+"Show the file chooser or not when download is triggered. Recommend to "
 "disable this option."
 msgstr ""
 "ファイルごとに保存先を指定します。\n"
 "推奨：オフ"
 
-#: src/pages/components/GeneralOptions.tsx:240
+#: src/pages/components/GeneralOptions.tsx:245
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "ツイートの情報をファイルネームに含めます。"
 
-#: src/pages/components/GeneralOptions.tsx:391
+#: src/pages/components/GeneralOptions.tsx:396
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "リセット"
 
-#: src/pages/components/GeneralOptions.tsx:399
+#: src/pages/components/GeneralOptions.tsx:404
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "保存"
 
-#: src/pages/components/GeneralOptions.tsx:317
-#: src/pages/components/GeneralOptions.tsx:50
+#: src/pages/components/GeneralOptions.tsx:322
+#: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"
 msgstr "アカウント"
 
-#: src/pages/components/GeneralOptions.tsx:55
+#: src/pages/components/GeneralOptions.tsx:60
 msgctxt "options:general:filenameToken"
 msgid "Account ID"
 msgstr "アカウント ID"
 
-#: src/pages/components/GeneralOptions.tsx:75
+#: src/pages/components/GeneralOptions.tsx:80
 msgctxt "options:general:filenameToken"
 msgid "Download Date"
 msgstr "ダウンロード日付"
 
-#: src/pages/components/GeneralOptions.tsx:80
+#: src/pages/components/GeneralOptions.tsx:85
 msgctxt "options:general:filenameToken"
 msgid "Download Datetime"
 msgstr "ダウンロード時間"
 
-#: src/pages/components/GeneralOptions.tsx:90
+#: src/pages/components/GeneralOptions.tsx:95
 msgctxt "options:general:filenameToken"
 msgid "Download Timestamp"
 msgstr "ダウンロードタイムスタンプ"
 
-#: src/pages/components/GeneralOptions.tsx:85
+#: src/pages/components/GeneralOptions.tsx:90
 msgctxt "options:general:filenameToken"
 msgid "Download_Datetime"
 msgstr "ダウンロード＿日付"
 
-#: src/pages/components/GeneralOptions.tsx:65
+#: src/pages/components/GeneralOptions.tsx:70
 msgctxt "options:general:filenameToken"
 msgid "Hash"
 msgstr "ハッシュ値"
 
-#: src/pages/components/GeneralOptions.tsx:70
+#: src/pages/components/GeneralOptions.tsx:75
 msgctxt "options:general:filenameToken"
 msgid "Serial"
 msgstr "シリアル番号"
 
-#: src/pages/components/GeneralOptions.tsx:95
+#: src/pages/components/GeneralOptions.tsx:100
 msgctxt "options:general:filenameToken"
 msgid "Tweet Date"
 msgstr "投稿日付"
 
-#: src/pages/components/GeneralOptions.tsx:100
+#: src/pages/components/GeneralOptions.tsx:105
 msgctxt "options:general:filenameToken"
 msgid "Tweet Datetime"
 msgstr "投稿時間"
 
-#: src/pages/components/GeneralOptions.tsx:60
+#: src/pages/components/GeneralOptions.tsx:65
 msgctxt "options:general:filenameToken"
 msgid "Tweet ID"
 msgstr "ツイート ID"
 
-#: src/pages/components/GeneralOptions.tsx:110
+#: src/pages/components/GeneralOptions.tsx:115
 msgctxt "options:general:filenameToken"
 msgid "Tweet Timestamp"
 msgstr "投稿タイムスタンプ"
 
-#: src/pages/components/GeneralOptions.tsx:105
+#: src/pages/components/GeneralOptions.tsx:110
 msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "投稿＿時間"
 
-#: src/pages/components/History.tsx:502
+#: src/pages/components/History.tsx:507
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "この履歴ファイルをインポートしてもよろしいですか？"
 
-#: src/pages/components/History.tsx:339 src/pages/components/History.tsx:344
+#: src/pages/components/History.tsx:344 src/pages/components/History.tsx:349
 msgctxt "options:history"
 msgid "Export"
 msgstr "エクスポート"
 
-#: src/pages/components/History.tsx:528
+#: src/pages/components/History.tsx:533
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "ファイルのエクスポートに失敗しました。"
 
-#: src/pages/components/History.tsx:518
+#: src/pages/components/History.tsx:523
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "ファイルのインポートに失敗しました。"
 
-#: src/pages/components/History.tsx:331 src/pages/components/History.tsx:336
+#: src/pages/components/History.tsx:336 src/pages/components/History.tsx:341
 msgctxt "options:history"
 msgid "Import"
 msgstr "インポート"
 
-#: src/pages/components/History.tsx:515
+#: src/pages/components/History.tsx:520
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "形式が正しくありません。"
 
-#: src/pages/components/History.tsx:297
+#: src/pages/components/History.tsx:302
 msgctxt "options:history"
 msgid "Next page"
 msgstr "次のページ"
 
-#: src/pages/components/History.tsx:287
+#: src/pages/components/History.tsx:292
 msgctxt "options:history"
 msgid "Previous page"
 msgstr "前のページ"
 
-#: src/pages/components/History.tsx:313
+#: src/pages/components/History.tsx:318
 msgctxt "options:history"
 msgid "Refresh"
 msgstr "更新"
 
-#: src/pages/components/History.tsx:522
+#: src/pages/components/History.tsx:527
 msgctxt "options:history"
 msgid "The history file is imported successfully."
 msgstr "履歴ファイルを問題なくインポートしました。"
 
-#: src/pages/components/History.tsx:392
+#: src/pages/components/History.tsx:397
 msgctxt "options:history:input:placeholder"
 msgid "Username"
 msgstr "ユーザー名"
 
-#: src/pages/components/History.tsx:138
+#: src/pages/components/History.tsx:143
 msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "画像"
 
-#: src/pages/components/History.tsx:144 src/pages/components/History.tsx:147
+#: src/pages/components/History.tsx:149 src/pages/components/History.tsx:152
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "画像 + ビデオ"
 
-#: src/pages/components/History.tsx:141
+#: src/pages/components/History.tsx:146
 msgctxt "options:history:mediaType"
 msgid "Video"
 msgstr "ビデオ"
 
-#: src/pages/components/History.tsx:407
+#: src/pages/components/History.tsx:412
 msgctxt "options:history:mediaType:option"
 msgid "All"
 msgstr "全種類"
 
-#: src/pages/components/History.tsx:410
+#: src/pages/components/History.tsx:415
 msgctxt "options:history:mediaType:option"
 msgid "Image"
 msgstr "画像"
 
-#: src/pages/components/History.tsx:416
+#: src/pages/components/History.tsx:421
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
 msgstr "画像 + ビデオ"
 
-#: src/pages/components/History.tsx:413
+#: src/pages/components/History.tsx:418
 msgctxt "options:history:mediaType:option"
 msgid "Video"
 msgstr "ビデオ"
 
-#: src/pages/components/History.tsx:399
+#: src/pages/components/History.tsx:404
 msgctxt "options:history:select"
 msgid "Select media type"
 msgstr "タイプ"
 
-#: src/pages/components/History.tsx:211
+#: src/pages/components/History.tsx:216
 msgctxt "options:history:table:head"
 msgid "actions"
 msgstr "操作"
 
-#: src/pages/components/History.tsx:210
+#: src/pages/components/History.tsx:215
 msgctxt "options:history:table:head"
 msgid "download time"
 msgstr "ダウンロード時間"
 
-#: src/pages/components/History.tsx:209
+#: src/pages/components/History.tsx:214
 msgctxt "options:history:table:head"
 msgid "post time"
 msgstr "投稿時間"
 
-#: src/pages/components/History.tsx:206
+#: src/pages/components/History.tsx:211
 msgctxt "options:history:table:head"
 msgid "thumbnail"
 msgstr "サムネイル"
 
-#: src/pages/components/History.tsx:208
+#: src/pages/components/History.tsx:213
 msgctxt "options:history:table:head"
 msgid "type"
 msgstr "タイプ"
 
-#: src/pages/components/History.tsx:207
+#: src/pages/components/History.tsx:212
 msgctxt "options:history:table:head"
 msgid "user"
 msgstr "ユーザー"
 
-#: src/pages/components/IntegrationOptions.tsx:16
+#: src/pages/components/IntegrationOptions.tsx:21
 msgctxt "options:integrations"
 msgid "Aria2-Explorer"
 msgstr "Aria2-Explorer"
 
-#: src/pages/components/IntegrationOptions.tsx:83
+#: src/pages/components/IntegrationOptions.tsx:88
 msgctxt "options:integrations"
 msgid "Dispatch download to Aria2"
 msgstr "ダウンロードを Aria2 に転送"
 
-#: src/pages/components/IntegrationOptions.tsx:71
+#: src/pages/components/IntegrationOptions.tsx:76
 msgctxt "options:integrations"
 msgid "Filename Detector"
 msgstr "ファイルネーム上書き探知"
 
-#: src/pages/components/IntegrationOptions.tsx:72
+#: src/pages/components/IntegrationOptions.tsx:77
 msgctxt "options:integrations"
 msgid ""
 "The detector can notify user when the filename is modified by other "
 "extensions."
 msgstr "ファイルネームは他の拡張に上書きされる際、通知を発送します。"
 
-#: src/pages/components/IntegrationOptions.tsx:60
+#: src/pages/components/IntegrationOptions.tsx:65
 msgctxt "options:integrations"
 msgid "This integration is not compatible with {{platform}}"
 msgstr "{{platform}} には適用されていません。"
 
-#: src/pages/components/IntegrationOptions.tsx:17
+#: src/pages/components/IntegrationOptions.tsx:22
 msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "ダウンロードを {{aria2-extension}} 経由して Aria2 に転送。"
 
-#: src/pages/app/Options.tsx:143 src/pages/components/SideMenu.tsx:76
+#: src/pages/app/Options.tsx:148 src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "拡張について"
 
-#: src/pages/app/Options.tsx:103 src/pages/components/SideMenu.tsx:57
+#: src/pages/app/Options.tsx:108 src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "機能"
 
-#: src/pages/app/Options.tsx:92 src/pages/components/SideMenu.tsx:51
+#: src/pages/app/Options.tsx:97 src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "一般"
 
-#: src/pages/app/Options.tsx:123 src/pages/components/SideMenu.tsx:69
+#: src/pages/app/Options.tsx:128 src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "ダウンロード履歴"
 
-#: src/pages/app/Options.tsx:111 src/pages/components/SideMenu.tsx:63
+#: src/pages/app/Options.tsx:116 src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "統合"
 
-#: src/pages/components/PopupFeatureBlock.tsx:35
+#: src/pages/components/PopupFeatureBlock.tsx:40
 msgctxt "popup"
 msgid "Auto-reveal NSFW"
 msgstr "センシティブ内容表示"
 
-#: src/pages/app/Popup.tsx:211
+#: src/pages/app/Popup.tsx:216
 msgctxt "popup"
 msgid "Buy me a coffee!"
 msgstr "コーヒーおごって！"
 
-#: src/pages/app/Popup.tsx:193
+#: src/pages/app/Popup.tsx:198
 msgctxt "popup"
 msgid "Changelog"
 msgstr "更新履歴"
 
-#: src/pages/app/Popup.tsx:124
+#: src/pages/app/Popup.tsx:129
 msgctxt "popup"
 msgid "Rate it"
 msgstr "評価する"
 
-#: src/pages/app/Popup.tsx:131
+#: src/pages/app/Popup.tsx:136
 msgctxt "popup"
 msgid "Report issues"
 msgstr "不具合を報告する"
 
-#: src/pages/components/PopupFeatureBlock.tsx:40
+#: src/pages/components/PopupFeatureBlock.tsx:45
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "サムネイル"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-04-03 08:45+0800\n"
+"POT-Creation-Date: 2025-04-08 00:56+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -19,529 +19,529 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : X (twitter) 多媒體下載器"
 
-#: src/helpers/notificationConfig.ts:104
+#: src/helpers/notificationConfig.ts:120
 msgctxt "notification:download"
 msgid "API Rate limit exceeded."
 msgstr "已超過 Twitter API 速率限制。"
 
-#: src/helpers/notificationConfig.ts:45
+#: src/helpers/notificationConfig.ts:73
 msgctxt "notification:download"
 msgid "Download failed"
 msgstr "下載失敗"
 
-#: src/helpers/notificationConfig.ts:36
+#: src/helpers/notificationConfig.ts:66
 msgctxt "notification:download"
 msgid "Media in {{account}}({{tweet-id}}) download failed."
 msgstr "於  {{account}}({{tweet-id}})  的多媒體下載失敗。"
 
-#: src/helpers/notificationConfig.ts:103
+#: src/helpers/notificationConfig.ts:119
 msgctxt "notification:download"
 msgid "Too many requests"
 msgstr "短時間發出過多請求"
 
-#: src/helpers/notificationConfig.ts:194
+#: src/helpers/notificationConfig.ts:203
 msgctxt "notification:filename"
 msgid ""
 "The filename is modified by other extensions, please check extensions' "
 "settings."
 msgstr "檔案名稱可能已經被其他擴充功能修改，請確認其他擴充功能的設定。"
 
-#: src/helpers/notificationConfig.ts:193
+#: src/helpers/notificationConfig.ts:202
 msgctxt "notification:filename"
 msgid "WARNING: Filename is modified"
 msgstr "警告：檔案名稱與設定格式不一致"
 
-#: src/helpers/notificationButton.ts:22
+#: src/helpers/notificationButton.ts:27
 msgctxt "notification:filename:button"
 msgid "Ignore"
 msgstr "忽視"
 
-#: src/helpers/notificationConfig.ts:168
+#: src/helpers/notificationConfig.ts:181
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information"
 msgstr "推特資訊分析失敗"
 
-#: src/helpers/notificationConfig.ts:172
+#: src/helpers/notificationConfig.ts:185
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr "推特資訊分析失敗。請向開發者回報錯誤。"
 
-#: src/helpers/notificationConfig.ts:217
+#: src/helpers/notificationConfig.ts:218
 msgctxt "notification:quota"
 msgid "Download Quota Warning"
 msgstr "下載額度警示"
 
-#: src/helpers/notificationConfig.ts:218
+#: src/helpers/notificationConfig.ts:219
 msgctxt "notification:quota"
 msgid "Remaining quota: {{quota}}. Resets at {{time}}"
 msgstr "剩餘額度: {{quota}}，將重置於 {{time}}"
 
-#: src/helpers/notificationButton.ts:14
+#: src/helpers/notificationButton.ts:19
 msgctxt "notification:tweet:button"
 msgid "Retry"
 msgstr "重試"
 
-#: src/helpers/notificationButton.ts:6
+#: src/helpers/notificationButton.ts:11
 msgctxt "notification:tweet:button"
 msgid "View"
 msgstr "查看"
 
-#: src/helpers/notificationConfig.ts:139
+#: src/helpers/notificationConfig.ts:155
 msgctxt "notification:tweetFetch"
 msgid "Forbidden"
 msgstr "存取遭拒絕"
 
-#: src/helpers/notificationConfig.ts:127
+#: src/helpers/notificationConfig.ts:143
 msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
 msgstr "你的登錄資訊可能已經過期或是沒有查看此推文的權限。"
 
-#: src/helpers/notificationConfig.ts:155
+#: src/helpers/notificationConfig.ts:171
 msgctxt "notification:tweetFetch"
 msgid "Please contact with developer."
 msgstr "請聯絡開發者。"
 
-#: src/helpers/notificationConfig.ts:113
+#: src/helpers/notificationConfig.ts:129
 msgctxt "notification:tweetFetch"
 msgid "The tweet cannot be found"
 msgstr "無法取得推文資料"
 
-#: src/helpers/notificationConfig.ts:114
+#: src/helpers/notificationConfig.ts:130
 msgctxt "notification:tweetFetch"
 msgid "The tweet might be deleted."
 msgstr "推特內容可能已經被刪除。"
 
-#: src/helpers/notificationConfig.ts:126
+#: src/helpers/notificationConfig.ts:142
 msgctxt "notification:tweetFetch"
 msgid "Unauthorized"
 msgstr "未授權"
 
-#: src/helpers/notificationConfig.ts:152
+#: src/helpers/notificationConfig.ts:168
 msgctxt "notification:tweetFetch"
 msgid "Unknown Error ({{code}})"
 msgstr "未知的錯誤 ({{code}})"
 
-#: src/helpers/notificationConfig.ts:140
+#: src/helpers/notificationConfig.ts:156
 msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "你的登錄資訊可能已經過期，請重新整理頁面。"
 
-#: src/pages/components/About.tsx:64
+#: src/pages/components/About.tsx:69
 msgctxt "options:about"
 msgid "Changelog"
 msgstr "更新日誌"
 
-#: src/pages/components/About.tsx:52
+#: src/pages/components/About.tsx:57
 msgctxt "options:about"
 msgid "Official website"
 msgstr "官方網站"
 
-#: src/pages/components/About.tsx:56
+#: src/pages/components/About.tsx:61
 msgctxt "options:about"
 msgid "Privacy policy"
 msgstr "隱私權政策"
 
-#: src/pages/components/About.tsx:60
+#: src/pages/components/About.tsx:65
 msgctxt "options:about"
 msgid "Reoprt issues"
 msgstr "回報錯誤"
 
-#: src/pages/components/About.tsx:25
+#: src/pages/components/About.tsx:30
 msgctxt "options:about"
 msgid "Version"
 msgstr "版本"
 
-#: src/pages/components/FeatureOptions.tsx:38
+#: src/pages/components/FeatureOptions.tsx:43
 msgctxt "options:features"
 msgid "Auto-reveal sensitive content"
 msgstr "自動顯示敏感內容"
 
-#: src/pages/components/FeatureOptions.tsx:56
+#: src/pages/components/FeatureOptions.tsx:61
 msgctxt "options:features"
 msgid "Download the thumbnail when the media is video."
 msgstr "檔案為影片時，自動下載縮圖。"
 
-#: src/pages/components/FeatureOptions.tsx:55
+#: src/pages/components/FeatureOptions.tsx:60
 msgctxt "options:features"
 msgid "Download video thumbnail"
 msgstr "下載影片縮圖"
 
-#: src/pages/components/FeatureOptions.tsx:48
+#: src/pages/components/FeatureOptions.tsx:53
 msgctxt "options:features"
 msgid "Keyboard shortcut"
 msgstr "鍵盤快捷鍵"
 
-#: src/pages/components/FeatureOptions.tsx:15
+#: src/pages/components/FeatureOptions.tsx:20
 msgctxt "options:features"
 msgid "Use keyboard shortcut to trigger download."
 msgstr "使用鍵盤快捷鍵來觸發下載。"
 
-#: src/pages/components/FeatureOptions.tsx:39
+#: src/pages/components/FeatureOptions.tsx:44
 msgctxt "options:features"
 msgid ""
 "When the tweet was flagged as sensitive content, this feature can show the "
 "blured content automatically."
 msgstr "當推特內容被標註為敏感內容時，自動顯示內容。"
 
-#: src/pages/components/FootBar.tsx:40
+#: src/pages/components/FootBar.tsx:45
 msgctxt "options:footBar:button"
 msgid "Buy me a coffee"
 msgstr "請開發者喝杯咖啡"
 
-#: src/pages/components/FootBar.tsx:29
+#: src/pages/components/FootBar.tsx:34
 msgctxt "options:footBar:button"
 msgid "Rate it"
 msgstr "給評價"
 
-#: src/pages/components/FootBar.tsx:20
+#: src/pages/components/FootBar.tsx:25
 msgctxt "options:footBar:text"
 msgid "Do you like Media Harvest?"
 msgstr "喜歡 Media Harvest 嗎？"
 
-#: src/pages/components/FootBar.tsx:32
+#: src/pages/components/FootBar.tsx:37
 msgctxt "options:footBar:text"
 msgid "or"
 msgstr "或"
 
-#: src/pages/components/GeneralOptions.tsx:222
+#: src/pages/components/GeneralOptions.tsx:227
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "詢問檔案存放位置。"
 
-#: src/pages/components/GeneralOptions.tsx:270
+#: src/pages/components/GeneralOptions.tsx:275
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "新增子資料夾"
 
-#: src/pages/components/GeneralOptions.tsx:272
+#: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory can "
 "be seperated with \"/\"."
 msgstr "在預設下載資料夾中新增一個子資料夾。使用 ”/” 區分多個子資料夾。"
 
-#: src/pages/components/GeneralOptions.tsx:239
+#: src/pages/components/GeneralOptions.tsx:244
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "檔案名稱樣式"
 
-#: src/pages/components/GeneralOptions.tsx:308
+#: src/pages/components/GeneralOptions.tsx:313
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "群組檔案"
 
-#: src/pages/components/GeneralOptions.tsx:309
+#: src/pages/components/GeneralOptions.tsx:314
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "使用選擇的屬性群組檔案。"
 
-#: src/pages/hooks/useFilenameSettingsForm.ts:241
+#: src/pages/hooks/useFilenameSettingsForm.ts:246
 msgctxt "options:general"
 msgid "Invalid directory name. Cannot contain <>:\"\\|?*"
 msgstr "無效的資料夾名稱。不能含有 <>:”\\|?*"
 
-#: src/pages/hooks/useFilenameSettingsForm.ts:282
+#: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
 msgid ""
 "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "無效的樣式。 必須包含 `推特 ID` + `序列號` 或 `雜湊值`。"
 
-#: src/pages/components/GeneralOptions.tsx:223
+#: src/pages/components/GeneralOptions.tsx:228
 msgctxt "options:general"
 msgid ""
-"Show the file chooser or not when download was triggered. Recommend to "
+"Show the file chooser or not when download is triggered. Recommend to "
 "disable this option."
 msgstr "每次下載都詢問檔案存放位置。 推薦關閉此設定。"
 
-#: src/pages/components/GeneralOptions.tsx:240
+#: src/pages/components/GeneralOptions.tsx:245
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "選擇需要哪些資訊包含在檔案名稱。"
 
-#: src/pages/components/GeneralOptions.tsx:391
+#: src/pages/components/GeneralOptions.tsx:396
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "重置"
 
-#: src/pages/components/GeneralOptions.tsx:399
+#: src/pages/components/GeneralOptions.tsx:404
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "保存"
 
-#: src/pages/components/GeneralOptions.tsx:317
-#: src/pages/components/GeneralOptions.tsx:50
+#: src/pages/components/GeneralOptions.tsx:322
+#: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"
 msgstr "帳號"
 
-#: src/pages/components/GeneralOptions.tsx:55
+#: src/pages/components/GeneralOptions.tsx:60
 msgctxt "options:general:filenameToken"
 msgid "Account ID"
 msgstr "帳號 ID"
 
-#: src/pages/components/GeneralOptions.tsx:75
+#: src/pages/components/GeneralOptions.tsx:80
 msgctxt "options:general:filenameToken"
 msgid "Download Date"
 msgstr "下載日期"
 
-#: src/pages/components/GeneralOptions.tsx:80
+#: src/pages/components/GeneralOptions.tsx:85
 msgctxt "options:general:filenameToken"
 msgid "Download Datetime"
 msgstr "下載日期時間"
 
-#: src/pages/components/GeneralOptions.tsx:90
+#: src/pages/components/GeneralOptions.tsx:95
 msgctxt "options:general:filenameToken"
 msgid "Download Timestamp"
 msgstr "下載時間戳"
 
-#: src/pages/components/GeneralOptions.tsx:85
+#: src/pages/components/GeneralOptions.tsx:90
 msgctxt "options:general:filenameToken"
 msgid "Download_Datetime"
 msgstr "下載_日期時間"
 
-#: src/pages/components/GeneralOptions.tsx:65
+#: src/pages/components/GeneralOptions.tsx:70
 msgctxt "options:general:filenameToken"
 msgid "Hash"
 msgstr "雜湊值"
 
-#: src/pages/components/GeneralOptions.tsx:70
+#: src/pages/components/GeneralOptions.tsx:75
 msgctxt "options:general:filenameToken"
 msgid "Serial"
 msgstr "序列號"
 
-#: src/pages/components/GeneralOptions.tsx:95
+#: src/pages/components/GeneralOptions.tsx:100
 msgctxt "options:general:filenameToken"
 msgid "Tweet Date"
 msgstr "推特日期"
 
-#: src/pages/components/GeneralOptions.tsx:100
+#: src/pages/components/GeneralOptions.tsx:105
 msgctxt "options:general:filenameToken"
 msgid "Tweet Datetime"
 msgstr "推特日期時間"
 
-#: src/pages/components/GeneralOptions.tsx:60
+#: src/pages/components/GeneralOptions.tsx:65
 msgctxt "options:general:filenameToken"
 msgid "Tweet ID"
 msgstr "推特 ID"
 
-#: src/pages/components/GeneralOptions.tsx:110
+#: src/pages/components/GeneralOptions.tsx:115
 msgctxt "options:general:filenameToken"
 msgid "Tweet Timestamp"
 msgstr "推特時間戳"
 
-#: src/pages/components/GeneralOptions.tsx:105
+#: src/pages/components/GeneralOptions.tsx:110
 msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "推特_日期時間"
 
-#: src/pages/components/History.tsx:502
+#: src/pages/components/History.tsx:507
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "確定要匯入這個歷史檔案嗎?"
 
-#: src/pages/components/History.tsx:339 src/pages/components/History.tsx:344
+#: src/pages/components/History.tsx:344 src/pages/components/History.tsx:349
 msgctxt "options:history"
 msgid "Export"
 msgstr "匯出"
 
-#: src/pages/components/History.tsx:528
+#: src/pages/components/History.tsx:533
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "匯出失敗。"
 
-#: src/pages/components/History.tsx:518
+#: src/pages/components/History.tsx:523
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "匯入失敗。"
 
-#: src/pages/components/History.tsx:331 src/pages/components/History.tsx:336
+#: src/pages/components/History.tsx:336 src/pages/components/History.tsx:341
 msgctxt "options:history"
 msgid "Import"
 msgstr "匯入"
 
-#: src/pages/components/History.tsx:515
+#: src/pages/components/History.tsx:520
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "不正確的格式。"
 
-#: src/pages/components/History.tsx:297
+#: src/pages/components/History.tsx:302
 msgctxt "options:history"
 msgid "Next page"
 msgstr "下一頁"
 
-#: src/pages/components/History.tsx:287
+#: src/pages/components/History.tsx:292
 msgctxt "options:history"
 msgid "Previous page"
 msgstr "上一頁"
 
-#: src/pages/components/History.tsx:313
+#: src/pages/components/History.tsx:318
 msgctxt "options:history"
 msgid "Refresh"
 msgstr "更新"
 
-#: src/pages/components/History.tsx:522
+#: src/pages/components/History.tsx:527
 msgctxt "options:history"
 msgid "The history file is imported successfully."
 msgstr "歷史紀錄匯入成功。"
 
-#: src/pages/components/History.tsx:392
+#: src/pages/components/History.tsx:397
 msgctxt "options:history:input:placeholder"
 msgid "Username"
 msgstr "使用者名稱"
 
-#: src/pages/components/History.tsx:138
+#: src/pages/components/History.tsx:143
 msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "圖片"
 
-#: src/pages/components/History.tsx:144 src/pages/components/History.tsx:147
+#: src/pages/components/History.tsx:149 src/pages/components/History.tsx:152
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "混合"
 
-#: src/pages/components/History.tsx:141
+#: src/pages/components/History.tsx:146
 msgctxt "options:history:mediaType"
 msgid "Video"
 msgstr "影片"
 
-#: src/pages/components/History.tsx:407
+#: src/pages/components/History.tsx:412
 msgctxt "options:history:mediaType:option"
 msgid "All"
 msgstr "全種類"
 
-#: src/pages/components/History.tsx:410
+#: src/pages/components/History.tsx:415
 msgctxt "options:history:mediaType:option"
 msgid "Image"
 msgstr "圖片"
 
-#: src/pages/components/History.tsx:416
+#: src/pages/components/History.tsx:421
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
 msgstr "混合"
 
-#: src/pages/components/History.tsx:413
+#: src/pages/components/History.tsx:418
 msgctxt "options:history:mediaType:option"
 msgid "Video"
 msgstr "影片"
 
-#: src/pages/components/History.tsx:399
+#: src/pages/components/History.tsx:404
 msgctxt "options:history:select"
 msgid "Select media type"
 msgstr "選擇媒體類型"
 
-#: src/pages/components/History.tsx:211
+#: src/pages/components/History.tsx:216
 msgctxt "options:history:table:head"
 msgid "actions"
 msgstr "動作"
 
-#: src/pages/components/History.tsx:210
+#: src/pages/components/History.tsx:215
 msgctxt "options:history:table:head"
 msgid "download time"
 msgstr "下載時間"
 
-#: src/pages/components/History.tsx:209
+#: src/pages/components/History.tsx:214
 msgctxt "options:history:table:head"
 msgid "post time"
 msgstr "貼文時間"
 
-#: src/pages/components/History.tsx:206
+#: src/pages/components/History.tsx:211
 msgctxt "options:history:table:head"
 msgid "thumbnail"
 msgstr "縮圖"
 
-#: src/pages/components/History.tsx:208
+#: src/pages/components/History.tsx:213
 msgctxt "options:history:table:head"
 msgid "type"
 msgstr "類型"
 
-#: src/pages/components/History.tsx:207
+#: src/pages/components/History.tsx:212
 msgctxt "options:history:table:head"
 msgid "user"
 msgstr "用戶"
 
-#: src/pages/components/IntegrationOptions.tsx:16
+#: src/pages/components/IntegrationOptions.tsx:21
 msgctxt "options:integrations"
 msgid "Aria2-Explorer"
 msgstr "Aria2-Explorer"
 
-#: src/pages/components/IntegrationOptions.tsx:83
+#: src/pages/components/IntegrationOptions.tsx:88
 msgctxt "options:integrations"
 msgid "Dispatch download to Aria2"
 msgstr "傳送下載任務到 Aria2"
 
-#: src/pages/components/IntegrationOptions.tsx:71
+#: src/pages/components/IntegrationOptions.tsx:76
 msgctxt "options:integrations"
 msgid "Filename Detector"
 msgstr "檔案名稱偵測"
 
-#: src/pages/components/IntegrationOptions.tsx:72
+#: src/pages/components/IntegrationOptions.tsx:77
 msgctxt "options:integrations"
 msgid ""
 "The detector can notify user when the filename is modified by other "
 "extensions."
 msgstr "當檔案名稱可能被其他擴充功能修改時發出警告通知。"
 
-#: src/pages/components/IntegrationOptions.tsx:60
+#: src/pages/components/IntegrationOptions.tsx:65
 msgctxt "options:integrations"
 msgid "This integration is not compatible with {{platform}}"
 msgstr "{{platform}} 瀏覽器不支援此項功能"
 
-#: src/pages/components/IntegrationOptions.tsx:17
+#: src/pages/components/IntegrationOptions.tsx:22
 msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "透過 {{aria2-extension}} 傳送下載任務到 Aria2。"
 
-#: src/pages/app/Options.tsx:143 src/pages/components/SideMenu.tsx:76
+#: src/pages/app/Options.tsx:148 src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "關於"
 
-#: src/pages/app/Options.tsx:103 src/pages/components/SideMenu.tsx:57
+#: src/pages/app/Options.tsx:108 src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "功能"
 
-#: src/pages/app/Options.tsx:92 src/pages/components/SideMenu.tsx:51
+#: src/pages/app/Options.tsx:97 src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "通用"
 
-#: src/pages/app/Options.tsx:123 src/pages/components/SideMenu.tsx:69
+#: src/pages/app/Options.tsx:128 src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "下載歷史"
 
-#: src/pages/app/Options.tsx:111 src/pages/components/SideMenu.tsx:63
+#: src/pages/app/Options.tsx:116 src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "整合"
 
-#: src/pages/components/PopupFeatureBlock.tsx:35
+#: src/pages/components/PopupFeatureBlock.tsx:40
 msgctxt "popup"
 msgid "Auto-reveal NSFW"
 msgstr "顯示敏感內容"
 
-#: src/pages/app/Popup.tsx:211
+#: src/pages/app/Popup.tsx:216
 msgctxt "popup"
 msgid "Buy me a coffee!"
 msgstr "請作者喝杯咖啡！"
 
-#: src/pages/app/Popup.tsx:193
+#: src/pages/app/Popup.tsx:198
 msgctxt "popup"
 msgid "Changelog"
 msgstr "更新日誌"
 
-#: src/pages/app/Popup.tsx:124
+#: src/pages/app/Popup.tsx:129
 msgctxt "popup"
 msgid "Rate it"
 msgstr "給評價"
 
-#: src/pages/app/Popup.tsx:131
+#: src/pages/app/Popup.tsx:136
 msgctxt "popup"
 msgid "Report issues"
 msgstr "回報錯誤"
 
-#: src/pages/components/PopupFeatureBlock.tsx:40
+#: src/pages/components/PopupFeatureBlock.tsx:45
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "下載影片縮圖"
