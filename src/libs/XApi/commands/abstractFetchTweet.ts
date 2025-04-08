@@ -281,8 +281,25 @@ type Hashtag = {
   text: string
 }
 
+const mightBeHashtag = (entity: unknown): entity is Hashtag =>
+  typeof entity === 'object' &&
+  entity !== null &&
+  'text' in entity &&
+  typeof entity.text === 'string'
+
+const hasHashtags = <T extends Record<string, unknown>>(
+  entity: T
+): entity is T & { hashtags: Hashtag[] } => {
+  const hashtags = entity.hashtags
+  return (
+    Array.isArray(hashtags) &&
+    hashtags.length > 0 &&
+    hashtags.every(mightBeHashtag)
+  )
+}
+
 const parseHashtags = (entity: Record<string, unknown>): string[] =>
-  ((entity?.hashtags as Hashtag[]) ?? []).map(v => v.text)
+  hasHashtags(entity) ? entity.hashtags.map(v => v.text) : []
 
 const validationResultToEither = <T>(
   result: ValidationResult<T>
