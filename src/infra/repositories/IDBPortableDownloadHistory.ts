@@ -38,7 +38,7 @@ export class IDBPortableDownloadHistoryRepository
         type: 'application/json',
       })
 
-      return toSuccessResult(convertBlob ? convertBlob(blob) : blob)
+      return toSuccessResult(convertBlob ? await convertBlob(blob) : blob)
     } catch (error) {
       return toErrorResult(toError(error))
     }
