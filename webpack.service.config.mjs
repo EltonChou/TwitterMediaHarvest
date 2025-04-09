@@ -1,4 +1,4 @@
-import GeckoSpec from './gecko.spec.js  on' with { type: 'json' }
+import GeckoSpec from './gecko.spec.json' with { type: 'json' }
 import PACKAGE from './package.json' with { type: 'json' }
 import PublicKey from './public_key.json' with { type: 'json' }
 import baseConfig from './webpack.common.config.mjs'
