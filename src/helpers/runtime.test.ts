@@ -5,5 +5,5 @@ test('firefox check', () => {
   expect(isFirefox()).toBeTruthy()
   process.env.TARGET = 'chrome'
   expect(isFirefox()).not.toBeTruthy()
-  delete process.env.TAGET
+  process.env.TARGET = ''
 })

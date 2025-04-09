@@ -150,7 +150,8 @@
     "typecheck": "tsc --noEmit --skipLibCheck",
     "extract-locales": "cross-env ./utils/locales-extractor.mjs",
     "check-locales": "yarn extract-locales && cross-env ./utils/check-locales.mjs",
-    "check-changelog": "cross-env ./utils/check-changelog.mjs"
+    "check-changelog": "cross-env ./utils/check-changelog.mjs",
+    "mh-typegen": "cross-env ./utils/mh-typegen.mjs"
   },
   "repository": {
     "type": "git",

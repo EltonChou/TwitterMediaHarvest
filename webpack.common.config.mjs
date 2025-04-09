@@ -1,4 +1,3 @@
-import PACKAGE from './package.json' with { type: 'json' }
 import { isProduction as isProductionMode } from './webpack/utils.mjs'
 import { transformer as i18nTransformer } from '@media-harvest/webext-i18n-loader'
 import Dotenv from 'dotenv-webpack'
@@ -11,7 +10,6 @@ import { merge } from 'webpack-merge'
 
 const require = createRequire(import.meta.url)
 
-const { name, version } = PACKAGE
 const { EnvironmentPlugin } = webpack
 
 /** @type {import('webpack').Configuration} */
@@ -73,11 +71,7 @@ const config = {
 export default (env, argv) => {
   const isProduction = isProductionMode(argv)
   const isSelfSign = env['self-sign'] ?? false
-  const VERSION = version
   const BROWSER = env.target
-  const VERSION_NAME = `${VERSION} (${BROWSER})`
-  const RELEASE_NAME =
-    env.RELEASE_NAME || name + '(' + BROWSER + ')' + '@' + VERSION
   const BROWSER_DIR = isSelfSign ? BROWSER + '-signed' : BROWSER
   const OUTPUT_DIR = resolve(process.cwd(), 'build', BROWSER_DIR)
 
@@ -93,9 +87,8 @@ export default (env, argv) => {
     },
     plugins: [
       new EnvironmentPlugin({
-        RELEASE: RELEASE_NAME,
         TARGET: BROWSER,
-        VERSION_NAME: VERSION_NAME,
+        ARIA2_EXT_ID: 'mpkodccbngfoacfalldjimigbofkhgjn',
       }),
       new Dotenv({ path: isProduction ? '.env' : 'dev.env' }),
     ],

@@ -11,14 +11,14 @@ import { AWSCredentailToCognitoIdentityCredentials } from '../mappers/awsCredent
 import { syncWebExtStorage } from './proxy'
 
 const awsCredentialRepo = new AWSCredentialRepository(syncWebExtStorage, {
-  identityPoolId: process.env['IDENTITY_POOL_ID'] as string,
-  region: process.env['IDENTITY_POOL_REGION'] as string,
+  identityPoolId: process.env['IDENTITY_POOL_ID'],
+  region: process.env['IDENTITY_POOL_REGION'],
 })
 
 export const awsClient = new AwsApiClient({
-  apiKey: process.env['API_KEY'] as string,
+  apiKey: process.env['API_KEY'],
   clientVersion: getVersion(),
-  hostName: process.env['API_HOSTNAME'] as string,
+  hostName: process.env['API_HOSTNAME'],
   region: 'ap-northeast-1',
   credentials: async () => {
     const credential = await awsCredentialRepo.get()
