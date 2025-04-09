@@ -1,3 +1,4 @@
+import GeckoSpec from './gecko.spec.js  on' with { type: 'json' }
 import PACKAGE from './package.json' with { type: 'json' }
 import PublicKey from './public_key.json' with { type: 'json' }
 import baseConfig from './webpack.common.config.mjs'
@@ -46,7 +47,7 @@ const appendFirefoxSpecificManifestAttributes = (manifest, addOnId) => {
       browser_specific_settings: {
         gecko: {
           id: addOnId,
-          strict_min_version: '90.0',
+          ...GeckoSpec,
         },
       },
     },
