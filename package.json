@@ -130,7 +130,7 @@
     "test:tools": "cross-env NODE_ENV=test yarn workspaces foreach -p --include '@media-harvest/*' -A run test",
     "ci": "cross-env NODE_ENV=test jest --coverage --silent --ci",
     "ci:all": "yarn workspaces foreach -p -A run ci",
-    "build:all": "yarn build:tools && yarn build:chrome:all && yarn build:edge:all && yarn build:firefox:all && yarn build:firefox:all:self-sign",
+    "build:all": "yarn build:tools && yarn check-envfile && yarn build:chrome:all && yarn build:edge:all && yarn build:firefox:all && yarn build:firefox:all:self-sign",
     "build:tools": "yarn workspaces foreach -p --include '@media-harvest/*' -A run build && yarn install",
     "build:chrome:all": "webpack --mode=production --progress --color --env target=chrome",
     "build:edge:all": "webpack --mode=production --progress --color --env target=edge",
@@ -151,7 +151,8 @@
     "extract-locales": "cross-env ./utils/locales-extractor.mjs",
     "check-locales": "yarn extract-locales && cross-env ./utils/check-locales.mjs",
     "check-changelog": "cross-env ./utils/check-changelog.mjs",
-    "mh-typegen": "cross-env ./utils/mh-typegen.mjs"
+    "mh-typegen": "cross-env ./utils/mh-typegen.mjs",
+    "check-envfile": "cross-env ./utils/check-envfile.mjs"
   },
   "repository": {
     "type": "git",

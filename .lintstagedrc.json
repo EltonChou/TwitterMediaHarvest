@@ -3,8 +3,10 @@
   "*.{js,cjs,mjs,jsx,ts,tsx}": [
     "eslint --fix",
     "prettier --write",
-    "yarn test --silent --findRelatedTests --passWithNoTests --bail 5"
+    "yarn test --silent --findRelatedTests --passWithNoTests --bail 5",
+    "yarn check-envfile sample.env"
   ],
+  "*sample.env": ["yarn check-envfile sample.env"],
   "*.md": ["prettier --write"],
   "*.json": ["prettier --write"],
   "CHANGELOG.md": ["yarn check-changelog"],
