@@ -10,11 +10,8 @@ function nope(msg: string) {
 function getText(msg: string) {
     return msg;
 }
-const enum Context {
-    TEST = 'test'
-}
 i18n("6a30f630de");
-i18n("6a30f630de", Context.TEST);
+i18n("6a30f630de", "9f86d08");
 i18n("6a30f630de", "9f86d08", { foo: 'bar' });
 nope('kappa');
 getText('keepo');
