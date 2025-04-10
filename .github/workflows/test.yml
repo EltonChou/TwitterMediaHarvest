@@ -35,6 +35,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
 
+      - name: Prepare env file
+        run: |
+          cp sample.env .env
+
       - name: Install deps and Run test
         run: |
           yarn install
