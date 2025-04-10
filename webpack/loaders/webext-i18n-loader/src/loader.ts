@@ -2,8 +2,47 @@ import type { LoaderOptions } from './options.js'
 import { getOptions } from './options.js'
 import { transformer } from './transformer.js'
 import path from 'path'
+import { RawSourceMap, SourceMapConsumer, SourceMapGenerator } from 'source-map'
 import ts from 'typescript'
 import type { LoaderDefinitionFunction } from 'webpack'
+
+function updateSourceMap(parsedSourceMap: RawSourceMap): SourceMapGenerator {
+  let generator: SourceMapGenerator
+  SourceMapConsumer.with(parsedSourceMap, null, consumer => {
+    generator = new SourceMapGenerator({
+      file: parsedSourceMap.file,
+      sourceRoot: parsedSourceMap.sourceRoot,
+    })
+
+    // Copy original mappings
+    consumer.eachMapping(mapping => {
+      generator.addMapping({
+        generated: {
+          line: mapping.generatedLine,
+          column: mapping.generatedColumn,
+        },
+        original: {
+          line: mapping.originalLine,
+          column: mapping.originalColumn,
+        },
+        source: mapping.source,
+        name: mapping.name,
+      })
+    })
+
+    // Add source content
+    consumer.sources.forEach(source => {
+      const content = consumer.sourceContentFor(source)
+      if (content) {
+        generator.setSourceContent(source, content)
+      }
+    })
+
+    consumer.destroy()
+  })
+
+  return generator!
+}
 
 /**
  * TODO: Try to make this loader can be placed in front or behind `ts-loader`.
@@ -11,7 +50,8 @@ import type { LoaderDefinitionFunction } from 'webpack'
  * If the loader is placed behind, it should transform code and update sourcemap.
  **/
 const loader: LoaderDefinitionFunction<LoaderOptions> = function loader(
-  content
+  content,
+  sourceMap
 ) {
   const callback = this.async()
   const logger = this.getLogger('i18n-loader')
@@ -39,7 +79,16 @@ const loader: LoaderDefinitionFunction<LoaderOptions> = function loader(
     ? ts.createPrinter().printFile(transformedContent)
     : content
 
-  return callback(null, outputContent)
+  if (sourceMap) {
+    const parsedSourceMap: RawSourceMap =
+      typeof sourceMap === 'string' ? JSON.parse(sourceMap) : sourceMap
+
+    const sourceMapGenerator = updateSourceMap(parsedSourceMap)
+    // Return modified source and updated sourcemap
+    callback(null, outputContent, sourceMapGenerator.toJSON())
+  } else {
+    return callback(null, outputContent)
+  }
 }
 
 export default loader
