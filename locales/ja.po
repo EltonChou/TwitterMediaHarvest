@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-04-08 00:56+0800\n"
+"POT-Creation-Date: 2025-04-12 00:47+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -351,17 +351,26 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "投稿＿時間"
 
-#: src/pages/components/History.tsx:507
+#: src/pages/components/History.tsx:508
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "この履歴ファイルをインポートしてもよろしいですか？"
 
-#: src/pages/components/History.tsx:344 src/pages/components/History.tsx:349
+#: src/pages/components/History.tsx:499
+msgctxt "options:history"
+msgid ""
+"Cannot access the selected file. Please grant permission to read the file "
+"and try again."
+msgstr ""
+"選択したファイルにアクセスできません。ファイルの読み取りを許可して、もう一度"
+"やり直してください。"
+
+#: src/pages/components/History.tsx:347 src/pages/components/History.tsx:352
 msgctxt "options:history"
 msgid "Export"
 msgstr "エクスポート"
 
-#: src/pages/components/History.tsx:533
+#: src/pages/components/History.tsx:574
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "ファイルのエクスポートに失敗しました。"
@@ -371,7 +380,7 @@ msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "ファイルのインポートに失敗しました。"
 
-#: src/pages/components/History.tsx:336 src/pages/components/History.tsx:341
+#: src/pages/components/History.tsx:339 src/pages/components/History.tsx:344
 msgctxt "options:history"
 msgid "Import"
 msgstr "インポート"
@@ -381,17 +390,17 @@ msgctxt "options:history"
 msgid "Invalid format."
 msgstr "形式が正しくありません。"
 
-#: src/pages/components/History.tsx:302
+#: src/pages/components/History.tsx:305
 msgctxt "options:history"
 msgid "Next page"
 msgstr "次のページ"
 
-#: src/pages/components/History.tsx:292
+#: src/pages/components/History.tsx:295
 msgctxt "options:history"
 msgid "Previous page"
 msgstr "前のページ"
 
-#: src/pages/components/History.tsx:318
+#: src/pages/components/History.tsx:321
 msgctxt "options:history"
 msgid "Refresh"
 msgstr "更新"
@@ -401,77 +410,77 @@ msgctxt "options:history"
 msgid "The history file is imported successfully."
 msgstr "履歴ファイルを問題なくインポートしました。"
 
-#: src/pages/components/History.tsx:397
+#: src/pages/components/History.tsx:400
 msgctxt "options:history:input:placeholder"
 msgid "Username"
 msgstr "ユーザー名"
 
-#: src/pages/components/History.tsx:143
+#: src/pages/components/History.tsx:146
 msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "画像"
 
-#: src/pages/components/History.tsx:149 src/pages/components/History.tsx:152
+#: src/pages/components/History.tsx:152 src/pages/components/History.tsx:155
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "画像 + ビデオ"
 
-#: src/pages/components/History.tsx:146
+#: src/pages/components/History.tsx:149
 msgctxt "options:history:mediaType"
 msgid "Video"
 msgstr "ビデオ"
 
-#: src/pages/components/History.tsx:412
+#: src/pages/components/History.tsx:415
 msgctxt "options:history:mediaType:option"
 msgid "All"
 msgstr "全種類"
 
-#: src/pages/components/History.tsx:415
+#: src/pages/components/History.tsx:418
 msgctxt "options:history:mediaType:option"
 msgid "Image"
 msgstr "画像"
 
-#: src/pages/components/History.tsx:421
+#: src/pages/components/History.tsx:424
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
 msgstr "画像 + ビデオ"
 
-#: src/pages/components/History.tsx:418
+#: src/pages/components/History.tsx:421
 msgctxt "options:history:mediaType:option"
 msgid "Video"
 msgstr "ビデオ"
 
-#: src/pages/components/History.tsx:404
+#: src/pages/components/History.tsx:407
 msgctxt "options:history:select"
 msgid "Select media type"
 msgstr "タイプ"
 
-#: src/pages/components/History.tsx:216
+#: src/pages/components/History.tsx:219
 msgctxt "options:history:table:head"
 msgid "actions"
 msgstr "操作"
 
-#: src/pages/components/History.tsx:215
+#: src/pages/components/History.tsx:218
 msgctxt "options:history:table:head"
 msgid "download time"
 msgstr "ダウンロード時間"
 
-#: src/pages/components/History.tsx:214
+#: src/pages/components/History.tsx:217
 msgctxt "options:history:table:head"
 msgid "post time"
 msgstr "投稿時間"
 
-#: src/pages/components/History.tsx:211
+#: src/pages/components/History.tsx:214
 msgctxt "options:history:table:head"
 msgid "thumbnail"
 msgstr "サムネイル"
 
-#: src/pages/components/History.tsx:213
+#: src/pages/components/History.tsx:216
 msgctxt "options:history:table:head"
 msgid "type"
 msgstr "タイプ"
 
-#: src/pages/components/History.tsx:212
+#: src/pages/components/History.tsx:215
 msgctxt "options:history:table:head"
 msgid "user"
 msgstr "ユーザー"
