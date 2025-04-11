@@ -178,10 +178,12 @@ const makeMediaTypeFilter = (expectedMediaType: MediaType | '*'): Filter =>
     ? () => true
     : ({ mediaType }) => mediaType === expectedMediaType
 
-const makeUserNameFilter = (userName: string): Filter =>
-  userName === '*'
+const makeUserNameFilter = (userName: string): Filter => {
+  const lowerCaseSearchName = userName.toLowerCase()
+  return userName === '*'
     ? () => true
     : ({ screenName, displayName }) =>
         [screenName, displayName].some(name =>
-          name.toLowerCase().includes(userName)
+          name.toLowerCase().includes(lowerCaseSearchName)
         )
+}
