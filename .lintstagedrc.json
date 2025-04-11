@@ -3,8 +3,8 @@
   "*.{js,cjs,mjs,jsx,ts,tsx}": [
     "eslint --fix",
     "prettier --write",
-    "yarn test:all --findRelatedTests --passWithNoTests --bail 5",
-    "yarn check-envfile sample.env"
+    "yarn check-envfile sample.env",
+    "yarn ci:all --findRelatedTests --passWithNoTests --bail 5"
   ],
   "*sample.env": ["yarn check-envfile sample.env"],
   "*.md": ["prettier --write"],
