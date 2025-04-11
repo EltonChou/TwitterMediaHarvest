@@ -15,10 +15,14 @@ import MediaType from '#enums/mediaType'
 import { getText as i18n } from '#libs/i18n'
 import { DownloadTweetMediaMessage, sendMessage } from '#libs/webExtMessage'
 import useDownloadHistory, {
-  type DownloadHistoryItem,
   PortableHistoryFormatError,
 } from '#pages/hooks/useDownloadHistory'
+import type {
+  DownloadHistoryHook,
+  DownloadHistoryItem,
+} from '#pages/hooks/useDownloadHistory'
 import { downloadHistoryRepo } from '#provider'
+import { toErrorResult, toSuccessResult } from '#utils/result'
 import { isObjectUrl } from '#utils/url'
 import { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDownloadHistory'
 import {
@@ -32,7 +36,6 @@ import {
   Link,
   Select,
   Skeleton,
-  Stack,
   Table,
   TableContainer,
   Tbody,
@@ -451,6 +454,79 @@ const makePortableHistoryFilename = () => {
   return `mediaharvest-history-${new Date().getTime()}.json`
 }
 
+class PermissionDenied extends Error {
+  name = 'PermissionDenied'
+}
+
+const requestHistoryFile = async (): AsyncResult<File> => {
+  try {
+    const [fileHandle] = await window.showOpenFilePicker({
+      id: 'importHistory',
+      startIn: 'documents',
+      multiple: false,
+      types: [
+        {
+          accept: { 'application/json': ['.json'] },
+          description: 'MediaHarvest download history file',
+        },
+      ],
+    })
+
+    const state = await fileHandle.queryPermission({ mode: 'read' })
+    if (state !== 'granted') {
+      const requestState = await fileHandle.requestPermission({ mode: 'read' })
+      if (requestState !== 'granted') {
+        return toErrorResult(
+          new PermissionDenied('Cannot access the selected file')
+        )
+      }
+    }
+    return toSuccessResult(await fileHandle.getFile())
+  } catch (error) {
+    return toErrorResult(error as Error)
+  }
+}
+
+/**
+ * @see {@link https://developer.chrome.com/docs/capabilities/web-apis/file-system-access}
+ */
+const importHistory =
+  (importFunc: DownloadHistoryHook['handler']['import']) => async () => {
+    const { value: file, error: fileError } = await requestHistoryFile()
+    if (fileError) {
+      if (fileError instanceof PermissionDenied) {
+        alert(
+          i18n(
+            'Cannot access the selected file. Please grant permission to read the file and try again.',
+            'options:history'
+          )
+        )
+      }
+      return
+    }
+
+    const confirmationMessage = i18n(
+      'Are you sure you want to import this history file?',
+      'options:history'
+    )
+    const isConfirmed = confirm(`${confirmationMessage}\n${file.name}`)
+    if (!isConfirmed) return
+
+    const content = await file.arrayBuffer()
+    const error = await importFunc(content)
+
+    if (error) {
+      if (error instanceof PortableHistoryFormatError) {
+        alert(i18n('Invalid format.', 'options:history'))
+        return
+      }
+      alert(i18n('Failed to import file.', 'options:history'))
+      return
+    }
+
+    alert(i18n('The history file is imported successfully.', 'options:history'))
+  }
+
 type HistoryTableProps = {
   searchDownloadHistory: SearchDownloadHistory
   searchTweetIdsByHashtags: SearchTweetIdsByHashTags
@@ -476,7 +552,6 @@ const HistoryTable = ({
   })
   const searchFormRef = useRef<SearchFormComponent>(null)
   const tableRef = useRef<HTMLTableElement>(null)
-  const uploadFileRef = useRef<HTMLInputElement>(null)
 
   const scrollTableToTop = () =>
     tableRef.current &&
@@ -491,40 +566,6 @@ const HistoryTable = ({
   const refresh = () => {
     downloadHistory.handler.refresh({ cbs: [scrollTableToTop] })
     searchFormRef.current?.reset()
-  }
-
-  const resetUploadFile = () => {
-    if (uploadFileRef.current === null) return
-    uploadFileRef.current.value = ''
-  }
-
-  const importHistory = async () => {
-    if (uploadFileRef.current === null) return
-    const uploadedFiles = uploadFileRef.current.files
-    if (uploadedFiles === null) return
-
-    const file = uploadedFiles[0]
-    const confirmationMessage = i18n(
-      'Are you sure you want to import this history file?',
-      'options:history'
-    )
-    const isConfirmed = confirm(`${confirmationMessage}\n${file.name}`)
-    if (!isConfirmed) return
-
-    const content = await file.arrayBuffer()
-    const error = await downloadHistory.handler.import(content)
-    resetUploadFile()
-
-    if (error) {
-      if (error instanceof PortableHistoryFormatError) {
-        alert(i18n('Invalid format.', 'options:history'))
-        return
-      }
-      alert(i18n('Failed to import file.', 'options:history'))
-      return
-    }
-
-    alert(i18n('The history file is imported successfully.', 'options:history'))
   }
 
   const exportHistory: PortableHistoryActionBarProps['export'] = async () => {
@@ -565,15 +606,6 @@ const HistoryTable = ({
 
   return (
     <>
-      <Stack hidden>
-        <Input
-          ref={uploadFileRef}
-          type="file"
-          accept="application/json"
-          multiple={false}
-          onChange={importHistory}
-        />
-      </Stack>
       <HStack>
         <SearchForm update={updateResult} ref={searchFormRef} />
         <HStack>
@@ -609,10 +641,7 @@ const HistoryTable = ({
       </TableContainer>
       <PortableHistoryActionBar
         export={exportHistory}
-        import={async () => {
-          if (uploadFileRef.current === null) return
-          uploadFileRef.current.click()
-        }}
+        import={importHistory(downloadHistory.handler.import)}
       />
     </>
   )

@@ -22,6 +22,7 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext", "WebWorker"],
+    "types": ["@types/wicg-file-system-access", "@types/chrome"],
     "forceConsistentCasingInFileNames": true,
     "paths": {
       "#domain/*": ["./domain/*"],

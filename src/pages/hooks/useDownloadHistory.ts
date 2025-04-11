@@ -32,7 +32,7 @@ interface WithCallbacks {
   cbs: Callback[]
 }
 
-type DownloadHistory = {
+export type DownloadHistoryHook = {
   info: {
     isLoaded: boolean
     hasNextPage: boolean
@@ -90,7 +90,7 @@ const useDownloadHistory = ({
   initItemPerPage,
   portableDownloadHistoryRepo,
   downloadHistoryRepo,
-}: UseDownloadHistoryProps): DownloadHistory => {
+}: UseDownloadHistoryProps): DownloadHistoryHook => {
   const [items, setItems] = useState<DownloadHistoryInfo[]>([])
   const [query, setQuery] = useState<SearchQuery>(DEFAULT_QUERY)
   const [pageInfo, setPageInfo] = useState<PageInfo>({
@@ -138,7 +138,7 @@ const useDownloadHistory = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const prevPage: DownloadHistory['pageHandler']['prevPage'] = useCallback(
+  const prevPage: DownloadHistoryHook['pageHandler']['prevPage'] = useCallback(
     options => {
       if (pageInfo.prev === null) return
       searchDownloadHistoryUseCase
@@ -163,7 +163,7 @@ const useDownloadHistory = ({
     ]
   )
 
-  const nextPage: DownloadHistory['pageHandler']['nextPage'] = useCallback(
+  const nextPage: DownloadHistoryHook['pageHandler']['nextPage'] = useCallback(
     options => {
       if (pageInfo.next === null) return
       searchDownloadHistoryUseCase
@@ -188,7 +188,7 @@ const useDownloadHistory = ({
     ]
   )
 
-  const specifyPage: DownloadHistory['pageHandler']['specifyPage'] =
+  const specifyPage: DownloadHistoryHook['pageHandler']['specifyPage'] =
     useCallback(
       (page, options) => {
         searchDownloadHistoryUseCase
@@ -212,7 +212,7 @@ const useDownloadHistory = ({
       ]
     )
 
-  const setItemCount: DownloadHistory['pageHandler']['setItemPerPage'] =
+  const setItemCount: DownloadHistoryHook['pageHandler']['setItemPerPage'] =
     useCallback(
       (count, options) => {
         setItemPerPage(count)
@@ -270,7 +270,7 @@ const useDownloadHistory = ({
         },
         [itemPerPage, loadLatest]
       ),
-      import: useCallback<DownloadHistory['handler']['import']>(
+      import: useCallback<DownloadHistoryHook['handler']['import']>(
         async data => {
           const { value: portableHistory, error } =
             validatePortableHistoryData(data)

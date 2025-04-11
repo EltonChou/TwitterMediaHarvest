@@ -4426,6 +4426,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/wicg-file-system-access@npm:^2023.10.6":
+  version: 2023.10.6
+  resolution: "@types/wicg-file-system-access@npm:2023.10.6"
+  checksum: 10c0/6d1086450b28351ea5c8c6078411930984a16588b40d999f9abdc42c9bff63de93101bd7b1edcaba5c5c9ea83acdeb277bcaff913f39f6dac12091459974631f
+  languageName: node
+  linkType: hard
+
 "@types/yargs-parser@npm:*":
   version: 21.0.3
   resolution: "@types/yargs-parser@npm:21.0.3"
@@ -12953,6 +12960,7 @@ __metadata:
     "@types/react-dom": "npm:^19.0.2"
     "@types/semver": "npm:^7"
     "@types/webextension-polyfill": "npm:^0.12.1"
+    "@types/wicg-file-system-access": "npm:^2023.10.6"
     "@typescript-eslint/eslint-plugin": "npm:^8.19.1"
     "@typescript-eslint/parser": "npm:^8.19.1"
     "@typescript-eslint/typescript-estree": "npm:^8.19.1"
