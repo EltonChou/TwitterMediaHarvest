@@ -6,7 +6,7 @@ import { RawSourceMap, SourceMapConsumer, SourceMapGenerator } from 'source-map'
 import ts from 'typescript'
 import type { LoaderDefinitionFunction } from 'webpack'
 
-function updateSourceMap(parsedSourceMap: RawSourceMap): SourceMapGenerator {
+function updateSourceMap(parsedSourceMap: RawSourceMap) {
   let generator: SourceMapGenerator
   SourceMapConsumer.with(parsedSourceMap, null, consumer => {
     generator = new SourceMapGenerator({
@@ -85,7 +85,11 @@ const loader: LoaderDefinitionFunction<LoaderOptions> = function loader(
 
     const sourceMapGenerator = updateSourceMap(parsedSourceMap)
     // Return modified source and updated sourcemap
-    callback(null, outputContent, sourceMapGenerator.toJSON())
+    if (sourceMapGenerator) {
+      callback(null, outputContent, sourceMapGenerator.toJSON())
+    } else {
+      callback(null, outputContent)
+    }
   } else {
     return callback(null, outputContent)
   }
