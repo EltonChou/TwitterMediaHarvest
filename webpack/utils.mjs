@@ -16,3 +16,9 @@ export const getTarget = env => {
   }
   return target
 }
+
+/**
+ * @param {Record<string, boolean | string>} env - Environment variables passed to webpack
+ * @returns {boolean}
+ */
+export const shouldZIP = env => Boolean(env.zip)
