@@ -26,10 +26,10 @@ export const warnInsufficientNativeSolutionQuota =
       )
     }
 
-    if (event.remainingQuota === 0) await notify()
-
     // If the remaining quota is 0, notify immediately for better user experience
     // and to avoid waiting for the next warning notification
+    if (event.remainingQuota === 0) await notify()
+
     if (event.remainingQuota > 0) {
       const quota = await solutionQuotaRepo.get(event.solutionId)
       if (!quota) return
