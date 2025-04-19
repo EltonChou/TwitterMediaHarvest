@@ -1,4 +1,5 @@
 import PatternToken from '#enums/patternToken'
+import { propsExtractor } from '#utils/valuObject'
 import { ValueObject } from './base'
 import { TweetMediaFile } from './tweetMediaFile'
 import { posix as path } from 'path'
@@ -80,10 +81,7 @@ export class FilenameSetting extends ValueObject<FilenameSettingProps> {
         createdAt: props.createdAt,
         hash: props.hash,
         serial: props.serial,
-        ...props.tweetUser.mapBy(props => ({
-          screenName: props.screenName,
-          userId: props.userId,
-        })),
+        ...props.tweetUser.mapBy(propsExtractor('screenName', 'userId')),
       })
     )
     const currentDate = new Date()
