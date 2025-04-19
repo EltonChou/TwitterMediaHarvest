@@ -9,7 +9,6 @@ import {
   cleanDownloadRecord as cleanDownloadRecordHandler,
   increaseUsageStatistics,
   initClient,
-  logEventInConsole,
   notifyDownloadInterrupted,
   notifyFilenameIsOverwritten,
   notifyTweetApiError,
@@ -120,7 +119,6 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
     ])
     .register('tweetSolution:quota:changed', [
       updateSolutionQuota(solutionQuotaRepo),
-      logEventInConsole,
     ])
 }
 

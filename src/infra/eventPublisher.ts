@@ -18,22 +18,19 @@ class EventPublisher implements DomainEventPublisher {
     >
   }
 
+  /* eslint-disable no-console */
   async publish(event: IDomainEvent): Promise<void> {
     if (!(event.name in this.handlerMap)) {
-      // eslint-disable-next-line no-console
       console.info(`[${event.name}]: no handler to handle`)
       return
     }
 
     for (const handle of this.handlerMap[event.name]) {
       try {
-        // eslint-disable-next-line no-console
-        console.info(`[${event.name}]: handled`)
         await handle(event, this)
       } catch (error) {
-        // eslint-disable-next-line no-console
         console.info(`[${event.name}]: failed to handle`)
-        // eslint-disable-next-line no-console
+
         console.error(error)
       }
     }
@@ -44,6 +41,7 @@ class EventPublisher implements DomainEventPublisher {
       await this.publish(event)
     }
   }
+  /* eslint-enable no-console */
 
   register<K extends keyof DomainEventMap>(
     eventName: K,
@@ -51,19 +49,18 @@ class EventPublisher implements DomainEventPublisher {
       | DomainEventHandler<IDomainEvent>
       | DomainEventHandler<IDomainEvent>[]
   ): this {
-    const isMulipleHandlers = Array.isArray(eventHandlers)
+    const handlers = Array.isArray(eventHandlers)
+      ? [...eventHandlers]
+      : [eventHandlers]
+
+    if (__DEV__) handlers.push(logEventInConsole)
+
     if (eventName in this.handlerMap) {
-      if (isMulipleHandlers) {
-        this.handlerMap[eventName].push(...eventHandlers)
-      } else {
-        this.handlerMap[eventName].push(eventHandlers)
-      }
+      this.handlerMap[eventName].push(...handlers)
       return this
     }
 
-    this.handlerMap[eventName] = isMulipleHandlers
-      ? [...eventHandlers]
-      : [eventHandlers]
+    this.handlerMap[eventName] = handlers
     return this
   }
 
@@ -86,3 +83,12 @@ export const getEventPublisher = (() => {
     return instance
   }
 })()
+
+/* eslint-disable no-console */
+const logEventInConsole: DomainEventHandler<IDomainEvent> = event => {
+  console.group('Event received')
+  console.info('Event name:', event.name)
+  console.dir(event, { depth: null, colors: true })
+  console.groupEnd()
+}
+/* eslint-enable no-console */
