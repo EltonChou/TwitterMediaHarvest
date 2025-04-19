@@ -35,7 +35,7 @@ const setButtonStatus = (status: ButtonStatus) => (button: ButtonElement) => {
   return button
 }
 
-const isButtonDownloading = (button: ButtonElement) =>
+const isDownloadingButton = (button: ButtonElement) =>
   button.classList.contains('downloading')
 
 const responseStatusToButtonStatus = (respStatus: 'ok' | 'error') =>
@@ -48,7 +48,7 @@ const buttonClickHandler = (e: MouseEvent) => {
 
   const button = target.closest<HTMLElement>('.harvester')
   if (!button) return
-  if (isButtonDownloading(button)) return
+  if (isDownloadingButton(button)) return
 
   setButtonStatus(ButtonStatus.Downloading)(button)
   const { value, error } = getTweetInfoFromArticleChildElement(button)
@@ -75,6 +75,7 @@ export const checkButtonStatus = <T extends ButtonElement>(button: T): T => {
   const message = new CheckDownloadHistoryMessage({ tweetId: value.tweetId })
   sendMessage(message).then(resp => {
     if (resp.status === 'error') return button
+    if (isDownloadingButton(button)) return button
     if (resp.payload.isExist)
       return setButtonStatus(ButtonStatus.Downloaded)(button)
     if (!resp.payload.isExist) return cleanButtonStatus(button)
