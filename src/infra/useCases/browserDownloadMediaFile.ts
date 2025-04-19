@@ -13,7 +13,6 @@ import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import { DownloadTarget } from '#domain/valueObjects/downloadTarget'
 import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import ConflictAction from '#enums/ConflictAction'
-import { isFirefox } from '#helpers/runtime'
 import { downloads, runtime } from 'webextension-polyfill'
 import type { Downloads } from 'webextension-polyfill'
 
@@ -97,5 +96,5 @@ const downloadConfigToBrowserDownloadOptions = (
     filename: props.filename,
     conflictAction: props.conflictAction,
     url: props.url,
-    ...(isFirefox() ? { saveAs: props.saveAs } : {}),
+    ...(__BROWSER__ === 'firefox' ? { saveAs: props.saveAs } : {}),
   }))

@@ -1,7 +1,14 @@
 import '@testing-library/jest-dom'
 import { TextDecoder, TextEncoder } from 'util'
 
-Object.assign(global, { TextDecoder, TextEncoder })
+Object.assign(global, {
+  TextDecoder,
+  TextEncoder,
+  __BROWSER__: 'chrome',
+  __DEV__: false,
+  __TEST__: true,
+})
+
 // Monkey patch for webextension-polyfill
 chrome.runtime.id = 'TEST'
 

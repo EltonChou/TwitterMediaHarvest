@@ -5,7 +5,6 @@
  */
 import type { ISettingsRepository } from '#domain/repositories/settings'
 import type { IWarningSettingsRepo } from '#domain/repositories/warningSettings'
-import { isFirefox } from '#helpers/runtime'
 import { getText as i18n } from '#libs/i18n'
 import useDownloadSettings from '#pages/hooks/useDownloadSettings'
 import useWarningSettings from '#pages/hooks/useWarningSettings'
@@ -57,18 +56,19 @@ const IntegrationOptions = (props: IntegrationOptionsProps) => {
     useDownloadSettings(props.downloadSettingsRepo)
   const { settings: warningSettings, toggler: warningSettingsToggler } =
     useWarningSettings(props.warningSettingsRepo)
-  const isInFireFox = isFirefox()
+  const isInFireFox = __BROWSER__ === 'firefox'
 
-  const message: HelperMessage | undefined = isInFireFox
-    ? {
-        type: 'info',
-        content: i18n(
-          'This integration is not compatible with {{platform}}',
-          'options:integrations',
-          { platform: 'Firefox' }
-        ),
-      }
-    : undefined
+  const message: HelperMessage | undefined =
+    __BROWSER__ === 'firefox'
+      ? {
+          type: 'info',
+          content: i18n(
+            'This integration is not compatible with {{platform}}',
+            'options:integrations',
+            { platform: 'Firefox' }
+          ),
+        }
+      : undefined
 
   return (
     <VStack>

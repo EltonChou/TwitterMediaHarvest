@@ -8,7 +8,6 @@ import type {
   DownloadFileUseCase,
 } from '#domain/useCases/downloadFile'
 import type { DownloadConfig } from '#domain/valueObjects/downloadConfig'
-import { isFirefox } from '#helpers/runtime'
 import { toError } from 'fp-ts/lib/Either'
 import Browser from 'webextension-polyfill'
 
@@ -29,5 +28,5 @@ const downloadConfigToBrowserDownloadOptions = (
     filename: props.filename,
     conflictAction: props.conflictAction,
     url: props.url,
-    ...(isFirefox() ? { saveAs: props.saveAs } : {}),
+    ...(__BROWSER__ === 'firefox' ? { saveAs: props.saveAs } : {}),
   }))

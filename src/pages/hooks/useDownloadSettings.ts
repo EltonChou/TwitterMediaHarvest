@@ -4,7 +4,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import type { ISettingsRepository } from '#domain/repositories/settings'
-import { isFirefox } from '#helpers/runtime'
 import type { InitPayloadAction, PureAction } from '#pages/types/reducerAction'
 import type { DownloadSettings } from '#schema'
 import { useEffect, useReducer } from 'react'
@@ -81,7 +80,8 @@ const useDownloadSettings = (
       aggressiveMode: toggleAggressive,
       askWhereToSave: toggleAskWhereToSave,
     },
-    canAskSaveLocation: isFirefox() && downloadSettings.enableAria2 === false,
+    canAskSaveLocation:
+      __BROWSER__ === 'firefox' && downloadSettings.enableAria2 === false,
   }
 }
 

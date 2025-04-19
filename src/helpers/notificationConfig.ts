@@ -12,7 +12,6 @@ import {
   FilenameNotificationButton,
   TweetNotificationButton,
 } from './notificationButton'
-import { isFirefox } from './runtime'
 import type { Notifications } from 'webextension-polyfill'
 import Browser from 'webextension-polyfill'
 
@@ -45,7 +44,7 @@ const createNotificationOptions = ({
   contextMessage: NOTIFICATION_CONTEXT_MESSAGE,
   eventTime: Date.now(),
   ...options,
-  ...(isFirefox()
+  ...(__BROWSER__ === 'firefox'
     ? {}
     : {
         buttons,
