@@ -1,13 +1,13 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-04-12 00:47+0800\n"
+"POT-Creation-Date: 2025-04-19 22:50+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
@@ -19,34 +19,34 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : X (twitter) 多媒體下載器"
 
-#: src/helpers/notificationConfig.ts:120
+#: src/helpers/notificationConfig.ts:119
 msgctxt "notification:download"
 msgid "API Rate limit exceeded."
 msgstr "已超過 Twitter API 速率限制。"
 
-#: src/helpers/notificationConfig.ts:73
+#: src/helpers/notificationConfig.ts:72
 msgctxt "notification:download"
 msgid "Download failed"
 msgstr "下載失敗"
 
-#: src/helpers/notificationConfig.ts:66
+#: src/helpers/notificationConfig.ts:65
 msgctxt "notification:download"
 msgid "Media in {{account}}({{tweet-id}}) download failed."
 msgstr "於  {{account}}({{tweet-id}})  的多媒體下載失敗。"
 
-#: src/helpers/notificationConfig.ts:119
+#: src/helpers/notificationConfig.ts:118
 msgctxt "notification:download"
 msgid "Too many requests"
 msgstr "短時間發出過多請求"
 
-#: src/helpers/notificationConfig.ts:203
+#: src/helpers/notificationConfig.ts:202
 msgctxt "notification:filename"
 msgid ""
 "The filename is modified by other extensions, please check extensions' "
 "settings."
 msgstr "檔案名稱可能已經被其他擴充功能修改，請確認其他擴充功能的設定。"
 
-#: src/helpers/notificationConfig.ts:202
+#: src/helpers/notificationConfig.ts:201
 msgctxt "notification:filename"
 msgid "WARNING: Filename is modified"
 msgstr "警告：檔案名稱與設定格式不一致"
@@ -56,22 +56,22 @@ msgctxt "notification:filename:button"
 msgid "Ignore"
 msgstr "忽視"
 
-#: src/helpers/notificationConfig.ts:181
+#: src/helpers/notificationConfig.ts:180
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information"
 msgstr "推特資訊分析失敗"
 
-#: src/helpers/notificationConfig.ts:185
+#: src/helpers/notificationConfig.ts:184
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr "推特資訊分析失敗。請向開發者回報錯誤。"
 
-#: src/helpers/notificationConfig.ts:218
+#: src/helpers/notificationConfig.ts:217
 msgctxt "notification:quota"
 msgid "Download Quota Warning"
 msgstr "下載額度警示"
 
-#: src/helpers/notificationConfig.ts:219
+#: src/helpers/notificationConfig.ts:218
 msgctxt "notification:quota"
 msgid "Remaining quota: {{quota}}. Resets at {{time}}"
 msgstr "剩餘額度: {{quota}}，將重置於 {{time}}"
@@ -86,42 +86,42 @@ msgctxt "notification:tweet:button"
 msgid "View"
 msgstr "查看"
 
-#: src/helpers/notificationConfig.ts:155
+#: src/helpers/notificationConfig.ts:154
 msgctxt "notification:tweetFetch"
 msgid "Forbidden"
 msgstr "存取遭拒絕"
 
-#: src/helpers/notificationConfig.ts:143
+#: src/helpers/notificationConfig.ts:142
 msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
 msgstr "你的登錄資訊可能已經過期或是沒有查看此推文的權限。"
 
-#: src/helpers/notificationConfig.ts:171
+#: src/helpers/notificationConfig.ts:170
 msgctxt "notification:tweetFetch"
 msgid "Please contact with developer."
 msgstr "請聯絡開發者。"
 
-#: src/helpers/notificationConfig.ts:129
+#: src/helpers/notificationConfig.ts:128
 msgctxt "notification:tweetFetch"
 msgid "The tweet cannot be found"
 msgstr "無法取得推文資料"
 
-#: src/helpers/notificationConfig.ts:130
+#: src/helpers/notificationConfig.ts:129
 msgctxt "notification:tweetFetch"
 msgid "The tweet might be deleted."
 msgstr "推特內容可能已經被刪除。"
 
-#: src/helpers/notificationConfig.ts:142
+#: src/helpers/notificationConfig.ts:141
 msgctxt "notification:tweetFetch"
 msgid "Unauthorized"
 msgstr "未授權"
 
-#: src/helpers/notificationConfig.ts:168
+#: src/helpers/notificationConfig.ts:167
 msgctxt "notification:tweetFetch"
 msgid "Unknown Error ({{code}})"
 msgstr "未知的錯誤 ({{code}})"
 
-#: src/helpers/notificationConfig.ts:156
+#: src/helpers/notificationConfig.ts:155
 msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "你的登錄資訊可能已經過期，請重新整理頁面。"
@@ -216,8 +216,8 @@ msgstr "新增子資料夾"
 #: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid ""
-"Create sub-directory under the default download directory. Sub-directory can "
-"be seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory "
+"can be seperated with \"/\"."
 msgstr "在預設下載資料夾中新增一個子資料夾。使用 ”/” 區分多個子資料夾。"
 
 #: src/pages/components/GeneralOptions.tsx:244
@@ -242,8 +242,7 @@ msgstr "無效的資料夾名稱。不能含有 <>:”\\|?*"
 
 #: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
-msgid ""
-"Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "無效的樣式。 必須包含 `推特 ID` + `序列號` 或 `雜湊值`。"
 
 #: src/pages/components/GeneralOptions.tsx:228
@@ -346,7 +345,8 @@ msgid ""
 "and try again."
 msgstr "無法讀取所選文件，請授權讀取文件的權限並重試。"
 
-#: src/pages/components/History.tsx:347 src/pages/components/History.tsx:352
+#: src/pages/components/History.tsx:347
+#: src/pages/components/History.tsx:352
 msgctxt "options:history"
 msgid "Export"
 msgstr "匯出"
@@ -361,7 +361,8 @@ msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "匯入失敗。"
 
-#: src/pages/components/History.tsx:339 src/pages/components/History.tsx:344
+#: src/pages/components/History.tsx:339
+#: src/pages/components/History.tsx:344
 msgctxt "options:history"
 msgid "Import"
 msgstr "匯入"
@@ -401,7 +402,8 @@ msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "圖片"
 
-#: src/pages/components/History.tsx:152 src/pages/components/History.tsx:155
+#: src/pages/components/History.tsx:152
+#: src/pages/components/History.tsx:155
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "混合"
@@ -466,7 +468,7 @@ msgctxt "options:history:table:head"
 msgid "user"
 msgstr "用戶"
 
-#: src/pages/components/IntegrationOptions.tsx:21
+#: src/pages/components/IntegrationOptions.tsx:20
 msgctxt "options:integrations"
 msgid "Aria2-Explorer"
 msgstr "Aria2-Explorer"
@@ -493,32 +495,37 @@ msgctxt "options:integrations"
 msgid "This integration is not compatible with {{platform}}"
 msgstr "{{platform}} 瀏覽器不支援此項功能"
 
-#: src/pages/components/IntegrationOptions.tsx:22
+#: src/pages/components/IntegrationOptions.tsx:21
 msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "透過 {{aria2-extension}} 傳送下載任務到 Aria2。"
 
-#: src/pages/app/Options.tsx:148 src/pages/components/SideMenu.tsx:81
+#: src/pages/app/Options.tsx:148
+#: src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "關於"
 
-#: src/pages/app/Options.tsx:108 src/pages/components/SideMenu.tsx:62
+#: src/pages/app/Options.tsx:108
+#: src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "功能"
 
-#: src/pages/app/Options.tsx:97 src/pages/components/SideMenu.tsx:56
+#: src/pages/app/Options.tsx:97
+#: src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "通用"
 
-#: src/pages/app/Options.tsx:128 src/pages/components/SideMenu.tsx:74
+#: src/pages/app/Options.tsx:128
+#: src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "下載歷史"
 
-#: src/pages/app/Options.tsx:116 src/pages/components/SideMenu.tsx:68
+#: src/pages/app/Options.tsx:116
+#: src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "整合"
@@ -552,18 +559,3 @@ msgstr "回報錯誤"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "下載影片縮圖"
-
-#~ msgctxt "options:integrations"
-#~ msgid "Aggressive Mode"
-#~ msgstr "積極模式"
-
-#~ msgctxt "options:integrations"
-#~ msgid ""
-#~ "Ensure the filename not to be modified by other extensions. This mode "
-#~ "might be conflicted with other download management extensions."
-#~ msgstr ""
-#~ "防止檔案名稱被其他擴充功能修改。此功能可能與其他下載管理擴充功能衝突。"
-
-#~ msgctxt "options:general"
-#~ msgid "Account"
-#~ msgstr "帳號"

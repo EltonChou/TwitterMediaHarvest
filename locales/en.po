@@ -1,46 +1,45 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-04-12 00:47+0800\n"
+"POT-Creation-Date: 2025-04-19 22:50+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
 msgctxt "app"
 msgid "appDesc"
-msgstr ""
-"Download videos and images from twitter or TweetDeck with only one click."
+msgstr "Download videos and images from twitter or TweetDeck with only one click."
 
 msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : X (twitter) Media Downloader"
 
-#: src/helpers/notificationConfig.ts:120
+#: src/helpers/notificationConfig.ts:119
 msgctxt "notification:download"
 msgid "API Rate limit exceeded."
 msgstr "API Rate limit exceeded."
 
-#: src/helpers/notificationConfig.ts:73
+#: src/helpers/notificationConfig.ts:72
 msgctxt "notification:download"
 msgid "Download failed"
 msgstr "Download failed"
 
-#: src/helpers/notificationConfig.ts:66
+#: src/helpers/notificationConfig.ts:65
 msgctxt "notification:download"
 msgid "Media in {{account}}({{tweet-id}}) download failed."
 msgstr "Media in {{account}}({{tweet-id}}) download failed."
 
-#: src/helpers/notificationConfig.ts:119
+#: src/helpers/notificationConfig.ts:118
 msgctxt "notification:download"
 msgid "Too many requests"
 msgstr "Too many requests"
 
-#: src/helpers/notificationConfig.ts:203
+#: src/helpers/notificationConfig.ts:202
 msgctxt "notification:filename"
 msgid ""
 "The filename is modified by other extensions, please check extensions' "
@@ -49,7 +48,7 @@ msgstr ""
 "The filename is modified by other extensions, please check extensions' "
 "settings."
 
-#: src/helpers/notificationConfig.ts:202
+#: src/helpers/notificationConfig.ts:201
 msgctxt "notification:filename"
 msgid "WARNING: Filename is modified"
 msgstr "WARNING: Filename is modified"
@@ -59,22 +58,22 @@ msgctxt "notification:filename:button"
 msgid "Ignore"
 msgstr "Ignore"
 
-#: src/helpers/notificationConfig.ts:181
+#: src/helpers/notificationConfig.ts:180
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information"
 msgstr "Failed to parse tweet information"
 
-#: src/helpers/notificationConfig.ts:185
+#: src/helpers/notificationConfig.ts:184
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr "Failed to parse tweet information. Please report bug to developer."
 
-#: src/helpers/notificationConfig.ts:218
+#: src/helpers/notificationConfig.ts:217
 msgctxt "notification:quota"
 msgid "Download Quota Warning"
 msgstr "Download Quota Warning"
 
-#: src/helpers/notificationConfig.ts:219
+#: src/helpers/notificationConfig.ts:218
 msgctxt "notification:quota"
 msgid "Remaining quota: {{quota}}. Resets at {{time}}"
 msgstr "Remaining quota: {{quota}}. Resets at {{time}}"
@@ -89,42 +88,42 @@ msgctxt "notification:tweet:button"
 msgid "View"
 msgstr "View"
 
-#: src/helpers/notificationConfig.ts:155
+#: src/helpers/notificationConfig.ts:154
 msgctxt "notification:tweetFetch"
 msgid "Forbidden"
 msgstr "Forbidden"
 
-#: src/helpers/notificationConfig.ts:143
+#: src/helpers/notificationConfig.ts:142
 msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
 msgstr "Please check your login session and your permission."
 
-#: src/helpers/notificationConfig.ts:171
+#: src/helpers/notificationConfig.ts:170
 msgctxt "notification:tweetFetch"
 msgid "Please contact with developer."
 msgstr "Please contact with developer."
 
-#: src/helpers/notificationConfig.ts:129
+#: src/helpers/notificationConfig.ts:128
 msgctxt "notification:tweetFetch"
 msgid "The tweet cannot be found"
 msgstr "The tweet cannot be found"
 
-#: src/helpers/notificationConfig.ts:130
+#: src/helpers/notificationConfig.ts:129
 msgctxt "notification:tweetFetch"
 msgid "The tweet might be deleted."
 msgstr "The tweet might be deleted."
 
-#: src/helpers/notificationConfig.ts:142
+#: src/helpers/notificationConfig.ts:141
 msgctxt "notification:tweetFetch"
 msgid "Unauthorized"
 msgstr "Unauthorized"
 
-#: src/helpers/notificationConfig.ts:168
+#: src/helpers/notificationConfig.ts:167
 msgctxt "notification:tweetFetch"
 msgid "Unknown Error ({{code}})"
 msgstr "Unknown Error ({{code}})"
 
-#: src/helpers/notificationConfig.ts:156
+#: src/helpers/notificationConfig.ts:155
 msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "Your login session might be expired, please refresh the session."
@@ -221,11 +220,11 @@ msgstr "Create sub-directory"
 #: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid ""
-"Create sub-directory under the default download directory. Sub-directory can "
-"be seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory "
+"can be seperated with \"/\"."
 msgstr ""
-"Create sub-directory under the default download directory. Sub-directory can "
-"be seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory "
+"can be seperated with \"/\"."
 
 #: src/pages/components/GeneralOptions.tsx:244
 msgctxt "options:general"
@@ -249,10 +248,8 @@ msgstr "ディレクトリ名に次の文字は使えません <>:”\\|?*"
 
 #: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
-msgid ""
-"Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
-msgstr ""
-"Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+msgstr "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 
 #: src/pages/components/GeneralOptions.tsx:228
 msgctxt "options:general"
@@ -358,7 +355,8 @@ msgstr ""
 "Cannot access the selected file. Please grant permission to read the file "
 "and try again."
 
-#: src/pages/components/History.tsx:347 src/pages/components/History.tsx:352
+#: src/pages/components/History.tsx:347
+#: src/pages/components/History.tsx:352
 msgctxt "options:history"
 msgid "Export"
 msgstr "Export"
@@ -373,7 +371,8 @@ msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "Failed to import file."
 
-#: src/pages/components/History.tsx:339 src/pages/components/History.tsx:344
+#: src/pages/components/History.tsx:339
+#: src/pages/components/History.tsx:344
 msgctxt "options:history"
 msgid "Import"
 msgstr "Import"
@@ -413,7 +412,8 @@ msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "Image"
 
-#: src/pages/components/History.tsx:152 src/pages/components/History.tsx:155
+#: src/pages/components/History.tsx:152
+#: src/pages/components/History.tsx:155
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "Mixed"
@@ -478,7 +478,7 @@ msgctxt "options:history:table:head"
 msgid "user"
 msgstr "user"
 
-#: src/pages/components/IntegrationOptions.tsx:21
+#: src/pages/components/IntegrationOptions.tsx:20
 msgctxt "options:integrations"
 msgid "Aria2-Explorer"
 msgstr "Aria2-Explorer"
@@ -507,32 +507,37 @@ msgctxt "options:integrations"
 msgid "This integration is not compatible with {{platform}}"
 msgstr "This integration is not compatible with {{platform}}"
 
-#: src/pages/components/IntegrationOptions.tsx:22
+#: src/pages/components/IntegrationOptions.tsx:21
 msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "Transfer the download to Aria2 via {{aria2-extension}}."
 
-#: src/pages/app/Options.tsx:148 src/pages/components/SideMenu.tsx:81
+#: src/pages/app/Options.tsx:148
+#: src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "About"
 
-#: src/pages/app/Options.tsx:108 src/pages/components/SideMenu.tsx:62
+#: src/pages/app/Options.tsx:108
+#: src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "Features"
 
-#: src/pages/app/Options.tsx:97 src/pages/components/SideMenu.tsx:56
+#: src/pages/app/Options.tsx:97
+#: src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "General"
 
-#: src/pages/app/Options.tsx:128 src/pages/components/SideMenu.tsx:74
+#: src/pages/app/Options.tsx:128
+#: src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "History"
 
-#: src/pages/app/Options.tsx:116 src/pages/components/SideMenu.tsx:68
+#: src/pages/app/Options.tsx:116
+#: src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "Integrations"
@@ -566,19 +571,3 @@ msgstr "Report issues"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "Video thumbnail"
-
-#~ msgctxt "options:integrations"
-#~ msgid "Aggressive Mode"
-#~ msgstr "Aggressive Mode"
-
-#~ msgctxt "options:integrations"
-#~ msgid ""
-#~ "Ensure the filename not to be modified by other extensions. This mode "
-#~ "might be conflicted with other download management extensions."
-#~ msgstr ""
-#~ "Ensure the filename not to be modified by other extensions. This mode "
-#~ "might be conflicted with other download management extensions."
-
-#~ msgctxt "options:general"
-#~ msgid "Account"
-#~ msgstr "Account"

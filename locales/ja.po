@@ -1,54 +1,52 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-04-12 00:47+0800\n"
+"POT-Creation-Date: 2025-04-19 22:50+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
 msgctxt "app"
 msgid "appDesc"
-msgstr ""
-"twitter や TweetDeck のビデオと画像、ワンクリックでダウンロードできる。"
+msgstr "twitter や TweetDeck のビデオと画像、ワンクリックでダウンロードできる。"
 
 msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : X (ツイッター) メディアダウンローダー"
 
-#: src/helpers/notificationConfig.ts:120
+#: src/helpers/notificationConfig.ts:119
 msgctxt "notification:download"
 msgid "API Rate limit exceeded."
 msgstr "API 回数制限を超えました。"
 
-#: src/helpers/notificationConfig.ts:73
+#: src/helpers/notificationConfig.ts:72
 msgctxt "notification:download"
 msgid "Download failed"
 msgstr "ダウンロード失敗しました"
 
-#: src/helpers/notificationConfig.ts:66
+#: src/helpers/notificationConfig.ts:65
 msgctxt "notification:download"
 msgid "Media in {{account}}({{tweet-id}}) download failed."
 msgstr "{{account}}({{tweet-id}}) のメディアがダウンロード失敗しました。"
 
-#: src/helpers/notificationConfig.ts:119
+#: src/helpers/notificationConfig.ts:118
 msgctxt "notification:download"
 msgid "Too many requests"
 msgstr "リクエストが多すぎます"
 
-#: src/helpers/notificationConfig.ts:203
+#: src/helpers/notificationConfig.ts:202
 msgctxt "notification:filename"
 msgid ""
 "The filename is modified by other extensions, please check extensions' "
 "settings."
-msgstr ""
-"ファイルネームが他の拡張に変更されました、他の拡張の設定を確認してください。"
+msgstr "ファイルネームが他の拡張に変更されました、他の拡張の設定を確認してください。"
 
-#: src/helpers/notificationConfig.ts:202
+#: src/helpers/notificationConfig.ts:201
 msgctxt "notification:filename"
 msgid "WARNING: Filename is modified"
 msgstr "⚠️ 警告：ファイルネームが変更されました"
@@ -58,22 +56,22 @@ msgctxt "notification:filename:button"
 msgid "Ignore"
 msgstr "無視する"
 
-#: src/helpers/notificationConfig.ts:181
+#: src/helpers/notificationConfig.ts:180
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information"
 msgstr "ツイートの解析は失敗しました"
 
-#: src/helpers/notificationConfig.ts:185
+#: src/helpers/notificationConfig.ts:184
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr "ツイートの解析は失敗しました。開発者に報告してください。"
 
-#: src/helpers/notificationConfig.ts:218
+#: src/helpers/notificationConfig.ts:217
 msgctxt "notification:quota"
 msgid "Download Quota Warning"
 msgstr "ダウンロード割当の警告"
 
-#: src/helpers/notificationConfig.ts:219
+#: src/helpers/notificationConfig.ts:218
 msgctxt "notification:quota"
 msgid "Remaining quota: {{quota}}. Resets at {{time}}"
 msgstr " 残りの割当: {{quota}}。{{time}} にリセットされます。"
@@ -88,44 +86,42 @@ msgctxt "notification:tweet:button"
 msgid "View"
 msgstr "ツイッターへ"
 
-#: src/helpers/notificationConfig.ts:155
+#: src/helpers/notificationConfig.ts:154
 msgctxt "notification:tweetFetch"
 msgid "Forbidden"
 msgstr "読込み禁止されているになっています"
 
-#: src/helpers/notificationConfig.ts:143
+#: src/helpers/notificationConfig.ts:142
 msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
-msgstr ""
-"ログインセッションの有効期限が切れましたが、まだ閲覧の権限を持ちませんでし"
-"た。"
+msgstr "ログインセッションの有効期限が切れましたが、まだ閲覧の権限を持ちませんでした。"
 
-#: src/helpers/notificationConfig.ts:171
+#: src/helpers/notificationConfig.ts:170
 msgctxt "notification:tweetFetch"
 msgid "Please contact with developer."
 msgstr "開発者に報告してください。"
 
-#: src/helpers/notificationConfig.ts:129
+#: src/helpers/notificationConfig.ts:128
 msgctxt "notification:tweetFetch"
 msgid "The tweet cannot be found"
 msgstr "該当のツイートのデータが取得できませんでした"
 
-#: src/helpers/notificationConfig.ts:130
+#: src/helpers/notificationConfig.ts:129
 msgctxt "notification:tweetFetch"
 msgid "The tweet might be deleted."
 msgstr "該当のツイートがすでに削除された。"
 
-#: src/helpers/notificationConfig.ts:142
+#: src/helpers/notificationConfig.ts:141
 msgctxt "notification:tweetFetch"
 msgid "Unauthorized"
 msgstr "無許可"
 
-#: src/helpers/notificationConfig.ts:168
+#: src/helpers/notificationConfig.ts:167
 msgctxt "notification:tweetFetch"
 msgid "Unknown Error ({{code}})"
 msgstr "不明なエラー ({{code}})"
 
-#: src/helpers/notificationConfig.ts:156
+#: src/helpers/notificationConfig.ts:155
 msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "ログイン状態やツイートの閲覧権限を確認してください。"
@@ -163,9 +159,7 @@ msgstr "センシティブ内容の自動表示"
 #: src/pages/components/FeatureOptions.tsx:61
 msgctxt "options:features"
 msgid "Download the thumbnail when the media is video."
-msgstr ""
-"ビデオサムネイルのダウンロードメディアはビデオの時、サムネイルをダウンロード"
-"します。"
+msgstr "ビデオサムネイルのダウンロードメディアはビデオの時、サムネイルをダウンロードします。"
 
 #: src/pages/components/FeatureOptions.tsx:60
 msgctxt "options:features"
@@ -187,9 +181,7 @@ msgctxt "options:features"
 msgid ""
 "When the tweet was flagged as sensitive content, this feature can show the "
 "blured content automatically."
-msgstr ""
-"ツイートをセンシティブな内容として設定されている際、センシティブ内容を自動的"
-"に表示します。"
+msgstr "ツイートをセンシティブな内容として設定されている際、センシティブ内容を自動的に表示します。"
 
 #: src/pages/components/FootBar.tsx:45
 msgctxt "options:footBar:button"
@@ -224,8 +216,8 @@ msgstr "サブディレクトリの作成"
 #: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid ""
-"Create sub-directory under the default download directory. Sub-directory can "
-"be seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory "
+"can be seperated with \"/\"."
 msgstr "ディフォルトディレクトリの下にサブディレクトリを作成します。"
 
 #: src/pages/components/GeneralOptions.tsx:244
@@ -250,18 +242,10 @@ msgstr "ディレクトリ名に次の文字は使えません <>:”\\|?*"
 
 #: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
-msgid ""
-"Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
-msgstr ""
-"無効なパータン。 `ツイート ID` + `シリアル番号` や `ハッシュ` を含めてくださ"
-"い."
+msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+msgstr "無効なパータン。 `ツイート ID` + `シリアル番号` や `ハッシュ` を含めてください."
 
 #: src/pages/components/GeneralOptions.tsx:228
-#, fuzzy
-#| msgctxt "options:general"
-#| msgid ""
-#| "Show the file chooser or not when download was triggered. Recommend to "
-#| "disable this option."
 msgctxt "options:general"
 msgid ""
 "Show the file chooser or not when download is triggered. Recommend to "
@@ -361,11 +345,10 @@ msgctxt "options:history"
 msgid ""
 "Cannot access the selected file. Please grant permission to read the file "
 "and try again."
-msgstr ""
-"選択したファイルにアクセスできません。ファイルの読み取りを許可して、もう一度"
-"やり直してください。"
+msgstr "選択したファイルにアクセスできません。ファイルの読み取りを許可して、もう一度やり直してください。"
 
-#: src/pages/components/History.tsx:347 src/pages/components/History.tsx:352
+#: src/pages/components/History.tsx:347
+#: src/pages/components/History.tsx:352
 msgctxt "options:history"
 msgid "Export"
 msgstr "エクスポート"
@@ -380,7 +363,8 @@ msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "ファイルのインポートに失敗しました。"
 
-#: src/pages/components/History.tsx:339 src/pages/components/History.tsx:344
+#: src/pages/components/History.tsx:339
+#: src/pages/components/History.tsx:344
 msgctxt "options:history"
 msgid "Import"
 msgstr "インポート"
@@ -420,7 +404,8 @@ msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "画像"
 
-#: src/pages/components/History.tsx:152 src/pages/components/History.tsx:155
+#: src/pages/components/History.tsx:152
+#: src/pages/components/History.tsx:155
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "画像 + ビデオ"
@@ -485,7 +470,7 @@ msgctxt "options:history:table:head"
 msgid "user"
 msgstr "ユーザー"
 
-#: src/pages/components/IntegrationOptions.tsx:21
+#: src/pages/components/IntegrationOptions.tsx:20
 msgctxt "options:integrations"
 msgid "Aria2-Explorer"
 msgstr "Aria2-Explorer"
@@ -512,32 +497,37 @@ msgctxt "options:integrations"
 msgid "This integration is not compatible with {{platform}}"
 msgstr "{{platform}} には適用されていません。"
 
-#: src/pages/components/IntegrationOptions.tsx:22
+#: src/pages/components/IntegrationOptions.tsx:21
 msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "ダウンロードを {{aria2-extension}} 経由して Aria2 に転送。"
 
-#: src/pages/app/Options.tsx:148 src/pages/components/SideMenu.tsx:81
+#: src/pages/app/Options.tsx:148
+#: src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "拡張について"
 
-#: src/pages/app/Options.tsx:108 src/pages/components/SideMenu.tsx:62
+#: src/pages/app/Options.tsx:108
+#: src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "機能"
 
-#: src/pages/app/Options.tsx:97 src/pages/components/SideMenu.tsx:56
+#: src/pages/app/Options.tsx:97
+#: src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "一般"
 
-#: src/pages/app/Options.tsx:128 src/pages/components/SideMenu.tsx:74
+#: src/pages/app/Options.tsx:128
+#: src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "ダウンロード履歴"
 
-#: src/pages/app/Options.tsx:116 src/pages/components/SideMenu.tsx:68
+#: src/pages/app/Options.tsx:116
+#: src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "統合"
@@ -571,23 +561,3 @@ msgstr "不具合を報告する"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "サムネイル"
-
-#~ msgctxt "options:integrations"
-#~ msgid "Aggressive Mode"
-#~ msgstr "積極的なモード"
-
-#~ msgctxt "options:integrations"
-#~ msgid ""
-#~ "Ensure the filename not to be modified by other extensions. This mode "
-#~ "might be conflicted with other download management extensions."
-#~ msgstr ""
-#~ "ファイルネームを確保すること。このモードは他の拡張と競合する可能性がありま"
-#~ "す。"
-
-#~ msgctxt "options:general"
-#~ msgid "Account"
-#~ msgstr "アカウント"
-
-#~ msgctxt "options:integrations"
-#~ msgid "."
-#~ msgstr "。"
