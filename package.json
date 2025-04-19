@@ -154,7 +154,8 @@
     "check-locales": "yarn extract-locales && cross-env ./utils/check-locales.mjs",
     "check-changelog": "cross-env ./utils/check-changelog.mjs",
     "mh-typegen": "cross-env ./utils/mh-typegen.mjs",
-    "check-envfile": "cross-env ./utils/check-envfile.mjs"
+    "check-envfile": "cross-env ./utils/check-envfile.mjs",
+    "check-flags": "cross-env ./utils/check-flags.mjs"
   },
   "repository": {
     "type": "git",

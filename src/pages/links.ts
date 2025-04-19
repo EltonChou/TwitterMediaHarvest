@@ -6,7 +6,7 @@
 import Browser from 'webextension-polyfill'
 
 const getStoreLink = () => {
-  switch (process.env.TARGET) {
+  switch (__BROWSER__) {
     case 'firefox':
       return 'https://addons.mozilla.org/firefox/addon/media-harvest/'
 
@@ -19,7 +19,7 @@ const getStoreLink = () => {
 }
 
 const getAria2ExplorerLink = () => {
-  switch (process.env.TARGET) {
+  switch (__BROWSER__) {
     case 'edge':
       return 'https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh'
 

@@ -146,59 +146,54 @@ describe('unit test for GeneralOptions component', () => {
     unmount()
   })
 
-  describe.each([{ canAskWhereToSave: true }, { canAskWhereToSave: false }])(
-    'test user behavior',
-    ({ canAskWhereToSave }) => {
-      if (canAskWhereToSave) {
-        process.env.TARGET = 'firefox'
-        jest.spyOn(mockDownloadSettingsRepo, 'get').mockResolvedValue({
-          aggressiveMode: false,
-          askWhereToSave: true,
-          enableAria2: false,
-        })
-      } else {
-        jest.spyOn(mockDownloadSettingsRepo, 'get').mockResolvedValue({
-          aggressiveMode: false,
-          askWhereToSave: false,
-          enableAria2: false,
-        })
-      }
-
-      it('the form can be submitted or reset', async () => {
-        const { container, unmount } = render(
-          <GeneralOptions
-            filenameSettingsRepo={mockFilenameSettingsRepo}
-            downloadSettingsRepo={mockDownloadSettingsRepo}
-          />
-        )
-
-        const mockDownloadSettingsSave = jest.spyOn(
-          mockDownloadSettingsRepo,
-          'save'
-        )
-
-        expect(container).toMatchSnapshot('default-form')
-
-        const user = userEvent.setup()
-
-        await user.clear(getByTestId(container, 'subDirectory-input'))
-        await user.type(
-          getByTestId(container, 'subDirectory-input'),
-          'a-valid-dir'
-        )
-        await user.click(getByTestId(container, 'form-submit-button'))
-
-        expect(container).toMatchSnapshot('submitted-form')
-        await waitFor(() => {
-          expect(mockDownloadSettingsSave).toHaveBeenCalledTimes(1)
-        })
-
-        await user.click(getByTestId(container, 'form-reset-button'))
-
-        expect(container).toMatchSnapshot('default-form')
-
-        unmount()
+  describe.each(['chrome', 'firefox'])('test user behavior in %s', browser => {
+    beforeAll(() => {
+      Object.assign(global, { __BROWSER__: browser })
+      jest.spyOn(mockDownloadSettingsRepo, 'get').mockResolvedValue({
+        aggressiveMode: false,
+        askWhereToSave: false,
+        enableAria2: false,
       })
-    }
-  )
+    })
+
+    afterAll(() => {
+      Object.assign(global, { __BROWSER__: 'chrome' })
+    })
+
+    it('the form can be submitted or reset', async () => {
+      const { container, unmount } = render(
+        <GeneralOptions
+          filenameSettingsRepo={mockFilenameSettingsRepo}
+          downloadSettingsRepo={mockDownloadSettingsRepo}
+        />
+      )
+
+      const mockDownloadSettingsSave = jest.spyOn(
+        mockDownloadSettingsRepo,
+        'save'
+      )
+
+      expect(container).toMatchSnapshot('default-form')
+
+      const user = userEvent.setup()
+
+      await user.clear(getByTestId(container, 'subDirectory-input'))
+      await user.type(
+        getByTestId(container, 'subDirectory-input'),
+        'a-valid-dir'
+      )
+      await user.click(getByTestId(container, 'form-submit-button'))
+
+      expect(container).toMatchSnapshot('submitted-form')
+      await waitFor(() => {
+        expect(mockDownloadSettingsSave).toHaveBeenCalledTimes(1)
+      })
+
+      await user.click(getByTestId(container, 'form-reset-button'))
+
+      expect(container).toMatchSnapshot('default-form')
+
+      unmount()
+    })
+  })
 })

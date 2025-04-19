@@ -14,4 +14,15 @@ export const getRuntimeId = () => Browser.runtime.id
 
 export const getName = () => Browser.runtime.getManifest().name
 
-export const getAria2ExtId = () => process.env.ARIA2_EXT_ID
+export const getAria2ExtId = () => {
+  switch (__BROWSER__) {
+    case 'chrome':
+      return 'mpkodccbngfoacfalldjimigbofkhgjn'
+
+    case 'edge':
+      return 'mpkodccbngfoacfalldjimigbofkhgjn'
+
+    default:
+      return 'aria2_ext_id'
+  }
+}

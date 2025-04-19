@@ -9,7 +9,6 @@ describe('unit test for useFeatureSettings hook', () => {
   const downloadSettingsRepo = new MockDownloadSettingsRepository()
 
   afterAll(() => {
-    process.env.TARGET = 'test'
     jest.resetAllMocks()
     jest.restoreAllMocks()
   })
@@ -48,7 +47,7 @@ describe('unit test for useFeatureSettings hook', () => {
   ])(
     'canAskSaveLocation should be `$canAsk` when build target is $buildTarget and enableAria2 is `$isEnableAria2`',
     ({ buildTarget, canAsk, isEnableAria2 }) => {
-      process.env.TARGET = buildTarget
+      Object.assign(global, { __BROWSER__: buildTarget })
       jest.spyOn(downloadSettingsRepo, 'get').mockResolvedValue({
         aggressiveMode: true,
         askWhereToSave: true,

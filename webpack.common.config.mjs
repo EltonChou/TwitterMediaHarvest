@@ -11,7 +11,7 @@ import { merge } from 'webpack-merge'
 
 const require = createRequire(import.meta.url)
 
-const { EnvironmentPlugin, DefinePlugin } = webpack
+const { DefinePlugin } = webpack
 
 /** @type {import('webpack').Configuration} */
 const config = {
@@ -88,14 +88,12 @@ export default (env, argv) => {
       path: OUTPUT_DIR,
     },
     plugins: [
-      new EnvironmentPlugin({
-        RELEASE: RELEASE_NAME,
-        TARGET: BROWSER,
-      }),
       new Dotenv({ path: isProduction ? '.env' : 'dev.env' }),
       new DefinePlugin({
         __BROWSER__: JSON.stringify(BROWSER),
         __DEV__: argv.mode === 'development',
+        __PROD__: argv.mode === 'production',
+        __RELEASE_NAME__: JSON.stringify(RELEASE_NAME),
       }),
     ],
   })

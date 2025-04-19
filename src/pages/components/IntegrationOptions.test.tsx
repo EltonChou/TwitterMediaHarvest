@@ -12,10 +12,10 @@ describe('unit test for IntegrationOptions component', () => {
   const downloadSettingsRepo = new MockDownloadSettingsRepository()
   const warningSettingsRepo = new MockWarningSettingsRepo()
 
-  afterAll(() => (process.env.TARGET = 'test'))
+  afterAll(() => Object.assign(global, { __BROWSER__: 'chrome' }))
 
   it.each(['chrome', 'edge', 'firefox'])('match %s snapshot', target => {
-    process.env.TARGET = target
+    Object.assign(global, { __BROWSER__: target })
 
     const { container, unmount } = render(
       <IntegrationOptions

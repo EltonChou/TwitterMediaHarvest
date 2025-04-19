@@ -9,7 +9,6 @@ describe('unit test for useWarningSettings hook', () => {
   const warningSettingsRepo = new MockWarningSettingsRepo()
 
   afterAll(() => {
-    process.env.TARGET = 'test'
     jest.resetAllMocks()
     jest.restoreAllMocks()
   })

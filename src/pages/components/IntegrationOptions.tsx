@@ -24,7 +24,7 @@ const Aria2Description = () => {
     { 'aria2-extension': aria2Ext }
   )
 
-  if (process.env.TARGET === 'firefox') return <>{full}</>
+  if (__BROWSER__ === 'firefox') return <>{full}</>
 
   const [prefix, suffix] = full.split(aria2Ext)
   return (
@@ -49,7 +49,7 @@ type IntegrationOptionsProps = {
 }
 
 /**
- * Some switches is disabled when `process.env.TARGET` is `firefox`.
+ * Some switches is disabled when `__BROWSER__` is `firefox`.
  */
 const IntegrationOptions = (props: IntegrationOptionsProps) => {
   const { settings: integrationSettings, toggler: downloadSettingsToggler } =
