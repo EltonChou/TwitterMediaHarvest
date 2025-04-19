@@ -71,6 +71,7 @@
     "@typescript-eslint/parser": "^8.19.1",
     "@typescript-eslint/typescript-estree": "^8.19.1",
     "babel-loader": "^9.2.1",
+    "browserslist": "^4.24.4",
     "chalk": "~4.1.2",
     "copy-webpack-plugin": "^12.0.2",
     "core-js": "^3.40.0",

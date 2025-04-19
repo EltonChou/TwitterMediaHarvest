@@ -1,4 +1,3 @@
-import GeckoSpec from './gecko.spec.json' with { type: 'json' }
 import PACKAGE from './package.json' with { type: 'json' }
 import PublicKey from './public_key.json' with { type: 'json' }
 import baseConfig from './webpack.common.config.mjs'
@@ -7,8 +6,10 @@ import {
   isProduction as isProductionMode,
 } from './webpack/utils.mjs'
 import { WebextI18nPlugin } from '@media-harvest/webext-i18n-loader'
+import browserslist from 'browserslist'
 import CopyPlugin from 'copy-webpack-plugin'
 import { resolve } from 'path'
+import semver from 'semver'
 import { merge } from 'webpack-merge'
 
 const { version } = PACKAGE
@@ -41,13 +42,26 @@ const appendDevelopmentManifestAttributes = (manifest, isLegacy) => {
  * @returns
  */
 const appendFirefoxSpecificManifestAttributes = (manifest, addOnId) => {
+  const browsers = browserslist()
+  const firefoxVersions = browsers
+    .filter(browser => browser.startsWith('firefox'))
+    .map(browser => browser.replace('firefox ', ''))
+    .map(browser => parseInt(browser, 10))
+
+  const minFirefoxVersion = semver.minVersion(
+    JSON.stringify(Math.min(...firefoxVersions)),
+    {
+      loose: true,
+    }
+  )
+
   return {
     ...manifest,
     ...{
       browser_specific_settings: {
         gecko: {
           id: addOnId,
-          ...GeckoSpec,
+          strict_min_version: `${minFirefoxVersion.major}.${minFirefoxVersion.minor}`,
         },
       },
     },
