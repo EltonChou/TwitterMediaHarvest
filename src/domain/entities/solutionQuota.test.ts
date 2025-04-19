@@ -109,7 +109,32 @@ describe('SolutionQuota', () => {
 
     expect(mockWarn).toHaveBeenCalledOnce()
     expect(error).toBeUndefined()
-    expect(solutionQuota.isCooldown)
+    expect(solutionQuota.isCooldown).toBeTrue()
+    expect(solutionQuota.warnedAt).toBeDefined()
+    expect(new Date() >= (solutionQuota.warnedAt as Date)).toBeTrue()
+    expect(solutionQuota.isCooldown).toBeTrue()
+  })
+
+  it('should forcely invoke warning and update warning time', async () => {
+    const mockWarn = jest.fn<Promise<UnsafeTask>, []>()
+    const resetTime = new Date(Date.now() + 10000)
+    const quota = new ResettableQuota({ quota: 5, resetAt: resetTime })
+    const props = {
+      quota,
+      isRealtime: false,
+      warnedAt: new Date(Date.now() - 100),
+    }
+    const solutionQuota = SolutionQuota.create('native', props)
+
+    expect(solutionQuota.isCooldown).toBeTrue()
+
+    const error = await solutionQuota.warnBy(mockWarn, { force: true })
+    // This should not be invoked, because the warning is cooling down.
+    await solutionQuota.warnBy(mockWarn)
+
+    expect(mockWarn).toHaveBeenCalledOnce()
+    expect(error).toBeUndefined()
+    expect(solutionQuota.isCooldown).toBeTrue()
     expect(solutionQuota.warnedAt).toBeDefined()
     expect(new Date() >= (solutionQuota.warnedAt as Date)).toBeTrue()
     expect(solutionQuota.isCooldown).toBeTrue()

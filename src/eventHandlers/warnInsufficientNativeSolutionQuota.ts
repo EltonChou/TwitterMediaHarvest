@@ -34,7 +34,8 @@ export const warnInsufficientNativeSolutionQuota =
       const quota = await solutionQuotaRepo.get(event.solutionId)
       if (!quota) return
 
-      const error = await quota.warnBy(notify)
+      // TODO: Need users' feedback to decide the frequency of warning notifications
+      const error = await quota.warnBy(notify, { force: true })
       if (error)
         // eslint-disable-next-line no-console
         console.error('Failed to send quota warning notification.', error)

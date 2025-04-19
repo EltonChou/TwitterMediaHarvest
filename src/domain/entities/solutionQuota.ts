@@ -46,9 +46,10 @@ export class SolutionQuota extends Entity<SolutionQuotaId, QuotaProps> {
   }
 
   async warnBy<TaskError extends Error>(
-    invokeWarning: () => Promise<UnsafeTask<TaskError>>
+    invokeWarning: () => Promise<UnsafeTask<TaskError>>,
+    warningOptions: WarningOptions = { force: false }
   ): Promise<UnsafeTask<TaskError>> {
-    if (this.isCooldown) return
+    if (!warningOptions.force && this.isCooldown) return
 
     const error = await invokeWarning()
     if (!error) this.props = { ...this.props, warnedAt: new Date(Date.now()) }
@@ -59,3 +60,5 @@ export class SolutionQuota extends Entity<SolutionQuotaId, QuotaProps> {
     this.props = { ...this.props, quota }
   }
 }
+
+type WarningOptions = { force?: boolean }
