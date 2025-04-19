@@ -95,7 +95,7 @@ export default (env, argv) => {
       new Dotenv({ path: isProduction ? '.env' : 'dev.env' }),
       new DefinePlugin({
         __BROWSER__: JSON.stringify(BROWSER),
-        __DEV__: JSON.stringify(argv.mode === 'development'),
+        __DEV__: argv.mode === 'development',
       }),
     ],
   })
