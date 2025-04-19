@@ -6,10 +6,10 @@ name: Run test
 on:
   push:
     branches:
-      - v5_dev
-  # pull_request:
-  #   branches:
-  #     - main
+      - main
+  pull_request:
+    branches:
+      - main
 
 env:
   HUSKY: 0
