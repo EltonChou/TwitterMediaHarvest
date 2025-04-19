@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [4.3.0] - 2025-04-19
 
 ### Added
 
@@ -14,13 +14,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - User will be warned when download quota is low.
 - Download history can be imported or exported.
 
-### Fixed
-
-- Status of button is unmatched when switching different tweet in photo mode.
-
 ### Removed
 
 - Aggressive mode
+
+### Fixed
+
+- Status of button is unmatched when switching different tweet in photo mode.
 
 ## [4.2.9] - 2024-09-14
 
@@ -243,7 +243,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Fixed download button color in reply-restricted tweet.
 - Fixed media checking in embed tweet.
 
-[Unreleased]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.9...HEAD
+[4.3.0]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.9...v4.3.0
 [4.2.9]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.8...v4.2.9
 [4.2.8]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.7...v4.2.8
 [4.2.7]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.6...v4.2.7
