@@ -35,7 +35,7 @@ const NavItem = (props: MenuItemProps) => {
       data-testid={props.testId}
     >
       <Box
-        p="0.5em 0 0.5em 1.5em"
+        p="0.5em 1.5em 0.5em 1.5em"
         _hover={{ bg: 'rgba(255, 255, 255, 0.33)' }}
         style={{ transition: 'background 300ms' }}
       >
@@ -130,7 +130,7 @@ const SideMenu = () => {
       <Flex
         fontSize={'1.5rem'}
         direction="column"
-        width="240px"
+        width="270px"
         bg="brand.bg"
         left={useBreakpointValue({
           base: isActive ? '0px' : '-240px',

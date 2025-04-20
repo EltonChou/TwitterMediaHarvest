@@ -35,7 +35,7 @@ exports[`unit test for SideMenu component can navigate 1`] = `
     />
   </div>
   <div
-    class="css-1hnriqd"
+    class="css-1tgiw7e"
     style="transition: left 200ms;"
   >
     <div
@@ -51,7 +51,7 @@ exports[`unit test for SideMenu component can navigate 1`] = `
         href="#/"
       >
         <div
-          class="css-1iv9rl2"
+          class="css-zokglg"
           style="transition: background 300ms;"
         >
           Translated&lt;options:sideMenu_General&gt;
@@ -64,7 +64,7 @@ exports[`unit test for SideMenu component can navigate 1`] = `
         href="#/features"
       >
         <div
-          class="css-1iv9rl2"
+          class="css-zokglg"
           style="transition: background 300ms;"
         >
           Translated&lt;options:sideMenu_Features&gt;
@@ -77,7 +77,7 @@ exports[`unit test for SideMenu component can navigate 1`] = `
         href="#/integrations"
       >
         <div
-          class="css-1iv9rl2"
+          class="css-zokglg"
           style="transition: background 300ms;"
         >
           Translated&lt;options:sideMenu_Integrations&gt;
@@ -90,7 +90,7 @@ exports[`unit test for SideMenu component can navigate 1`] = `
         href="#/history"
       >
         <div
-          class="css-1iv9rl2"
+          class="css-zokglg"
           style="transition: background 300ms;"
         >
           Translated&lt;options:sideMenu_History&gt;
@@ -103,7 +103,7 @@ exports[`unit test for SideMenu component can navigate 1`] = `
         href="#/about"
       >
         <div
-          class="css-1iv9rl2"
+          class="css-zokglg"
           style="transition: background 300ms;"
         >
           Translated&lt;options:sideMenu_About&gt;
