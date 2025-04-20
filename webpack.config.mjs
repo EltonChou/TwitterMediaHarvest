@@ -36,7 +36,7 @@ export default (env, argv) => {
                 source: OUTPUT_DIR,
                 destination: path.join(
                   DIST_DIR,
-                  `${BROWSER}-TwitterMediaHarvest@${PACKAGE.version}.zip`
+                  `${BROWSER}-TwitterMediaHarvest@v${PACKAGE.version}.zip`
                 ),
                 options: {
                   zlib: { level: 9 },
