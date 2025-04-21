@@ -1,4 +1,4 @@
-import PACKAGE from './package.json' with { type: 'json' }
+import { makeReleaseName } from './utils/make-release-name.mjs'
 import contentScriptConfig from './webpack.contentScript.config.mjs'
 import serviceConfig from './webpack.service.config.mjs'
 import { shouldZIP } from './webpack/utils.mjs'
@@ -36,7 +36,7 @@ export default (env, argv) => {
                 source: OUTPUT_DIR,
                 destination: path.join(
                   DIST_DIR,
-                  `${BROWSER}-TwitterMediaHarvest@v${PACKAGE.version}.zip`
+                  `${makeReleaseName(BROWSER)}.zip`
                 ),
                 options: {
                   zlib: { level: 9 },
