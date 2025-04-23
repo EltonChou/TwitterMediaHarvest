@@ -17,7 +17,7 @@ export const updateSolutionQuota =
 
     if (!quota) {
       quota = SolutionQuota.create(event.solutionId, {
-        isRealtime: true,
+        isRealtime: false, // Since we only need to record quota for non-realtime solutions
         quota: new ResettableQuota({
           quota: event.remainingQuota,
           resetAt: event.resetTime,
