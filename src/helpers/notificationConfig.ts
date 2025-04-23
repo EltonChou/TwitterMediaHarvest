@@ -212,6 +212,7 @@ export class SolutionQuotaWarningNotificationConfig {
     remainingQuota: number
     resetTime: Date
     eventTime?: Date
+    requireInteraction?: boolean
   }): Notifications.CreateNotificationOptions {
     return createNotificationOptions({
       title: getText('Download Quota Warning', 'notification:quota'),
@@ -224,6 +225,7 @@ export class SolutionQuotaWarningNotificationConfig {
         }
       ),
       eventTime: params.eventTime ? params.eventTime.getTime() : Date.now(),
+      requireInteraction: params.requireInteraction,
       // TODO: Add a button which will redirect user to Q&A page when clicked.
     })
   }
