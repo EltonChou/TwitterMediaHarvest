@@ -121,7 +121,7 @@ export abstract class FetchTweetCommand
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const getTweetResultFromResult = (result: any) =>
       pipe(
-        result?.legacy ?? result,
+        result?.tweet?.legacy ?? result?.legacy ?? result,
         E.fromNullable('Failed to get tweet result')
       )
 
@@ -139,7 +139,8 @@ export abstract class FetchTweetCommand
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const getUserPropsFromResult = (result: any) =>
       pipe(
-        result?.core?.user_results?.result,
+        result?.core?.user_results?.result ??
+          result?.tweet?.core?.user_results?.result,
         E.fromNullable('Failed to get user result'),
         E.chain(userResult =>
           pipe(
