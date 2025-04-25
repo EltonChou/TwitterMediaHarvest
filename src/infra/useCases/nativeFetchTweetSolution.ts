@@ -183,20 +183,24 @@ export class NativeFetchTweetSolution
 
     const guestCsrfToken = guestToken?.value ?? csrfToken?.value
     if (guestCsrfToken) {
-      const guestResult = guestCsrfToken.match(guestTokenPattern)
-        ? await this.execCommand(GuestFetchTweetCommand)({
-            statIdentity: 'guest',
-            tweetId: command.tweetId,
-            csrfToken: guestCsrfToken,
-          })
-        : await this.execCommand(RestIdFetchTweetCommand)({
-            statIdentity: 'guest',
-            tweetId: command.tweetId,
-            csrfToken: guestCsrfToken,
-          })
-
+      const guestResult = await this.execCommand(
+        guestCsrfToken.match(guestTokenPattern)
+          ? GuestFetchTweetCommand
+          : RestIdFetchTweetCommand
+      )({
+        statIdentity: 'guest',
+        tweetId: command.tweetId,
+        csrfToken: guestCsrfToken,
+      })
       if (isSuccessfulTweetResult(guestResult))
         return guestResult.value.tweetResult
+
+      if (__DEV__)
+        // eslint-disable-next-line no-console
+        console.info(
+          'Failed to fetch tweet with guest command\n',
+          guestResult.value?.tweetResult.error
+        )
     }
 
     const solutionQuota = await this.infra.solutionQuotaRepo.get(
@@ -252,6 +256,13 @@ export class NativeFetchTweetSolution
         return generalResult.value.tweetResult
       }
 
+      if (__DEV__)
+        // eslint-disable-next-line no-console
+        console.info(
+          'Failed to fetch tweet with general command\n',
+          generalResult.value?.tweetResult.error
+        )
+
       const fallbackResult = await this.execCommand(FallbackFetchTweet)({
         statIdentity: 'fallback',
         tweetId: command.tweetId,
@@ -260,6 +271,13 @@ export class NativeFetchTweetSolution
 
       if (isSuccessfulTweetResult(fallbackResult))
         return fallbackResult.value.tweetResult
+
+      if (__DEV__)
+        // eslint-disable-next-line no-console
+        console.info(
+          'Failed to fetch tweet with fallback command\n',
+          fallbackResult.value?.tweetResult.error
+        )
 
       const exposedCommandError = generalResult.error ?? fallbackResult.error
 
