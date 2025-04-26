@@ -577,7 +577,9 @@ const HistoryTable = ({
 
     await browserDownload.process({
       target: new DownloadConfig({
-        conflictAction: ConflictAction.Prompt,
+        conflictAction: __FIREFOX__
+          ? ConflictAction.Uniquify
+          : ConflictAction.Prompt,
         filename: makePortableHistoryFilename(),
         saveAs: true,
         url: fileUrl,
