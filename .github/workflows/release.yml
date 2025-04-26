@@ -46,7 +46,7 @@ jobs:
           yarn lint
           yarn ci:all
           yarn check:all
-          yarn build
+          yarn build:all
 
       - name: Sign Firefox xpi
         continue-on-error: true
