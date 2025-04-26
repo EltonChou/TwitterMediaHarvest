@@ -44,7 +44,8 @@ jobs:
       - name: Test and Build
         run: |
           yarn lint
-          yarn test
+          yarn ci:all
+          yarn check:all
           yarn build
 
       - name: Sign Firefox xpi
