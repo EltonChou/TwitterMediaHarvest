@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [4.3.0] - 2025-04-19
+## [4.3.0] - 2025-04-26
 
 ### Added
 
@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Fixed
 
 - Status of button is unmatched when switching different tweet in photo mode.
+- Fix tweet parser for fallback X api endpoint.
 
 ## [4.2.9] - 2024-09-14
 
