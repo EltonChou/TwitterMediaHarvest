@@ -139,7 +139,7 @@
     "build:edge:all:dev": "webpack --mode=development --progress --color --env target=edge",
     "build:firefox:all": "webpack --mode=production --progress --color --env target=firefox --env zip=true",
     "build:firefox:all:dev": "webpack --mode=development --progress --color --env target=firefox",
-    "build:firefox:all:self-sign": "webpack --mode=production --progress --color --env target=firefox --env self-sign --env zip=true",
+    "build:firefox:all:self-sign": "webpack --mode=production --progress --color --env target=firefox --env self-sign",
     "build:chrome:service": "webpack --mode=production --progress --color --env target=chrome --config-name=service",
     "build:chrome:injection": "webpack --mode=production --progress --color --env target=chrome --config-name=content-script",
     "build:chrome:all:dev": "webpack --mode=development --progress --color --env target=chrome",
