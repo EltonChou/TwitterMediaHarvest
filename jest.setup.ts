@@ -10,6 +10,12 @@ Object.assign(global, {
   __DEV__: false,
   __TEST__: true,
   __PROD__: false,
+  __CHROME__: true,
+  __FIREFOX__: false,
+  __GECKO__: false,
+  __EDGE__: false,
+  __CHROMIUM__: true,
+  __SAFARI__: false,
 })
 
 // Monkey patch for webextension-polyfill

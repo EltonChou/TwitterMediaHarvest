@@ -73,7 +73,6 @@ export default (env, argv) => {
   const isProduction = isProductionMode(argv)
   const isSelfSign = env['self-sign'] ?? false
   const BROWSER = env.target
-  const RELEASE_NAME = makeReleaseName(BROWSER)
   const BROWSER_DIR = isSelfSign ? BROWSER + '-signed' : BROWSER
   const OUTPUT_DIR = resolve(process.cwd(), 'build', BROWSER_DIR)
 
@@ -90,10 +89,16 @@ export default (env, argv) => {
     plugins: [
       new Dotenv({ path: isProduction ? '.env' : 'dev.env' }),
       new DefinePlugin({
-        __BROWSER__: JSON.stringify(BROWSER),
+        __BROWSER__: JSON.stringify(BROWSER).toLowerCase().trim(),
         __DEV__: argv.mode === 'development',
         __PROD__: argv.mode === 'production',
-        __RELEASE_NAME__: JSON.stringify(RELEASE_NAME),
+        __RELEASE_NAME__: makeReleaseName(BROWSER),
+        __CHROME__: BROWSER === 'chrome',
+        __FIREFOX__: BROWSER === 'firefox',
+        __GECKO__: BROWSER === 'firefox',
+        __EDGE__: BROWSER === 'edge',
+        __CHROMIUM__: BROWSER === 'chrome' || BROWSER === 'edge',
+        __SAFARI__: BROWSER === 'safari',
       }),
     ],
   })
