@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - '[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 env:
   artifact_name: 'pkg'
@@ -21,11 +21,18 @@ jobs:
           echo "${{ secrets.ENV_FILE }}" | base64 -d >> .env
           cat .env | grep "DSN" -q || exit 1
 
+      # - name: Extract version
+      #   id: version
+      #   run: |
+      #     TAG=${{ github.ref_name }}
+      #     VERSION=${TAG#v}
+      #     echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Enable corepack
         run: corepack enable
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4.4.0
         with:
           node-version: '20.x'
           cache: 'yarn'
