@@ -39,9 +39,14 @@ const appendDevelopmentManifestAttributes = (manifest, isLegacy) => {
 /**
  * @param {unknown} manifest
  * @param {string} addOnId
+ * @param {string} updateUrl
  * @returns
  */
-const appendFirefoxSpecificManifestAttributes = (manifest, addOnId) => {
+const appendFirefoxSpecificManifestAttributes = (
+  manifest,
+  addOnId,
+  updateUrl
+) => {
   const browsers = browserslist()
   const firefoxVersions = browsers
     .filter(browser => browser.startsWith('firefox'))
@@ -62,6 +67,7 @@ const appendFirefoxSpecificManifestAttributes = (manifest, addOnId) => {
         gecko: {
           id: addOnId,
           strict_min_version: `${minFirefoxVersion.major}.${minFirefoxVersion.minor}`,
+          ...(updateUrl ? { update_url: updateUrl } : {}),
         },
       },
     },
@@ -132,12 +138,18 @@ export default (env, argv) => {
 
               if (isFirefox) {
                 if (isProduction) {
-                  manifest = appendFirefoxSpecificManifestAttributes(
-                    manifest,
-                    isSelfSign
-                      ? 'mediaharvest@mediaharvest.app'
-                      : 'mediaharvest@addons.mozilla.org'
-                  )
+                  if (isSelfSign) {
+                    manifest = appendFirefoxSpecificManifestAttributes(
+                      manifest,
+                      'mediaharvest@mediaharvest.app',
+                      'https://release.mediaharvest.app/gecko/update.json'
+                    )
+                  } else {
+                    manifest = appendFirefoxSpecificManifestAttributes(
+                      manifest,
+                      'mediaharvest@addons.mozilla.org'
+                    )
+                  }
                 } else {
                   manifest = appendFirefoxSpecificManifestAttributes(
                     manifest,
