@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { MockCommandCache } from '../mock/commandCache'
 import { FetchTweetError, ParseTweetError } from './abstractFetchTweet'
 import { RestIdFetchTweetCommand } from './restIdFetchTweet'

@@ -1,6 +1,7 @@
 import { downloadIDB } from '#libs/idb/download/db'
 import type { HashtagItem } from '#libs/idb/download/schema'
 import { SearchTweetIdsByHashtagsFromIDB } from './searchTweetIdsByHashtagsFromIDB'
+import 'core-js/modules/esnext.set.union.v2'
 
 describe('integrated test for searching tweet ids by hashtags from idb', () => {
   const useCase = new SearchTweetIdsByHashtagsFromIDB(downloadIDB)

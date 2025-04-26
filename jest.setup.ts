@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom'
 import { TextDecoder, TextEncoder } from 'util'
+import 'whatwg-fetch'
 
 Object.assign(global, {
   TextDecoder,
@@ -18,4 +19,3 @@ process.env.IDENTITY_POOL_ID = 'pool-id'
 process.env.IDENTITY_POOL_REGION = 'region'
 process.env.API_KEY = 'api_key'
 process.env.API_HOSTNAME = 'somewhere.com'
-process.env.API_ROOT_PATH = '/v1'
