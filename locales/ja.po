@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-04-19 22:50+0800\n"
+"Project-Id-Version: twitter-media-harvest (4.3.0)\n"
+"POT-Creation-Date: 2025-04-27 05:50+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -66,12 +66,12 @@ msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr "ツイートの解析は失敗しました。開発者に報告してください。"
 
-#: src/helpers/notificationConfig.ts:217
+#: src/helpers/notificationConfig.ts:218
 msgctxt "notification:quota"
 msgid "Download Quota Warning"
 msgstr "ダウンロード割当の警告"
 
-#: src/helpers/notificationConfig.ts:218
+#: src/helpers/notificationConfig.ts:219
 msgctxt "notification:quota"
 msgid "Remaining quota: {{quota}}. Resets at {{time}}"
 msgstr " 残りの割当: {{quota}}。{{time}} にリセットされます。"
@@ -335,12 +335,12 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "投稿＿時間"
 
-#: src/pages/components/History.tsx:508
+#: src/pages/components/History.tsx:509
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "この履歴ファイルをインポートしてもよろしいですか？"
 
-#: src/pages/components/History.tsx:499
+#: src/pages/components/History.tsx:500
 msgctxt "options:history"
 msgid ""
 "Cannot access the selected file. Please grant permission to read the file "
@@ -353,12 +353,12 @@ msgctxt "options:history"
 msgid "Export"
 msgstr "エクスポート"
 
-#: src/pages/components/History.tsx:574
+#: src/pages/components/History.tsx:575
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "ファイルのエクスポートに失敗しました。"
 
-#: src/pages/components/History.tsx:523
+#: src/pages/components/History.tsx:524
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "ファイルのインポートに失敗しました。"
@@ -369,7 +369,7 @@ msgctxt "options:history"
 msgid "Import"
 msgstr "インポート"
 
-#: src/pages/components/History.tsx:520
+#: src/pages/components/History.tsx:521
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "形式が正しくありません。"
@@ -389,7 +389,7 @@ msgctxt "options:history"
 msgid "Refresh"
 msgstr "更新"
 
-#: src/pages/components/History.tsx:527
+#: src/pages/components/History.tsx:528
 msgctxt "options:history"
 msgid "The history file is imported successfully."
 msgstr "履歴ファイルを問題なくインポートしました。"

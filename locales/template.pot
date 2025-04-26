@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: twitter-media-harvest (5.0.0)\n"
-"POT-Creation-Date: 2025-04-19 22:50+0800\n"
+"Project-Id-Version: twitter-media-harvest (4.3.0)\n"
+"POT-Creation-Date: 2025-04-27 05:50+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -57,12 +57,12 @@ msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:217
+#: src/helpers/notificationConfig.ts:218
 msgctxt "notification:quota"
 msgid "Download Quota Warning"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:218
+#: src/helpers/notificationConfig.ts:219
 msgctxt "notification:quota"
 msgid "Remaining quota: {{quota}}. Resets at {{time}}"
 msgstr ""
@@ -318,12 +318,12 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr ""
 
-#: src/pages/components/History.tsx:508
+#: src/pages/components/History.tsx:509
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr ""
 
-#: src/pages/components/History.tsx:499
+#: src/pages/components/History.tsx:500
 msgctxt "options:history"
 msgid "Cannot access the selected file. Please grant permission to read the file and try again."
 msgstr ""
@@ -334,12 +334,12 @@ msgctxt "options:history"
 msgid "Export"
 msgstr ""
 
-#: src/pages/components/History.tsx:574
+#: src/pages/components/History.tsx:575
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr ""
 
-#: src/pages/components/History.tsx:523
+#: src/pages/components/History.tsx:524
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr ""
@@ -350,7 +350,7 @@ msgctxt "options:history"
 msgid "Import"
 msgstr ""
 
-#: src/pages/components/History.tsx:520
+#: src/pages/components/History.tsx:521
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr ""
@@ -370,7 +370,7 @@ msgctxt "options:history"
 msgid "Refresh"
 msgstr ""
 
-#: src/pages/components/History.tsx:527
+#: src/pages/components/History.tsx:528
 msgctxt "options:history"
 msgid "The history file is imported successfully."
 msgstr ""
