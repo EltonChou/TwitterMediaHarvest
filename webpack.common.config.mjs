@@ -88,17 +88,22 @@ export default (env, argv) => {
     },
     plugins: [
       new Dotenv({ path: isProduction ? '.env' : 'dev.env' }),
+      /**
+       * All value should wrapped in JSON.stringify
+       */
       new DefinePlugin({
         __BROWSER__: JSON.stringify(BROWSER).toLowerCase().trim(),
-        __DEV__: argv.mode === 'development',
-        __PROD__: argv.mode === 'production',
-        __RELEASE_NAME__: makeReleaseName(BROWSER),
-        __CHROME__: BROWSER === 'chrome',
-        __FIREFOX__: BROWSER === 'firefox',
-        __GECKO__: BROWSER === 'firefox',
-        __EDGE__: BROWSER === 'edge',
-        __CHROMIUM__: BROWSER === 'chrome' || BROWSER === 'edge',
-        __SAFARI__: BROWSER === 'safari',
+        __DEV__: JSON.stringify(argv.mode === 'development'),
+        __PROD__: JSON.stringify(argv.mode === 'production'),
+        __RELEASE_NAME__: JSON.stringify(makeReleaseName(BROWSER)),
+        __CHROME__: JSON.stringify(BROWSER === 'chrome'),
+        __FIREFOX__: JSON.stringify(BROWSER === 'firefox'),
+        __GECKO__: JSON.stringify(BROWSER === 'firefox'),
+        __EDGE__: JSON.stringify(BROWSER === 'edge'),
+        __CHROMIUM__: JSON.stringify(
+          BROWSER === 'chrome' || BROWSER === 'edge'
+        ),
+        __SAFARI__: JSON.stringify(BROWSER === 'safari'),
       }),
     ],
   })
