@@ -5,8 +5,10 @@
  */
 import {
   browserDownloadFile,
+  checkDownloadIsOwnBySelf,
   clientRepo,
   downloadHistoryRepo,
+  downloadRepo,
   downloadSettingsRepo,
   featureSettingsRepo,
   filenameSettingsRepo,
@@ -67,6 +69,8 @@ switch (params.get('tab')) {
             portableDownloadHistoryRepo={portableDownloadRepo}
             downloadHistoryRepo={downloadHistoryRepo}
             browserDownload={browserDownloadFile}
+            downloadRepo={downloadRepo}
+            checkDownloadIsOwnBySelf={checkDownloadIsOwnBySelf}
           />
         </ChakraProvider>
       </React.StrictMode>

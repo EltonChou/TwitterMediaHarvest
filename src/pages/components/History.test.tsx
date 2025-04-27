@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadWasTriggeredBySelf'
+import { MockDownloadRepo } from '#mocks/repositories/download'
 import { MockDownloadHistoryRepository } from '#mocks/repositories/downloadHistory'
 import { MockPortableDownloadHistoryRepo } from '#mocks/repositories/portableDownloadHistory'
 import { MockDownloadFile } from '#mocks/useCases/downloadFile'
@@ -29,7 +31,7 @@ import {
 import userEvent from '@testing-library/user-event'
 import 'core-js/stable/structured-clone'
 import React from 'react'
-import { runtime } from 'webextension-polyfill'
+import { downloads, runtime } from 'webextension-polyfill'
 
 describe('unit test for HistoryTable components', () => {
   afterEach(() => {
@@ -200,6 +202,7 @@ describe('unit test for HistoryTable components', () => {
     const mockSearchTweetIdsByHashTags = new MockSearchTweetIdsByHashTags()
     const mockPortableDownloadHistoryRepo =
       new MockPortableDownloadHistoryRepo()
+    const mockDownloadRepo = new MockDownloadRepo()
     HTMLDivElement.prototype.scrollTo = jest.fn()
 
     jest.spyOn(mockSearchDownloadHistory, 'process').mockResolvedValue({
@@ -211,6 +214,12 @@ describe('unit test for HistoryTable components', () => {
       .spyOn(mockSearchTweetIdsByHashTags, 'process')
       .mockResolvedValue({ error: undefined, value: new Set(['124']) })
 
+    downloads.onChanged = {
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      hasListener: jest.fn(),
+    }
+
     act(() => {
       render(
         <HistoryTable
@@ -219,6 +228,10 @@ describe('unit test for HistoryTable components', () => {
           portableDownloadHistoryRepo={mockPortableDownloadHistoryRepo}
           downloadHistoryRepo={mockDownloadHistoryRepo}
           browserDownload={mockDownloadFile}
+          downloadRepo={mockDownloadRepo}
+          checkDownloadIsOwnBySelf={
+            new CheckDownloadWasTriggeredBySelf('EXT_ID')
+          }
         />
       )
     })

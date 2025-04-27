@@ -4,8 +4,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import type { Factory } from '#domain/factories/base'
+import { IDownloadRepository } from '#domain/repositories/download'
 import type { IDownloadHistoryRepository } from '#domain/repositories/downloadHistory'
 import type { IPortableDownloadHistoryRepository } from '#domain/repositories/portableDownloadHistory'
+import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadWasTriggeredBySelf'
 import type { DownloadFileUseCase } from '#domain/useCases/downloadFile'
 import type { SearchDownloadHistory } from '#domain/useCases/searchDownloadHistory'
 import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
@@ -21,6 +23,7 @@ import type {
   DownloadHistoryHook,
   DownloadHistoryItem,
 } from '#pages/hooks/useDownloadHistory'
+import { isDownloadCompleted } from '#utils/downloadState'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import { isObjectUrl } from '#utils/url'
 import { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDownloadHistory'
@@ -45,7 +48,14 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import React, { ForwardedRef, memo, useImperativeHandle, useRef } from 'react'
+import React, {
+  ForwardedRef,
+  memo,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+} from 'react'
 import {
   BiChevronLeft,
   BiChevronRight,
@@ -56,6 +66,8 @@ import {
   BiRefresh,
 } from 'react-icons/bi'
 import { FaFileExport, FaFileImport } from 'react-icons/fa'
+import { downloads } from 'webextension-polyfill'
+import type { Downloads } from 'webextension-polyfill'
 
 type ItemActionsProps = {
   tweetId: string
@@ -604,6 +616,8 @@ type HistoryTableProps = {
   portableDownloadHistoryRepo: IPortableDownloadHistoryRepository
   downloadHistoryRepo: IDownloadHistoryRepository
   browserDownload: DownloadFileUseCase
+  downloadRepo: IDownloadRepository
+  checkDownloadIsOwnBySelf: CheckDownloadWasTriggeredBySelf
 }
 
 const HistoryTable = ({
@@ -612,6 +626,8 @@ const HistoryTable = ({
   portableDownloadHistoryRepo,
   browserDownload,
   downloadHistoryRepo,
+  downloadRepo,
+  checkDownloadIsOwnBySelf,
 }: HistoryTableProps) => {
   const downloadHistory = useDownloadHistory({
     initItemPerPage: 20,
@@ -641,6 +657,31 @@ const HistoryTable = ({
     searchFormRef.current?.reset()
   }
 
+  const checkHistoryDownload: ListenerOf<Downloads.Static['onChanged']> =
+    useMemo(
+      () =>
+        async ({ id, state }) => {
+          if (!state) return
+          if (!isDownloadCompleted(state)) return
+          const downloadItem = await downloadRepo.getById(id)
+          if (!downloadItem) return
+          const isSelfItem = checkDownloadIsOwnBySelf.process({
+            item: downloadItem,
+            allowJSON: true,
+          })
+
+          if (!isSelfItem) return
+          if (isObjectUrl(downloadItem.url))
+            URL.revokeObjectURL(downloadItem.url)
+        },
+      [downloadRepo, checkDownloadIsOwnBySelf]
+    )
+
+  useEffect(() => {
+    downloads.onChanged.addListener(checkHistoryDownload)
+    return () => downloads.onChanged.removeListener(checkHistoryDownload)
+  }, [checkHistoryDownload])
+
   const exportHistory: PortableHistoryActionBarProps['export'] = async () => {
     const { value: fileUrl, error } = await downloadHistory.handler.export()
     if (error) {
@@ -658,10 +699,6 @@ const HistoryTable = ({
         url: fileUrl,
       }),
     })
-
-    // FIXME: Need to wait for the download to complete before revoking the URL, it better triggered by event.
-    if (isObjectUrl(fileUrl))
-      setTimeout(() => URL.revokeObjectURL(fileUrl), 5000)
   }
 
   const search = () => {
