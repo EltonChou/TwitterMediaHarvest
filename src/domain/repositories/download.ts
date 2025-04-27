@@ -7,6 +7,7 @@ export type DownloadItem = {
   id: number
   filename: string
   fileSize: number
+  url: string
   byExtensionId?: string
   mime?: string
 }

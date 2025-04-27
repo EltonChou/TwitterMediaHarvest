@@ -6,7 +6,7 @@ import handleDownloadChanged from './handleDownloadChanged'
 describe('integration test for download changed event handler', () => {
   const eventPublisher = getEventPublisher()
   const mockDownloadCompletedHandler = jest.fn()
-  const mcokDownloadInterruptedHandler = jest.fn()
+  const mockDownloadInterruptedHandler = jest.fn()
   const extensionId = 'ext-id'
   const checkDownloadIsOwnBySelf = new CheckDownloadWasTriggeredBySelf(
     extensionId
@@ -21,7 +21,7 @@ describe('integration test for download changed event handler', () => {
   beforeAll(() => {
     eventPublisher
       .register('download:status:completed', mockDownloadCompletedHandler)
-      .register('download:status:interrupted', mcokDownloadInterruptedHandler)
+      .register('download:status:interrupted', mockDownloadInterruptedHandler)
   })
 
   afterEach(() => {
@@ -37,6 +37,7 @@ describe('integration test for download changed event handler', () => {
       fileSize: 0,
       filename: 'filename',
       byExtensionId: extensionId,
+      url: 'url',
     })
     await handler({
       id: 1,
@@ -51,12 +52,13 @@ describe('integration test for download changed event handler', () => {
       fileSize: 0,
       filename: 'filename',
       byExtensionId: extensionId,
+      url: 'url',
     })
     await handler({
       id: 1,
       state: { current: 'interrupted', previous: 'in_progress' },
     })
-    expect(mcokDownloadInterruptedHandler).toHaveBeenCalled()
+    expect(mockDownloadInterruptedHandler).toHaveBeenCalled()
   })
 
   it('can ignore download which was not triggered by self', async () => {
@@ -65,6 +67,7 @@ describe('integration test for download changed event handler', () => {
       fileSize: 0,
       filename: 'filename',
       byExtensionId: 'other',
+      url: 'url',
     })
 
     await handler({
@@ -75,7 +78,7 @@ describe('integration test for download changed event handler', () => {
       id: 1,
       state: { current: 'complete', previous: 'in_progress' },
     })
-    expect(mcokDownloadInterruptedHandler).not.toHaveBeenCalled()
+    expect(mockDownloadInterruptedHandler).not.toHaveBeenCalled()
     expect(mockDownloadCompletedHandler).not.toHaveBeenCalled()
   })
 
@@ -90,7 +93,7 @@ describe('integration test for download changed event handler', () => {
       id: 1,
       state: { current: 'complete', previous: 'in_progress' },
     })
-    expect(mcokDownloadInterruptedHandler).not.toHaveBeenCalled()
+    expect(mockDownloadInterruptedHandler).not.toHaveBeenCalled()
     expect(mockDownloadCompletedHandler).not.toHaveBeenCalled()
   })
 })

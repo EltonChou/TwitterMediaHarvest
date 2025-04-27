@@ -3,6 +3,7 @@ import DownloadCompleted from '#domain/events/DownloadCompleted'
 import { MockEventPublisher } from '#mocks/eventPublisher'
 import { MockDownloadRepo } from '#mocks/repositories/download'
 import { MockUsageStatisticsRepository } from '#mocks/repositories/usageStatistics'
+import { generateDownloadItem } from '#utils/test/downloadItem'
 import { generateUsageStatistics } from '#utils/test/usageStatistics'
 import { increaseUsageStatistics } from './increaseUsageStatistics'
 
@@ -12,10 +13,7 @@ describe('unit test for handler to increase usage statistics', () => {
   const publisher = new MockEventPublisher()
 
   it('can increase usage statistics', async () => {
-    const downloadItem = {
-      fileSize: 10,
-      filename: 'filename',
-    }
+    const downloadItem = generateDownloadItem({ fileSize: 10 })
     jest
       .spyOn(downloadRepo, 'getById')
       .mockImplementation(async id => ({ ...downloadItem, id: id }))
@@ -40,10 +38,9 @@ describe('unit test for handler to increase usage statistics', () => {
   })
 
   it('can increase only download count if event is not download event', async () => {
-    const downloadItem = {
+    const downloadItem = generateDownloadItem({
       fileSize: 10,
-      filename: 'filename',
-    }
+    })
     jest
       .spyOn(downloadRepo, 'getById')
       .mockImplementation(async id => ({ ...downloadItem, id: id }))

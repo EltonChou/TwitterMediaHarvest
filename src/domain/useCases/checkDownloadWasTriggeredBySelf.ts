@@ -3,6 +3,7 @@ import type { UseCase } from './base'
 
 type CheckDownloadWasTriggeredBySelfCommand = {
   item: DownloadItem
+  allowJSON?: boolean
 }
 
 export class CheckDownloadWasTriggeredBySelf
@@ -19,9 +20,12 @@ export class CheckDownloadWasTriggeredBySelf
    * In the future, we might export some data to user and most of them would be json file.
    */
   process(command: CheckDownloadWasTriggeredBySelfCommand): boolean {
-    return this.isSameExtension(command.item) && isNotJson(command.item)
+    if (!this.isSameExtension(command.item)) return false
+    if (command.allowJSON) return true
+
+    return !isJSON(command.item)
   }
 }
 
-const isNotJson = (downloadItem: DownloadItem): boolean =>
-  downloadItem?.mime !== 'application/json'
+const isJSON = (downloadItem: DownloadItem): boolean =>
+  downloadItem?.mime === 'application/json'

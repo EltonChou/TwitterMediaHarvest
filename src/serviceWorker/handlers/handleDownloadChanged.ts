@@ -28,7 +28,10 @@ export const handleDownloadChanged =
     const downloadItem = await downloadRepo.getById(downloadDelta.id)
     if (
       !downloadItem ||
-      !checkDownloadIsOwnBySelf.process({ item: downloadItem })
+      !checkDownloadIsOwnBySelf.process({
+        item: downloadItem,
+        allowJSON: false,
+      })
     )
       return
 

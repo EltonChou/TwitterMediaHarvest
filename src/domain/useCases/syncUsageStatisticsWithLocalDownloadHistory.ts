@@ -18,12 +18,15 @@ export class SyncUsageStatisticsWithLocalDownloadHistory
 
     const syncedStats = pastItems.reduce(
       (stats, currItem) => {
-        if (!this.isDownlodedBySelfUseCase.process({ item: currItem }))
-          return stats
-        return stats.increase({
-          downloadCount: 1,
-          trafficUsage: Math.max(0, currItem.fileSize),
+        return this.isDownlodedBySelfUseCase.process({
+          item: currItem,
+          allowJSON: false,
         })
+          ? stats.increase({
+              downloadCount: 1,
+              trafficUsage: Math.max(0, currItem.fileSize),
+            })
+          : stats
       },
       new UsageStatistics({ downloadCount: 0, trafficUsage: 0 })
     )
