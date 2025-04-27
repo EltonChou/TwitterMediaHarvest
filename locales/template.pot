@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (4.3.0)\n"
-"POT-Creation-Date: 2025-04-27 05:50+0800\n"
+"POT-Creation-Date: 2025-04-27 08:26+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -318,12 +318,12 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr ""
 
-#: src/pages/components/History.tsx:509
+#: src/pages/components/History.tsx:526
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr ""
 
-#: src/pages/components/History.tsx:500
+#: src/pages/components/History.tsx:508
 msgctxt "options:history"
 msgid "Cannot access the selected file. Please grant permission to read the file and try again."
 msgstr ""
@@ -334,12 +334,12 @@ msgctxt "options:history"
 msgid "Export"
 msgstr ""
 
-#: src/pages/components/History.tsx:575
+#: src/pages/components/History.tsx:659
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr ""
 
-#: src/pages/components/History.tsx:524
+#: src/pages/components/History.tsx:539
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr ""
@@ -350,7 +350,7 @@ msgctxt "options:history"
 msgid "Import"
 msgstr ""
 
-#: src/pages/components/History.tsx:521
+#: src/pages/components/History.tsx:536
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr ""
@@ -370,9 +370,9 @@ msgctxt "options:history"
 msgid "Refresh"
 msgstr ""
 
-#: src/pages/components/History.tsx:528
+#: src/pages/components/History.tsx:544
 msgctxt "options:history"
-msgid "The history file is imported successfully."
+msgid "The history file has been imported successfully."
 msgstr ""
 
 #: src/pages/components/History.tsx:400

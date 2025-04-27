@@ -21,7 +21,6 @@ import type {
   DownloadHistoryHook,
   DownloadHistoryItem,
 } from '#pages/hooks/useDownloadHistory'
-import { downloadHistoryRepo } from '#provider'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import { isObjectUrl } from '#utils/url'
 import { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDownloadHistory'
@@ -36,6 +35,7 @@ import {
   Link,
   Select,
   Skeleton,
+  Stack,
   Table,
   TableContainer,
   Tbody,
@@ -458,6 +458,14 @@ class PermissionDenied extends Error {
   name = 'PermissionDenied'
 }
 
+/**
+ * ! Compatibility Warning
+ * This API is not supported in Firefox, and it will throw an error if you try to use it.
+ * @platform Chrome, Edge
+ * @see {@link https://developer.chrome.com/docs/capabilities/web-apis/file-system-access | File System Access API}
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API | File System Access API}
+ * @see {@link https://caniuse.com/mdn-api_window_showopenfilepicker | Can I use}
+ */
 const requestHistoryFile = async (): AsyncResult<File> => {
   try {
     const [fileHandle] = await window.showOpenFilePicker({
@@ -488,7 +496,8 @@ const requestHistoryFile = async (): AsyncResult<File> => {
 }
 
 /**
- * @see {@link https://developer.chrome.com/docs/capabilities/web-apis/file-system-access}
+ * !Compatibility Warning
+ * @platform Chrome, Edge
  */
 const importHistory =
   (importFunc: DownloadHistoryHook['handler']['import']) => async () => {
@@ -504,28 +513,90 @@ const importHistory =
       }
       return
     }
-
-    const confirmationMessage = i18n(
-      'Are you sure you want to import this history file?',
-      'options:history'
-    )
-    const isConfirmed = confirm(`${confirmationMessage}\n${file.name}`)
+    const isConfirmed = confirmImport(file.name)
     if (!isConfirmed) return
 
     const content = await file.arrayBuffer()
     const error = await importFunc(content)
 
-    if (error) {
-      if (error instanceof PortableHistoryFormatError) {
-        alert(i18n('Invalid format.', 'options:history'))
-        return
-      }
-      alert(i18n('Failed to import file.', 'options:history'))
+    alertImportResult(error)
+  }
+
+const confirmImport = (filename: string): boolean => {
+  const confirmationMessage = i18n(
+    'Are you sure you want to import this history file?',
+    'options:history'
+  )
+  return confirm(`${confirmationMessage}\n${filename}`)
+}
+
+const alertImportResult = (error: UnsafeTask) => {
+  if (error) {
+    if (error instanceof PortableHistoryFormatError) {
+      alert(i18n('Invalid format.', 'options:history'))
       return
     }
-
-    alert(i18n('The history file is imported successfully.', 'options:history'))
+    alert(i18n('Failed to import file.', 'options:history'))
+    return
   }
+
+  alert(
+    i18n('The history file has been imported successfully.', 'options:history')
+  )
+}
+
+type UploadHistoryProps = {
+  importFunc: (data: ArrayBuffer | string) => Promise<UnsafeTask>
+  ref: ForwardedRef<LegacyUploadComponent>
+}
+
+interface LegacyUploadComponent {
+  click: HTMLInputElement['click']
+}
+
+const LegacyUploadHistory = (props: UploadHistoryProps) => {
+  const uploadFileRef = useRef<HTMLInputElement>(null)
+
+  useImperativeHandle<LegacyUploadComponent, LegacyUploadComponent>(
+    props.ref,
+    () => ({
+      click() {
+        uploadFileRef.current?.click()
+      },
+    }),
+    []
+  )
+
+  const importHistory = async () => {
+    const file = uploadFileRef.current?.files?.[0]
+    if (!file) return
+
+    const resetUploadFile = () => {
+      if (uploadFileRef.current?.value) uploadFileRef.current.value = ''
+    }
+
+    const isConfirmed = confirmImport(file.name)
+    if (!isConfirmed) return
+
+    const content = await file.arrayBuffer()
+    const error = await props.importFunc(content)
+    alertImportResult(error)
+
+    resetUploadFile()
+  }
+
+  return (
+    <>
+      <Input
+        ref={uploadFileRef}
+        type="file"
+        accept="application/json"
+        multiple={false}
+        onChange={importHistory}
+      />
+    </>
+  )
+}
 
 type HistoryTableProps = {
   searchDownloadHistory: SearchDownloadHistory
@@ -540,6 +611,7 @@ const HistoryTable = ({
   searchTweetIdsByHashtags,
   portableDownloadHistoryRepo,
   browserDownload,
+  downloadHistoryRepo,
 }: HistoryTableProps) => {
   const downloadHistory = useDownloadHistory({
     initItemPerPage: 20,
@@ -552,6 +624,7 @@ const HistoryTable = ({
   })
   const searchFormRef = useRef<SearchFormComponent>(null)
   const tableRef = useRef<HTMLTableElement>(null)
+  const legacyUploadFileRef = useRef<LegacyUploadComponent>(null)
 
   const scrollTableToTop = () =>
     tableRef.current &&
@@ -577,14 +650,18 @@ const HistoryTable = ({
 
     await browserDownload.process({
       target: new DownloadConfig({
-        conflictAction: ConflictAction.Prompt,
+        conflictAction: __FIREFOX__
+          ? ConflictAction.Uniquify
+          : ConflictAction.Prompt,
         filename: makePortableHistoryFilename(),
         saveAs: true,
         url: fileUrl,
       }),
     })
 
-    if (isObjectUrl(fileUrl)) URL.revokeObjectURL(fileUrl)
+    // FIXME: Need to wait for the download to complete before revoking the URL, it better triggered by event.
+    if (isObjectUrl(fileUrl))
+      setTimeout(() => URL.revokeObjectURL(fileUrl), 5000)
   }
 
   const search = () => {
@@ -606,6 +683,16 @@ const HistoryTable = ({
 
   return (
     <>
+      {__FIREFOX__ ? (
+        <Stack hidden>
+          <LegacyUploadHistory
+            ref={legacyUploadFileRef}
+            importFunc={downloadHistory.handler.import}
+          />
+        </Stack>
+      ) : (
+        <></>
+      )}
       <HStack>
         <SearchForm update={updateResult} ref={searchFormRef} />
         <HStack>
@@ -641,7 +728,13 @@ const HistoryTable = ({
       </TableContainer>
       <PortableHistoryActionBar
         export={exportHistory}
-        import={importHistory(downloadHistory.handler.import)}
+        import={
+          __FIREFOX__
+            ? async () => {
+                legacyUploadFileRef.current?.click()
+              }
+            : importHistory(downloadHistory.handler.import)
+        }
       />
     </>
   )
