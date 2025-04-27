@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.3.0)\n"
-"POT-Creation-Date: 2025-04-27 05:50+0800\n"
+"POT-Creation-Date: 2025-04-27 08:20+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -13,7 +13,8 @@ msgstr ""
 
 msgctxt "app"
 msgid "appDesc"
-msgstr "Download videos and images from twitter or TweetDeck with only one click."
+msgstr ""
+"Download videos and images from twitter or TweetDeck with only one click."
 
 msgctxt "app"
 msgid "appName"
@@ -220,11 +221,11 @@ msgstr "Create sub-directory"
 #: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid ""
-"Create sub-directory under the default download directory. Sub-directory "
-"can be seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory can "
+"be seperated with \"/\"."
 msgstr ""
-"Create sub-directory under the default download directory. Sub-directory "
-"can be seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory can "
+"be seperated with \"/\"."
 
 #: src/pages/components/GeneralOptions.tsx:244
 msgctxt "options:general"
@@ -248,8 +249,10 @@ msgstr "ディレクトリ名に次の文字は使えません <>:”\\|?*"
 
 #: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
-msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
-msgstr "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+msgid ""
+"Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+msgstr ""
+"Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 
 #: src/pages/components/GeneralOptions.tsx:228
 msgctxt "options:general"
@@ -341,12 +344,12 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "Tweet_Datetime"
 
-#: src/pages/components/History.tsx:509
+#: src/pages/components/History.tsx:526
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "Are you sure you want to import this history file?"
 
-#: src/pages/components/History.tsx:500
+#: src/pages/components/History.tsx:508
 msgctxt "options:history"
 msgid ""
 "Cannot access the selected file. Please grant permission to read the file "
@@ -355,29 +358,27 @@ msgstr ""
 "Cannot access the selected file. Please grant permission to read the file "
 "and try again."
 
-#: src/pages/components/History.tsx:347
-#: src/pages/components/History.tsx:352
+#: src/pages/components/History.tsx:347 src/pages/components/History.tsx:352
 msgctxt "options:history"
 msgid "Export"
 msgstr "Export"
 
-#: src/pages/components/History.tsx:575
+#: src/pages/components/History.tsx:657
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "Failed to export file."
 
-#: src/pages/components/History.tsx:524
+#: src/pages/components/History.tsx:539
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "Failed to import file."
 
-#: src/pages/components/History.tsx:339
-#: src/pages/components/History.tsx:344
+#: src/pages/components/History.tsx:339 src/pages/components/History.tsx:344
 msgctxt "options:history"
 msgid "Import"
 msgstr "Import"
 
-#: src/pages/components/History.tsx:521
+#: src/pages/components/History.tsx:536
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "Invalid format."
@@ -397,10 +398,12 @@ msgctxt "options:history"
 msgid "Refresh"
 msgstr "Refresh"
 
-#: src/pages/components/History.tsx:528
+#: src/pages/components/History.tsx:543
+#| msgctxt "options:history"
+#| msgid "The history file is imported successfully."
 msgctxt "options:history"
-msgid "The history file is imported successfully."
-msgstr "The history file is imported successfully."
+msgid "The history file has been imported successfully."
+msgstr "The history file has been imported successfully."
 
 #: src/pages/components/History.tsx:400
 msgctxt "options:history:input:placeholder"
@@ -412,8 +415,7 @@ msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "Image"
 
-#: src/pages/components/History.tsx:152
-#: src/pages/components/History.tsx:155
+#: src/pages/components/History.tsx:152 src/pages/components/History.tsx:155
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "Mixed"
@@ -512,32 +514,27 @@ msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "Transfer the download to Aria2 via {{aria2-extension}}."
 
-#: src/pages/app/Options.tsx:148
-#: src/pages/components/SideMenu.tsx:81
+#: src/pages/app/Options.tsx:148 src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "About"
 
-#: src/pages/app/Options.tsx:108
-#: src/pages/components/SideMenu.tsx:62
+#: src/pages/app/Options.tsx:108 src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "Features"
 
-#: src/pages/app/Options.tsx:97
-#: src/pages/components/SideMenu.tsx:56
+#: src/pages/app/Options.tsx:97 src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "General"
 
-#: src/pages/app/Options.tsx:128
-#: src/pages/components/SideMenu.tsx:74
+#: src/pages/app/Options.tsx:128 src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "History"
 
-#: src/pages/app/Options.tsx:116
-#: src/pages/components/SideMenu.tsx:68
+#: src/pages/app/Options.tsx:116 src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "Integrations"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.3.0)\n"
-"POT-Creation-Date: 2025-04-27 05:50+0800\n"
+"POT-Creation-Date: 2025-04-27 08:20+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -13,7 +13,8 @@ msgstr ""
 
 msgctxt "app"
 msgid "appDesc"
-msgstr "twitter や TweetDeck のビデオと画像、ワンクリックでダウンロードできる。"
+msgstr ""
+"twitter や TweetDeck のビデオと画像、ワンクリックでダウンロードできる。"
 
 msgctxt "app"
 msgid "appName"
@@ -44,7 +45,8 @@ msgctxt "notification:filename"
 msgid ""
 "The filename is modified by other extensions, please check extensions' "
 "settings."
-msgstr "ファイルネームが他の拡張に変更されました、他の拡張の設定を確認してください。"
+msgstr ""
+"ファイルネームが他の拡張に変更されました、他の拡張の設定を確認してください。"
 
 #: src/helpers/notificationConfig.ts:201
 msgctxt "notification:filename"
@@ -94,7 +96,9 @@ msgstr "読込み禁止されているになっています"
 #: src/helpers/notificationConfig.ts:142
 msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
-msgstr "ログインセッションの有効期限が切れましたが、まだ閲覧の権限を持ちませんでした。"
+msgstr ""
+"ログインセッションの有効期限が切れましたが、まだ閲覧の権限を持ちませんでし"
+"た。"
 
 #: src/helpers/notificationConfig.ts:170
 msgctxt "notification:tweetFetch"
@@ -159,7 +163,9 @@ msgstr "センシティブ内容の自動表示"
 #: src/pages/components/FeatureOptions.tsx:61
 msgctxt "options:features"
 msgid "Download the thumbnail when the media is video."
-msgstr "ビデオサムネイルのダウンロードメディアはビデオの時、サムネイルをダウンロードします。"
+msgstr ""
+"ビデオサムネイルのダウンロードメディアはビデオの時、サムネイルをダウンロード"
+"します。"
 
 #: src/pages/components/FeatureOptions.tsx:60
 msgctxt "options:features"
@@ -181,7 +187,9 @@ msgctxt "options:features"
 msgid ""
 "When the tweet was flagged as sensitive content, this feature can show the "
 "blured content automatically."
-msgstr "ツイートをセンシティブな内容として設定されている際、センシティブ内容を自動的に表示します。"
+msgstr ""
+"ツイートをセンシティブな内容として設定されている際、センシティブ内容を自動的"
+"に表示します。"
 
 #: src/pages/components/FootBar.tsx:45
 msgctxt "options:footBar:button"
@@ -216,8 +224,8 @@ msgstr "サブディレクトリの作成"
 #: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid ""
-"Create sub-directory under the default download directory. Sub-directory "
-"can be seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory can "
+"be seperated with \"/\"."
 msgstr "ディフォルトディレクトリの下にサブディレクトリを作成します。"
 
 #: src/pages/components/GeneralOptions.tsx:244
@@ -242,8 +250,11 @@ msgstr "ディレクトリ名に次の文字は使えません <>:”\\|?*"
 
 #: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
-msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
-msgstr "無効なパータン。 `ツイート ID` + `シリアル番号` や `ハッシュ` を含めてください."
+msgid ""
+"Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+msgstr ""
+"無効なパータン。 `ツイート ID` + `シリアル番号` や `ハッシュ` を含めてくださ"
+"い."
 
 #: src/pages/components/GeneralOptions.tsx:228
 msgctxt "options:general"
@@ -335,41 +346,41 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "投稿＿時間"
 
-#: src/pages/components/History.tsx:509
+#: src/pages/components/History.tsx:526
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "この履歴ファイルをインポートしてもよろしいですか？"
 
-#: src/pages/components/History.tsx:500
+#: src/pages/components/History.tsx:508
 msgctxt "options:history"
 msgid ""
 "Cannot access the selected file. Please grant permission to read the file "
 "and try again."
-msgstr "選択したファイルにアクセスできません。ファイルの読み取りを許可して、もう一度やり直してください。"
+msgstr ""
+"選択したファイルにアクセスできません。ファイルの読み取りを許可して、もう一度"
+"やり直してください。"
 
-#: src/pages/components/History.tsx:347
-#: src/pages/components/History.tsx:352
+#: src/pages/components/History.tsx:347 src/pages/components/History.tsx:352
 msgctxt "options:history"
 msgid "Export"
 msgstr "エクスポート"
 
-#: src/pages/components/History.tsx:575
+#: src/pages/components/History.tsx:657
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "ファイルのエクスポートに失敗しました。"
 
-#: src/pages/components/History.tsx:524
+#: src/pages/components/History.tsx:539
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "ファイルのインポートに失敗しました。"
 
-#: src/pages/components/History.tsx:339
-#: src/pages/components/History.tsx:344
+#: src/pages/components/History.tsx:339 src/pages/components/History.tsx:344
 msgctxt "options:history"
 msgid "Import"
 msgstr "インポート"
 
-#: src/pages/components/History.tsx:521
+#: src/pages/components/History.tsx:536
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "形式が正しくありません。"
@@ -389,9 +400,9 @@ msgctxt "options:history"
 msgid "Refresh"
 msgstr "更新"
 
-#: src/pages/components/History.tsx:528
+#: src/pages/components/History.tsx:543
 msgctxt "options:history"
-msgid "The history file is imported successfully."
+msgid "The history file has been imported successfully."
 msgstr "履歴ファイルを問題なくインポートしました。"
 
 #: src/pages/components/History.tsx:400
@@ -404,8 +415,7 @@ msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "画像"
 
-#: src/pages/components/History.tsx:152
-#: src/pages/components/History.tsx:155
+#: src/pages/components/History.tsx:152 src/pages/components/History.tsx:155
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "画像 + ビデオ"
@@ -502,32 +512,27 @@ msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "ダウンロードを {{aria2-extension}} 経由して Aria2 に転送。"
 
-#: src/pages/app/Options.tsx:148
-#: src/pages/components/SideMenu.tsx:81
+#: src/pages/app/Options.tsx:148 src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "拡張について"
 
-#: src/pages/app/Options.tsx:108
-#: src/pages/components/SideMenu.tsx:62
+#: src/pages/app/Options.tsx:108 src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "機能"
 
-#: src/pages/app/Options.tsx:97
-#: src/pages/components/SideMenu.tsx:56
+#: src/pages/app/Options.tsx:97 src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "一般"
 
-#: src/pages/app/Options.tsx:128
-#: src/pages/components/SideMenu.tsx:74
+#: src/pages/app/Options.tsx:128 src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "ダウンロード履歴"
 
-#: src/pages/app/Options.tsx:116
-#: src/pages/components/SideMenu.tsx:68
+#: src/pages/app/Options.tsx:116 src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "統合"

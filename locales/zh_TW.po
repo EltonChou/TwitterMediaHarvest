@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.3.0)\n"
-"POT-Creation-Date: 2025-04-27 05:50+0800\n"
+"POT-Creation-Date: 2025-04-27 08:20+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -216,8 +216,8 @@ msgstr "新增子資料夾"
 #: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid ""
-"Create sub-directory under the default download directory. Sub-directory "
-"can be seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory can "
+"be seperated with \"/\"."
 msgstr "在預設下載資料夾中新增一個子資料夾。使用 ”/” 區分多個子資料夾。"
 
 #: src/pages/components/GeneralOptions.tsx:244
@@ -242,7 +242,8 @@ msgstr "無效的資料夾名稱。不能含有 <>:”\\|?*"
 
 #: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
-msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+msgid ""
+"Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "無效的樣式。 必須包含 `推特 ID` + `序列號` 或 `雜湊值`。"
 
 #: src/pages/components/GeneralOptions.tsx:228
@@ -333,41 +334,39 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "推特_日期時間"
 
-#: src/pages/components/History.tsx:509
+#: src/pages/components/History.tsx:526
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "確定要匯入這個歷史檔案嗎?"
 
-#: src/pages/components/History.tsx:500
+#: src/pages/components/History.tsx:508
 msgctxt "options:history"
 msgid ""
 "Cannot access the selected file. Please grant permission to read the file "
 "and try again."
 msgstr "無法讀取所選文件，請授權讀取文件的權限並重試。"
 
-#: src/pages/components/History.tsx:347
-#: src/pages/components/History.tsx:352
+#: src/pages/components/History.tsx:347 src/pages/components/History.tsx:352
 msgctxt "options:history"
 msgid "Export"
 msgstr "匯出"
 
-#: src/pages/components/History.tsx:575
+#: src/pages/components/History.tsx:657
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "匯出失敗。"
 
-#: src/pages/components/History.tsx:524
+#: src/pages/components/History.tsx:539
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "匯入失敗。"
 
-#: src/pages/components/History.tsx:339
-#: src/pages/components/History.tsx:344
+#: src/pages/components/History.tsx:339 src/pages/components/History.tsx:344
 msgctxt "options:history"
 msgid "Import"
 msgstr "匯入"
 
-#: src/pages/components/History.tsx:521
+#: src/pages/components/History.tsx:536
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "不正確的格式。"
@@ -387,9 +386,9 @@ msgctxt "options:history"
 msgid "Refresh"
 msgstr "更新"
 
-#: src/pages/components/History.tsx:528
+#: src/pages/components/History.tsx:543
 msgctxt "options:history"
-msgid "The history file is imported successfully."
+msgid "The history file has been imported successfully."
 msgstr "歷史紀錄匯入成功。"
 
 #: src/pages/components/History.tsx:400
@@ -402,8 +401,7 @@ msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "圖片"
 
-#: src/pages/components/History.tsx:152
-#: src/pages/components/History.tsx:155
+#: src/pages/components/History.tsx:152 src/pages/components/History.tsx:155
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "混合"
@@ -500,32 +498,27 @@ msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "透過 {{aria2-extension}} 傳送下載任務到 Aria2。"
 
-#: src/pages/app/Options.tsx:148
-#: src/pages/components/SideMenu.tsx:81
+#: src/pages/app/Options.tsx:148 src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "關於"
 
-#: src/pages/app/Options.tsx:108
-#: src/pages/components/SideMenu.tsx:62
+#: src/pages/app/Options.tsx:108 src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "功能"
 
-#: src/pages/app/Options.tsx:97
-#: src/pages/components/SideMenu.tsx:56
+#: src/pages/app/Options.tsx:97 src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "通用"
 
-#: src/pages/app/Options.tsx:128
-#: src/pages/components/SideMenu.tsx:74
+#: src/pages/app/Options.tsx:128 src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "下載歷史"
 
-#: src/pages/app/Options.tsx:116
-#: src/pages/components/SideMenu.tsx:68
+#: src/pages/app/Options.tsx:116 src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "整合"
