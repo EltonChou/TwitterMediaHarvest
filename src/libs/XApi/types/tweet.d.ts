@@ -116,7 +116,7 @@ declare namespace XApi {
   interface ConversationThreadItem {
     entryId: string
     item: {
-      itemContent: TimelineTweet
+      itemContent: TimelineTweet | TimelineItemContent
     }
   }
 

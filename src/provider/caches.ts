@@ -1,3 +1,3 @@
-import { TweetResponseCache } from '#infra/cache/tweetResponseCache'
+import { TweetResponseCache } from '#infra/caches/tweetResponseCache'
 
 export const tweetResponseCache = new TweetResponseCache()

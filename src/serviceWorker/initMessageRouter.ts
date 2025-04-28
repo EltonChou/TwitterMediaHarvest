@@ -43,6 +43,7 @@ export const initMessageRouter = (router: MessageRouter): MessageRouter =>
               params.shouldPrompt
             ),
         },
+        tweetCacheRepo: tweetResponseCache,
         solutionProvider: () =>
           new NativeFetchTweetSolution(
             {

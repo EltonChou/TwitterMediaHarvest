@@ -12,6 +12,7 @@ import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
 import PatternToken from '#enums/patternToken'
+import { MockTweetResponseCache } from '#mocks/caches/tweetResponseCache'
 import { MockEventPublisher } from '#mocks/eventPublisher'
 import { MockDownloadHistoryRepository } from '#mocks/repositories/downloadHistory'
 import { MockDownloadSettingsRepository } from '#mocks/repositories/downloadSettings'
@@ -30,6 +31,7 @@ describe('DownloadTweetMedia', () => {
   const mockDownloadSettingsRepo = new MockDownloadSettingsRepository()
   const mockFeatureSettingsRepo = new MockFeatureSettingsRepository()
   const mockDownloadMediaFile = new MockDownloadMediaFile()
+  const mockTweetReponseCache = new MockTweetResponseCache()
   const mockDownloaderBuilder: DownloaderBuilderMap = {
     aria2: () => mockDownloadMediaFile,
     browser: () => mockDownloadMediaFile,
@@ -44,6 +46,7 @@ describe('DownloadTweetMedia', () => {
     featureSettingsRepo: mockFeatureSettingsRepo,
     downloaderBuilder: mockDownloaderBuilder,
     eventPublisher: mockEventPublisher,
+    tweetCacheRepo: mockTweetReponseCache,
     solutionProvider: () => mockNativeFetchTweetSolution,
   })
 

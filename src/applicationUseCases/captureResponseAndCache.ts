@@ -80,9 +80,12 @@ export class CaptureResponseAndCache
           tweets.push(entryContent.itemContent.tweet_results.result)
 
         if (isTimelineTimelineModule(entryContent))
-          entryContent.items.forEach(threadItem =>
-            tweets.push(threadItem.item.itemContent.tweet_results.result)
-          )
+          entryContent.items
+            .map(threadItem => threadItem.item.itemContent)
+            .filter(isTimelineTweet)
+            .forEach(itemContent =>
+              tweets.push(itemContent.tweet_results.result)
+            )
 
         return tweets
       },
