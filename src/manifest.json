@@ -40,6 +40,17 @@
       "js": ["main.js"],
       "css": ["main.css"],
       "run_at": "document_end"
+    },
+    {
+      "world": "MAIN",
+      "matches": [
+        "*://twitter.com/*",
+        "*://mobile.twitter.com/*",
+        "*://tweetdeck.twitter.com/*",
+        "*://x.com/*"
+      ],
+      "js": ["inject.js"],
+      "run_at": "document_start"
     }
   ],
   "host_permissions": [

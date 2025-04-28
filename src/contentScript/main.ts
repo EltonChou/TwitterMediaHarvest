@@ -5,6 +5,11 @@
  */
 import { FeatureSettingsRepository } from '#infra/repositories/featureSettings'
 import { LocalExtensionStorageProxy } from '#infra/storageProxy'
+import { sendMessage } from '#libs/webExtMessage'
+import {
+  CaptureResponseMessage,
+  ResponseType,
+} from '#libs/webExtMessage/messages/captureResponse'
 import {
   TweetDeckBetaKeyboardMonitor,
   TwitterKeyboardMonitor,
@@ -70,3 +75,18 @@ featureSettingsRepo
     observer.observeRoot()
     return feature
   })
+
+document.addEventListener('mh:media-response', async e => {
+  let type = ResponseType.Unknown
+
+  if (e.detail.path.endsWith('TweetDetail')) type = ResponseType.TweetDetail
+  if (e.detail.path.endsWith('TweetResultByRestId'))
+    type = ResponseType.TweetResultByRestId
+
+  await sendMessage(
+    new CaptureResponseMessage({
+      type: type,
+      body: e.detail.body,
+    })
+  )
+})

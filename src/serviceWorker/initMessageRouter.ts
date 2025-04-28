@@ -14,9 +14,11 @@ import {
   featureSettingsRepo,
   filenameSettingsRepo,
   solutionQuotaRepo,
+  tweetResponseCache,
   xApiClient,
   xTokenRepo,
 } from '#provider'
+import captureResponseHandler from './messageHandlers/captureResponse'
 import checkDownloadHistoryHandler from './messageHandlers/checkDownloadHistory'
 import downloadMessageHandler from './messageHandlers/downloadMediaHandler'
 import { type MessageRouter } from './messageRouter'
@@ -55,4 +57,8 @@ export const initMessageRouter = (router: MessageRouter): MessageRouter =>
     .route(
       WebExtAction.CheckDownloadHistory,
       checkDownloadHistoryHandler({ downloadHistoryRepo })
+    )
+    .route(
+      WebExtAction.CaptureResponse,
+      captureResponseHandler({ tweetResponseCache })
     )
