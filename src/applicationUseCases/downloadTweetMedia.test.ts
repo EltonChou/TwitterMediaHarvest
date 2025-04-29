@@ -267,6 +267,9 @@ describe('DownloadTweetMedia', () => {
       const mockDownload = jest
         .spyOn(mockDownloadMediaFile, 'process')
         .mockResolvedValue()
+      const mockhistorySave = jest
+        .spyOn(mockDownloadHistoryRepo, 'save')
+        .mockResolvedValueOnce()
 
       jest.spyOn(mockEventPublisher, 'publishAll')
       const result = await downloadTweetMedia.process({
@@ -274,6 +277,7 @@ describe('DownloadTweetMedia', () => {
       })
 
       expect(result).toBeTrue()
+      expect(mockhistorySave).toHaveBeenCalledOnce()
       expect(mockSolutionProcess).not.toHaveBeenCalled()
       expect(mockDownload).toHaveBeenCalled()
     })

@@ -73,16 +73,14 @@ export class DownloadTweetMedia
     if (tweet) {
       if (__DEV__)
         // eslint-disable-next-line no-console
-        console.debug(
-          'Get tweet from injection cache\n' + JSON.stringify(tweet)
-        )
+        console.debug(`Get tweet from injection cache (id: ${tweet.id})`)
 
-      if (tweet instanceof Tweet) return this.processDownload(tweetInfo, tweet)
-      if (tweet instanceof TweetWithContent)
-        return this.processDownload(
-          tweetInfo,
-          tweet.mapBy(props => props.tweet)
-        )
+      const tweetVo =
+        tweet instanceof Tweet ? tweet : tweet.mapBy(props => props.tweet)
+
+      await this.saveDownloadHistory(tweetToDownloadHistory(tweetVo))
+
+      return this.processDownload(tweetInfo, tweetVo)
     }
 
     const solution = this.infra.solutionProvider()
