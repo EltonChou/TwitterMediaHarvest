@@ -1,6 +1,18 @@
+/**
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 import type { ICache } from '#domain/repositories/cache'
 import type { AsyncUseCase } from '#domain/useCases/base'
 import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
+import {
+  isMediaTweet,
+  isTimelineAddEntries,
+  isTimelineTimelineItem,
+  isTimelineTimelineModule,
+  isTimelineTweet,
+} from '#libs/XApi/parsers/refinement'
 import { parseTweet } from '#libs/XApi/parsers/tweet'
 import { ResponseType } from '#libs/webExtMessage'
 import { isErrorResult, toErrorResult, toSuccessResult } from '#utils/result'
@@ -34,12 +46,10 @@ export class CaptureResponseAndCache
     const tweet = value.data.tweetResult.result
     if (!isMediaTweet(tweet)) return
 
-    const mediaTweet = parseTweet(tweet)
-
     // eslint-disable-next-line no-console
-    if (__DEV__) console.debug(mediaTweet)
+    if (__DEV__) console.debug('Cache tweet response')
 
-    return this.infra.tweetResponseCache.save(mediaTweet)
+    return this.infra.tweetResponseCache.save(parseTweet(tweet))
   }
 
   protected async processTweetDetailResponse(
@@ -92,25 +102,29 @@ export class CaptureResponseAndCache
       []
     )
 
-    const mediaTweets = tweets.filter(isMediaTweet).map(parseTweet)
-
     // eslint-disable-next-line no-console
-    if (__DEV__) console.debug(mediaTweets)
+    if (__DEV__) console.debug('Cache tweet response')
 
-    return this.infra.tweetResponseCache.saveAll(...mediaTweets)
+    return this.infra.tweetResponseCache.saveAll(
+      ...tweets.filter(isMediaTweet).map(parseTweet)
+    )
   }
 
   async process({
     type,
     body,
   }: CaptureResponseAndCacheCommand): Promise<UnsafeTask<Error>> {
-    if (type === ResponseType.TweetDetail)
-      return this.processTweetDetailResponse(body)
+    let error: UnsafeTask = undefined
+    if (type === ResponseType.TweetDetail) {
+      error = await this.processTweetDetailResponse(body)
+    } else if (type === ResponseType.TweetResultByRestId) {
+      error = await this.processRestTweetByIdResponse(body)
+    }
 
-    if (type === ResponseType.TweetResultByRestId)
-      return this.processRestTweetByIdResponse(body)
+    // eslint-disable-next-line no-console
+    if (error) console.error(error)
 
-    throw new Error('Method not implemented.')
+    throw new Error(`Method not implemented for ${type}.`)
   }
 }
 
@@ -146,26 +160,3 @@ const restBodySchema: Joi.ObjectSchema<XApi.TweetByRestIdBody> = Joi.object({
     .required()
     .unknown(true),
 })
-
-const isTimelineAddEntries = (
-  instruction: XApi.Instruction
-): instruction is XApi.TimelineAddEntries =>
-  instruction.type === 'TimelineAddEntries'
-
-const isTimelineTimelineModule = (
-  entryContent: XApi.EntryContent
-): entryContent is XApi.TimelineTimelineModule =>
-  entryContent.__typename === 'TimelineTimelineModule'
-
-const isTimelineTimelineItem = (
-  entryContent: XApi.EntryContent
-): entryContent is XApi.TimelineTimelineItem =>
-  entryContent.__typename === 'TimelineTimelineItem'
-
-const isTimelineTweet = (
-  timelineItemContent: XApi.TimelineItemContent
-): timelineItemContent is XApi.TimelineTweet =>
-  timelineItemContent.__typename === 'TimelineTweet'
-
-const isMediaTweet = (tweet: XApi.Tweet): tweet is XApi.MediaTweet =>
-  tweet.legacy['extended_entities'] !== undefined

@@ -180,8 +180,10 @@ export class DownloadTweetMedia
     })
   }
 
-  private async reportSolutionStatistics(_statistics: SolutionStatistics) {
+  private async reportSolutionStatistics(statistics: SolutionStatistics) {
     // TODO: report statistics
+    // eslint-disable-next-line no-console
+    if (__DEV__) console.debug('Solution stats\n', JSON.stringify(statistics))
   }
 }
 
