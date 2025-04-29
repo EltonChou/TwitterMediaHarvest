@@ -20,7 +20,7 @@ export const isTimelineTweet = (
   timelineItemContent.__typename === 'TimelineTweet'
 
 export const isMediaTweet = (tweet: XApi.Tweet): tweet is XApi.MediaTweet =>
-  tweet?.legacy['extended_entities'] !== undefined
+  tweet?.legacy?.extended_entities !== undefined
 
 export class Instruction {
   static isTimelineAddEntries(
