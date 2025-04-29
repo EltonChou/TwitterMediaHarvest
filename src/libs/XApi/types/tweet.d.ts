@@ -18,8 +18,30 @@ declare namespace XApi {
     }
   }
 
+  interface UserTweetsBody {
+    data: {
+      user: {
+        result: {
+          __typename: 'User'
+          timeline: {
+            timeline: {
+              instructions: Instruction[]
+            }
+          }
+        }
+      }
+    }
+  }
+
   interface Instruction {
     type: string
+  }
+
+  interface TimelinePinEntry extends Instruction {
+    type: 'TimelinePinEntry'
+    entry: {
+      content: TimelineTimelineItem
+    }
   }
 
   interface TimelineAddEntries extends Instruction {

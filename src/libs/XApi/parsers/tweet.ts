@@ -6,7 +6,7 @@
 import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
 import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
-import { isMediaTweet } from './refinement'
+import { isMediaTweet } from './refinements'
 import { makeEmptyMediaCollection, parseMedias } from './tweetMedia'
 
 export const parseTweet = (tweetResult: XApi.Tweet): TweetWithContent => {

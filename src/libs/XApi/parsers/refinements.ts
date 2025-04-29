@@ -4,11 +4,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-export const isTimelineAddEntries = (
-  instruction: XApi.Instruction
-): instruction is XApi.TimelineAddEntries =>
-  instruction.type === 'TimelineAddEntries'
-
 export const isTimelineTimelineModule = (
   entryContent: XApi.EntryContent
 ): entryContent is XApi.TimelineTimelineModule =>
@@ -25,4 +20,18 @@ export const isTimelineTweet = (
   timelineItemContent.__typename === 'TimelineTweet'
 
 export const isMediaTweet = (tweet: XApi.Tweet): tweet is XApi.MediaTweet =>
-  tweet.legacy['extended_entities'] !== undefined
+  tweet?.legacy['extended_entities'] !== undefined
+
+export class Instruction {
+  static isTimelineAddEntries(
+    instruction: XApi.Instruction
+  ): instruction is XApi.TimelineAddEntries {
+    return instruction.type === 'TimelineAddEntries'
+  }
+
+  static isTimelinePinEntry(
+    instruction: XApi.Instruction
+  ): instruction is XApi.TimelinePinEntry {
+    return instruction.type === 'TimelinePinEntry'
+  }
+}

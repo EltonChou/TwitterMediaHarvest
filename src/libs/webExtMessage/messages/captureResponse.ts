@@ -16,6 +16,7 @@ import Joi from 'joi'
 export const enum ResponseType {
   TweetDetail = 'TweetDetail',
   TweetResultByRestId = 'TweetResultByRestId',
+  UserTweets = 'UserTweets',
   Unknown = 0,
 }
 
@@ -33,7 +34,11 @@ const messageSchema: Joi.ObjectSchema<
   action: Joi.valid(WebExtAction.CaptureResponse).required(),
   payload: Joi.object({
     type: Joi.string()
-      .valid(ResponseType.TweetDetail, ResponseType.TweetResultByRestId)
+      .valid(
+        ResponseType.TweetDetail,
+        ResponseType.TweetResultByRestId,
+        ResponseType.UserTweets
+      )
       .required(),
     body: Joi.string().required(),
   }).required(),

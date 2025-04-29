@@ -6,7 +6,7 @@
 import { Tweet, type TweetProps } from '#domain/valueObjects/tweet'
 import { TweetUser, type TweetUserProps } from '#domain/valueObjects/tweetUser'
 import { toErrorResult, toSuccessResult } from '#utils/result'
-import { isTimelineTimelineItem, isTimelineTweet } from '../parsers/refinement'
+import { isTimelineTimelineItem, isTimelineTweet } from '../parsers/refinements'
 import { parseMedias } from '../parsers/tweetMedia'
 import { GraphQLCommand, Query } from './graphql'
 import { HttpMethod } from './types'

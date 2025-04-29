@@ -82,6 +82,7 @@ document.addEventListener('mh:media-response', async e => {
   if (e.detail.path.endsWith('TweetDetail')) type = ResponseType.TweetDetail
   if (e.detail.path.endsWith('TweetResultByRestId'))
     type = ResponseType.TweetResultByRestId
+  if (e.detail.path.endsWith('UserTweets')) type = ResponseType.UserTweets
 
   await sendMessage(
     new CaptureResponseMessage({
