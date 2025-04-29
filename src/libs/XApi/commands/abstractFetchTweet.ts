@@ -4,9 +4,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { Tweet, type TweetProps } from '#domain/valueObjects/tweet'
-import { TweetMedia } from '#domain/valueObjects/tweetMedia'
 import { TweetUser, type TweetUserProps } from '#domain/valueObjects/tweetUser'
 import { toErrorResult, toSuccessResult } from '#utils/result'
+import { isTimelineTimelineItem, isTimelineTweet } from '../parsers/refinement'
+import { parseMedias } from '../parsers/tweetMedia'
 import { GraphQLCommand, Query } from './graphql'
 import { HttpMethod } from './types'
 import type {
@@ -32,17 +33,6 @@ export interface FetchTweetCommandInput extends LiteralObject {
 // TODO: Should we isolate tweet object?
 export interface FetchTweetCommandOutput extends MetadataBearer {
   tweetResult: Result<Tweet>
-}
-
-type TimelineInstruction = {
-  type: 'TimelineAddEntries'
-  entries?: InstructionEntry[]
-}
-
-type InstructionEntry = {
-  entryId: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  content: any
 }
 
 const tweetPartialPropsSchema = Joi.object<
@@ -78,7 +68,7 @@ export abstract class FetchTweetCommand
   protected getResultFromBody(body: any) {
     return pipe(
       body?.data?.threaded_conversation_with_injections_v2?.instructions,
-      O.fromNullable<TimelineInstruction[]>,
+      O.fromNullable<XApi.TimelineAddEntries[]>,
       E.fromOption(() => 'Failed to get instructions'),
       E.chain(
         flow(
@@ -101,9 +91,19 @@ export abstract class FetchTweetCommand
       ),
       E.chain(entry =>
         pipe(
-          entry?.content?.itemContent?.tweet_results?.result.tweet ??
-            entry?.content?.itemContent?.tweet_results?.result,
-          E.fromNullable('Failed to get result')
+          entry.content,
+          O.fromPredicate(isTimelineTimelineItem),
+          O.flatMap(content =>
+            pipe(content.itemContent, O.fromPredicate(isTimelineTweet))
+          ),
+          O.flatMap(itemContent =>
+            pipe(
+              itemContent.tweet_results?.result?.tweet ??
+                itemContent.tweet_results.result,
+              O.fromNullable
+            )
+          ),
+          E.fromOption(() => 'Failed to get result')
         )
       )
     )
@@ -306,83 +306,6 @@ const validationResultToEither = <T>(
   result: ValidationResult<T>
 ): E.Either<string, T> =>
   result.error ? E.left(result.error.message) : E.right(result.value)
-
-type Mp4Variant = {
-  bitrate: number
-  content_type: 'video/mp4'
-  url: string
-}
-
-type MpegUrlVariant = {
-  bitrate: 0
-  content_type: 'application/x-mpegURL'
-  url: string
-}
-
-type VideoVariant = Mp4Variant | MpegUrlVariant
-
-type Media =
-  | {
-      type: 'photo'
-      media_url_https: string
-    }
-  | {
-      type: 'video' | 'animated_gif'
-      media_url_https: string
-      video_info: {
-        variants: VideoVariant[]
-      }
-    }
-
-type MediaCollection = { images: TweetMedia[]; videos: TweetMedia[] }
-
-const parseMedias = (medias: Media[]): MediaCollection => {
-  let imageIndex = 0
-  let videoIndex = 0
-
-  const increaseImageIdx = () => (imageIndex += 1)
-  const increaseVideoIndex = () => (videoIndex += 1)
-
-  return medias.reduce<MediaCollection>(
-    (mediaCollection, media) => {
-      mediaCollection.images.push(
-        new TweetMedia({
-          index: imageIndex,
-          type: media.type === 'photo' ? 'photo' : 'thumbnail',
-          url: media.media_url_https,
-        })
-      )
-      increaseImageIdx()
-
-      if (media.type === 'animated_gif' || media.type === 'video') {
-        const url = parseBestVideoVariant(media.video_info.variants)
-        if (url) {
-          mediaCollection.videos.push(
-            new TweetMedia({
-              index: videoIndex,
-              type: 'video',
-              url: url,
-            })
-          )
-          increaseVideoIndex()
-        }
-      }
-
-      return mediaCollection
-    },
-    {
-      images: [],
-      videos: [],
-    }
-  )
-}
-
-const parseBestVideoVariant = (variants: VideoVariant[]): string | undefined =>
-  variants
-    .filter(variant => variant.content_type === 'video/mp4')
-    .reduce((prevVariant, currVariant) =>
-      currVariant?.bitrate >= prevVariant?.bitrate ? currVariant : prevVariant
-    ).url
 
 const hasErrorProperty = (
   body: unknown
