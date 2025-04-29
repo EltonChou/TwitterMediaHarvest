@@ -11,6 +11,7 @@ import { AggregationToken } from '#domain/valueObjects/filenameSetting'
 import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
+import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
 import PatternToken from '#enums/patternToken'
 import { MockTweetResponseCache } from '#mocks/caches/tweetResponseCache'
 import { MockEventPublisher } from '#mocks/eventPublisher'
@@ -22,6 +23,7 @@ import { MockDownloadMediaFile } from '#mocks/useCases/downloadMediaFile'
 import { MockFetchTweetSolution } from '#mocks/useCases/fetchTweetSolution'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import { generateDownloadSettings } from '#utils/test/downloadSettings'
+import { generateTweet } from '#utils/test/tweet'
 import { DownloadTweetMedia } from './downloadTweetMedia'
 import type { DownloaderBuilderMap } from './downloadTweetMedia'
 
@@ -31,7 +33,7 @@ describe('DownloadTweetMedia', () => {
   const mockDownloadSettingsRepo = new MockDownloadSettingsRepository()
   const mockFeatureSettingsRepo = new MockFeatureSettingsRepository()
   const mockDownloadMediaFile = new MockDownloadMediaFile()
-  const mockTweetReponseCache = new MockTweetResponseCache()
+  const mockTweetResponseCache = new MockTweetResponseCache()
   const mockDownloaderBuilder: DownloaderBuilderMap = {
     aria2: () => mockDownloadMediaFile,
     browser: () => mockDownloadMediaFile,
@@ -46,7 +48,7 @@ describe('DownloadTweetMedia', () => {
     featureSettingsRepo: mockFeatureSettingsRepo,
     downloaderBuilder: mockDownloaderBuilder,
     eventPublisher: mockEventPublisher,
-    tweetCacheRepo: mockTweetReponseCache,
+    tweetCacheRepo: mockTweetResponseCache,
     solutionProvider: () => mockNativeFetchTweetSolution,
   })
 
@@ -244,6 +246,36 @@ describe('DownloadTweetMedia', () => {
 
       // Assert
       expect(result).toBe(true) // Should still succeed even if history save fails
+    })
+
+    it('should use tweet cache from cache repository', async () => {
+      jest
+        .spyOn(mockTweetResponseCache, 'get')
+        .mockResolvedValueOnce(
+          toSuccessResult(
+            new TweetWithContent({ tweet: generateTweet(), content: '' })
+          )
+        )
+      jest
+        .spyOn(mockDownloadSettingsRepo, 'get')
+        .mockResolvedValueOnce(generateDownloadSettings())
+
+      const mockSolutionProcess = jest.spyOn(
+        mockNativeFetchTweetSolution,
+        'process'
+      )
+      const mockDownload = jest
+        .spyOn(mockDownloadMediaFile, 'process')
+        .mockResolvedValue()
+
+      jest.spyOn(mockEventPublisher, 'publishAll')
+      const result = await downloadTweetMedia.process({
+        tweetInfo: mockTweetInfo,
+      })
+
+      expect(result).toBeTrue()
+      expect(mockSolutionProcess).not.toHaveBeenCalled()
+      expect(mockDownload).toHaveBeenCalled()
     })
   })
 })
