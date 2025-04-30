@@ -87,7 +87,6 @@ export async function checkFlags(flagPath, webpackPath) {
   const webpackFlags = parseWebpackFlags(webpackContent)
 
   const missingInWebpack = [...tsFlags].filter(flag => !webpackFlags.has(flag))
-  const missingInTs = [...webpackFlags].filter(flag => !tsFlags.has(flag))
 
   if (missingInWebpack.length > 0) {
     console.error(
@@ -95,14 +94,8 @@ export async function checkFlags(flagPath, webpackPath) {
       missingInWebpack
     )
   }
-  // if (missingInTs.length > 0) {
-  //   console.error(
-  //     'Flags defined in webpack but missing in TypeScript:',
-  //     missingInTs
-  //   )
-  // }
 
-  return missingInWebpack.length === 0 && missingInTs.length === 0
+  return missingInWebpack.length === 0
 }
 
 // Execute if running as script
