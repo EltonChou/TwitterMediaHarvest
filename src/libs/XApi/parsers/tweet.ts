@@ -6,7 +6,13 @@
 import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
 import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
-import { isMediaTweet } from './refinements'
+import {
+  Instruction,
+  isMediaTweet,
+  isTimelineTimelineItem,
+  isTimelineTimelineModule,
+  isTimelineTweet,
+} from './refinements'
 import { makeEmptyMediaCollection, parseMedias } from './tweetMedia'
 
 export const parseTweet = (tweetResult: XApi.Tweet): TweetWithContent => {
@@ -34,4 +40,49 @@ export const parseTweet = (tweetResult: XApi.Tweet): TweetWithContent => {
     tweet,
     content: tweetResult.legacy.full_text,
   })
+}
+
+export const retrieveTweetsFromInstruction = (
+  instruction: XApi.Instruction
+) => {
+  const tweets: XApi.Tweet[] = []
+
+  if (Instruction.isTimelineAddEntries(instruction))
+    tweets.concat(
+      instruction.entries.reduce<XApi.Tweet[]>(
+        (tweets, entry) =>
+          tweets.concat(retrieveTweetsFromTimelineAddEntry(entry)),
+        []
+      )
+    )
+
+  if (
+    Instruction.isTimelinePinEntry(instruction) &&
+    isTimelineTweet(instruction.entry.content.itemContent)
+  )
+    tweets.push(instruction.entry.content.itemContent.tweet_results.result)
+
+  return tweets
+}
+
+export const retrieveTweetsFromTimelineAddEntry = (
+  entry: XApi.TimelineAddEntry
+) => {
+  const tweets: XApi.Tweet[] = []
+
+  if (
+    isTimelineTimelineItem(entry.content) &&
+    isTimelineTweet(entry.content.itemContent)
+  )
+    tweets.push(entry.content.itemContent.tweet_results.result)
+
+  if (isTimelineTimelineModule(entry.content))
+    tweets.concat(
+      entry.content.items
+        .map(threadItem => threadItem.item.itemContent)
+        .filter(isTimelineTweet)
+        .map(itemContent => itemContent.tweet_results.result)
+    )
+
+  return tweets
 }

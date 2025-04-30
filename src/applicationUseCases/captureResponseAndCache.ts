@@ -6,14 +6,11 @@
 import type { ICache } from '#domain/repositories/cache'
 import type { AsyncUseCase } from '#domain/useCases/base'
 import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
+import { isMediaTweet } from '#libs/XApi/parsers/refinements'
 import {
-  Instruction,
-  isMediaTweet,
-  isTimelineTimelineItem,
-  isTimelineTimelineModule,
-  isTimelineTweet,
-} from '#libs/XApi/parsers/refinements'
-import { parseTweet } from '#libs/XApi/parsers/tweet'
+  parseTweet,
+  retrieveTweetsFromInstruction,
+} from '#libs/XApi/parsers/tweet'
 import { ResponseType } from '#libs/webExtMessage'
 import { isErrorResult, toErrorResult, toSuccessResult } from '#utils/result'
 import Joi from 'joi'
@@ -32,6 +29,19 @@ export class CaptureResponseAndCache
 {
   constructor(readonly infra: InfraProvider) {}
 
+  protected retriveMediaTweetsFromInstructions(
+    instructions: XApi.Instruction[]
+  ) {
+    return instructions
+      .reduce<XApi.Tweet[]>(
+        (tweets, instruction) =>
+          tweets.concat(retrieveTweetsFromInstruction(instruction)),
+        []
+      )
+      .filter(isMediaTweet)
+      .map(parseTweet)
+  }
+
   protected async processUserTweetsResponse(body: string): Promise<UnsafeTask> {
     const jsonResult = parseJSON(body)
     if (isErrorResult(jsonResult)) return jsonResult.error
@@ -41,38 +51,11 @@ export class CaptureResponseAndCache
     )
     if (schemaError) return schemaError
 
-    const pinTweets = value.data.user.result.timeline.timeline.instructions
-      .filter(Instruction.isTimelinePinEntry)
-      .reduce<XApi.Tweet[]>((tweets, instruction) => {
-        if (
-          Instruction.isTimelinePinEntry(instruction) &&
-          isTimelineTweet(instruction.entry.content.itemContent)
-        )
-          tweets.push(
-            instruction.entry.content.itemContent.tweet_results.result
-          )
-
-        return tweets
-      }, [])
-
-    const tweets = value.data.user.result.timeline.timeline.instructions
-      .filter(Instruction.isTimelineAddEntries)
-      .reduce<XApi.TimelineAddEntry[]>((entries, instruction) => {
-        return entries.concat(instruction.entries)
-      }, [])
-      .reduce<XApi.Tweet[]>((tweets, entry) => {
-        if (
-          isTimelineTimelineItem(entry.content) &&
-          isTimelineTweet(entry.content.itemContent)
-        ) {
-          tweets.push(entry.content.itemContent.tweet_results.result)
-        }
-        return tweets
-      }, [])
-
-    return this.infra.tweetResponseCache.saveAll(
-      ...pinTweets.concat(tweets).map(parseTweet)
+    const mediaTweets = this.retriveMediaTweetsFromInstructions(
+      value.data.user.result.timeline.timeline.instructions
     )
+
+    return this.infra.tweetResponseCache.saveAll(...mediaTweets)
   }
 
   protected async processRestTweetByIdResponse(
@@ -89,9 +72,6 @@ export class CaptureResponseAndCache
     const tweet = value.data.tweetResult.result
     if (!isMediaTweet(tweet)) return
 
-    // eslint-disable-next-line no-console
-    if (__DEV__) console.debug('Cache tweet response')
-
     return this.infra.tweetResponseCache.save(parseTweet(tweet))
   }
 
@@ -106,38 +86,11 @@ export class CaptureResponseAndCache
     )
     if (schemaError) return schemaError
 
-    const instructions =
+    const mediaTweets = this.retriveMediaTweetsFromInstructions(
       value.data.threaded_conversation_with_injections_v2.instructions
-
-    const tweets = instructions
-      .reduce<XApi.TimelineAddEntry[]>(
-        (entries, instruction) =>
-          Instruction.isTimelineAddEntries(instruction)
-            ? entries.concat(instruction.entries)
-            : entries,
-        []
-      )
-      .reduce<XApi.Tweet[]>((tweets, { content: entryContent }) => {
-        if (
-          isTimelineTimelineItem(entryContent) &&
-          isTimelineTweet(entryContent.itemContent)
-        )
-          tweets.push(entryContent.itemContent.tweet_results.result)
-
-        if (isTimelineTimelineModule(entryContent))
-          entryContent.items
-            .map(threadItem => threadItem.item.itemContent)
-            .filter(isTimelineTweet)
-            .forEach(itemContent =>
-              tweets.push(itemContent.tweet_results.result)
-            )
-
-        return tweets
-      }, [])
-
-    return this.infra.tweetResponseCache.saveAll(
-      ...tweets.filter(isMediaTweet).map(parseTweet)
     )
+
+    return this.infra.tweetResponseCache.saveAll(...mediaTweets)
   }
 
   async process({
@@ -146,7 +99,7 @@ export class CaptureResponseAndCache
   }: CaptureResponseAndCacheCommand): Promise<UnsafeTask<Error>> {
     let error: UnsafeTask = undefined
     // eslint-disable-next-line no-console
-    if (__DEV__) console.debug('Cache tweet response')
+    if (__DEV__) console.debug(`Cache tweet response ${type}`)
 
     if (type === ResponseType.TweetDetail) {
       error = await this.processTweetDetailResponse(body)
@@ -154,6 +107,9 @@ export class CaptureResponseAndCache
       error = await this.processRestTweetByIdResponse(body)
     } else if (type === ResponseType.UserTweets) {
       error = await this.processUserTweetsResponse(body)
+    } else {
+      // eslint-disable-next-line no-console
+      if (__DEV__) console.debug(`Not implemented for ${type}`)
     }
 
     if (error) {
