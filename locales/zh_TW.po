@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.3.0)\n"
-"POT-Creation-Date: 2025-04-27 08:20+0800\n"
+"POT-Creation-Date: 2025-04-30 14:28+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -216,8 +216,8 @@ msgstr "新增子資料夾"
 #: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid ""
-"Create sub-directory under the default download directory. Sub-directory can "
-"be seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory "
+"can be seperated with \"/\"."
 msgstr "在預設下載資料夾中新增一個子資料夾。使用 ”/” 區分多個子資料夾。"
 
 #: src/pages/components/GeneralOptions.tsx:244
@@ -242,8 +242,7 @@ msgstr "無效的資料夾名稱。不能含有 <>:”\\|?*"
 
 #: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
-msgid ""
-"Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "無效的樣式。 必須包含 `推特 ID` + `序列號` 或 `雜湊值`。"
 
 #: src/pages/components/GeneralOptions.tsx:228
@@ -334,134 +333,137 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "推特_日期時間"
 
-#: src/pages/components/History.tsx:526
+#: src/pages/components/History.tsx:538
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "確定要匯入這個歷史檔案嗎?"
 
-#: src/pages/components/History.tsx:508
+#: src/pages/components/History.tsx:520
 msgctxt "options:history"
 msgid ""
 "Cannot access the selected file. Please grant permission to read the file "
 "and try again."
 msgstr "無法讀取所選文件，請授權讀取文件的權限並重試。"
 
-#: src/pages/components/History.tsx:347 src/pages/components/History.tsx:352
+#: src/pages/components/History.tsx:359
+#: src/pages/components/History.tsx:364
 msgctxt "options:history"
 msgid "Export"
 msgstr "匯出"
 
-#: src/pages/components/History.tsx:657
+#: src/pages/components/History.tsx:688
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "匯出失敗。"
 
-#: src/pages/components/History.tsx:539
+#: src/pages/components/History.tsx:551
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "匯入失敗。"
 
-#: src/pages/components/History.tsx:339 src/pages/components/History.tsx:344
+#: src/pages/components/History.tsx:351
+#: src/pages/components/History.tsx:356
 msgctxt "options:history"
 msgid "Import"
 msgstr "匯入"
 
-#: src/pages/components/History.tsx:536
+#: src/pages/components/History.tsx:548
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "不正確的格式。"
 
-#: src/pages/components/History.tsx:305
+#: src/pages/components/History.tsx:317
 msgctxt "options:history"
 msgid "Next page"
 msgstr "下一頁"
 
-#: src/pages/components/History.tsx:295
+#: src/pages/components/History.tsx:307
 msgctxt "options:history"
 msgid "Previous page"
 msgstr "上一頁"
 
-#: src/pages/components/History.tsx:321
+#: src/pages/components/History.tsx:333
 msgctxt "options:history"
 msgid "Refresh"
 msgstr "更新"
 
-#: src/pages/components/History.tsx:543
+#: src/pages/components/History.tsx:556
 msgctxt "options:history"
 msgid "The history file has been imported successfully."
 msgstr "歷史紀錄匯入成功。"
 
-#: src/pages/components/History.tsx:400
+#: src/pages/components/History.tsx:412
 msgctxt "options:history:input:placeholder"
 msgid "Username"
 msgstr "使用者名稱"
 
-#: src/pages/components/History.tsx:146
+#: src/pages/components/History.tsx:158
 msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "圖片"
 
-#: src/pages/components/History.tsx:152 src/pages/components/History.tsx:155
+#: src/pages/components/History.tsx:164
+#: src/pages/components/History.tsx:167
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "混合"
 
-#: src/pages/components/History.tsx:149
+#: src/pages/components/History.tsx:161
 msgctxt "options:history:mediaType"
 msgid "Video"
 msgstr "影片"
 
-#: src/pages/components/History.tsx:415
+#: src/pages/components/History.tsx:427
 msgctxt "options:history:mediaType:option"
 msgid "All"
 msgstr "全種類"
 
-#: src/pages/components/History.tsx:418
+#: src/pages/components/History.tsx:430
 msgctxt "options:history:mediaType:option"
 msgid "Image"
 msgstr "圖片"
 
-#: src/pages/components/History.tsx:424
+#: src/pages/components/History.tsx:436
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
 msgstr "混合"
 
-#: src/pages/components/History.tsx:421
+#: src/pages/components/History.tsx:433
 msgctxt "options:history:mediaType:option"
 msgid "Video"
 msgstr "影片"
 
-#: src/pages/components/History.tsx:407
+#: src/pages/components/History.tsx:419
 msgctxt "options:history:select"
 msgid "Select media type"
 msgstr "選擇媒體類型"
 
-#: src/pages/components/History.tsx:219
+#: src/pages/components/History.tsx:231
 msgctxt "options:history:table:head"
 msgid "actions"
 msgstr "動作"
 
-#: src/pages/components/History.tsx:218
+#: src/pages/components/History.tsx:230
 msgctxt "options:history:table:head"
 msgid "download time"
 msgstr "下載時間"
 
-#: src/pages/components/History.tsx:217
+#: src/pages/components/History.tsx:229
 msgctxt "options:history:table:head"
 msgid "post time"
 msgstr "貼文時間"
 
-#: src/pages/components/History.tsx:214
+#: src/pages/components/History.tsx:226
 msgctxt "options:history:table:head"
 msgid "thumbnail"
 msgstr "縮圖"
 
-#: src/pages/components/History.tsx:216
+#: src/pages/components/History.tsx:228
 msgctxt "options:history:table:head"
 msgid "type"
 msgstr "類型"
 
-#: src/pages/components/History.tsx:215
+#: src/pages/components/History.tsx:227
 msgctxt "options:history:table:head"
 msgid "user"
 msgstr "用戶"
@@ -498,27 +500,32 @@ msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "透過 {{aria2-extension}} 傳送下載任務到 Aria2。"
 
-#: src/pages/app/Options.tsx:148 src/pages/components/SideMenu.tsx:81
+#: src/pages/app/Options.tsx:156
+#: src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "關於"
 
-#: src/pages/app/Options.tsx:108 src/pages/components/SideMenu.tsx:62
+#: src/pages/app/Options.tsx:114
+#: src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "功能"
 
-#: src/pages/app/Options.tsx:97 src/pages/components/SideMenu.tsx:56
+#: src/pages/app/Options.tsx:103
+#: src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "通用"
 
-#: src/pages/app/Options.tsx:128 src/pages/components/SideMenu.tsx:74
+#: src/pages/app/Options.tsx:134
+#: src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "下載歷史"
 
-#: src/pages/app/Options.tsx:116 src/pages/components/SideMenu.tsx:68
+#: src/pages/app/Options.tsx:122
+#: src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "整合"
