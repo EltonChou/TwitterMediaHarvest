@@ -9,6 +9,7 @@ import TweetApiFailed from '#domain/events/TweetApiFailed'
 import TweetParsingFailed from '#domain/events/TweetParsingFailed'
 import { tweetToDownloadHistory } from '#domain/factories/tweetToDownloadHistory'
 import { tweetToTweetMediaFiles } from '#domain/factories/tweetToTweetMediaFiles'
+import { ICache } from '#domain/repositories/cache'
 import type { IDownloadHistoryRepository } from '#domain/repositories/downloadHistory'
 import type {
   ISettingsRepository,
@@ -35,6 +36,7 @@ import type { FilenameSetting } from '#domain/valueObjects/filenameSetting'
 import { Tweet } from '#domain/valueObjects/tweet'
 import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import type { TweetMediaFile } from '#domain/valueObjects/tweetMediaFile'
+import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
 import type { DownloadSettings, FeatureSettings } from '#schema'
 import { isErrorResult } from '#utils/result'
 
@@ -52,6 +54,7 @@ export type InfraProvider = {
   filenameSettingRepo: ISettingsVORepository<FilenameSetting>
   downloadSettingsRepo: ISettingsRepository<DownloadSettings>
   featureSettingsRepo: ISettingsRepository<FeatureSettings>
+  tweetCacheRepo: ICache<TweetWithContent> | ICache<Tweet>
   downloaderBuilder: DownloaderBuilderMap
   eventPublisher: DomainEventPublisher
   solutionProvider: () => FetchTweetSolution
@@ -63,6 +66,23 @@ export class DownloadTweetMedia
   constructor(readonly infra: InfraProvider) {}
 
   async process({ tweetInfo }: DownloadTweetMediaCommand): Promise<boolean> {
+    const { value: tweet } = await this.infra.tweetCacheRepo.get(
+      tweetInfo.tweetId
+    )
+
+    if (tweet) {
+      if (__DEV__)
+        // eslint-disable-next-line no-console
+        console.debug(`Get tweet from injection cache (id: ${tweet.id})`)
+
+      const tweetVo =
+        tweet instanceof Tweet ? tweet : tweet.mapBy(props => props.tweet)
+
+      await this.saveDownloadHistory(tweetToDownloadHistory(tweetVo))
+
+      return this.processDownload(tweetInfo, tweetVo)
+    }
+
     const solution = this.infra.solutionProvider()
     const tweetResult = await solution.process({
       tweetId: tweetInfo.tweetId,
@@ -123,7 +143,8 @@ export class DownloadTweetMedia
     } else if (error instanceof TweetProcessingError) {
       await this.infra.eventPublisher.publish(new TweetParsingFailed(tweetInfo))
     } else {
-      // Handle other errors
+      // TODO: Handle other errors
+      // eslint-disable-next-line no-console
       console.error('An unexpected error occurred', error)
     }
     return false
@@ -157,8 +178,10 @@ export class DownloadTweetMedia
     })
   }
 
-  private async reportSolutionStatistics(_statistics: SolutionStatistics) {
+  private async reportSolutionStatistics(statistics: SolutionStatistics) {
     // TODO: report statistics
+    // eslint-disable-next-line no-console
+    if (__DEV__) console.debug('Solution stats\n', JSON.stringify(statistics))
   }
 }
 

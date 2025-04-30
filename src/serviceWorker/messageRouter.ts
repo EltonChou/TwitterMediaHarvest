@@ -51,6 +51,8 @@ export class MessageRouter implements WebExtMessageRouter {
     const { value, error } = messageSchema.validate(ctx.message)
     if (error) return ctx.response(makeErrorResponse('Invalid message.'))
 
+    // eslint-disable-next-line no-console
+    if (__DEV__) console.debug('Received runtime message: ' + value.action)
     const handler = this.getHandlerByAction(value.action)
 
     return handler

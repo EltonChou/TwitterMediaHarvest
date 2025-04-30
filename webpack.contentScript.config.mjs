@@ -14,6 +14,7 @@ export default (env, argv) => {
     name: 'content-script',
     entry: {
       main: resolve('./src/contentScript/main.ts'),
+      inject: resolve('./src/injections/injectFetch.ts'),
     },
     plugins: [new MiniCssExtractPlugin()],
     module: {

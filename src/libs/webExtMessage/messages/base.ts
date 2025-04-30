@@ -7,6 +7,7 @@
 export const enum WebExtAction {
   DownloadMedia = 'download-media',
   CheckDownloadHistory = 'check-download-history',
+  CaptureResponse = 'capture-response',
 }
 
 export type WebExtMessageObject<
@@ -28,7 +29,7 @@ export type WebExtMessageErrorResponse = { status: 'error'; reason: string }
 export type WebExtMessageResponse = { status: 'ok' }
 
 export type WebExtMessagePayloadResponse<
-  Payload extends Record<string, unknown>,
+  Payload extends Record<string, unknown> = never,
 > = {
   status: 'ok'
   payload: Payload
@@ -40,7 +41,10 @@ export interface ResponsibleMessage<
     ? WebExtMessagePayloadResponse<ResponsePayload>
     : WebExtMessageResponse,
 > {
-  makeResponse(isOk: true, payload: ResponsePayload): Response
+  makeResponse(
+    isOk: true,
+    payload: ResponsePayload extends LiteralObject ? ResponsePayload : never
+  ): Response
   makeResponse(isOk: false, reason: string): WebExtMessageErrorResponse
 }
 
@@ -48,16 +52,10 @@ export interface WebExtMessage<
   Action extends WebExtAction,
   Payload extends Record<string, unknown> = never,
   ResponsePayload extends Record<string, unknown> = never,
-  MessageObject = keyof Payload extends string
+> extends ResponsibleMessage<ResponsePayload> {
+  toObject(): keyof Payload extends string
     ? WebExtMessagePayloadObject<Action, Payload>
-    : WebExtMessageObject<Action>,
-  Response = keyof ResponsePayload extends string
-    ? WebExtMessagePayloadResponse<ResponsePayload>
-    : WebExtMessageResponse,
-> {
-  toObject(): MessageObject
-  makeResponse(isOk: true, payload: ResponsePayload): Response
-  makeResponse(isOk: false, reason: string): WebExtMessageErrorResponse
+    : WebExtMessageObject<Action>
 }
 
 export const enum WebExtExternalAction {

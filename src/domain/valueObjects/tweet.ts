@@ -14,6 +14,10 @@ export type TweetProps = {
 }
 
 export class Tweet extends ValueObject<TweetProps> {
+  get id() {
+    return this.props.id
+  }
+
   /**
    * Indicate the tweet is private or not.
    */
