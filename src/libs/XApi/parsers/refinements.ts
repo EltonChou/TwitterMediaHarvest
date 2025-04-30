@@ -34,4 +34,10 @@ export class Instruction {
   ): instruction is XApi.TimelinePinEntry {
     return instruction.type === 'TimelinePinEntry'
   }
+
+  static isTimelineAddToModule(
+    instruction: XApi.Instruction
+  ): instruction is XApi.TimelineAddToModule {
+    return instruction.type === 'TimelineAddToModule'
+  }
 }

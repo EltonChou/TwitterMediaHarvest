@@ -42,6 +42,10 @@ export class CaptureResponseAndCache
       .map(parseTweet)
   }
 
+  protected async processUserMediaResponse(body: string): Promise<UnsafeTask> {
+    return this.processUserTweetsResponse(body)
+  }
+
   protected async processUserTweetsResponse(body: string): Promise<UnsafeTask> {
     const jsonResult = parseJSON(body)
     if (isErrorResult(jsonResult)) return jsonResult.error
@@ -107,6 +111,8 @@ export class CaptureResponseAndCache
       error = await this.processRestTweetByIdResponse(body)
     } else if (type === ResponseType.UserTweets) {
       error = await this.processUserTweetsResponse(body)
+    } else if (type === ResponseType.UserMedia) {
+      error = await this.processUserMediaResponse(body)
     } else {
       // eslint-disable-next-line no-console
       if (__DEV__) console.debug(`Not implemented for ${type}`)

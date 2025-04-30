@@ -37,6 +37,19 @@ declare namespace XApi {
     type: string
   }
 
+  interface ModuleItem {
+    entryId: string
+    item: {
+      itemContent: TimelineTweet
+    }
+  }
+
+  interface TimelineAddToModule extends Instruction {
+    type: 'TimelineAddToModule'
+    moduleEntryId: string
+    moduleItems: ModuleItem[]
+  }
+
   interface TimelinePinEntry extends Instruction {
     type: 'TimelinePinEntry'
     entry: {

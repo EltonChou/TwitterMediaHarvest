@@ -17,6 +17,7 @@ export const enum ResponseType {
   TweetDetail = 'TweetDetail',
   TweetResultByRestId = 'TweetResultByRestId',
   UserTweets = 'UserTweets',
+  UserMedia = 'UserMedia',
   Unknown = 0,
 }
 
@@ -37,7 +38,8 @@ const messageSchema: Joi.ObjectSchema<
       .valid(
         ResponseType.TweetDetail,
         ResponseType.TweetResultByRestId,
-        ResponseType.UserTweets
+        ResponseType.UserTweets,
+        ResponseType.UserMedia
       )
       .required(),
     body: Joi.string().required(),
