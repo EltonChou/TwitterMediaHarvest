@@ -8,6 +8,65 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
     >
       <div
         class="chakra-form-control css-0"
+        data-testid="askWhereToSave-feature-switch"
+        label="Ask where to save files."
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":r0:"
+          id="field-:r1:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                Ask where to save files.
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                Show the file chooser or not when download is triggered. Recommend to disable this option.
+              </p>
+               
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":r0:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
         data-testid="filenamePattern-feature-switch"
         label="Filename pattern"
         role="group"
@@ -15,8 +74,8 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
         <label
           class="chakra-form__label css-26d3j1"
           data-testid="feature-switch-label"
-          for=":r0:"
-          id="field-:r1:-label"
+          for=":r2:"
+          id="field-:r3:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -286,8 +345,8 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":r2:"
-          id="field-:r3:-label"
+          for=":r4:"
+          id="field-:r5:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -310,7 +369,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
               <input
                 class="chakra-input css-0"
                 data-testid="subDirectory-input"
-                id="field-:r3:"
+                id="field-:r5:"
                 placeholder="twitter_media_harvest"
                 value="download"
               />
@@ -328,7 +387,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                   aria-invalid="false"
                   checked=""
                   class="chakra-switch__input"
-                  id=":r2:"
+                  id=":r4:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -356,8 +415,8 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":r4:"
-          id="field-:r5:-label"
+          for=":r6:"
+          id="field-:r7:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -383,7 +442,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                 <select
                   class="chakra-select css-1ik61og"
                   disabled=""
-                  id="field-:r5:"
+                  id="field-:r7:"
                 >
                   <option
                     value="{account}"
@@ -422,7 +481,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
-                  id=":r4:"
+                  id=":r6:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -471,6 +530,65 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
     >
       <div
         class="chakra-form-control css-0"
+        data-testid="askWhereToSave-feature-switch"
+        label="Ask where to save files."
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":r8:"
+          id="field-:r9:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                Ask where to save files.
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                Show the file chooser or not when download is triggered. Recommend to disable this option.
+              </p>
+               
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":r8:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
         data-testid="filenamePattern-feature-switch"
         label="Filename pattern"
         role="group"
@@ -478,8 +596,8 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
         <label
           class="chakra-form__label css-26d3j1"
           data-testid="feature-switch-label"
-          for=":r6:"
-          id="field-:r7:-label"
+          for=":ra:"
+          id="field-:rb:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -749,8 +867,8 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":r8:"
-          id="field-:r9:-label"
+          for=":rc:"
+          id="field-:rd:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -773,7 +891,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
               <input
                 class="chakra-input css-0"
                 data-testid="subDirectory-input"
-                id="field-:r9:"
+                id="field-:rd:"
                 placeholder="twitter_media_harvest"
                 value="download"
               />
@@ -791,7 +909,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                   aria-invalid="false"
                   checked=""
                   class="chakra-switch__input"
-                  id=":r8:"
+                  id=":rc:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -819,8 +937,8 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":ra:"
-          id="field-:rb:-label"
+          for=":re:"
+          id="field-:rf:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -846,7 +964,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                 <select
                   class="chakra-select css-1ik61og"
                   disabled=""
-                  id="field-:rb:"
+                  id="field-:rf:"
                 >
                   <option
                     value="{account}"
@@ -885,7 +1003,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
-                  id=":ra:"
+                  id=":re:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -934,6 +1052,65 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
     >
       <div
         class="chakra-form-control css-0"
+        data-testid="askWhereToSave-feature-switch"
+        label="Ask where to save files."
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":r8:"
+          id="field-:r9:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                Ask where to save files.
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                Show the file chooser or not when download is triggered. Recommend to disable this option.
+              </p>
+               
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":r8:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
         data-testid="filenamePattern-feature-switch"
         label="Filename pattern"
         role="group"
@@ -941,8 +1118,8 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
         <label
           class="chakra-form__label css-26d3j1"
           data-testid="feature-switch-label"
-          for=":r6:"
-          id="field-:r7:-label"
+          for=":ra:"
+          id="field-:rb:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -1212,8 +1389,8 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":r8:"
-          id="field-:r9:-label"
+          for=":rc:"
+          id="field-:rd:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -1236,7 +1413,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
               <input
                 class="chakra-input css-0"
                 data-testid="subDirectory-input"
-                id="field-:r9:"
+                id="field-:rd:"
                 placeholder="twitter_media_harvest"
                 value="download"
               />
@@ -1254,7 +1431,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                   aria-invalid="false"
                   checked=""
                   class="chakra-switch__input"
-                  id=":r8:"
+                  id=":rc:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -1282,8 +1459,8 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":ra:"
-          id="field-:rb:-label"
+          for=":re:"
+          id="field-:rf:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -1309,7 +1486,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                 <select
                   class="chakra-select css-1ik61og"
                   disabled=""
-                  id="field-:rb:"
+                  id="field-:rf:"
                 >
                   <option
                     value="{account}"
@@ -1348,7 +1525,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
-                  id=":ra:"
+                  id=":re:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -1396,6 +1573,65 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
     >
       <div
         class="chakra-form-control css-0"
+        data-testid="askWhereToSave-feature-switch"
+        label="Ask where to save files."
+        role="group"
+      >
+        <label
+          class="chakra-form__label css-28a6i0"
+          data-testid="feature-switch-label"
+          for=":r8:"
+          id="field-:r9:-label"
+        >
+          <div
+            class="chakra-stack css-mz2o5n"
+            style="transition: background 300ms;"
+          >
+            <div
+              class="chakra-stack css-1bef4uc"
+            >
+              <p
+                class="chakra-text css-1tbqbam"
+              >
+                Ask where to save files.
+              </p>
+              <p
+                class="chakra-text css-qljqz"
+              >
+                Show the file chooser or not when download is triggered. Recommend to disable this option.
+              </p>
+               
+            </div>
+            <div
+              class="css-fzqoy4"
+            >
+              <label
+                class="chakra-switch css-16pgy8f"
+                data-testid="feature-switch"
+              >
+                <input
+                  aria-disabled="false"
+                  aria-invalid="false"
+                  class="chakra-switch__input"
+                  id=":r8:"
+                  style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                  type="checkbox"
+                />
+                <span
+                  aria-hidden="true"
+                  class="chakra-switch__track css-14qxnv8"
+                >
+                  <span
+                    class="chakra-switch__thumb css-0"
+                  />
+                </span>
+              </label>
+            </div>
+          </div>
+        </label>
+      </div>
+      <div
+        class="chakra-form-control css-0"
         data-testid="filenamePattern-feature-switch"
         label="Filename pattern"
         role="group"
@@ -1403,8 +1639,8 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
         <label
           class="chakra-form__label css-26d3j1"
           data-testid="feature-switch-label"
-          for=":r6:"
-          id="field-:r7:-label"
+          for=":ra:"
+          id="field-:rb:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -1674,8 +1910,8 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":r8:"
-          id="field-:r9:-label"
+          for=":rc:"
+          id="field-:rd:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -1698,7 +1934,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
               <input
                 class="chakra-input css-0"
                 data-testid="subDirectory-input"
-                id="field-:r9:"
+                id="field-:rd:"
                 placeholder="twitter_media_harvest"
                 value="downloada-valid-dir"
               />
@@ -1716,7 +1952,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                   aria-invalid="false"
                   checked=""
                   class="chakra-switch__input"
-                  id=":r8:"
+                  id=":rc:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -1744,8 +1980,8 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":ra:"
-          id="field-:rb:-label"
+          for=":re:"
+          id="field-:rf:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -1771,7 +2007,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                 <select
                   class="chakra-select css-1ik61og"
                   disabled=""
-                  id="field-:rb:"
+                  id="field-:rf:"
                 >
                   <option
                     value="{account}"
@@ -1810,7 +2046,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
-                  id=":ra:"
+                  id=":re:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -1866,8 +2102,8 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":rc:"
-          id="field-:rd:-label"
+          for=":rg:"
+          id="field-:rh:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -1899,7 +2135,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
-                  id=":rc:"
+                  id=":rg:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -1925,8 +2161,8 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
         <label
           class="chakra-form__label css-26d3j1"
           data-testid="feature-switch-label"
-          for=":re:"
-          id="field-:rf:-label"
+          for=":ri:"
+          id="field-:rj:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -2196,8 +2432,8 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":rg:"
-          id="field-:rh:-label"
+          for=":rk:"
+          id="field-:rl:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -2220,7 +2456,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
               <input
                 class="chakra-input css-0"
                 data-testid="subDirectory-input"
-                id="field-:rh:"
+                id="field-:rl:"
                 placeholder="twitter_media_harvest"
                 value="download"
               />
@@ -2238,7 +2474,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                   aria-invalid="false"
                   checked=""
                   class="chakra-switch__input"
-                  id=":rg:"
+                  id=":rk:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -2266,8 +2502,8 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":ri:"
-          id="field-:rj:-label"
+          for=":rm:"
+          id="field-:rn:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -2293,7 +2529,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                 <select
                   class="chakra-select css-1ik61og"
                   disabled=""
-                  id="field-:rj:"
+                  id="field-:rn:"
                 >
                   <option
                     value="{account}"
@@ -2332,7 +2568,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
-                  id=":ri:"
+                  id=":rm:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -2388,8 +2624,8 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":rc:"
-          id="field-:rd:-label"
+          for=":rg:"
+          id="field-:rh:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -2421,7 +2657,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
-                  id=":rc:"
+                  id=":rg:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -2447,8 +2683,8 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
         <label
           class="chakra-form__label css-26d3j1"
           data-testid="feature-switch-label"
-          for=":re:"
-          id="field-:rf:-label"
+          for=":ri:"
+          id="field-:rj:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -2718,8 +2954,8 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":rg:"
-          id="field-:rh:-label"
+          for=":rk:"
+          id="field-:rl:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -2742,7 +2978,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
               <input
                 class="chakra-input css-0"
                 data-testid="subDirectory-input"
-                id="field-:rh:"
+                id="field-:rl:"
                 placeholder="twitter_media_harvest"
                 value="download"
               />
@@ -2760,7 +2996,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                   aria-invalid="false"
                   checked=""
                   class="chakra-switch__input"
-                  id=":rg:"
+                  id=":rk:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -2788,8 +3024,8 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":ri:"
-          id="field-:rj:-label"
+          for=":rm:"
+          id="field-:rn:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -2815,7 +3051,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                 <select
                   class="chakra-select css-1ik61og"
                   disabled=""
-                  id="field-:rj:"
+                  id="field-:rn:"
                 >
                   <option
                     value="{account}"
@@ -2854,7 +3090,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
-                  id=":ri:"
+                  id=":rm:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -2909,8 +3145,8 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":rc:"
-          id="field-:rd:-label"
+          for=":rg:"
+          id="field-:rh:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -2942,7 +3178,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
-                  id=":rc:"
+                  id=":rg:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -2968,8 +3204,8 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
         <label
           class="chakra-form__label css-26d3j1"
           data-testid="feature-switch-label"
-          for=":re:"
-          id="field-:rf:-label"
+          for=":ri:"
+          id="field-:rj:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -3239,8 +3475,8 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":rg:"
-          id="field-:rh:-label"
+          for=":rk:"
+          id="field-:rl:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -3263,7 +3499,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
               <input
                 class="chakra-input css-0"
                 data-testid="subDirectory-input"
-                id="field-:rh:"
+                id="field-:rl:"
                 placeholder="twitter_media_harvest"
                 value="downloada-valid-dira-valid-dir"
               />
@@ -3281,7 +3517,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                   aria-invalid="false"
                   checked=""
                   class="chakra-switch__input"
-                  id=":rg:"
+                  id=":rk:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />
@@ -3309,8 +3545,8 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
         <label
           class="chakra-form__label css-28a6i0"
           data-testid="feature-switch-label"
-          for=":ri:"
-          id="field-:rj:-label"
+          for=":rm:"
+          id="field-:rn:-label"
         >
           <div
             class="chakra-stack css-mz2o5n"
@@ -3336,7 +3572,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                 <select
                   class="chakra-select css-1ik61og"
                   disabled=""
-                  id="field-:rj:"
+                  id="field-:rn:"
                 >
                   <option
                     value="{account}"
@@ -3375,7 +3611,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
-                  id=":ri:"
+                  id=":rm:"
                   style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                   type="checkbox"
                 />

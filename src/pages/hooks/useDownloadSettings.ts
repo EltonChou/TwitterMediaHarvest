@@ -80,8 +80,7 @@ const useDownloadSettings = (
       aggressiveMode: toggleAggressive,
       askWhereToSave: toggleAskWhereToSave,
     },
-    canAskSaveLocation:
-      __BROWSER__ === 'firefox' && downloadSettings.enableAria2 === false,
+    canAskSaveLocation: downloadSettings.enableAria2 === false,
   }
 }
 

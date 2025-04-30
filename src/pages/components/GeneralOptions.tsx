@@ -344,7 +344,8 @@ const GeneralOptions = (props: GeneralOptionsProps) => {
         onReset={e => {
           e.preventDefault()
           formHandler.reset()
-          if (downloadSettings.askWhereToSave === true) toggler.askWhereToSave()
+          if (downloadSettings.askWhereToSave === true && canAskSaveLocation)
+            toggler.askWhereToSave()
         }}
         onSubmit={e => {
           e.preventDefault()
