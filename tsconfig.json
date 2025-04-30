@@ -38,7 +38,8 @@
       "#pages/*": ["./pages/*"],
       "#assets/*": ["./assets/*"],
       "#provider": ["./provider"],
-      "#monitor": ["./monitors/sentry.ts"]
+      "#monitor": ["./monitors/sentry.ts"],
+      "#mappers/*": ["./mappers/*"]
     }
   }
 }

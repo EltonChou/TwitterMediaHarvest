@@ -7,8 +7,7 @@ import type {
   DownloadFileCommand,
   DownloadFileUseCase,
 } from '#domain/useCases/downloadFile'
-import type { DownloadConfig } from '#domain/valueObjects/downloadConfig'
-import ConflictAction from '#enums/ConflictAction'
+import { downloadConfigToBrowserDownloadOptions } from '#mappers/downloadConfig'
 import { toError } from 'fp-ts/lib/Either'
 import Browser from 'webextension-polyfill'
 
@@ -21,26 +20,3 @@ export class BrowserDownloadFile implements DownloadFileUseCase {
     if (!downloadId) return toError(Browser.runtime.lastError)
   }
 }
-
-const downloadConfigToBrowserDownloadOptions = (
-  config: DownloadConfig
-): Browser.Downloads.DownloadOptionsType =>
-  config.mapBy(props => {
-    const options = {
-      filename: props.filename,
-      conflictAction: props.conflictAction,
-      url: props.url,
-      ...(__FIREFOX__ ? { saveAs: props.saveAs } : {}),
-    }
-
-    if (__FIREFOX__ && options.conflictAction === ConflictAction.Prompt) {
-      const { conflictAction, ...rest } = options
-      return rest
-    }
-
-    return {
-      filename: props.filename,
-      conflictAction: props.conflictAction,
-      url: props.url,
-    }
-  })

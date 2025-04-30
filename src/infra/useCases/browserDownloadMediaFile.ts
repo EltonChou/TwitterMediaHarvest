@@ -13,8 +13,8 @@ import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import { DownloadTarget } from '#domain/valueObjects/downloadTarget'
 import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import ConflictAction from '#enums/ConflictAction'
+import { downloadConfigToBrowserDownloadOptions } from '#mappers/downloadConfig'
 import { downloads, runtime } from 'webextension-polyfill'
-import type { Downloads } from 'webextension-polyfill'
 
 export class BrowserDownloadMediaFile implements DownloadMediaFileUseCase {
   #ok: boolean
@@ -88,13 +88,3 @@ export class BrowserDownloadMediaFile implements DownloadMediaFileUseCase {
 const isDownloadFailed = (
   downloadId: number | undefined
 ): downloadId is undefined => downloadId === undefined
-
-const downloadConfigToBrowserDownloadOptions = (
-  config: DownloadConfig
-): Downloads.DownloadOptionsType =>
-  config.mapBy(props => ({
-    filename: props.filename,
-    conflictAction: props.conflictAction,
-    url: props.url,
-    ...(__BROWSER__ === 'firefox' ? { saveAs: props.saveAs } : {}),
-  }))
