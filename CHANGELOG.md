@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Capture api's response and cache, this feature can massive increases the avalibility of download. (#212, #213, #215, #217)
+- Chromium based browser can requestsa file location prompt when triggers download.
+
+### Fixed
+
+- Old history might be lack of hashtags property, this bug will causes error when map db item to another object. (#211, #216)
+
 ## [4.3.0] - 2025-04-26
 
 ### Added
