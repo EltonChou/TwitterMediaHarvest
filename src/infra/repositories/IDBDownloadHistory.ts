@@ -3,22 +3,20 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import {
-  DownloadHistory,
-  DownloadHistoryId,
-} from '#domain/entities/downloadHistory'
-import type { Factory } from '#domain/factories/base'
+import { DownloadHistory } from '#domain/entities/downloadHistory'
 import type {
   DownloadHistoryStats,
   IDownloadHistoryRepository,
 } from '#domain/repositories/downloadHistory'
-import { DownloadHistoryTweetUser } from '#domain/valueObjects/downloadHistoryTweetUser'
 import type { AbortTx, CompleteTx } from '#libs/idb/base'
 import type { DownloadIDB } from '#libs/idb/download/db'
-import type { DownloadHistoryItem } from '#libs/idb/download/schema'
 import type { DownloadDBSchema } from '#libs/idb/download/schema'
 import { nullAbort } from '#libs/idb/utils'
 import { toErrorResult, toSuccessResult } from '#utils/result'
+import {
+  dbItemToDownloadHistory,
+  downloadHistoryToIDBItem,
+} from '../../mappers/downloadHistory'
 import * as TE from 'fp-ts/TaskEither'
 import { toError } from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/function'
@@ -240,7 +238,8 @@ export class IDBDownloadHistoryRepository
 
           await context.historyCollection.delete(tweetId)
           await Promise.allSettled(
-            Array.from(historyItem.hashtags).map(hashtag =>
+            // Old history item might be lack of hashtags, provide an emptry set as fallback.
+            Array.from(historyItem.hashtags ?? makeHashtagSet()).map(hashtag =>
               removeHashtagTweetIdRelationship({ tweetId, hashtag })(
                 context.hashtagCollection
               )
@@ -275,7 +274,10 @@ export class IDBDownloadHistoryRepository
 
 const saveHistory =
   (history: DownloadHistory) => (collection: WritableHistoryCollection) =>
-    TE.tryCatch(() => collection.put(downloadHistoryToDBItem(history)), toError)
+    TE.tryCatch(
+      () => collection.put(downloadHistoryToIDBItem(history)),
+      toError
+    )
 
 const removeHashtagsRelationship = ({
   hashtagDelta,
@@ -338,39 +340,6 @@ const addHashtagTweetIdRelationship =
   }
 
 const makeTweetIdsSet = (...tweetIds: string[]) => new Set(tweetIds)
+const makeHashtagSet = (...hashtags: string[]) => new Set(hashtags)
 
 // Mapper
-
-const dbItemToDownloadHistory: Factory<
-  DownloadHistoryItem,
-  DownloadHistory
-> = item => {
-  const id = new DownloadHistoryId(item.tweetId)
-  const history = new DownloadHistory(id, {
-    downloadTime: item.downloadTime,
-    hashtags: Array.from(item.hashtags),
-    thumbnail: item.thumbnail,
-    mediaType: item.mediaType,
-    tweetTime: item.tweetTime,
-    tweetUser: new DownloadHistoryTweetUser({
-      displayName: item.displayName,
-      screenName: item.screenName,
-      userId: item.userId,
-    }),
-  })
-  return history
-}
-
-const downloadHistoryToDBItem: Factory<
-  DownloadHistory,
-  DownloadHistoryItem
-> = downloadHistory =>
-  downloadHistory.mapBy((id, props) => ({
-    ...props.tweetUser.mapBy(props => props),
-    hashtags: new Set(props.hashtags),
-    mediaType: props.mediaType,
-    tweetId: id.value,
-    tweetTime: props.tweetTime,
-    downloadTime: props.downloadTime,
-    thumbnail: props.thumbnail,
-  }))

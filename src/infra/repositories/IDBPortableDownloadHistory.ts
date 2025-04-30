@@ -4,14 +4,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { DownloadHistory } from '#domain/entities/downloadHistory'
-import { Factory } from '#domain/factories/base'
 import type { IPortableDownloadHistoryRepository } from '#domain/repositories/portableDownloadHistory'
 import { V5PortableHistory } from '#domain/valueObjects/portableDownloadHistory'
-import { V5PortableDownloadHistoryItem } from '#domain/valueObjects/portableDownloadHistoryItem'
 import { DownloadIDB } from '#libs/idb/download/db'
-import { DownloadHistoryItem } from '#libs/idb/download/schema'
 import { toErrorResult, toSuccessResult } from '#utils/result'
-import { downloadHistoryToIDBItem } from '../../mappers/downloadHistory'
+import {
+  downloadHistoryDBItemToProtableHistoryItem,
+  downloadHistoryToIDBItem,
+} from '../../mappers/downloadHistory'
 import { toError } from 'fp-ts/lib/Either'
 
 export class IDBPortableDownloadHistoryRepository
@@ -89,19 +89,3 @@ export class IDBPortableDownloadHistoryRepository
     }
   }
 }
-
-const downloadHistoryDBItemToProtableHistoryItem: Factory<
-  DownloadHistoryItem,
-  V5PortableDownloadHistoryItem
-> = item =>
-  new V5PortableDownloadHistoryItem({
-    displayName: item.displayName,
-    downloadTime: item.downloadTime,
-    hashtags: Array.from(item.hashtags),
-    mediaType: item.mediaType,
-    screenName: item.screenName,
-    thumbnail: item.thumbnail ?? '',
-    tweetId: item.tweetId,
-    userId: item.userId,
-    tweetTime: item.tweetTime,
-  })
