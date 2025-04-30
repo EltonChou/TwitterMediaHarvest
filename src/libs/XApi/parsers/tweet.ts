@@ -51,8 +51,8 @@ export const retrieveTweetsFromInstruction = (
     tweets.push(...instruction.moduleItems.map(retrieveTweetFromModuleItem))
 
   if (Instruction.isTimelineAddEntries(instruction))
-    tweets.concat(
-      instruction.entries.reduce<XApi.Tweet[]>(
+    tweets.push(
+      ...instruction.entries.reduce<XApi.Tweet[]>(
         (tweets, entry) =>
           tweets.concat(retrieveTweetsFromTimelineAddEntry(entry)),
         []
@@ -80,8 +80,8 @@ export const retrieveTweetsFromTimelineAddEntry = (
     tweets.push(entry.content.itemContent.tweet_results.result)
 
   if (isTimelineTimelineModule(entry.content))
-    tweets.concat(
-      entry.content.items
+    tweets.push(
+      ...entry.content.items
         .map(threadItem => threadItem.item.itemContent)
         .filter(isTimelineTweet)
         .map(itemContent => itemContent.tweet_results.result)
