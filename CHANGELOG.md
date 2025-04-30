@@ -5,16 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [4.4.0] - 2025-04-30
 
 ### Added
 
-- Capture api's response and cache, this feature can massive increases the avalibility of download. (#212, #213, #215, #217)
+- Capture api's response and cache, this feature can massive increases the avalibility of download. ([#212](https://github.com/EltonChou/TwitterMediaHarvest/issues/212), [#213](https://github.com/EltonChou/TwitterMediaHarvest/issues/213), [#215](https://github.com/EltonChou/TwitterMediaHarvest/issues/215), [#217](https://github.com/EltonChou/TwitterMediaHarvest/issues/217))
 - Chromium based browser can requestsa file location prompt when triggers download.
 
 ### Fixed
 
-- Old history might be lack of hashtags property, this bug will causes error when map db item to another object. (#211, #216)
+- Old history might be lack of hashtags property, this bug will causes error when map db item to another object. ([#211](https://github.com/EltonChou/TwitterMediaHarvest/issues/211), [#216](https://github.com/EltonChou/TwitterMediaHarvest/issues/216))
 
 ## [4.3.0] - 2025-04-26
 
@@ -255,6 +255,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Fixed download button color in reply-restricted tweet.
 - Fixed media checking in embed tweet.
 
+[4.4.0]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.3.0...v4.4.0
 [4.3.0]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.9...v4.3.0
 [4.2.9]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.8...v4.2.9
 [4.2.8]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.7...v4.2.8
