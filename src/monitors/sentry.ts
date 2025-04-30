@@ -4,8 +4,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import {
+  BrowserClient,
   captureConsoleIntegration,
-  init as initSentry,
+  defaultStackParser,
+  getCurrentScope,
+  makeFetchTransport,
   setUser as setSentryUser,
 } from '@sentry/browser'
 
@@ -14,8 +17,8 @@ interface SentryUser {
   id?: string
 }
 
-export const init = () =>
-  initSentry({
+export const init = () => {
+  const client = new BrowserClient({
     dsn: process.env.SENTRY_DSN,
     tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
     environment: process.env.NODE_ENV,
@@ -29,7 +32,13 @@ export const init = () =>
     integrations: [
       captureConsoleIntegration({ handled: true, levels: ['error'] }),
     ],
+    transport: makeFetchTransport,
+    stackParser: defaultStackParser,
   })
+
+  getCurrentScope().setClient(client)
+  client.init()
+}
 
 export const setUser = (user: SentryUser) =>
   setSentryUser({ client_id: user.clientId })

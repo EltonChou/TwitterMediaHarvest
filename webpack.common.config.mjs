@@ -81,7 +81,7 @@ export default (env, argv) => {
     optimization: {
       minimize: isProduction,
       usedExports: true,
-      sideEffects: false,
+      sideEffects: true,
     },
     output: {
       path: OUTPUT_DIR,
@@ -89,21 +89,24 @@ export default (env, argv) => {
     plugins: [
       new Dotenv({ path: isProduction ? '.env' : 'dev.env' }),
       /**
-       * All value should wrapped in JSON.stringify
+       * string value should be wrapped by JSON.stringify
        */
       new DefinePlugin({
         __BROWSER__: JSON.stringify(BROWSER).toLowerCase().trim(),
-        __DEV__: JSON.stringify(argv.mode === 'development'),
-        __PROD__: JSON.stringify(argv.mode === 'production'),
+        __DEV__: argv.mode === 'development',
+        __PROD__: argv.mode === 'production',
         __RELEASE_NAME__: JSON.stringify(makeReleaseName(BROWSER)),
-        __CHROME__: JSON.stringify(BROWSER === 'chrome'),
-        __FIREFOX__: JSON.stringify(BROWSER === 'firefox'),
-        __GECKO__: JSON.stringify(BROWSER === 'firefox'),
-        __EDGE__: JSON.stringify(BROWSER === 'edge'),
-        __CHROMIUM__: JSON.stringify(
-          BROWSER === 'chrome' || BROWSER === 'edge'
-        ),
-        __SAFARI__: JSON.stringify(BROWSER === 'safari'),
+        __CHROME__: BROWSER === 'chrome',
+        __FIREFOX__: BROWSER === 'firefox',
+        __GECKO__: BROWSER === 'firefox',
+        __EDGE__: BROWSER === 'edge',
+        __CHROMIUM__: BROWSER === 'chrome' || BROWSER === 'edge',
+        __SAFARI__: BROWSER === 'safari',
+        __SENTRY_DEBUG__: false,
+        __SENTRY_TRACING__: false,
+        __RRWEB_EXCLUDE_IFRAME__: true,
+        __RRWEB_EXCLUDE_SHADOW_DOM__: true,
+        __SENTRY_EXCLUDE_REPLAY_WORKER__: true,
       }),
     ],
   })
