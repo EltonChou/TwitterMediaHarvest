@@ -18,6 +18,10 @@ export const enum ResponseType {
   TweetResultByRestId = 'TweetResultByRestId',
   UserTweets = 'UserTweets',
   UserMedia = 'UserMedia',
+  HomeTimeline = 'HomeTimeline',
+  UserTweetsAndReplies = 'UserTweetsAndReplies',
+  UserHighlightsTweets = 'UserHighlightsTweets',
+  UserArticlesTweets = 'UserArticlesTweets',
   Unknown = 0,
 }
 
@@ -39,7 +43,11 @@ const messageSchema: Joi.ObjectSchema<
         ResponseType.TweetDetail,
         ResponseType.TweetResultByRestId,
         ResponseType.UserTweets,
-        ResponseType.UserMedia
+        ResponseType.UserMedia,
+        ResponseType.HomeTimeline,
+        ResponseType.UserTweetsAndReplies,
+        ResponseType.UserHighlightsTweets,
+        ResponseType.UserArticlesTweets
       )
       .required(),
     body: Joi.string().required(),

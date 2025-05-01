@@ -7,8 +7,8 @@
 const xOpen = XMLHttpRequest.prototype.open
 
 const Pattern = Object.freeze({
-  tweetDetail:
-    /^(\/i\/api)?\/graphql\/.+\/(TweetDetail|TweetResultByRestId|UserTweets|UserMedia)$/,
+  tweetRelated:
+    /^(\/i\/api)?\/graphql\/.+\/(TweetDetail|TweetResultByRestId|UserTweets|UserMedia|HomeTimeline|UserTweetsAndReplies|UserHighlightsTweets|UserArticlesTweets)$/,
 })
 
 XMLHttpRequest.prototype.open = function (
@@ -27,14 +27,16 @@ XMLHttpRequest.prototype.open = function (
     path = url.pathname
   }
 
-  if (path.match(Pattern.tweetDetail)) {
+  if (path.match(Pattern.tweetRelated)) {
     this.addEventListener('load', function () {
       if (this.status === 200) {
+        const url = URL.parse(this.responseURL)
+        if (!url) return
         const event = new CustomEvent<MediaHarvest.MediaResponseDetail>(
           'mh:media-response',
           {
             detail: {
-              path: path,
+              path: url.pathname,
               status: this.status,
               body: this.responseText,
             },

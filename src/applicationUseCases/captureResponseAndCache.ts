@@ -42,11 +42,9 @@ export class CaptureResponseAndCache
       .map(parseTweet)
   }
 
-  protected async processUserMediaResponse(body: string): Promise<UnsafeTask> {
-    return this.processUserTweetsResponse(body)
-  }
-
-  protected async processUserTweetsResponse(body: string): Promise<UnsafeTask> {
+  protected async processUserTimelineResponse(
+    body: string
+  ): Promise<UnsafeTask> {
     const jsonResult = parseJSON(body)
     if (isErrorResult(jsonResult)) return jsonResult.error
 
@@ -109,10 +107,14 @@ export class CaptureResponseAndCache
       error = await this.processTweetDetailResponse(body)
     } else if (type === ResponseType.TweetResultByRestId) {
       error = await this.processRestTweetByIdResponse(body)
-    } else if (type === ResponseType.UserTweets) {
-      error = await this.processUserTweetsResponse(body)
-    } else if (type === ResponseType.UserMedia) {
-      error = await this.processUserMediaResponse(body)
+    } else if (
+      type === ResponseType.UserTweets ||
+      type === ResponseType.UserArticlesTweets ||
+      type === ResponseType.UserHighlightsTweets ||
+      type === ResponseType.UserTweetsAndReplies ||
+      type === ResponseType.UserMedia
+    ) {
+      error = await this.processUserTimelineResponse(body)
     } else {
       // eslint-disable-next-line no-console
       if (__DEV__) console.debug(`Not implemented for ${type}`)
@@ -160,7 +162,7 @@ const restBodySchema: Joi.ObjectSchema<XApi.TweetByRestIdBody> = Joi.object({
     .unknown(true),
 })
 
-const userTweetsSchema: Joi.ObjectSchema<XApi.UserTweetsBody> = Joi.object({
+const userTweetsSchema: Joi.ObjectSchema<XApi.UserTimelineBody> = Joi.object({
   data: Joi.object({
     user: Joi.object({
       result: Joi.object({

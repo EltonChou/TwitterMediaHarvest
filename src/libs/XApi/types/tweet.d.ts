@@ -18,7 +18,7 @@ declare namespace XApi {
     }
   }
 
-  interface UserTweetsBody {
+  interface UserTimelineBody {
     data: {
       user: {
         result: {

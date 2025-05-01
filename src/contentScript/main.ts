@@ -76,18 +76,34 @@ featureSettingsRepo
     return feature
   })
 
+type ResponseTypeCriteria = {
+  type: ResponseType
+  endpoint: string
+}
+
+const responseTypeCriterias: ResponseTypeCriteria[] = [
+  { type: ResponseType.TweetDetail, endpoint: 'TweetDetail' },
+  { type: ResponseType.TweetResultByRestId, endpoint: 'TweetResultByRestId' },
+  { type: ResponseType.UserTweets, endpoint: 'UserTweets' },
+  { type: ResponseType.UserMedia, endpoint: 'UserMedia' },
+  { type: ResponseType.HomeTimeline, endpoint: 'HomeTimeline' },
+  { type: ResponseType.UserArticlesTweets, endpoint: 'UserArticlesTweets' },
+  { type: ResponseType.UserTweetsAndReplies, endpoint: 'UserTweetsAndReplies' },
+  { type: ResponseType.UserHighlightsTweets, endpoint: 'UserHighlightsTweets' },
+]
+
+const detectResponseTypeByEndpoint = (path: string): ResponseType => {
+  for (const { type, endpoint } of responseTypeCriterias) {
+    if (path.endsWith(endpoint)) return type
+  }
+
+  return ResponseType.Unknown
+}
+
 document.addEventListener('mh:media-response', async e => {
-  let type = ResponseType.Unknown
-
-  if (e.detail.path.endsWith('TweetDetail')) type = ResponseType.TweetDetail
-  if (e.detail.path.endsWith('TweetResultByRestId'))
-    type = ResponseType.TweetResultByRestId
-  if (e.detail.path.endsWith('UserTweets')) type = ResponseType.UserTweets
-  if (e.detail.path.endsWith('UserMedia')) type = ResponseType.UserMedia
-
   await sendMessage(
     new CaptureResponseMessage({
-      type: type,
+      type: detectResponseTypeByEndpoint(e.detail.path),
       body: e.detail.body,
     })
   )
