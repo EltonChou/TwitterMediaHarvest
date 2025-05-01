@@ -90,6 +90,12 @@ const responseTypeCriterias: ResponseTypeCriteria[] = [
   { type: ResponseType.UserArticlesTweets, endpoint: 'UserArticlesTweets' },
   { type: ResponseType.UserTweetsAndReplies, endpoint: 'UserTweetsAndReplies' },
   { type: ResponseType.UserHighlightsTweets, endpoint: 'UserHighlightsTweets' },
+  { type: ResponseType.Bookmarks, endpoint: 'Bookmarks' },
+  { type: ResponseType.Likes, endpoint: 'Likes' },
+  {
+    type: ResponseType.CommunitiesExploreTimeline,
+    endpoint: 'CommunitiesExploreTimeline',
+  },
 ]
 
 const detectResponseTypeByEndpoint = (path: string): ResponseType => {

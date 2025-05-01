@@ -22,6 +22,9 @@ export const enum ResponseType {
   UserTweetsAndReplies = 'UserTweetsAndReplies',
   UserHighlightsTweets = 'UserHighlightsTweets',
   UserArticlesTweets = 'UserArticlesTweets',
+  Bookmarks = 'Bookmarks',
+  Likes = 'Likes',
+  CommunitiesExploreTimeline = 'CommunitiesExploreTimeline',
   Unknown = 0,
 }
 
@@ -47,7 +50,10 @@ const messageSchema: Joi.ObjectSchema<
         ResponseType.HomeTimeline,
         ResponseType.UserTweetsAndReplies,
         ResponseType.UserHighlightsTweets,
-        ResponseType.UserArticlesTweets
+        ResponseType.UserArticlesTweets,
+        ResponseType.Bookmarks,
+        ResponseType.Likes,
+        ResponseType.CommunitiesExploreTimeline
       )
       .required(),
     body: Joi.string().required(),

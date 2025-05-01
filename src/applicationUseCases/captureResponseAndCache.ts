@@ -29,31 +29,13 @@ export class CaptureResponseAndCache
 {
   constructor(readonly infra: InfraProvider) {}
 
-  protected retriveMediaTweetsFromInstructions(
-    instructions: XApi.Instruction[]
-  ) {
-    return instructions
-      .reduce<XApi.Tweet[]>(
-        (tweets, instruction) =>
-          tweets.concat(retrieveTweetsFromInstruction(instruction)),
-        []
-      )
-      .filter(isMediaTweet)
-      .map(parseTweet)
-  }
-
   protected async processUserTimelineResponse(
     body: string
   ): Promise<UnsafeTask> {
-    const jsonResult = parseJSON(body)
-    if (isErrorResult(jsonResult)) return jsonResult.error
-
-    const { value, error: schemaError } = userTweetsSchema.validate(
-      jsonResult.value
-    )
+    const { value, error: schemaError } = validateBody(body, userTweetsSchema)
     if (schemaError) return schemaError
 
-    const mediaTweets = this.retriveMediaTweetsFromInstructions(
+    const mediaTweets = retriveMediaTweetsFromInstructions(
       value.data.user.result.timeline.timeline.instructions
     )
 
@@ -63,12 +45,7 @@ export class CaptureResponseAndCache
   protected async processRestTweetByIdResponse(
     body: string
   ): Promise<UnsafeTask> {
-    const jsonResult = parseJSON(body)
-    if (isErrorResult(jsonResult)) return jsonResult.error
-
-    const { value, error: schemaError } = restBodySchema.validate(
-      jsonResult.value
-    )
+    const { value, error: schemaError } = validateBody(body, restBodySchema)
     if (schemaError) return schemaError
 
     const tweet = value.data.tweetResult.result
@@ -80,16 +57,59 @@ export class CaptureResponseAndCache
   protected async processTweetDetailResponse(
     body: string
   ): Promise<UnsafeTask> {
-    const jsonResult = parseJSON(body)
-    if (isErrorResult(jsonResult)) return jsonResult.error
+    const { value, error: schemaError } = validateBody(body, detailBodySchema)
+    if (schemaError) return schemaError
 
-    const { value, error: schemaError } = detailBodySchema.validate(
-      jsonResult.value
+    const mediaTweets = retriveMediaTweetsFromInstructions(
+      value.data.threaded_conversation_with_injections_v2.instructions
+    )
+
+    return this.infra.tweetResponseCache.saveAll(...mediaTweets)
+  }
+
+  protected async processHomeTimelineResponse(
+    body: string
+  ): Promise<UnsafeTask> {
+    const { value, error: schemaError } = validateBody(
+      body,
+      homeTimelineBodySchema
     )
     if (schemaError) return schemaError
 
-    const mediaTweets = this.retriveMediaTweetsFromInstructions(
-      value.data.threaded_conversation_with_injections_v2.instructions
+    const mediaTweets = retriveMediaTweetsFromInstructions(
+      value.data.home.home_timeline_urt.instructions
+    )
+
+    return this.infra.tweetResponseCache.saveAll(...mediaTweets)
+  }
+
+  protected async processBookmarkTimelineResponse(
+    body: string
+  ): Promise<UnsafeTask> {
+    const { value, error: schemaError } = validateBody(
+      body,
+      bookmarkTimelineBodySchema
+    )
+    if (schemaError) return schemaError
+
+    const mediaTweets = retriveMediaTweetsFromInstructions(
+      value.data.bookmark_timeline_v2.timeline.instructions
+    )
+
+    return this.infra.tweetResponseCache.saveAll(...mediaTweets)
+  }
+
+  protected async processCommunitiesExploreTimelineResponse(
+    body: string
+  ): Promise<UnsafeTask> {
+    const { value, error: schemaError } = validateBody(
+      body,
+      communitiesExploreTimelineBody
+    )
+    if (schemaError) return schemaError
+
+    const mediaTweets = retriveMediaTweetsFromInstructions(
+      value.data.viewer.explore_communities_timeline.timeline.instructions
     )
 
     return this.infra.tweetResponseCache.saveAll(...mediaTweets)
@@ -103,21 +123,39 @@ export class CaptureResponseAndCache
     // eslint-disable-next-line no-console
     if (__DEV__) console.debug(`Cache tweet response ${type}`)
 
-    if (type === ResponseType.TweetDetail) {
-      error = await this.processTweetDetailResponse(body)
-    } else if (type === ResponseType.TweetResultByRestId) {
-      error = await this.processRestTweetByIdResponse(body)
-    } else if (
-      type === ResponseType.UserTweets ||
-      type === ResponseType.UserArticlesTweets ||
-      type === ResponseType.UserHighlightsTweets ||
-      type === ResponseType.UserTweetsAndReplies ||
-      type === ResponseType.UserMedia
-    ) {
-      error = await this.processUserTimelineResponse(body)
-    } else {
-      // eslint-disable-next-line no-console
-      if (__DEV__) console.debug(`Not implemented for ${type}`)
+    switch (type) {
+      case ResponseType.TweetDetail:
+        error = await this.processTweetDetailResponse(body)
+        break
+
+      case ResponseType.TweetResultByRestId:
+        error = await this.processRestTweetByIdResponse(body)
+        break
+
+      case ResponseType.UserTweets:
+      case ResponseType.UserArticlesTweets:
+      case ResponseType.UserHighlightsTweets:
+      case ResponseType.UserTweetsAndReplies:
+      case ResponseType.UserMedia:
+      case ResponseType.Likes:
+        error = await this.processUserTimelineResponse(body)
+        break
+
+      case ResponseType.HomeTimeline:
+        error = await this.processHomeTimelineResponse(body)
+        break
+
+      case ResponseType.CommunitiesExploreTimeline:
+        error = await this.processCommunitiesExploreTimelineResponse(body)
+        break
+
+      case ResponseType.Bookmarks:
+        error = await this.processBookmarkTimelineResponse(body)
+        break
+
+      default:
+        // eslint-disable-next-line no-console
+        if (__DEV__) console.debug(`Not implemented for ${type}`)
     }
 
     if (error) {
@@ -177,3 +215,75 @@ const userTweetsSchema: Joi.ObjectSchema<XApi.UserTimelineBody> = Joi.object({
     .required()
     .unknown(true),
 })
+
+const homeTimelineBodySchema: Joi.ObjectSchema<XApi.HomeTimelineBody> =
+  Joi.object({
+    data: Joi.object({
+      home: Joi.object({
+        home_timeline_urt: Joi.object({
+          instructions: Joi.array().required(),
+        })
+          .required()
+          .unknown(true),
+      })
+        .required()
+        .unknown(true),
+    })
+      .unknown(true)
+      .required(),
+  }).unknown(true)
+
+const bookmarkTimelineBodySchema: Joi.ObjectSchema<XApi.BookmarkTimelineBody> =
+  Joi.object({
+    data: Joi.object({
+      bookmark_timeline_v2: Joi.object({
+        timeline: Joi.object({
+          instructions: Joi.array().required(),
+        })
+          .required()
+          .unknown(true),
+      })
+        .required()
+        .unknown(true),
+    })
+      .required()
+      .unknown(true),
+  }).unknown(true)
+
+const communitiesExploreTimelineBody: Joi.ObjectSchema<XApi.CommunitiesExploreTimelineBody> =
+  Joi.object({
+    data: Joi.object({
+      viewer: Joi.object({
+        explore_communities_timeline: Joi.object({
+          timeline: Joi.object({
+            instructions: Joi.array().required(),
+          })
+            .required()
+            .unknown(true),
+        }),
+      }),
+    })
+      .required()
+      .unknown(true),
+  }).unknown(true)
+
+function validateBody<T>(body: string, schema: Joi.ObjectSchema<T>): Result<T> {
+  const jsonResult = parseJSON(body)
+  if (isErrorResult(jsonResult)) return toErrorResult(jsonResult.error)
+
+  const { value, error: schemaError } = schema.validate(jsonResult.value)
+  if (schemaError) return toErrorResult(schemaError)
+
+  return toSuccessResult(value)
+}
+
+function retriveMediaTweetsFromInstructions(instructions: XApi.Instruction[]) {
+  return instructions
+    .reduce<XApi.Tweet[]>(
+      (tweets, instruction) =>
+        tweets.concat(retrieveTweetsFromInstruction(instruction)),
+      []
+    )
+    .filter(isMediaTweet)
+    .map(parseTweet)
+}

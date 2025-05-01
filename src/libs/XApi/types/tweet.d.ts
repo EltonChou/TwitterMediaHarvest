@@ -33,6 +33,36 @@ declare namespace XApi {
     }
   }
 
+  interface HomeTimelineBody {
+    data: {
+      home: {
+        home_timeline_urt: {
+          instructions: Instruction[]
+        }
+      }
+    }
+  }
+
+  interface BookmarkTimelineBody {
+    data: {
+      bookmark_timeline_v2: {
+        timeline: {
+          instructions: Instruction[]
+        }
+      }
+    }
+  }
+
+  interface CommunitiesExploreTimelineBody {
+    data: {
+      viewer: {
+        explore_communities_timeline: {
+          timeline: { instructions: Instruction[] }
+        }
+      }
+    }
+  }
+
   interface Instruction {
     type: string
   }

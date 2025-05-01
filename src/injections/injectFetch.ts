@@ -8,7 +8,7 @@ const xOpen = XMLHttpRequest.prototype.open
 
 const Pattern = Object.freeze({
   tweetRelated:
-    /^(\/i\/api)?\/graphql\/.+\/(TweetDetail|TweetResultByRestId|UserTweets|UserMedia|HomeTimeline|UserTweetsAndReplies|UserHighlightsTweets|UserArticlesTweets)$/,
+    /^(\/i\/api)?\/graphql\/.+\/(TweetDetail|TweetResultByRestId|UserTweets|UserMedia|HomeTimeline|UserTweetsAndReplies|UserHighlightsTweets|UserArticlesTweets|Bookmarks|Likes|CommunitiesExploreTimeline)$/,
 })
 
 XMLHttpRequest.prototype.open = function (
