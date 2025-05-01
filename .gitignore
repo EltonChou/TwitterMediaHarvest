@@ -14,7 +14,6 @@ temp/
 *.exe
 public_keys/
 src/assets/icons/Legacy
-.yarn
 .pnp.*
 
 # Logs
@@ -79,3 +78,13 @@ dev.env
 
 # next.js build output
 .next
+
+# yarn related
+
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
