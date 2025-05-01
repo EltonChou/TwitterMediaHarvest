@@ -28,16 +28,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Enable corepack
-        run: |
-          corepack enable
-          corepack up
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
+
+      - name: Set yarn version
+        run: |
+          yarn set version 4.9.1
 
       - name: Prepare env file
         run: |
