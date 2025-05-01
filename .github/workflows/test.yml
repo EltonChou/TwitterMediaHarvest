@@ -29,7 +29,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Enable corepack
-        run: corepack enable
+        run: |
+          corepack enable
+          corepack up
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
