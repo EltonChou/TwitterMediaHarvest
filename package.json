@@ -178,5 +178,5 @@
     ]
   },
   "homepage": "https://github.com/EltonChou/TwitterMediaHarvest#readme",
-  "packageManager": "yarn@4.6.0"
+  "packageManager": "yarn@4.9.1"
 }
