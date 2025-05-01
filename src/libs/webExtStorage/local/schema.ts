@@ -11,6 +11,7 @@ import type {
   SolutionQuotaCollection,
   V4Statistics,
   WarningSettings,
+  XTransactionIdCollection,
 } from '#schema'
 
 export interface LocalStorageSchema
@@ -20,4 +21,5 @@ export interface LocalStorageSchema
     V4Statistics,
     SentryExceptionRecord,
     WarningSettings,
-    SolutionQuotaCollection {}
+    SolutionQuotaCollection,
+    XTransactionIdCollection {}

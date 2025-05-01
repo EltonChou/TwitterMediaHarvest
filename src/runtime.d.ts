@@ -12,6 +12,12 @@ declare namespace MediaHarvest {
     status: number
     body: string
   }
+
+  interface ClientTxIdDetail {
+    value: string
+    method: string
+    path: string
+  }
 }
 
 declare namespace NodeJS {
@@ -21,6 +27,7 @@ declare namespace NodeJS {
 
 interface CustomEventMap {
   'mh:media-response': CustomEvent<MediaHarvest.MediaResponseDetail>
+  'mh:tx-id': CustomEvent<MediaHarvest.ClientTxIdDetail>
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

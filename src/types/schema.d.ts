@@ -72,3 +72,14 @@ type SolutionQuotaCollection<SolutionKey extends string = string> = {
     [K in SolutionKey]: SolutionQuota
   }
 }
+
+type XTransactionIdItem = {
+  method: string
+  path: string
+  value: string
+  capturedAt: number
+}
+
+type XTransactionIdCollection = {
+  xTransactionIdCollection: { [endpoint: string]: XTransactionIdItem[] }
+}
