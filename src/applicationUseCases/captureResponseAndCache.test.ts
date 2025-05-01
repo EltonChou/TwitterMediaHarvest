@@ -443,7 +443,13 @@ describe('CaptureResponseAndCache', () => {
     expect(mockSaveAll).toHaveBeenCalled()
   })
 
-  it('should handle user media response', async () => {
+  it.each([
+    ResponseType.UserArticlesTweets,
+    ResponseType.UserHighlightsTweets,
+    ResponseType.UserTweets,
+    ResponseType.UserTweetsAndReplies,
+    ResponseType.UserMedia,
+  ])('should handle %s response', async type => {
     const validResponse = {
       data: {
         user: {
@@ -460,7 +466,7 @@ describe('CaptureResponseAndCache', () => {
     }
 
     await useCase.process({
-      type: ResponseType.UserMedia,
+      type,
       body: JSON.stringify(validResponse),
     })
 
