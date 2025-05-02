@@ -158,10 +158,18 @@ export class CaptureResponseAndCache
         if (__DEV__) console.debug(`Not implemented for ${type}`)
     }
 
+    /* eslint-disable no-console */
     if (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
+      if (error instanceof Joi.ValidationError) {
+        console.group(`Invalid response body has been captured.`)
+        console.warn(`Response type: ${type}`)
+        console.warn(body)
+        console.groupEnd()
+      } else {
+        console.error(error)
+      }
     }
+    /* eslint-enable no-console */
 
     return error
   }

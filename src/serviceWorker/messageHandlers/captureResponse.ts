@@ -24,9 +24,6 @@ const captureResponseHandler = (
       type: message.payload.type,
     })
 
-    // eslint-disable-next-line no-console
-    if (__DEV__ && cacheError) console.error(cacheError)
-
     return cacheError
       ? ctx.response(message.makeResponse(false, 'Not implemented'))
       : ctx.response(message.makeResponse(true))
