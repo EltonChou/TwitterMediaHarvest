@@ -9,6 +9,7 @@ import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
 import {
   Instruction,
   isMediaTweet,
+  isRetweet,
   isTimelineTimelineItem,
   isTimelineTimelineModule,
   isTimelineTweet,
@@ -40,6 +41,15 @@ export const parseTweet = (tweetResult: XApi.Tweet): TweetWithContent => {
     tweet,
     content: tweetResult.legacy.full_text,
   })
+}
+
+export const eagerParseTweet = (
+  tweetResult: XApi.Tweet
+): TweetWithContent[] => {
+  const tweets = [parseTweet(tweetResult)]
+  if (isRetweet(tweetResult))
+    tweets.push(parseTweet(tweetResult.legacy.retweeted_status_result.result))
+  return tweets
 }
 
 export const retrieveTweetsFromInstruction = (

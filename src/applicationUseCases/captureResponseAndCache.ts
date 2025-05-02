@@ -8,6 +8,7 @@ import type { AsyncUseCase } from '#domain/useCases/base'
 import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
 import { isMediaTweet } from '#libs/XApi/parsers/refinements'
 import {
+  eagerParseTweet,
   parseTweet,
   retrieveTweetsFromInstruction,
 } from '#libs/XApi/parsers/tweet'
@@ -29,6 +30,18 @@ export class CaptureResponseAndCache
 {
   constructor(readonly infra: InfraProvider) {}
 
+  protected cacheTweets(tweet: TweetWithContent | TweetWithContent[]) {
+    const isMultiple = Array.isArray(tweet)
+
+    if (__DEV__)
+      console.debug(
+        `Cache ${isMultiple ? tweet.length : 1} tweet${isMultiple ? 's' : ''}`
+      )
+
+    if (isMultiple) return this.infra.tweetResponseCache.saveAll(...tweet)
+    return this.infra.tweetResponseCache.save(tweet)
+  }
+
   protected async processUserTimelineResponse(
     body: string
   ): Promise<UnsafeTask> {
@@ -39,7 +52,7 @@ export class CaptureResponseAndCache
       value.data.user.result.timeline.timeline.instructions
     )
 
-    return this.infra.tweetResponseCache.saveAll(...mediaTweets)
+    return this.cacheTweets(mediaTweets)
   }
 
   protected async processRestTweetByIdResponse(
@@ -51,7 +64,7 @@ export class CaptureResponseAndCache
     const tweet = value.data.tweetResult.result
     if (!isMediaTweet(tweet)) return
 
-    return this.infra.tweetResponseCache.save(parseTweet(tweet))
+    return this.cacheTweets(parseTweet(tweet))
   }
 
   protected async processTweetDetailResponse(
@@ -64,7 +77,7 @@ export class CaptureResponseAndCache
       value.data.threaded_conversation_with_injections_v2.instructions
     )
 
-    return this.infra.tweetResponseCache.saveAll(...mediaTweets)
+    return this.cacheTweets(mediaTweets)
   }
 
   protected async processHomeTimelineResponse(
@@ -80,7 +93,7 @@ export class CaptureResponseAndCache
       value.data.home.home_timeline_urt.instructions
     )
 
-    return this.infra.tweetResponseCache.saveAll(...mediaTweets)
+    return this.cacheTweets(mediaTweets)
   }
 
   protected async processBookmarkTimelineResponse(
@@ -96,7 +109,7 @@ export class CaptureResponseAndCache
       value.data.bookmark_timeline_v2.timeline.instructions
     )
 
-    return this.infra.tweetResponseCache.saveAll(...mediaTweets)
+    return this.cacheTweets(mediaTweets)
   }
 
   protected async processCommunitiesExploreTimelineResponse(
@@ -112,7 +125,21 @@ export class CaptureResponseAndCache
       value.data.viewer.explore_communities_timeline.timeline.instructions
     )
 
-    return this.infra.tweetResponseCache.saveAll(...mediaTweets)
+    return this.cacheTweets(mediaTweets)
+  }
+
+  protected async processListTimelineResponse(body: string) {
+    const { value, error: schemaError } = validateBody(
+      body,
+      listTimelineBodySchema
+    )
+    if (schemaError) return schemaError
+
+    const mediaTweets = retriveMediaTweetsFromInstructions(
+      value.data.list.tweets_timeline.timeline.instructions
+    )
+
+    return this.cacheTweets(mediaTweets)
   }
 
   async process({
@@ -151,6 +178,10 @@ export class CaptureResponseAndCache
 
       case ResponseType.Bookmarks:
         error = await this.processBookmarkTimelineResponse(body)
+        break
+
+      case ResponseType.ListLatestTweetsTimeline:
+        error = await this.processListTimelineResponse(body)
         break
 
       default:
@@ -275,6 +306,23 @@ const communitiesExploreTimelineBody: Joi.ObjectSchema<XApi.CommunitiesExploreTi
       .unknown(true),
   }).unknown(true)
 
+const listTimelineBodySchema: Joi.ObjectSchema<XApi.ListTimelineBody> =
+  Joi.object({
+    data: Joi.object({
+      list: Joi.object({
+        tweets_timeline: Joi.object({
+          timeline: Joi.object({
+            instructions: Joi.array().required(),
+          })
+            .required()
+            .unknown(true),
+        }),
+      }),
+    })
+      .required()
+      .unknown(true),
+  }).unknown(true)
+
 function validateBody<T>(body: string, schema: Joi.ObjectSchema<T>): Result<T> {
   const jsonResult = parseJSON(body)
   if (isErrorResult(jsonResult)) return toErrorResult(jsonResult.error)
@@ -293,5 +341,6 @@ function retriveMediaTweetsFromInstructions(instructions: XApi.Instruction[]) {
       []
     )
     .filter(isMediaTweet)
-    .map(parseTweet)
+    .map(eagerParseTweet)
+    .flat()
 }

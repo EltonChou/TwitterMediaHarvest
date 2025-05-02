@@ -401,6 +401,7 @@ describe('CaptureResponseAndCache', () => {
             legacy: {
               entities: {
                 hashtags: [],
+                media: [{}],
               },
               extended_entities: {
                 media: [{}],

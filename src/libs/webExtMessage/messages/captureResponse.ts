@@ -25,6 +25,7 @@ export const enum ResponseType {
   Bookmarks = 'Bookmarks',
   Likes = 'Likes',
   CommunitiesExploreTimeline = 'CommunitiesExploreTimeline',
+  ListLatestTweetsTimeline = 'ListLatestTweetsTimeline',
   Unknown = 0,
 }
 
@@ -53,7 +54,8 @@ const messageSchema: Joi.ObjectSchema<
         ResponseType.UserArticlesTweets,
         ResponseType.Bookmarks,
         ResponseType.Likes,
-        ResponseType.CommunitiesExploreTimeline
+        ResponseType.CommunitiesExploreTimeline,
+        ResponseType.ListLatestTweetsTimeline
       )
       .required(),
     body: Joi.string().required(),

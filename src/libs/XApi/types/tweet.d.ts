@@ -63,6 +63,18 @@ declare namespace XApi {
     }
   }
 
+  interface ListTimelineBody {
+    data: {
+      list: {
+        tweets_timeline: {
+          timeline: {
+            instructions: Instruction[]
+          }
+        }
+      }
+    }
+  }
+
   interface Instruction {
     type: string
   }
@@ -132,6 +144,10 @@ declare namespace XApi {
     }
   }
 
+  interface RetweetTweetLegacy extends TweetLegacy {
+    retweeted_status_result: DataResult<Tweet>
+  }
+
   interface Hashtag {
     indices: [number, number]
     text: string
@@ -147,12 +163,16 @@ declare namespace XApi {
     core: {
       user_results: DataResult<User>
     }
-    legacy: TweetLegacy | MediaTweetLegacy
+    legacy: TweetLegacy | MediaTweetLegacy | RetweetTweetLegacy
     [k: string]: unknown
   }
 
   interface MediaTweet extends Tweet {
     legacy: MediaTweetLegacy
+  }
+
+  interface RetweetTweet extends Tweet {
+    legacy: RetweetTweetLegacy
   }
 
   interface TimelineTweet extends TimelineItemContent {
