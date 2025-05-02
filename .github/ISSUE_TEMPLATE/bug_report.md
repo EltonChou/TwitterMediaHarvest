@@ -7,10 +7,10 @@ assignees: ''
 
 ---
 
+**Before submit a issue, please ensure you have updated to the latest version.**
+
 **Describe the bug**
 A clear and concise description of what the bug is.
-If the download wasn't renamed correctly, please ensure you only enable one download management extension.
-This is a known issue on chromium based browser.
 
 **To Reproduce**
 Steps to reproduce the behavior:
