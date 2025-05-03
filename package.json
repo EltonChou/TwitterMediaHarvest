@@ -177,5 +177,6 @@
       "configs/*"
     ]
   },
-  "homepage": "https://github.com/EltonChou/TwitterMediaHarvest#readme"
+  "homepage": "https://github.com/EltonChou/TwitterMediaHarvest#readme",
+  "packageManager": "yarn@4.9.1"
 }
