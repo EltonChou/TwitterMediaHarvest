@@ -10,6 +10,7 @@ import { isMediaTweet } from '#libs/XApi/parsers/refinements'
 import {
   eagerParseTweet,
   parseTweet,
+  retrieveTweetFromTweetResult,
   retrieveTweetsFromInstruction,
 } from '#libs/XApi/parsers/tweet'
 import { ResponseType } from '#libs/webExtMessage'
@@ -34,6 +35,7 @@ export class CaptureResponseAndCache
     const isMultiple = Array.isArray(tweet)
 
     if (__DEV__)
+      // eslint-disable-next-line no-console
       console.debug(
         `Cache ${isMultiple ? tweet.length : 1} tweet${isMultiple ? 's' : ''}`
       )
@@ -61,10 +63,11 @@ export class CaptureResponseAndCache
     const { value, error: schemaError } = validateBody(body, restBodySchema)
     if (schemaError) return schemaError
 
-    const tweet = value.data.tweetResult.result
-    if (!isMediaTweet(tweet)) return
+    const result = retrieveTweetFromTweetResult(value.data.tweetResult)
+    if (isErrorResult(result)) return
+    if (!isMediaTweet(result.value)) return
 
-    return this.cacheTweets(parseTweet(tweet))
+    return this.cacheTweets(parseTweet(result.value))
   }
 
   protected async processTweetDetailResponse(
@@ -325,7 +328,7 @@ const listTimelineBodySchema: Joi.ObjectSchema<XApi.ListTimelineBody> =
 
 function validateBody<T>(body: string, schema: Joi.ObjectSchema<T>): Result<T> {
   const jsonResult = parseJSON(body)
-  if (isErrorResult(jsonResult)) return toErrorResult(jsonResult.error)
+  if (isErrorResult(jsonResult)) return jsonResult
 
   const { value, error: schemaError } = schema.validate(jsonResult.value)
   if (schemaError) return toErrorResult(schemaError)

@@ -25,3 +25,19 @@ export const isSuccessResult = <T>(
 ): result is { error: undefined; value: T } => {
   return result.error === undefined && result.value !== undefined
 }
+
+export const reduceToSuccesses = <T, E extends Error>(
+  results: Result<T, E>[]
+): T[] =>
+  results.reduce<T[]>((slot, result) => {
+    if (isSuccessResult(result)) slot.push(result.value)
+    return slot
+  }, [])
+
+export const reduceToErrors = <T, E extends Error>(
+  results: Result<T, E>[]
+): E[] =>
+  results.reduce<E[]>((slot, result) => {
+    if (isErrorResult(result)) slot.push(result.error)
+    return slot
+  }, [])

@@ -389,6 +389,7 @@ describe('CaptureResponseAndCache', () => {
       data: {
         tweetResult: {
           result: {
+            __typename: 'Tweet',
             core: {
               user_results: {
                 result: {
@@ -479,6 +480,7 @@ describe('CaptureResponseAndCache', () => {
       data: {
         tweetResult: {
           result: {
+            __typename: 'Tweet',
             legacy: {},
           },
         },

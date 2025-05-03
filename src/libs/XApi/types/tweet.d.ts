@@ -6,7 +6,7 @@
 declare namespace XApi {
   interface TweetByRestIdBody {
     data: {
-      tweetResult: DataResult<Tweet>
+      tweetResult: PosibleTweetResult
     }
   }
 
@@ -129,6 +129,8 @@ declare namespace XApi {
     result: T
   }
 
+  type PosibleTweetResult = DataResult<Tweet | TweetWithVisibilityResults>
+
   interface TweetLegacy {
     user_id_str: string
     id_str: string
@@ -145,7 +147,7 @@ declare namespace XApi {
   }
 
   interface RetweetTweetLegacy extends TweetLegacy {
-    retweeted_status_result: DataResult<Tweet>
+    retweeted_status_result: PosibleTweetResult
   }
 
   interface Hashtag {
@@ -158,7 +160,7 @@ declare namespace XApi {
   }
 
   interface Tweet {
-    __typename: 'Tweet'
+    __typename?: 'Tweet'
     rest_id: string
     core: {
       user_results: DataResult<User>
@@ -175,10 +177,17 @@ declare namespace XApi {
     legacy: RetweetTweetLegacy
   }
 
+  interface TweetWithVisibilityResults {
+    limitedActionResults: {
+      limited_actions: []
+    }
+    tweet: Tweet
+  }
+
   interface TimelineTweet extends TimelineItemContent {
     itemType: 'TimelineTweet'
     __typename: 'TimelineTweet'
-    tweet_results: DataResult<Tweet>
+    tweet_results: PosibleTweetResult
   }
 
   interface TimelineItemContent {

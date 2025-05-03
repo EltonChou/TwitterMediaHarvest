@@ -20,13 +20,27 @@ export const isTimelineTweet = (
   timelineItemContent.__typename === 'TimelineTweet'
 
 export const isMediaTweet = (tweet: XApi.Tweet): tweet is XApi.MediaTweet => {
-  const entities = tweet?.legacy?.entities ?? tweet.legacy.extended_entities
+  const entities = tweet?.legacy?.entities ?? tweet?.legacy?.extended_entities
   if (!entities) return false
   return Object.hasOwn(entities, 'media')
 }
 
 export const isRetweet = (tweet: XApi.Tweet): tweet is XApi.RetweetTweet =>
   'retweeted_status_result' in tweet.legacy
+
+export const isTweetVisibilityResults = (
+  dataResult: XApi.DataResult<unknown>
+): dataResult is XApi.DataResult<XApi.TweetWithVisibilityResults> => {
+  const result = dataResult?.result as Record<string, unknown>
+  return result ? result?.__typename === 'TweetWithVisibilityResults' : false
+}
+
+export const isTweetResult = (
+  dataResult: XApi.DataResult<unknown>
+): dataResult is XApi.DataResult<XApi.Tweet> => {
+  const result = dataResult?.result as Record<string, unknown>
+  return result?.__typename === 'Tweet'
+}
 
 export class Instruction {
   static isTimelineAddEntries(

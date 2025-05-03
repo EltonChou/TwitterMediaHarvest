@@ -7,12 +7,20 @@ import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
 import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
 import {
+  isSuccessResult,
+  reduceToSuccesses,
+  toErrorResult,
+  toSuccessResult,
+} from '#utils/result'
+import {
   Instruction,
   isMediaTweet,
   isRetweet,
   isTimelineTimelineItem,
   isTimelineTimelineModule,
   isTimelineTweet,
+  isTweetResult,
+  isTweetVisibilityResults,
 } from './refinements'
 import { makeEmptyMediaCollection, parseMedias } from './tweetMedia'
 
@@ -47,8 +55,14 @@ export const eagerParseTweet = (
   tweetResult: XApi.Tweet
 ): TweetWithContent[] => {
   const tweets = [parseTweet(tweetResult)]
-  if (isRetweet(tweetResult))
-    tweets.push(parseTweet(tweetResult.legacy.retweeted_status_result.result))
+
+  if (isRetweet(tweetResult)) {
+    const result = retrieveTweetFromTweetResult(
+      tweetResult.legacy.retweeted_status_result
+    )
+    if (isSuccessResult(result)) tweets.push(parseTweet(result.value))
+  }
+
   return tweets
 }
 
@@ -58,7 +72,11 @@ export const retrieveTweetsFromInstruction = (
   const tweets: XApi.Tweet[] = []
 
   if (Instruction.isTimelineAddToModule(instruction))
-    tweets.push(...instruction.moduleItems.map(retrieveTweetFromModuleItem))
+    tweets.push(
+      ...reduceToSuccesses(
+        instruction.moduleItems.map(retrieveTweetFromModuleItem)
+      )
+    )
 
   if (Instruction.isTimelineAddEntries(instruction))
     tweets.push(
@@ -72,8 +90,12 @@ export const retrieveTweetsFromInstruction = (
   if (
     Instruction.isTimelinePinEntry(instruction) &&
     isTimelineTweet(instruction.entry.content.itemContent)
-  )
-    tweets.push(instruction.entry.content.itemContent.tweet_results.result)
+  ) {
+    const result = retrieveTweetFromTweetResult(
+      instruction.entry.content.itemContent.tweet_results
+    )
+    if (isSuccessResult(result)) tweets.push(result.value)
+  }
 
   return tweets
 }
@@ -86,19 +108,48 @@ export const retrieveTweetsFromTimelineAddEntry = (
   if (
     isTimelineTimelineItem(entry.content) &&
     isTimelineTweet(entry.content.itemContent)
-  )
-    tweets.push(entry.content.itemContent.tweet_results.result)
-
-  if (isTimelineTimelineModule(entry.content))
-    tweets.push(
-      ...entry.content.items
-        .map(threadItem => threadItem.item.itemContent)
-        .filter(isTimelineTweet)
-        .map(itemContent => itemContent.tweet_results.result)
+  ) {
+    const result = retrieveTweetFromTweetResult(
+      entry.content.itemContent.tweet_results
     )
+    if (isSuccessResult(result)) tweets.push(result.value)
+  }
+
+  if (isTimelineTimelineModule(entry.content)) {
+    const results = entry.content.items
+      .map(threadItem => threadItem.item.itemContent)
+      .filter(isTimelineTweet)
+      .map(itemContent =>
+        retrieveTweetFromTweetResult(itemContent.tweet_results)
+      )
+
+    tweets.push(...reduceToSuccesses(results))
+  }
 
   return tweets
 }
 
 export const retrieveTweetFromModuleItem = (moduleItem: XApi.ModuleItem) =>
-  moduleItem.item.itemContent.tweet_results.result
+  retrieveTweetFromTweetResult(moduleItem.item.itemContent.tweet_results)
+
+export const retrieveTweetFromTweetWithVisibilityResults = (
+  dataResult: XApi.DataResult<XApi.TweetWithVisibilityResults>
+) => dataResult.result.tweet
+
+export const retrieveTweetFromTweetResult = (
+  tweetResult: XApi.PosibleTweetResult
+): Result<XApi.Tweet> => {
+  if (isTweetResult(tweetResult)) return toSuccessResult(tweetResult.result)
+  if (isTweetVisibilityResults(tweetResult))
+    return toSuccessResult(
+      retrieveTweetFromTweetWithVisibilityResults(tweetResult)
+    )
+
+  const msg = `Unknown tweet result type\n${JSON.stringify(tweetResult)}`
+
+  if (__DEV__)
+    // eslint-disable-next-line no-console
+    console.warn(msg)
+
+  return toErrorResult(new Error(msg))
+}
