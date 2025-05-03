@@ -37,7 +37,7 @@ export class CaptureResponseAndCache
     if (__DEV__)
       // eslint-disable-next-line no-console
       console.debug(
-        `Cache ${isMultiple ? tweet.length : 1} tweet${isMultiple ? 's' : ''}`
+        `Cache ${isMultiple ? tweet.length : 1} tweet${isMultiple && tweet.length > 1 ? 's' : ''}`
       )
 
     if (isMultiple) return this.infra.tweetResponseCache.saveAll(...tweet)
