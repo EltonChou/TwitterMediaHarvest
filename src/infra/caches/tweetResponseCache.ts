@@ -123,6 +123,7 @@ export class TweetResponseCache implements ICache<TweetWithContent> {
   }
 
   async saveAll(...items: TweetWithContent[]): Promise<UnsafeTask> {
+    if (items.length === 0) return
     const errors = await Promise.all(items.map(item => this.save(item)))
     if (errors.some(error => error))
       return new Error('Failed to cache some tweet response', { cause: errors })
