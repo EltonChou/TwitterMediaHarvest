@@ -5,12 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Add cache support for more endpoints.[#212](https://github.com/EltonChou/TwitterMediaHarvest/issues/219)
+
+### Fixed
+
+- Fix issue that tweet with limited action cannot be cached.
+
 ## [4.4.0] - 2025-04-30
 
 ### Added
 
 - Capture api's response and cache, this feature can massive increases the avalibility of download. ([#212](https://github.com/EltonChou/TwitterMediaHarvest/issues/212), [#213](https://github.com/EltonChou/TwitterMediaHarvest/issues/213), [#215](https://github.com/EltonChou/TwitterMediaHarvest/issues/215), [#217](https://github.com/EltonChou/TwitterMediaHarvest/issues/217))
-- Chromium based browser can requestsa file location prompt when triggers download.
+- Chromium based browser can request file location prompt when triggers download.
 
 ### Fixed
 
