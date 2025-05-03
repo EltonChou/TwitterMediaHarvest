@@ -34,6 +34,8 @@ export const init = () => {
     ],
     transport: makeFetchTransport,
     stackParser: defaultStackParser,
+    attachStacktrace: true,
+    sendClientReports: true,
   })
 
   getCurrentScope().setClient(client)
