@@ -7,7 +7,9 @@ assignees: ''
 
 ---
 
-**Before submit a issue, please ensure you have updated to the latest version.**
+***Before submit a issue, please ensure you have updated to the latest version.***
+
+***If the bug is related to some specified tweets, please provide link.***
 
 **Describe the bug**
 A clear and concise description of what the bug is.

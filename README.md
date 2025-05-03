@@ -14,22 +14,23 @@
 
 **Gather medias with just one-click.**
 
-If you are a firefox user, please download `xpi` file in release page.
-
 ## Features
 
-- [x] One-click to get original-size image.
-- [x] One-click to get video.
-- [x] One-click to get GIF.
-- [x] Auto-reveal sensitive content. (optional)
-- [x] Support [TweetDeck](https://tweetdeck.twitter.com/)
+- [x] One-click to get original-size image
+- [x] One-click to get video
+- [x] Download history
+- [x] Auto-reveal sensitive content (optional)
 - [x] Integrate with [Aria2 Explorer](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn)
+- [x] Not rely on 3rd-party services
+- [x] Very beautiful. Very powerful.
 
 ## Installation
 
+[![Chrome web store](assets/chrome-badge.jpg)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok)
+
 [![Microsoft store](assets/microsoft-badge.png)](https://microsoftedge.microsoft.com/addons/detail/media-harvest-twitter-m/mmijhjnobkeodfgoobnlmnpjllmlibkb)
 
-[![Chrome web store](assets/chrome-badge.jpg)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok)
+[![Firefox self-signed addon](assets/firefox-badge.png)](https://github.com/EltonChou/TwitterMediaHarvest/releases/latest)
 
 ## Support the project
 
@@ -47,10 +48,6 @@ To build the extension in local, you need to install the dependencies.
 
 and then execute
 
-`yarn build`
+`yarn build:all`
 
-if you are a firefox user, use
-
-`yarn build:firefox`
-
-You will get some files under `dist` and `build` directory.
+You will get some files under `dist` and `build` directories.
