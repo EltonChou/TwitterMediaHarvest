@@ -96,7 +96,7 @@ const appendChromiumMinimumVersion = manifest => {
 
   return {
     ...manifest,
-    minimum_chrome_version: minChromeVersion.major,
+    minimum_chrome_version: minChromeVersion.major.toString(),
   }
 }
 
