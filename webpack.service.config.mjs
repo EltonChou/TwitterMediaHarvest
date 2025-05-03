@@ -75,6 +75,32 @@ const appendFirefoxSpecificManifestAttributes = (
 }
 
 /**
+ * @param {unknown} manifest
+ * @param {string} addOnId
+ * @param {string} updateUrl
+ * @returns
+ */
+const appendChromiumMinimumVersion = manifest => {
+  const browsers = browserslist()
+  const chromeVersions = browsers
+    .filter(browser => browser.startsWith('chrome'))
+    .map(browser => browser.replace('chrome ', ''))
+    .map(browser => parseInt(browser, 10))
+
+  const minChromeVersion = semver.minVersion(
+    JSON.stringify(Math.min(...chromeVersions)),
+    {
+      loose: true,
+    }
+  )
+
+  return {
+    ...manifest,
+    minimum_chrome_version: minChromeVersion.major,
+  }
+}
+
+/**
  * Webpack configuration function
  * @param {Record<string, boolean | string>} env - Environment variables passed to webpack
  * @param {import('webpack').WebpackOptionsNormalized} argv - Webpack CLI arguments
@@ -134,6 +160,10 @@ export default (env, argv) => {
 
               if (isEdge && !isProduction) {
                 manifest['key'] = PublicKey.edge
+              }
+
+              if (isChromium) {
+                manifest = appendChromiumMinimumVersion(manifest)
               }
 
               if (isFirefox) {
