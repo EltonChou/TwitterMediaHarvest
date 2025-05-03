@@ -5,15 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [4.4.1] - 2025-05-03
 
 ### Added
 
-- Add cache support for more endpoints.[#212](https://github.com/EltonChou/TwitterMediaHarvest/issues/219)
+- Add cache support for more endpoints.[#219](https://github.com/EltonChou/TwitterMediaHarvest/issues/219)
 
 ### Fixed
 
-- Fix issue that tweet with limited action cannot be cached.
+- Fix issue that tweet with limited action cannot be cached.[#222](https://github.com/EltonChou/TwitterMediaHarvest/issues/222)
 
 ## [4.4.0] - 2025-04-30
 
@@ -265,6 +265,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Fixed download button color in reply-restricted tweet.
 - Fixed media checking in embed tweet.
 
+[4.4.1]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.4.0...v4.4.1
 [4.4.0]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.3.0...v4.4.0
 [4.3.0]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.9...v4.3.0
 [4.2.9]: https://github.com/EltonChou/TwitterMediaHarvest/compare/v4.2.8...v4.2.9
