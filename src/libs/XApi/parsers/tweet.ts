@@ -20,11 +20,17 @@ import {
   isTimelineTimelineModule,
   isTimelineTweet,
   isTweetResult,
+  isTweetTombstone,
   isTweetVisibilityResults,
+  isTypeItem,
 } from './refinements'
 import { makeEmptyMediaCollection, parseMedias } from './tweetMedia'
 
-export const parseTweet = (tweetResult: XApi.Tweet): TweetWithContent => {
+type TweetLikes = Array<XApi.Tweet | XApi.TweetLike>
+
+export const parseTweet = (
+  tweetResult: XApi.TweetLike | XApi.Tweet
+): TweetWithContent => {
   const media = isMediaTweet(tweetResult)
     ? parseMedias(tweetResult.legacy.extended_entities.media)
     : makeEmptyMediaCollection()
@@ -52,7 +58,7 @@ export const parseTweet = (tweetResult: XApi.Tweet): TweetWithContent => {
 }
 
 export const eagerParseTweet = (
-  tweetResult: XApi.Tweet
+  tweetResult: XApi.TweetLike
 ): TweetWithContent[] => {
   const tweets = [parseTweet(tweetResult)]
 
@@ -69,7 +75,7 @@ export const eagerParseTweet = (
 export const retrieveTweetsFromInstruction = (
   instruction: XApi.Instruction
 ) => {
-  const tweets: XApi.Tweet[] = []
+  const tweets: TweetLikes = []
 
   if (Instruction.isTimelineAddToModule(instruction))
     tweets.push(
@@ -80,7 +86,7 @@ export const retrieveTweetsFromInstruction = (
 
   if (Instruction.isTimelineAddEntries(instruction))
     tweets.push(
-      ...instruction.entries.reduce<XApi.Tweet[]>(
+      ...instruction.entries.reduce<TweetLikes>(
         (tweets, entry) =>
           tweets.concat(retrieveTweetsFromTimelineAddEntry(entry)),
         []
@@ -102,8 +108,8 @@ export const retrieveTweetsFromInstruction = (
 
 export const retrieveTweetsFromTimelineAddEntry = (
   entry: XApi.TimelineAddEntry
-) => {
-  const tweets: XApi.Tweet[] = []
+): TweetLikes => {
+  const tweets: Array<XApi.TweetLike | XApi.Tweet> = []
 
   if (
     isTimelineTimelineItem(entry.content) &&
@@ -138,12 +144,15 @@ export const retrieveTweetFromTweetWithVisibilityResults = (
 
 export const retrieveTweetFromTweetResult = (
   tweetResult: XApi.PosibleTweetResult
-): Result<XApi.Tweet> => {
+): Result<XApi.TweetLike | XApi.Tweet> => {
   if (isTweetResult(tweetResult)) return toSuccessResult(tweetResult.result)
   if (isTweetVisibilityResults(tweetResult))
     return toSuccessResult(
       retrieveTweetFromTweetWithVisibilityResults(tweetResult)
     )
+
+  if (isTypeItem(tweetResult.result) && isTweetTombstone(tweetResult.result))
+    return toErrorResult(new Error('Tombstone!'))
 
   const msg = `Unknown tweet result type\n${JSON.stringify(tweetResult)}`
 

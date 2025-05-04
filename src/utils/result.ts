@@ -41,3 +41,9 @@ export const reduceToErrors = <T, E extends Error>(
     if (isErrorResult(result)) slot.push(result.error)
     return slot
   }, [])
+
+export const getValue = <T, E extends Error>(result: Result<T, E>) =>
+  result.value
+
+export const getError = <T, E extends Error>(result: Result<T, E>) =>
+  result.error

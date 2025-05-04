@@ -4,6 +4,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 declare namespace XApi {
+  interface TypeItem {
+    __typename: string
+  }
+
   interface TweetByRestIdBody {
     data: {
       tweetResult: PosibleTweetResult
@@ -129,7 +133,9 @@ declare namespace XApi {
     result: T
   }
 
-  type PosibleTweetResult = DataResult<Tweet | TweetWithVisibilityResults>
+  type PosibleTweetResult = DataResult<
+    Tweet | TweetWithVisibilityResults | TweetTombstone | TypeItem
+  >
 
   interface TweetLegacy {
     user_id_str: string
@@ -159,8 +165,8 @@ declare namespace XApi {
     hashtags: Hashtag[]
   }
 
-  interface Tweet {
-    __typename?: 'Tweet'
+  interface Tweet extends TypeItem {
+    __typename: 'Tweet'
     rest_id: string
     core: {
       user_results: DataResult<User>
@@ -169,19 +175,27 @@ declare namespace XApi {
     [k: string]: unknown
   }
 
-  interface MediaTweet extends Tweet {
+  interface MediaTweet extends TweetLike {
     legacy: MediaTweetLegacy
   }
 
-  interface RetweetTweet extends Tweet {
+  interface RetweetTweet extends TweetLike {
     legacy: RetweetTweetLegacy
+  }
+
+  interface TweetLike extends Tweet {
+    __typename: never
   }
 
   interface TweetWithVisibilityResults {
     limitedActionResults: {
       limited_actions: []
     }
-    tweet: Tweet
+    tweet: TweetLike
+  }
+
+  interface TweetTombstone extends TypeItem {
+    __typename: 'TweetTombstone'
   }
 
   interface TimelineTweet extends TimelineItemContent {
@@ -190,9 +204,8 @@ declare namespace XApi {
     tweet_results: PosibleTweetResult
   }
 
-  interface TimelineItemContent {
+  interface TimelineItemContent extends TypeItem {
     itemType: string
-    __typename: string
   }
 
   interface TimelineTimelineItem extends EntryContent {

@@ -4,6 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+export const isTypeItem = (item: unknown): item is XApi.TypeItem =>
+  item !== undefined && item !== null && Object.hasOwn(item, '__typename')
+
 export const isTimelineTimelineModule = (
   entryContent: XApi.EntryContent
 ): entryContent is XApi.TimelineTimelineModule =>
@@ -19,14 +22,20 @@ export const isTimelineTweet = (
 ): timelineItemContent is XApi.TimelineTweet =>
   timelineItemContent.__typename === 'TimelineTweet'
 
-export const isMediaTweet = (tweet: XApi.Tweet): tweet is XApi.MediaTweet => {
+export const isMediaTweet = (
+  tweet: XApi.TweetLike | XApi.Tweet
+): tweet is XApi.MediaTweet => {
   const entities = tweet?.legacy?.entities ?? tweet?.legacy?.extended_entities
   if (!entities) return false
   return Object.hasOwn(entities, 'media')
 }
 
-export const isRetweet = (tweet: XApi.Tweet): tweet is XApi.RetweetTweet =>
+export const isRetweet = (tweet: XApi.TweetLike): tweet is XApi.RetweetTweet =>
   'retweeted_status_result' in tweet.legacy
+
+export const isTweetTombstone = (
+  item: XApi.TypeItem
+): item is XApi.TweetTombstone => item.__typename === 'TweetTombstone'
 
 export const isTweetVisibilityResults = (
   dataResult: XApi.DataResult<unknown>

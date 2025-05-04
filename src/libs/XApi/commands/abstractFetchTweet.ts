@@ -5,8 +5,9 @@
  */
 import { Tweet, type TweetProps } from '#domain/valueObjects/tweet'
 import { TweetUser, type TweetUserProps } from '#domain/valueObjects/tweetUser'
-import { toErrorResult, toSuccessResult } from '#utils/result'
+import { getValue, toErrorResult, toSuccessResult } from '#utils/result'
 import { isTimelineTimelineItem, isTimelineTweet } from '../parsers/refinements'
+import { retrieveTweetFromTweetResult } from '../parsers/tweet'
 import { parseMedias } from '../parsers/tweetMedia'
 import { GraphQLCommand, Query } from './graphql'
 import { HttpMethod } from './types'
@@ -98,8 +99,8 @@ export abstract class FetchTweetCommand
           ),
           O.flatMap(itemContent =>
             pipe(
-              itemContent.tweet_results?.result?.tweet ??
-                itemContent.tweet_results.result,
+              retrieveTweetFromTweetResult(itemContent.tweet_results),
+              getValue,
               O.fromNullable
             )
           ),
