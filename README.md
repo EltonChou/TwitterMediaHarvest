@@ -51,3 +51,11 @@ and then execute
 `yarn build:all`
 
 You will get some files under `dist` and `build` directories.
+
+## License
+
+- [LICENSE](LICENSE)
+
+## Privacy Policy
+
+- [PRIVACY POLICY](PRIVACY_POLICY.md)
