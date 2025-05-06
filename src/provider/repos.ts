@@ -48,5 +48,6 @@ export const portableDownloadRepo = new IDBPortableDownloadHistoryRepository(
 export const warningSettingsRepo = new WarningSettingsRepo(localWebExtStorage)
 export const solutionQuotaRepo = new SolutionQuotaRepository(localWebExtStorage)
 export const xTransactionIdRepo = new LocalXTransactionIdRepository(
-  localWebExtStorage
+  localWebExtStorage,
+  { reservedCount: 3 }
 )

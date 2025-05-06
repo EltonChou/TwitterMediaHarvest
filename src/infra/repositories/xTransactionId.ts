@@ -9,10 +9,18 @@ import type { IStorageProxy } from '#libs/storageProxy'
 import type { XTransactionIdCollection } from '#schema'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 
+type XTransactionIdRepoOptions = {
+  /** How many transaction id should be reserved for usage per identity. */
+  reservedCount: number
+}
+
 export class LocalXTransactionIdRepository
   implements IXTransactionIdRepository
 {
-  constructor(readonly storageProxy: IStorageProxy<XTransactionIdCollection>) {}
+  constructor(
+    readonly storageProxy: IStorageProxy<XTransactionIdCollection>,
+    readonly options: XTransactionIdRepoOptions = { reservedCount: 5 }
+  ) {}
 
   private async getCollection() {
     return this.storageProxy.getItemByDefaults({
@@ -63,9 +71,14 @@ export class LocalXTransactionIdRepository
       xTransactionIdCollection[transactionIdItem.endpoint] = [transactionIdItem]
     }
 
-    if (xTransactionIdCollection[transactionIdItem.endpoint].length > 5)
+    if (
+      xTransactionIdCollection[transactionIdItem.endpoint].length >
+      this.options.reservedCount
+    )
       xTransactionIdCollection[transactionIdItem.endpoint] =
-        xTransactionIdCollection[transactionIdItem.endpoint].slice(-5)
+        xTransactionIdCollection[transactionIdItem.endpoint].slice(
+          -this.options.reservedCount
+        )
 
     await this.saveCollection(xTransactionIdCollection)
   }
