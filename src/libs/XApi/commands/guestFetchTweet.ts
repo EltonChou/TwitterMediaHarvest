@@ -77,7 +77,7 @@ export class GuestFetchTweetCommand extends FetchTweetCommand {
     })
   }
 
-  prepareRequest(context: RequestContext): Request {
+  async prepareRequest(context: RequestContext): Promise<Request> {
     return super.prepareRequest({ ...context, hostname: 'api.x.com' })
   }
 

@@ -28,7 +28,8 @@ import Joi, { type ValidationResult } from 'joi'
 export interface FetchTweetCommandInput extends LiteralObject {
   csrfToken: string
   tweetId: string
-  cacheProvider: CommandCache | Provider<CommandCache>
+  cacheProvider: CommandCache | AsyncProvider<CommandCache>
+  transactionIdProvider?: (query: Query) => Promise<string | undefined>
 }
 
 // TODO: Should we isolate tweet object?
@@ -238,13 +239,19 @@ export abstract class FetchTweetCommand
 
   async putIntoCache(request: Request, response: Response): Promise<void> {
     const cache = await this.getCache()
-    if (response.ok) return cache.put(request.clone(), response.clone())
+    if (response.ok) return cache.put(request, response)
   }
 
-  prepareRequest(context: RequestContext): Request {
+  async prepareRequest(context: RequestContext): Promise<Request> {
+    const transactionId = this.config.transactionIdProvider
+      ? await this.config.transactionIdProvider(this.query)
+      : undefined
+
     return new Request(this.makeEndpoint(context), {
       method: this.method,
-      headers: this.makeHeaders(this.makeAuthHeaders(this.config.csrfToken)),
+      headers: this.makeHeaders(
+        this.makeAuthHeaders(this.config.csrfToken, transactionId)
+      ),
       mode: 'cors',
       referrer: `https://x.com/i/web/status/${this.config.tweetId}`,
     })

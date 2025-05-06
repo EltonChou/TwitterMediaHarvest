@@ -45,7 +45,7 @@ export interface Command<
 
   readonly config: Input
 
-  prepareRequest(context: RequestContext): Request
+  prepareRequest(context: RequestContext): Promise<Request>
   resolveResponse(response: Response): Promise<Output>
 }
 

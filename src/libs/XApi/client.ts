@@ -43,7 +43,7 @@ export class ApiClient implements Client<CommandInputs, CommandOutputs> {
       | CacheAbleCommand<InputType, OutputType>
   ): AsyncResult<OutputType> {
     try {
-      const request = command.prepareRequest({
+      const request = await command.prepareRequest({
         protocol: 'https',
         hostname: 'x.com',
       })
@@ -59,8 +59,6 @@ export class ApiClient implements Client<CommandInputs, CommandOutputs> {
         : undefined
       const isCachedResponse =
         isCacheAbleCommand(command) && cachedResponse !== undefined
-      const shouldCache =
-        isCacheAbleCommand(command) && cachedResponse === undefined
 
       const response =
         cachedResponse ??
@@ -69,13 +67,26 @@ export class ApiClient implements Client<CommandInputs, CommandOutputs> {
             this.config?.timeout ? Math.abs(this.config.timeout) : 10000
           ),
         }))
-      if (shouldCache) await command.putIntoCache(request, response)
+
+      /**
+       * Preserve the response to prevent it consumed by command
+       * and prevent clone when the response is from cache.
+       */
+      const clonedResponse = isCachedResponse ? response : response.clone()
+      const output = await command.resolveResponse(response)
+      const shouldCache =
+        isCacheAbleCommand(command) &&
+        cachedResponse === undefined &&
+        output.$metadata.httpStatusCode === 200
+
+      if (shouldCache)
+        await command.putIntoCache(request.clone(), clonedResponse)
+
       if (!isCachedResponse && this.config?.cookieStore) {
         const cookies = response.headers.get('set-cookie')
         if (cookies) await this.config.cookieStore.set('x.com', cookies)
       }
 
-      const output = await command.resolveResponse(response)
       return isCachedResponse
         ? this.makeCacheResult(output)
         : toSuccessResult(output)

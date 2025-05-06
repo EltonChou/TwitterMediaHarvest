@@ -34,7 +34,7 @@ describe('unit test for latest fetch tweet command', () => {
       cacheProvider: cacheProvider,
     })
 
-    const request = command.prepareRequest({
+    const request = await command.prepareRequest({
       hostname: 'x.com',
       protocol: 'https',
     })
@@ -50,17 +50,18 @@ describe('unit test for latest fetch tweet command', () => {
     expect(cachedResponse).toBeDefined()
   })
 
-  it('can prepare request', () => {
+  it('can prepare request', async () => {
     const command = new RestIdFetchTweetCommand({
       tweetId: '1901057939403608167',
       csrfToken: 'token',
       cacheProvider: mockCache,
     })
 
-    const request = command.prepareRequest({
+    const request = await command.prepareRequest({
       hostname: 'x.com',
       protocol: 'https',
     })
+
     expect(request instanceof Request).toBeTrue()
   })
 

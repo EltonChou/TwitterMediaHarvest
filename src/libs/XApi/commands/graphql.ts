@@ -67,7 +67,7 @@ export abstract class GraphQLCommand {
     return endpoint.href
   }
 
-  protected makeAuthHeaders(csrfToken: string) {
+  protected makeAuthHeaders(csrfToken: string, transactionId?: string) {
     if (this.authType === AuthType.Guest) {
       return new Headers([
         ['x-twitter-active-user', 'yes'],
@@ -76,11 +76,18 @@ export abstract class GraphQLCommand {
     }
 
     if (this.authType === AuthType.Auth) {
-      return new Headers([
-        ['x-twitter-active-user', 'yes'],
-        ['x-csrf-token', csrfToken],
-        ['x-guest-token', csrfToken],
-      ])
+      return transactionId
+        ? new Headers([
+            ['x-twitter-active-user', 'yes'],
+            ['x-csrf-token', csrfToken],
+            ['x-guest-token', csrfToken],
+            ['x-client-transaction-id', transactionId],
+          ])
+        : new Headers([
+            ['x-twitter-active-user', 'yes'],
+            ['x-csrf-token', csrfToken],
+            ['x-guest-token', csrfToken],
+          ])
     }
 
     return new Headers()
