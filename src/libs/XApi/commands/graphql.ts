@@ -3,7 +3,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import type { RequestContext } from './types'
+import type {
+  Command,
+  HttpMethod,
+  MetadataBearer,
+  RequestContext,
+} from './types'
 
 export type QueryParams = {
   variable?: Record<string, unknown>
@@ -11,14 +16,9 @@ export type QueryParams = {
   fieldToggles?: Record<string, boolean>
 }
 
-export const enum QueryMethod {
-  Get = 'GET',
-  Post = 'POST',
-}
-
 export type Query = {
   id: string
-  method: QueryMethod
+  method: HttpMethod
   name: string
   params: QueryParams
 }
@@ -28,15 +28,27 @@ export const enum AuthType {
   Auth = 'auth',
 }
 
-export abstract class GraphQLCommand {
-  abstract readonly authType: AuthType
-
+export abstract class GraphQLCommand<
+  Input extends LiteralObject,
+  Output extends MetadataBearer,
+> implements Command<Input, Output>
+{
   readonly bearerToken =
     'AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
 
   readonly rootPath: string = '/i/api/graphql/'
 
   constructor(protected query: Query) {}
+
+  get method() {
+    return this.query.method
+  }
+
+  abstract readonly authType: AuthType
+  abstract isCacheAble: boolean
+  abstract config: Input
+  abstract prepareRequest(context: RequestContext): Promise<Request>
+  abstract resolveResponse(response: Response): Promise<Output>
 
   protected makeEndpoint(context: RequestContext): string {
     const endpoint = new URL(

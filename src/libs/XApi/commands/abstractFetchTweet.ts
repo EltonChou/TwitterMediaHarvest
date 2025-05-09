@@ -10,10 +10,8 @@ import { isTimelineTimelineItem, isTimelineTweet } from '../parsers/refinements'
 import { retrieveTweetFromTweetResult } from '../parsers/tweet'
 import { parseMedias } from '../parsers/tweetMedia'
 import { GraphQLCommand, Query } from './graphql'
-import { HttpMethod } from './types'
 import type {
   CacheAble,
-  Command,
   CommandCache,
   MetadataBearer,
   RequestContext,
@@ -53,11 +51,10 @@ const tweetUserPropsSchema = Joi.object<TweetUserProps, true>({
 })
 
 export abstract class FetchTweetCommand
-  extends GraphQLCommand
-  implements Command<FetchTweetCommandInput, FetchTweetCommandOutput>, CacheAble
+  extends GraphQLCommand<FetchTweetCommandInput, FetchTweetCommandOutput>
+  implements CacheAble
 {
   readonly isCacheAble = true
-  readonly method = HttpMethod.Get
   readonly config: FetchTweetCommandInput
   private cache: CommandCache | undefined = undefined
 

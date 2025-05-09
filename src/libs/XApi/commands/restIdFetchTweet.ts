@@ -4,7 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { FetchTweetCommand, FetchTweetCommandInput } from './abstractFetchTweet'
-import { AuthType, QueryMethod } from './graphql'
+import { AuthType } from './graphql'
+import { HttpMethod } from './types'
 import { fromNullable } from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/function'
 
@@ -49,7 +50,7 @@ export class RestIdFetchTweetCommand extends FetchTweetCommand {
     super(config, {
       id: '0hWvDhmW8YQ-S_ib3azIrw',
       name: 'TweetResultByRestId',
-      method: QueryMethod.Get,
+      method: HttpMethod.Get,
       params: {
         variable: makeVariableParams(config.tweetId),
         feature: featureParams,

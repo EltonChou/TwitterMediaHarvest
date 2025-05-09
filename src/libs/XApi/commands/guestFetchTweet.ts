@@ -4,8 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { FetchTweetCommand, FetchTweetCommandInput } from './abstractFetchTweet'
-import { AuthType, QueryMethod } from './graphql'
-import { RequestContext } from './types'
+import { AuthType } from './graphql'
+import { HttpMethod, RequestContext } from './types'
 import { fromNullable } from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/function'
 
@@ -68,7 +68,7 @@ export class GuestFetchTweetCommand extends FetchTweetCommand {
     super(config, {
       id: 'Vg2Akr5FzUmF0sTplA5k6g',
       name: 'TweetResultByRestId',
-      method: QueryMethod.Get,
+      method: HttpMethod.Get,
       params: {
         variable: makeVariableParams(config.tweetId),
         feature: featureParams,

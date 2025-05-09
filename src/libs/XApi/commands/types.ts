@@ -12,6 +12,7 @@ export interface ResponseMetadata {
 
 export const enum HttpMethod {
   Get = 'GET',
+  Post = 'POST',
 }
 
 export interface MetadataBearer {
@@ -41,7 +42,6 @@ export interface Command<
   Output extends MetadataBearer,
 > {
   readonly isCacheAble: boolean
-  readonly method: HttpMethod
 
   readonly config: Input
 

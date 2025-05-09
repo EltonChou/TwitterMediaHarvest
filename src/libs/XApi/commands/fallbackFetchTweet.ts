@@ -5,7 +5,8 @@
  */
 import { FetchTweetCommand } from './abstractFetchTweet'
 import type { FetchTweetCommandInput } from './abstractFetchTweet'
-import { AuthType, QueryMethod } from './graphql'
+import { AuthType } from './graphql'
+import { HttpMethod } from './types'
 
 const featureParams = {
   blue_business_profile_image_shape_enabled: false,
@@ -35,7 +36,7 @@ export class FallbackFetchTweet extends FetchTweetCommand {
     super(config, {
       id: 'BbCrSoXIR7z93lLCVFlQ2Q',
       name: 'TweetDetail',
-      method: QueryMethod.Get,
+      method: HttpMethod.Get,
       params: {
         variable: {
           focalTweetId: config.tweetId,

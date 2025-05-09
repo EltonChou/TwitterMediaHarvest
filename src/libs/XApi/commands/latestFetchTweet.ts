@@ -5,7 +5,8 @@
  */
 import { FetchTweetCommand } from './abstractFetchTweet'
 import type { FetchTweetCommandInput } from './abstractFetchTweet'
-import { AuthType, QueryMethod } from './graphql'
+import { AuthType } from './graphql'
+import { HttpMethod } from './types'
 
 const featureParams = {
   rweb_video_screen_enabled: false,
@@ -54,7 +55,7 @@ export class LatestFetchTweetCommand extends FetchTweetCommand {
     super(config, {
       id: '_8aYOgEDz35BrBcBal1-_w',
       name: 'TweetDetail',
-      method: QueryMethod.Get,
+      method: HttpMethod.Get,
       params: {
         variable: {
           focalTweetId: config.tweetId,
