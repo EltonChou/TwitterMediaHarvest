@@ -27,7 +27,9 @@ export interface ClientConfiguration {
   apiKey: string
   clientVersion: string
   hostName: string
-  credentials: CognitoIdentityCredentials | Provider<CognitoIdentityCredentials>
+  credentials:
+    | CognitoIdentityCredentials
+    | AsyncProvider<CognitoIdentityCredentials>
   timeout?: number
 }
 
