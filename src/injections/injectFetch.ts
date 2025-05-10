@@ -32,10 +32,11 @@ type TxTarget = {
 }
 
 const requesetPathWeakMap = new WeakMap<XMLHttpRequest, TxTarget>()
+const seenQuery = new Set<string>()
 
 const Pattern = Object.freeze({
   tweetRelated:
-    /^(\/i\/api)?\/graphql\/.+\/(TweetDetail|TweetResultByRestId|UserTweets|UserMedia|HomeTimeline|UserTweetsAndReplies|UserHighlightsTweets|UserArticlesTweets|Bookmarks|Likes|CommunitiesExploreTimeline|ListLatestTweetsTimeline)$/,
+    /^(?:\/i\/api)?\/graphql\/(?:.+\/)?(\w+)\/(TweetDetail|TweetResultByRestId|UserTweets|UserMedia|HomeTimeline|UserTweetsAndReplies|UserHighlightsTweets|UserArticlesTweets|Bookmarks|Likes|CommunitiesExploreTimeline|ListLatestTweetsTimeline)$/,
 })
 
 const enum MediaHarvestEvent {
@@ -58,11 +59,12 @@ XMLHttpRequest.prototype.setRequestHeader = function (
   if (lowerCaseName === 'x-client-transaction-id' && txTarget)
     document.dispatchEvent(
       new CustomEvent<MediaHarvest.ClientTxIdDetail>(
-        MediaHarvestEvent.TransactionId,
+        MediaHarvestEvent.CaptureTransactionId,
         {
           detail: {
             value,
-            ...txTarget,
+            method: txTarget.method,
+            path: txTarget.method,
           },
         }
       )
@@ -76,23 +78,48 @@ XMLHttpRequest.prototype.open = function (
   username?: string | null,
   password?: string | null
 ) {
-  let path = ''
-  if (typeof url === 'string') {
-    const validUrl = URL.parse(url)
-    if (validUrl) path = validUrl.pathname
-  } else if (url instanceof URL) {
-    path = url.pathname
+  const applyOriginal = () =>
+    xOpen.apply(this, [method, url, async, username, password])
+
+  let validUrl: URL | undefined = undefined
+  if (url instanceof URL) {
+    validUrl = url
+  } else {
+    const parsedUrl = URL.parse(url)
+    if (parsedUrl) validUrl = parsedUrl
   }
 
-  if (path.match(Pattern.tweetRelated)) {
+  if (!validUrl) return applyOriginal()
+
+  const matchedUrl = validUrl.pathname.match(Pattern.tweetRelated)
+  if (validUrl && matchedUrl) {
+    const [_, queryId, queryName] = matchedUrl
+    const queryIdentity = makeQueryIdentity(queryName, queryId, validUrl.search)
+
+    if (!seenQuery.has(queryIdentity)) {
+      seenQuery.add(queryIdentity)
+      document.dispatchEvent(
+        new CustomEvent<MediaHarvest.QueryStringDetail>(
+          MediaHarvestEvent.QueryString,
+          {
+            detail: {
+              id: queryId,
+              name: queryName,
+              queryString: validUrl.search,
+            },
+          }
+        )
+      )
+    }
+
     this.addEventListener('load', captureResponse)
     requesetPathWeakMap.set(this, {
       method,
-      path,
+      path: validUrl.pathname,
     })
   }
 
-  xOpen.apply(this, [method, url, async, username, password])
+  applyOriginal()
 }
 
 function captureResponse(this: XMLHttpRequest, _ev: ProgressEvent) {
@@ -113,6 +140,14 @@ function captureResponse(this: XMLHttpRequest, _ev: ProgressEvent) {
 
     document.dispatchEvent(event)
   }
+}
+
+function makeQueryIdentity(
+  queryName: string,
+  queryId: string,
+  queryString: string
+) {
+  return `${queryName}|${queryId}|${queryString}`
 }
 
 self.webpackChunk_twitter_responsive_web = new Proxy<
