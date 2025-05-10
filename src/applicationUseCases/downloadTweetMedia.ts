@@ -23,6 +23,7 @@ import type {
 import type {
   FetchTweetSolution,
   SolutionStatistics,
+  TransactionIdProvider,
 } from '#domain/useCases/fetchTweetSolution'
 import {
   FetchTweetSolutionError,
@@ -30,6 +31,7 @@ import {
   NoValidSolutionToken,
   TweetIsNotFound,
   TweetProcessingError,
+  isTransactionIdConsumer,
 } from '#domain/useCases/fetchTweetSolution'
 import { DownloadTarget } from '#domain/valueObjects/downloadTarget'
 import type { FilenameSetting } from '#domain/valueObjects/filenameSetting'
@@ -42,6 +44,7 @@ import { isErrorResult } from '#utils/result'
 
 type DownloadTweetMediaCommand = {
   tweetInfo: TweetInfo
+  xTransactionIdProvider: TransactionIdProvider
 }
 
 export type DownloaderBuilderMap = {
@@ -65,7 +68,10 @@ export class DownloadTweetMedia
 {
   constructor(readonly infra: InfraProvider) {}
 
-  async process({ tweetInfo }: DownloadTweetMediaCommand): Promise<boolean> {
+  async process({
+    tweetInfo,
+    xTransactionIdProvider,
+  }: DownloadTweetMediaCommand): Promise<boolean> {
     const { value: tweet } = await this.infra.tweetCacheRepo.get(
       tweetInfo.tweetId
     )
@@ -84,9 +90,14 @@ export class DownloadTweetMedia
     }
 
     const solution = this.infra.solutionProvider()
-    const tweetResult = await solution.process({
-      tweetId: tweetInfo.tweetId,
-    })
+    const tweetResult = isTransactionIdConsumer(solution)
+      ? await solution.process({
+          tweetId: tweetInfo.tweetId,
+          transactionIdProvider: xTransactionIdProvider,
+        })
+      : await solution.process({
+          tweetId: tweetInfo.tweetId,
+        })
 
     await this.infra.eventPublisher.publishAll(...solution.events)
     await this.reportSolutionStatistics(solution.statistics)

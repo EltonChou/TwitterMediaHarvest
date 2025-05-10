@@ -10,11 +10,12 @@ import type { Factory } from '#domain/factories/base'
 import type { ISolutionQuotaRepository } from '#domain/repositories/solutionQuota'
 import type { ITwitterTokenRepository } from '#domain/repositories/twitterToken'
 import type {
-  FetchTweetSolution,
-  FetchTweetSolutionCommand,
   FetchTweetSolutionError,
+  FetchTweetSolutionWithTransactinIdCommand,
+  FetchTweetSolutionWithTransactionId,
   QuotaStatistic,
   SolutionStatistics,
+  TransactionIdProvider,
 } from '#domain/useCases/fetchTweetSolution'
 import {
   InsufficientQuota,
@@ -39,7 +40,7 @@ import {
 } from '#libs/XApi'
 import { FetchTweetError } from '#libs/XApi'
 import type { CommandCache } from '#libs/XApi/commands/types'
-import { toErrorResult } from '#utils/result'
+import { isErrorResult, toErrorResult } from '#utils/result'
 
 export interface InfraProvider {
   solutionQuotaRepo: ISolutionQuotaRepository
@@ -117,8 +118,9 @@ type SolutionOptions = {
  * @see {@link TweetSolutionQuotaInsufficient}
  */
 export class NativeFetchTweetSolution
-  implements FetchTweetSolution<StatisticIdentity>
+  implements FetchTweetSolutionWithTransactionId<StatisticIdentity>
 {
+  readonly isTransactionIdConsumer = true
   private infra: InfraProvider
   private options: SolutionOptions
   private cache: CacheStorage | undefined
@@ -157,11 +159,21 @@ export class NativeFetchTweetSolution
       tweetId: string
       csrfToken: string
       statIdentity: StatisticIdentity
+      transactionIdProvider?: TransactionIdProvider
     }) => {
       const command = new CommandConstructor({
         tweetId: config.tweetId,
         csrfToken: config.csrfToken,
         cacheProvider: this.getCacheStorage,
+        transactionIdProvider: async (path, method) => {
+          if (config.transactionIdProvider) {
+            const txIdResult = await config.transactionIdProvider(path, method)
+            if (isErrorResult(txIdResult)) return undefined
+            return txIdResult.value
+          }
+
+          return undefined
+        },
       })
 
       const { value, error } = await this.infra.xApiClient.exec(command)
@@ -176,7 +188,7 @@ export class NativeFetchTweetSolution
   }
 
   async process(
-    command: FetchTweetSolutionCommand
+    command: FetchTweetSolutionWithTransactinIdCommand
   ): Promise<Result<Tweet, FetchTweetSolutionError>> {
     const csrfToken = await this.infra.xTokenRepo.getCsrfToken()
     const guestToken = await this.infra.xTokenRepo.getGuestToken()
@@ -229,6 +241,7 @@ export class NativeFetchTweetSolution
         statIdentity: 'general',
         tweetId: command.tweetId,
         csrfToken: csrfToken.value,
+        transactionIdProvider: command.transactionIdProvider,
       })
 
       if (hasValidQuotaValue(generalResult.value)) {

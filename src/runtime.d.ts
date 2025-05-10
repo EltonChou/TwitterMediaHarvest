@@ -18,6 +18,26 @@ declare namespace MediaHarvest {
     method: string
     path: string
   }
+
+  interface QueryStringDetail {
+    /** gql Query name */
+    name: string
+    /** gql Query id */
+    id: string
+    /** query string */
+    queryString: string
+  }
+
+  interface TxIdRequestDetail {
+    uuid: string
+    path: string
+    method: string
+  }
+
+  interface TxIdResponseDetail {
+    uuid: string
+    value: string
+  }
 }
 
 declare namespace NodeJS {
@@ -27,7 +47,10 @@ declare namespace NodeJS {
 
 interface CustomEventMap {
   'mh:media-response': CustomEvent<MediaHarvest.MediaResponseDetail>
-  'mh:tx-id': CustomEvent<MediaHarvest.ClientTxIdDetail>
+  'mh:tx-id:capture': CustomEvent<MediaHarvest.ClientTxIdDetail>
+  'mh:query-string': CustomEvent<MediaHarvest.QueryStringDetail>
+  'mh:tx-id:request': CustomEvent<MediaHarvest.TxIdRequestDetail>
+  'mh:tx-id:response': CustomEvent<MediaHarvest.TxIdResponseDetail>
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

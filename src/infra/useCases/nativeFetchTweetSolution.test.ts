@@ -6,6 +6,7 @@ import { ITwitterTokenRepository } from '#domain/repositories/twitterToken'
 import {
   InsufficientQuota,
   NoValidSolutionToken,
+  TransactionIdProvider,
   TweetIsNotFound,
 } from '#domain/useCases/fetchTweetSolution'
 import { ResettableQuota } from '#domain/valueObjects/resettableQuota'
@@ -25,6 +26,10 @@ describe('NativeFetchTweetSolution', () => {
   let xTokenRepo: ITwitterTokenRepository
   let xApiClient: ApiClient
   let solution: NativeFetchTweetSolution
+  const transactionIdProvider: TransactionIdProvider = async (
+    _path,
+    _medthod
+  ) => toSuccessResult('')
 
   beforeEach(() => {
     solutionQuotaRepo = jest.mocked(new MockSolutionQuotaRepository())
@@ -42,7 +47,10 @@ describe('NativeFetchTweetSolution', () => {
       jest.spyOn(xTokenRepo, 'getCsrfToken').mockResolvedValue(undefined)
       jest.spyOn(xTokenRepo, 'getGuestToken').mockResolvedValue(undefined)
 
-      const result = await solution.process({ tweetId: '123' })
+      const result = await solution.process({
+        tweetId: '123',
+        transactionIdProvider: transactionIdProvider,
+      })
 
       expect(result.error).toBeInstanceOf(NoValidSolutionToken)
     })
@@ -59,7 +67,10 @@ describe('NativeFetchTweetSolution', () => {
         })
       )
 
-      const result = await solution.process({ tweetId: '123' })
+      const result = await solution.process({
+        tweetId: '123',
+        transactionIdProvider: transactionIdProvider,
+      })
 
       expect(result.error).toBeInstanceOf(InsufficientQuota)
     })
@@ -86,7 +97,10 @@ describe('NativeFetchTweetSolution', () => {
         })
       )
 
-      const result = await solution.process({ tweetId: '123' })
+      const result = await solution.process({
+        tweetId: '123',
+        transactionIdProvider: transactionIdProvider,
+      })
 
       expect(result.error).toBeUndefined()
       expect(result.value).toBeDefined()
@@ -109,7 +123,10 @@ describe('NativeFetchTweetSolution', () => {
           })
         )
 
-      await solution.process({ tweetId: '123' })
+      await solution.process({
+        tweetId: '123',
+        transactionIdProvider: transactionIdProvider,
+      })
 
       expect(solution.events).toContainEqual(
         expect.any(TweetSolutionQuotaChanged)
@@ -131,7 +148,10 @@ describe('NativeFetchTweetSolution', () => {
           })
         )
 
-      await solution.process({ tweetId: '123' })
+      await solution.process({
+        tweetId: '123',
+        transactionIdProvider: transactionIdProvider,
+      })
 
       expect(solution.events).toContainEqual(
         expect.any(TweetSolutionQuotaInsufficient)
@@ -146,7 +166,10 @@ describe('NativeFetchTweetSolution', () => {
           toErrorResult(new FetchTweetError('Not Found', 404))
         )
 
-      const result = await solution.process({ tweetId: '123' })
+      const result = await solution.process({
+        tweetId: '123',
+        transactionIdProvider: transactionIdProvider,
+      })
 
       expect(result.error).toBeInstanceOf(TweetIsNotFound)
     })

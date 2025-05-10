@@ -21,7 +21,8 @@ interface IHarvester {
   appendButton: () => void
 }
 
-type Provider<T> = (() => T) | (() => Promise<T>)
+type Provider<T> = () => T
+type AsyncProvider<T> = () => Promise<T>
 
 interface LiteralObject {
   [index: string]: unknown

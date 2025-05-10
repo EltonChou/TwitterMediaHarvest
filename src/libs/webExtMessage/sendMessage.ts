@@ -13,7 +13,7 @@ import {
   WebExtMessagePayloadResponse,
   WebExtMessageResponse,
 } from './messages/base'
-import { runtime } from 'webextension-polyfill'
+import { runtime, tabs } from 'webextension-polyfill'
 
 export const sendMessage = async <
   Action extends WebExtAction,
@@ -52,4 +52,19 @@ export const sendExternalMessage = async <
   }
 
   return { reason: 'No target extension', status: 'error' }
+}
+
+export const sendTabMessage = (tabId: number) => {
+  return async <
+    Action extends WebExtAction,
+    Payload extends LiteralObject = never,
+    ResponsePayload extends LiteralObject = never,
+  >(
+    message: WebExtMessage<Action, Payload, ResponsePayload>
+  ): Promise<
+    | (keyof ResponsePayload extends string
+        ? WebExtMessagePayloadResponse<ResponsePayload>
+        : WebExtMessageResponse)
+    | WebExtMessageErrorResponse
+  > => tabs.sendMessage(tabId, message.toObject())
 }

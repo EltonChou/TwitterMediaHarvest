@@ -7,6 +7,8 @@ import type {
 import { Tweet } from '#domain/valueObjects/tweet'
 
 export class MockFetchTweetSolution implements FetchTweetSolution {
+  readonly isTransactionIdConsumer = false
+
   get events(): IDomainEvent[] {
     return []
   }

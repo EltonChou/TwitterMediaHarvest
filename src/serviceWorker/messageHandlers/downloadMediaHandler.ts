@@ -4,7 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
-import { DownloadTweetMediaMessage } from '#libs/webExtMessage'
+import { DownloadTweetMediaMessage, sendTabMessage } from '#libs/webExtMessage'
+import { RequestTransactionIdMessage } from '#libs/webExtMessage/messages/requestTransactionId'
+import { toErrorResult, toSuccessResult } from '#utils/result'
 import {
   DownloadTweetMedia,
   type InfraProvider,
@@ -24,6 +26,17 @@ const downloadMessageHandler = (
 
     const isOk = await downloadTweetMedia.process({
       tweetInfo: new TweetInfo(message.payload),
+      xTransactionIdProvider: async (path, method) => {
+        if (ctx.sender.tab?.id) {
+          const response = await sendTabMessage(ctx.sender.tab?.id)(
+            new RequestTransactionIdMessage({ path, method })
+          )
+          if (response.status === 'ok')
+            return toSuccessResult(response.payload.transactionId)
+        }
+
+        return toErrorResult(new Error('Failed to request transaction id'))
+      },
     })
 
     return ctx.response(

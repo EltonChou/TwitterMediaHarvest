@@ -27,7 +27,10 @@ export interface FetchTweetCommandInput extends LiteralObject {
   csrfToken: string
   tweetId: string
   cacheProvider: CommandCache | AsyncProvider<CommandCache>
-  transactionIdProvider?: (query: Query) => Promise<string | undefined>
+  transactionIdProvider?: (
+    path: string,
+    method: string
+  ) => Promise<string | undefined>
 }
 
 // TODO: Should we isolate tweet object?
@@ -241,7 +244,10 @@ export abstract class FetchTweetCommand
 
   async prepareRequest(context: RequestContext): Promise<Request> {
     const transactionId = this.config.transactionIdProvider
-      ? await this.config.transactionIdProvider(this.query)
+      ? await this.config.transactionIdProvider(
+          `${this.rootPath}${this.query.id}/${this.query.name}`,
+          this.query.method
+        )
       : undefined
 
     return new Request(this.makeEndpoint(context), {
