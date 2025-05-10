@@ -11,6 +11,8 @@ import {
   ResponseType,
 } from '#libs/webExtMessage/messages/captureResponse'
 import { CaptureTransactionIdMessage } from '#libs/webExtMessage/messages/captureTransactionId'
+import { RequestTransactionIdMessage } from '#libs/webExtMessage/messages/requestTransactionId'
+import { isErrorResult } from '#utils/result'
 import {
   TweetDeckBetaKeyboardMonitor,
   TwitterKeyboardMonitor,
@@ -19,6 +21,7 @@ import './main.sass'
 import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
 import { isBetaTweetDeck, isTwitter } from './utils/checker'
+import { runtime } from 'webextension-polyfill'
 
 export const featureSettingsRepo = new FeatureSettingsRepository(
   new LocalExtensionStorageProxy()
@@ -120,7 +123,7 @@ document.addEventListener('mh:media-response', async e => {
   )
 })
 
-document.addEventListener('mh:tx-id', async e => {
+document.addEventListener('mh:tx-id:capture', async e => {
   await sendMessage(
     new CaptureTransactionIdMessage({
       method: e.detail.method,
@@ -128,4 +131,36 @@ document.addEventListener('mh:tx-id', async e => {
       transactionId: e.detail.value,
     })
   )
+})
+
+runtime.onMessage.addListener((message, _sender, sendResponse) => {
+  const messageResult = RequestTransactionIdMessage.validate(message)
+  if (isErrorResult(messageResult)) return
+
+  const messagePayload = messageResult.value.payload
+  const uuid = self.crypto.randomUUID()
+
+  document.addEventListener(
+    'mh:tx-id:response',
+    (ev: CustomEvent<MediaHarvest.TxIdResponseDetail>) => {
+      const { uuid: respUUID, value } = ev.detail
+      if (respUUID !== uuid) return
+      sendResponse(
+        messageResult.value.makeResponse(true, { transactionId: value })
+      )
+    },
+    { once: true }
+  )
+
+  document.dispatchEvent(
+    new CustomEvent<MediaHarvest.TxIdRequestDetail>('mh:tx-id:request', {
+      detail: {
+        uuid,
+        method: messagePayload.method,
+        path: messagePayload.path,
+      },
+    })
+  )
+
+  return true
 })
