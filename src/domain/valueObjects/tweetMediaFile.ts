@@ -32,4 +32,8 @@ export class TweetMediaFile extends ValueObject<TweetMediaFileProps> {
   get isThumbnail(): boolean {
     return this.props.type === 'thumbnail'
   }
+
+  static create(props: TweetMediaFileProps) {
+    return new TweetMediaFile(props)
+  }
 }

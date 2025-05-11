@@ -90,7 +90,7 @@ const wrapButton = (mode: TweetMode) => (button: HTMLElement) =>
   pipe(
     E.of({
       wrapper: createElementFromHTML(`
-      <div class="harvester ${mode}" data-testid="harvester-button">
+      <div class="harvester ${mode}" data-testid="harvester-button" data-harvest-ref="U2FsdGVkX18434vXoO+1oS21I0YQm8zFX6xy775AvdCpmSEOQHO9ns7wa518zD8t">
         <div aria-haspopup="true" aria-label="Media Harvest" role="button" data-focusable="true" tabindex="0" \
         style="display: flex;justify-content: center;"></div>
       </div>

@@ -74,24 +74,24 @@ export class TweetResponseCache implements ICache<TweetWithContent> {
       const { value, error } = responseSchema.validate(data)
       if (error) return toErrorResult(error)
 
-      const user = new TweetUser({
+      const user = TweetUser.create({
         displayName: value.tweet.user.displayName,
         screenName: value.tweet.user.screenName,
         isProtected: value.tweet.user.isProtected,
         userId: value.tweet.user.userId,
       })
 
-      const tweet = new Tweet({
-        createdAt: new Date(value.tweet.createdAt),
+      const tweet = Tweet.create({
+        createdAt: value.tweet.createdAt,
         id: value.tweet.id,
-        videos: value.tweet.videos.map(props => new TweetMedia(props)),
-        images: value.tweet.images.map(props => new TweetMedia(props)),
+        videos: value.tweet.videos.map(TweetMedia.create),
+        images: value.tweet.images.map(TweetMedia.create),
         user: user,
         hashtags: value.tweet.hashtags,
       })
 
       return toSuccessResult(
-        new TweetWithContent({
+        TweetWithContent.create({
           tweet,
           content: value.content,
         })

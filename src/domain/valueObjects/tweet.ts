@@ -52,4 +52,8 @@ export class Tweet extends ValueObject<TweetProps> {
       return MediaType.Video
     return MediaType.Mixed
   }
+
+  static create(props: TweetProps) {
+    return new Tweet(props)
+  }
 }

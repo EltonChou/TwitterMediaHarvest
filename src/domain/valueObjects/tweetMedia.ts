@@ -27,4 +27,8 @@ export class TweetMedia extends ValueObject<TweetMediaProps> {
     url.pathname += ':' + variant
     return url.href
   }
+
+  static create(props: TweetMediaProps) {
+    return new TweetMedia(props)
+  }
 }

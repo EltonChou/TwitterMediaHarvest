@@ -19,4 +19,8 @@ export class TweetUser extends ValueObject<TweetUserProps> {
   get isProtected() {
     return this.props.isProtected
   }
+
+  static create(props: TweetUserProps) {
+    return new TweetUser(props)
+  }
 }

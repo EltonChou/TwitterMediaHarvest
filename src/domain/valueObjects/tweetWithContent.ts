@@ -23,4 +23,8 @@ export class TweetWithContent extends ValueObject<TweetWithContentProps> {
   get content() {
     return this.props.content
   }
+
+  static create(props: TweetWithContentProps) {
+    return new TweetWithContent(props)
+  }
 }
