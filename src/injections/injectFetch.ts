@@ -21,8 +21,6 @@ type ESModule<T = unknown> = {
 }
 type MakeTransactionId = (path: string, method: string) => Promise<string>
 
-const xOpen = XMLHttpRequest.prototype.open
-
 let generateTransactionId: MakeTransactionId
 
 type TxTarget = {
@@ -43,37 +41,32 @@ const enum MediaHarvestEvent {
   RequestTransactionId = 'mh:tx-id:request',
 }
 
-XMLHttpRequest.prototype.open = function (
-  method: string,
-  url: string | URL,
-  async: boolean = true,
-  username?: string | null,
-  password?: string | null
-) {
-  const applyOriginal = () =>
-    xOpen.apply(this, [method, url, async, username, password])
-
-  let validUrl: URL | undefined = undefined
-  if (url instanceof URL) {
-    validUrl = url
-  } else {
-    const parsedUrl = URL.parse(url)
-    if (parsedUrl) validUrl = parsedUrl
-  }
-
-  if (!validUrl) return applyOriginal()
-
-  const matchedUrl = validUrl.pathname.match(Pattern.tweetRelated)
-  if (validUrl && matchedUrl) {
-    this.addEventListener('load', captureResponse)
-    requesetPathWeakMap.set(this, {
-      method,
-      path: validUrl.pathname,
-    })
-  }
-
-  applyOriginal()
+function validateUrl(url: string | URL | undefined): URL | undefined {
+  if (!url) return undefined
+  if (url instanceof URL) return url
+  if (URL.canParse(url)) return new URL(url)
+  return undefined
 }
+
+XMLHttpRequest.prototype.open = new Proxy(XMLHttpRequest.prototype.open, {
+  apply(target, thisArg: XMLHttpRequest, args) {
+    const [method, url] = args
+
+    const validUrl = validateUrl(url)
+    if (validUrl) {
+      const matchedUrl = validUrl.pathname.match(Pattern.tweetRelated)
+      if (validUrl && matchedUrl) {
+        thisArg.addEventListener('load', captureResponse)
+        requesetPathWeakMap.set(thisArg, {
+          method,
+          path: validUrl.pathname,
+        })
+      }
+    }
+
+    return Reflect.apply(target, thisArg, args)
+  },
+})
 
 function captureResponse(this: XMLHttpRequest, _ev: ProgressEvent) {
   if (this.status === 200) {
