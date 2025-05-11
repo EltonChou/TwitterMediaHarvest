@@ -64,9 +64,7 @@ export class TweetResponseCache implements ICache<TweetWithContent> {
   async get(cacheId: string): AsyncResult<TweetWithContent | undefined, Error> {
     try {
       const cache = await this.getCache()
-      const fakeRequest = new Request(
-        `http://mediaharvest.local/tweets/${cacheId}`
-      )
+      const fakeRequest = new Request(makeFakeTweetUrl(cacheId))
 
       const response = await cache.match(fakeRequest)
       if (!response) return toSuccessResult(undefined)
@@ -106,7 +104,7 @@ export class TweetResponseCache implements ICache<TweetWithContent> {
   async save(item: TweetWithContent): Promise<UnsafeTask> {
     try {
       const cache = await this.getCache()
-      const request = new Request(`http://mediaharvest.local/tweets/${item.id}`)
+      const request = new Request(makeFakeTweetUrl(item.id))
 
       const response = new Response(JSON.stringify(item), {
         headers: {
@@ -129,3 +127,6 @@ export class TweetResponseCache implements ICache<TweetWithContent> {
       return new Error('Failed to cache some tweet response', { cause: errors })
   }
 }
+
+const makeFakeTweetUrl = (tweetId: string) =>
+  `http://mediaharvest.local/tweets/${tweetId}`
