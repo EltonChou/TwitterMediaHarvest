@@ -10,7 +10,6 @@ import {
   CaptureResponseMessage,
   ResponseType,
 } from '#libs/webExtMessage/messages/captureResponse'
-import { CaptureTransactionIdMessage } from '#libs/webExtMessage/messages/captureTransactionId'
 import { RequestTransactionIdMessage } from '#libs/webExtMessage/messages/requestTransactionId'
 import { isErrorResult } from '#utils/result'
 import {
@@ -119,16 +118,6 @@ document.addEventListener('mh:media-response', async e => {
     new CaptureResponseMessage({
       type: detectResponseTypeByEndpoint(e.detail.path),
       body: e.detail.body,
-    })
-  )
-})
-
-document.addEventListener('mh:tx-id:capture', async e => {
-  await sendMessage(
-    new CaptureTransactionIdMessage({
-      method: e.detail.method,
-      path: e.detail.path,
-      transactionId: e.detail.value,
     })
   )
 })

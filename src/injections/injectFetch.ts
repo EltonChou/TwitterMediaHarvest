@@ -22,7 +22,6 @@ type ESModule<T = unknown> = {
 type MakeTransactionId = (path: string, method: string) => Promise<string>
 
 const xOpen = XMLHttpRequest.prototype.open
-const xSetHeader = XMLHttpRequest.prototype.setRequestHeader
 
 let generateTransactionId: MakeTransactionId
 
@@ -32,7 +31,6 @@ type TxTarget = {
 }
 
 const requesetPathWeakMap = new WeakMap<XMLHttpRequest, TxTarget>()
-const seenQuery = new Set<string>()
 
 const Pattern = Object.freeze({
   tweetRelated:
@@ -41,34 +39,8 @@ const Pattern = Object.freeze({
 
 const enum MediaHarvestEvent {
   MediaResponse = 'mh:media-response',
-  CaptureTransactionId = 'mh:tx-id:capture',
   ResponseTransactionId = 'mh:tx-id:response',
   RequestTransactionId = 'mh:tx-id:request',
-  QueryString = 'mh:query-string',
-}
-
-XMLHttpRequest.prototype.setRequestHeader = function (
-  name: string,
-  value: string
-) {
-  xSetHeader.apply(this, [name, value])
-
-  const lowerCaseName = name.toLowerCase()
-  const txTarget = requesetPathWeakMap.get(this)
-
-  if (lowerCaseName === 'x-client-transaction-id' && txTarget)
-    document.dispatchEvent(
-      new CustomEvent<MediaHarvest.ClientTxIdDetail>(
-        MediaHarvestEvent.CaptureTransactionId,
-        {
-          detail: {
-            value,
-            method: txTarget.method,
-            path: txTarget.method,
-          },
-        }
-      )
-    )
 }
 
 XMLHttpRequest.prototype.open = function (
@@ -93,25 +65,6 @@ XMLHttpRequest.prototype.open = function (
 
   const matchedUrl = validUrl.pathname.match(Pattern.tweetRelated)
   if (validUrl && matchedUrl) {
-    const [_, queryId, queryName] = matchedUrl
-    const queryIdentity = makeQueryIdentity(queryName, queryId, validUrl.search)
-
-    if (!seenQuery.has(queryIdentity)) {
-      seenQuery.add(queryIdentity)
-      document.dispatchEvent(
-        new CustomEvent<MediaHarvest.QueryStringDetail>(
-          MediaHarvestEvent.QueryString,
-          {
-            detail: {
-              id: queryId,
-              name: queryName,
-              queryString: validUrl.search,
-            },
-          }
-        )
-      )
-    }
-
     this.addEventListener('load', captureResponse)
     requesetPathWeakMap.set(this, {
       method,
@@ -140,14 +93,6 @@ function captureResponse(this: XMLHttpRequest, _ev: ProgressEvent) {
 
     document.dispatchEvent(event)
   }
-}
-
-function makeQueryIdentity(
-  queryName: string,
-  queryId: string,
-  queryString: string
-) {
-  return `${queryName}|${queryId}|${queryString}`
 }
 
 self.webpackChunk_twitter_responsive_web = new Proxy<

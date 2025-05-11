@@ -8,7 +8,6 @@ export const enum WebExtAction {
   DownloadMedia = 'download-media',
   CheckDownloadHistory = 'check-download-history',
   CaptureResponse = 'capture-response',
-  CaptureTransactionId = 'capture-tx-id',
   RequestTransactionId = 'request-tx-id',
 }
 

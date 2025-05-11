@@ -15,7 +15,6 @@ import { SolutionQuotaRepository } from '#infra/repositories/solutionQuota'
 import { WebExtUsageStatisticsRepository } from '#infra/repositories/usageStatistics'
 import { WarningSettingsRepo } from '#infra/repositories/warningSettings'
 import { XTokenRepo } from '#infra/repositories/xToken'
-import { LocalXTransactionIdRepository } from '#infra/repositories/xTransactionId'
 import { downloadIDB } from '#libs/idb/download/db'
 import { awsClient } from './client'
 import { localWebExtStorage, syncWebExtStorage } from './proxy'
@@ -47,7 +46,3 @@ export const portableDownloadRepo = new IDBPortableDownloadHistoryRepository(
 )
 export const warningSettingsRepo = new WarningSettingsRepo(localWebExtStorage)
 export const solutionQuotaRepo = new SolutionQuotaRepository(localWebExtStorage)
-export const xTransactionIdRepo = new LocalXTransactionIdRepository(
-  localWebExtStorage,
-  { reservedCount: 3 }
-)
