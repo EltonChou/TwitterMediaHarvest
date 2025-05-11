@@ -90,6 +90,7 @@ const responseTypeCriterias: ResponseTypeCriteria[] = [
   { type: ResponseType.UserTweets, endpoint: 'UserTweets' },
   { type: ResponseType.UserMedia, endpoint: 'UserMedia' },
   { type: ResponseType.HomeTimeline, endpoint: 'HomeTimeline' },
+  { type: ResponseType.HomeLatestTimeline, endpoint: 'HomeLatestTimeline' },
   { type: ResponseType.UserArticlesTweets, endpoint: 'UserArticlesTweets' },
   { type: ResponseType.UserTweetsAndReplies, endpoint: 'UserTweetsAndReplies' },
   { type: ResponseType.UserHighlightsTweets, endpoint: 'UserHighlightsTweets' },

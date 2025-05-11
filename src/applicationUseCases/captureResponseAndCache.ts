@@ -172,6 +172,7 @@ export class CaptureResponseAndCache
         break
 
       case ResponseType.HomeTimeline:
+      case ResponseType.HomeLatestTimeline:
         error = await this.processHomeTimelineResponse(body)
         break
 
