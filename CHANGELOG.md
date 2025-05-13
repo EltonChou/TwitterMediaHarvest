@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Add cache support for `Following` timeline. [#226](https://github.com/EltonChou/TwitterMediaHarvest/issues/226)
+
 ## [4.4.1] - 2025-05-03
 
 ### Added
