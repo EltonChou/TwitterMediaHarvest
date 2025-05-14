@@ -132,14 +132,16 @@ runtime.onMessage.addListener((message, _sender, sendResponse) => {
 
   document.addEventListener(
     'mh:tx-id:response',
-    (ev: CustomEvent<MediaHarvest.TxIdResponseDetail>) => {
+    function responseTxId(ev: CustomEvent<MediaHarvest.TxIdResponseDetail>) {
       const { uuid: respUUID, value } = ev.detail
       if (respUUID !== uuid) return
+
       sendResponse(
         messageResult.value.makeResponse(true, { transactionId: value })
       )
-    },
-    { once: true }
+
+      document.removeEventListener('mh:tx-id:response', responseTxId)
+    }
   )
 
   document.dispatchEvent(
