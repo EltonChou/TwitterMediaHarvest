@@ -33,6 +33,7 @@ import {
   downloadRecordRepo,
   downloadRepo,
   downloadSettingsRepo,
+  nativeFetchTweetSolution,
   solutionQuotaRepo,
   usageStatisticsRepo,
   warningSettingsRepo,
@@ -63,6 +64,7 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
       showUpdateMessageInConsole,
       showClientInfoInConsole(clientRepo),
       setUser,
+      async () => await nativeFetchTweetSolution.clearCacheStorage(),
     ])
     .register('download:status:dispatched:aria2', [
       increaseUsageStats,

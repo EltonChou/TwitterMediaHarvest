@@ -5,9 +5,12 @@
  */
 import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadWasTriggeredBySelf'
 import { BrowserDownloadFile } from '#infra/useCases/browerDownloadFile'
+import { NativeFetchTweetSolution } from '#infra/useCases/nativeFetchTweetSolution'
 import { SearchDownloadHistoryFromIDB } from '#infra/useCases/searchDownloadHistoryFromIDB'
 import { SearchTweetIdsByHashtagsFromIDB } from '#infra/useCases/searchTweetIdsByHashtagsFromIDB'
 import { downloadIDB } from '#libs/idb/download/db'
+import { xApiClient } from './client'
+import { solutionQuotaRepo, xTokenRepo } from './repos'
 import { runtime } from 'webextension-polyfill'
 
 export const searchDownloadHistory = new SearchDownloadHistoryFromIDB(
@@ -20,4 +23,13 @@ export const searchTweetIdsByHashtags = new SearchTweetIdsByHashtagsFromIDB(
 export const browserDownloadFile = new BrowserDownloadFile()
 export const checkDownloadIsOwnBySelf = new CheckDownloadWasTriggeredBySelf(
   runtime.id
+)
+
+export const nativeFetchTweetSolution = new NativeFetchTweetSolution(
+  {
+    xApiClient: xApiClient,
+    xTokenRepo: xTokenRepo,
+    solutionQuotaRepo: solutionQuotaRepo,
+  },
+  { quotaThreshold: 10, reservedQuota: 10 }
 )

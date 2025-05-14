@@ -62,6 +62,11 @@ class CacheStorage implements CommandCache {
   put(request: Request, response: Response): Promise<void> {
     return this.cache.put(request, response)
   }
+
+  async clear() {
+    const keys = await this.cache.keys()
+    return Promise.allSettled(keys.map(key => this.cache.delete(key)))
+  }
 }
 
 type StatisticIdentity = 'general' | 'fallback' | 'guest'
@@ -152,6 +157,22 @@ export class NativeFetchTweetSolution
     const cacheStorage = await caches.open('fetch-tweet')
     this.cache = new CacheStorage(cacheStorage)
     return this.cache
+  }
+
+  /**
+   * @internal
+   * @returns clear is success or not
+   */
+  async clearCacheStorage(): Promise<boolean> {
+    const cache = await this.getCacheStorage()
+    const failedresults = (await cache.clear()).filter(
+      result => result.status === 'rejected'
+    )
+
+    // eslint-disable-next-line no-console
+    failedresults.forEach(failedResult => console.error(failedResult.reason))
+
+    return failedresults.length === 0
   }
 
   execCommand(CommandConstructor: FetchCommandConstructor) {

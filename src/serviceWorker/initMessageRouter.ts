@@ -6,17 +6,14 @@
 import { getEventPublisher } from '#infra/eventPublisher'
 import { Aria2DownloadMediaFile } from '#infra/useCases/aria2DownloadMediaFile'
 import { BrowserDownloadMediaFile } from '#infra/useCases/browserDownloadMediaFile'
-import { NativeFetchTweetSolution } from '#infra/useCases/nativeFetchTweetSolution'
 import { WebExtAction } from '#libs/webExtMessage'
 import {
   downloadHistoryRepo,
   downloadSettingsRepo,
   featureSettingsRepo,
   filenameSettingsRepo,
-  solutionQuotaRepo,
+  nativeFetchTweetSolution,
   tweetResponseCache,
-  xApiClient,
-  xTokenRepo,
 } from '#provider'
 import captureResponseHandler from './messageHandlers/captureResponse'
 import checkDownloadHistoryHandler from './messageHandlers/checkDownloadHistory'
@@ -44,15 +41,7 @@ export const initMessageRouter = (router: MessageRouter): MessageRouter =>
             ),
         },
         tweetCacheRepo: tweetResponseCache,
-        solutionProvider: () =>
-          new NativeFetchTweetSolution(
-            {
-              xApiClient: xApiClient,
-              xTokenRepo: xTokenRepo,
-              solutionQuotaRepo: solutionQuotaRepo,
-            },
-            { quotaThreshold: 10, reservedQuota: 10 }
-          ),
+        solutionProvider: () => nativeFetchTweetSolution,
       })
     )
     .route(
