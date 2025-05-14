@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: twitter-media-harvest (4.4.0)\n"
-"POT-Creation-Date: 2025-05-03 09:14+0800\n"
+"Project-Id-Version: twitter-media-harvest (4.4.2)\n"
+"POT-Creation-Date: 2025-05-14 18:24+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
