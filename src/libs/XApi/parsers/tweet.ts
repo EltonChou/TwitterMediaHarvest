@@ -23,6 +23,7 @@ import {
   isTweetTombstone,
   isTweetVisibilityResults,
   isTypeItem,
+  isUser,
 } from './refinements'
 import { makeEmptyMediaCollection, parseMedias } from './tweetMedia'
 
@@ -35,11 +36,22 @@ export const parseTweet = (
     ? parseMedias(tweetResult.legacy.extended_entities.media)
     : makeEmptyMediaCollection()
 
+  const userResult = tweetResult.core.user_results.result
+
   const user = new TweetUser({
-    displayName: tweetResult.core.user_results.result.legacy.name,
-    screenName: tweetResult.core.user_results.result.legacy.screen_name,
-    isProtected: tweetResult.core.user_results.result.legacy.protected ?? false,
-    userId: tweetResult.core.user_results.result.rest_id,
+    ...(isUser(userResult)
+      ? {
+          displayName: userResult.core.name,
+          screenName: userResult.core.screen_name,
+          isProtected: userResult.privacy.protected,
+          userId: userResult.rest_id,
+        }
+      : {
+          displayName: userResult.legacy.name,
+          screenName: userResult.legacy.screen_name,
+          isProtected: Boolean(userResult.legacy.protected),
+          userId: userResult.rest_id,
+        }),
   })
 
   const tweet = new Tweet({

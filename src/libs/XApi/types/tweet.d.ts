@@ -119,9 +119,23 @@ declare namespace XApi {
     __typename: string
   }
 
-  interface User {
+  interface BaseUser {
     id: string
     rest_id: string
+  }
+
+  interface User extends BaseUser {
+    core: {
+      created_at: Date
+      name: string
+      screen_name: string
+    }
+    privacy: {
+      protected: boolean
+    }
+  }
+
+  interface LegacyUser extends BaseUser {
     legacy: {
       name: string
       screen_name: string
@@ -169,7 +183,7 @@ declare namespace XApi {
     __typename: 'Tweet'
     rest_id: string
     core: {
-      user_results: DataResult<User>
+      user_results: DataResult<User | LegacyUser>
     }
     legacy: TweetLegacy | MediaTweetLegacy | RetweetTweetLegacy
     [k: string]: unknown

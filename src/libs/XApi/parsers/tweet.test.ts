@@ -9,7 +9,7 @@ describe('unit test for tweet parser', () => {
       tweetCount: 14,
     },
     { responseName: 'UserTweets', tweetCount: 20 },
-    { responseName: 'TweetDetail', tweetCount: 7 },
+    { responseName: 'TweetDetail', tweetCount: 8 },
   ])('should parse from $reponseName', ({ responseName, tweetCount }) => {
     const body = JSON.parse(
       fs

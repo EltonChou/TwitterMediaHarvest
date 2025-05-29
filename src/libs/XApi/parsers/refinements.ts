@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+import Joi from 'joi'
 
 export const isTypeItem = (item: unknown): item is XApi.TypeItem =>
   item !== undefined && item !== null && Object.hasOwn(item, '__typename')
@@ -69,4 +70,38 @@ export class Instruction {
   ): instruction is XApi.TimelineAddToModule {
     return instruction.type === 'TimelineAddToModule'
   }
+}
+
+const baseUserSchema: Joi.ObjectSchema<XApi.BaseUser> = Joi.object({
+  id: Joi.string().required(),
+  rest_id: Joi.string().required(),
+}).unknown(true)
+
+const legacyUserSchema: Joi.ObjectSchema<XApi.LegacyUser> = Joi.object({
+  legacy: Joi.object({
+    name: Joi.string().required(),
+    screen_name: Joi.string().required(),
+    protected: Joi.bool().optional(),
+  }),
+}).unknown(true)
+
+export const isLegacyUser = (user: XApi.BaseUser): user is XApi.LegacyUser => {
+  const { error } = baseUserSchema.concat(legacyUserSchema).validate(user)
+  return error === undefined
+}
+
+const userSchema: Joi.ObjectSchema<XApi.User> = Joi.object({
+  core: Joi.object({
+    name: Joi.string().required(),
+    screen_name: Joi.string().required(),
+    created_at: Joi.date().required(),
+  }).required(),
+  privacy: Joi.object({
+    protected: Joi.boolean().required(),
+  }).required(),
+}).unknown(true)
+
+export const isUser = (user: XApi.BaseUser): user is XApi.User => {
+  const { error } = baseUserSchema.concat(userSchema).validate(user)
+  return error === undefined
 }
