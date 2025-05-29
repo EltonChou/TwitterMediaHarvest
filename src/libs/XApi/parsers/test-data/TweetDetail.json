@@ -24,13 +24,20 @@
                         "id": "VXNlcjo5NzIyNjczOTE4MDI2NjI5MTI=",
                         "rest_id": "972267391802662912",
                         "affiliates_highlighted_label": {},
+                        "avatar": {
+                          "image_url": "https://pbs.twimg.com/profile_images/1908782530956009472/n1RpWb8Q_normal.jpg"
+                        },
+                        "core": {
+                          "created_at": "Sat Mar 10 00:26:24 +0000 2018",
+                          "name": "nanata",
+                          "screen_name": "Nanata0418"
+                        },
+                        "dm_permissions": {
+                          "can_dm": true
+                        },
                         "has_graduated_access": true,
                         "is_blue_verified": false,
                         "legacy": {
-                          "following": true,
-                          "can_dm": true,
-                          "can_media_tag": false,
-                          "created_at": "Sat Mar 10 00:26:24 +0000 2018",
                           "default_profile": false,
                           "default_profile_image": false,
                           "description": "ごみ",
@@ -50,32 +57,42 @@
                             }
                           },
                           "fast_followers_count": 0,
-                          "favourites_count": 808,
-                          "followers_count": 124025,
-                          "friends_count": 498,
+                          "favourites_count": 812,
+                          "followers_count": 135335,
+                          "friends_count": 497,
                           "has_custom_timelines": true,
                           "is_translator": false,
-                          "listed_count": 896,
-                          "location": "",
-                          "media_count": 312,
-                          "name": "nanata",
-                          "normal_followers_count": 124025,
-                          "pinned_tweet_ids_str": ["1915351258162250129"],
+                          "listed_count": 952,
+                          "media_count": 340,
+                          "normal_followers_count": 135335,
+                          "pinned_tweet_ids_str": [],
                           "possibly_sensitive": false,
                           "profile_banner_url": "https://pbs.twimg.com/profile_banners/972267391802662912/1744304810",
-                          "profile_image_url_https": "https://pbs.twimg.com/profile_images/1908782530956009472/n1RpWb8Q_normal.jpg",
                           "profile_interstitial_type": "",
-                          "screen_name": "Nanata0418",
-                          "statuses_count": 537,
+                          "statuses_count": 567,
                           "translator_type": "none",
                           "url": "https://t.co/8oh6JZjcb0",
-                          "verified": false,
                           "want_retweets": true,
                           "withheld_in_countries": []
                         },
+                        "location": {
+                          "location": ""
+                        },
+                        "media_permissions": {
+                          "can_media_tag": false
+                        },
                         "parody_commentary_fan_label": "None",
                         "profile_image_shape": "Circle",
-                        "tipjar_settings": {}
+                        "privacy": {
+                          "protected": false
+                        },
+                        "relationship_perspectives": {
+                          "following": true
+                        },
+                        "tipjar_settings": {},
+                        "verification": {
+                          "verified": false
+                        }
                       }
                     }
                   },
@@ -88,13 +105,13 @@
                   },
                   "is_translatable": false,
                   "views": {
-                    "count": "280650",
+                    "count": "309672",
                     "state": "EnabledWithCount"
                   },
                   "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
                   "grok_analysis_button": true,
                   "legacy": {
-                    "bookmark_count": 1639,
+                    "bookmark_count": 1660,
                     "bookmarked": false,
                     "created_at": "Thu Apr 24 10:25:00 +0000 2025",
                     "conversation_id_str": "1915351258162250129",
@@ -298,16 +315,16 @@
                         }
                       ]
                     },
-                    "favorite_count": 16656,
+                    "favorite_count": 16993,
                     "favorited": false,
                     "full_text": "day41 https://t.co/JHWgG68RHe",
                     "is_quote_status": false,
                     "lang": "und",
                     "possibly_sensitive": false,
                     "possibly_sensitive_editable": true,
-                    "quote_count": 26,
-                    "reply_count": 8,
-                    "retweet_count": 2989,
+                    "quote_count": 27,
+                    "reply_count": 10,
+                    "retweet_count": 3042,
                     "retweeted": false,
                     "user_id_str": "972267391802662912",
                     "id_str": "1915351258162250129"
@@ -351,13 +368,20 @@
                               "id": "VXNlcjoxNzA4NDIxMjk5MzI3MTAyOTc2",
                               "rest_id": "1708421299327102976",
                               "affiliates_highlighted_label": {},
+                              "avatar": {
+                                "image_url": "https://pbs.twimg.com/profile_images/1914340687279202305/3EbsMXjU_normal.jpg"
+                              },
+                              "core": {
+                                "created_at": "Sun Oct 01 09:59:26 +0000 2023",
+                                "name": "绘梨衣",
+                                "screen_name": "xRuanovo"
+                              },
+                              "dm_permissions": {
+                                "can_dm": false
+                              },
                               "has_graduated_access": true,
                               "is_blue_verified": false,
                               "legacy": {
-                                "following": false,
-                                "can_dm": false,
-                                "can_media_tag": false,
-                                "created_at": "Sun Oct 01 09:59:26 +0000 2023",
                                 "default_profile": true,
                                 "default_profile_image": false,
                                 "description": "",
@@ -367,32 +391,42 @@
                                   }
                                 },
                                 "fast_followers_count": 0,
-                                "favourites_count": 380,
-                                "followers_count": 114668,
-                                "friends_count": 4,
+                                "favourites_count": 412,
+                                "followers_count": 120136,
+                                "friends_count": 6,
                                 "has_custom_timelines": false,
                                 "is_translator": false,
-                                "listed_count": 315,
-                                "location": "",
-                                "media_count": 28,
-                                "name": "绘梨衣",
-                                "normal_followers_count": 114668,
+                                "listed_count": 335,
+                                "media_count": 51,
+                                "normal_followers_count": 120136,
                                 "pinned_tweet_ids_str": ["1860074389192212716"],
                                 "possibly_sensitive": false,
                                 "profile_banner_url": "https://pbs.twimg.com/profile_banners/1708421299327102976/1745067582",
-                                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1914340687279202305/3EbsMXjU_normal.jpg",
                                 "profile_interstitial_type": "",
-                                "screen_name": "xRuanovo",
-                                "statuses_count": 126,
+                                "statuses_count": 152,
                                 "translator_type": "none",
-                                "verified": false,
                                 "want_retweets": false,
                                 "withheld_in_countries": []
                               },
+                              "location": {
+                                "location": ""
+                              },
+                              "media_permissions": {
+                                "can_media_tag": false
+                              },
                               "parody_commentary_fan_label": "None",
                               "profile_image_shape": "Circle",
+                              "privacy": {
+                                "protected": false
+                              },
+                              "relationship_perspectives": {
+                                "following": false
+                              },
                               "tipjar_settings": {
                                 "is_enabled": false
+                              },
+                              "verification": {
+                                "verified": false
                               }
                             }
                           }
@@ -406,7 +440,7 @@
                         },
                         "is_translatable": false,
                         "views": {
-                          "count": "951",
+                          "count": "1414",
                           "state": "EnabledWithCount"
                         },
                         "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
@@ -461,7 +495,7 @@
                         "conversationSection": "HighQuality"
                       },
                       "timelinesDetails": {
-                        "controllerData": "DAACDAAEDAABCgABDRAKiGAHgAUKAAIAAAAABCAASAAAAAA="
+                        "controllerData": "DAACDAAEDAABCgABDSACCGAHgAUKAAIAAAAACCAASAAAAAA="
                       }
                     }
                   }
@@ -505,13 +539,20 @@
                               "id": "VXNlcjoxNjYxMDU2Mjg4MTg3NjUwMDQ4",
                               "rest_id": "1661056288187650048",
                               "affiliates_highlighted_label": {},
+                              "avatar": {
+                                "image_url": "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png"
+                              },
+                              "core": {
+                                "created_at": "Tue May 23 17:07:51 +0000 2023",
+                                "name": "走你",
+                                "screen_name": "stoneber521"
+                              },
+                              "dm_permissions": {
+                                "can_dm": false
+                              },
                               "has_graduated_access": true,
                               "is_blue_verified": false,
                               "legacy": {
-                                "following": false,
-                                "can_dm": false,
-                                "can_media_tag": false,
-                                "created_at": "Tue May 23 17:07:51 +0000 2023",
                                 "default_profile": true,
                                 "default_profile_image": true,
                                 "description": "",
@@ -521,30 +562,40 @@
                                   }
                                 },
                                 "fast_followers_count": 0,
-                                "favourites_count": 5283,
+                                "favourites_count": 5885,
                                 "followers_count": 2,
-                                "friends_count": 121,
+                                "friends_count": 119,
                                 "has_custom_timelines": false,
                                 "is_translator": false,
                                 "listed_count": 0,
-                                "location": "",
                                 "media_count": 0,
-                                "name": "走你",
                                 "normal_followers_count": 2,
                                 "pinned_tweet_ids_str": [],
                                 "possibly_sensitive": false,
-                                "profile_image_url_https": "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
                                 "profile_interstitial_type": "",
-                                "screen_name": "stoneber521",
                                 "statuses_count": 10,
                                 "translator_type": "none",
-                                "verified": false,
                                 "want_retweets": false,
                                 "withheld_in_countries": []
                               },
+                              "location": {
+                                "location": ""
+                              },
+                              "media_permissions": {
+                                "can_media_tag": false
+                              },
                               "parody_commentary_fan_label": "None",
                               "profile_image_shape": "Circle",
-                              "tipjar_settings": {}
+                              "privacy": {
+                                "protected": false
+                              },
+                              "relationship_perspectives": {
+                                "following": false
+                              },
+                              "tipjar_settings": {},
+                              "verification": {
+                                "verified": false
+                              }
                             }
                           }
                         },
@@ -557,7 +608,7 @@
                         },
                         "is_translatable": false,
                         "views": {
-                          "count": "795",
+                          "count": "1131",
                           "state": "EnabledWithCount"
                         },
                         "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
@@ -612,7 +663,7 @@
                         "conversationSection": "HighQuality"
                       },
                       "timelinesDetails": {
-                        "controllerData": "DAACDAAEDAABCgABFRAaiKIDgAUKAAIAAAAABCACCAAAAAA="
+                        "controllerData": "DAACDAAEDAABCgABFSACCKIDgAUKAAIAAAAACCACCAAAAAA="
                       }
                     }
                   }
@@ -656,13 +707,20 @@
                               "id": "VXNlcjozMTg3ODgxMjEy",
                               "rest_id": "3187881212",
                               "affiliates_highlighted_label": {},
+                              "avatar": {
+                                "image_url": "https://pbs.twimg.com/profile_images/1408177979117604869/g8esjSNx_normal.jpg"
+                              },
+                              "core": {
+                                "created_at": "Thu May 07 15:40:59 +0000 2015",
+                                "name": "江",
+                                "screen_name": "roddickv5"
+                              },
+                              "dm_permissions": {
+                                "can_dm": true
+                              },
                               "has_graduated_access": true,
                               "is_blue_verified": false,
                               "legacy": {
-                                "following": false,
-                                "can_dm": true,
-                                "can_media_tag": false,
-                                "created_at": "Thu May 07 15:40:59 +0000 2015",
                                 "default_profile": true,
                                 "default_profile_image": false,
                                 "description": "蓋棺論定",
@@ -672,31 +730,41 @@
                                   }
                                 },
                                 "fast_followers_count": 0,
-                                "favourites_count": 126752,
-                                "followers_count": 376,
-                                "friends_count": 4713,
+                                "favourites_count": 127610,
+                                "followers_count": 377,
+                                "friends_count": 4733,
                                 "has_custom_timelines": true,
                                 "is_translator": false,
                                 "listed_count": 14,
-                                "location": "",
                                 "media_count": 33,
-                                "name": "江",
-                                "normal_followers_count": 376,
+                                "normal_followers_count": 377,
                                 "pinned_tweet_ids_str": [],
                                 "possibly_sensitive": false,
                                 "profile_banner_url": "https://pbs.twimg.com/profile_banners/3187881212/1624570858",
-                                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1408177979117604869/g8esjSNx_normal.jpg",
                                 "profile_interstitial_type": "",
-                                "screen_name": "roddickv5",
-                                "statuses_count": 39726,
+                                "statuses_count": 40067,
                                 "translator_type": "none",
-                                "verified": false,
                                 "want_retweets": false,
                                 "withheld_in_countries": []
                               },
+                              "location": {
+                                "location": ""
+                              },
+                              "media_permissions": {
+                                "can_media_tag": false
+                              },
                               "parody_commentary_fan_label": "None",
                               "profile_image_shape": "Circle",
-                              "tipjar_settings": {}
+                              "privacy": {
+                                "protected": false
+                              },
+                              "relationship_perspectives": {
+                                "following": false
+                              },
+                              "tipjar_settings": {},
+                              "verification": {
+                                "verified": false
+                              }
                             }
                           }
                         },
@@ -709,7 +777,7 @@
                         },
                         "is_translatable": true,
                         "views": {
-                          "count": "498",
+                          "count": "815",
                           "state": "EnabledWithCount"
                         },
                         "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -764,7 +832,7 @@
                         "conversationSection": "HighQuality"
                       },
                       "timelinesDetails": {
-                        "controllerData": "DAACDAAEDAABCgABDRA6iSQDgAUKAAIAAAAABCBACAAAAAA="
+                        "controllerData": "DAACDAAEDAABCgABDSACCSQDgAUKAAIAAAAACCBACAAAAAA="
                       }
                     }
                   }
@@ -808,13 +876,20 @@
                               "id": "VXNlcjo0NDUzMTE1Nzgw",
                               "rest_id": "4453115780",
                               "affiliates_highlighted_label": {},
+                              "avatar": {
+                                "image_url": "https://pbs.twimg.com/profile_images/1284471140216274947/0eq375cp_normal.png"
+                              },
+                              "core": {
+                                "created_at": "Fri Dec 04 13:05:36 +0000 2015",
+                                "name": "Villager hello",
+                                "screen_name": "VillagersHello"
+                              },
+                              "dm_permissions": {
+                                "can_dm": true
+                              },
                               "has_graduated_access": true,
                               "is_blue_verified": false,
                               "legacy": {
-                                "following": false,
-                                "can_dm": true,
-                                "can_media_tag": false,
-                                "created_at": "Fri Dec 04 13:05:36 +0000 2015",
                                 "default_profile": false,
                                 "default_profile_image": false,
                                 "description": "Stand With CHINA\nTaiwan belongs to CHINA SINCE ancient times\nThat's no doubt↑\nC++/C# Programmer, Photographer, Music Producer and more more on",
@@ -834,32 +909,42 @@
                                   }
                                 },
                                 "fast_followers_count": 0,
-                                "favourites_count": 16880,
-                                "followers_count": 13,
-                                "friends_count": 534,
+                                "favourites_count": 17246,
+                                "followers_count": 17,
+                                "friends_count": 542,
                                 "has_custom_timelines": false,
                                 "is_translator": false,
                                 "listed_count": 1,
-                                "location": "Mid Moun. Station,Antarctica",
-                                "media_count": 46,
-                                "name": "Villager hello",
-                                "normal_followers_count": 13,
+                                "media_count": 47,
+                                "normal_followers_count": 17,
                                 "pinned_tweet_ids_str": ["746305213431156736"],
                                 "possibly_sensitive": false,
                                 "profile_banner_url": "https://pbs.twimg.com/profile_banners/4453115780/1595076762",
-                                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1284471140216274947/0eq375cp_normal.png",
                                 "profile_interstitial_type": "",
-                                "screen_name": "VillagersHello",
-                                "statuses_count": 1213,
+                                "statuses_count": 1434,
                                 "translator_type": "none",
                                 "url": "https://t.co/x5Uo3UqZXV",
-                                "verified": false,
                                 "want_retweets": false,
                                 "withheld_in_countries": []
                               },
+                              "location": {
+                                "location": "Mid Moun. Station,Antarctica"
+                              },
+                              "media_permissions": {
+                                "can_media_tag": false
+                              },
                               "parody_commentary_fan_label": "None",
                               "profile_image_shape": "Circle",
-                              "tipjar_settings": {}
+                              "privacy": {
+                                "protected": false
+                              },
+                              "relationship_perspectives": {
+                                "following": false
+                              },
+                              "tipjar_settings": {},
+                              "verification": {
+                                "verified": false
+                              }
                             }
                           }
                         },
@@ -872,7 +957,7 @@
                         },
                         "is_translatable": false,
                         "views": {
-                          "count": "601",
+                          "count": "918",
                           "state": "EnabledWithCount"
                         },
                         "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -927,7 +1012,7 @@
                         "conversationSection": "HighQuality"
                       },
                       "timelinesDetails": {
-                        "controllerData": "DAACDAAEDAABCgABDRACiigDgAUKAAIAAAAABCAECAAAAAA="
+                        "controllerData": "DAACDAAEDAABCgABDSACCigDgAUKAAIAAAAACCAECAAAAAA="
                       }
                     }
                   }
@@ -971,13 +1056,20 @@
                               "id": "VXNlcjoxNTkxNzY3MDc1NzA1MzIzNTIx",
                               "rest_id": "1591767075705323521",
                               "affiliates_highlighted_label": {},
+                              "avatar": {
+                                "image_url": "https://pbs.twimg.com/profile_images/1894628319808651264/ONTwXYng_normal.jpg"
+                              },
+                              "core": {
+                                "created_at": "Sun Nov 13 12:17:07 +0000 2022",
+                                "name": "FISHFillet",
+                                "screen_name": "FISHFillet10086"
+                              },
+                              "dm_permissions": {
+                                "can_dm": true
+                              },
                               "has_graduated_access": true,
                               "is_blue_verified": false,
                               "legacy": {
-                                "following": false,
-                                "can_dm": true,
-                                "can_media_tag": false,
-                                "created_at": "Sun Nov 13 12:17:07 +0000 2022",
                                 "default_profile": true,
                                 "default_profile_image": false,
                                 "description": "",
@@ -987,31 +1079,41 @@
                                   }
                                 },
                                 "fast_followers_count": 0,
-                                "favourites_count": 77,
+                                "favourites_count": 97,
                                 "followers_count": 0,
-                                "friends_count": 23,
+                                "friends_count": 30,
                                 "has_custom_timelines": false,
                                 "is_translator": false,
                                 "listed_count": 0,
-                                "location": "Berlin, Germany",
                                 "media_count": 0,
-                                "name": "FISHFillet",
                                 "normal_followers_count": 0,
                                 "pinned_tweet_ids_str": [],
                                 "possibly_sensitive": false,
                                 "profile_banner_url": "https://pbs.twimg.com/profile_banners/1591767075705323521/1740549565",
-                                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1894628319808651264/ONTwXYng_normal.jpg",
                                 "profile_interstitial_type": "",
-                                "screen_name": "FISHFillet10086",
                                 "statuses_count": 17,
                                 "translator_type": "none",
-                                "verified": false,
                                 "want_retweets": false,
                                 "withheld_in_countries": []
                               },
+                              "location": {
+                                "location": "Berlin, Germany"
+                              },
+                              "media_permissions": {
+                                "can_media_tag": false
+                              },
                               "parody_commentary_fan_label": "None",
                               "profile_image_shape": "Circle",
-                              "tipjar_settings": {}
+                              "privacy": {
+                                "protected": false
+                              },
+                              "relationship_perspectives": {
+                                "following": false
+                              },
+                              "tipjar_settings": {},
+                              "verification": {
+                                "verified": false
+                              }
                             }
                           }
                         },
@@ -1024,7 +1126,7 @@
                         },
                         "is_translatable": false,
                         "views": {
-                          "count": "610",
+                          "count": "874",
                           "state": "EnabledWithCount"
                         },
                         "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
@@ -1079,7 +1181,7 @@
                         "conversationSection": "HighQuality"
                       },
                       "timelinesDetails": {
-                        "controllerData": "DAACDAAEDAABCgABFRACjDADgAUKAAIAAAAABCACCAAAAAA="
+                        "controllerData": "DAACDAAEDAABCgABFSACDDADgAUKAAIAAAAACCACCAAAAAA="
                       }
                     }
                   }
@@ -1123,13 +1225,20 @@
                               "id": "VXNlcjoxODE0NjY0MDgwMTY4NTI5OTIw",
                               "rest_id": "1814664080168529920",
                               "affiliates_highlighted_label": {},
+                              "avatar": {
+                                "image_url": "https://pbs.twimg.com/profile_images/1831577865223335936/BeKhjd5e_normal.jpg"
+                              },
+                              "core": {
+                                "created_at": "Sat Jul 20 14:10:16 +0000 2024",
+                                "name": "tayorii",
+                                "screen_name": "tayorii14"
+                              },
+                              "dm_permissions": {
+                                "can_dm": true
+                              },
                               "has_graduated_access": true,
                               "is_blue_verified": false,
                               "legacy": {
-                                "following": false,
-                                "can_dm": true,
-                                "can_media_tag": false,
-                                "created_at": "Sat Jul 20 14:10:16 +0000 2024",
                                 "default_profile": true,
                                 "default_profile_image": false,
                                 "description": "",
@@ -1139,30 +1248,40 @@
                                   }
                                 },
                                 "fast_followers_count": 0,
-                                "favourites_count": 19255,
-                                "followers_count": 33,
-                                "friends_count": 794,
+                                "favourites_count": 19370,
+                                "followers_count": 30,
+                                "friends_count": 795,
                                 "has_custom_timelines": false,
                                 "is_translator": false,
                                 "listed_count": 1,
-                                "location": "",
                                 "media_count": 4,
-                                "name": "tayorii",
-                                "normal_followers_count": 33,
+                                "normal_followers_count": 30,
                                 "pinned_tweet_ids_str": [],
                                 "possibly_sensitive": false,
-                                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1831577865223335936/BeKhjd5e_normal.jpg",
                                 "profile_interstitial_type": "",
-                                "screen_name": "tayorii14",
-                                "statuses_count": 663,
+                                "statuses_count": 686,
                                 "translator_type": "none",
-                                "verified": false,
                                 "want_retweets": false,
                                 "withheld_in_countries": []
                               },
+                              "location": {
+                                "location": ""
+                              },
+                              "media_permissions": {
+                                "can_media_tag": false
+                              },
                               "parody_commentary_fan_label": "None",
                               "profile_image_shape": "Circle",
-                              "tipjar_settings": {}
+                              "privacy": {
+                                "protected": false
+                              },
+                              "relationship_perspectives": {
+                                "following": false
+                              },
+                              "tipjar_settings": {},
+                              "verification": {
+                                "verified": false
+                              }
                             }
                           }
                         },
@@ -1175,7 +1294,7 @@
                         },
                         "is_translatable": false,
                         "views": {
-                          "count": "148",
+                          "count": "386",
                           "state": "EnabledWithCount"
                         },
                         "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
@@ -1230,7 +1349,7 @@
                         "conversationSection": "HighQuality"
                       },
                       "timelinesDetails": {
-                        "controllerData": "DAACDAAEDAABCgABFRACiCADgAUKAAIAAAAABCAASAAAAAA="
+                        "controllerData": "DAACDAAEDAABCgABDSACCCADgAUKAAIAAAAACCAASAAAAAA="
                       }
                     }
                   }
@@ -1250,15 +1369,184 @@
           }
         },
         {
-          "entryId": "cursor-showmorethreadsprompt-4477662643821738503",
-          "sortIndex": "7308020778692525617",
+          "entryId": "conversationthread-1919000236862906417",
+          "sortIndex": "7308020778692525608",
+          "content": {
+            "entryType": "TimelineTimelineModule",
+            "__typename": "TimelineTimelineModule",
+            "items": [
+              {
+                "entryId": "conversationthread-1919000236862906417-tweet-1919000236862906417",
+                "item": {
+                  "itemContent": {
+                    "itemType": "TimelineTweet",
+                    "__typename": "TimelineTweet",
+                    "tweet_results": {
+                      "result": {
+                        "__typename": "Tweet",
+                        "rest_id": "1919000236862906417",
+                        "has_birdwatch_notes": false,
+                        "core": {
+                          "user_results": {
+                            "result": {
+                              "__typename": "User",
+                              "id": "VXNlcjoxNTE1MzQzMDU4NzUzMTM4Njkw",
+                              "rest_id": "1515343058753138690",
+                              "affiliates_highlighted_label": {},
+                              "avatar": {
+                                "image_url": "https://pbs.twimg.com/profile_images/1595981451601661953/RsZaIa_b_normal.jpg"
+                              },
+                              "core": {
+                                "created_at": "Sat Apr 16 14:55:20 +0000 2022",
+                                "name": "反正是屑的雪枫🍂🍂🍂",
+                                "screen_name": "snowmaple17"
+                              },
+                              "dm_permissions": {
+                                "can_dm": false
+                              },
+                              "has_graduated_access": true,
+                              "is_blue_verified": false,
+                              "legacy": {
+                                "default_profile": true,
+                                "default_profile_image": false,
+                                "description": "冲国人，英语苦手",
+                                "entities": {
+                                  "description": {
+                                    "urls": []
+                                  }
+                                },
+                                "fast_followers_count": 0,
+                                "favourites_count": 45,
+                                "followers_count": 5,
+                                "friends_count": 167,
+                                "has_custom_timelines": true,
+                                "is_translator": false,
+                                "listed_count": 0,
+                                "media_count": 5,
+                                "normal_followers_count": 5,
+                                "pinned_tweet_ids_str": [],
+                                "possibly_sensitive": false,
+                                "profile_banner_url": "https://pbs.twimg.com/profile_banners/1515343058753138690/1669346552",
+                                "profile_interstitial_type": "",
+                                "statuses_count": 26,
+                                "translator_type": "none",
+                                "want_retweets": false,
+                                "withheld_in_countries": []
+                              },
+                              "location": {
+                                "location": ""
+                              },
+                              "media_permissions": {
+                                "can_media_tag": false
+                              },
+                              "parody_commentary_fan_label": "None",
+                              "profile_image_shape": "Circle",
+                              "privacy": {
+                                "protected": false
+                              },
+                              "relationship_perspectives": {
+                                "following": false
+                              },
+                              "tipjar_settings": {},
+                              "verification": {
+                                "verified": false
+                              }
+                            }
+                          }
+                        },
+                        "unmention_data": {},
+                        "edit_control": {
+                          "edit_tweet_ids": ["1919000236862906417"],
+                          "editable_until_msecs": "1746363884000",
+                          "is_edit_eligible": false,
+                          "edits_remaining": "5"
+                        },
+                        "is_translatable": true,
+                        "views": {
+                          "count": "168",
+                          "state": "EnabledWithCount"
+                        },
+                        "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                        "grok_analysis_button": true,
+                        "legacy": {
+                          "bookmark_count": 0,
+                          "bookmarked": false,
+                          "created_at": "Sun May 04 12:04:44 +0000 2025",
+                          "conversation_id_str": "1915351258162250129",
+                          "display_text_range": [12, 13],
+                          "entities": {
+                            "hashtags": [],
+                            "symbols": [],
+                            "timestamps": [],
+                            "urls": [],
+                            "user_mentions": [
+                              {
+                                "id_str": "972267391802662912",
+                                "name": "nanata",
+                                "screen_name": "Nanata0418",
+                                "indices": [0, 11]
+                              }
+                            ]
+                          },
+                          "favorite_count": 0,
+                          "favorited": false,
+                          "full_text": "@Nanata0418 神",
+                          "in_reply_to_screen_name": "Nanata0418",
+                          "in_reply_to_status_id_str": "1915351258162250129",
+                          "in_reply_to_user_id_str": "972267391802662912",
+                          "is_quote_status": false,
+                          "lang": "ja",
+                          "quote_count": 0,
+                          "reply_count": 0,
+                          "retweet_count": 0,
+                          "retweeted": false,
+                          "user_id_str": "1515343058753138690",
+                          "id_str": "1919000236862906417"
+                        },
+                        "quick_promote_eligibility": {
+                          "eligibility": "IneligibleNotProfessional"
+                        }
+                      }
+                    },
+                    "tweetDisplayType": "Tweet"
+                  },
+                  "clientEventInfo": {
+                    "component": "tweet",
+                    "element": "tweet",
+                    "details": {
+                      "conversationDetails": {
+                        "conversationSection": "HighQuality"
+                      },
+                      "timelinesDetails": {
+                        "controllerData": "DAACDAAEDAABCgABFSACCCADgAUKAAIAAAAACCACCAAAAAA="
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "displayType": "VerticalConversation",
+            "clientEventInfo": {
+              "component": "tweet",
+              "element": "tweet",
+              "details": {
+                "conversationDetails": {
+                  "conversationSection": "HighQuality"
+                }
+              }
+            }
+          }
+        },
+        {
+          "entryId": "cursor-showmorethreadsprompt-5687285423550315018",
+          "sortIndex": "7308020778692525607",
           "content": {
             "entryType": "TimelineTimelineItem",
             "__typename": "TimelineTimelineItem",
             "itemContent": {
               "itemType": "TimelineTimelineCursor",
               "__typename": "TimelineTimelineCursor",
-              "value": "QAAAAPAxHBlm3IC1zZ6Lq5Y1vsTU0bGdsJU1-sXYhcC_-pY14IPb-YOjupU1noDbqda7v5U17oXT0YyOh5U1JQYRFRAAAA",
+              "value": "SQAAAPA6HBl23IC1zZ6Lq5Y1vsTU0bGdsJU1-sXYhcC_-pY14IPb-YOjupU1noDbqda7v5U14oDVoYqj1KE17oXT0YyOh5U1JQYRFRAAAA",
               "cursorType": "ShowMoreThreadsPrompt",
               "displayTreatment": {
                 "actionText": "Show",
