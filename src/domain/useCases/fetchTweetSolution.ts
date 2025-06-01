@@ -11,7 +11,7 @@ export type FetchTweetSolutionCommand = {
 }
 
 export type FetchTweetSolutionWithTransactinIdCommand = {
-  transactionIdProvider: TransactionIdProvider
+  transactionIdProvider?: TransactionIdProvider
 } & FetchTweetSolutionCommand
 
 export type QuotaStatistic = {
