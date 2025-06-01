@@ -44,7 +44,7 @@ import { isErrorResult } from '#utils/result'
 
 type DownloadTweetMediaCommand = {
   tweetInfo: TweetInfo
-  xTransactionIdProvider: TransactionIdProvider
+  xTransactionIdProvider?: TransactionIdProvider
 }
 
 export type DownloaderBuilderMap = {
