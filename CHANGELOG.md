@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Fixed
+
+- Fix issue that tweet response is not cached in firefox due to schema changes. [#230](https://github.com/EltonChou/TwitterMediaHarvest/issues/230)
+- Fix issue that transaction id cannot be generated in firefox. [#230](https://github.com/EltonChou/TwitterMediaHarvest/issues/230), [#232](https://github.com/EltonChou/TwitterMediaHarvest/issues/232)
+
 ## [4.4.2] - 2025-05-14
 
 ### Added
