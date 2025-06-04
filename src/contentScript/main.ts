@@ -150,23 +150,30 @@ runtime.onMessage.addListener((message, _sender, sendResponse) => {
     }
   )
 
-  const txIdRequestDetail = {
-    uuid,
-    method: messagePayload.method,
-    path: messagePayload.path,
-  }
-
   document.dispatchEvent(
     new CustomEvent<MediaHarvest.TxIdRequestDetail>('mh:tx-id:request', {
-      detail: __FIREFOX__
-        ? /**
-           * @see {@link https://stackoverflow.com/questions/18744224/triggering-a-custom-event-with-attributes-from-a-firefox-extension}
-           * @see {@link https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Sharing_objects_with_page_scripts#cloneinto}
-           */
-          cloneInto(txIdRequestDetail, window)
-        : txIdRequestDetail,
+      detail: makePageScriptSharedObject({
+        uuid,
+        method: messagePayload.method,
+        path: messagePayload.path,
+      }),
     })
   )
 
   return true
 })
+
+/**
+ * @see {@link https://stackoverflow.com/questions/18744224/triggering-a-custom-event-with-attributes-from-a-firefox-extension | Stackoverflow thread}
+ * @see {@link https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Sharing_objects_with_page_scripts#cloneinto | Firefox docs}
+ */
+function makePageScriptSharedObject<T>(
+  object: T,
+  options?: { cloneFunctions?: boolean; wrapReflectors?: boolean }
+): T {
+  if (__FIREFOX__) {
+    return cloneInto(object, window, options)
+  }
+
+  return object
+}
