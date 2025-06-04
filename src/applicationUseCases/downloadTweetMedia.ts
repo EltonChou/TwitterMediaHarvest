@@ -72,22 +72,8 @@ export class DownloadTweetMedia
     tweetInfo,
     xTransactionIdProvider,
   }: DownloadTweetMediaCommand): Promise<boolean> {
-    const { value: tweet } = await this.infra.tweetCacheRepo.get(
-      tweetInfo.tweetId
-    )
-
-    if (tweet) {
-      if (__DEV__)
-        // eslint-disable-next-line no-console
-        console.debug(`Get tweet from injection cache (id: ${tweet.id})`)
-
-      const tweetVo =
-        tweet instanceof Tweet ? tweet : tweet.mapBy(props => props.tweet)
-
-      await this.saveDownloadHistory(tweetToDownloadHistory(tweetVo))
-
-      return this.processDownload(tweetInfo, tweetVo)
-    }
+    const isSuccessDownloadFromCache = await this.downloadFromCache(tweetInfo)
+    if (isSuccessDownloadFromCache) return isSuccessDownloadFromCache
 
     const solution = this.infra.solutionProvider()
     const tweetResult = isTransactionIdConsumer(solution)
@@ -102,15 +88,30 @@ export class DownloadTweetMedia
     await this.infra.eventPublisher.publishAll(...solution.events)
     await this.reportSolutionStatistics(solution.statistics)
 
-    if (isErrorResult(tweetResult))
-      return this.failDownload(tweetResult.error, tweetInfo)
+    return isErrorResult(tweetResult)
+      ? this.failDownload(tweetResult.error, tweetInfo)
+      : this.processDownload(tweetInfo, tweetResult.value)
+  }
 
-    await this.saveDownloadHistory(tweetToDownloadHistory(tweetResult.value))
+  private async downloadFromCache(tweetInfo: TweetInfo): Promise<boolean> {
+    const { value: tweet } = await this.infra.tweetCacheRepo.get(
+      tweetInfo.tweetId
+    )
+    if (!tweet) return false
 
-    return this.processDownload(tweetInfo, tweetResult.value)
+    if (__DEV__)
+      // eslint-disable-next-line no-console
+      console.debug(`Get tweet from injection cache (id: ${tweet.id})`)
+
+    const tweetVo =
+      tweet instanceof Tweet ? tweet : tweet.mapBy(props => props.tweet)
+
+    return this.processDownload(tweetInfo, tweetVo)
   }
 
   private async processDownload(tweetInfo: TweetInfo, tweet: Tweet) {
+    await this.saveDownloadHistory(tweetToDownloadHistory(tweet))
+
     const downloader = await this.buildDownloader(tweetInfo)
     const downloadCommands = await this.createDownloadCommands(tweet)
 
