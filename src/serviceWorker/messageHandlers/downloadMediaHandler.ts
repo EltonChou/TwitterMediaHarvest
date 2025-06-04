@@ -55,11 +55,8 @@ const downloadMessageHandler = (
 
     const isOk = await downloadTweetMedia.process({
       tweetInfo: new TweetInfo(message.payload),
-      // FIXME: Firefox cannot get trasnsaction ID from tab
       xTransactionIdProvider:
-        !__FIREFOX__ &&
-        isSenderTab(ctx.sender) &&
-        isTabTransactionIdProvider(ctx.sender.tab)
+        isSenderTab(ctx.sender) && isTabTransactionIdProvider(ctx.sender.tab)
           ? tabTransactionIdProvider(ctx.sender.tab.id)
           : undefined,
     })
