@@ -22,6 +22,12 @@ import TwitterMediaObserver from './observers/TwitterMediaObserver'
 import { isBetaTweetDeck, isTwitter } from './utils/checker'
 import { runtime } from 'webextension-polyfill'
 
+declare function cloneInto<T>(
+  object: T,
+  targetScope: object,
+  options?: { cloneFunctions?: boolean; wrapReflectors?: boolean }
+): T
+
 export const featureSettingsRepo = new FeatureSettingsRepository(
   new LocalExtensionStorageProxy()
 )
@@ -144,13 +150,21 @@ runtime.onMessage.addListener((message, _sender, sendResponse) => {
     }
   )
 
+  const txIdRequestDetail = {
+    uuid,
+    method: messagePayload.method,
+    path: messagePayload.path,
+  }
+
   document.dispatchEvent(
     new CustomEvent<MediaHarvest.TxIdRequestDetail>('mh:tx-id:request', {
-      detail: {
-        uuid,
-        method: messagePayload.method,
-        path: messagePayload.path,
-      },
+      detail: __FIREFOX__
+        ? /**
+           * @see {@link https://stackoverflow.com/questions/18744224/triggering-a-custom-event-with-attributes-from-a-firefox-extension}
+           * @see {@link https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Sharing_objects_with_page_scripts#cloneinto}
+           */
+          cloneInto(txIdRequestDetail, window)
+        : txIdRequestDetail,
     })
   )
 
