@@ -22,6 +22,13 @@ import TwitterMediaObserver from './observers/TwitterMediaObserver'
 import { isBetaTweetDeck, isTwitter } from './utils/checker'
 import { runtime } from 'webextension-polyfill'
 
+/**
+ * Firefox-specific function to clone objects between privileged and unprivileged contexts
+ *
+ * @platform Firefox
+ * @browser Firefox
+ * @see {@link https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Sharing_objects_with_page_scripts#cloneinto | Firefox docs}
+ */
 declare function cloneInto<T>(
   object: T,
   targetScope: object,
@@ -164,6 +171,8 @@ runtime.onMessage.addListener((message, _sender, sendResponse) => {
 })
 
 /**
+ * Creates a shared object that can be accessed by page scripts
+ *
  * @see {@link https://stackoverflow.com/questions/18744224/triggering-a-custom-event-with-attributes-from-a-firefox-extension | Stackoverflow thread}
  * @see {@link https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Sharing_objects_with_page_scripts#cloneinto | Firefox docs}
  */
