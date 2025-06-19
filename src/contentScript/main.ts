@@ -140,7 +140,7 @@ runtime.onMessage.addListener((message, _sender, sendResponse) => {
   const messageResult = RequestTransactionIdMessage.validate(message)
   if (isErrorResult(messageResult)) return
 
-  const messagePayload = messageResult.value.payload
+  const txIdMessage = messageResult.value
   const uuid = self.crypto.randomUUID()
 
   document.addEventListener(
@@ -149,20 +149,19 @@ runtime.onMessage.addListener((message, _sender, sendResponse) => {
       const { uuid: respUUID, value } = ev.detail
       if (respUUID !== uuid) return
 
-      sendResponse(
-        messageResult.value.makeResponse(true, { transactionId: value })
-      )
+      sendResponse(txIdMessage.makeResponse(true, { transactionId: value }))
 
       document.removeEventListener('mh:tx-id:response', responseTxId)
     }
   )
 
+  const { method, path } = txIdMessage.payload
   document.dispatchEvent(
     new CustomEvent<MediaHarvest.TxIdRequestDetail>('mh:tx-id:request', {
       detail: makePageScriptSharedObject({
         uuid,
-        method: messagePayload.method,
-        path: messagePayload.path,
+        method,
+        path,
       }),
     })
   )
