@@ -21,7 +21,7 @@ type ESModule<T = unknown> = {
 }
 type MakeTransactionId = (path: string, method: string) => Promise<string>
 
-let generateTransactionId: MakeTransactionId
+let generateTransactionId: MakeTransactionId | undefined = undefined
 
 type TxTarget = {
   method: string
@@ -185,6 +185,8 @@ function isCallableFunction<T>(value: unknown): value is T {
 }
 
 document.addEventListener('mh:tx-id:request', async e => {
+  if (generateTransactionId === undefined) return
+
   const { path, method, uuid } = e.detail
   const txId = await generateTransactionId(path, method)
 
