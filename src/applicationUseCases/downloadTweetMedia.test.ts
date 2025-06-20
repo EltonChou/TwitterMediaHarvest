@@ -258,23 +258,23 @@ describe('DownloadTweetMedia', () => {
 
     it('should use tweet cache from cache repository', async () => {
       jest
+        .spyOn(mockDownloadSettingsRepo, 'get')
+        .mockResolvedValueOnce(generateDownloadSettings())
+
+      jest.spyOn(mockDownloadMediaFile, 'process').mockResolvedValue()
+
+      const mockCacheGet = jest
         .spyOn(mockTweetResponseCache, 'get')
         .mockResolvedValueOnce(
           toSuccessResult(
             new TweetWithContent({ tweet: generateTweet(), content: '' })
           )
         )
-      jest
-        .spyOn(mockDownloadSettingsRepo, 'get')
-        .mockResolvedValueOnce(generateDownloadSettings())
 
       const mockSolutionProcess = jest.spyOn(
         mockNativeFetchTweetSolution,
         'process'
       )
-      const mockDownload = jest
-        .spyOn(mockDownloadMediaFile, 'process')
-        .mockResolvedValue()
       const mockhistorySave = jest
         .spyOn(mockDownloadHistoryRepo, 'save')
         .mockResolvedValueOnce()
@@ -288,7 +288,7 @@ describe('DownloadTweetMedia', () => {
       expect(result).toBeTrue()
       expect(mockhistorySave).toHaveBeenCalledOnce()
       expect(mockSolutionProcess).not.toHaveBeenCalled()
-      expect(mockDownload).toHaveBeenCalled()
+      expect(mockCacheGet).toHaveBeenCalledOnce()
     })
   })
 })
