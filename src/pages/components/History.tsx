@@ -474,11 +474,16 @@ class PermissionDenied extends Error {
  * ! Compatibility Warning
  * This API is not supported in Firefox, and it will throw an error if you try to use it.
  * @platform Chrome, Edge
+ * @throws {PermissionDenied} When the user denies permission to access the file.
+ *
  * @see {@link https://developer.chrome.com/docs/capabilities/web-apis/file-system-access | File System Access API}
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API | File System Access API}
  * @see {@link https://caniuse.com/mdn-api_window_showopenfilepicker | Can I use}
  */
-const requestHistoryFile = async (): AsyncResult<File> => {
+const requestHistoryFile = async (): AsyncResult<
+  File,
+  Error | PermissionDenied
+> => {
   try {
     const [fileHandle] = await window.showOpenFilePicker({
       id: 'importHistory',
