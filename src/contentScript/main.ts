@@ -117,6 +117,10 @@ const responseTypeCriterias: ResponseTypeCriteria[] = [
     type: ResponseType.ListLatestTweetsTimeline,
     endpoint: 'ListLatestTweetsTimeline',
   },
+  {
+    type: ResponseType.SearchTimeline,
+    endpoint: 'SearchTimeline',
+  },
 ]
 
 const detectResponseTypeByEndpoint = (path: string): ResponseType => {
