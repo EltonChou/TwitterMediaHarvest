@@ -145,6 +145,20 @@ export class CaptureResponseAndCache
     return this.cacheTweets(mediaTweets)
   }
 
+  protected async processSearchTimelineResponse(body: string) {
+    const { value, error: schemaError } = validateBody(
+      body,
+      searchTimelineBodySchema
+    )
+    if (schemaError) return schemaError
+
+    const mediaTweets = retriveMediaTweetsFromInstructions(
+      value.data.search_by_raw_query.search_timeline.timeline.instructions
+    )
+
+    return this.cacheTweets(mediaTweets)
+  }
+
   async process({
     type,
     body,
@@ -186,6 +200,10 @@ export class CaptureResponseAndCache
 
       case ResponseType.ListLatestTweetsTimeline:
         error = await this.processListTimelineResponse(body)
+        break
+
+      case ResponseType.SearchTimeline:
+        error = await this.processSearchTimelineResponse(body)
         break
 
       default:
@@ -321,6 +339,25 @@ const listTimelineBodySchema: Joi.ObjectSchema<XApi.ListTimelineBody> =
             .required()
             .unknown(true),
         }),
+      }),
+    })
+      .required()
+      .unknown(true),
+  }).unknown(true)
+
+const searchTimelineBodySchema: Joi.ObjectSchema<XApi.SearchTimelineBody> =
+  Joi.object({
+    data: Joi.object({
+      search_by_raw_query: Joi.object({
+        search_timeline: Joi.object({
+          timeline: Joi.object({
+            instructions: Joi.array().required(),
+          })
+            .required()
+            .unknown(true),
+        })
+          .required()
+          .unknown(true),
       }),
     })
       .required()

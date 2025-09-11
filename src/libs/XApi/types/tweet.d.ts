@@ -79,6 +79,18 @@ declare namespace XApi {
     }
   }
 
+  interface SearchTimelineBody {
+    data: {
+      search_by_raw_query: {
+        search_timeline: {
+          timeline: {
+            instructions: Instruction[]
+          }
+        }
+      }
+    }
+  }
+
   interface Instruction {
     type: string
   }
