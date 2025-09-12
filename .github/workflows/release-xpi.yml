@@ -1,0 +1,40 @@
+name: Release XPI
+
+concurrency:
+  group: ${{github.workflow}}-${{ github.ref }}
+  cancel-in-progress: false
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'XPI version'
+        type: string
+        required: true
+      url:
+        description: 'XPI download URL'
+        type: string
+        required: true
+
+env:
+  artifact_name: pkg-${{ github.run_id }}
+
+jobs:
+  xpi_release:
+    name: XPI Release
+    runs-on: ubuntu-latest
+    environment: release
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create Gecko Release
+        uses: ./.github/actions/create-gecko-release
+        with:
+          endpoint: ${{ secrets.GECKO_RELEASE_ENDPOINT }}
+          id: mediaharvest@mediaharvest.app
+          version: ${{ inputs.version }}
+          url: ${{ inputs.url }}
+          api-key: ${{ secrets.RELEASE_API_KEY }}
+          # min-browser-version: optional
+
