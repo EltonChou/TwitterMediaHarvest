@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Fixed
+
+- Fix missing cache support in `SearchTimeline` endpoint. [#250](https://github.com/EltonChou/TwitterMediaHarvest/pull/250)
+
 ## [4.4.3] - 2025-06-04
 
 ### Fixed
