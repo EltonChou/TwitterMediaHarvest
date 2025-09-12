@@ -13,6 +13,10 @@ jobs:
     name: Generate Artifact
     runs-on: ubuntu-latest
     environment: release
+    outputs:
+      xpi-name: ${{ steps.xpi-filename.outputs.filename }}
+      semantic-version: ${{ steps.version.outputs.version }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -21,12 +25,12 @@ jobs:
           echo "${{ secrets.ENV_FILE }}" | base64 -d >> .env
           cat .env | grep "DSN" -q || exit 1
 
-      # - name: Extract version
-      #   id: version
-      #   run: |
-      #     TAG=${{ github.ref_name }}
-      #     VERSION=${TAG#v}
-      #     echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Extract semantic version
+        id: version
+        run: |
+          TAG=${{ github.ref_name }}
+          VERSION=${TAG#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Enable corepack
         run: corepack enable
@@ -48,11 +52,16 @@ jobs:
           yarn check:all
           yarn build:all
 
+      - name: Make xpi filename
+        id: xpi-filename
+        run: |
+          echo "filename=mediaharvest@mediaharvest.app-${{ github.ref_name }}.xpi" >> $GITHUB_OUTPUT
+
       - name: Sign Firefox xpi
         continue-on-error: true
         run: |
           yarn web-ext sign -s build/firefox-signed -a dist --ignore-files "*.map" --channel unlisted --api-key ${{ secrets.FF_JWT_ISSUER }} --api-secret ${{ secrets.FF_JWT_SECRET }}
-          mv dist/*.xpi dist/mediaharvest@mediaharvest.app-${{ github.ref_name }}.xpi
+          mv dist/*.xpi dist/${{ steps.xpi-filename.outputs.filename }}
 
       - name: Create Artifact
         uses: actions/upload-artifact@v4
@@ -69,6 +78,8 @@ jobs:
     environment: release
     runs-on: ubuntu-latest
     needs: generate_artifact
+    outputs:
+      xpi-url: ${{ steps.xpi-url.outputs.url }}
 
     steps:
       - uses: actions/checkout@v4
@@ -94,11 +105,22 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ steps.changelog.outputs.release }}
 
+      - name: Extract xpi url
+        if: steps.create-release.outputs.id != ''
+        id: xpi-url
+        run: |
+          url=$('${{ steps.create-release.outputs.assets }}' | jq -r 'to_entries[] | select(.key | endswith(".xpi")) | .value' | head -n1)
+          if [ -z "$url" ]; then
+            echo "no .xpi url found" >&2
+            exit 1
+          fi
+          echo "url=$url" >> $GITHUB_OUTPUT
+
       - name: Rollback Release
         if: failure() && steps.create-release.outputs.id != ''
         uses: author/action-rollback@stable
         with:
-          release_id: ${{ steps.create-release.id }}
+          release_id: ${{ steps.create-release.outputs.id }}
           tag: ${{ github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -213,6 +235,27 @@ jobs:
   #         jwtIssuer: ${{ secrets.FF_JWT_ISSUER }}
   #         jwtSecret: ${{ secrets.FF_JWT_SECRET }}
   #         sourcesZipFilePath: ${{ steps.archive_source_code.outputs.zip_file }}
+
+  xpi_release:
+    name: XPI Release
+    runs-on: ubuntu-latest
+    environment: release
+    needs:
+      - github_release
+      - generate_artifact
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create Gecko Release
+        uses: ./.github/actions/create-gecko-release
+        with:
+          endpoint: ${{ secrets.GECKO_RELEASE_ENDPOINT }}
+          id: mediaharvest@mediaharvest.app
+          version: ${{ needs.generate_artifact.outputs.semantic-version }}
+          url: ${{ needs.github_release.outputs.xpi-url }}
+          api-key: ${{ secrets.RELEASE_API_KEY }}
+          # min-browser-version: optional
 
   edge_release:
     name: Release to Edge Add-ons Store
