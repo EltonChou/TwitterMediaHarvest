@@ -9,7 +9,7 @@ import { MockSearchTweetIdsByHashTags } from '#mocks/useCases/searchTweetIdsByHa
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import { generatePortableV5DownloadHistory } from '#utils/test/v5PortableDownloadHistory'
 import useDownloadHistory from './useDownloadHistory'
-import { faker } from '@faker-js/faker/.'
+import { faker } from '@faker-js/faker'
 import { act, renderHook, waitFor } from '@testing-library/react'
 
 describe('unit test for useDownloadHistory hook', () => {
