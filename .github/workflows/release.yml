@@ -102,27 +102,29 @@ jobs:
           version: ${{ steps.target-version.outputs.version }}
 
       - name: Commit
-        if: ${{ inputs.version-strategy != 'none' }}
         shell: bash
         run: |
-          git add package.json CHANGELOG.md
-          git commit -m "version: bump version to ${{ steps.target-version.outputs.version }}"
-          # Include changelog in tag message if available
-          if [ -n "${{ steps.changelog.outputs.release }}" ]; then
-            git tag -a "${{ steps.target-version.outputs.version_tag }}" -m "version: bump version to ${{ steps.target-version.outputs.version }}" -m "" -m "${{ steps.changelog.outputs.release }}"
-          else
-            git tag -a "${{ steps.target-version.outputs.version_tag }}" -m "version: bump version to ${{ steps.target-version.outputs.version }}"
+          if [ "${{ inputs.version-strategy }}" = "none" ]; then
+            git add package.json CHANGELOG.md
+            git commit -m "version: bump version to ${{ steps.target-version.outputs.version }}"
           fi
-          # Don't push yet - wait for successful build
+
+          if [ -n "${{ steps.changelog.outputs.release }}" ]; then
+            git tag -fa "${{ steps.target-version.outputs.version_tag }}" -m "version: bump version to ${{ steps.target-version.outputs.version }}" -m "" -m "${{ steps.changelog.outputs.release }}"
+          else
+            git tag -fa "${{ steps.target-version.outputs.version_tag }}" -m "version: bump version to ${{ steps.target-version.outputs.version }}"
+          fi
 
       - name: Build
         run: yarn build:all
 
       - name: Push commit and tag atomically
-        if: ${{ inputs.version-strategy != 'none' }}
         shell: bash
         run: |
-          # Push both the main branch and the tag atomically
+          if [ "${{ inputs.version-strategy }}" = "none" ]; then
+            git push --delete origin ${{ steps.target-version.outputs.version_tag }}
+          fi
+
           git push --atomic origin main ${{ steps.target-version.outputs.version_tag }}
 
       - name: Make xpi filename
