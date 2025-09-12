@@ -173,6 +173,7 @@ jobs:
           artifacts: ${{ format('{0}/dist/*.zip,{0}/dist/*.xpi', steps.download-artifact.outputs.download-path) }}
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ needs.generate_artifact.outputs.changelog }}
+          tag: ${{ needs.generate_artifact.outputs.version-tag }}
 
       - name: Extract xpi url
         if: steps.create-release.outputs.id != ''
