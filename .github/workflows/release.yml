@@ -15,6 +15,7 @@ on:
           - patch
           - minor
           - major
+          - none
 
 env:
   artifact_name: pkg-${{ github.run_id }}
@@ -27,7 +28,9 @@ jobs:
     timeout-minutes: 30
     outputs:
       xpi-name: ${{ steps.xpi-filename.outputs.filename }}
-      semantic-version: ${{ steps.bump-version.outputs.new_version }}
+      semantic-version: ${{ steps.target-version.outputs.version }}
+      version-tag: ${{ steps.target-version.outputs.version_tag }}
+      changelog: ${{ steps.changelog.outputs.release }}
 
     steps:
       - uses: actions/checkout@v4
@@ -62,12 +65,8 @@ jobs:
           yarn ci:all
           yarn check:all
 
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
       - name: Bump version
+        if: ${{ inputs.version-strategy != 'none' }}
         id: bump-version
         run: |
           OLD_VERSION=$(jq -r .version package.json)
@@ -76,25 +75,43 @@ jobs:
           echo "old_version=$OLD_VERSION" >> $GITHUB_OUTPUT
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Make changelog
+      - name: Confirm version
+        id: target-version
+        shell: bash
         run: |
-          yarn changelog --release ${{ steps.bump-version.outputs.new_version }}
+          if [ "${{ inputs.version-strategy }}" = "none" ]; then
+            VERSION=$(jq -r .version package.json)
+            echo "No version bump selected, using existing version $VERSION"
+          else
+            VERSION=${{ steps.bump-version.outputs.new_version }}
+            echo "Bumped version to $VERSION"
+          fi
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_tag=v$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Make changelog
+        if: ${{ inputs.version-strategy != 'none' }}
+        run: |
+          yarn changelog --release ${{ steps.target-version.outputs.version }}
 
       - name: Extract Changelog
         id: changelog
         uses: zogot/kacl-parser@1.0.0
         with:
-          version: ${{ steps.bump-version.outputs.new_version }}
+          version: ${{ steps.target-version.outputs.version }}
 
       - name: Commit
+        if: ${{ inputs.version-strategy != 'none' }}
+        shell: bash
         run: |
           git add package.json CHANGELOG.md
-          git commit -m "version: bump version to ${{ steps.bump-version.outputs.new_version }}"
+          git commit -m "version: bump version to ${{ steps.target-version.outputs.version }}"
           # Include changelog in tag message if available
           if [ -n "${{ steps.changelog.outputs.release }}" ]; then
-            git tag -a "v${{ steps.bump-version.outputs.new_version }}" -m "version: bump version to ${{ steps.bump-version.outputs.new_version }}" -m "" -m "${{ steps.changelog.outputs.release }}"
+            git tag -a "${{ steps.target-version.outputs.version_tag }}" -m "version: bump version to ${{ steps.target-version.outputs.version }}" -m "" -m "${{ steps.changelog.outputs.release }}"
           else
-            git tag -a "v${{ steps.bump-version.outputs.new_version }}" -m "version: bump version to ${{ steps.bump-version.outputs.new_version }}"
+            git tag -a "${{ steps.target-version.outputs.version_tag }}" -m "version: bump version to ${{ steps.target-version.outputs.version }}"
           fi
           # Don't push yet - wait for successful build
 
@@ -102,14 +119,16 @@ jobs:
         run: yarn build:all
 
       - name: Push commit and tag atomically
+        if: ${{ inputs.version-strategy != 'none' }}
+        shell: bash
         run: |
           # Push both the main branch and the tag atomically
-          git push --atomic origin main v${{ steps.bump-version.outputs.new_version }}
+          git push --atomic origin main ${{ steps.target-version.outputs.version_tag }}
 
       - name: Make xpi filename
         id: xpi-filename
         run: |
-          echo "filename=mediaharvest@mediaharvest.app-v${{ steps.bump-version.outputs.new_version }}.xpi" >> $GITHUB_OUTPUT
+          echo "filename=mediaharvest@mediaharvest.app-${{ steps.target-version.outputs.version_tag }}.xpi" >> $GITHUB_OUTPUT
 
       - name: Sign Firefox xpi
         continue-on-error: true
@@ -144,20 +163,14 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
 
-      - name: Extract Changelog
-        id: changelog
-        uses: zogot/kacl-parser@1.0.0
-        with:
-          version: ${{ github.ref_name }}
-
       - name: Create Repository Release
         id: create-release
         uses: ncipollo/release-action@v1
         with:
-          name: 'TwitterMediaHarvest ${{ github.ref_name }}'
+          name: 'TwitterMediaHarvest ${{ needs.generate_artifact.outputs.version-tag }}'
           artifacts: ${{ format('{0}/dist/*.zip,{0}/dist/*.xpi', steps.download-artifact.outputs.download-path) }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          body: ${{ steps.changelog.outputs.release }}
+          body: ${{ needs.generate_artifact.outputs.changelog }}
 
       - name: Extract xpi url
         if: steps.create-release.outputs.id != ''
