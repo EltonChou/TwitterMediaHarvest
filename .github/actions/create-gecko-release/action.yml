@@ -1,0 +1,28 @@
+name: 'Create Gecko Release'
+description: 'Create a Gecko (Firefox) release by POSTing release metadata to a given endpoint. Validates inputs (URL and semver) before sending.'
+author: 'Elton H.Y. Chou'
+
+inputs:
+  endpoint:
+    description: 'The endpoint URL to POST the release metadata to'
+    required: true
+  id:
+    description: 'The extension id (e.g. mediaharvest@foo.bar)'
+    required: true
+  version:
+    description: 'The release version (semver, e.g. 1.2.0)'
+    required: true
+  url:
+    description: 'The download URL for the xpi'
+    required: true
+  min-browser-version:
+    description: 'Minimum browser version (semver). Optional.'
+    required: false
+    default: '111.0'
+  api-key:
+    description: 'API key used to authenticate the POST request (sent as x-api-key header)'
+    required: true
+
+runs:
+  using: 'node24'
+  main: 'dist/index.js'

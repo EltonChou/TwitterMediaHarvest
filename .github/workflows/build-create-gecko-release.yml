@@ -1,0 +1,43 @@
+name: Build create-gecko-release action
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: true
+
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/create-gecko-release
+          yarn install --frozen-lockfile
+
+      - name: Build action bundle
+        run: |
+          cd .github/actions/create-gecko-release
+          yarn build
+
+      - name: Commit dist if changed
+        run: |
+          cd .github/actions/create-gecko-release
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add dist
+            git commit -m "chore(action): build create-gecko-release [skip ci]"
+            git push
+          else
+            echo "No changes to commit"
+          fi

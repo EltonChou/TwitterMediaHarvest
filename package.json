@@ -174,7 +174,8 @@
     "packages": [
       "webpack/loaders/*",
       "webpack/plugins/*",
-      "configs/*"
+      "configs/*",
+      ".github/actions/*"
     ]
   },
   "homepage": "https://github.com/EltonChou/TwitterMediaHarvest#readme",
