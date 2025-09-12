@@ -89,12 +89,12 @@ jobs:
       - name: Commit
         run: |
           git add package.json CHANGELOG.md
-          git commit -m "version: bump version to $NEW_VERSION"
+          git commit -m "version: bump version to ${{ steps.bump-version.outputs.new_version }}"
           # Include changelog in tag message if available
           if [ -n "${{ steps.changelog.outputs.release }}" ]; then
-            git tag -a "v$NEW_VERSION" -m "version: bump version to $NEW_VERSION" -m "" -m "${{ steps.changelog.outputs.release }}"
+            git tag -a "v${{ steps.bump-version.outputs.new_version }}" -m "version: bump version to ${{ steps.bump-version.outputs.new_version }}" -m "" -m "${{ steps.changelog.outputs.release }}"
           else
-            git tag -a "v$NEW_VERSION" -m "version: bump version to $NEW_VERSION"
+            git tag -a "v${{ steps.bump-version.outputs.new_version }}" -m "version: bump version to ${{ steps.bump-version.outputs.new_version }}"
           fi
           # Don't push yet - wait for successful build
 
@@ -104,7 +104,7 @@ jobs:
       - name: Push commit and tag atomically
         run: |
           # Push both the main branch and the tag atomically
-          git push --atomic origin main "v${{ steps.bump-version.outputs.new_version }}"
+          git push --atomic origin main v${{ steps.bump-version.outputs.new_version }}
 
       - name: Make xpi filename
         id: xpi-filename
