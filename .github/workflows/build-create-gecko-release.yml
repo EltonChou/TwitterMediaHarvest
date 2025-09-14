@@ -38,7 +38,7 @@ jobs:
       - name: Commit dist if changed
         run: |
           cd .github/actions/create-gecko-release
-          if [ -n "$(git status --porcelain)" ];
+          if [ -n "$(git status --porcelain)" ]; then
             git add dist
             git commit -m "chore(action): build create-gecko-release [skip ci]"
             git push
