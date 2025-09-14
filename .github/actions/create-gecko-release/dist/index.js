@@ -28164,16 +28164,14 @@ function getInputs() {
     return {
         endpoint: core.getInput('endpoint', {
             required: true,
-            trimWhitespace: true,
         }),
-        id: core.getInput('id', { required: true, trimWhitespace: true }),
-        version: core.getInput('version', { required: true, trimWhitespace: true }),
-        url: core.getInput('url', { required: true, trimWhitespace: true }),
+        id: core.getInput('id', { required: true }),
+        version: core.getInput('version', { required: true }),
+        url: core.getInput('url', { required: true }),
         minBrowserVersion: core.getInput('min-browser-version', {
             required: false,
-            trimWhitespace: true,
         }) || undefined,
-        apiKey: core.getInput('api-key', { required: true, trimWhitespace: true }),
+        apiKey: core.getInput('api-key', { required: true }),
     };
 }
 function validateInputs(inputs) {
@@ -28187,7 +28185,7 @@ function validateInputs(inputs) {
         throw new Error('version is not a valid semver');
     if (!inputs.url)
         throw new Error('url is required');
-    if (inputs.minBrowserVersion && !semver_1.default.valid(inputs.minBrowserVersion))
+    if (inputs.minBrowserVersion && !semver_1.default.coerce(inputs.minBrowserVersion))
         throw new Error('min-browser-version is not a valid semver');
 }
 function postJson(endpoint, payload, apiKey) {
