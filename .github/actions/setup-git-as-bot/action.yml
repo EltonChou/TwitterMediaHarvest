@@ -37,7 +37,7 @@ runs:
     - name: Configure git
       shell: bash
       run: |
-        user_name="${{ steps.app-token.outputs.app-slug }}[bot]""
+        user_name="${{ steps.app-token.outputs.app-slug }}[bot]"
         user_email="${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
         echo "bot_user_name=$user_name" >> "$GITHUB_OUTPUT"
         echo "bot_user_email=$user_email" >> "$GITHUB_OUTPUT"
