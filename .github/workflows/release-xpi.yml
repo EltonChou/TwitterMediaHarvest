@@ -1,8 +1,8 @@
 name: Release XPI
 
 concurrency:
-  group: ${{github.workflow}}-${{ github.ref }}
-  cancel-in-progress: false
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 on:
   workflow_dispatch:
@@ -15,9 +15,26 @@ on:
         description: 'XPI download URL'
         type: string
         required: true
-
-env:
-  artifact_name: pkg-${{ github.run_id }}
+      min-browser-version:
+        description: 'Minimum browser version (semver). Optional.'
+        type: string
+        required: false
+        default: '111.0'
+  workflow_call:
+    inputs:
+      version:
+        description: 'XPI version'
+        type: string
+        required: true
+      url:
+        description: 'XPI download URL'
+        type: string
+        required: true
+      min-browser-version:
+        description: 'Minimum browser version (semver). Optional.'
+        type: string
+        required: false
+        default: '111.0'
 
 jobs:
   xpi_release:
@@ -32,9 +49,8 @@ jobs:
         uses: ./.github/actions/create-gecko-release
         with:
           endpoint: ${{ secrets.GECKO_RELEASE_ENDPOINT }}
-          id: mediaharvest@mediaharvest.app
+          id: ${{ vars.FF_ADDON_ID_SELF_SIGN }}
           version: ${{ inputs.version }}
           url: ${{ inputs.url }}
           api-key: ${{ secrets.RELEASE_API_KEY }}
-          # min-browser-version: optional
-
+          min-browser-version: ${{ inputs.min-browser-version }}
