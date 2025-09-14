@@ -43,5 +43,3 @@ runs:
         echo "bot_user_email=$user_email" >> "$GITHUB_OUTPUT"
         git config --global user.name $user_name
         git config --global user.email $user_email
-        git config --global commit.gpgsign true
-
