@@ -29,12 +29,16 @@ jobs:
           cd .github/actions/create-gecko-release
           yarn build
 
+      - name: Setup git
+        uses: ./.github/workflows/setup-git-as-bot.yml
+        with:
+          app-id: ${{ vars.MH_BOT_APP_ID }}
+          app-private-key: ${{ secrets.MH_BOT_APP_PRIVATE_KEY }}
+
       - name: Commit dist if changed
         run: |
           cd .github/actions/create-gecko-release
-          if [ -n "$(git status --porcelain)" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain)" ];
             git add dist
             git commit -m "chore(action): build create-gecko-release [skip ci]"
             git push
