@@ -102,23 +102,29 @@ jobs:
           version: ${{ steps.target-version.outputs.version }}
 
       - name: Setup git
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        uses: ./.github/workflows/setup-git-as-bot.yml
+        with:
+          app-id: ${{ vars.MH_BOT_APP_ID }}
+          app-private-key: ${{ secrets.MH_BOT_APP_PRIVATE_KEY }}
 
       - name: Commit
         shell: bash
         run: |
-          if [ "${{ inputs.version-strategy }}" = "none" ]; then
+          commit_title="version: bump version to ${{ steps.target-version.outputs.version }}"
+
+          if [ "${{ inputs.version-strategy }}" != "none" ]; then
             git add package.json CHANGELOG.md
-            git commit -m "version: bump version to ${{ steps.target-version.outputs.version }}"
+            git commit -m "$commit_title"
+            echo "Committed version bump"
           fi
 
           if [ -n "${{ steps.changelog.outputs.release }}" ]; then
-            git tag -fa "${{ steps.target-version.outputs.version_tag }}" -m "version: bump version to ${{ steps.target-version.outputs.version }}" -m "" -m "${{ steps.changelog.outputs.release }}"
+            git tag -fa "${{ steps.target-version.outputs.version_tag }}" \
+              -m "$commit_title" -m "" \
+              -m "${{ steps.changelog.outputs.release }}"
           else
-            git tag -fa "${{ steps.target-version.outputs.version_tag }}" -m "version: bump version to ${{ steps.target-version.outputs.version }}"
+            git tag -fa "${{ steps.target-version.outputs.version_tag }}" \
+            -m "$commit_title"
           fi
 
       - name: Build
@@ -129,6 +135,7 @@ jobs:
         run: |
           if [ "${{ inputs.version-strategy }}" = "none" ]; then
             git push --delete origin ${{ steps.target-version.outputs.version_tag }}
+            echo "Deleted existing tag ${{ steps.target-version.outputs.version_tag }} on remote"
           fi
 
           git push --atomic origin main ${{ steps.target-version.outputs.version_tag }}
@@ -136,12 +143,14 @@ jobs:
       - name: Make xpi filename
         id: xpi-filename
         run: |
-          echo "filename=mediaharvest@mediaharvest.app-${{ steps.target-version.outputs.version_tag }}.xpi" >> $GITHUB_OUTPUT
+          echo "filename=${{ vars.FF_ADDON_ID_SELF_SIGN }}-${{ steps.target-version.outputs.version_tag }}.xpi" >> $GITHUB_OUTPUT
 
       - name: Sign Firefox xpi
         continue-on-error: true
         run: |
-          yarn web-ext sign -s build/firefox-signed -a dist --ignore-files "*.map" --channel unlisted --api-key ${{ secrets.FF_JWT_ISSUER }} --api-secret ${{ secrets.FF_JWT_SECRET }}
+          yarn web-ext sign -s build/firefox-signed -a dist --ignore-files "*.map" --channel unlisted \
+          --api-key ${{ secrets.FF_JWT_ISSUER }} \
+          --api-secret ${{ secrets.FF_JWT_SECRET }}
           mv dist/*.xpi dist/${{ steps.xpi-filename.outputs.filename }}
 
       - name: Create Artifact
@@ -331,14 +340,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Create Gecko Release
-        uses: ./.github/actions/create-gecko-release
+        uses: ./.github/workflows/release-xpi.yml
         with:
-          endpoint: ${{ secrets.GECKO_RELEASE_ENDPOINT }}
-          id: mediaharvest@mediaharvest.app
           version: ${{ needs.generate_artifact.outputs.semantic-version }}
           url: ${{ needs.github_release.outputs.xpi-url }}
-          api-key: ${{ secrets.RELEASE_API_KEY }}
-          # min-browser-version: optional
 
   edge_release:
     name: Release to Edge Add-ons Store
