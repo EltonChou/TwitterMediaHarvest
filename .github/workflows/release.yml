@@ -102,7 +102,7 @@ jobs:
           version: ${{ steps.target-version.outputs.version }}
 
       - name: Setup git
-        uses: ./.github/workflows/setup-git-as-bot.yml
+        uses: ./.github/actions/setup-git-as-bot
         with:
           app-id: ${{ vars.MH_BOT_APP_ID }}
           app-private-key: ${{ secrets.MH_BOT_APP_PRIVATE_KEY }}
