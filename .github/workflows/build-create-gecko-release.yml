@@ -2,7 +2,7 @@ name: Build create-gecko-release action
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch: {}
 
 jobs:
@@ -11,8 +11,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+
+      - name: Setup git
+        id: setup-git
+        uses: ./.github/actions/setup-git-as-bot
         with:
-          persist-credentials: true
+          app-id: ${{ vars.MH_BOT_APP_ID }}
+          app-private-key: ${{ secrets.MH_BOT_APP_PRIVATE_KEY }}
 
       - name: Use Node.js 24
         uses: actions/setup-node@v4
@@ -29,19 +34,11 @@ jobs:
           cd .github/actions/create-gecko-release
           yarn build
 
-      - name: Setup git
-        uses: ./.github/actions/setup-git-as-bot
+      - name: Commit changes
+        id: commit
+        uses: iarekylew00t/verified-bot-commit@v2
         with:
-          app-id: ${{ vars.MH_BOT_APP_ID }}
-          app-private-key: ${{ secrets.MH_BOT_APP_PRIVATE_KEY }}
-
-      - name: Commit dist if changed
-        run: |
-          cd .github/actions/create-gecko-release
-          if [ -n "$(git status --porcelain)" ]; then
-            git add dist
-            git commit -m "chore(action): build create-gecko-release [skip ci]"
-            git push
-          else
-            echo "No changes to commit"
-          fi
+          token: ${{ steps.setup-git.outputs.token }}
+          files: |
+            .github/actions/**/dist/**
+          message: "chore(action): build create-gecko-release [skip ci]"
