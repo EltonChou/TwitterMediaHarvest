@@ -15,6 +15,7 @@ export const tweetToDownloadHistory: Factory<
   DownloadHistory
 > = tweet => {
   const thumbnail = tweet.images
+    // Use first image as history thumbnail
     .find(media => media.mapBy(props => props.index) === 0)
     ?.getVariantUrl('thumb')
 
