@@ -8,6 +8,10 @@ import type { UseCase } from './base'
 
 type CheckDownloadWasTriggeredBySelfCommand = {
   item: DownloadItem
+  /**
+   * @default true
+   */
+  ignoreTestData?: boolean
   allowJSON?: boolean
 }
 
@@ -26,6 +30,8 @@ export class CheckDownloadWasTriggeredBySelf
    */
   process(command: CheckDownloadWasTriggeredBySelfCommand): boolean {
     if (!this.isSameExtension(command.item)) return false
+    if (command.item.url.endsWith('TEST.data'))
+      return (command.ignoreTestData ?? true) ? false : true
     if (command.allowJSON) return true
 
     return !isJSON(command.item)

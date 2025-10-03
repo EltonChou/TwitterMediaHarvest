@@ -201,6 +201,11 @@ export default (env, argv) => {
             context: 'src',
             to: '[name][ext]',
           },
+          {
+            from: 'static/**/*',
+            context: 'src',
+            to: 'static/[name][ext]',
+          },
         ],
       }),
     ],

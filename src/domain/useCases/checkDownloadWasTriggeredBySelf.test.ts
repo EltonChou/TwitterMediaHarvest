@@ -45,6 +45,15 @@ describe('unit test for chek download was triggered by self', () => {
       allowJSON: false,
       expected: false,
     },
+    {
+      item: generateDownloadItem({
+        byExtensionId: EXT_ID,
+        mime: 'image/jpeg',
+        url: 'https://example.com/TEST.data',
+      }),
+      allowJSON: false,
+      expected: false,
+    },
   ])(
     'can check the download item (mime: $item.mime) was triggered by self or not (allowJSON: $allowJSON)',
     async ({ item, allowJSON, expected }) => {
