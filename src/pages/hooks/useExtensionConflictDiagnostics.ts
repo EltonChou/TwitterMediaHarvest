@@ -42,6 +42,7 @@ export type DiagnosticsResult = {
 type Action =
   | { type: 'SET_EXTENSIONS'; payload: ExtensionKV }
   | { type: 'CHANGE_STATUS'; payload: { id: string; status: ExtensionStatus } }
+  | { type: 'DISABLE_EXTENSION'; payload: { id: string } }
   | { type: 'RESET' }
 
 function reducer(state: ExtensionKV, action: Action): ExtensionKV {
@@ -55,6 +56,12 @@ function reducer(state: ExtensionKV, action: Action): ExtensionKV {
         ...state,
         [id]: { ...state[id], status },
       }
+    }
+    case 'DISABLE_EXTENSION': {
+      const { id } = action.payload
+      if (!state[id]) return state
+      const { [id]: _, ...rest } = state
+      return rest
     }
     case 'RESET':
       return {}
@@ -78,7 +85,7 @@ export function useExtensionConflictDiagnostics(
   /**
    * !IMPORTANT: *DO NOT USE `downloads.onDetermingFilename`*
    */
-  const [installed, dispatch] = useReducer(reducer, {})
+  const [enabledExts, dispatch] = useReducer(reducer, {})
   const [status, setStatus] = useState<WorkflowStatus>(WorkflowStatus.INIT)
   const [message, setMessage] = useState<string>('')
 
@@ -146,7 +153,7 @@ export function useExtensionConflictDiagnostics(
         extStatus === ExtensionStatus.COMPATIBLE
           ? '✅ Compatible extension:'
           : '❌ Conflicted extension:',
-        extId in installed ? `${installed[extId].name} (${extId})` : extId
+        extId in enabledExts ? `${enabledExts[extId].name} (${extId})` : extId
       )
       dispatch({
         type: 'CHANGE_STATUS',
@@ -156,7 +163,7 @@ export function useExtensionConflictDiagnostics(
         },
       })
     },
-    [installed]
+    [enabledExts]
   )
 
   useEffect(() => {
@@ -255,26 +262,28 @@ export function useExtensionConflictDiagnostics(
 
     setMessage('Disabling conflicted extensions...')
     try {
+      const conflictedIds = Object.entries(enabledExts).reduce<string[]>(
+        (conflictedIds, [id, ext]) =>
+          ext.status === ExtensionStatus.CONFLICTED
+            ? conflictedIds.concat(id)
+            : conflictedIds,
+        []
+      )
       await Promise.allSettled(
-        Object.entries(installed)
-          .reduce<string[]>(
-            (conflictedIds, [id, ext]) =>
-              ext.status === ExtensionStatus.CONFLICTED
-                ? conflictedIds.concat(id)
-                : conflictedIds,
-            []
-          )
-          .map(id => management.setEnabled(id, false))
+        conflictedIds.map(async id => {
+          await management.setEnabled(id, false)
+          dispatch({ type: 'DISABLE_EXTENSION', payload: { id } })
+        })
       )
       setMessage('All conflicted extensions have been disabled.')
       setStatus(WorkflowStatus.INIT)
     } catch (_error) {
       setMessage('Failed to disable conflicted extensions.')
     }
-  }, [installed, status])
+  }, [enabledExts, status])
 
   return {
-    installed,
+    installed: enabledExts,
     status,
     message,
     requestDiagnose,
