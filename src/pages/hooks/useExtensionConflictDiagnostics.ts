@@ -96,10 +96,7 @@ export function useExtensionConflictDiagnostics(
       }
       const filename = extId + '.mhtest'
 
-      let listenerToRemove:
-        | ListenerOf<Downloads.Static['onChanged']>
-        | undefined = undefined
-
+      let removeTestListener = () => {}
       const extStatus = await new Promise<ExtensionStatus>(
         (resolve, reject) => {
           const checkCompleteDownload: ListenerOf<
@@ -122,8 +119,10 @@ export function useExtensionConflictDiagnostics(
             await downloads.erase({ id: downloadItem.id })
           }
 
-          listenerToRemove = checkCompleteDownload
+          removeTestListener = () =>
+            downloads.onChanged.removeListener(checkCompleteDownload)
           downloads.onChanged.addListener(checkCompleteDownload)
+
           downloads
             .download({
               filename: filename,
@@ -131,19 +130,17 @@ export function useExtensionConflictDiagnostics(
               saveAs: false,
             })
             .then(dlId => {
-              if (!dlId) {
-                const errorMsg =
-                  runtime.lastError?.message || 'Failed to start download.'
-                setStatus(WorkflowStatus.ERROR)
-                setMessage(errorMsg)
-                reject(new Error(errorMsg))
-              }
+              if (dlId) return
+              const errorMsg =
+                runtime.lastError?.message || 'Failed to start download.'
+              setStatus(WorkflowStatus.ERROR)
+              setMessage(errorMsg)
+              reject(new Error(errorMsg))
             })
         }
       )
 
-      if (listenerToRemove) downloads.onChanged.removeListener(listenerToRemove)
-
+      removeTestListener()
       // eslint-disable-next-line no-console
       console.info(
         extStatus === ExtensionStatus.COMPATIBLE
@@ -227,7 +224,7 @@ export function useExtensionConflictDiagnostics(
       /* eslint-enable no-console */
     }
     await Promise.allSettled(
-      extIdsToCheck.values().map(extId => management.setEnabled(extId, false))
+      extIdsToCheck.map(extId => management.setEnabled(extId, false))
     )
 
     for (const extId of extIdsToCheck) {
