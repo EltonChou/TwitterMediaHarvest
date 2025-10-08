@@ -78,6 +78,12 @@ const Nav = ({ closeMenu }: NavProps) => {
       />
       {/* <NavItem name="Statistics" target="/statistics" /> */}
       <NavItem
+        name={i18n('Diagnostics', 'options:sideMenu')}
+        target={Path.Diagnostics}
+        closeMenu={closeMenu}
+        testId="nav-item-diagnostics"
+      />
+      <NavItem
         name={i18n('About', 'options:sideMenu')}
         target={Path.About}
         closeMenu={closeMenu}

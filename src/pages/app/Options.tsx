@@ -16,12 +16,14 @@ import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsBy
 import type { FilenameSetting } from '#domain/valueObjects/filenameSetting'
 import { getText as i18n } from '#libs/i18n'
 import About from '#pages/components/About'
+import Diagnostics from '#pages/components/Diagnostics'
 import FeatureOptions from '#pages/components/FeatureOptions'
 import FootBar from '#pages/components/FootBar'
 import GeneralOptions from '#pages/components/GeneralOptions'
 import HistoryTable from '#pages/components/History'
 import IntegrationOptions from '#pages/components/IntegrationOptions'
 import SideMenu from '#pages/components/SideMenu'
+import { Path } from '#pages/routes'
 import { DownloadSettings, FeatureSettings } from '#schema'
 import {
   Container,
@@ -155,6 +157,14 @@ const App = ({
               element={
                 <Content title={i18n('About', 'options:sideMenu')}>
                   <About clientRepo={clientRepo} />
+                </Content>
+              }
+            />
+            <Route
+              path={Path.Diagnostics}
+              element={
+                <Content title={i18n('Diagnostics', 'options:sideMenu')}>
+                  <Diagnostics />
                 </Content>
               }
             />

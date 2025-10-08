@@ -10,4 +10,5 @@ export const enum Path {
   Integrations = '/integrations',
   History = '/history',
   About = '/about',
+  Diagnostics = '/diagnostics',
 }
