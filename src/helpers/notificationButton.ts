@@ -27,4 +27,9 @@ export class FilenameNotificationButton {
       title: getText('Ignore', 'notification:filename:button'),
     }
   }
+  static diagnose(): chrome.notifications.ButtonOptions {
+    return {
+      title: getText('Diagnose', 'notification:filename:button'),
+    }
+  }
 }
