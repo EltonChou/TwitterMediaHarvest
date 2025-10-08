@@ -7,11 +7,13 @@ import { DomainEventPublisher } from '#domain/eventPublisher'
 import {
   checkCompletedDownload,
   cleanDownloadRecord as cleanDownloadRecordHandler,
+  ignoreFilenameOverwritten,
   increaseUsageStatistics,
   initClient,
   notifyDownloadInterrupted,
   notifyFilenameIsOverwritten,
   notifyTweetApiError,
+  openDiagnosticsPageInNewTab,
   openFailedTweetInNewTab,
   openTweetOfFailedDownloadInNewTab,
   recordDispatchedDownloadConfiguration,
@@ -144,6 +146,13 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
     .register('tweetSolution:quota:changed', [
       updateSolutionQuota(solutionQuotaRepo),
     ])
+    .register('notification:filenameOverwritten:diagnoseButton:clicked', [
+      openDiagnosticsPageInNewTab,
+    ])
+    .register('notification:filenameOverwritten:ignoreButton:clicked', [
+      ignoreFilenameOverwritten(warningSettingsRepo),
+    ])
+    .register('notification:filenameOverwritten:self:clicked', [])
 }
 
 export default initEventPublisher
