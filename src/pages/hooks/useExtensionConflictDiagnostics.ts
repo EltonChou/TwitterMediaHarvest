@@ -252,9 +252,20 @@ export function useExtensionConflictDiagnostics(
 
     // eslint-disable-next-line no-console
     console.info('Complete conflict diagnostics.')
+    const conflictedCount = Object.values(enabledExts).reduce(
+      (count, ext) =>
+        ext.status === ExtensionStatus.CONFLICTED ? count + 1 : count,
+      0
+    )
+
     setStatus(WorkflowStatus.COMPLETED)
-    setMessage('Scan completed.')
-  }, [excludeIds, triggerCheckDownloadByExtId])
+    setMessage(
+      'Scan completed. ' +
+        (conflictedCount > 0
+          ? `${conflictedCount} conflicted extension(s) detected.`
+          : 'No conflicted extensions found.')
+    )
+  }, [enabledExts, excludeIds, triggerCheckDownloadByExtId])
 
   // Disable all conflicted extensions
   const disableConflicted = useCallback(async () => {
