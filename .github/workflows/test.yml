@@ -17,33 +17,8 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     environment: "test"
-    strategy:
-      matrix:
-        node-version: [22.x]
     steps:
       - uses: actions/checkout@v4
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "yarn"
-
-      - name: Set yarn version
-        run: yarn set version 4.9.1
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Upload node_modules
-        uses: actions/upload-artifact@v5
-        with:
-          name: node-modules-${{ matrix.node-version }}
-          path: |
-            node_modules
-            .yarn
-            .yarnrc.yml
-          retention-days: 1
 
       - name: Prepare env file
         run: cp sample.env .env
@@ -70,14 +45,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
 
       - name: Set yarn version
         run: yarn set version 4.9.1
-
-      - name: Download dependencies
-        uses: actions/download-artifact@v6
-        with:
-          name: node-modules-${{ matrix.node-version }}
 
       - name: Download env file
         uses: actions/download-artifact@v6
@@ -107,14 +78,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
 
       - name: Set yarn version
         run: yarn set version 4.9.1
-
-      - name: Download dependencies with built tools
-        uses: actions/download-artifact@v6
-        with:
-          name: built-tools-${{ matrix.node-version }}
 
       - name: Download env file
         uses: actions/download-artifact@v6
@@ -123,6 +90,7 @@ jobs:
 
       - name: Build ${{ matrix.browser }}
         run: |
+          yarn install --immutable
           yarn check-envfile
           yarn build:tools
 
