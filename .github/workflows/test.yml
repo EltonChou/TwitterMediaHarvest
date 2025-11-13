@@ -6,6 +6,9 @@ on:
       - main
     tags-ignore:
       - "v[0-9]+.[0-9]+.[0-9]+"
+    paths-ignore:
+      - .github/actions/**
+      - ./*.md
   pull_request:
     branches:
       - main
