@@ -473,6 +473,8 @@ class PermissionDenied extends Error {
 /**
  * ! Compatibility Warning
  * This API is not supported in Firefox, and it will throw an error if you try to use it.
+ * Some Chromium-based browsers may not support it depending on their version.
+ *
  * @platform Chrome, Edge
  * @throws {PermissionDenied} When the user denies permission to access the file.
  *
@@ -723,17 +725,20 @@ const HistoryTable = ({
     scrollTableToTop()
   }
 
+  const IS_FILE_PICKER_SUPPORTED =
+    __FIREFOX__ || window.showOpenFilePicker === undefined ? false : true
+
   return (
     <>
-      {__FIREFOX__ ? (
+      {IS_FILE_PICKER_SUPPORTED ? (
+        <></>
+      ) : (
         <Stack hidden>
           <LegacyUploadHistory
             ref={legacyUploadFileRef}
             importFunc={downloadHistory.handler.import}
           />
         </Stack>
-      ) : (
-        <></>
       )}
       <HStack>
         <SearchForm update={updateResult} ref={searchFormRef} />
@@ -771,11 +776,11 @@ const HistoryTable = ({
       <PortableHistoryActionBar
         export={exportHistory}
         import={
-          __FIREFOX__
-            ? async () => {
+          IS_FILE_PICKER_SUPPORTED
+            ? importHistory(downloadHistory.handler.import)
+            : async () => {
                 legacyUploadFileRef.current?.click()
               }
-            : importHistory(downloadHistory.handler.import)
         }
       />
     </>
