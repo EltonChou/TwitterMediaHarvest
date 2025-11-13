@@ -24,7 +24,7 @@
     "types": ["@types/wicg-file-system-access", "@types/chrome"],
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "#domain/*": ["./src/src/domain/*"],
+      "#domain/*": ["./src/domain/*"],
       "#helpers/*": ["./src/helpers/*"],
       "#enums/*": ["./src/enums/*"],
       "#schema": ["./src/types/schema.d.ts"],
