@@ -32,14 +32,11 @@ jobs:
       - name: Set yarn version
         run: yarn set version 4.9.1
 
-      - name: Prepare env file
-        run: cp sample.env .env
-
       - name: Install dependencies
         run: yarn install
 
       - name: Upload node_modules
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: node-modules-${{ matrix.node-version }}
           path: |
@@ -48,12 +45,16 @@ jobs:
             .yarnrc.yml
           retention-days: 1
 
+      - name: Prepare env file
+        run: cp sample.env .env
+
       - name: Upload env file
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: env-file
           path: .env
           retention-days: 1
+          include-hidden-files: true
 
   test:
     needs: setup
@@ -74,12 +75,12 @@ jobs:
         run: yarn set version 4.9.1
 
       - name: Download dependencies
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: node-modules-${{ matrix.node-version }}
 
       - name: Download env file
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: env-file
 
@@ -111,12 +112,12 @@ jobs:
         run: yarn set version 4.9.1
 
       - name: Download dependencies with built tools
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: built-tools-${{ matrix.node-version }}
 
       - name: Download env file
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: env-file
 
