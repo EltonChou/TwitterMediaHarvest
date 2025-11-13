@@ -50,13 +50,9 @@ jobs:
       - name: Set yarn version
         run: yarn set version 4.9.1
 
-      - name: Download env file
-        uses: actions/download-artifact@v6
-        with:
-          name: env-file
-
       - name: Run lint and tests
         run: |
+          yarn install --immutable
           yarn lint
           yarn ci:all
           yarn check-locales
