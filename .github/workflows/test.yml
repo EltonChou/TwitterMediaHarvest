@@ -1,6 +1,3 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Run test
 
 on:
@@ -8,7 +5,7 @@ on:
     branches:
       - main
     tags-ignore:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - "v[0-9]+.[0-9]+.[0-9]+"
   pull_request:
     branches:
       - main
@@ -17,14 +14,12 @@ env:
   HUSKY: 0
 
 jobs:
-  test_and_build:
+  setup:
     runs-on: ubuntu-latest
-    environment: 'test'
+    environment: "test"
     strategy:
       matrix:
         node-version: [22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
       - uses: actions/checkout@v4
 
@@ -32,22 +27,108 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
+          cache: "yarn"
 
       - name: Set yarn version
-        run: |
-          yarn set version 4.9.1
+        run: yarn set version 4.9.1
 
       - name: Prepare env file
-        run: |
-          cp sample.env .env
+        run: cp sample.env .env
 
-      - name: Install deps and Run test
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Upload node_modules
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-modules-${{ matrix.node-version }}
+          path: |
+            node_modules
+            .yarn
+            .yarnrc.yml
+          retention-days: 1
+
+      - name: Upload env file
+        uses: actions/upload-artifact@v4
+        with:
+          name: env-file
+          path: .env
+          retention-days: 1
+
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+    environment: "test"
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Set yarn version
+        run: yarn set version 4.9.1
+
+      - name: Download dependencies
+        uses: actions/download-artifact@v4
+        with:
+          name: node-modules-${{ matrix.node-version }}
+
+      - name: Download env file
+        uses: actions/download-artifact@v4
+        with:
+          name: env-file
+
+      - name: Run lint and tests
         run: |
-          yarn install
           yarn lint
           yarn ci:all
-          yarn check:all
+          yarn check-locales
+          yarn check-flags
+          yarn typecheck
 
-      - name: Build the application
-        run: yarn build:all
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: "test"
+    strategy:
+      matrix:
+        node-version: [22.x]
+        browser: [chrome, edge, firefox]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Set yarn version
+        run: yarn set version 4.9.1
+
+      - name: Download dependencies with built tools
+        uses: actions/download-artifact@v4
+        with:
+          name: built-tools-${{ matrix.node-version }}
+
+      - name: Download env file
+        uses: actions/download-artifact@v4
+        with:
+          name: env-file
+
+      - name: Build ${{ matrix.browser }}
+        run: |
+          yarn check-envfile
+          yarn build:tools
+
+          if [ "${{ matrix.browser }}" = "chrome" ]; then
+            yarn build:chrome:all
+          elif [ "${{ matrix.browser }}" = "edge" ]; then
+            yarn build:edge:all
+          elif [ "${{ matrix.browser }}" = "firefox" ]; then
+            yarn build:firefox:all:self-sign
+          fi
