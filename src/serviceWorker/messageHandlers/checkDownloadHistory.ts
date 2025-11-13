@@ -4,11 +4,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { CheckDownloadHistoryMessage } from '#libs/webExtMessage'
-import { type MessageContextHandler, makeErrorResponse } from '../messageRouter'
 import {
   CheckMediaTweetHasBeenDownloaded,
   type InfraProvider,
-} from 'applicationUseCases/checkMediaTweetHasBeenDownloaded'
+} from '../../applicationUseCases/checkMediaTweetHasBeenDownloaded'
+import { type MessageContextHandler, makeErrorResponse } from '../messageRouter'
 
 const checkDownloadHistoryHandler = (
   infraProvider: InfraProvider

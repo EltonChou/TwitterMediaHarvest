@@ -31,7 +31,7 @@ const jestConfig: JestConfigWithTsJest = {
   moduleNameMapper: {
     ...pathsToModuleNameMapper(tsConfig.config.compilerOptions.paths, {
       useESM: true,
-      prefix: '<rootDir>/src',
+      prefix: '<rootDir>/',
     }),
     '#monitor': '<rootDir>/src/monitors/console.ts',
   },
