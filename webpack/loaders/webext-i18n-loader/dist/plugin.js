@@ -105,10 +105,10 @@ class WebextI18nPlugin {
                         { message: translation.content },
                     ]);
                     const webextTranslations = Object.fromEntries(webextTranslationEntries);
-                    const outputFile = path_1.default.join('_locales', locale, 'messages.json');
+                    const outputFile = path_1.default.posix.join('_locales', locale, 'messages.json');
                     compilation.emitAsset(outputFile, new RawSource(JSON.stringify(webextTranslations)), {
                         javascriptModule: false,
-                        sourceFilename: path_1.default.relative(compiler.context, poFile),
+                        sourceFilename: path_1.default.posix.relative(compiler.context, poFile),
                     });
                 }
             }));
