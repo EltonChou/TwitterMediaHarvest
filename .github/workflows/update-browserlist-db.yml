@@ -1,0 +1,38 @@
+name: Update browserlist DB
+
+on:
+  schedule:
+    - cron: '* * * * 0'
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup git
+        id: setup-git
+        uses: ./.github/actions/setup-git-as-bot
+        with:
+          app-id: ${{ vars.MH_BOT_APP_ID }}
+          app-private-key: ${{ secrets.MH_BOT_APP_PRIVATE_KEY }}
+
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Update browserslist-db
+        run: |
+          yarn dlx update-browserslist-db@latest
+
+      - name: Commit changes
+        id: commit
+        uses: iarekylew00t/verified-bot-commit@v2
+        with:
+          token: ${{ steps.setup-git.outputs.token }}
+          files: |
+            yarn.lock
+          message: "chore(action): update browserlist-db [skip ci]"
