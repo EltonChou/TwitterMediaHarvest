@@ -726,7 +726,7 @@ const HistoryTable = ({
   }
 
   const IS_FILE_PICKER_SUPPORTED =
-    __FIREFOX__ || window.showOpenFilePicker === undefined ? false : true
+    !__FIREFOX__ && window.showOpenFilePicker !== undefined
 
   return (
     <>
