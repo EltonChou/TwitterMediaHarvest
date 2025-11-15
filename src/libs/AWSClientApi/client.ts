@@ -88,11 +88,11 @@ export class ApiClient implements Client<CommandInputs, CommandOutputs> {
       const { response } = await this.httpHandler.handle(signedRequest, options)
       const output = await command.resolveResponse(response)
 
-      handler.destroy()
       return toSuccessResult(output)
     } catch (error) {
-      handler?.destroy()
       return toErrorResult(error as Error)
+    } finally {
+      handler?.destroy()
     }
   }
 }

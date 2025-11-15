@@ -35,6 +35,11 @@ export class SyncClientCommand extends BaseCommand<
     super(HttpMethod.Put, path, config)
   }
 
+  /* @internal */
+  isOkResponse(response: HttpResponse): boolean {
+    return response.statusCode === 200
+  }
+
   /**
    * @internal
    */
@@ -65,7 +70,7 @@ export class SyncClientCommand extends BaseCommand<
 
     const metadataBearer = responseToMetadataBearer(response)
 
-    if (response.statusCode === 200)
+    if (this.isOkResponse(response))
       return {
         ...metadataBearer,
         syncToken: body.token,

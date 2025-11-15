@@ -41,6 +41,11 @@ export class CreateClientCommand extends BaseCommand<
     super(HttpMethod.Post, '/v1/clients', config)
   }
 
+  /* @internal */
+  isOkResponse(response: HttpResponse): boolean {
+    return response.statusCode === 201
+  }
+
   /**
    * @internal
    */
@@ -70,27 +75,29 @@ export class CreateClientCommand extends BaseCommand<
 
     const metadataBearer = responseToMetadataBearer(response)
 
-    if (response.statusCode === 201) {
-      try {
-        const decodedToken = jwtDecode<TokenPayload>(body.token)
-        return {
-          ...metadataBearer,
-          syncToken: body.token,
-          clientUUID: decodedToken['uuid'],
-          uninstallCode: body.uninstallCode ?? decodedToken['uninstallCode'],
-        }
-      } catch (error) {
-        let errorMessage: string = body?.error ?? body?.message
-        if (error instanceof Error) errorMessage = error.message
-        errorMessage ??= 'Failed to decode response body.'
+    if (!this.isOkResponse(response))
+      throw new CommandResponseError(
+        body?.error ?? body?.message ?? 'Failed to request.',
+        metadataBearer
+      )
 
-        throw new CommandResponseError(errorMessage, metadataBearer)
+    try {
+      const decodedToken = jwtDecode<TokenPayload>(body.token)
+      return {
+        ...metadataBearer,
+        syncToken: body.token,
+        clientUUID: decodedToken['uuid'],
+        uninstallCode: body.uninstallCode ?? decodedToken['uninstallCode'],
       }
-    }
+    } catch (error) {
+      /* Handle decoding error */
+      let errorMessage: string = body?.error ?? body?.message
+      if (error instanceof Error) errorMessage = error.message
+      errorMessage ??= 'Failed to decode response body.'
 
-    throw new CommandResponseError(
-      body?.error ?? body?.message ?? 'Failed to request.',
-      metadataBearer
-    )
+      throw new CommandResponseError(errorMessage, metadataBearer, {
+        cause: error,
+      })
+    }
   }
 }
