@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer, useState } from 'react'
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import {
   Downloads,
   downloads,
@@ -12,6 +12,7 @@ export enum WorkflowStatus {
   RUNNING = 'RUNNING',
   COMPLETED = 'COMPLETED',
   ERROR = 'ERROR',
+  ABORTED = 'ABORTED',
 }
 
 export enum ExtensionStatus {
@@ -35,8 +36,9 @@ export type DiagnosticsResult = {
   installed: ExtensionKV
   status: WorkflowStatus
   message: string
-  requestDiagnose: () => void
+  requestDiagnose: () => Promise<void>
   disableConflicted: () => Promise<void>
+  abort: () => void
 }
 
 type Action =
@@ -88,6 +90,11 @@ export function useExtensionConflictDiagnostics(
   const [enabledExts, dispatch] = useReducer(reducer, {})
   const [status, setStatus] = useState<WorkflowStatus>(WorkflowStatus.INIT)
   const [message, setMessage] = useState<string>('')
+  const abortRef = useRef(false)
+
+  const resetAbort = () => {
+    abortRef.current = false
+  }
 
   /**
    * Enable the extension to be tested, then start a download of a test file.
@@ -187,6 +194,7 @@ export function useExtensionConflictDiagnostics(
    * Note: This process may take some time depending on the number of extensions to check.
    */
   const requestDiagnose = useCallback(async () => {
+    resetAbort()
     setStatus(WorkflowStatus.RUNNING)
     setMessage('Requesting management permission...')
 
@@ -220,6 +228,17 @@ export function useExtensionConflictDiagnostics(
         {}
       )
 
+    /**
+     * !IMPORTANT: Call this to restore original extension states when diagnostics complete.
+     */
+    const restoreExts = async () => {
+      // eslint-disable-next-line no-console
+      if (__DEV__) console.info('Restoring original extension states...')
+      for (const [extId, ext] of Object.entries(filteredExt)) {
+        await management.setEnabled(extId, ext.enabled)
+      }
+    }
+
     const extIdsToCheck = Object.keys(filteredExt)
     dispatch({ type: 'SET_EXTENSIONS', payload: filteredExt })
 
@@ -235,16 +254,22 @@ export function useExtensionConflictDiagnostics(
     )
 
     for (const extId of extIdsToCheck) {
+      if (abortRef.current) {
+        /* eslint-disable no-console */
+        if (__DEV__) console.info('Diagnostics aborted by user.')
+        setMessage('Diagnostics aborted by user.')
+        setStatus(WorkflowStatus.ABORTED)
+        restoreExts()
+        console.groupEnd()
+        return
+        /* eslint-enable no-console */
+      }
       await management.setEnabled(extId, true)
       await triggerCheckDownloadByExtId(extId)
       await management.setEnabled(extId, false)
     }
 
-    // eslint-disable-next-line no-console
-    if (__DEV__) console.info('Restoring original extension states...')
-    for (const [extId, ext] of Object.entries(filteredExt)) {
-      await management.setEnabled(extId, ext.enabled)
-    }
+    restoreExts()
     // eslint-disable-next-line no-console
     console.groupEnd()
 
@@ -269,8 +294,6 @@ export function useExtensionConflictDiagnostics(
 
   // Disable all conflicted extensions
   const disableConflicted = useCallback(async () => {
-    if (status !== WorkflowStatus.COMPLETED) return
-
     setMessage('Disabling conflicted extensions...')
     try {
       const conflictedIds = Object.entries(enabledExts).reduce<string[]>(
@@ -291,7 +314,7 @@ export function useExtensionConflictDiagnostics(
     } catch (_error) {
       setMessage('Failed to disable conflicted extensions.')
     }
-  }, [enabledExts, status])
+  }, [enabledExts])
 
   return {
     installed: enabledExts,
@@ -299,5 +322,9 @@ export function useExtensionConflictDiagnostics(
     message,
     requestDiagnose,
     disableConflicted,
+    abort: () => {
+      if (status !== WorkflowStatus.RUNNING) return
+      abortRef.current = true
+    },
   }
 }

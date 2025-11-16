@@ -1,3 +1,4 @@
+import { getText as i18n } from '#libs/i18n'
 import {
   ExtensionStatus,
   WorkflowStatus,
@@ -24,20 +25,52 @@ type DiagnosticItemProps = {
 }
 
 const DiagnosticItem = (props: DiagnosticItemProps) => {
-  const { installed, status, message, disableConflicted, requestDiagnose } =
-    useExtensionConflictDiagnostics([getRuntimeId()])
+  const {
+    installed,
+    status,
+    message,
+    disableConflicted,
+    requestDiagnose,
+    abort,
+  } = useExtensionConflictDiagnostics([getRuntimeId()])
 
   return (
     <Stack p={'1.5rem'} spacing={2}>
       <Heading size="md">{props.name}</Heading>
+      <Text>
+        {i18n(
+          'This diagnostic will check your installed extensions that might conflict with this extension.',
+          'options:diagnostics'
+        )}
+      </Text>
       <Text>{message}</Text>
       <HStack>
-        <Button
-          onClick={requestDiagnose}
-          isDisabled={status === WorkflowStatus.RUNNING}
-        >
-          Diagnostic
-        </Button>
+        {status === WorkflowStatus.RUNNING ? (
+          <Button onClick={abort}>Abort</Button>
+        ) : (
+          <Button
+            onClick={async () => {
+              if (
+                !confirm(
+                  i18n(
+                    'Are you sure to start diagnostics?',
+                    'options:diagnostics'
+                  ) +
+                    '\n' +
+                    i18n(
+                      'This diagnostic might take few minutes to done, depends on how many extensions you installed.',
+                      'options:diagnostics'
+                    )
+                )
+              )
+                return
+
+              await requestDiagnose()
+            }}
+          >
+            Diagnostic
+          </Button>
+        )}
         <Button
           onClick={disableConflicted}
           isDisabled={status !== WorkflowStatus.COMPLETED}
