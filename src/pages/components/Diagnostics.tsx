@@ -58,6 +58,11 @@ const DiagnosticItem = (props: DiagnosticItemProps) => {
                   ) +
                     '\n' +
                     i18n(
+                      'Other extensions will be temporarily disabled during diagnositc, please ensure your working sessions have been saved.',
+                      'options:diagnostics'
+                    ) +
+                    '\n' +
+                    i18n(
                       'This diagnostic might take few minutes to done, depends on how many extensions you installed.',
                       'options:diagnostics'
                     )
