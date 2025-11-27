@@ -68,5 +68,11 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    files: ['**/utils/**/*.{js,mjs}'],
+    rules: {
+      'no-console': 'off',
+    },
+  },
   eslintConfigPrettier
 )
