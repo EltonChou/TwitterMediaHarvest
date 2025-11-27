@@ -51,7 +51,7 @@ export default (env, argv) => {
     },
   })
 
-  configs[configs.length - 1].plugins.push(filemanagerPlugin)
+  configs.findLast(Boolean)?.plugins.push(filemanagerPlugin)
 
   return configs
 }
