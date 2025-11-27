@@ -2,7 +2,7 @@ name: Update browserlist DB
 
 on:
   schedule:
-    - cron: '* * * * 0'
+    - cron: '0 6 * * MON'
   workflow_dispatch: {}
 
 jobs:
