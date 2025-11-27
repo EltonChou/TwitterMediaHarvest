@@ -1,9 +1,12 @@
 #!/usr/bin/env node
-import { readFileSync } from 'fs'
-import { dirname, resolve } from 'path'
-import { fileURLToPath, pathToFileURL } from 'url'
+import { readFileSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
+import { parseArgs } from 'node:util'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
+
+const ALLOWED_BROWSERS = ['safari', 'chrome', 'edge', 'firefox']
 
 function getPackageInfo() {
   try {
@@ -34,14 +37,32 @@ export function makeReleaseName(browser) {
 
 // Handle CLI usage
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const args = process.argv.slice(2)
-  const browserArg = args.find(arg => arg.startsWith('--browser='))
+  const { values } = parseArgs({
+    options: {
+      browser: {
+        type: 'string',
+        description: 'The browser identifier to include in the release name',
+      },
+    },
+    strict: true,
+  })
 
-  if (!browserArg) {
-    console.error('Usage: node make-releasename.mjs --browser=<browser-name>')
+  if (!values.browser) {
+    // eslint-disable-next-line no-console
+    console.error(
+      `Usage: node make-release-name.mjs --browser=<browser-name>\nAllowed browsers: ${ALLOWED_BROWSERS.join(', ')}`
+    )
     process.exit(1)
   }
 
-  const browser = browserArg.split('=')[1]
-  console.log(makeReleaseName(browser))
+  if (!ALLOWED_BROWSERS.includes(values.browser)) {
+    // eslint-disable-next-line no-console
+    console.error(
+      `Invalid browser: ${values.browser}\nAllowed browsers: ${ALLOWED_BROWSERS.join(', ')}`
+    )
+    process.exit(1)
+  }
+
+  // eslint-disable-next-line no-console
+  console.log(makeReleaseName(values.browser))
 }
