@@ -6,7 +6,7 @@
 import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadWasTriggeredBySelf'
 import { getEventPublisher } from '#infra/eventPublisher'
 import { init as initMonitor } from '#monitor'
-import { downloadRepo } from '#provider'
+import { clientRepo, downloadRepo } from '#provider'
 import { getRuntimeId } from '#utils/runtime'
 import handleDownloadChanged from './handlers/handleDownloadChanged'
 import handleNotificationButtonClicked from './handlers/handleNotificationButtonClicked'
@@ -18,7 +18,14 @@ import { initMessageRouter } from './initMessageRouter'
 import { getMessageRouter } from './messageRouter'
 import Browser from 'webextension-polyfill'
 
-initMonitor()
+initMonitor({
+  providers: {
+    user: async () => {
+      const { value: client } = await clientRepo.get()
+      if (client) return { clientId: client.id.value }
+    },
+  },
+})
 
 const eventPublisher = getEventPublisher()
 initEventPublisher(eventPublisher)

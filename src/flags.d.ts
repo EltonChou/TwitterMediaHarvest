@@ -8,3 +8,4 @@ declare const __CHROME__: boolean
 declare const __EDGE__: boolean
 declare const __CHROMIUM__: boolean
 declare const __SAFARI__: boolean
+declare const __LOGGING__: boolean
