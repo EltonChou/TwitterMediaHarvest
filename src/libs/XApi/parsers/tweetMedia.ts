@@ -20,11 +20,18 @@ export const parseMedias = (medias: XApi.Media[]): MediaCollection => {
   const increaseVideoIndex = () => (videoIndex += 1)
 
   return medias.reduce<MediaCollection>((mediaCollection, media) => {
+    const imageAvailable = !(
+      media.ext_media_availability &&
+      typeof media.ext_media_availability.status === 'string' &&
+      media.ext_media_availability.status === 'Unavailable'
+    )
+
     mediaCollection.images.push(
       new TweetMedia({
         index: imageIndex,
         type: media.type === 'photo' ? 'photo' : 'thumbnail',
         url: media.media_url_https,
+        available: imageAvailable,
       })
     )
     increaseImageIdx()
@@ -32,11 +39,18 @@ export const parseMedias = (medias: XApi.Media[]): MediaCollection => {
     if (isVideoMedia(media)) {
       const url = parseBestVideoVariant(media)
       if (url) {
+        const videoAvailable = !(
+          media.ext_media_availability &&
+          typeof media.ext_media_availability.status === 'string' &&
+          media.ext_media_availability.status === 'Unavailable'
+        )
+
         mediaCollection.videos.push(
           new TweetMedia({
             index: videoIndex,
             type: 'video',
             url: url,
+            available: videoAvailable,
           })
         )
         increaseVideoIndex()

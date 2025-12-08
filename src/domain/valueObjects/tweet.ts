@@ -38,6 +38,10 @@ export class Tweet extends ValueObject<TweetProps> {
     return [...this.props.images, ...this.props.videos]
   }
 
+  get availableMedias(): TweetMedia[] {
+    return this.medias.filter(m => m.mapBy(p => p.available !== false))
+  }
+
   get images(): TweetMedia[] {
     return this.props.images
   }

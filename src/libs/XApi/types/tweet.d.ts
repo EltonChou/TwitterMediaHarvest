@@ -270,6 +270,11 @@ declare namespace XApi {
   interface BaseMedia {
     type: string
     media_url_https: string
+    // Optional field indicating external media availability
+    ext_media_availability?: {
+      reason?: string
+      status?: string
+    }
   }
 
   interface ImageMedia extends BaseMedia {

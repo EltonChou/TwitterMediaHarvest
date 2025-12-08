@@ -57,6 +57,7 @@ exports[`unit test for latest fetch tweet command should return a successful res
       "id": "1901057939403608167",
       "images": [
         {
+          "available": true,
           "index": 0,
           "type": "photo",
           "url": "https://pbs.twimg.com/media/GmHqHpmWsAAuk_y.jpg",
@@ -91,11 +92,13 @@ exports[`unit test for latest fetch tweet command should return a successful res
       "id": "1829835601941823508",
       "images": [
         {
+          "available": true,
           "index": 0,
           "type": "thumbnail",
           "url": "https://pbs.twimg.com/tweet_video_thumb/GWThuAObQAEwO3_.jpg",
         },
         {
+          "available": true,
           "index": 1,
           "type": "thumbnail",
           "url": "https://pbs.twimg.com/tweet_video_thumb/GWThvdZbQAI2bgw.jpg",
@@ -109,11 +112,13 @@ exports[`unit test for latest fetch tweet command should return a successful res
       },
       "videos": [
         {
+          "available": true,
           "index": 0,
           "type": "video",
           "url": "https://video.twimg.com/tweet_video/GWThuAObQAEwO3_.mp4",
         },
         {
+          "available": true,
           "index": 1,
           "type": "video",
           "url": "https://video.twimg.com/tweet_video/GWThvdZbQAI2bgw.mp4",
@@ -139,6 +144,7 @@ exports[`unit test for latest fetch tweet command should return a successful res
       "id": "1900881067713982967",
       "images": [
         {
+          "available": true,
           "index": 0,
           "type": "thumbnail",
           "url": "https://pbs.twimg.com/tweet_video_thumb/GmFIv_7bcAM-RZa.jpg",
@@ -152,6 +158,7 @@ exports[`unit test for latest fetch tweet command should return a successful res
       },
       "videos": [
         {
+          "available": true,
           "index": 0,
           "type": "video",
           "url": "https://video.twimg.com/tweet_video/GmFIv_7bcAM-RZa.mp4",

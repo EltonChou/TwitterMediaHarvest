@@ -17,6 +17,7 @@ const mediaPropsSchema: Joi.ObjectSchema<PropsOf<TweetMedia>> = Joi.object({
   index: Joi.number().required(),
   type: Joi.valid('photo', 'thumbnail', 'video').required(),
   url: Joi.string().required(),
+  available: Joi.boolean().optional().default(true),
 })
 
 const userPropsSchema: Joi.ObjectSchema<PropsOf<TweetUser>> = Joi.object({

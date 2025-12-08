@@ -8,7 +8,7 @@ import type { DomainEventPublisher } from '#domain/eventPublisher'
 import TweetApiFailed from '#domain/events/TweetApiFailed'
 import TweetParsingFailed from '#domain/events/TweetParsingFailed'
 import { tweetToDownloadHistory } from '#domain/factories/tweetToDownloadHistory'
-import { tweetToTweetMediaFiles } from '#domain/factories/tweetToTweetMediaFiles'
+import { tweetToAvailableTweetMediaFiles } from '#domain/factories/tweetToTweetMediaFiles'
 import { ICache } from '#domain/repositories/cache'
 import type { IDownloadHistoryRepository } from '#domain/repositories/downloadHistory'
 import type {
@@ -127,7 +127,7 @@ export class DownloadTweetMedia
     const filenameSetting = await this.infra.filenameSettingRepo.get()
     const { includeVideoThumbnail } = await this.infra.featureSettingsRepo.get()
 
-    return tweetToTweetMediaFiles(tweet)
+    return tweetToAvailableTweetMediaFiles(tweet)
       .filter(mediaFile => includeVideoThumbnail || !mediaFile.isThumbnail)
       .map(tweetMediaFileToDownloadTargetWithFilenameSettting(filenameSetting))
       .map(downloadTargetToDownloadCommand)

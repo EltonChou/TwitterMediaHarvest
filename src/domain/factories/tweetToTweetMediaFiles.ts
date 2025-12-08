@@ -10,6 +10,14 @@ import { TweetMediaFile } from '#domain/valueObjects/tweetMediaFile'
 import type { Factory } from './base'
 import path from 'path'
 
+export const tweetToAvailableTweetMediaFiles: Factory<
+  Tweet,
+  TweetMediaFile[]
+> = tweet => {
+  const mediaToTweetMediaFile = mediaFromTweetToTweetMediaFile(tweet)
+  return tweet.availableMedias.map(mediaToTweetMediaFile)
+}
+
 export const tweetToTweetMediaFiles: Factory<
   Tweet,
   TweetMediaFile[]

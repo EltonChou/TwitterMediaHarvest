@@ -57,6 +57,7 @@ exports[`unit test for latest fetch tweet command should return a successful res
       "id": "1587894226695884800",
       "images": [
         {
+          "available": true,
           "index": 0,
           "type": "photo",
           "url": "https://pbs.twimg.com/media/FglVYVmXkAIWB5w.jpg",

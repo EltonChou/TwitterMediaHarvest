@@ -9,9 +9,14 @@ export type TweetMediaProps = {
   type: 'photo' | 'thumbnail' | 'video'
   index: number
   url: string
+  available?: boolean
 }
 
 export class TweetMedia extends ValueObject<TweetMediaProps> {
+  get isAvailable() {
+    return this.props.available !== false
+  }
+
   get isVideo() {
     return this.props.type === 'video'
   }
