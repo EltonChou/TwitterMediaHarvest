@@ -11,7 +11,7 @@ exports[`unit test for PopupFeatureBlock component match snapshot 1`] = `
       <label
         class="chakra-form__label css-qculm7"
         data-testid="feature-switch-label"
-        for=":r0:"
+        for="_r_0_"
       >
         Translated&lt;popup_Auto-reveal NSFW&gt;
       </label>
@@ -21,7 +21,7 @@ exports[`unit test for PopupFeatureBlock component match snapshot 1`] = `
       >
         <input
           class="chakra-switch__input"
-          id=":r0:"
+          id="_r_0_"
           style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
           type="checkbox"
         />
@@ -41,7 +41,7 @@ exports[`unit test for PopupFeatureBlock component match snapshot 1`] = `
       <label
         class="chakra-form__label css-qculm7"
         data-testid="feature-switch-label"
-        for=":r1:"
+        for="_r_1_"
       >
         Translated&lt;popup_Video thumbnail&gt;
       </label>
@@ -51,7 +51,7 @@ exports[`unit test for PopupFeatureBlock component match snapshot 1`] = `
       >
         <input
           class="chakra-switch__input"
-          id=":r1:"
+          id="_r_1_"
           style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
           type="checkbox"
         />

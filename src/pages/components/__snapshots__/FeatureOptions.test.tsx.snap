@@ -14,8 +14,8 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
       <label
         class="chakra-form__label css-28a6i0"
         data-testid="feature-switch-label"
-        for=":r0:"
-        id="field-:r1:-label"
+        for="_r_0_"
+        id="field-_r_1_-label"
       >
         <div
           class="chakra-stack css-mz2o5n"
@@ -47,7 +47,7 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
                 aria-disabled="false"
                 aria-invalid="false"
                 class="chakra-switch__input"
-                id=":r0:"
+                id="_r_0_"
                 style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                 type="checkbox"
               />
@@ -73,8 +73,8 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
       <label
         class="chakra-form__label css-28a6i0"
         data-testid="feature-switch-label"
-        for=":r2:"
-        id="field-:r3:-label"
+        for="_r_2_"
+        id="field-_r_3_-label"
       >
         <div
           class="chakra-stack css-mz2o5n"
@@ -134,7 +134,7 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
                 aria-invalid="false"
                 checked=""
                 class="chakra-switch__input"
-                id=":r2:"
+                id="_r_2_"
                 style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                 type="checkbox"
               />
@@ -162,8 +162,8 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
       <label
         class="chakra-form__label css-28a6i0"
         data-testid="feature-switch-label"
-        for=":r4:"
-        id="field-:r5:-label"
+        for="_r_4_"
+        id="field-_r_5_-label"
       >
         <div
           class="chakra-stack css-mz2o5n"
@@ -195,7 +195,7 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
                 aria-disabled="false"
                 aria-invalid="false"
                 class="chakra-switch__input"
-                id=":r4:"
+                id="_r_4_"
                 style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                 type="checkbox"
               />

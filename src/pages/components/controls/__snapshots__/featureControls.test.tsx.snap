@@ -8,7 +8,7 @@ exports[`unit test for FeatureSwitch can render properly 1`] = `
     <label
       class="chakra-form__label css-qculm7"
       data-testid="feature-switch-label"
-      for=":r0:"
+      for="_r_0_"
     >
       label-content
     </label>
@@ -20,7 +20,7 @@ exports[`unit test for FeatureSwitch can render properly 1`] = `
       <input
         checked=""
         class="chakra-switch__input"
-        id=":r0:"
+        id="_r_0_"
         style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
         type="checkbox"
       />
@@ -52,8 +52,8 @@ exports[`unit test for RichFeatureSwitch can render properly when disabled 1`] =
       class="chakra-form__label css-qf9lcl"
       data-disabled=""
       data-testid="feature-switch-label"
-      for=":r9:"
-      id="field-:ra:-label"
+      for="_r_9_"
+      id="field-_r_a_-label"
     >
       <div
         class="chakra-stack css-mz2o5n"
@@ -92,7 +92,7 @@ exports[`unit test for RichFeatureSwitch can render properly when disabled 1`] =
               <div
                 class="chakra-form__helper-text css-1fdmls1"
                 data-testid="feature-switch-helper-text"
-                id="field-:ra:-helptext"
+                id="field-_r_a_-helptext"
               >
                 some information
               </div>
@@ -113,12 +113,12 @@ exports[`unit test for RichFeatureSwitch can render properly when disabled 1`] =
             data-testid="feature-switch"
           >
             <input
-              aria-describedby="field-:ra:-helptext"
+              aria-describedby="field-_r_a_-helptext"
               aria-disabled="true"
               aria-invalid="false"
               class="chakra-switch__input"
               disabled=""
-              id=":r9:"
+              id="_r_9_"
               style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
               type="checkbox"
             />
@@ -151,8 +151,8 @@ exports[`unit test for RichFeatureSwitch can render properly with empty message 
     <label
       class="chakra-form__label css-26d3j1"
       data-testid="feature-switch-label"
-      for=":r7:"
-      id="field-:r8:-label"
+      for="_r_7_"
+      id="field-_r_8_-label"
     >
       <div
         class="chakra-stack css-mz2o5n"
@@ -189,7 +189,7 @@ exports[`unit test for RichFeatureSwitch can render properly with empty message 
               aria-disabled="false"
               aria-invalid="false"
               class="chakra-switch__input"
-              id=":r7:"
+              id="_r_7_"
               style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
               type="checkbox"
             />
@@ -220,8 +220,8 @@ exports[`unit test for RichFeatureSwitch can render properly with error message 
     <label
       class="chakra-form__label css-28a6i0"
       data-testid="feature-switch-label"
-      for=":r4:"
-      id="field-:r5:-label"
+      for="_r_4_"
+      id="field-_r_5_-label"
     >
       <div
         class="chakra-stack css-mz2o5n"
@@ -260,7 +260,7 @@ exports[`unit test for RichFeatureSwitch can render properly with error message 
               <div
                 class="chakra-form__helper-text css-1fdmls1"
                 data-testid="feature-switch-helper-text"
-                id="field-:r5:-helptext"
+                id="field-_r_5_-helptext"
               >
                 some information
               </div>
@@ -280,11 +280,11 @@ exports[`unit test for RichFeatureSwitch can render properly with error message 
             data-testid="feature-switch"
           >
             <input
-              aria-describedby="field-:r5:-helptext"
+              aria-describedby="field-_r_5_-helptext"
               aria-disabled="false"
               aria-invalid="false"
               class="chakra-switch__input"
-              id=":r4:"
+              id="_r_4_"
               style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
               type="checkbox"
             />
@@ -315,8 +315,8 @@ exports[`unit test for RichFeatureSwitch can render properly with info message 1
     <label
       class="chakra-form__label css-28a6i0"
       data-testid="feature-switch-label"
-      for=":r1:"
-      id="field-:r2:-label"
+      for="_r_1_"
+      id="field-_r_2_-label"
     >
       <div
         class="chakra-stack css-mz2o5n"
@@ -355,7 +355,7 @@ exports[`unit test for RichFeatureSwitch can render properly with info message 1
               <div
                 class="chakra-form__helper-text css-s0rnn6"
                 data-testid="feature-switch-helper-text"
-                id="field-:r2:-helptext"
+                id="field-_r_2_-helptext"
               >
                 some information
               </div>
@@ -375,11 +375,11 @@ exports[`unit test for RichFeatureSwitch can render properly with info message 1
             data-testid="feature-switch"
           >
             <input
-              aria-describedby="field-:r2:-helptext"
+              aria-describedby="field-_r_2_-helptext"
               aria-disabled="false"
               aria-invalid="false"
               class="chakra-switch__input"
-              id=":r1:"
+              id="_r_1_"
               style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
               type="checkbox"
             />
