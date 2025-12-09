@@ -1,28 +1,28 @@
 name: Setup Git for GitHub App
 description: Configure git with a GitHub App identity for committing changes in workflows.
-author: "Elton H.Y. Chou"
+author: 'Elton H.Y. Chou'
 
 inputs:
   app-id:
-    description: "GitHub App ID"
+    description: 'GitHub App ID'
     required: true
   app-private-key:
-    description: "GitHub App private key"
+    description: 'GitHub App private key'
     required: true
 
 outputs:
   token:
-    description: "The GitHub authentication token"
+    description: 'The GitHub authentication token'
     value: ${{ steps.app-token.outputs.token }}
   user-name:
-    description: "The GitHub App bot user name"
+    description: 'The GitHub App bot user name'
     value: ${{ steps.configure-git.outputs.user_name }}
   user-email:
-    description: "The GitHub App bot user email"
+    description: 'The GitHub App bot user email'
     value: ${{ steps.configure-git.outputs.user_email }}
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - uses: actions/create-github-app-token@v2
       id: app-token

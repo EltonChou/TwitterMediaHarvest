@@ -363,7 +363,7 @@ jobs:
           id: ${{ vars.FF_ADDON_ID_SELF_SIGN }}
           version: ${{ needs.generate_artifact.outputs.semantic-version }}
           url: ${{ steps.upload-xpi.outputs.browser_download_url }}
-          min-browser-version: "110.0"
+          min-browser-version: '110.0'
           endpoint: ${{ secrets.GECKO_RELEASE_ENDPOINT }}
           api-key: ${{ secrets.RELEASE_API_KEY }}
 

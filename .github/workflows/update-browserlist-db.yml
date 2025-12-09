@@ -35,4 +35,4 @@ jobs:
           token: ${{ steps.setup-git.outputs.token }}
           files: |
             yarn.lock
-          message: "chore(action): update browserlist-db"
+          message: 'chore(action): update browserlist-db'
