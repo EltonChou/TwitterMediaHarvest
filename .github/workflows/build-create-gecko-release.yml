@@ -24,8 +24,8 @@ jobs:
       - name: Use Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: "24"
-          cache: "yarn"
+          node-version: '24'
+          cache: 'yarn'
 
       - name: Install dependencies
         run: |
@@ -42,4 +42,4 @@ jobs:
           token: ${{ steps.setup-git.outputs.token }}
           files: |
             .github/actions/**/dist/**
-          message: "chore(action): build create-gecko-release [skip ci]"
+          message: 'chore(action): build create-gecko-release [skip ci]'
