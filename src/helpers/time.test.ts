@@ -1,4 +1,4 @@
-import { TimeHelper } from '#helpers/time'
+import { TimeHelper, setDuration } from '#helpers/time'
 
 describe('TimeHelper unit test', () => {
   it('can make second', () => {
@@ -15,5 +15,32 @@ describe('TimeHelper unit test', () => {
 
   it('can make day', () => {
     expect(TimeHelper.day(14)).toEqual(14 * 24 * 60 * 60 * 1000)
+  })
+
+  it('can calculate duration between two dates', () => {
+    const from = new Date('2025-01-01T00:00:00Z')
+    const to = new Date('2025-01-01T00:01:00Z')
+    expect(TimeHelper.duration(from, to)).toEqual(60 * 1000)
+  })
+
+  it('can calculate duration between timestamps', () => {
+    const from = 1000
+    const to = 4000
+    expect(TimeHelper.duration(from, to)).toEqual(3000)
+  })
+
+  it('can calculate duration from date to now', () => {
+    const from = new Date(Date.now() - 5000)
+    const duration = TimeHelper.duration(from)
+    expect(duration).toBeGreaterThanOrEqual(5000)
+    expect(duration).toBeLessThan(5100)
+  })
+
+  it('can measure elapsed time after delay', async () => {
+    const timer = setDuration()
+    await new Promise(resolve => setTimeout(resolve, 50))
+    const elapsed = timer.end()
+    expect(elapsed).toBeGreaterThanOrEqual(50)
+    expect(elapsed).toBeLessThan(150)
   })
 })

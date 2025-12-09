@@ -7,6 +7,7 @@ import type { DomainEventHandler } from '#domain/eventPublisher'
 import type { IDownloadRepository } from '#domain/repositories/download'
 import type { IUsageStatisticsRepository } from '#domain/repositories/usageStatistics'
 import type { UsageStatistics } from '#domain/valueObjects/usageStatistics'
+import { metrics } from '@sentry/browser'
 
 export const increaseUsageStatistics =
   (
@@ -19,6 +20,8 @@ export const increaseUsageStatistics =
     const stats = await statsRepo.get()
     if (assertDownloadEvent(event)) {
       const item = await downloadRepo.getById(event.downloadId)
+      if (__METRICS__ && item?.fileSize)
+        metrics.count('download.size', item.fileSize, { unit: 'byte' })
       newStats = stats.increase({
         downloadCount: 1,
         trafficUsage: item ? item.fileSize : 0,
@@ -30,6 +33,7 @@ export const increaseUsageStatistics =
       })
     }
 
+    if (__METRICS__) metrics.count('download.success', 1)
     await statsRepo.save(newStats)
   }
 

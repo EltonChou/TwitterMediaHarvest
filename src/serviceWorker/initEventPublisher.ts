@@ -38,6 +38,8 @@ import {
   usageStatisticsRepo,
   warningSettingsRepo,
 } from '#provider'
+import { getVersion } from '#utils/runtime'
+import { metrics } from '@sentry/browser'
 import { runtime } from 'webextension-polyfill'
 
 const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
@@ -54,18 +56,38 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
   )(clientRepo)
   const setUser = setMonitorUser(clientRepo)
 
+  const installedHandlers = [
+    initClient(clientRepo, runtime.setUninstallURL),
+    showClientInfoInConsole(clientRepo),
+    setUser,
+  ]
+
+  const updatedHandlers = [
+    showUpdateMessageInConsole,
+    showClientInfoInConsole(clientRepo),
+    setUser,
+    async () => await nativeFetchTweetSolution.clearCacheStorage(),
+  ]
+
+  // To track extension installation and update events for distribution roll-out timeline
+  if (__METRICS__) {
+    installedHandlers.push(() =>
+      metrics.count('extension.installed', 1, {
+        attributes: { version: getVersion() },
+      })
+    )
+    updatedHandlers.push(e =>
+      metrics.count('extension.updated', 1, {
+        attributes: {
+          version: { from: e.currentVersion, to: e.previousVersion },
+        },
+      })
+    )
+  }
+
   publisher
-    .register('runtime:status:installed', [
-      initClient(clientRepo, runtime.setUninstallURL),
-      showClientInfoInConsole(clientRepo),
-      setUser,
-    ])
-    .register('runtime:status:updated', [
-      showUpdateMessageInConsole,
-      showClientInfoInConsole(clientRepo),
-      setUser,
-      async () => await nativeFetchTweetSolution.clearCacheStorage(),
-    ])
+    .register('runtime:status:installed', installedHandlers)
+    .register('runtime:status:updated', updatedHandlers)
     .register('download:status:dispatched:aria2', [
       increaseUsageStats,
       syncClientInfoWithLock,

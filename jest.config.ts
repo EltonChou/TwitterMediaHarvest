@@ -14,7 +14,7 @@ const jestConfig: JestConfigWithTsJest = {
     '**/?(*.)(spec|test).mjs',
     '**/?(*.)+(spec|test).[jt]s?(x)',
   ],
-  testPathIgnorePatterns: ['webpac'],
+  testPathIgnorePatterns: ['webpac', 'eslint-rules'],
   transform: {
     '\\.m?[jt]sx?$': [
       'ts-jest',

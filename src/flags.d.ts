@@ -9,3 +9,4 @@ declare const __EDGE__: boolean
 declare const __CHROMIUM__: boolean
 declare const __SAFARI__: boolean
 declare const __LOGGING__: boolean
+declare const __METRICS__: boolean

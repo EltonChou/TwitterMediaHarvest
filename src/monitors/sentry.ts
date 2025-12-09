@@ -40,6 +40,7 @@ export const init = (options?: InitializationOptions) => {
     attachStacktrace: true,
     sendClientReports: true,
     enableLogs: __LOGGING__,
+    enableMetrics: __METRICS__,
   })
 
   const userProvider = options?.providers?.user

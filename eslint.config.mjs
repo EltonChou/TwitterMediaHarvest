@@ -1,3 +1,4 @@
+import requireMetricsFlag from './eslint-rules/require-metrics-flag.mjs'
 import js from '@eslint/js'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
@@ -35,6 +36,9 @@ export default tseslint.config(
     plugins: {
       '@typescript-eslint': tsPlugin,
       'react-hooks': reactHookPlugin,
+      'require-metrics-flag': {
+        rules: { 'require-metrics-flag': requireMetricsFlag },
+      },
     },
     rules: {
       'linebreak-style': ['error', 'unix'],
@@ -42,6 +46,7 @@ export default tseslint.config(
       semi: ['error', 'never'],
       eqeqeq: ['error', 'always'],
       'no-console': 'warn',
+      'require-metrics-flag/require-metrics-flag': 'error',
       'sort-imports': [
         'error',
         {

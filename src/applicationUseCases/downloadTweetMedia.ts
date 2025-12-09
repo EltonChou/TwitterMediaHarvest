@@ -39,8 +39,10 @@ import { Tweet } from '#domain/valueObjects/tweet'
 import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import type { TweetMediaFile } from '#domain/valueObjects/tweetMediaFile'
 import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
+import { setDuration } from '#helpers/time'
 import type { DownloadSettings, FeatureSettings } from '#schema'
-import { isErrorResult } from '#utils/result'
+import { isErrorResult, isSuccessResult } from '#utils/result'
+import { metrics } from '@sentry/browser'
 
 type DownloadTweetMediaCommand = {
   tweetInfo: TweetInfo
@@ -72,10 +74,16 @@ export class DownloadTweetMedia
     tweetInfo,
     xTransactionIdProvider,
   }: DownloadTweetMediaCommand): Promise<boolean> {
+    if (__METRICS__) metrics.count('usecase.downloadTweetMedia.invoked', 1)
     const isSuccessDownloadFromCache = await this.downloadFromCache(tweetInfo)
-    if (isSuccessDownloadFromCache) return isSuccessDownloadFromCache
+    if (isSuccessDownloadFromCache) {
+      if (__METRICS__) metrics.count('usecase.downloadTweetMedia.cacheHit', 1)
+      return isSuccessDownloadFromCache
+    }
 
+    if (__METRICS__) metrics.count('usecase.downloadTweetMedia.cacheMiss', 1)
     const solution = this.infra.solutionProvider()
+    const solutionDuration = setDuration()
     const tweetResult = isTransactionIdConsumer(solution)
       ? await solution.process({
           tweetId: tweetInfo.tweetId,
@@ -85,6 +93,18 @@ export class DownloadTweetMedia
           tweetId: tweetInfo.tweetId,
         })
 
+    if (__METRICS__) {
+      metrics.count(
+        isSuccessResult(tweetResult)
+          ? 'usecase.downloadTweetMedia.solution.success'
+          : 'usecase.downloadTweetMedia.solution.failed',
+        1
+      )
+      metrics.distribution(
+        'usecase.downloadTweetMedia.solution.duration',
+        solutionDuration.end()
+      )
+    }
     await this.infra.eventPublisher.publishAll(...solution.events)
     await this.reportSolutionStatistics(solution.statistics)
 
@@ -120,6 +140,15 @@ export class DownloadTweetMedia
     )
 
     await this.infra.eventPublisher.publishAll(...downloader.events)
+    if (__METRICS__)
+      if (downloader.isOk) {
+        metrics.count('usecase.downloadTweetMedia.success', 1)
+      } else {
+        metrics.count('usecase.downloadTweetMedia.failed', 1, {
+          attributes: { tweetId: tweetInfo.tweetId },
+        })
+      }
+
     return downloader.isOk
   }
 
@@ -159,6 +188,12 @@ export class DownloadTweetMedia
       // eslint-disable-next-line no-console
       console.error('An unexpected error occurred', error)
     }
+
+    if (__METRICS__)
+      metrics.count('usecase.downloadTweetMedia.failed', 1, {
+        attributes: { error: error.name, tweetId: tweetInfo.tweetId },
+      })
+
     return false
   }
 

@@ -25,4 +25,17 @@ export class TimeHelper {
   static second(second: number) {
     return second * SECOND
   }
+
+  static duration(from: Date | number, to: Date | number = Date.now()): number {
+    const fromTime = from instanceof Date ? from.getTime() : from
+    const toTime = to instanceof Date ? to.getTime() : to
+    return toTime - fromTime
+  }
+}
+
+export const setDuration = () => {
+  const now = Date.now()
+  return {
+    end: () => TimeHelper.duration(now),
+  }
 }

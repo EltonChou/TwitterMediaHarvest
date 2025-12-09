@@ -16,6 +16,8 @@ Object.assign(global, {
   __EDGE__: false,
   __CHROMIUM__: true,
   __SAFARI__: false,
+  __LOGGING__: false,
+  __METRICS__: false,
 })
 
 // Monkey patch for webextension-polyfill

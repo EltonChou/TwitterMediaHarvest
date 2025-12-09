@@ -10,8 +10,10 @@ import type { Filter } from '#domain/useCases/searchDownloadHistory'
 import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsByHashtags'
 import type { DownloadHistoryTweetUser } from '#domain/valueObjects/downloadHistoryTweetUser'
 import type MediaType from '#enums/mediaType'
+import { setDuration } from '#helpers/time'
 import { isErrorResult, toSuccessResult } from '#utils/result'
 import type { AsyncUseCase } from '../domain/useCases/base'
+import { metrics } from '@sentry/browser'
 
 export type User = {
   id: string
@@ -100,6 +102,8 @@ export class SearchDownloadHistoryUseCase
       result: toErrorQueryResult(error),
     })
 
+    // Process strarts from here
+    const queryDuration = setDuration()
     const idSearchResult = await this.searchTweetIds(query.hashtags)
     if (isErrorResult(idSearchResult))
       return toErrorResponse(idSearchResult.error)
@@ -118,6 +122,18 @@ export class SearchDownloadHistoryUseCase
       },
     })
     if (result.error) return toErrorResponse(result.error)
+    if (__METRICS__) {
+      metrics.distribution(
+        'usecase.searchDownloadHistory.duration',
+        queryDuration.end(),
+        {
+          attributes: {
+            totalMatched: result.matchedCount,
+          },
+        }
+      )
+    }
+    // Process ends here
 
     const getTotalPage = (matchedCount: number) =>
       Math.max(1, Math.ceil(matchedCount / itemPerPage))
