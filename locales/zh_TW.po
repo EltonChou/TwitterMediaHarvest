@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.4.4)\n"
-"POT-Creation-Date: 2025-12-10 00:34+0800\n"
+"POT-Creation-Date: 2025-12-16 02:59+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -159,6 +159,11 @@ msgstr "版本"
 msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
 msgstr "確定要執行檢測嗎?"
+
+#: src/pages/components/Diagnostics.tsx:102
+msgctxt "options:diagnostics"
+msgid "Conflict Extensions"
+msgstr "擴充功能衝突"
 
 #: src/pages/components/Diagnostics.tsx:60
 msgctxt "options:diagnostics"

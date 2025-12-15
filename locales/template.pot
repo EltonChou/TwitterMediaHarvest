@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (4.4.4)\n"
-"POT-Creation-Date: 2025-12-10 00:34+0800\n"
+"POT-Creation-Date: 2025-12-16 02:59+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -150,6 +150,11 @@ msgstr ""
 #: src/pages/components/Diagnostics.tsx:55
 msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
+msgstr ""
+
+#: src/pages/components/Diagnostics.tsx:102
+msgctxt "options:diagnostics"
+msgid "Conflict Extensions"
 msgstr ""
 
 #: src/pages/components/Diagnostics.tsx:60

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.4.4)\n"
-"POT-Creation-Date: 2025-12-10 00:34+0800\n"
+"POT-Creation-Date: 2025-12-16 02:59+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -13,8 +13,7 @@ msgstr ""
 
 msgctxt "app"
 msgid "appDesc"
-msgstr ""
-"twitter や TweetDeck のビデオと画像、ワンクリックでダウンロードできる。"
+msgstr "twitter や TweetDeck のビデオと画像、ワンクリックでダウンロードできる。"
 
 msgctxt "app"
 msgid "appName"
@@ -43,8 +42,7 @@ msgstr "リクエストが多すぎます"
 #: src/helpers/notificationConfig.ts:203
 msgctxt "notification:filename"
 msgid ""
-"The filename is modified by other extensions, please check extensions' "
-"settings."
+"The filename is modified by other extensions, please check extensions' settings."
 msgstr ""
 "ファイルネームが他の拡張に変更されました、他の拡張の設定を確認してください。"
 
@@ -102,8 +100,7 @@ msgstr "読込み禁止されているになっています"
 msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
 msgstr ""
-"ログインセッションの有効期限が切れましたが、まだ閲覧の権限を持ちませんでし"
-"た。"
+"ログインセッションの有効期限が切れましたが、まだ閲覧の権限を持ちませんでした。"
 
 #: src/helpers/notificationConfig.ts:170
 msgctxt "notification:tweetFetch"
@@ -165,32 +162,37 @@ msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
 msgstr "診断を開始してもよろしいですか？"
 
+#: src/pages/components/Diagnostics.tsx:102
+msgctxt "options:diagnostics"
+msgid "Conflict Extensions"
+msgstr "拡張機能競合"
+
 #: src/pages/components/Diagnostics.tsx:60
 msgctxt "options:diagnostics"
 msgid ""
-"Other extensions will be temporarily disabled during diagnositc, please "
-"ensure your working sessions have been saved."
+"Other extensions will be temporarily disabled during diagnositc, please ensure "
+"your working sessions have been saved."
 msgstr ""
-"診断中は他の拡張機能は一時的に無効化されます。作業中のセッションは必ず保存し"
-"てください。"
+"診断中は他の拡張機能は一時的に無効化されます。作業中のセッションは必ず保存してく"
+"ださい。"
 
 #: src/pages/components/Diagnostics.tsx:65
 msgctxt "options:diagnostics"
 msgid ""
-"This diagnostic might take few minutes to done, depends on how many "
-"extensions you installed."
+"This diagnostic might take few minutes to done, depends on how many extensions "
+"you installed."
 msgstr ""
-"この診断には、インストールされている拡張機能の数に応じて、数分かかる場合があ"
-"ります。"
+"この診断には、インストールされている拡張機能の数に応じて、数分かかる場合がありま"
+"す。"
 
 #: src/pages/components/Diagnostics.tsx:41
 msgctxt "options:diagnostics"
 msgid ""
-"This diagnostic will check your installed extensions that might conflict "
-"with this extension."
+"This diagnostic will check your installed extensions that might conflict with "
+"this extension."
 msgstr ""
-"この診断ツールは、本拡張機能と競合する可能性のあるインストール済み拡張機能を"
-"検査します。"
+"この診断ツールは、本拡張機能と競合する可能性のあるインストール済み拡張機能を検査"
+"します。"
 
 #: src/pages/components/FeatureOptions.tsx:43
 msgctxt "options:features"
@@ -201,8 +203,8 @@ msgstr "センシティブ内容の自動表示"
 msgctxt "options:features"
 msgid "Download the thumbnail when the media is video."
 msgstr ""
-"ビデオサムネイルのダウンロードメディアはビデオの時、サムネイルをダウンロード"
-"します。"
+"ビデオサムネイルのダウンロードメディアはビデオの時、サムネイルをダウンロードしま"
+"す。"
 
 #: src/pages/components/FeatureOptions.tsx:60
 msgctxt "options:features"
@@ -225,8 +227,8 @@ msgid ""
 "When the tweet was flagged as sensitive content, this feature can show the "
 "blured content automatically."
 msgstr ""
-"ツイートをセンシティブな内容として設定されている際、センシティブ内容を自動的"
-"に表示します。"
+"ツイートをセンシティブな内容として設定されている際、センシティブ内容を自動的に表"
+"示します。"
 
 #: src/pages/components/FootBar.tsx:45
 msgctxt "options:footBar:button"
@@ -261,8 +263,8 @@ msgstr "サブディレクトリの作成"
 #: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid ""
-"Create sub-directory under the default download directory. Sub-directory can "
-"be seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory can be "
+"seperated with \"/\"."
 msgstr "ディフォルトディレクトリの下にサブディレクトリを作成します。"
 
 #: src/pages/components/GeneralOptions.tsx:244
@@ -287,17 +289,15 @@ msgstr "ディレクトリ名に次の文字は使えません <>:”\\|?*"
 
 #: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
-msgid ""
-"Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr ""
-"無効なパータン。 `ツイート ID` + `シリアル番号` や `ハッシュ` を含めてくださ"
-"い."
+"無効なパータン。 `ツイート ID` + `シリアル番号` や `ハッシュ` を含めてください."
 
 #: src/pages/components/GeneralOptions.tsx:228
 msgctxt "options:general"
 msgid ""
-"Show the file chooser or not when download is triggered. Recommend to "
-"disable this option."
+"Show the file chooser or not when download is triggered. Recommend to disable "
+"this option."
 msgstr ""
 "ファイルごとに保存先を指定します。\n"
 "推奨：オフ"
@@ -391,11 +391,11 @@ msgstr "この履歴ファイルをインポートしてもよろしいですか
 #: src/pages/components/History.tsx:527
 msgctxt "options:history"
 msgid ""
-"Cannot access the selected file. Please grant permission to read the file "
-"and try again."
+"Cannot access the selected file. Please grant permission to read the file and "
+"try again."
 msgstr ""
-"選択したファイルにアクセスできません。ファイルの読み取りを許可して、もう一度"
-"やり直してください。"
+"選択したファイルにアクセスできません。ファイルの読み取りを許可して、もう一度やり"
+"直してください。"
 
 #: src/pages/components/History.tsx:359 src/pages/components/History.tsx:364
 msgctxt "options:history"
@@ -535,8 +535,7 @@ msgstr "ファイルネーム上書き探知"
 #: src/pages/components/IntegrationOptions.tsx:77
 msgctxt "options:integrations"
 msgid ""
-"The detector can notify user when the filename is modified by other "
-"extensions."
+"The detector can notify user when the filename is modified by other extensions."
 msgstr "ファイルネームは他の拡張に上書きされる際、通知を発送します。"
 
 #: src/pages/components/IntegrationOptions.tsx:65

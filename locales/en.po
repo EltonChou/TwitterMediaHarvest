@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.4.4)\n"
-"POT-Creation-Date: 2025-12-10 00:34+0800\n"
+"POT-Creation-Date: 2025-12-16 02:59+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -13,8 +13,7 @@ msgstr ""
 
 msgctxt "app"
 msgid "appDesc"
-msgstr ""
-"Download videos and images from twitter or TweetDeck with only one click."
+msgstr "Download videos and images from twitter or TweetDeck with only one click."
 
 msgctxt "app"
 msgid "appName"
@@ -43,11 +42,9 @@ msgstr "Too many requests"
 #: src/helpers/notificationConfig.ts:203
 msgctxt "notification:filename"
 msgid ""
-"The filename is modified by other extensions, please check extensions' "
-"settings."
+"The filename is modified by other extensions, please check extensions' settings."
 msgstr ""
-"The filename is modified by other extensions, please check extensions' "
-"settings."
+"The filename is modified by other extensions, please check extensions' settings."
 
 #: src/helpers/notificationConfig.ts:202
 msgctxt "notification:filename"
@@ -164,32 +161,37 @@ msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
 msgstr "Are you sure to start diagnostics?"
 
+#: src/pages/components/Diagnostics.tsx:102
+msgctxt "options:diagnostics"
+msgid "Conflict Extensions"
+msgstr "Conflict Extensions"
+
 #: src/pages/components/Diagnostics.tsx:60
 msgctxt "options:diagnostics"
 msgid ""
-"Other extensions will be temporarily disabled during diagnositc, please "
-"ensure your working sessions have been saved."
+"Other extensions will be temporarily disabled during diagnositc, please ensure "
+"your working sessions have been saved."
 msgstr ""
-"Other extensions will be temporarily disabled during diagnositc, please "
-"ensure your working sessions have been saved."
+"Other extensions will be temporarily disabled during diagnositc, please ensure "
+"your working sessions have been saved."
 
 #: src/pages/components/Diagnostics.tsx:65
 msgctxt "options:diagnostics"
 msgid ""
-"This diagnostic might take few minutes to done, depends on how many "
-"extensions you installed."
+"This diagnostic might take few minutes to done, depends on how many extensions "
+"you installed."
 msgstr ""
-"This diagnostic might take few minutes to done, depends on how many "
-"extensions you installed."
+"This diagnostic might take few minutes to done, depends on how many extensions "
+"you installed."
 
 #: src/pages/components/Diagnostics.tsx:41
 msgctxt "options:diagnostics"
 msgid ""
-"This diagnostic will check your installed extensions that might conflict "
-"with this extension."
+"This diagnostic will check your installed extensions that might conflict with "
+"this extension."
 msgstr ""
-"This diagnostic will check your installed extensions that might conflict "
-"with this extension."
+"This diagnostic will check your installed extensions that might conflict with "
+"this extension."
 
 #: src/pages/components/FeatureOptions.tsx:43
 msgctxt "options:features"
@@ -258,11 +260,11 @@ msgstr "Create sub-directory"
 #: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid ""
-"Create sub-directory under the default download directory. Sub-directory can "
-"be seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory can be "
+"seperated with \"/\"."
 msgstr ""
-"Create sub-directory under the default download directory. Sub-directory can "
-"be seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory can be "
+"seperated with \"/\"."
 
 #: src/pages/components/GeneralOptions.tsx:244
 msgctxt "options:general"
@@ -286,19 +288,17 @@ msgstr "ディレクトリ名に次の文字は使えません <>:”\\|?*"
 
 #: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
-msgid ""
-"Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
-msgstr ""
-"Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+msgstr "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 
 #: src/pages/components/GeneralOptions.tsx:228
 msgctxt "options:general"
 msgid ""
-"Show the file chooser or not when download is triggered. Recommend to "
-"disable this option."
+"Show the file chooser or not when download is triggered. Recommend to disable "
+"this option."
 msgstr ""
-"Show the file chooser or not when download is triggered. Recommend to "
-"disable this option."
+"Show the file chooser or not when download is triggered. Recommend to disable "
+"this option."
 
 #: src/pages/components/GeneralOptions.tsx:245
 msgctxt "options:general"
@@ -389,11 +389,11 @@ msgstr "Are you sure you want to import this history file?"
 #: src/pages/components/History.tsx:527
 msgctxt "options:history"
 msgid ""
-"Cannot access the selected file. Please grant permission to read the file "
-"and try again."
+"Cannot access the selected file. Please grant permission to read the file and "
+"try again."
 msgstr ""
-"Cannot access the selected file. Please grant permission to read the file "
-"and try again."
+"Cannot access the selected file. Please grant permission to read the file and "
+"try again."
 
 #: src/pages/components/History.tsx:359 src/pages/components/History.tsx:364
 msgctxt "options:history"
@@ -533,11 +533,9 @@ msgstr "Filename Detector"
 #: src/pages/components/IntegrationOptions.tsx:77
 msgctxt "options:integrations"
 msgid ""
-"The detector can notify user when the filename is modified by other "
-"extensions."
+"The detector can notify user when the filename is modified by other extensions."
 msgstr ""
-"The detector can notify user when the filename is modified by other "
-"extensions."
+"The detector can notify user when the filename is modified by other extensions."
 
 #: src/pages/components/IntegrationOptions.tsx:65
 msgctxt "options:integrations"

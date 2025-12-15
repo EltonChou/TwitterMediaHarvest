@@ -98,7 +98,9 @@ const DiagnosticItem = (props: DiagnosticItemProps) => {
 const Diagnostics = () => {
   return (
     <Stack>
-      <DiagnosticItem name="Conflict extensions" />
+      <DiagnosticItem
+        name={i18n('Conflict Extensions', 'options:diagnostics')}
+      />
     </Stack>
   )
 }
