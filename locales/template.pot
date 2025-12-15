@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: twitter-media-harvest (4.4.2)\n"
-"POT-Creation-Date: 2025-05-14 18:24+0800\n"
+"Project-Id-Version: twitter-media-harvest (4.4.4)\n"
+"POT-Creation-Date: 2025-12-10 00:34+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -32,14 +32,19 @@ msgctxt "notification:download"
 msgid "Too many requests"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:202
+#: src/helpers/notificationConfig.ts:203
 msgctxt "notification:filename"
 msgid "The filename is modified by other extensions, please check extensions' settings."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:201
+#: src/helpers/notificationConfig.ts:202
 msgctxt "notification:filename"
 msgid "WARNING: Filename is modified"
+msgstr ""
+
+#: src/helpers/notificationButton.ts:32
+msgctxt "notification:filename:button"
+msgid "Diagnose"
 msgstr ""
 
 #: src/helpers/notificationButton.ts:27
@@ -57,12 +62,12 @@ msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:218
+#: src/helpers/notificationConfig.ts:222
 msgctxt "notification:quota"
 msgid "Download Quota Warning"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:219
+#: src/helpers/notificationConfig.ts:223
 msgctxt "notification:quota"
 msgid "Remaining quota: {{quota}}. Resets at {{time}}"
 msgstr ""
@@ -140,6 +145,26 @@ msgstr ""
 #: src/pages/components/About.tsx:30
 msgctxt "options:about"
 msgid "Version"
+msgstr ""
+
+#: src/pages/components/Diagnostics.tsx:55
+msgctxt "options:diagnostics"
+msgid "Are you sure to start diagnostics?"
+msgstr ""
+
+#: src/pages/components/Diagnostics.tsx:60
+msgctxt "options:diagnostics"
+msgid "Other extensions will be temporarily disabled during diagnositc, please ensure your working sessions have been saved."
+msgstr ""
+
+#: src/pages/components/Diagnostics.tsx:65
+msgctxt "options:diagnostics"
+msgid "This diagnostic might take few minutes to done, depends on how many extensions you installed."
+msgstr ""
+
+#: src/pages/components/Diagnostics.tsx:41
+msgctxt "options:diagnostics"
+msgid "This diagnostic will check your installed extensions that might conflict with this extension."
 msgstr ""
 
 #: src/pages/components/FeatureOptions.tsx:43
@@ -318,12 +343,12 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr ""
 
-#: src/pages/components/History.tsx:538
+#: src/pages/components/History.tsx:545
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr ""
 
-#: src/pages/components/History.tsx:520
+#: src/pages/components/History.tsx:527
 msgctxt "options:history"
 msgid "Cannot access the selected file. Please grant permission to read the file and try again."
 msgstr ""
@@ -334,12 +359,12 @@ msgctxt "options:history"
 msgid "Export"
 msgstr ""
 
-#: src/pages/components/History.tsx:688
+#: src/pages/components/History.tsx:695
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr ""
 
-#: src/pages/components/History.tsx:551
+#: src/pages/components/History.tsx:558
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr ""
@@ -350,7 +375,7 @@ msgctxt "options:history"
 msgid "Import"
 msgstr ""
 
-#: src/pages/components/History.tsx:548
+#: src/pages/components/History.tsx:555
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr ""
@@ -370,7 +395,7 @@ msgctxt "options:history"
 msgid "Refresh"
 msgstr ""
 
-#: src/pages/components/History.tsx:556
+#: src/pages/components/History.tsx:563
 msgctxt "options:history"
 msgid "The history file has been imported successfully."
 msgstr ""
@@ -481,31 +506,37 @@ msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr ""
 
-#: src/pages/app/Options.tsx:156
-#: src/pages/components/SideMenu.tsx:81
+#: src/pages/app/Options.tsx:158
+#: src/pages/components/SideMenu.tsx:87
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr ""
 
-#: src/pages/app/Options.tsx:114
+#: src/pages/app/Options.tsx:166
+#: src/pages/components/SideMenu.tsx:81
+msgctxt "options:sideMenu"
+msgid "Diagnostics"
+msgstr ""
+
+#: src/pages/app/Options.tsx:116
 #: src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr ""
 
-#: src/pages/app/Options.tsx:103
+#: src/pages/app/Options.tsx:105
 #: src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr ""
 
-#: src/pages/app/Options.tsx:134
+#: src/pages/app/Options.tsx:136
 #: src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr ""
 
-#: src/pages/app/Options.tsx:122
+#: src/pages/app/Options.tsx:124
 #: src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"

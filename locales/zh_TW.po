@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: twitter-media-harvest (4.4.2)\n"
-"POT-Creation-Date: 2025-05-14 18:24+0800\n"
+"Project-Id-Version: twitter-media-harvest (4.4.4)\n"
+"POT-Creation-Date: 2025-12-10 00:34+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -39,17 +39,21 @@ msgctxt "notification:download"
 msgid "Too many requests"
 msgstr "短時間發出過多請求"
 
-#: src/helpers/notificationConfig.ts:202
+#: src/helpers/notificationConfig.ts:203
 msgctxt "notification:filename"
 msgid ""
-"The filename is modified by other extensions, please check extensions' "
-"settings."
+"The filename is modified by other extensions, please check extensions' settings."
 msgstr "檔案名稱可能已經被其他擴充功能修改，請確認其他擴充功能的設定。"
 
-#: src/helpers/notificationConfig.ts:201
+#: src/helpers/notificationConfig.ts:202
 msgctxt "notification:filename"
 msgid "WARNING: Filename is modified"
 msgstr "警告：檔案名稱與設定格式不一致"
+
+#: src/helpers/notificationButton.ts:32
+msgctxt "notification:filename:button"
+msgid "Diagnose"
+msgstr "檢測"
 
 #: src/helpers/notificationButton.ts:27
 msgctxt "notification:filename:button"
@@ -66,12 +70,12 @@ msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr "推特資訊分析失敗。請向開發者回報錯誤。"
 
-#: src/helpers/notificationConfig.ts:218
+#: src/helpers/notificationConfig.ts:222
 msgctxt "notification:quota"
 msgid "Download Quota Warning"
 msgstr "下載額度警示"
 
-#: src/helpers/notificationConfig.ts:219
+#: src/helpers/notificationConfig.ts:223
 msgctxt "notification:quota"
 msgid "Remaining quota: {{quota}}. Resets at {{time}}"
 msgstr "剩餘額度: {{quota}}，將重置於 {{time}}"
@@ -151,6 +155,32 @@ msgctxt "options:about"
 msgid "Version"
 msgstr "版本"
 
+#: src/pages/components/Diagnostics.tsx:55
+msgctxt "options:diagnostics"
+msgid "Are you sure to start diagnostics?"
+msgstr "確定要執行檢測嗎?"
+
+#: src/pages/components/Diagnostics.tsx:60
+msgctxt "options:diagnostics"
+msgid ""
+"Other extensions will be temporarily disabled during diagnositc, please ensure "
+"your working sessions have been saved."
+msgstr "於檢測期間其他擴充功能會被暫時關閉，請確定已經儲存工作進度。"
+
+#: src/pages/components/Diagnostics.tsx:65
+msgctxt "options:diagnostics"
+msgid ""
+"This diagnostic might take few minutes to done, depends on how many extensions "
+"you installed."
+msgstr "檢測可能會花費數分鐘，取決於安裝的擴充功能數量"
+
+#: src/pages/components/Diagnostics.tsx:41
+msgctxt "options:diagnostics"
+msgid ""
+"This diagnostic will check your installed extensions that might conflict with "
+"this extension."
+msgstr "這個檢測將會偵測其他安裝的擴充功能是否會與此擴充功能造成衝突。"
+
 #: src/pages/components/FeatureOptions.tsx:43
 msgctxt "options:features"
 msgid "Auto-reveal sensitive content"
@@ -216,8 +246,8 @@ msgstr "新增子資料夾"
 #: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid ""
-"Create sub-directory under the default download directory. Sub-directory "
-"can be seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory can be "
+"seperated with \"/\"."
 msgstr "在預設下載資料夾中新增一個子資料夾。使用 ”/” 區分多個子資料夾。"
 
 #: src/pages/components/GeneralOptions.tsx:244
@@ -248,8 +278,8 @@ msgstr "無效的樣式。 必須包含 `推特 ID` + `序列號` 或 `雜湊值
 #: src/pages/components/GeneralOptions.tsx:228
 msgctxt "options:general"
 msgid ""
-"Show the file chooser or not when download is triggered. Recommend to "
-"disable this option."
+"Show the file chooser or not when download is triggered. Recommend to disable "
+"this option."
 msgstr "每次下載都詢問檔案存放位置。 推薦關閉此設定。"
 
 #: src/pages/components/GeneralOptions.tsx:245
@@ -333,41 +363,39 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "推特_日期時間"
 
-#: src/pages/components/History.tsx:538
+#: src/pages/components/History.tsx:545
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "確定要匯入這個歷史檔案嗎?"
 
-#: src/pages/components/History.tsx:520
+#: src/pages/components/History.tsx:527
 msgctxt "options:history"
 msgid ""
-"Cannot access the selected file. Please grant permission to read the file "
-"and try again."
+"Cannot access the selected file. Please grant permission to read the file and "
+"try again."
 msgstr "無法讀取所選文件，請授權讀取文件的權限並重試。"
 
-#: src/pages/components/History.tsx:359
-#: src/pages/components/History.tsx:364
+#: src/pages/components/History.tsx:359 src/pages/components/History.tsx:364
 msgctxt "options:history"
 msgid "Export"
 msgstr "匯出"
 
-#: src/pages/components/History.tsx:688
+#: src/pages/components/History.tsx:695
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "匯出失敗。"
 
-#: src/pages/components/History.tsx:551
+#: src/pages/components/History.tsx:558
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "匯入失敗。"
 
-#: src/pages/components/History.tsx:351
-#: src/pages/components/History.tsx:356
+#: src/pages/components/History.tsx:351 src/pages/components/History.tsx:356
 msgctxt "options:history"
 msgid "Import"
 msgstr "匯入"
 
-#: src/pages/components/History.tsx:548
+#: src/pages/components/History.tsx:555
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "不正確的格式。"
@@ -387,7 +415,7 @@ msgctxt "options:history"
 msgid "Refresh"
 msgstr "更新"
 
-#: src/pages/components/History.tsx:556
+#: src/pages/components/History.tsx:563
 msgctxt "options:history"
 msgid "The history file has been imported successfully."
 msgstr "歷史紀錄匯入成功。"
@@ -402,8 +430,7 @@ msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "圖片"
 
-#: src/pages/components/History.tsx:164
-#: src/pages/components/History.tsx:167
+#: src/pages/components/History.tsx:164 src/pages/components/History.tsx:167
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "混合"
@@ -486,8 +513,7 @@ msgstr "檔案名稱偵測"
 #: src/pages/components/IntegrationOptions.tsx:77
 msgctxt "options:integrations"
 msgid ""
-"The detector can notify user when the filename is modified by other "
-"extensions."
+"The detector can notify user when the filename is modified by other extensions."
 msgstr "當檔案名稱可能被其他擴充功能修改時發出警告通知。"
 
 #: src/pages/components/IntegrationOptions.tsx:65
@@ -500,32 +526,32 @@ msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "透過 {{aria2-extension}} 傳送下載任務到 Aria2。"
 
-#: src/pages/app/Options.tsx:156
-#: src/pages/components/SideMenu.tsx:81
+#: src/pages/app/Options.tsx:158 src/pages/components/SideMenu.tsx:87
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "關於"
 
-#: src/pages/app/Options.tsx:114
-#: src/pages/components/SideMenu.tsx:62
+#: src/pages/app/Options.tsx:166 src/pages/components/SideMenu.tsx:81
+msgctxt "options:sideMenu"
+msgid "Diagnostics"
+msgstr "系統檢測"
+
+#: src/pages/app/Options.tsx:116 src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "功能"
 
-#: src/pages/app/Options.tsx:103
-#: src/pages/components/SideMenu.tsx:56
+#: src/pages/app/Options.tsx:105 src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "通用"
 
-#: src/pages/app/Options.tsx:134
-#: src/pages/components/SideMenu.tsx:74
+#: src/pages/app/Options.tsx:136 src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "下載歷史"
 
-#: src/pages/app/Options.tsx:122
-#: src/pages/components/SideMenu.tsx:68
+#: src/pages/app/Options.tsx:124 src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "整合"
