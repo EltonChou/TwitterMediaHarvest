@@ -1,11 +1,12 @@
 import { getText as i18n } from '#libs/i18n'
+import { Beta } from '#pages/helpers/text'
 import {
   ExtensionStatus,
   WorkflowStatus,
   useExtensionConflictDiagnostics,
 } from '#pages/hooks/useExtensionConflictDiagnostics'
 import { getRuntimeId } from '#utils/runtime'
-import { Button, HStack, Heading, Icon, Stack, Text } from '@chakra-ui/react'
+import { Button, HStack, Icon, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
 import { FaCheck, FaQuestion, FaXmark } from 'react-icons/fa6'
 
@@ -24,6 +25,7 @@ type DiagnosticItemProps = {
   name: string
 }
 
+// TODO: Make it generic to support more diagnostics in the future
 const DiagnosticItem = (props: DiagnosticItemProps) => {
   const {
     installed,
@@ -36,8 +38,11 @@ const DiagnosticItem = (props: DiagnosticItemProps) => {
 
   return (
     <Stack p={'1.5rem'} spacing={2}>
-      <Heading size="md">{props.name}</Heading>
-      <Text>
+      <Text fontSize={'1.5em'} autoCapitalize="on" lineHeight={'none'}>
+        {props.name}
+        <Beta />
+      </Text>
+      <Text color={'gray.400'}>
         {i18n(
           'This diagnostic will check your installed extensions that might conflict with this extension.',
           'options:diagnostics'
