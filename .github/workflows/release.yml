@@ -134,9 +134,9 @@ jobs:
           VERSION_TAG: ${{ steps.target-version.outputs.version-tag }}
         run: |
           if [ "${{ inputs.version-strategy }}" = "none" ]; then
-            GIT_SHA=${{ github.sha }}
+            GIT_SHA="${{ github.sha }}"
           else
-            GIT_SHA=${{ steps.commit.outputs.commit }}
+            GIT_SHA="${{ steps.commit.outputs.commit }}"
           fi
 
           gh api \
