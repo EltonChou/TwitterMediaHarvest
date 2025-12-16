@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Add `Conflict Extensions` diagnostic. [#269](https://github.com/EltonChou/TwitterMediaHarvest/pull/269)
+
+### Fixed
+
+- Fix history import file picker compatiability issue on Brave. [#255](https://github.com/EltonChou/TwitterMediaHarvest/pull/255)[#260](https://github.com/EltonChou/TwitterMediaHarvest/pull/260)
+
 ## [4.4.4] - 2025-09-12
 
 ### Fixed
