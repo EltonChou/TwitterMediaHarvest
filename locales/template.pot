@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (4.4.4)\n"
-"POT-Creation-Date: 2025-12-16 02:59+0800\n"
+"POT-Creation-Date: 2025-12-16 21:01+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -12,7 +12,57 @@ msgctxt "app"
 msgid "appName"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:119
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:304
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "{{count}} conflicted extension(s) detected."
+msgstr ""
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:339
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "All conflicted extensions have been disabled."
+msgstr ""
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:279
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Diagnostic is aborted."
+msgstr ""
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:262
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Diagnostic is running..."
+msgstr ""
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:319
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Disabling conflicted extensions..."
+msgstr ""
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:347
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Failed to disable conflicted extensions."
+msgstr ""
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:309
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "No conflicted extensions found."
+msgstr ""
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:204
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Requesting management permission..."
+msgstr ""
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:215
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Required permission (management) was not granted."
+msgstr ""
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:302
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Scan completed. "
+msgstr ""
+
+#: src/helpers/notificationConfig.ts:125
 msgctxt "notification:download"
 msgid "API Rate limit exceeded."
 msgstr ""
@@ -27,17 +77,17 @@ msgctxt "notification:download"
 msgid "Media in {{account}}({{tweet-id}}) download failed."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:118
+#: src/helpers/notificationConfig.ts:124
 msgctxt "notification:download"
 msgid "Too many requests"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:203
+#: src/helpers/notificationConfig.ts:209
 msgctxt "notification:filename"
 msgid "The filename is modified by other extensions, please check extensions' settings."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:202
+#: src/helpers/notificationConfig.ts:208
 msgctxt "notification:filename"
 msgid "WARNING: Filename is modified"
 msgstr ""
@@ -52,22 +102,22 @@ msgctxt "notification:filename:button"
 msgid "Ignore"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:180
+#: src/helpers/notificationConfig.ts:186
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:184
+#: src/helpers/notificationConfig.ts:190
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:222
+#: src/helpers/notificationConfig.ts:234
 msgctxt "notification:quota"
 msgid "Download Quota Warning"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:223
+#: src/helpers/notificationConfig.ts:235
 msgctxt "notification:quota"
 msgid "Remaining quota: {{quota}}. Resets at {{time}}"
 msgstr ""
@@ -82,42 +132,42 @@ msgctxt "notification:tweet:button"
 msgid "View"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:154
+#: src/helpers/notificationConfig.ts:160
 msgctxt "notification:tweetFetch"
 msgid "Forbidden"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:142
+#: src/helpers/notificationConfig.ts:148
 msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:170
+#: src/helpers/notificationConfig.ts:176
 msgctxt "notification:tweetFetch"
 msgid "Please contact with developer."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:128
+#: src/helpers/notificationConfig.ts:134
 msgctxt "notification:tweetFetch"
 msgid "The tweet cannot be found"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:129
+#: src/helpers/notificationConfig.ts:135
 msgctxt "notification:tweetFetch"
 msgid "The tweet might be deleted."
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:141
+#: src/helpers/notificationConfig.ts:147
 msgctxt "notification:tweetFetch"
 msgid "Unauthorized"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:167
+#: src/helpers/notificationConfig.ts:173
 msgctxt "notification:tweetFetch"
 msgid "Unknown Error ({{code}})"
 msgstr ""
 
-#: src/helpers/notificationConfig.ts:155
+#: src/helpers/notificationConfig.ts:161
 msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr ""
@@ -147,27 +197,27 @@ msgctxt "options:about"
 msgid "Version"
 msgstr ""
 
-#: src/pages/components/Diagnostics.tsx:55
+#: src/pages/components/Diagnostics.tsx:60
 msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
 msgstr ""
 
-#: src/pages/components/Diagnostics.tsx:102
+#: src/pages/components/Diagnostics.tsx:107
 msgctxt "options:diagnostics"
 msgid "Conflict Extensions"
 msgstr ""
 
-#: src/pages/components/Diagnostics.tsx:60
+#: src/pages/components/Diagnostics.tsx:65
 msgctxt "options:diagnostics"
 msgid "Other extensions will be temporarily disabled during diagnositc, please ensure your working sessions have been saved."
 msgstr ""
 
-#: src/pages/components/Diagnostics.tsx:65
+#: src/pages/components/Diagnostics.tsx:70
 msgctxt "options:diagnostics"
 msgid "This diagnostic might take few minutes to done, depends on how many extensions you installed."
 msgstr ""
 
-#: src/pages/components/Diagnostics.tsx:41
+#: src/pages/components/Diagnostics.tsx:46
 msgctxt "options:diagnostics"
 msgid "This diagnostic will check your installed extensions that might conflict with this extension."
 msgstr ""

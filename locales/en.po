@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.4.4)\n"
-"POT-Creation-Date: 2025-12-16 02:59+0800\n"
+"POT-Creation-Date: 2025-12-16 20:50+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -19,7 +19,57 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : X (twitter) Media Downloader"
 
-#: src/helpers/notificationConfig.ts:119
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:307
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "{{count}} conflicted extension(s) detected."
+msgstr "{{count}} conflicted extension(s) detected."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:342
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "All conflicted extensions have been disabled."
+msgstr "All conflicted extensions have been disabled."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:282
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Diagnostic is aborted."
+msgstr "Diagnostic is aborted."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:262
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Diagnostic is running..."
+msgstr "Diagnostic is running..."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:322
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Disabling conflicted extensions..."
+msgstr "Disabling conflicted extensions..."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:350
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Failed to disable conflicted extensions."
+msgstr "Failed to disable conflicted extensions."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:312
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "No conflicted extensions found."
+msgstr "No conflicted extensions found."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:204
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Requesting management permission..."
+msgstr "Requesting management permission..."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:215
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Required permission (management) was not granted."
+msgstr "Required permission (management) was not granted."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:305
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Scan completed. "
+msgstr "Scan completed. "
+
+#: src/helpers/notificationConfig.ts:125
 msgctxt "notification:download"
 msgid "API Rate limit exceeded."
 msgstr "API Rate limit exceeded."
@@ -34,19 +84,21 @@ msgctxt "notification:download"
 msgid "Media in {{account}}({{tweet-id}}) download failed."
 msgstr "Media in {{account}}({{tweet-id}}) download failed."
 
-#: src/helpers/notificationConfig.ts:118
+#: src/helpers/notificationConfig.ts:124
 msgctxt "notification:download"
 msgid "Too many requests"
 msgstr "Too many requests"
 
-#: src/helpers/notificationConfig.ts:203
+#: src/helpers/notificationConfig.ts:209
 msgctxt "notification:filename"
 msgid ""
-"The filename is modified by other extensions, please check extensions' settings."
+"The filename is modified by other extensions, please check extensions' "
+"settings."
 msgstr ""
-"The filename is modified by other extensions, please check extensions' settings."
+"The filename is modified by other extensions, please check extensions' "
+"settings."
 
-#: src/helpers/notificationConfig.ts:202
+#: src/helpers/notificationConfig.ts:208
 msgctxt "notification:filename"
 msgid "WARNING: Filename is modified"
 msgstr "WARNING: Filename is modified"
@@ -61,22 +113,22 @@ msgctxt "notification:filename:button"
 msgid "Ignore"
 msgstr "Ignore"
 
-#: src/helpers/notificationConfig.ts:180
+#: src/helpers/notificationConfig.ts:186
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information"
 msgstr "Failed to parse tweet information"
 
-#: src/helpers/notificationConfig.ts:184
+#: src/helpers/notificationConfig.ts:190
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr "Failed to parse tweet information. Please report bug to developer."
 
-#: src/helpers/notificationConfig.ts:222
+#: src/helpers/notificationConfig.ts:234
 msgctxt "notification:quota"
 msgid "Download Quota Warning"
 msgstr "Download Quota Warning"
 
-#: src/helpers/notificationConfig.ts:223
+#: src/helpers/notificationConfig.ts:235
 msgctxt "notification:quota"
 msgid "Remaining quota: {{quota}}. Resets at {{time}}"
 msgstr "Remaining quota: {{quota}}. Resets at {{time}}"
@@ -91,42 +143,42 @@ msgctxt "notification:tweet:button"
 msgid "View"
 msgstr "View"
 
-#: src/helpers/notificationConfig.ts:154
+#: src/helpers/notificationConfig.ts:160
 msgctxt "notification:tweetFetch"
 msgid "Forbidden"
 msgstr "Forbidden"
 
-#: src/helpers/notificationConfig.ts:142
+#: src/helpers/notificationConfig.ts:148
 msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
 msgstr "Please check your login session and your permission."
 
-#: src/helpers/notificationConfig.ts:170
+#: src/helpers/notificationConfig.ts:176
 msgctxt "notification:tweetFetch"
 msgid "Please contact with developer."
 msgstr "Please contact with developer."
 
-#: src/helpers/notificationConfig.ts:128
+#: src/helpers/notificationConfig.ts:134
 msgctxt "notification:tweetFetch"
 msgid "The tweet cannot be found"
 msgstr "The tweet cannot be found"
 
-#: src/helpers/notificationConfig.ts:129
+#: src/helpers/notificationConfig.ts:135
 msgctxt "notification:tweetFetch"
 msgid "The tweet might be deleted."
 msgstr "The tweet might be deleted."
 
-#: src/helpers/notificationConfig.ts:141
+#: src/helpers/notificationConfig.ts:147
 msgctxt "notification:tweetFetch"
 msgid "Unauthorized"
 msgstr "Unauthorized"
 
-#: src/helpers/notificationConfig.ts:167
+#: src/helpers/notificationConfig.ts:173
 msgctxt "notification:tweetFetch"
 msgid "Unknown Error ({{code}})"
 msgstr "Unknown Error ({{code}})"
 
-#: src/helpers/notificationConfig.ts:155
+#: src/helpers/notificationConfig.ts:161
 msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "Your login session might be expired, please refresh the session."
@@ -156,42 +208,42 @@ msgctxt "options:about"
 msgid "Version"
 msgstr "Version"
 
-#: src/pages/components/Diagnostics.tsx:55
+#: src/pages/components/Diagnostics.tsx:60
 msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
 msgstr "Are you sure to start diagnostics?"
 
-#: src/pages/components/Diagnostics.tsx:102
+#: src/pages/components/Diagnostics.tsx:107
 msgctxt "options:diagnostics"
 msgid "Conflict Extensions"
 msgstr "Conflict Extensions"
 
-#: src/pages/components/Diagnostics.tsx:60
-msgctxt "options:diagnostics"
-msgid ""
-"Other extensions will be temporarily disabled during diagnositc, please ensure "
-"your working sessions have been saved."
-msgstr ""
-"Other extensions will be temporarily disabled during diagnositc, please ensure "
-"your working sessions have been saved."
-
 #: src/pages/components/Diagnostics.tsx:65
 msgctxt "options:diagnostics"
 msgid ""
-"This diagnostic might take few minutes to done, depends on how many extensions "
-"you installed."
+"Other extensions will be temporarily disabled during diagnositc, please "
+"ensure your working sessions have been saved."
 msgstr ""
-"This diagnostic might take few minutes to done, depends on how many extensions "
-"you installed."
+"Other extensions will be temporarily disabled during diagnositc, please "
+"ensure your working sessions have been saved."
 
-#: src/pages/components/Diagnostics.tsx:41
+#: src/pages/components/Diagnostics.tsx:70
 msgctxt "options:diagnostics"
 msgid ""
-"This diagnostic will check your installed extensions that might conflict with "
-"this extension."
+"This diagnostic might take few minutes to done, depends on how many "
+"extensions you installed."
 msgstr ""
-"This diagnostic will check your installed extensions that might conflict with "
-"this extension."
+"This diagnostic might take few minutes to done, depends on how many "
+"extensions you installed."
+
+#: src/pages/components/Diagnostics.tsx:46
+msgctxt "options:diagnostics"
+msgid ""
+"This diagnostic will check your installed extensions that might conflict "
+"with this extension."
+msgstr ""
+"This diagnostic will check your installed extensions that might conflict "
+"with this extension."
 
 #: src/pages/components/FeatureOptions.tsx:43
 msgctxt "options:features"
@@ -260,11 +312,11 @@ msgstr "Create sub-directory"
 #: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid ""
-"Create sub-directory under the default download directory. Sub-directory can be "
-"seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory "
+"can be seperated with \"/\"."
 msgstr ""
-"Create sub-directory under the default download directory. Sub-directory can be "
-"seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory "
+"can be seperated with \"/\"."
 
 #: src/pages/components/GeneralOptions.tsx:244
 msgctxt "options:general"
@@ -294,11 +346,11 @@ msgstr "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash
 #: src/pages/components/GeneralOptions.tsx:228
 msgctxt "options:general"
 msgid ""
-"Show the file chooser or not when download is triggered. Recommend to disable "
-"this option."
+"Show the file chooser or not when download is triggered. Recommend to "
+"disable this option."
 msgstr ""
-"Show the file chooser or not when download is triggered. Recommend to disable "
-"this option."
+"Show the file chooser or not when download is triggered. Recommend to "
+"disable this option."
 
 #: src/pages/components/GeneralOptions.tsx:245
 msgctxt "options:general"
@@ -389,13 +441,14 @@ msgstr "Are you sure you want to import this history file?"
 #: src/pages/components/History.tsx:527
 msgctxt "options:history"
 msgid ""
-"Cannot access the selected file. Please grant permission to read the file and "
-"try again."
+"Cannot access the selected file. Please grant permission to read the file "
+"and try again."
 msgstr ""
-"Cannot access the selected file. Please grant permission to read the file and "
-"try again."
+"Cannot access the selected file. Please grant permission to read the file "
+"and try again."
 
-#: src/pages/components/History.tsx:359 src/pages/components/History.tsx:364
+#: src/pages/components/History.tsx:359
+#: src/pages/components/History.tsx:364
 msgctxt "options:history"
 msgid "Export"
 msgstr "Export"
@@ -410,7 +463,8 @@ msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "Failed to import file."
 
-#: src/pages/components/History.tsx:351 src/pages/components/History.tsx:356
+#: src/pages/components/History.tsx:351
+#: src/pages/components/History.tsx:356
 msgctxt "options:history"
 msgid "Import"
 msgstr "Import"
@@ -450,7 +504,8 @@ msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "Image"
 
-#: src/pages/components/History.tsx:164 src/pages/components/History.tsx:167
+#: src/pages/components/History.tsx:164
+#: src/pages/components/History.tsx:167
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "Mixed"
@@ -533,9 +588,11 @@ msgstr "Filename Detector"
 #: src/pages/components/IntegrationOptions.tsx:77
 msgctxt "options:integrations"
 msgid ""
-"The detector can notify user when the filename is modified by other extensions."
+"The detector can notify user when the filename is modified by other "
+"extensions."
 msgstr ""
-"The detector can notify user when the filename is modified by other extensions."
+"The detector can notify user when the filename is modified by other "
+"extensions."
 
 #: src/pages/components/IntegrationOptions.tsx:65
 msgctxt "options:integrations"
@@ -547,32 +604,38 @@ msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "Transfer the download to Aria2 via {{aria2-extension}}."
 
-#: src/pages/app/Options.tsx:158 src/pages/components/SideMenu.tsx:87
+#: src/pages/app/Options.tsx:158
+#: src/pages/components/SideMenu.tsx:87
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "About"
 
-#: src/pages/app/Options.tsx:166 src/pages/components/SideMenu.tsx:81
+#: src/pages/app/Options.tsx:166
+#: src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "Diagnostics"
 msgstr "Diagnostics"
 
-#: src/pages/app/Options.tsx:116 src/pages/components/SideMenu.tsx:62
+#: src/pages/app/Options.tsx:116
+#: src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "Features"
 
-#: src/pages/app/Options.tsx:105 src/pages/components/SideMenu.tsx:56
+#: src/pages/app/Options.tsx:105
+#: src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "General"
 
-#: src/pages/app/Options.tsx:136 src/pages/components/SideMenu.tsx:74
+#: src/pages/app/Options.tsx:136
+#: src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "History"
 
-#: src/pages/app/Options.tsx:124 src/pages/components/SideMenu.tsx:68
+#: src/pages/app/Options.tsx:124
+#: src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "Integrations"

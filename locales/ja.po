@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.4.4)\n"
-"POT-Creation-Date: 2025-12-16 02:59+0800\n"
+"POT-Creation-Date: 2025-12-16 20:50+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -19,7 +19,56 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : X (ツイッター) メディアダウンローダー"
 
-#: src/helpers/notificationConfig.ts:119
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:307
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "{{count}} conflicted extension(s) detected."
+msgstr "{{count}} 個の競合する拡張機能が検出されました。"
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:342
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "All conflicted extensions have been disabled."
+msgstr "すべての競合する拡張機能は無効化されました。"
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:282
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Diagnostic is aborted."
+msgstr "診断が中止されました。"
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:262
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Diagnostic is running..."
+msgstr "診断を実行中..."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:322
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Disabling conflicted extensions..."
+msgstr "競合する拡張機能を無効化しています..."
+
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Failed to disable conflicted extensions."
+msgstr "競合する拡張機能を無効化できませんでした。"
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:312
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "No conflicted extensions found."
+msgstr "競合する拡張機能は見つかりませんでした。"
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:204
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Requesting management permission..."
+msgstr "拡張機能管理権限をリクエストしています..."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:215
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Required permission (management) was not granted."
+msgstr "必要な権限(管理)を取得できませんでした。"
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:305
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Scan completed. "
+msgstr "スキャンが完了しました。"
+
+#: src/helpers/notificationConfig.ts:125
 msgctxt "notification:download"
 msgid "API Rate limit exceeded."
 msgstr "API 回数制限を超えました。"
@@ -34,19 +83,19 @@ msgctxt "notification:download"
 msgid "Media in {{account}}({{tweet-id}}) download failed."
 msgstr "{{account}}({{tweet-id}}) のメディアがダウンロード失敗しました。"
 
-#: src/helpers/notificationConfig.ts:118
+#: src/helpers/notificationConfig.ts:124
 msgctxt "notification:download"
 msgid "Too many requests"
 msgstr "リクエストが多すぎます"
 
-#: src/helpers/notificationConfig.ts:203
+#: src/helpers/notificationConfig.ts:209
 msgctxt "notification:filename"
 msgid ""
-"The filename is modified by other extensions, please check extensions' settings."
-msgstr ""
-"ファイルネームが他の拡張に変更されました、他の拡張の設定を確認してください。"
+"The filename is modified by other extensions, please check extensions' "
+"settings."
+msgstr "ファイルネームが他の拡張に変更されました、他の拡張の設定を確認してください。"
 
-#: src/helpers/notificationConfig.ts:202
+#: src/helpers/notificationConfig.ts:208
 msgctxt "notification:filename"
 msgid "WARNING: Filename is modified"
 msgstr "⚠️ 警告：ファイルネームが変更されました"
@@ -61,22 +110,22 @@ msgctxt "notification:filename:button"
 msgid "Ignore"
 msgstr "無視する"
 
-#: src/helpers/notificationConfig.ts:180
+#: src/helpers/notificationConfig.ts:186
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information"
 msgstr "ツイートの解析は失敗しました"
 
-#: src/helpers/notificationConfig.ts:184
+#: src/helpers/notificationConfig.ts:190
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr "ツイートの解析は失敗しました。開発者に報告してください。"
 
-#: src/helpers/notificationConfig.ts:222
+#: src/helpers/notificationConfig.ts:234
 msgctxt "notification:quota"
 msgid "Download Quota Warning"
 msgstr "ダウンロード割当の警告"
 
-#: src/helpers/notificationConfig.ts:223
+#: src/helpers/notificationConfig.ts:235
 msgctxt "notification:quota"
 msgid "Remaining quota: {{quota}}. Resets at {{time}}"
 msgstr " 残りの割当: {{quota}}。{{time}} にリセットされます。"
@@ -91,43 +140,42 @@ msgctxt "notification:tweet:button"
 msgid "View"
 msgstr "ツイッターへ"
 
-#: src/helpers/notificationConfig.ts:154
+#: src/helpers/notificationConfig.ts:160
 msgctxt "notification:tweetFetch"
 msgid "Forbidden"
 msgstr "読込み禁止されているになっています"
 
-#: src/helpers/notificationConfig.ts:142
+#: src/helpers/notificationConfig.ts:148
 msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
-msgstr ""
-"ログインセッションの有効期限が切れましたが、まだ閲覧の権限を持ちませんでした。"
+msgstr "ログインセッションの有効期限が切れましたが、まだ閲覧の権限を持ちませんでした。"
 
-#: src/helpers/notificationConfig.ts:170
+#: src/helpers/notificationConfig.ts:176
 msgctxt "notification:tweetFetch"
 msgid "Please contact with developer."
 msgstr "開発者に報告してください。"
 
-#: src/helpers/notificationConfig.ts:128
+#: src/helpers/notificationConfig.ts:134
 msgctxt "notification:tweetFetch"
 msgid "The tweet cannot be found"
 msgstr "該当のツイートのデータが取得できませんでした"
 
-#: src/helpers/notificationConfig.ts:129
+#: src/helpers/notificationConfig.ts:135
 msgctxt "notification:tweetFetch"
 msgid "The tweet might be deleted."
 msgstr "該当のツイートがすでに削除された。"
 
-#: src/helpers/notificationConfig.ts:141
+#: src/helpers/notificationConfig.ts:147
 msgctxt "notification:tweetFetch"
 msgid "Unauthorized"
 msgstr "無許可"
 
-#: src/helpers/notificationConfig.ts:167
+#: src/helpers/notificationConfig.ts:173
 msgctxt "notification:tweetFetch"
 msgid "Unknown Error ({{code}})"
 msgstr "不明なエラー ({{code}})"
 
-#: src/helpers/notificationConfig.ts:155
+#: src/helpers/notificationConfig.ts:161
 msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "ログイン状態やツイートの閲覧権限を確認してください。"
@@ -157,42 +205,36 @@ msgctxt "options:about"
 msgid "Version"
 msgstr "バージョン"
 
-#: src/pages/components/Diagnostics.tsx:55
+#: src/pages/components/Diagnostics.tsx:60
 msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
 msgstr "診断を開始してもよろしいですか？"
 
-#: src/pages/components/Diagnostics.tsx:102
+#: src/pages/components/Diagnostics.tsx:107
 msgctxt "options:diagnostics"
 msgid "Conflict Extensions"
 msgstr "拡張機能競合"
 
-#: src/pages/components/Diagnostics.tsx:60
-msgctxt "options:diagnostics"
-msgid ""
-"Other extensions will be temporarily disabled during diagnositc, please ensure "
-"your working sessions have been saved."
-msgstr ""
-"診断中は他の拡張機能は一時的に無効化されます。作業中のセッションは必ず保存してく"
-"ださい。"
-
 #: src/pages/components/Diagnostics.tsx:65
 msgctxt "options:diagnostics"
 msgid ""
-"This diagnostic might take few minutes to done, depends on how many extensions "
-"you installed."
-msgstr ""
-"この診断には、インストールされている拡張機能の数に応じて、数分かかる場合がありま"
-"す。"
+"Other extensions will be temporarily disabled during diagnositc, please "
+"ensure your working sessions have been saved."
+msgstr "診断中は他の拡張機能は一時的に無効化されます。作業中のセッションは必ず保存してください。"
 
-#: src/pages/components/Diagnostics.tsx:41
+#: src/pages/components/Diagnostics.tsx:70
 msgctxt "options:diagnostics"
 msgid ""
-"This diagnostic will check your installed extensions that might conflict with "
-"this extension."
-msgstr ""
-"この診断ツールは、本拡張機能と競合する可能性のあるインストール済み拡張機能を検査"
-"します。"
+"This diagnostic might take few minutes to done, depends on how many "
+"extensions you installed."
+msgstr "この診断には、インストールされている拡張機能の数に応じて、数分かかる場合があります。"
+
+#: src/pages/components/Diagnostics.tsx:46
+msgctxt "options:diagnostics"
+msgid ""
+"This diagnostic will check your installed extensions that might conflict "
+"with this extension."
+msgstr "この診断ツールは、本拡張機能と競合する可能性のあるインストール済み拡張機能を検査します。"
 
 #: src/pages/components/FeatureOptions.tsx:43
 msgctxt "options:features"
@@ -202,9 +244,7 @@ msgstr "センシティブ内容の自動表示"
 #: src/pages/components/FeatureOptions.tsx:61
 msgctxt "options:features"
 msgid "Download the thumbnail when the media is video."
-msgstr ""
-"ビデオサムネイルのダウンロードメディアはビデオの時、サムネイルをダウンロードしま"
-"す。"
+msgstr "ビデオサムネイルのダウンロードメディアはビデオの時、サムネイルをダウンロードします。"
 
 #: src/pages/components/FeatureOptions.tsx:60
 msgctxt "options:features"
@@ -226,9 +266,7 @@ msgctxt "options:features"
 msgid ""
 "When the tweet was flagged as sensitive content, this feature can show the "
 "blured content automatically."
-msgstr ""
-"ツイートをセンシティブな内容として設定されている際、センシティブ内容を自動的に表"
-"示します。"
+msgstr "ツイートをセンシティブな内容として設定されている際、センシティブ内容を自動的に表示します。"
 
 #: src/pages/components/FootBar.tsx:45
 msgctxt "options:footBar:button"
@@ -263,8 +301,8 @@ msgstr "サブディレクトリの作成"
 #: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid ""
-"Create sub-directory under the default download directory. Sub-directory can be "
-"seperated with \"/\"."
+"Create sub-directory under the default download directory. Sub-directory "
+"can be seperated with \"/\"."
 msgstr "ディフォルトディレクトリの下にサブディレクトリを作成します。"
 
 #: src/pages/components/GeneralOptions.tsx:244
@@ -290,14 +328,13 @@ msgstr "ディレクトリ名に次の文字は使えません <>:”\\|?*"
 #: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
 msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
-msgstr ""
-"無効なパータン。 `ツイート ID` + `シリアル番号` や `ハッシュ` を含めてください."
+msgstr "無効なパータン。 `ツイート ID` + `シリアル番号` や `ハッシュ` を含めてください."
 
 #: src/pages/components/GeneralOptions.tsx:228
 msgctxt "options:general"
 msgid ""
-"Show the file chooser or not when download is triggered. Recommend to disable "
-"this option."
+"Show the file chooser or not when download is triggered. Recommend to "
+"disable this option."
 msgstr ""
 "ファイルごとに保存先を指定します。\n"
 "推奨：オフ"
@@ -391,13 +428,12 @@ msgstr "この履歴ファイルをインポートしてもよろしいですか
 #: src/pages/components/History.tsx:527
 msgctxt "options:history"
 msgid ""
-"Cannot access the selected file. Please grant permission to read the file and "
-"try again."
-msgstr ""
-"選択したファイルにアクセスできません。ファイルの読み取りを許可して、もう一度やり"
-"直してください。"
+"Cannot access the selected file. Please grant permission to read the file "
+"and try again."
+msgstr "選択したファイルにアクセスできません。ファイルの読み取りを許可して、もう一度やり直してください。"
 
-#: src/pages/components/History.tsx:359 src/pages/components/History.tsx:364
+#: src/pages/components/History.tsx:359
+#: src/pages/components/History.tsx:364
 msgctxt "options:history"
 msgid "Export"
 msgstr "エクスポート"
@@ -412,7 +448,8 @@ msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "ファイルのインポートに失敗しました。"
 
-#: src/pages/components/History.tsx:351 src/pages/components/History.tsx:356
+#: src/pages/components/History.tsx:351
+#: src/pages/components/History.tsx:356
 msgctxt "options:history"
 msgid "Import"
 msgstr "インポート"
@@ -452,7 +489,8 @@ msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "画像"
 
-#: src/pages/components/History.tsx:164 src/pages/components/History.tsx:167
+#: src/pages/components/History.tsx:164
+#: src/pages/components/History.tsx:167
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "画像 + ビデオ"
@@ -535,7 +573,8 @@ msgstr "ファイルネーム上書き探知"
 #: src/pages/components/IntegrationOptions.tsx:77
 msgctxt "options:integrations"
 msgid ""
-"The detector can notify user when the filename is modified by other extensions."
+"The detector can notify user when the filename is modified by other "
+"extensions."
 msgstr "ファイルネームは他の拡張に上書きされる際、通知を発送します。"
 
 #: src/pages/components/IntegrationOptions.tsx:65
@@ -548,32 +587,38 @@ msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "ダウンロードを {{aria2-extension}} 経由して Aria2 に転送。"
 
-#: src/pages/app/Options.tsx:158 src/pages/components/SideMenu.tsx:87
+#: src/pages/app/Options.tsx:158
+#: src/pages/components/SideMenu.tsx:87
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "拡張について"
 
-#: src/pages/app/Options.tsx:166 src/pages/components/SideMenu.tsx:81
+#: src/pages/app/Options.tsx:166
+#: src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "Diagnostics"
 msgstr "診断"
 
-#: src/pages/app/Options.tsx:116 src/pages/components/SideMenu.tsx:62
+#: src/pages/app/Options.tsx:116
+#: src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "機能"
 
-#: src/pages/app/Options.tsx:105 src/pages/components/SideMenu.tsx:56
+#: src/pages/app/Options.tsx:105
+#: src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "一般"
 
-#: src/pages/app/Options.tsx:136 src/pages/components/SideMenu.tsx:74
+#: src/pages/app/Options.tsx:136
+#: src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "ダウンロード履歴"
 
-#: src/pages/app/Options.tsx:124 src/pages/components/SideMenu.tsx:68
+#: src/pages/app/Options.tsx:124
+#: src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
 msgstr "統合"
