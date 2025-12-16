@@ -10,7 +10,7 @@ describe('openDiagnosticsPageInNewTab', () => {
       .spyOn(tabs, 'create')
       .mockResolvedValueOnce({} as Tabs.Tab)
     const event = new FilenameOverwrittenNotificationDiagnoseButtonClicked()
-    const expectedUrl = runtime.getURL('options.html#/diagnostics')
+    const expectedUrl = runtime.getURL('index.html#diagnostics')
     await openDiagnosticsPageInNewTab(event, new MockEventPublisher())
     expect(mockCreateTab).toHaveBeenCalledWith({ url: expectedUrl })
     mockCreateTab.mockRestore()

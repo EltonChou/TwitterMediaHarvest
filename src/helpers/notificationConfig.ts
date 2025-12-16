@@ -72,10 +72,16 @@ export class MediaDownloadNotificationConfig {
       title: getText('Download failed', 'notification:download'),
       message: info,
       eventTime: eventTime.getTime(),
-      buttons: [
-        TweetNotificationButton.viewTweet(),
-        DownloadNotificationButton.retryDownload(),
-      ],
+      buttons: buildNotificationButtons([
+        [
+          MediaDownloadNotificationErrorButton.ViewTweet,
+          TweetNotificationButton.viewTweet(),
+        ],
+        [
+          MediaDownloadNotificationErrorButton.RetryDownload,
+          DownloadNotificationButton.retryDownload(),
+        ],
+      ]),
       requireInteraction: true,
     })
   }
@@ -190,8 +196,8 @@ export class TweetFetchErrorNotificationConfig {
 }
 
 export const enum FilenameOverwirrtenNotificationButton {
-  Ignore = 0,
-  Diagnose = 1,
+  Ignore = 1,
+  Diagnose = 0,
 }
 
 export const makeFilenameIsOverwrittenNotificationConfig: Factory<
@@ -205,10 +211,16 @@ export const makeFilenameIsOverwrittenNotificationConfig: Factory<
       'notification:filename'
     ),
     eventTime: event.occuredAt.getTime(),
-    buttons: [
-      FilenameNotificationButton.diagnose(),
-      FilenameNotificationButton.ignore(),
-    ],
+    buttons: buildNotificationButtons([
+      [
+        FilenameOverwirrtenNotificationButton.Diagnose,
+        FilenameNotificationButton.diagnose(),
+      ],
+      [
+        FilenameOverwirrtenNotificationButton.Ignore,
+        FilenameNotificationButton.ignore(),
+      ],
+    ]),
   })
 
 export class SolutionQuotaWarningNotificationConfig {
@@ -234,3 +246,8 @@ export class SolutionQuotaWarningNotificationConfig {
     })
   }
 }
+
+const buildNotificationButtons = (
+  buttons: [number, chrome.notifications.ButtonOptions][]
+): chrome.notifications.ButtonOptions[] =>
+  buttons.sort((a, b) => a[0] - b[0]).map(([, button]) => button)

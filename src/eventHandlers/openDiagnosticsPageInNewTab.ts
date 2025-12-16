@@ -10,6 +10,6 @@ export const openDiagnosticsPageInNewTab: DomainEventHandler<
   IDomainEvent
 > = async _event => {
   await tabs.create({
-    url: runtime.getURL('options.html#/diagnostics'),
+    url: runtime.getURL('index.html#diagnostics'),
   })
 }
