@@ -133,6 +133,12 @@ jobs:
           GH_USER_EMAIL: ${{ steps.setup-git.outputs.user-email }}
           VERSION_TAG: ${{ steps.target-version.outputs.version-tag }}
         run: |
+          if [ "${{ inputs.version-strategy }}" = "none" ]; then
+            GIT_SHA=${{ github.sha }}
+          else
+            GIT_SHA=${{ steps.commit.outputs.commit }}
+          fi
+
           gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
@@ -140,7 +146,7 @@ jobs:
             /repos/${{ github.repository }}/git/tags \
             -f 'tag=$VERSION_TAG' \
             -f 'message="${{ steps.changelog.outputs.release }}"' \
-            -f 'object=${{ steps.commit.outputs.commit }}' \
+            -f 'object=$GIT_SHA' \
             -f 'type=commit' \
             -f 'tagger[name]=$GH_USER_NAME' \
             -f 'tagger[email]=$GH_USER_EMAIL' \
@@ -152,7 +158,7 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             /repos/${{ github.repository }}/git/refs \
             -f 'ref=refs/tags/$VERSION_TAG' \
-            -f 'sha=${{ steps.commit.outputs.commit }}'
+            -f 'sha=$GIT_SHA'
 
       - name: Create Artifact
         uses: actions/upload-artifact@v4
