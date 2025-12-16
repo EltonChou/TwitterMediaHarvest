@@ -36,11 +36,14 @@ describe('TimeHelper unit test', () => {
     expect(duration).toBeLessThan(5100)
   })
 
-  it('can measure elapsed time after delay', async () => {
+  it('can measure elapsed time after delay', () => {
+    jest.useFakeTimers()
     const timer = setDuration()
-    await new Promise(resolve => setTimeout(resolve, 50))
+    setTimeout(() => {}, 50)
+    jest.advanceTimersByTime(50)
     const elapsed = timer.end()
     expect(elapsed).toBeGreaterThanOrEqual(50)
     expect(elapsed).toBeLessThan(150)
+    jest.useRealTimers()
   })
 })
