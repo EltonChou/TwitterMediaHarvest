@@ -1,3 +1,4 @@
+import { getText as i18n } from '#libs/i18n'
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import {
   Downloads,
@@ -81,7 +82,7 @@ function reducer(state: ExtensionKV, action: Action): ExtensionKV {
  * @param excludeIds List of extension IDs to exclude from diagnostics (e.g., self ID)
  * @returns
  */
-export function useExtensionConflictDiagnostics(
+export function useExtensionConflictDiagnostic(
   excludeIds: string[] = []
 ): DiagnosticsResult {
   /**
@@ -148,7 +149,8 @@ export function useExtensionConflictDiagnostics(
               const errorMsg =
                 runtime.lastError?.message || 'Failed to start download.'
               setStatus(WorkflowStatus.ERROR)
-              setMessage(errorMsg)
+              // eslint-disable-next-line no-console
+              console.error('[diagnostic:conflict-extensions]', errorMsg)
               reject(new Error(errorMsg))
             })
         }
@@ -169,6 +171,8 @@ export function useExtensionConflictDiagnostics(
           status: extStatus,
         },
       })
+
+      return extStatus === ExtensionStatus.CONFLICTED
     },
     [enabledExts]
   )
@@ -196,13 +200,23 @@ export function useExtensionConflictDiagnostics(
   const requestDiagnose = useCallback(async () => {
     resetAbort()
     setStatus(WorkflowStatus.RUNNING)
-    setMessage('Requesting management permission...')
+    setMessage(
+      i18n(
+        'Requesting management permission...',
+        'hook:useExtensionConflictDiagnostic'
+      )
+    )
 
     // Once permission has been granted, browser will grant it implicitly in future without prompting.
     const granted = await permissions.request({ permissions: ['management'] })
     if (!granted) {
       setStatus(WorkflowStatus.ERROR)
-      setMessage('Required permission (management) was not granted.')
+      setMessage(
+        i18n(
+          'Required permission (management) was not granted.',
+          'hook:useExtensionConflictDiagnostic'
+        )
+      )
       return
     }
 
@@ -243,7 +257,10 @@ export function useExtensionConflictDiagnostics(
     dispatch({ type: 'SET_EXTENSIONS', payload: filteredExt })
 
     // eslint-disable-next-line no-console
-    console.group('Starting conflict diagnostics...')
+    console.group('Starting conflict diagnostic...')
+    setMessage(
+      i18n('Diagnostic is running...', 'hook:useExtensionConflictDiagnostic')
+    )
     if (__DEV__) {
       /* eslint-disable no-console */
       console.info('Disabling all extensions before tests...')
@@ -253,11 +270,14 @@ export function useExtensionConflictDiagnostics(
       extIdsToCheck.map(extId => management.setEnabled(extId, false))
     )
 
+    let conflictedCount = 0
     for (const extId of extIdsToCheck) {
       if (abortRef.current) {
         /* eslint-disable no-console */
         if (__DEV__) console.info('Diagnostics aborted by user.')
-        setMessage('Diagnostics aborted by user.')
+        setMessage(
+          i18n('Diagnostic is aborted.', 'hook:useExtensionConflictDiagnostic')
+        )
         setStatus(WorkflowStatus.ABORTED)
         restoreExts()
         console.groupEnd()
@@ -265,7 +285,7 @@ export function useExtensionConflictDiagnostics(
         /* eslint-enable no-console */
       }
       await management.setEnabled(extId, true)
-      await triggerCheckDownloadByExtId(extId)
+      if (await triggerCheckDownloadByExtId(extId)) conflictedCount += 1
       await management.setEnabled(extId, false)
     }
 
@@ -277,24 +297,30 @@ export function useExtensionConflictDiagnostics(
 
     // eslint-disable-next-line no-console
     console.info('Complete conflict diagnostics.')
-    const conflictedCount = Object.values(enabledExts).reduce(
-      (count, ext) =>
-        ext.status === ExtensionStatus.CONFLICTED ? count + 1 : count,
-      0
-    )
-
     setStatus(WorkflowStatus.COMPLETED)
     setMessage(
-      'Scan completed. ' +
+      i18n('Scan completed. ', 'hook:useExtensionConflictDiagnostic') +
         (conflictedCount > 0
-          ? `${conflictedCount} conflicted extension(s) detected.`
-          : 'No conflicted extensions found.')
+          ? i18n(
+              '{{count}} conflicted extension(s) detected.',
+              'hook:useExtensionConflictDiagnostic',
+              { count: conflictedCount.toString() }
+            )
+          : i18n(
+              'No conflicted extensions found.',
+              'hook:useExtensionConflictDiagnostic'
+            ))
     )
-  }, [enabledExts, excludeIds, triggerCheckDownloadByExtId])
+  }, [excludeIds, triggerCheckDownloadByExtId])
 
   // Disable all conflicted extensions
   const disableConflicted = useCallback(async () => {
-    setMessage('Disabling conflicted extensions...')
+    setMessage(
+      i18n(
+        'Disabling conflicted extensions...',
+        'hook:useExtensionConflictDiagnostic'
+      )
+    )
     try {
       const conflictedIds = Object.entries(enabledExts).reduce<string[]>(
         (conflictedIds, [id, ext]) =>
@@ -309,10 +335,20 @@ export function useExtensionConflictDiagnostics(
           dispatch({ type: 'DISABLE_EXTENSION', payload: { id } })
         })
       )
-      setMessage('All conflicted extensions have been disabled.')
+      setMessage(
+        i18n(
+          'All conflicted extensions have been disabled.',
+          'hook:useExtensionConflictDiagnostic'
+        )
+      )
       setStatus(WorkflowStatus.INIT)
     } catch (_error) {
-      setMessage('Failed to disable conflicted extensions.')
+      setMessage(
+        i18n(
+          'Failed to disable conflicted extensions.',
+          'hook:useExtensionConflictDiagnostic'
+        )
+      )
     }
   }, [enabledExts])
 

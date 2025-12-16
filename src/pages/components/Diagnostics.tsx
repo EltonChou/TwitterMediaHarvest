@@ -3,8 +3,8 @@ import { Beta } from '#pages/helpers/text'
 import {
   ExtensionStatus,
   WorkflowStatus,
-  useExtensionConflictDiagnostics,
-} from '#pages/hooks/useExtensionConflictDiagnostics'
+  useExtensionConflictDiagnostic,
+} from '#pages/hooks/useExtensionConflictDiagnostic'
 import { getRuntimeId } from '#utils/runtime'
 import { Button, HStack, Icon, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
@@ -34,7 +34,7 @@ const DiagnosticItem = (props: DiagnosticItemProps) => {
     disableConflicted,
     requestDiagnose,
     abort,
-  } = useExtensionConflictDiagnostics([getRuntimeId()])
+  } = useExtensionConflictDiagnostic([getRuntimeId()])
 
   return (
     <Stack p={'1.5rem'} spacing={2}>
