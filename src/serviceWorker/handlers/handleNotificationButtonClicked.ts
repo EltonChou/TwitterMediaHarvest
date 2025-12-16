@@ -6,6 +6,7 @@
 import type { DomainEventPublisher } from '#domain/eventPublisher'
 import DownloadFailedNotificationRetryButtonClicked from '#domain/events/DownloadFailedNotificationRetryButtonClicked'
 import DownloadFailedNotificationViewButtonClicked from '#domain/events/DownloadFailedNotificationViewButtonClicked'
+import { FilenameOverwrittenNotificationDiagnoseButtonClicked } from '#domain/events/FilenameOverwrittenNotificationDiagnoseButtonClicked'
 import { FilenameOverwrittenNotificationIgnoreButtonClicked } from '#domain/events/FilenameOverwrittenNotificationIgnoreButtonClicked'
 import TweetFetchErrorNotificationViewButtonClicked from '#domain/events/TweetFetchErrorNotificationViewButtonClicked'
 import { UnknownNotificationButtonClicked } from '#domain/events/UnknownNotificationButtonClicked'
@@ -70,10 +71,17 @@ const handleNotificationButtonClicked =
     }
 
     if (isFilenameOverWrittenId(notificationId)) {
-      if (buttonIndex === FilenameOverwirrtenNotificationButton.Ignore)
+      if (buttonIndex === FilenameOverwirrtenNotificationButton.Ignore) {
         await publisher.publish(
           new FilenameOverwrittenNotificationIgnoreButtonClicked()
         )
+      } else if (
+        buttonIndex === FilenameOverwirrtenNotificationButton.Diagnose
+      ) {
+        await publisher.publish(
+          new FilenameOverwrittenNotificationDiagnoseButtonClicked()
+        )
+      }
     }
   }
 

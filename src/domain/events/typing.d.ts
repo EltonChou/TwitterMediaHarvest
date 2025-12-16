@@ -33,6 +33,7 @@ interface DomainEventMap {
   'notification:general:unknownButton:clicked': UnknownNotificationButtonClickedEvent
   'notification:filenameOverwritten:self:clicked': IDomainEvent
   'notification:filenameOverwritten:ignoreButton:clicked': IDomainEvent
+  'notification:filenameOverwritten:diagnoseButton:clicked': IDomainEvent
   'api:twitter:failed': TweetApiErrorEvent
   'parse:tweet:failed': TweetInfoEvent
   'client:synced': IDomainEvent

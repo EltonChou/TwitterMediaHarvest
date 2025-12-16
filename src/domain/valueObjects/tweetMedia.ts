@@ -25,11 +25,27 @@ export class TweetMedia extends ValueObject<TweetMediaProps> {
     return this.props.type === 'thumbnail'
   }
 
+  get mightBeThumbnail() {
+    return this.props.url.includes('thumb')
+  }
+
   getVariantUrl(variant: 'orig' | 'large' | 'medium' | 'small' | 'thumb') {
     if (this.isVideo) return this.props.url
 
     const url = new URL(this.props.url)
-    url.pathname += ':' + variant
+    const lastSegment = url.pathname.split('.').pop()
+    if (!lastSegment || !lastSegment.match(/^[a-zA-Z]+$/)) return this.props.url
+    const fileExt = lastSegment
+
+    // Thumbnail endpoint is not supporting format and name query parameters
+    if (this.isThumbnail) {
+      url.pathname += ':' + variant
+      return url.href
+    }
+
+    url.pathname = url.pathname.replace(`.${fileExt}`, '')
+    url.searchParams.set('format', fileExt)
+    url.searchParams.set('name', variant)
     return url.href
   }
 

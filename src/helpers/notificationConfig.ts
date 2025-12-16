@@ -191,6 +191,7 @@ export class TweetFetchErrorNotificationConfig {
 
 export const enum FilenameOverwirrtenNotificationButton {
   Ignore = 0,
+  Diagnose = 1,
 }
 
 export const makeFilenameIsOverwrittenNotificationConfig: Factory<
@@ -204,7 +205,10 @@ export const makeFilenameIsOverwrittenNotificationConfig: Factory<
       'notification:filename'
     ),
     eventTime: event.occuredAt.getTime(),
-    buttons: [FilenameNotificationButton.ignore()],
+    buttons: [
+      FilenameNotificationButton.diagnose(),
+      FilenameNotificationButton.ignore(),
+    ],
   })
 
 export class SolutionQuotaWarningNotificationConfig {

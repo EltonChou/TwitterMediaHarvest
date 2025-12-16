@@ -99,6 +99,19 @@ exports[`unit test for SideMenu component can navigate 1`] = `
       <a
         class="chakra-link css-4a6x12"
         data-discover="true"
+        data-testid="nav-item-diagnostics"
+        href="#/diagnostics"
+      >
+        <div
+          class="css-zokglg"
+          style="transition: background 300ms;"
+        >
+          Translated&lt;options:sideMenu_Diagnostics&gt;
+        </div>
+      </a>
+      <a
+        class="chakra-link css-4a6x12"
+        data-discover="true"
         data-testid="nav-item-about"
         href="#/about"
       >

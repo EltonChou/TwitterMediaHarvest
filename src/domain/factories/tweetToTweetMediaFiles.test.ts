@@ -81,7 +81,7 @@ describe('unit test for tweet to tweet media files factory', () => {
         ext: '.png',
         hash: 'hash',
         serial: 4,
-        source: 'https://foo.bar/hash.png:orig',
+        source: 'https://foo.bar/hash?format=png&name=orig',
         tweetId: '1145141919810',
         tweetUser: tweetUser,
         type: 'image',
