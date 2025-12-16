@@ -134,9 +134,9 @@ jobs:
           VERSION_TAG: ${{ steps.target-version.outputs.version-tag }}
         run: |
           if [ "${{ inputs.version-strategy }}" = "none" ]; then
-            GIT_SHA="${{ github.sha }}"
+            GIT_SHA=${{ github.sha }}
           else
-            GIT_SHA="${{ steps.commit.outputs.commit }}"
+            GIT_SHA=${{ steps.commit.outputs.commit }}
           fi
 
           gh api \
@@ -144,21 +144,21 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             /repos/${{ github.repository }}/git/tags \
-            -f 'tag=$VERSION_TAG' \
+            -f "tag=$VERSION_TAG" \
             -f 'message="${{ steps.changelog.outputs.release }}"' \
-            -f 'object=$GIT_SHA' \
-            -f 'type=commit' \
-            -f 'tagger[name]=$GH_USER_NAME' \
-            -f 'tagger[email]=$GH_USER_EMAIL' \
-            -f 'tagger[date]='$(date --iso-8601=seconds)
+            -f "object=$GIT_SHA" \
+            -f "type=commit" \
+            -f "tagger[name]=$GH_USER_NAME" \
+            -f "tagger[email]=$GH_USER_EMAIL" \
+            -f "tagger[date]=$(date --iso-8601=seconds)"
 
           gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             /repos/${{ github.repository }}/git/refs \
-            -f 'ref=refs/tags/$VERSION_TAG' \
-            -f 'sha=$GIT_SHA'
+            -f "ref=refs/tags/$VERSION_TAG" \
+            -f "sha=$GIT_SHA"
 
       - name: Create Artifact
         uses: actions/upload-artifact@v4
