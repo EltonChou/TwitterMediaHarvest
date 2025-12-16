@@ -63,6 +63,7 @@ jobs:
           yarn typecheck
 
   build:
+    if: ${{ !startsWith(github.event.head_commit.message , 'test:') }}
     needs: test
     runs-on: ubuntu-latest
     environment: 'test'
