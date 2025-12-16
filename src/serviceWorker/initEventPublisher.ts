@@ -69,6 +69,9 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
     showClientInfoInConsole(clientRepo),
     setUser,
     async () => await nativeFetchTweetSolution.clearCacheStorage(),
+    // !!Reset warning settings to show the filename overwritten notification for v4.5.0
+    async () =>
+      await warningSettingsRepo.save({ ignoreFilenameOverwritten: false }),
   ]
 
   // To track extension installation and update events for distribution roll-out timeline
