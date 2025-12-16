@@ -38,11 +38,13 @@ runs:
         GH_TOKEN: ${{ steps.app-token.outputs.token }}
 
     - name: Configure git
+      id: configure-git
       shell: bash
+      env:
+        GIT_USERNAME: '${{ steps.app-token.outputs.app-slug }}[bot]'
+        GIT_EMAIL: '${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com'
       run: |
-        user_name="${{ steps.app-token.outputs.app-slug }}[bot]"
-        user_email="${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
-        echo "user_name=$user_name" >> "$GITHUB_OUTPUT"
-        echo "user_email=$user_email" >> "$GITHUB_OUTPUT"
-        git config --global user.name $user_name
-        git config --global user.email $user_email
+        echo "user_name=$GIT_USERNAME" >> "$GITHUB_OUTPUT"
+        echo "user_email=$GIT_EMAIL" >> "$GITHUB_OUTPUT"
+        git config --local user.name $GIT_USERNAME
+        git config --local user.email $GIT_EMAIL

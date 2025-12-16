@@ -28,7 +28,7 @@ jobs:
     timeout-minutes: 30
     outputs:
       semantic-version: ${{ steps.target-version.outputs.version }}
-      version-tag: ${{ steps.target-version.outputs.version_tag }}
+      version-tag: ${{ steps.target-version.outputs.version-tag }}
       changelog: ${{ steps.changelog.outputs.release }}
 
     steps:
@@ -94,7 +94,7 @@ jobs:
           fi
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "version_tag=v$VERSION" >> $GITHUB_OUTPUT
+          echo "version-tag=v$VERSION" >> $GITHUB_OUTPUT
 
       - name: Make changelog
         if: ${{ inputs.version-strategy != 'none' }}
@@ -120,28 +120,30 @@ jobs:
             package.json
             CHANGELOG.md
           message: |
-            version: bump version to ${{ steps.target-version.outputs.version }}
+            version: bump version to ${{ steps.target-version.outputs.version }} [skip ci]
 
             ${{ steps.changelog.outputs.release }}
 
       - name: Create Tag
         id: tagging
-        if: ${{ inputs.version-strategy != 'none' }}
         shell: bash
         env:
           GH_TOKEN: ${{ steps.setup-git.outputs.token }}
+          GH_USER_NAME: ${{ steps.setup-git.outputs.user-name }}
+          GH_USER_EMAIL: ${{ steps.setup-git.outputs.user-email }}
+          VERSION_TAG: ${{ steps.target-version.outputs.version-tag }}
         run: |
           gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             /repos/${{ github.repository }}/git/tags \
-            -f 'tag=${{ steps.target-version.outputs.version-tag }}' \
+            -f 'tag=$VERSION_TAG' \
             -f 'message="${{ steps.changelog.outputs.release }}"' \
             -f 'object=${{ steps.commit.outputs.commit }}' \
             -f 'type=commit' \
-            -f 'tagger[name]=${{ steps.setup-git.outputs.user_name }}' \
-            -f 'tagger[email]=${{ steps.setup-git.outputs.user_email }}' \
+            -f 'tagger[name]=$GH_USER_NAME' \
+            -f 'tagger[email]=$GH_USER_EMAIL' \
             -f 'tagger[date]='$(date --iso-8601=seconds)
 
           gh api \
@@ -149,7 +151,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             /repos/${{ github.repository }}/git/refs \
-            -f 'ref=refs/tags/${{ steps.target-version.outputs.version-tag }}' \
+            -f 'ref=refs/tags/$VERSION_TAG' \
             -f 'sha=${{ steps.commit.outputs.commit }}'
 
       - name: Create Artifact
@@ -194,7 +196,7 @@ jobs:
         uses: author/action-rollback@stable
         with:
           release_id: ${{ steps.create-release.outputs.id }}
-          tag: ${{ github.ref_name }}
+          tag: ${{ needs.generate_artifact.outputs.version-tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -218,7 +220,7 @@ jobs:
       - name: Make release name
         id: release-name
         run: |
-          echo "release=$(node ./utils/make-release-name.mjs --browser=${{ matrix.target }})" >> $GITHUB_OUTPUT
+          echo "name=$(node ./utils/make-release-name.mjs --browser=${{ matrix.target }})" >> $GITHUB_OUTPUT
 
       - name: Download Artifact
         id: download-artifact
@@ -234,7 +236,7 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
           # SENTRY_URL: https://sentry.io/
         with:
-          version: ${{ steps.release-name.outputs.release }}
+          version: ${{ steps.release-name.outputs.name }}
           url_prefix: '~/'
           environment: production
           sourcemaps: ${{ format('{0}/build/{1}', steps.download-artifact.outputs.download-path, matrix.target) }}
@@ -363,7 +365,7 @@ jobs:
           id: ${{ vars.FF_ADDON_ID_SELF_SIGN }}
           version: ${{ needs.generate_artifact.outputs.semantic-version }}
           url: ${{ steps.upload-xpi.outputs.browser_download_url }}
-          min-browser-version: '110.0'
+          min-browser-version: '111.0' # TODO: This should be parsed from browserlist config
           endpoint: ${{ secrets.GECKO_RELEASE_ENDPOINT }}
           api-key: ${{ secrets.RELEASE_API_KEY }}
 
