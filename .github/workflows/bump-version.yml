@@ -1,0 +1,153 @@
+name: Release
+
+concurrency:
+  group: ${{github.workflow}}-${{ github.ref }}
+  cancel-in-progress: false
+
+on:
+  workflow_dispatch:
+    inputs:
+      version-strategy:
+        description: 'Version bump strategy'
+        type: choice
+        required: true
+        options:
+          - patch
+          - minor
+          - major
+          - none
+
+env:
+  need-bump: ${{ inputs.version-strategy != 'none' }}
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+
+  bump-version:
+    name: bump-version
+    runs-on: ubuntu-latest
+    environment: release
+    needs: test
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup git
+        id: setup-git
+        uses: ./.github/actions/setup-git-as-bot
+        with:
+          app-id: ${{ vars.MH_BOT_APP_ID }}
+          app-private-key: ${{ secrets.MH_BOT_APP_PRIVATE_KEY }}
+
+      - name: Check env file
+        shell: bash
+        run: |
+          echo "${{ secrets.ENV_FILE }}" | base64 -d >> .env
+          if ! grep -q "DSN" .env; then
+            echo "error: DSN not found in .env file" >&2
+            exit 1
+          fi
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version: '22.x'
+          cache: 'yarn'
+          cache-dependency-path: '**/yarn.lock' # Cache all workspaces' yarn.lock
+
+      - name: Install Dependencies
+        run: yarn install --immutable
+
+      - name: Run check
+        # Since we run tests in the previous job, here we just run checks to ensure
+        # everything is fine before bumping version and creating changelog.
+        run: |
+          yarn check:all
+
+      - name: Bump version
+        id: version
+        run: |
+          OLD_VERSION=$(jq -r .version package.json)
+          if [ "${{ env.need-bump }}" != "true" ]; then
+            echo "No version bump needed" >&2
+            echo "old-version=$OLD_VERSION" >> $GITHUB_OUTPUT
+            echo "target-version=$OLD_VERSION" >> $GITHUB_OUTPUT
+            echo "target-version-tag=v$OLD_VERSION" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          yarn version ${{ inputs.version-strategy }}
+          NEW_VERSION=$(jq -r .version package.json)
+          echo "old-version=$OLD_VERSION" >> $GITHUB_OUTPUT
+          echo "target-version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "target-version-tag=v$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Make changelog
+        if: ${{ env.need-bump }}
+        id: changelog
+        run: |
+          yarn changelog --release ${{ steps.version.outputs.target-version }}
+
+          if [ $(yarn changelog --latest-release) != "${{ steps.version.outputs.target-version }}" ]; then
+            echo "Changelog generation failed, this might be due to lack of unreleased changes" >&2
+            exit 1
+          fi
+
+          CHAGELOG_CONTENT=$(yarn changelog --latest-release-full)
+          if [ -z "$CHAGELOG_CONTENT" ]; then
+            echo "Changelog content is empty" >&2
+            exit 1
+          fi
+          echo "content=$CHAGELOG_CONTENT" >> $GITHUB_OUTPUT
+
+      - name: Commit changes
+        if: ${{ env.need-bump }}
+        id: commit
+        uses: iarekylew00t/verified-bot-commit@v2
+        with:
+          token: ${{ steps.setup-git.outputs.token }}
+          files: |
+            package.json
+            CHANGELOG.md
+          message: |
+            version: bump version to ${{ steps.version.outputs.target-version }} [skip ci]
+
+      - name: Create Tag
+        id: tagging
+        shell: bash
+        env:
+          GH_TOKEN: ${{ steps.setup-git.outputs.token }}
+          GH_USER_NAME: ${{ steps.setup-git.outputs.user-name }}
+          GH_USER_EMAIL: ${{ steps.setup-git.outputs.user-email }}
+          VERSION_TAG: ${{ steps.version.outputs.target-version-tag }}
+        run: |
+          if [ "${{ inputs.version-strategy }}" = "none" ]; then
+            GIT_SHA=${{ github.sha }}
+          else
+            GIT_SHA=${{ steps.commit.outputs.commit }}
+          fi
+
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/${{ github.repository }}/git/tags \
+            -f "tag=$VERSION_TAG" \
+            -f "object=$GIT_SHA" \
+            -f "type=commit" \
+            -f "tagger[name]=$GH_USER_NAME" \
+            -f "tagger[email]=$GH_USER_EMAIL" \
+            -f "tagger[date]=$(date --iso-8601=seconds)"
+
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/${{ github.repository }}/git/refs \
+            -f "ref=refs/tags/$VERSION_TAG" \
+            -f "sha=$GIT_SHA"
