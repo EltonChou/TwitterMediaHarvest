@@ -1,628 +1,673 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (4.5.0)\n"
-"POT-Creation-Date: 2025-12-18 01:32+0800\n"
+"POT-Creation-Date: 2025-12-16 21:01+0800\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
 
 msgctxt "app"
 msgid "appDesc"
-msgstr ""
+msgstr "Скачивание видео и изображений с Twitter или TweetDeck в один клик."
 
 msgctxt "app"
 msgid "appName"
-msgstr ""
+msgstr "Media Harvest: X (Twitter) — загрузчик медиа"
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:304
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "{{count}} conflicted extension(s) detected."
-msgstr ""
+msgstr "Обнаружено {{count}} конфликтующих расширений."
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:339
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "All conflicted extensions have been disabled."
-msgstr ""
+msgstr "Все конфликтующие расширения были отключены."
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:279
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is aborted."
-msgstr ""
+msgstr "Диагностика прервана."
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:262
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is running..."
-msgstr ""
+msgstr "Запуск диагностики..."
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:319
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Disabling conflicted extensions..."
-msgstr ""
+msgstr "Отключение конфликтующих расширений..."
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:347
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Failed to disable conflicted extensions."
-msgstr ""
+msgstr "Не удалось отключить конфликтующие расширения."
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:309
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "No conflicted extensions found."
-msgstr ""
+msgstr "Конфликтующих расширений не найдено."
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:204
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Requesting management permission..."
-msgstr ""
+msgstr "Запрос прав управления..."
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:215
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Required permission (management) was not granted."
-msgstr ""
+msgstr "Не предоставлено необходимое разрешение (управление)."
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:302
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Scan completed. "
-msgstr ""
+msgstr "Сканирование завершено."
 
 #: src/helpers/notificationConfig.ts:125
 msgctxt "notification:download"
 msgid "API Rate limit exceeded."
-msgstr ""
+msgstr "Превышен лимит запросов API."
 
 #: src/helpers/notificationConfig.ts:72
 msgctxt "notification:download"
 msgid "Download failed"
-msgstr ""
+msgstr "Скачивание не удалось"
 
 #: src/helpers/notificationConfig.ts:65
 msgctxt "notification:download"
 msgid "Media in {{account}}({{tweet-id}}) download failed."
-msgstr ""
+msgstr "Скачивание медиа в аккаунте {{account}} ({{tweet-id}}) не удалось."
 
 #: src/helpers/notificationConfig.ts:124
 msgctxt "notification:download"
 msgid "Too many requests"
-msgstr ""
+msgstr "Слишком много запросов"
 
 #: src/helpers/notificationConfig.ts:209
 msgctxt "notification:filename"
-msgid "The filename is modified by other extensions, please check extensions' settings."
+msgid ""
+"The filename is modified by other extensions, please check extensions' "
+"settings."
 msgstr ""
+"Имя файла было изменено другими расширениями — проверьте настройки "
+"расширений."
 
 #: src/helpers/notificationConfig.ts:208
 msgctxt "notification:filename"
 msgid "WARNING: Filename is modified"
-msgstr ""
+msgstr "ПРЕДУПРЕЖДЕНИЕ: имя файла изменено"
 
 #: src/helpers/notificationButton.ts:32
 msgctxt "notification:filename:button"
 msgid "Diagnose"
-msgstr ""
+msgstr "Диагностика"
 
 #: src/helpers/notificationButton.ts:27
 msgctxt "notification:filename:button"
 msgid "Ignore"
-msgstr ""
+msgstr "Игнорировать"
 
 #: src/helpers/notificationConfig.ts:186
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information"
-msgstr ""
+msgstr "Не удалось распарсить данные твита"
 
 #: src/helpers/notificationConfig.ts:190
 msgctxt "notification:parseTweetInfo"
 msgid "Failed to parse tweet information. Please report bug to developer."
 msgstr ""
+"Не удалось распарсить данные твита. Пожалуйста, сообщите об ошибке "
+"разработчику."
 
 #: src/helpers/notificationConfig.ts:234
 msgctxt "notification:quota"
 msgid "Download Quota Warning"
-msgstr ""
+msgstr "Предупреждение: лимит загрузок"
 
 #: src/helpers/notificationConfig.ts:235
 msgctxt "notification:quota"
 msgid "Remaining quota: {{quota}}. Resets at {{time}}"
-msgstr ""
+msgstr "Осталось квоты: {{quota}}. Сброс в {{time}}"
 
 #: src/helpers/notificationButton.ts:19
 msgctxt "notification:tweet:button"
 msgid "Retry"
-msgstr ""
+msgstr "Повторить"
 
 #: src/helpers/notificationButton.ts:11
 msgctxt "notification:tweet:button"
 msgid "View"
-msgstr ""
+msgstr "Просмотреть"
 
 #: src/helpers/notificationConfig.ts:160
 msgctxt "notification:tweetFetch"
 msgid "Forbidden"
-msgstr ""
+msgstr "Доступ запрещён"
 
 #: src/helpers/notificationConfig.ts:148
 msgctxt "notification:tweetFetch"
 msgid "Please check your login session and your permission."
-msgstr ""
+msgstr "Проверьте сессию входа и права доступа."
 
 #: src/helpers/notificationConfig.ts:176
 msgctxt "notification:tweetFetch"
 msgid "Please contact with developer."
-msgstr ""
+msgstr "Свяжитесь с разработчиком."
 
 #: src/helpers/notificationConfig.ts:134
 msgctxt "notification:tweetFetch"
 msgid "The tweet cannot be found"
-msgstr ""
+msgstr "Твит не найден"
 
 #: src/helpers/notificationConfig.ts:135
 msgctxt "notification:tweetFetch"
 msgid "The tweet might be deleted."
-msgstr ""
+msgstr "Твит мог быть удалён."
 
 #: src/helpers/notificationConfig.ts:147
 msgctxt "notification:tweetFetch"
 msgid "Unauthorized"
-msgstr ""
+msgstr "Неавторизовано"
 
 #: src/helpers/notificationConfig.ts:173
 msgctxt "notification:tweetFetch"
 msgid "Unknown Error ({{code}})"
-msgstr ""
+msgstr "Неизвестная ошибка ({{code}})"
 
 #: src/helpers/notificationConfig.ts:161
 msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
-msgstr ""
+msgstr "Ваша сессия могла истечь — обновите страницу."
 
 #: src/pages/components/About.tsx:69
 msgctxt "options:about"
 msgid "Changelog"
-msgstr ""
+msgstr "Журнал изменений"
 
 #: src/pages/components/About.tsx:57
 msgctxt "options:about"
 msgid "Official website"
-msgstr ""
+msgstr "Официальный сайт"
 
 #: src/pages/components/About.tsx:61
 msgctxt "options:about"
 msgid "Privacy policy"
-msgstr ""
+msgstr "Политика конфиденциальности"
 
 #: src/pages/components/About.tsx:65
 msgctxt "options:about"
 msgid "Reoprt issues"
-msgstr ""
+msgstr "Сообщить об ошибке"
 
 #: src/pages/components/About.tsx:30
 msgctxt "options:about"
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
 #: src/pages/components/Diagnostics.tsx:60
 msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
-msgstr ""
+msgstr "Вы уверены, что хотите начать диагностику?"
 
 #: src/pages/components/Diagnostics.tsx:107
 msgctxt "options:diagnostics"
 msgid "Conflict Extensions"
-msgstr ""
+msgstr "Конфликтующие расширения"
 
 #: src/pages/components/Diagnostics.tsx:65
 msgctxt "options:diagnostics"
-msgid "Other extensions will be temporarily disabled during diagnositc, please ensure your working sessions have been saved."
+msgid ""
+"Other extensions will be temporarily disabled during diagnositc, please "
+"ensure your working sessions have been saved."
 msgstr ""
+"Во время диагностики другие расширения будут временно отключены; сохраните "
+"несохранённую работу."
 
 #: src/pages/components/Diagnostics.tsx:70
 msgctxt "options:diagnostics"
-msgid "This diagnostic might take few minutes to done, depends on how many extensions you installed."
+msgid ""
+"This diagnostic might take few minutes to done, depends on how many "
+"extensions you installed."
 msgstr ""
+"Диагностика может занять несколько минут в зависимости от количества "
+"установленных расширений."
 
 #: src/pages/components/Diagnostics.tsx:46
 msgctxt "options:diagnostics"
-msgid "This diagnostic will check your installed extensions that might conflict with this extension."
+msgid ""
+"This diagnostic will check your installed extensions that might conflict "
+"with this extension."
 msgstr ""
+"Диагностика проверит установленные расширения на предмет конфликтов с этим "
+"расширением."
 
 #: src/pages/components/FeatureOptions.tsx:43
 msgctxt "options:features"
 msgid "Auto-reveal sensitive content"
-msgstr ""
+msgstr "Автоматически показывать чувствительный контент"
 
 #: src/pages/components/FeatureOptions.tsx:61
 msgctxt "options:features"
 msgid "Download the thumbnail when the media is video."
-msgstr ""
+msgstr "Скачивать миниатюру, когда медиа — видео."
 
 #: src/pages/components/FeatureOptions.tsx:60
 msgctxt "options:features"
 msgid "Download video thumbnail"
-msgstr ""
+msgstr "Скачать миниатюру видео"
 
 #: src/pages/components/FeatureOptions.tsx:53
 msgctxt "options:features"
 msgid "Keyboard shortcut"
-msgstr ""
+msgstr "Горячая клавиша"
 
 #: src/pages/components/FeatureOptions.tsx:20
 msgctxt "options:features"
 msgid "Use keyboard shortcut to trigger download."
-msgstr ""
+msgstr "Использовать горячую клавишу для запуска загрузки."
 
 #: src/pages/components/FeatureOptions.tsx:44
 msgctxt "options:features"
-msgid "When the tweet was flagged as sensitive content, this feature can show the blured content automatically."
+msgid ""
+"When the tweet was flagged as sensitive content, this feature can show the "
+"blured content automatically."
 msgstr ""
+"Если твит помечен как чувствительный, эта функция может автоматически "
+"показать размытое содержимое."
 
 #: src/pages/components/FootBar.tsx:45
 msgctxt "options:footBar:button"
 msgid "Buy me a coffee"
-msgstr ""
+msgstr "Купить мне кофе"
 
 #: src/pages/components/FootBar.tsx:34
 msgctxt "options:footBar:button"
 msgid "Rate it"
-msgstr ""
+msgstr "Оценить"
 
 #: src/pages/components/FootBar.tsx:25
 msgctxt "options:footBar:text"
 msgid "Do you like Media Harvest?"
-msgstr ""
+msgstr "Вам нравится Media Harvest?"
 
 #: src/pages/components/FootBar.tsx:37
 msgctxt "options:footBar:text"
 msgid "or"
-msgstr ""
+msgstr "или"
 
 #: src/pages/components/GeneralOptions.tsx:227
 msgctxt "options:general"
 msgid "Ask where to save files."
-msgstr ""
+msgstr "Спрашивать, куда сохранять файлы."
 
 #: src/pages/components/GeneralOptions.tsx:275
 msgctxt "options:general"
 msgid "Create sub-directory"
-msgstr ""
+msgstr "Создать подпапку"
 
 #: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
-msgid "Create sub-directory under the default download directory. Sub-directory can be seperated with \"/\"."
+msgid ""
+"Create sub-directory under the default download directory. Sub-directory "
+"can be seperated with \"/\"."
 msgstr ""
+"Создать подпапку в каталоге загрузок по умолчанию. Подпапки разделяются "
+"символом \"/\"."
 
 #: src/pages/components/GeneralOptions.tsx:244
 msgctxt "options:general"
 msgid "Filename pattern"
-msgstr ""
+msgstr "Шаблон имени файла"
 
 #: src/pages/components/GeneralOptions.tsx:313
 msgctxt "options:general"
 msgid "Group Files"
-msgstr ""
+msgstr "Группировать файлы"
 
 #: src/pages/components/GeneralOptions.tsx:314
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
-msgstr ""
+msgstr "Группировать файлы по выбранному атрибуту."
 
 #: src/pages/hooks/useFilenameSettingsForm.ts:246
 msgctxt "options:general"
 msgid "Invalid directory name. Cannot contain <>:\"\\|?*"
-msgstr ""
+msgstr "Неверное имя папки. Не может содержать <>:\"\\|?*"
 
 #: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
 msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
-msgstr ""
+msgstr "Неверный шаблон. Шаблон должен включать `Tweet ID` + `Serial` или `Hash`."
 
 #: src/pages/components/GeneralOptions.tsx:228
 msgctxt "options:general"
-msgid "Show the file chooser or not when download is triggered. Recommend to disable this option."
+msgid ""
+"Show the file chooser or not when download is triggered. Recommend to "
+"disable this option."
 msgstr ""
+"Показывать диалог выбора файла при запуске загрузки. Рекомендуется "
+"отключить."
 
 #: src/pages/components/GeneralOptions.tsx:245
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
-msgstr ""
+msgstr "Выберите, какую информацию включать в имя файла."
 
 #: src/pages/components/GeneralOptions.tsx:397
 msgctxt "options:general:button"
 msgid "Reset"
-msgstr ""
+msgstr "Сброс"
 
 #: src/pages/components/GeneralOptions.tsx:405
 msgctxt "options:general:button"
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: src/pages/components/GeneralOptions.tsx:322
 #: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"
-msgstr ""
+msgstr "Аккаунт"
 
 #: src/pages/components/GeneralOptions.tsx:60
 msgctxt "options:general:filenameToken"
 msgid "Account ID"
-msgstr ""
+msgstr "ID аккаунта"
 
 #: src/pages/components/GeneralOptions.tsx:80
 msgctxt "options:general:filenameToken"
 msgid "Download Date"
-msgstr ""
+msgstr "Дата загрузки"
 
 #: src/pages/components/GeneralOptions.tsx:85
 msgctxt "options:general:filenameToken"
 msgid "Download Datetime"
-msgstr ""
+msgstr "Дата и время загрузки"
 
 #: src/pages/components/GeneralOptions.tsx:95
 msgctxt "options:general:filenameToken"
 msgid "Download Timestamp"
-msgstr ""
+msgstr "Метка времени загрузки"
 
 #: src/pages/components/GeneralOptions.tsx:90
 msgctxt "options:general:filenameToken"
 msgid "Download_Datetime"
-msgstr ""
+msgstr "Загрузка_ДатаВремя"
 
 #: src/pages/components/GeneralOptions.tsx:70
 msgctxt "options:general:filenameToken"
 msgid "Hash"
-msgstr ""
+msgstr "Hash"
 
 #: src/pages/components/GeneralOptions.tsx:75
 msgctxt "options:general:filenameToken"
 msgid "Serial"
-msgstr ""
+msgstr "Серийный номер"
 
 #: src/pages/components/GeneralOptions.tsx:100
 msgctxt "options:general:filenameToken"
 msgid "Tweet Date"
-msgstr ""
+msgstr "Дата твита"
 
 #: src/pages/components/GeneralOptions.tsx:105
 msgctxt "options:general:filenameToken"
 msgid "Tweet Datetime"
-msgstr ""
+msgstr "Дата и время твита"
 
 #: src/pages/components/GeneralOptions.tsx:65
 msgctxt "options:general:filenameToken"
 msgid "Tweet ID"
-msgstr ""
+msgstr "ID твита"
 
 #: src/pages/components/GeneralOptions.tsx:115
 msgctxt "options:general:filenameToken"
 msgid "Tweet Timestamp"
-msgstr ""
+msgstr "Метка времени твита"
 
 #: src/pages/components/GeneralOptions.tsx:110
 msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
-msgstr ""
+msgstr "Твит_ДатаВремя"
 
 #: src/pages/components/History.tsx:545
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
-msgstr ""
+msgstr "Вы уверены, что хотите импортировать этот файл истории?"
 
 #: src/pages/components/History.tsx:527
 msgctxt "options:history"
-msgid "Cannot access the selected file. Please grant permission to read the file and try again."
+msgid ""
+"Cannot access the selected file. Please grant permission to read the file "
+"and try again."
 msgstr ""
+"Не удаётся получить доступ к выбранному файлу. Разрешите чтение файла и "
+"повторите попытку."
 
 #: src/pages/components/History.tsx:359
 #: src/pages/components/History.tsx:364
 msgctxt "options:history"
 msgid "Export"
-msgstr ""
+msgstr "Экспорт"
 
 #: src/pages/components/History.tsx:695
 msgctxt "options:history"
 msgid "Failed to export file."
-msgstr ""
+msgstr "Не удалось экспортировать файл."
 
 #: src/pages/components/History.tsx:558
 msgctxt "options:history"
 msgid "Failed to import file."
-msgstr ""
+msgstr "Не удалось импортировать файл."
 
 #: src/pages/components/History.tsx:351
 #: src/pages/components/History.tsx:356
 msgctxt "options:history"
 msgid "Import"
-msgstr ""
+msgstr "Импорт"
 
 #: src/pages/components/History.tsx:555
 msgctxt "options:history"
 msgid "Invalid format."
-msgstr ""
+msgstr "Неверный формат."
 
 #: src/pages/components/History.tsx:317
 msgctxt "options:history"
 msgid "Next page"
-msgstr ""
+msgstr "Следующая страница"
 
 #: src/pages/components/History.tsx:307
 msgctxt "options:history"
 msgid "Previous page"
-msgstr ""
+msgstr "Предыдущая страница"
 
 #: src/pages/components/History.tsx:333
 msgctxt "options:history"
 msgid "Refresh"
-msgstr ""
+msgstr "Обновить"
 
 #: src/pages/components/History.tsx:563
 msgctxt "options:history"
 msgid "The history file has been imported successfully."
-msgstr ""
+msgstr "Файл истории успешно импортирован."
 
 #: src/pages/components/History.tsx:412
 msgctxt "options:history:input:placeholder"
 msgid "Username"
-msgstr ""
+msgstr "Имя пользователя"
 
 #: src/pages/components/History.tsx:158
 msgctxt "options:history:mediaType"
 msgid "Image"
-msgstr ""
+msgstr "Изображение"
 
 #: src/pages/components/History.tsx:164
 #: src/pages/components/History.tsx:167
 msgctxt "options:history:mediaType"
 msgid "Mixed"
-msgstr ""
+msgstr "Смешанный"
 
 #: src/pages/components/History.tsx:161
 msgctxt "options:history:mediaType"
 msgid "Video"
-msgstr ""
+msgstr "Видео"
 
 #: src/pages/components/History.tsx:427
 msgctxt "options:history:mediaType:option"
 msgid "All"
-msgstr ""
+msgstr "Все"
 
 #: src/pages/components/History.tsx:430
 msgctxt "options:history:mediaType:option"
 msgid "Image"
-msgstr ""
+msgstr "Изображение"
 
 #: src/pages/components/History.tsx:436
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
-msgstr ""
+msgstr "Смешанный"
 
 #: src/pages/components/History.tsx:433
 msgctxt "options:history:mediaType:option"
 msgid "Video"
-msgstr ""
+msgstr "Видео"
 
 #: src/pages/components/History.tsx:419
 msgctxt "options:history:select"
 msgid "Select media type"
-msgstr ""
+msgstr "Выберите тип медиа"
 
 #: src/pages/components/History.tsx:231
 msgctxt "options:history:table:head"
 msgid "actions"
-msgstr ""
+msgstr "Действия"
 
 #: src/pages/components/History.tsx:230
 msgctxt "options:history:table:head"
 msgid "download time"
-msgstr ""
+msgstr "Время загрузки"
 
 #: src/pages/components/History.tsx:229
 msgctxt "options:history:table:head"
 msgid "post time"
-msgstr ""
+msgstr "Время публикации"
 
 #: src/pages/components/History.tsx:226
 msgctxt "options:history:table:head"
 msgid "thumbnail"
-msgstr ""
+msgstr "Эскиз"
 
 #: src/pages/components/History.tsx:228
 msgctxt "options:history:table:head"
 msgid "type"
-msgstr ""
+msgstr "Тип"
 
 #: src/pages/components/History.tsx:227
 msgctxt "options:history:table:head"
 msgid "user"
-msgstr ""
+msgstr "Пользователь"
 
 #: src/pages/components/IntegrationOptions.tsx:20
 msgctxt "options:integrations"
 msgid "Aria2-Explorer"
-msgstr ""
+msgstr "Aria2-Explorer"
 
 #: src/pages/components/IntegrationOptions.tsx:88
 msgctxt "options:integrations"
 msgid "Dispatch download to Aria2"
-msgstr ""
+msgstr "Передать загрузку в Aria2"
 
 #: src/pages/components/IntegrationOptions.tsx:76
 msgctxt "options:integrations"
 msgid "Filename Detector"
-msgstr ""
+msgstr "Детектор имени файла"
 
 #: src/pages/components/IntegrationOptions.tsx:77
 msgctxt "options:integrations"
-msgid "The detector can notify user when the filename is modified by other extensions."
+msgid ""
+"The detector can notify user when the filename is modified by other "
+"extensions."
 msgstr ""
+"Детектор может уведомлять пользователя, когда имя файла изменяется другими "
+"расширениями."
 
 #: src/pages/components/IntegrationOptions.tsx:65
 msgctxt "options:integrations"
 msgid "This integration is not compatible with {{platform}}"
-msgstr ""
+msgstr "Эта интеграция несовместима с {{platform}}"
 
 #: src/pages/components/IntegrationOptions.tsx:21
 msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
-msgstr ""
+msgstr "Перенести загрузку в Aria2 через {{aria2-extension}}."
 
 #: src/pages/app/Options.tsx:158
 #: src/pages/components/SideMenu.tsx:87
 msgctxt "options:sideMenu"
 msgid "About"
-msgstr ""
+msgstr "О программе"
 
 #: src/pages/app/Options.tsx:166
 #: src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "Diagnostics"
-msgstr ""
+msgstr "Диагностика"
 
 #: src/pages/app/Options.tsx:116
 #: src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
-msgstr ""
+msgstr "Функции"
 
 #: src/pages/app/Options.tsx:105
 #: src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
-msgstr ""
+msgstr "Общие"
 
 #: src/pages/app/Options.tsx:136
 #: src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
-msgstr ""
+msgstr "История"
 
 #: src/pages/app/Options.tsx:124
 #: src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
-msgstr ""
+msgstr "Интеграции"
 
 #: src/pages/components/PopupFeatureBlock.tsx:40
 msgctxt "popup"
 msgid "Auto-reveal NSFW"
-msgstr ""
+msgstr "Автоматически показывать чувствительный контент"
 
 #: src/pages/app/Popup.tsx:216
 msgctxt "popup"
 msgid "Buy me a coffee!"
-msgstr ""
+msgstr "Купи мне кофе!"
 
 #: src/pages/app/Popup.tsx:198
 msgctxt "popup"
 msgid "Changelog"
-msgstr ""
+msgstr "Журнал изменений"
 
 #: src/pages/app/Popup.tsx:129
 msgctxt "popup"
 msgid "Rate it"
-msgstr ""
+msgstr "Оценить"
 
 #: src/pages/app/Popup.tsx:136
 msgctxt "popup"
 msgid "Report issues"
-msgstr ""
+msgstr "Сообщить об ошибке"
 
 #: src/pages/components/PopupFeatureBlock.tsx:45
 msgctxt "popup"
 msgid "Video thumbnail"
-msgstr ""
+msgstr "Эскиз видео"

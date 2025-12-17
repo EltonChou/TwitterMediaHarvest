@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: twitter-media-harvest (4.4.4)\n"
-"POT-Creation-Date: 2025-12-16 20:50+0800\n"
+"Project-Id-Version: twitter-media-harvest (4.5.0)\n"
+"POT-Creation-Date: 2025-12-16 21:01+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -19,17 +19,17 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : X (twitter) 多媒體下載器"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:307
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:304
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "{{count}} conflicted extension(s) detected."
 msgstr "偵測到 {{count}} 個衝突的擴充功能。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:342
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:339
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "All conflicted extensions have been disabled."
 msgstr "所有衝突的擴充功能已被停用。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:282
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:279
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is aborted."
 msgstr "診斷已中止。"
@@ -39,17 +39,17 @@ msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is running..."
 msgstr "診斷進行中..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:322
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:319
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Disabling conflicted extensions..."
 msgstr "正在停用衝突的擴充功能..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:350
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:347
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Failed to disable conflicted extensions."
 msgstr "無法停用衝突的擴充功能。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:312
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:309
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "No conflicted extensions found."
 msgstr "未發現衝突的擴充功能。"
@@ -64,7 +64,7 @@ msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Required permission (management) was not granted."
 msgstr "無法取得所需的權限(管理)。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:305
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:302
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Scan completed. "
 msgstr "掃描已完成。"
@@ -304,7 +304,7 @@ msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
 "can be seperated with \"/\"."
-msgstr "在預設下載資料夾中新增一個子資料夾。使用 ”/” 區分多個子資料夾。"
+msgstr "在預設下載資料夾中新增一個子資料夾。使用 \"/\" 區分多個子資料夾。"
 
 #: src/pages/components/GeneralOptions.tsx:244
 msgctxt "options:general"
@@ -324,7 +324,7 @@ msgstr "使用選擇的屬性群組檔案。"
 #: src/pages/hooks/useFilenameSettingsForm.ts:246
 msgctxt "options:general"
 msgid "Invalid directory name. Cannot contain <>:\"\\|?*"
-msgstr "無效的資料夾名稱。不能含有 <>:”\\|?*"
+msgstr "無效的資料夾名稱。不能含有 <>:\"\\|?*"
 
 #: src/pages/hooks/useFilenameSettingsForm.ts:287
 msgctxt "options:general"
