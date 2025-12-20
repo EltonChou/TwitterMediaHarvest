@@ -1946,7 +1946,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.8.4":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.26.10, @babel/runtime@npm:^7.8.4":
   version: 7.28.4
   resolution: "@babel/runtime@npm:7.28.4"
   checksum: 10c0/792ce7af9750fb9b93879cc9d1db175701c4689da890e6ced242ea0207c9da411ccf16dc04e689cc01158b28d7898c40d75598f4559109f761c12ce01e959bf7
@@ -13292,6 +13292,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.26.0"
     "@babel/preset-react": "npm:^7.26.3"
     "@babel/preset-typescript": "npm:^7.26.0"
+    "@babel/runtime": "npm:^7.26.10"
     "@chakra-ui/icons": "npm:2.2.4"
     "@chakra-ui/react": "npm:~2.10.4"
     "@dnd-kit/core": "npm:^6.3.1"
@@ -13349,6 +13350,7 @@ __metadata:
     framer-motion: "npm:^11.16.1"
     gettext-extractor: "npm:^3.8.0"
     gettext-parser: "npm:^8.0.0"
+    glob: "npm:^11.1.0"
     globals: "npm:^15.14.0"
     husky: "npm:^9.1.7"
     idb: "npm:^8.0.1"
