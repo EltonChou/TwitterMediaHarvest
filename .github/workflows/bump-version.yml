@@ -1,4 +1,4 @@
-name: Release
+name: Bump Version
 
 concurrency:
   group: ${{github.workflow}}-${{ github.ref }}
