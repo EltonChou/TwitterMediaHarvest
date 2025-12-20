@@ -91,11 +91,8 @@ jobs:
         if: ${{ env.need-bump }}
         id: changelog
         run: |
-          yarn changelog --release ${{ steps.version.outputs.target-version }}
-
           if [ $(yarn changelog --latest-release) != "${{ steps.version.outputs.target-version }}" ]; then
-            echo "Changelog generation failed, this might be due to lack of unreleased changes" >&2
-            exit 1
+            yarn changelog --release ${{ steps.version.outputs.target-version }}
           fi
 
           CHAGELOG_CONTENT=$(yarn changelog --latest-release-full)
