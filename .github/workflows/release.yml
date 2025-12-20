@@ -1,33 +1,25 @@
 name: Release
 
 concurrency:
-  group: ${{github.workflow}}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
 on:
-  workflow_dispatch:
-    inputs:
-      version-strategy:
-        description: 'Version bump strategy'
-        type: choice
-        required: true
-        options:
-          - patch
-          - minor
-          - major
-          - none
+  push:
+    tags:
+      - 'v*.*.*'
 
 env:
-  artifact_name: pkg-${{ github.run_id }}
+  artifact-prefix: pkg-${{ github.run_id }}
 
 jobs:
-  generate_artifact:
-    name: Generate Artifact
+  release-metadata:
+    name: Define Release Metadata
     runs-on: ubuntu-latest
     environment: release
     timeout-minutes: 30
     outputs:
-      semantic-version: ${{ steps.target-version.outputs.version }}
+      version: ${{ steps.target-version.outputs.version }}
       version-tag: ${{ steps.target-version.outputs.version-tag }}
       changelog: ${{ steps.changelog.outputs.release }}
 
@@ -42,15 +34,6 @@ jobs:
         with:
           app-id: ${{ vars.MH_BOT_APP_ID }}
           app-private-key: ${{ secrets.MH_BOT_APP_PRIVATE_KEY }}
-
-      - name: Check env file
-        shell: bash
-        run: |
-          echo "${{ secrets.ENV_FILE }}" | base64 -d >> .env
-          if ! grep -q "DSN" .env; then
-            echo "error: DSN not found in .env file" >&2
-            exit 1
-          fi
 
       - name: Enable corepack
         run: corepack enable
@@ -71,35 +54,13 @@ jobs:
           yarn ci:all
           yarn check:all
 
-      - name: Bump version
-        if: ${{ inputs.version-strategy != 'none' }}
-        id: bump-version
-        run: |
-          OLD_VERSION=$(jq -r .version package.json)
-          yarn version ${{ inputs.version-strategy }}
-          NEW_VERSION=$(jq -r .version package.json)
-          echo "old_version=$OLD_VERSION" >> $GITHUB_OUTPUT
-          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
-
       - name: Confirm version
         id: target-version
         shell: bash
         run: |
-          if [ "${{ inputs.version-strategy }}" = "none" ]; then
-            VERSION=$(jq -r .version package.json)
-            echo "No version bump selected, using existing version $VERSION"
-          else
-            VERSION=${{ steps.bump-version.outputs.new_version }}
-            echo "Bumped version to $VERSION"
-          fi
-
+          VERSION=$(jq -r .version package.json)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "version-tag=v$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Make changelog
-        if: ${{ inputs.version-strategy != 'none' }}
-        run: |
-          yarn changelog --release ${{ steps.target-version.outputs.version }}
 
       - name: Extract Changelog
         id: changelog
@@ -107,110 +68,108 @@ jobs:
         with:
           version: ${{ steps.target-version.outputs.version }}
 
-      - name: Build
-        run: yarn build:all
+  build:
+    name: Build (${{matrix.browser}})
+    needs: release-metadata
+    runs-on: ubuntu-latest
+    environment: release
+    strategy:
+      matrix:
+        node-version: [22.x]
+        browser: [chrome, edge, firefox]
+    steps:
+      - uses: actions/checkout@v4
 
-      - name: Commit changes
-        id: commit
-        if: ${{ inputs.version-strategy != 'none' }}
-        uses: iarekylew00t/verified-bot-commit@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          token: ${{ steps.setup-git.outputs.token }}
-          files: |
-            package.json
-            CHANGELOG.md
-          message: |
-            version: bump version to ${{ steps.target-version.outputs.version }} [skip ci]
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
 
-            ${{ steps.changelog.outputs.release }}
+      - name: Set yarn version
+        run: yarn set version 4.9.1
 
-      - name: Create Tag
-        id: tagging
+      - name: Check env file
         shell: bash
-        env:
-          GH_TOKEN: ${{ steps.setup-git.outputs.token }}
-          GH_USER_NAME: ${{ steps.setup-git.outputs.user-name }}
-          GH_USER_EMAIL: ${{ steps.setup-git.outputs.user-email }}
-          VERSION_TAG: ${{ steps.target-version.outputs.version-tag }}
         run: |
-          if [ "${{ inputs.version-strategy }}" = "none" ]; then
-            GIT_SHA=${{ github.sha }}
-          else
-            GIT_SHA=${{ steps.commit.outputs.commit }}
+          echo "${{ secrets.ENV_FILE }}" | base64 -d >> .env
+          if ! grep -q "DSN" .env; then
+            echo "error: DSN not found in .env file" >&2
+            exit 1
           fi
 
-          gh api \
-            --method POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            /repos/${{ github.repository }}/git/tags \
-            -f "tag=$VERSION_TAG" \
-            -f 'message="${{ steps.changelog.outputs.release }}"' \
-            -f "object=$GIT_SHA" \
-            -f "type=commit" \
-            -f "tagger[name]=$GH_USER_NAME" \
-            -f "tagger[email]=$GH_USER_EMAIL" \
-            -f "tagger[date]=$(date --iso-8601=seconds)"
+      - name: Build ${{ matrix.browser }}
+        run: |
+          yarn install --immutable
+          yarn check-envfile
+          yarn build:tools
 
-          gh api \
-            --method POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            /repos/${{ github.repository }}/git/refs \
-            -f "ref=refs/tags/$VERSION_TAG" \
-            -f "sha=$GIT_SHA"
+          if [ "${{ matrix.browser }}" = "chrome" ]; then
+            yarn build:chrome:all
+          elif [ "${{ matrix.browser }}" = "edge" ]; then
+            yarn build:edge:all
+          elif [ "${{ matrix.browser }}" = "firefox" ]; then
+            yarn build:firefox:all:self-sign
+          fi
 
-      - name: Create Artifact
+      - name: Archive Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.artifact_name }}
+          name: ${{ env.artifact-prefix }}-${{ matrix.browser}}
           path: |
             dist/
             build/
           if-no-files-found: error
           retention-days: 7
 
-  github_release:
+  github-release:
     name: Create Github Release
     environment: release
     runs-on: ubuntu-latest
-    needs: generate_artifact
+    needs:
+      - release-metadata
+      - build
     outputs:
       release-id: ${{ steps.create-release.outputs.id }}
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download Artifact
-        id: download-artifact
-        uses: actions/download-artifact@v4
+      - name: Download All Artifacts
+        id: artifact
+        uses: actions/download-artifact@v7
         with:
-          name: ${{ env.artifact_name }}
+          pattern: ${{ env.artifact-prefix }}-*
+          path: ${{ github.workspace }}/artifacts
+          merge-multiple: true
 
       - name: Create Repository Release
         id: create-release
         uses: ncipollo/release-action@v1
         with:
-          name: 'TwitterMediaHarvest ${{ needs.generate_artifact.outputs.version-tag }}'
-          artifacts: ${{ format('{0}/dist/*.zip,{0}/dist/*.xpi', steps.download-artifact.outputs.download-path) }}
+          name: 'TwitterMediaHarvest ${{ needs.release-metadata.outputs.version-tag }}'
+          artifacts: ${{ format('{0}/dist/*.zip,{0}/dist/*.xpi', steps.artifact.outputs.download-path) }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          body: ${{ needs.generate_artifact.outputs.changelog }}
-          tag: ${{ needs.generate_artifact.outputs.version-tag }}
+          body: ${{ needs.release-metadata.outputs.changelog }}
+          tag: ${{ needs.release-metadata.outputs.version-tag }}
 
       - name: Rollback Release
         if: failure() && steps.create-release.outputs.id != ''
         uses: author/action-rollback@stable
         with:
           release_id: ${{ steps.create-release.outputs.id }}
-          tag: ${{ needs.generate_artifact.outputs.version-tag }}
+          tag: ${{ needs.release-metadata.outputs.version-tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  sentry_release:
+  sentry-release:
     name: Create Sentry Release
     environment: release
     runs-on: ubuntu-latest
-    needs: generate_artifact
+    needs:
+      - release-metadata
+      - build
+      - github-release
     strategy:
       matrix:
         target: ['chrome', 'edge', 'firefox']
@@ -230,9 +189,9 @@ jobs:
 
       - name: Download Artifact
         id: download-artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
-          name: ${{ env.artifact_name }}
+          name: ${{ env.artifact-prefix }}-${{ matrix.target }}
 
       - name: Create Sentry release for ${{ matrix.target }}
         uses: getsentry/action-release@v1
@@ -252,22 +211,24 @@ jobs:
     environment: release
     runs-on: ubuntu-latest
     needs:
-      - generate_artifact
-      - sentry_release
+      - release-metadata
+      - build
+      - github-release
+      - sentry-release
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Download Artifact
-        id: download_artifact
-        uses: actions/download-artifact@v4
+        id: download-artifact
+        uses: actions/download-artifact@v7
         with:
-          name: ${{ env.artifact_name }}
+          name: ${{ env.artifact-prefix }}-chrome
 
       - name: Get file path
         id: get_filepath
         run: |
-          echo "zip_file=$(ls ${{ steps.download_artifact.outputs.download-path }}/dist/*chrome*)" >> $GITHUB_OUTPUT
+          echo "zip_file=$(ls ${{ steps.download-artifact.outputs.download-path }}/dist/*chrome*)" >> $GITHUB_OUTPUT
 
       - name: Publish to Chrome Web Store
         uses: mobilefirstllc/cws-publish@latest
@@ -279,54 +240,18 @@ jobs:
           extension_id: hpcgabhdlnapolkkjpejieegfpehfdok
           zip_file: ${{ steps.get_filepath.outputs.zip_file }}
 
-  # firefox_release:
-  #   name: Release to Firefox Addons Store
-  #   runs-on: ubuntu-latest
-  #   environment: release
-  #   needs:
-  #     - generate_artifact
-  #     - sentry_release
-
-  #   steps:
-  #     - uses: actions/checkout@v3
-
-  #     - name: Download Artifact
-  #       id: download_artifact
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: ${{ env.artifact_name }}
-
-  #     - name: Get file path
-  #       id: get_filepath
-  #       run: |
-  #         echo "zip_file=$(ls ${{ steps.download_artifact.outputs.download-path }}/dist/*firefox*)" >> $GITHUB_OUTPUT
-
-  #     - name: Archive source code
-  #       id: archive_source_code
-  #       run: |
-  #         ZIP_NAME=source.zip
-  #         git archive --format zip --add-file .env -o $ZIP_NAME HEAD
-  #         echo "zip_file=$ZIP_NAME" >> $GITHUB_OUTPUT
-
-  #     - name: Upload to Firefox addons store
-  #       uses: cardinalby/webext-buildtools-firefox-addons-action@v1
-  #       with:
-  #         zipFilePath: ${{ steps.get_filepath.outputs.zip_file }}
-  #         extensionId: 'mediaharvest@addons.mozilla.org'
-  #         jwtIssuer: ${{ secrets.FF_JWT_ISSUER }}
-  #         jwtSecret: ${{ secrets.FF_JWT_SECRET }}
-  #         sourcesZipFilePath: ${{ steps.archive_source_code.outputs.zip_file }}
-
-  xpi_release:
+  xpi-release:
     name: XPI Release
     runs-on: ubuntu-latest
     environment: release
     needs:
-      - github_release
-      - generate_artifact
+      - release-metadata
+      - build
+      - github-release
+      - sentry-release
 
     env:
-      XPI_NAME: ${{ vars.FF_ADDON_ID_SELF_SIGN }}-${{ needs.generate_artifact.outputs.version-tag }}.xpi
+      XPI_NAME: ${{ vars.FF_ADDON_ID_SELF_SIGN }}-${{ needs.release-metadata.outputs.version-tag }}.xpi
 
     steps:
       - uses: actions/checkout@v5
@@ -340,9 +265,9 @@ jobs:
 
       - name: Download Artifact
         id: artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
-          name: ${{ env.artifact_name }}
+          name: ${{ env.artifact-prefix }}-firefox
 
       - name: Sign Firefox xpi
         continue-on-error: true
@@ -363,13 +288,13 @@ jobs:
         with:
           file: dist/${{ env.XPI_NAME }}
           asset_name: ${{ env.XPI_NAME }}
-          release_id: ${{ needs.github_release.outputs.release-id }}
+          release_id: ${{ needs.github-release.outputs.release-id }}
 
       - name: Create Gecko Release
         uses: ./.github/actions/create-gecko-release
         with:
           id: ${{ vars.FF_ADDON_ID_SELF_SIGN }}
-          version: ${{ needs.generate_artifact.outputs.semantic-version }}
+          version: ${{ needs.release-metadata.outputs.version }}
           url: ${{ steps.upload-xpi.outputs.browser_download_url }}
           min-browser-version: '111.0' # TODO: This should be parsed from browserlist config
           endpoint: ${{ secrets.GECKO_RELEASE_ENDPOINT }}
@@ -380,17 +305,19 @@ jobs:
     runs-on: ubuntu-latest
     environment: release
     needs:
-      - generate_artifact
-      - sentry_release
+      - release-metadata
+      - build
+      - github-release
+      - sentry-release
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Download Artifact
         id: download-artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
-          name: ${{ env.artifact_name }}
+          name: ${{ env.artifact-prefix }}-edge
 
       - name: Get file path
         id: get-filepath
