@@ -55,6 +55,8 @@ jobs:
         run: yarn set version 4.9.1
 
       - name: Run lint and tests
+        env:
+          YARN_ENABLE_IMMUTABLE_INSTALLS: ${{ github.event.pull_request.user.login != 'dependabot[bot]' }}
         run: |
           yarn install --immutable
           yarn lint
@@ -90,6 +92,8 @@ jobs:
           name: env-file
 
       - name: Build ${{ matrix.browser }}
+        env:
+          YARN_ENABLE_IMMUTABLE_INSTALLS: ${{ github.event.pull_request.user.login != 'dependabot[bot]' }}
         run: |
           yarn install --immutable
           yarn check-envfile
