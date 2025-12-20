@@ -103,7 +103,6 @@ jobs:
             echo "Changelog content is empty" >&2
             exit 1
           fi
-          echo "content=$CHAGELOG_CONTENT" >> $GITHUB_OUTPUT
 
       - name: Commit changes
         if: ${{ env.need-bump }}
