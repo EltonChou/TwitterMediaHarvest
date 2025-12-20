@@ -66,6 +66,15 @@ jobs:
         if: steps.validate-tag.outputs.should-release == 'true'
         run: yarn install --immutable
 
+      - name: Check env file
+        shell: bash
+        run: |
+          echo "${{ secrets.ENV_FILE }}" | base64 -d >> .env
+          if ! grep -q "DSN" .env; then
+            echo "error: DSN not found in .env file" >&2
+            exit 1
+          fi
+
       - name: Run Tests
         if: steps.validate-tag.outputs.should-release == 'true'
         run: |
