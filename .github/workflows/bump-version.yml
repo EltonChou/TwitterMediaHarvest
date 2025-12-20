@@ -141,7 +141,8 @@ jobs:
             -f "type=commit" \
             -f "tagger[name]=$GH_USER_NAME" \
             -f "tagger[email]=$GH_USER_EMAIL" \
-            -f "tagger[date]=$(date --iso-8601=seconds)"
+            -f "tagger[date]=$(date --iso-8601=seconds)" \
+            -f "message=version bumped by github workflow (${{ github.run_id}})"
 
           gh api \
             --method POST \
