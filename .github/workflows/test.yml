@@ -58,7 +58,7 @@ jobs:
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: ${{ github.event.pull_request.user.login != 'dependabot[bot]' }}
         run: |
-          yarn install --immutable
+          yarn install
           yarn lint
           yarn ci:all
           yarn check-locales
@@ -95,7 +95,7 @@ jobs:
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: ${{ github.event.pull_request.user.login != 'dependabot[bot]' }}
         run: |
-          yarn install --immutable
+          yarn install
           yarn check-envfile
           yarn build:tools
 
