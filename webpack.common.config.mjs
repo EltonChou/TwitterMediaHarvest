@@ -108,7 +108,7 @@ export default (env, argv) => {
         __RRWEB_EXCLUDE_SHADOW_DOM__: true,
         __SENTRY_EXCLUDE_REPLAY_WORKER__: true,
         __LOGGING__: argv.mode === 'development',
-        __METRICS__: argv.mode === 'development',
+        __METRICS__: true,
       }),
     ],
   })
