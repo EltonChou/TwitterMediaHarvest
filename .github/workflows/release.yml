@@ -5,6 +5,7 @@ concurrency:
   cancel-in-progress: false
 
 on:
+  create:
   push:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+' # Matches semantic version tags like v1.2.3
@@ -22,13 +23,27 @@ jobs:
       version: ${{ steps.target-version.outputs.version }}
       version-tag: ${{ steps.target-version.outputs.version-tag }}
       changelog: ${{ steps.changelog.outputs.release }}
+      should-release: ${{ steps.validate-tag.outputs.should-release }}
 
     steps:
+      - name: Validate semantic version tag
+        id: validate-tag
+        run: |
+          if [[ "${{ github.ref_type }}" == "tag" ]] && [[ "${{ github.ref_name }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "should-release=true" >> $GITHUB_OUTPUT
+            echo "Valid semantic version tag: ${{ github.ref_name }}"
+          else
+            echo "should-release=false" >> $GITHUB_OUTPUT
+            echo "Not a semantic version tag, skipping release"
+          fi
+
       - uses: actions/checkout@v5
+        if: steps.validate-tag.outputs.should-release == 'true'
         with:
           fetch-depth: 0
 
       - name: Setup git
+        if: steps.validate-tag.outputs.should-release == 'true'
         id: setup-git
         uses: ./.github/actions/setup-git-as-bot
         with:
@@ -36,9 +51,11 @@ jobs:
           app-private-key: ${{ secrets.MH_BOT_APP_PRIVATE_KEY }}
 
       - name: Enable corepack
+        if: steps.validate-tag.outputs.should-release == 'true'
         run: corepack enable
 
       - name: Setup Node.js
+        if: steps.validate-tag.outputs.should-release == 'true'
         uses: actions/setup-node@v4.4.0
         with:
           node-version: '22.x'
@@ -46,15 +63,18 @@ jobs:
           cache-dependency-path: '**/yarn.lock' # Cache all workspaces' yarn.lock
 
       - name: Install Dependencies
+        if: steps.validate-tag.outputs.should-release == 'true'
         run: yarn install --immutable
 
       - name: Run Tests
+        if: steps.validate-tag.outputs.should-release == 'true'
         run: |
           yarn lint
           yarn ci:all
           yarn check:all
 
       - name: Confirm version
+        if: steps.validate-tag.outputs.should-release == 'true'
         id: target-version
         shell: bash
         run: |
@@ -63,6 +83,7 @@ jobs:
           echo "version-tag=v$VERSION" >> $GITHUB_OUTPUT
 
       - name: Extract Changelog
+        if: steps.validate-tag.outputs.should-release == 'true'
         id: changelog
         uses: zogot/kacl-parser@1.0.0
         with:
@@ -71,6 +92,7 @@ jobs:
   build:
     name: Build (${{matrix.browser}})
     needs: release-metadata
+    if: needs.release-metadata.outputs.should-release == 'true'
     runs-on: ubuntu-latest
     environment: release
     strategy:
@@ -126,6 +148,7 @@ jobs:
     name: Create Github Release
     environment: release
     runs-on: ubuntu-latest
+    if: needs.release-metadata.outputs.should-release == 'true'
     needs:
       - release-metadata
       - build
@@ -166,6 +189,7 @@ jobs:
     name: Create Sentry Release
     environment: release
     runs-on: ubuntu-latest
+    if: needs.release-metadata.outputs.should-release == 'true'
     needs:
       - release-metadata
       - build
@@ -210,6 +234,7 @@ jobs:
     name: Release to Chrome Web Store
     environment: release
     runs-on: ubuntu-latest
+    if: needs.release-metadata.outputs.should-release == 'true'
     needs:
       - release-metadata
       - build
@@ -244,6 +269,7 @@ jobs:
     name: XPI Release
     runs-on: ubuntu-latest
     environment: release
+    if: needs.release-metadata.outputs.should-release == 'true'
     needs:
       - release-metadata
       - build
@@ -304,6 +330,7 @@ jobs:
     name: Release to Edge Add-ons Store
     runs-on: ubuntu-latest
     environment: release
+    if: needs.release-metadata.outputs.should-release == 'true'
     needs:
       - release-metadata
       - build
