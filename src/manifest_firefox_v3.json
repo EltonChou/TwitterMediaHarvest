@@ -68,6 +68,12 @@
     "unlimitedStorage"
   ],
   "optional_permissions": ["management"],
+  "web_accessible_resources": [
+    {
+      "resources": ["static/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
   "content_security_policy": {
     "extension_page": "default-src 'self'; connect-src 'self' https://o1169684.ingest.sentry.io https://*.mediaharvest.app https://cognito-identity.ap-northeast-1.amazonaws.com https://twitter.com https://*.twitter.com https://x.com https://*.x.com; style-src https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; script-src 'self'; img-src https://placehold.co https://pbs.twimg.com;"
   }
