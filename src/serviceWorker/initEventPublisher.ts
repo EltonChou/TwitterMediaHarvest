@@ -84,7 +84,7 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
     updatedHandlers.push(e =>
       metrics.count('extension.updated', 1, {
         attributes: {
-          version: { from: e.currentVersion, to: e.previousVersion },
+          version: { to: e.currentVersion, from: e.previousVersion },
         },
       })
     )
