@@ -1,9 +1,8 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
 // @ts-check
+import { listPoFiles } from './libs/locales.mjs'
 import chalk from 'chalk'
 import gettextParser from 'gettext-parser'
-import { glob } from 'glob'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
@@ -45,22 +44,6 @@ async function extractPoCollection(filepath) {
   }
 
   return collection
-}
-
-function isWindows() {
-  return process.platform === 'win32'
-}
-
-/**
- * @param {string} dir
- * @returns {Promise<string[]>}
- */
-async function listPoFiles(dir) {
-  return glob(path.resolve(dir, '*.po'), {
-    dotRelative: true,
-    nodir: true,
-    windowsPathsNoEscape: isWindows(),
-  })
 }
 
 /**
