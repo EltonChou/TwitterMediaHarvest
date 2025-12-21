@@ -22,22 +22,22 @@ msgstr "Media Harvest : X（Twitter）多媒体下载器"
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:304
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "{{count}} conflicted extension(s) detected."
-msgstr ""
+msgstr "侦测到 {{count}} 个冲突的扩展。"
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:339
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "All conflicted extensions have been disabled."
-msgstr ""
+msgstr "所有冲突的扩展已被停用。"
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:279
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is aborted."
-msgstr ""
+msgstr "诊断已中止。"
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:262
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is running..."
-msgstr ""
+msgstr "诊断進行中..."
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:319
 msgctxt "hook:useExtensionConflictDiagnostic"
