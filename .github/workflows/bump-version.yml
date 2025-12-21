@@ -1,7 +1,7 @@
 name: Bump Version
 
 concurrency:
-  group: ${{github.workflow}}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
 on:
@@ -113,7 +113,7 @@ jobs:
         with:
           token: ${{ steps.setup-git.outputs.token }}
           files: |
-            locales/
+            locales/**
             package.json
             CHANGELOG.md
           message: |
