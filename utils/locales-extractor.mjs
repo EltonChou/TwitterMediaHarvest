@@ -1,14 +1,11 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
-import PACKAGE from '../package.json' with { type: 'json' }
+import { makeProjectIdVersion } from './libs/locales.mjs'
 import { createHash } from 'crypto'
 import dayjs from 'dayjs'
 import { existsSync, readFileSync, writeFileSync } from 'fs'
 import { GettextExtractor, JsExtractors } from 'gettext-extractor'
 import { resolve } from 'path'
 import { cwd } from 'process'
-
-const { name, version } = PACKAGE
 
 const extractor = new GettextExtractor()
 
@@ -54,7 +51,7 @@ const saveDigest = digest =>
 
 /** @type {Partial<import('pofile').IHeaders>} */
 const poHeaders = {
-  'Project-Id-Version': `${name} (${version})`,
+  'Project-Id-Version': makeProjectIdVersion(),
 }
 
 const currDigest = createHash('sha256')

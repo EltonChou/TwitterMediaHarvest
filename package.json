@@ -160,7 +160,8 @@
     "check-envfile": "cross-env ./utils/check-envfile.mjs",
     "check-flags": "cross-env ./utils/check-flags.mjs",
     "check:all": "yarn check-envfile && yarn check-locales && yarn check-changelog && yarn check-translations && yarn check-flags && yarn typecheck",
-    "update-translations": "cross-env ./utils/update-translations.mjs"
+    "update-translations": "cross-env ./utils/update-translations.mjs",
+    "sync-translation-version": "cross-env ./utils/sync-pot-version.mjs && yarn update-translations"
   },
   "repository": {
     "type": "git",

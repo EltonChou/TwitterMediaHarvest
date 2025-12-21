@@ -1,3 +1,4 @@
+import PACKAGE from '../../package.json' with { type: 'json' }
 import { glob } from 'glob'
 import path from 'node:path'
 import process from 'node:process'
@@ -16,4 +17,8 @@ export async function listPoFiles(dir) {
     nodir: true,
     windowsPathsNoEscape: isWindows(),
   })
+}
+
+export function makeProjectIdVersion() {
+  return `${PACKAGE.name} (${PACKAGE.version})`
 }
