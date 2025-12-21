@@ -651,6 +651,3 @@ msgstr "문제 보고"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "비디오 썸네일"
-
-msgid ""
-msgstr "민감 콘텐츠 자동 표시"

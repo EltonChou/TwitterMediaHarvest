@@ -651,6 +651,3 @@ msgstr "报告问题"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "下载视频缩略图"
-
-msgid ""
-msgstr "自动显示敏感内容"

@@ -651,6 +651,3 @@ msgstr "回報錯誤"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "下載影片縮圖"
-
-msgid ""
-msgstr "顯示敏感內容"

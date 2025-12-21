@@ -653,6 +653,3 @@ msgstr "不具合を報告する"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "サムネイル"
-
-msgid ""
-msgstr "センシティブ内容表示"

@@ -671,6 +671,3 @@ msgstr "Reportar problemas"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "Miniatura de vídeo"
-
-msgid ""
-msgstr "Mostrar automáticamente contenido NSFW"

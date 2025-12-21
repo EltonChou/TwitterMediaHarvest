@@ -669,6 +669,3 @@ msgstr "Report issues"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "Video thumbnail"
-
-msgid ""
-msgstr "Auto-reveal NSFW"

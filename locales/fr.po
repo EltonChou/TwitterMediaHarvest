@@ -671,6 +671,3 @@ msgstr "Signaler un problème"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "Vignette vidéo"
-
-msgid ""
-msgstr "Afficher automatiquement le contenu sensible"

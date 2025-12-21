@@ -13,7 +13,9 @@ msgstr ""
 
 msgctxt "app"
 msgid "appDesc"
-msgstr "Videos und Bilder von Twitter oder TweetDeck mit nur einem Klick herunterladen."
+msgstr ""
+"Videos und Bilder von Twitter oder TweetDeck mit nur einem Klick "
+"herunterladen."
 
 msgctxt "app"
 msgid "appName"
@@ -677,6 +679,3 @@ msgstr "Fehler melden"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "Video-Vorschaubild"
-
-msgid ""
-msgstr "Sensible Inhalte automatisch anzeigen"

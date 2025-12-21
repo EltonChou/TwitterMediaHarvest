@@ -671,6 +671,3 @@ msgstr "Сообщить об ошибке"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "Эскиз видео"
-
-msgid ""
-msgstr "Автопоказ NSFW"
