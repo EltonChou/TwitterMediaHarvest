@@ -159,7 +159,7 @@
     "mh-typegen": "cross-env ./utils/mh-typegen.mjs",
     "check-envfile": "cross-env ./utils/check-envfile.mjs",
     "check-flags": "cross-env ./utils/check-flags.mjs",
-    "check:all": "yarn check-envfile && yarn check-locales && yarn check-changelog && yarn check-flags && yarn typecheck",
+    "check:all": "yarn check-envfile && yarn check-locales && yarn check-changelog && yarn check-translations && yarn check-flags && yarn typecheck",
     "update-translations": "cross-env ./utils/update-translations.mjs"
   },
   "repository": {

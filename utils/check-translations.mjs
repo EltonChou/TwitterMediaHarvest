@@ -12,6 +12,7 @@ async function main() {
 
   const result = await Promise.all(poFiles.map(checkPoFile))
   if (result.some(isValid => !isValid)) process.exit(1)
+  console.log(chalk.green('All translations are valid.'))
   process.exit(0)
 }
 
