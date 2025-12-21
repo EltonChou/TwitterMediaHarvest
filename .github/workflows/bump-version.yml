@@ -90,7 +90,7 @@ jobs:
       - name: Sync Translations version
         if: ${{ env.need-bump }}
         run: |
-          yarn sync-translations-version
+          yarn sync-translation-version
 
       - name: Make changelog
         if: ${{ env.need-bump }}
