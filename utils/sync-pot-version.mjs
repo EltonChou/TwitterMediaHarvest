@@ -14,8 +14,8 @@ try {
   const potFileContent = await fs.readFile(potFilePath, 'utf-8')
 
   const bumpedPotFile = potFileContent.replace(
-    /^"Project-Id-Version: .*\n"/,
-    `"Project-Id-Version: ${makeProjectIdVersion()}\\n"`
+    /"Project-Id-Version: .*\n/,
+    `"Project-Id-Version: ${makeProjectIdVersion()}\\n"\n`
   )
 
   await fs.writeFile(potFilePath, bumpedPotFile, 'utf-8')
