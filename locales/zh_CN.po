@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: twitter-media-harvest (4.5.1)\n"
+"Project-Id-Version: twitter-media-harvest (4.5.2)\n"
 "POT-Creation-Date: 2025-12-21 16:03+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
