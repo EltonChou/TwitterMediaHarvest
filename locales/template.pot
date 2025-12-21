@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: twitter-media-harvest (4.5.0)\n"
-"POT-Creation-Date: 2025-12-18 01:32+0800\n"
+"Project-Id-Version: twitter-media-harvest (4.5.1)\n"
+"POT-Creation-Date: 2025-12-21 16:03+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -599,7 +599,7 @@ msgstr ""
 
 #: src/pages/components/PopupFeatureBlock.tsx:40
 msgctxt "popup"
-msgid "Auto-reveal NSFW"
+msgid "Auto-reveal sensitive"
 msgstr ""
 
 #: src/pages/app/Popup.tsx:216

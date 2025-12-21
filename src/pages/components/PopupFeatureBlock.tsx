@@ -37,7 +37,7 @@ const PopupFeatureBlock = memo((props: PopupFeatureBlockProps) => {
       <FeatureSwitch
         isOn={featureSettings.autoRevealNsfw}
         handleChange={toggler.nsfw}
-        labelContent={i18n('Auto-reveal NSFW', 'popup')}
+        labelContent={i18n('Auto-reveal sensitive', 'popup')}
       />
       <FeatureSwitch
         isOn={featureSettings.includeVideoThumbnail}

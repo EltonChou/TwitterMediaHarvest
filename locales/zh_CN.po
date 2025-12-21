@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: twitter-media-harvest (4.5.0)\n"
-"POT-Creation-Date: 2025-12-16 21:01+0800\n"
+"Project-Id-Version: twitter-media-harvest (4.5.1)\n"
+"POT-Creation-Date: 2025-12-21 16:03+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,7 +17,7 @@ msgstr "一键从 Twitter 或 TweetDeck 下载视频和图片。"
 
 msgctxt "app"
 msgid "appName"
-msgstr "Media Harvest：X（Twitter）多媒体下载器"
+msgstr "Media Harvest : X（Twitter）多媒体下载器"
 
 #: src/pages/hooks/useExtensionConflictDiagnostic.ts:304
 msgctxt "hook:useExtensionConflictDiagnostic"
@@ -624,8 +624,8 @@ msgstr "集成"
 
 #: src/pages/components/PopupFeatureBlock.tsx:40
 msgctxt "popup"
-msgid "Auto-reveal NSFW"
-msgstr "自动显示敏感内容"
+msgid "Auto-reveal sensitive"
+msgstr "显示敏感内容"
 
 #: src/pages/app/Popup.tsx:216
 msgctxt "popup"
@@ -651,3 +651,6 @@ msgstr "报告问题"
 msgctxt "popup"
 msgid "Video thumbnail"
 msgstr "下载视频缩略图"
+
+msgid ""
+msgstr "自动显示敏感内容"
