@@ -48,7 +48,6 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   })
 
   if (!values.browser) {
-    // eslint-disable-next-line no-console
     console.error(
       `Usage: node make-release-name.mjs --browser=<browser-name>\nAllowed browsers: ${ALLOWED_BROWSERS.join(', ')}`
     )
@@ -56,13 +55,11 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   }
 
   if (!ALLOWED_BROWSERS.includes(values.browser)) {
-    // eslint-disable-next-line no-console
     console.error(
       `Invalid browser: ${values.browser}\nAllowed browsers: ${ALLOWED_BROWSERS.join(', ')}`
     )
     process.exit(1)
   }
 
-  // eslint-disable-next-line no-console
   console.log(makeReleaseName(values.browser))
 }
