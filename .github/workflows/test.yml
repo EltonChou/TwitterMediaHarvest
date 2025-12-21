@@ -62,6 +62,7 @@ jobs:
           yarn lint
           yarn ci:all
           yarn check-locales
+          yarn check-translations
           yarn check-flags
           yarn typecheck
 
