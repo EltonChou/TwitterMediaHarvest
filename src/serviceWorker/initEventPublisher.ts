@@ -25,6 +25,7 @@ import {
   updateSolutionQuota,
   warnInsufficientNativeSolutionQuota,
 } from '#eventHandlers'
+import { countEvent } from '#eventHandlers/countEvent'
 import { getNotifier } from '#infra/browserNotifier'
 import { getEventPublisher } from '#infra/eventPublisher'
 import { BrowserDownloadMediaFile } from '#infra/useCases/browserDownloadMediaFile'
@@ -58,41 +59,21 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
   )(clientRepo)
   const setUser = setMonitorUser(clientRepo)
 
-  const installedHandlers = [
-    initClient(clientRepo, runtime.setUninstallURL),
-    showClientInfoInConsole(clientRepo),
-    setUser,
-  ]
-
-  const updatedHandlers = [
-    showUpdateMessageInConsole,
-    showClientInfoInConsole(clientRepo),
-    setUser,
-    async () => await nativeFetchTweetSolution.clearCacheStorage(),
-    // !!Reset warning settings to show the filename overwritten notification for v4.5.0
-    async () =>
-      await warningSettingsRepo.save({ ignoreFilenameOverwritten: false }),
-  ]
-
-  // To track extension installation and update events for distribution roll-out timeline
-  if (__METRICS__) {
-    installedHandlers.push(() =>
-      metrics.count('extension.installed', 1, {
-        attributes: { version: getVersion() },
-      })
-    )
-    updatedHandlers.push(e =>
-      metrics.count('extension.updated', 1, {
-        attributes: {
-          version: { to: e.currentVersion, from: e.previousVersion },
-        },
-      })
-    )
-  }
-
   publisher
-    .register('runtime:status:installed', installedHandlers)
-    .register('runtime:status:updated', updatedHandlers)
+    .register('runtime:status:installed', [
+      initClient(clientRepo, runtime.setUninstallURL),
+      showClientInfoInConsole(clientRepo),
+      setUser,
+    ])
+    .register('runtime:status:updated', [
+      showUpdateMessageInConsole,
+      showClientInfoInConsole(clientRepo),
+      setUser,
+      async () => await nativeFetchTweetSolution.clearCacheStorage(),
+      // !!Reset warning settings to show the filename overwritten notification for v4.5.0
+      async () =>
+        await warningSettingsRepo.save({ ignoreFilenameOverwritten: false }),
+    ])
     .register('download:status:dispatched:aria2', [
       increaseUsageStats,
       syncClientInfoWithLock,
@@ -155,7 +136,38 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
     .register('notification:filenameOverwritten:ignoreButton:clicked', [
       ignoreFilenameOverwritten(warningSettingsRepo),
     ])
-    .register('notification:filenameOverwritten:self:clicked', [])
+    .register('notification:filenameOverwritten:self:clicked', [
+      openDiagnosticsPageInNewTab,
+    ])
+
+  if (__METRICS__) {
+    publisher
+      .register('runtime:status:installed', () =>
+        metrics.count('extension.installed', 1, {
+          attributes: { version: getVersion() },
+        })
+      )
+      .register('runtime:status:updated', e =>
+        metrics.count('extension.updated', 1, {
+          attributes: {
+            version: { to: e.currentVersion, from: e.previousVersion },
+          },
+        })
+      )
+      .register('filename:overwritten', countEvent('filename.overwritten'))
+      .register(
+        'notification:filenameOverwritten:diagnoseButton:clicked',
+        countEvent('notification.filenameOverwritten.diagnoseButton.clicked')
+      )
+      .register(
+        'notification:filenameOverwritten:ignoreButton:clicked',
+        countEvent('notification.filenameOverwritten.ignoreButton.clicked')
+      )
+      .register(
+        'notification:filenameOverwritten:self:clicked',
+        countEvent('notification.filenameOverwritten.self.clicked')
+      )
+  }
 }
 
 export default initEventPublisher
