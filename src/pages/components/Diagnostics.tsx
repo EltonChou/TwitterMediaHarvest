@@ -83,7 +83,14 @@ const DiagnosticItem = (props: DiagnosticItemProps) => {
         )}
         <Button
           onClick={disableConflicted}
-          isDisabled={status !== WorkflowStatus.COMPLETED}
+          isDisabled={
+            !(
+              status === WorkflowStatus.COMPLETED &&
+              Object.entries(installed).some(
+                ([_, info]) => info.status === ExtensionStatus.CONFLICTED
+              )
+            )
+          }
         >
           Disable
         </Button>
