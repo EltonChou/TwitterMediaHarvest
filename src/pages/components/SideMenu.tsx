@@ -94,6 +94,7 @@ const Nav = ({ closeMenu }: NavProps) => {
 }
 
 const SideMenu = () => {
+  const menuWidth = '270px'
   const [isActive, setActive] = useBoolean(false)
 
   return (
@@ -136,10 +137,10 @@ const SideMenu = () => {
       <Flex
         fontSize={'1.5rem'}
         direction="column"
-        width="270px"
+        width={menuWidth}
         bg="brand.bg"
         left={useBreakpointValue({
-          base: isActive ? '0px' : '-240px',
+          base: isActive ? '0px' : `-${menuWidth}`,
           lg: '0px',
         })}
         borderRight={useBreakpointValue({
