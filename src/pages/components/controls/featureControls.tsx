@@ -47,6 +47,7 @@ export const FeatureSwitch = ({
         cursor="pointer"
         fontSize={'inherit'}
         data-testid="feature-switch-label"
+        textTransform={'capitalize'}
       >
         {labelContent}
       </FormLabel>
