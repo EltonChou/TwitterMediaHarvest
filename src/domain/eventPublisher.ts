@@ -7,7 +7,7 @@ export interface DomainEventHandler<E> {
   (event: E, publisher: EventPublisher): Promise<unknown> | unknown
 }
 
-export interface EventPublisher<E = IDomainEvent> {
+export interface EventPublisher<E extends IDomainEvent = IDomainEvent> {
   publish(event: E): Promise<void>
   publishAll(...events: E[]): Promise<void>
 }
