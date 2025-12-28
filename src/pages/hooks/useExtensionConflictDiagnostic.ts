@@ -1,4 +1,5 @@
 import { getText as i18n } from '#libs/i18n'
+import { metrics } from '@sentry/browser'
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import {
   Downloads,
@@ -198,6 +199,8 @@ export function useExtensionConflictDiagnostic(
    * Note: This process may take some time depending on the number of extensions to check.
    */
   const requestDiagnose = useCallback(async () => {
+    if (__METRICS__) metrics.count('diagnostics.extension_conflict.invoked', 1)
+
     resetAbort()
     setStatus(WorkflowStatus.RUNNING)
     setMessage(
@@ -234,6 +237,7 @@ export function useExtensionConflictDiagnostic(
           ...extKV,
           [ext.id]: {
             name: ext.shortName || ext.name,
+            version: ext.version,
             icon: ext.icons?.[0]?.url,
             status: ExtensionStatus.UNKNOWN,
             enabled: ext.enabled,
