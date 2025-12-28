@@ -15,8 +15,8 @@ const theme = extendTheme({
   config,
   fonts: {
     heading:
-      '"Homenaje", "Noto Sans JP", "Noto Sans TC", "Open Sans", sans-serif',
-    body: '"Homenaje", "Noto Sans JP", "Noto Sans TC", sans-serif',
+      '"Homenaje", "Oswald", "Do Hyeon", "Noto Sans JP", "Noto Sans TC", "Open Sans", sans-serif',
+    body: '"Homenaje", "Oswald", "Do Hyeon", "Noto Sans JP", "Noto Sans TC", "Open Sans", sans-serif',
   },
   colors: {
     brand: {
