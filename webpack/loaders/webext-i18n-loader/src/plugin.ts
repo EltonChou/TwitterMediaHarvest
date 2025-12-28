@@ -132,6 +132,8 @@ export class WebextI18nPlugin implements WebpackPluginInstance {
           compilation.fileDependencies.addAll(poFiles)
 
           for (const file of poFiles) {
+            logger.log(`Found po file: ${file}`)
+            compilation.fileDependencies.add(file)
             const locale = parseLocaleName(file)
             localePoMap.set(locale, file)
           }
@@ -159,12 +161,15 @@ export class WebextI18nPlugin implements WebpackPluginInstance {
               'messages.json'
             )
 
+            logger.info('emitting', outputFile)
             compilation.emitAsset(
               outputFile,
               new RawSource(JSON.stringify(webextTranslations)),
               {
                 javascriptModule: false,
-                sourceFilename: path.posix.relative(compiler.context, poFile),
+                sourceFilename: isWindows()
+                  ? path.win32.relative(compiler.context, poFile)
+                  : path.posix.relative(compiler.context, poFile),
               }
             )
           }

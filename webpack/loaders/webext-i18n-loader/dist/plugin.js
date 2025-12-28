@@ -94,6 +94,8 @@ class WebextI18nPlugin {
                 });
                 compilation.fileDependencies.addAll(poFiles);
                 for (const file of poFiles) {
+                    logger.log(`Found po file: ${file}`);
+                    compilation.fileDependencies.add(file);
                     const locale = parseLocaleName(file);
                     localePoMap.set(locale, file);
                 }
@@ -106,9 +108,12 @@ class WebextI18nPlugin {
                     ]);
                     const webextTranslations = Object.fromEntries(webextTranslationEntries);
                     const outputFile = path_1.default.posix.join('_locales', locale, 'messages.json');
+                    logger.info('emitting', outputFile);
                     compilation.emitAsset(outputFile, new RawSource(JSON.stringify(webextTranslations)), {
                         javascriptModule: false,
-                        sourceFilename: path_1.default.posix.relative(compiler.context, poFile),
+                        sourceFilename: isWindows()
+                            ? path_1.default.win32.relative(compiler.context, poFile)
+                            : path_1.default.posix.relative(compiler.context, poFile),
                     });
                 }
             }));
