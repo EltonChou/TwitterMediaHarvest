@@ -9,7 +9,7 @@ exports[`unit test for PopupFeatureBlock component match snapshot 1`] = `
       class="chakra-stack css-1igwmid"
     >
       <label
-        class="chakra-form__label css-qculm7"
+        class="chakra-form__label css-1c4ftro"
         data-testid="feature-switch-label"
         for="_r_0_"
       >
@@ -39,7 +39,7 @@ exports[`unit test for PopupFeatureBlock component match snapshot 1`] = `
       class="chakra-stack css-1igwmid"
     >
       <label
-        class="chakra-form__label css-qculm7"
+        class="chakra-form__label css-1c4ftro"
         data-testid="feature-switch-label"
         for="_r_1_"
       >

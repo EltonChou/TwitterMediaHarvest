@@ -6,7 +6,7 @@ exports[`unit test for FeatureSwitch can render properly 1`] = `
     class="chakra-stack css-1igwmid"
   >
     <label
-      class="chakra-form__label css-qculm7"
+      class="chakra-form__label css-1c4ftro"
       data-testid="feature-switch-label"
       for="_r_0_"
     >
