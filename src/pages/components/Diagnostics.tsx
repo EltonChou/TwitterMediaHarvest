@@ -78,7 +78,7 @@ const DiagnosticItem = (props: DiagnosticItemProps) => {
               await requestDiagnose()
             }}
           >
-            Diagnostic
+            {i18n('Diagnostic', 'options:diagnostics')}
           </Button>
         )}
         <Button
@@ -92,7 +92,7 @@ const DiagnosticItem = (props: DiagnosticItemProps) => {
             )
           }
         >
-          Disable
+          {i18n('Disable', 'options:diagnostics')}
         </Button>
       </HStack>
       <Stack>

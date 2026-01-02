@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.2)\n"
-"POT-Creation-Date: 2025-12-21 16:03+0800\n"
+"POT-Creation-Date: 2026-01-03 05:18+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -19,52 +19,52 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : X (ツイッター) メディアダウンローダー"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:304
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:308
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "{{count}} conflicted extension(s) detected."
 msgstr "{{count}} 個の競合する拡張機能が検出されました。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:339
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:343
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "All conflicted extensions have been disabled."
 msgstr "すべての競合する拡張機能は無効化されました。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:279
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:283
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is aborted."
 msgstr "診断が中止されました。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:262
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:266
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is running..."
 msgstr "診断を実行中..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:319
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:323
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Disabling conflicted extensions..."
 msgstr "競合する拡張機能を無効化しています..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:347
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:351
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Failed to disable conflicted extensions."
 msgstr "競合する拡張機能を無効化できませんでした。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:309
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:313
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "No conflicted extensions found."
 msgstr "競合する拡張機能は見つかりませんでした。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:204
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:207
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Requesting management permission..."
 msgstr "拡張機能管理権限をリクエストしています..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:215
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:218
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Required permission (management) was not granted."
 msgstr "必要な権限(管理)を取得できませんでした。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:302
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:306
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Scan completed. "
 msgstr "スキャンが完了しました。"
@@ -211,10 +211,20 @@ msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
 msgstr "診断を開始してもよろしいですか？"
 
-#: src/pages/components/Diagnostics.tsx:107
+#: src/pages/components/Diagnostics.tsx:114
 msgctxt "options:diagnostics"
 msgid "Conflict Extensions"
 msgstr "拡張機能競合"
+
+#: src/pages/components/Diagnostics.tsx:81
+msgctxt "options:diagnostics"
+msgid "Diagnostic"
+msgstr "診断"
+
+#: src/pages/components/Diagnostics.tsx:95
+msgctxt "options:diagnostics"
+msgid "Disable"
+msgstr "無効化"
 
 #: src/pages/components/Diagnostics.tsx:65
 msgctxt "options:diagnostics"
@@ -594,7 +604,7 @@ msgctxt "options:sideMenu"
 msgid "About"
 msgstr "拡張について"
 
-#: src/pages/app/Options.tsx:166
+#: src/pages/app/Options.tsx:167
 #: src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "Diagnostics"

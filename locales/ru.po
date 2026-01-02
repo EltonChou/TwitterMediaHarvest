@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.2)\n"
-"POT-Creation-Date: 2025-12-21 16:03+0800\n"
+"POT-Creation-Date: 2026-01-03 05:18+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,52 +19,52 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest: X (Twitter) — загрузчик медиа"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:304
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:308
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "{{count}} conflicted extension(s) detected."
 msgstr "Обнаружено {{count}} конфликтующих расширений."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:339
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:343
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "All conflicted extensions have been disabled."
 msgstr "Все конфликтующие расширения были отключены."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:279
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:283
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is aborted."
 msgstr "Диагностика прервана."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:262
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:266
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is running..."
 msgstr "Запуск диагностики..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:319
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:323
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Disabling conflicted extensions..."
 msgstr "Отключение конфликтующих расширений..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:347
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:351
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Failed to disable conflicted extensions."
 msgstr "Не удалось отключить конфликтующие расширения."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:309
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:313
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "No conflicted extensions found."
 msgstr "Конфликтующих расширений не найдено."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:204
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:207
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Requesting management permission..."
 msgstr "Запрос прав управления..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:215
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:218
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Required permission (management) was not granted."
 msgstr "Не предоставлено необходимое разрешение (управление)."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:302
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:306
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Scan completed. "
 msgstr "Сканирование завершено."
@@ -215,10 +215,20 @@ msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
 msgstr "Вы уверены, что хотите начать диагностику?"
 
-#: src/pages/components/Diagnostics.tsx:107
+#: src/pages/components/Diagnostics.tsx:114
 msgctxt "options:diagnostics"
 msgid "Conflict Extensions"
 msgstr "Конфликтующие расширения"
+
+#: src/pages/components/Diagnostics.tsx:81
+msgctxt "options:diagnostics"
+msgid "Diagnostic"
+msgstr "Диагностика"
+
+#: src/pages/components/Diagnostics.tsx:95
+msgctxt "options:diagnostics"
+msgid "Disable"
+msgstr "Отключить"
 
 #: src/pages/components/Diagnostics.tsx:65
 msgctxt "options:diagnostics"
@@ -612,7 +622,7 @@ msgctxt "options:sideMenu"
 msgid "About"
 msgstr "О программе"
 
-#: src/pages/app/Options.tsx:166
+#: src/pages/app/Options.tsx:167
 #: src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "Diagnostics"

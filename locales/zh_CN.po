@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.2)\n"
-"POT-Creation-Date: 2025-12-21 16:03+0800\n"
+"POT-Creation-Date: 2026-01-03 05:18+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,52 +19,52 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : X（Twitter）多媒体下载器"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:304
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:308
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "{{count}} conflicted extension(s) detected."
 msgstr "侦测到 {{count}} 个冲突的扩展。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:339
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:343
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "All conflicted extensions have been disabled."
 msgstr "所有冲突的扩展已被停用。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:279
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:283
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is aborted."
 msgstr "诊断已中止。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:262
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:266
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is running..."
 msgstr "诊断進行中..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:319
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:323
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Disabling conflicted extensions..."
 msgstr "正在禁用冲突扩展..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:347
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:351
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Failed to disable conflicted extensions."
 msgstr "无法禁用冲突扩展。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:309
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:313
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "No conflicted extensions found."
 msgstr "未发现冲突扩展。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:204
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:207
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Requesting management permission..."
 msgstr "正在请求管理权限..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:215
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:218
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Required permission (management) was not granted."
 msgstr "未授予所需权限（管理）。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:302
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:306
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Scan completed. "
 msgstr "扫描已完成。"
@@ -211,10 +211,20 @@ msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
 msgstr "确定要开始诊断吗？"
 
-#: src/pages/components/Diagnostics.tsx:107
+#: src/pages/components/Diagnostics.tsx:114
 msgctxt "options:diagnostics"
 msgid "Conflict Extensions"
 msgstr "扩展冲突"
+
+#: src/pages/components/Diagnostics.tsx:81
+msgctxt "options:diagnostics"
+msgid "Diagnostic"
+msgstr "诊断"
+
+#: src/pages/components/Diagnostics.tsx:95
+msgctxt "options:diagnostics"
+msgid "Disable"
+msgstr "禁用"
 
 #: src/pages/components/Diagnostics.tsx:65
 msgctxt "options:diagnostics"
@@ -592,7 +602,7 @@ msgctxt "options:sideMenu"
 msgid "About"
 msgstr "关于"
 
-#: src/pages/app/Options.tsx:166
+#: src/pages/app/Options.tsx:167
 #: src/pages/components/SideMenu.tsx:81
 msgctxt "options:sideMenu"
 msgid "Diagnostics"
