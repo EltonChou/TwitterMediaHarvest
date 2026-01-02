@@ -160,14 +160,16 @@ const App = ({
                 </Content>
               }
             />
-            <Route
-              path={Path.Diagnostics}
-              element={
-                <Content title={i18n('Diagnostics', 'options:sideMenu')}>
-                  <Diagnostics />
-                </Content>
-              }
-            />
+            {__FIREFOX__ ? null : (
+              <Route
+                path={Path.Diagnostics}
+                element={
+                  <Content title={i18n('Diagnostics', 'options:sideMenu')}>
+                    <Diagnostics />
+                  </Content>
+                }
+              />
+            )}
           </Routes>
           <FootBar />
         </Stack>
