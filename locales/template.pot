@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (4.5.2)\n"
-"POT-Creation-Date: 2026-01-03 05:18+0800\n"
+"POT-Creation-Date: 2026-01-08 19:46+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -572,13 +572,13 @@ msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr ""
 
 #: src/pages/app/Options.tsx:158
-#: src/pages/components/SideMenu.tsx:87
+#: src/pages/components/SideMenu.tsx:86
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr ""
 
 #: src/pages/app/Options.tsx:167
-#: src/pages/components/SideMenu.tsx:81
+#: src/pages/components/SideMenu.tsx:80
 msgctxt "options:sideMenu"
 msgid "Diagnostics"
 msgstr ""
