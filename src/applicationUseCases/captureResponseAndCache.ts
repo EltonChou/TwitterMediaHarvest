@@ -26,9 +26,10 @@ export interface InfraProvider {
   tweetResponseCache: ICache<TweetWithContent>
 }
 
-export class CaptureResponseAndCache
-  implements AsyncUseCase<CaptureResponseAndCacheCommand, UnsafeTask>
-{
+export class CaptureResponseAndCache implements AsyncUseCase<
+  CaptureResponseAndCacheCommand,
+  UnsafeTask
+> {
   constructor(readonly infra: InfraProvider) {}
 
   protected cacheTweets(tweet: TweetWithContent | TweetWithContent[]) {
@@ -36,9 +37,7 @@ export class CaptureResponseAndCache
 
     if (__DEV__)
       // eslint-disable-next-line no-console
-      console.debug(
-        `Cache ${isMultiple ? tweet.length : 1} tweet${isMultiple && tweet.length > 1 ? 's' : ''}`
-      )
+      console.debug(`Cache ${isMultiple ? tweet.length : 1} tweet(s)`)
 
     if (isMultiple) return this.infra.tweetResponseCache.saveAll(...tweet)
     return this.infra.tweetResponseCache.save(tweet)

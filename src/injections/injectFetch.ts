@@ -53,15 +53,12 @@ XMLHttpRequest.prototype.open = new Proxy(XMLHttpRequest.prototype.open, {
     const [method, url] = args
 
     const validUrl = validateUrl(url)
-    if (validUrl) {
-      const matchedUrl = validUrl.pathname.match(Pattern.tweetRelated)
-      if (validUrl && matchedUrl) {
-        thisArg.addEventListener('load', captureResponse)
-        requesetPathWeakMap.set(thisArg, {
-          method,
-          path: validUrl.pathname,
-        })
-      }
+    if (validUrl && validUrl.pathname.match(Pattern.tweetRelated)) {
+      thisArg.addEventListener('load', captureResponse)
+      requesetPathWeakMap.set(thisArg, {
+        method,
+        path: validUrl.pathname,
+      })
     }
 
     return Reflect.apply(target, thisArg, args)

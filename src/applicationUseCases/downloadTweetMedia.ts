@@ -65,9 +65,10 @@ export type InfraProvider = {
   solutionProvider: () => FetchTweetSolution
 }
 
-export class DownloadTweetMedia
-  implements AsyncUseCase<DownloadTweetMediaCommand, boolean>
-{
+export class DownloadTweetMedia implements AsyncUseCase<
+  DownloadTweetMediaCommand,
+  boolean
+> {
   constructor(readonly infra: InfraProvider) {}
 
   async process({
@@ -76,10 +77,7 @@ export class DownloadTweetMedia
   }: DownloadTweetMediaCommand): Promise<boolean> {
     if (__METRICS__) metrics.count('usecase.downloadTweetMedia.invoked', 1)
     const isSuccessDownloadFromCache = await this.downloadFromCache(tweetInfo)
-    if (isSuccessDownloadFromCache) {
-      if (__METRICS__) metrics.count('usecase.downloadTweetMedia.cacheHit', 1)
-      return isSuccessDownloadFromCache
-    }
+    if (isSuccessDownloadFromCache) return this.successDownloadFromCache()
 
     if (__METRICS__) metrics.count('usecase.downloadTweetMedia.cacheMiss', 1)
     const solution = this.infra.solutionProvider()
@@ -111,6 +109,11 @@ export class DownloadTweetMedia
     return isErrorResult(tweetResult)
       ? this.failDownload(tweetResult.error, tweetInfo)
       : this.processDownload(tweetInfo, tweetResult.value)
+  }
+
+  private async successDownloadFromCache(): Promise<boolean> {
+    if (__METRICS__) metrics.count('usecase.downloadTweetMedia.cacheHit', 1)
+    return true
   }
 
   private async downloadFromCache(tweetInfo: TweetInfo): Promise<boolean> {
