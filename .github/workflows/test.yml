@@ -61,6 +61,7 @@ jobs:
           yarn install
           yarn lint
           yarn ci:all
+          yarn extract-locales --check
           yarn check-locales
           yarn check-translations
           yarn check-flags
