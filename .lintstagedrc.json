@@ -4,7 +4,8 @@
     "eslint --fix",
     "prettier --write",
     "yarn check-envfile sample.env",
-    "yarn ci:all --findRelatedTests --passWithNoTests --bail 5"
+    "yarn ci:all --findRelatedTests --passWithNoTests --bail 5",
+    "yarn extract-locales --check"
   ],
   "*sample.env": ["yarn check-envfile sample.env"],
   "*.md": ["prettier --write"],

@@ -4,6 +4,7 @@ import { createHash } from 'crypto'
 import dayjs from 'dayjs'
 import { existsSync, readFileSync, writeFileSync } from 'fs'
 import { GettextExtractor, JsExtractors } from 'gettext-extractor'
+import { parseArgs } from 'node:util'
 import { resolve } from 'path'
 import { cwd } from 'process'
 
@@ -58,18 +59,31 @@ const currDigest = createHash('sha256')
   .update(extractor.getPotString(poHeaders))
   .digest('hex')
 
+const { values } = parseArgs({
+  args: process.argv.slice(2),
+  options: {
+    check: { type: 'boolean', default: false },
+  },
+  allowPositionals: true,
+})
+const isCheckMode = values.check
+
 if (existsSync(DIGEST_FILENAME)) {
   const prevDigest = readFileSync(DIGEST_FILENAME, 'utf-8', 'r')
 
   console.info('Prev digest\t' + prevDigest)
   console.info('Curr digest\t' + currDigest + '\n')
 
-  if (currDigest !== prevDigest) {
-    console.info('Update pot file.')
-    savePot()
-    saveDigest(currDigest)
-  } else {
-    console.info('Skip updating due to same digest.')
+  if (isCheckMode) process.exitCode = currDigest === prevDigest ? 0 : 1
+
+  if (!isCheckMode) {
+    if (currDigest !== prevDigest) {
+      console.info('Update pot file.')
+      savePot()
+      saveDigest(currDigest)
+    } else {
+      console.info('Skip updating due to same digest.')
+    }
   }
 } else {
   console.info('Create pot file.')
