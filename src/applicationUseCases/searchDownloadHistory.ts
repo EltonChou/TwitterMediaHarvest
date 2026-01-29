@@ -68,9 +68,10 @@ type QueryResult =
       error: Error
     }
 
-export class SearchDownloadHistoryUseCase
-  implements AsyncUseCase<Query, DownloadHistoryQueryResponse>
-{
+export class SearchDownloadHistoryUseCase implements AsyncUseCase<
+  Query,
+  DownloadHistoryQueryResponse
+> {
   constructor(
     readonly searchDownloadHistory: SearchDownloadHistory,
     readonly searchTweetIdsByHashtags: SearchTweetIdsByHashTags
@@ -127,6 +128,7 @@ export class SearchDownloadHistoryUseCase
         'usecase.searchDownloadHistory.duration',
         queryDuration.end(),
         {
+          unit: 'millisecond',
           attributes: {
             totalMatched: result.matchedCount,
           },

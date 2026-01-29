@@ -33,9 +33,25 @@ export class TimeHelper {
   }
 }
 
+/**
+ * Creates a duration timer that captures the start time and returns an object
+ * with an `end` method to calculate elapsed time in milliseconds.
+ *
+ * @returns An object with an `end` method that returns the elapsed duration in milliseconds.
+ *
+ * @example
+ * ```ts
+ * const timer = setDuration()
+ * // ... perform some work ...
+ * const elapsed = timer.end() // elapsed time in milliseconds
+ * ```
+ */
 export const setDuration = () => {
-  const now = Date.now()
+  const start = performance.now()
   return {
-    end: () => TimeHelper.duration(now),
+    /**
+     * @returns duration in milliseconds
+     */
+    end: () => TimeHelper.duration(start, performance.now()),
   }
 }

@@ -100,7 +100,8 @@ export class DownloadTweetMedia implements AsyncUseCase<
       )
       metrics.distribution(
         'usecase.downloadTweetMedia.solution.duration',
-        solutionDuration.end()
+        solutionDuration.end(),
+        { unit: 'millisecond' }
       )
     }
     await this.infra.eventPublisher.publishAll(...solution.events)
