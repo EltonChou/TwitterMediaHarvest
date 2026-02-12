@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadWasTriggeredBySelf'
-import { BrowserDownloadFile } from '#infra/useCases/browerDownloadFile'
+import { BrowserDownloadFile } from '#infra/useCases/browserDownloadFile'
 import { NativeFetchTweetSolution } from '#infra/useCases/nativeFetchTweetSolution'
 import { SearchDownloadHistoryFromIDB } from '#infra/useCases/searchDownloadHistoryFromIDB'
 import { SearchTweetIdsByHashtagsFromIDB } from '#infra/useCases/searchTweetIdsByHashtagsFromIDB'
