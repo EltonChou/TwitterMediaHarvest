@@ -32,6 +32,7 @@ If applicable, add screenshots to help explain your problem.
 - OS: [e.g. iOS]
 - Browser [e.g. chrome, safari]
 - Version [e.g. 22]
+- Extension version [e.g. 4.5.0]
 
 **Additional context**
 Add any other context about the problem here.
