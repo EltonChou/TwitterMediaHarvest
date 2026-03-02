@@ -8,6 +8,7 @@
   "compilerOptions": {
     "jsx": "react",
     "strict": true,
+    "rootDir": "./src",
     "outDir": "./build",
     "noImplicitAny": true,
     "module": "ESNEXT",
