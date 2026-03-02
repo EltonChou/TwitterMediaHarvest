@@ -154,19 +154,16 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
           },
         })
       )
-      .register('filename:overwritten', countEvent('filename.overwritten'))
+      .register('filename:overwritten', countEvent())
       .register(
         'notification:filenameOverwritten:diagnoseButton:clicked',
-        countEvent('notification.filenameOverwritten.diagnoseButton.clicked')
+        countEvent()
       )
       .register(
         'notification:filenameOverwritten:ignoreButton:clicked',
-        countEvent('notification.filenameOverwritten.ignoreButton.clicked')
+        countEvent()
       )
-      .register(
-        'notification:filenameOverwritten:self:clicked',
-        countEvent('notification.filenameOverwritten.self.clicked')
-      )
+      .register('notification:filenameOverwritten:self:clicked', countEvent())
   }
 }
 
