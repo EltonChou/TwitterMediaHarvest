@@ -11,8 +11,8 @@
   "*.md": ["prettier --write"],
   "*.json": ["prettier --write"],
   "CHANGELOG.md": ["yarn check-changelog"],
-  "*.{po,pot}": ["yarn check-locales"],
-  "*.po": ["yarn check-translations"],
+  "*.{po,pot}": ["yarn locale:check"],
+  "*.po": ["yarn check:translations"],
   "flag.d.ts": ["yarn check-flags"],
   "*.{yml, yaml}": ["prettier --write"]
 }
