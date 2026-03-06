@@ -10,21 +10,22 @@
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EltonChou/TwitterMediaHarvest/test.yml?branch=main&style=flat-square)
 
-# TwitterMediaHarvest
+# Media Harvest
 
-**Gather medias with just one-click.**
+**Download images and videos from X (Twitter) with one click.**
+
+No sign-in required. No third-party services. Works directly in your browser.
 
 ## Features
 
-- [x] One-click to get original-size image
-- [x] One-click to get video
-- [x] Download history
-- [x] Auto-reveal sensitive content (optional)
-- [x] Integrate with [Aria2 Explorer](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn)
-- [x] Not rely on 3rd-party services
-- [x] Very beautiful. Very powerful.
+- One-click download of original-size images and videos
+- Customize filename format for downloaded files
+- Download history to track what you've saved
+- Auto-reveal sensitive content (optional)
+- Integrates with [Aria2 Explorer](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn) for advanced download management
+- Does not rely on any third-party services
 
-## Installation
+## Install
 
 [![Chrome web store](assets/chrome-badge.jpg)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok)
 
@@ -36,21 +37,9 @@
 
 [![Support me on ko-fi](assets/ko-fi-badge.png)](https://ko-fi.com/eltonhy)
 
-## Development
+## Contributing
 
-### Build
-
-This project is using `yarn` as package manager.
-
-To build the extension in local, you need to install the dependencies.
-
-`yarn install`
-
-and then execute
-
-`yarn build:all`
-
-You will get some files under `dist` and `build` directories.
+See [CONTRIBUTING.md](.github/CONTRIBUTING.md).
 
 ## License
 
