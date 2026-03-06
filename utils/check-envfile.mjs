@@ -3,7 +3,7 @@ import {
   extractEnvFromWebpackConfig,
   extractJSEnvVars,
   parseDevEnv,
-} from './envVarExtractor.mjs'
+} from './env-var-extractor.mjs'
 import fs from 'fs/promises'
 import path from 'path'
 import { fileURLToPath, pathToFileURL } from 'url'

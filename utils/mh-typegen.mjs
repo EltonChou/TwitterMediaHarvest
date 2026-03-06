@@ -1,5 +1,8 @@
 #!/usr/bin/env node
-import { extractEnvFromWebpackConfig, parseDevEnv } from './envVarExtractor.mjs'
+import {
+  extractEnvFromWebpackConfig,
+  parseDevEnv,
+} from './env-var-extractor.mjs'
 import fs from 'fs/promises'
 import path from 'path'
 
