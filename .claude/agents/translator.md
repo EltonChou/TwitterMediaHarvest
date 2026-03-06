@@ -56,12 +56,8 @@ When adding a new locale, read the listed reference file from `locales/` for sty
 | `zh_CN` (Simplified Chinese)  | `zh_TW`          | Same language, different script; adapt characters only       |
 | `zh_TW` (Traditional Chinese) | `zh_CN`          | Same language, different script; adapt characters only       |
 | `pt_BR` (Portuguese Brazil)   | `es`             | Close grammar and vocabulary; adjust for Brazilian idioms    |
-| `pt_PT` (Portuguese Portugal) | `pt_BR`          | Same language; adjust spelling and formality                 |
-| `id` (Indonesian)             | `es`             | Similar sentence structure tendency; use as loose reference  |
 | `tr` (Turkish)                | `ja`             | Both are agglutinative; use `ja` for formality conventions   |
-| `vi` (Vietnamese)             | `zh_TW`          | Shares some loanword patterns; use as loose reference        |
 | `th` (Thai)                   | `ja`             | Both drop subjects in informal speech; match formality level |
-| `ar` (Arabic)                 | —                | No close existing locale; rely on `msgid`. **RTL language.** |
 | `pl` (Polish)                 | `ru`             | Both Slavic; use Russian for tone and formality conventions  |
 | `it` (Italian)                | `es`             | Both Romance languages; close grammar and register           |
 | `de` (German)                 | —                | Germanic; rely on `msgid`                                    |
@@ -83,7 +79,7 @@ msgstr "Translated string"
 - `msgstr` — translation to fill in; leave `""` only if intentionally untranslated (not recommended)
 - `{{placeholder}}` tokens must be preserved verbatim
 
-**RTL languages** (right-to-left): Arabic (`ar`), Hebrew (`he`), Persian (`fa`). When translating these, ensure the translated text reads naturally in RTL direction. Placeholders remain LTR tokens but their position in the sentence should follow RTL grammar.
+**RTL languages** (right-to-left): Arabic (`ar`), Hebrew (`he`), Persian (`fa`). When adding an RTL locale, ensure the translated text reads naturally in RTL direction. Placeholders remain LTR tokens but their position in the sentence should follow RTL grammar.
 
 ## Rules
 

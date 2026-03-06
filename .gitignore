@@ -78,6 +78,10 @@ dev.env
 # next.js build output
 .next
 
+# Claude Code
+.claude/worktrees/
+.claude/projects/
+
 # yarn related
 
 .yarn/*
