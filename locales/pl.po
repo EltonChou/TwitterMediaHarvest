@@ -1,0 +1,687 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: twitter-media-harvest (4.5.2)\n"
+"POT-Creation-Date: 2026-01-08 19:46+0800\n"
+"PO-Revision-Date: 2026-03-07 00:00+0000\n"
+"Last-Translator: Media Harvest Team\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.5\n"
+
+msgctxt "app"
+msgid "appDesc"
+msgstr "Pobieranie wideo i obrazów z Twittera lub TweetDecka jednym kliknięciem."
+
+msgctxt "app"
+msgid "appName"
+msgstr "Media Harvest: X (Twitter) — pobierarka mediów"
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:308
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "{{count}} conflicted extension(s) detected."
+msgstr "Wykryto {{count}} kolidujące rozszerzenie(a)."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:343
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "All conflicted extensions have been disabled."
+msgstr "Wszystkie kolidujące rozszerzenia zostały wyłączone."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:283
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Diagnostic is aborted."
+msgstr "Diagnostyka została przerwana."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:266
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Diagnostic is running..."
+msgstr "Diagnostyka w toku..."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:323
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Disabling conflicted extensions..."
+msgstr "Wyłączanie kolidujących rozszerzeń..."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:351
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Failed to disable conflicted extensions."
+msgstr "Nie udało się wyłączyć kolidujących rozszerzeń."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:313
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "No conflicted extensions found."
+msgstr "Nie znaleziono kolidujących rozszerzeń."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:207
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Requesting management permission..."
+msgstr "Żądanie uprawnień zarządzania..."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:218
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Required permission (management) was not granted."
+msgstr "Wymagane uprawnienie (zarządzanie) nie zostało przyznane."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:306
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid "Scan completed. "
+msgstr "Skanowanie zakończone. "
+
+#: src/helpers/notificationConfig.ts:125
+msgctxt "notification:download"
+msgid "API Rate limit exceeded."
+msgstr "Przekroczono limit zapytań API."
+
+#: src/helpers/notificationConfig.ts:72
+msgctxt "notification:download"
+msgid "Download failed"
+msgstr "Pobieranie nie powiodło się"
+
+#: src/helpers/notificationConfig.ts:65
+msgctxt "notification:download"
+msgid "Media in {{account}}({{tweet-id}}) download failed."
+msgstr "Pobieranie mediów z konta {{account}} ({{tweet-id}}) nie powiodło się."
+
+#: src/helpers/notificationConfig.ts:124
+msgctxt "notification:download"
+msgid "Too many requests"
+msgstr "Zbyt wiele żądań"
+
+#: src/helpers/notificationConfig.ts:209
+msgctxt "notification:filename"
+msgid ""
+"The filename is modified by other extensions, please check extensions' "
+"settings."
+msgstr ""
+"Nazwa pliku została zmieniona przez inne rozszerzenia — sprawdź ustawienia "
+"rozszerzeń."
+
+#: src/helpers/notificationConfig.ts:208
+msgctxt "notification:filename"
+msgid "WARNING: Filename is modified"
+msgstr "OSTRZEŻENIE: nazwa pliku została zmieniona"
+
+#: src/helpers/notificationButton.ts:32
+msgctxt "notification:filename:button"
+msgid "Diagnose"
+msgstr "Diagnostyka"
+
+#: src/helpers/notificationButton.ts:27
+msgctxt "notification:filename:button"
+msgid "Ignore"
+msgstr "Ignoruj"
+
+#: src/helpers/notificationConfig.ts:186
+msgctxt "notification:parseTweetInfo"
+msgid "Failed to parse tweet information"
+msgstr "Nie udało się przetworzyć informacji o tweecie"
+
+#: src/helpers/notificationConfig.ts:190
+msgctxt "notification:parseTweetInfo"
+msgid "Failed to parse tweet information. Please report bug to developer."
+msgstr ""
+"Nie udało się przetworzyć informacji o tweecie. Prosimy zgłosić błąd "
+"deweloperowi."
+
+#: src/helpers/notificationConfig.ts:234
+msgctxt "notification:quota"
+msgid "Download Quota Warning"
+msgstr "Ostrzeżenie o limicie pobierania"
+
+#: src/helpers/notificationConfig.ts:235
+msgctxt "notification:quota"
+msgid "Remaining quota: {{quota}}. Resets at {{time}}"
+msgstr "Pozostały limit: {{quota}}. Odnowienie o {{time}}"
+
+#: src/helpers/notificationButton.ts:19
+msgctxt "notification:tweet:button"
+msgid "Retry"
+msgstr "Ponów"
+
+#: src/helpers/notificationButton.ts:11
+msgctxt "notification:tweet:button"
+msgid "View"
+msgstr "Wyświetl"
+
+#: src/helpers/notificationConfig.ts:160
+msgctxt "notification:tweetFetch"
+msgid "Forbidden"
+msgstr "Dostęp zabroniony"
+
+#: src/helpers/notificationConfig.ts:148
+msgctxt "notification:tweetFetch"
+msgid "Please check your login session and your permission."
+msgstr "Sprawdź swoją sesję logowania i uprawnienia."
+
+#: src/helpers/notificationConfig.ts:176
+msgctxt "notification:tweetFetch"
+msgid "Please contact with developer."
+msgstr "Prosimy skontaktować się z deweloperem."
+
+#: src/helpers/notificationConfig.ts:134
+msgctxt "notification:tweetFetch"
+msgid "The tweet cannot be found"
+msgstr "Nie można znaleźć tweeta"
+
+#: src/helpers/notificationConfig.ts:135
+msgctxt "notification:tweetFetch"
+msgid "The tweet might be deleted."
+msgstr "Tweet mógł zostać usunięty."
+
+#: src/helpers/notificationConfig.ts:147
+msgctxt "notification:tweetFetch"
+msgid "Unauthorized"
+msgstr "Brak autoryzacji"
+
+#: src/helpers/notificationConfig.ts:173
+msgctxt "notification:tweetFetch"
+msgid "Unknown Error ({{code}})"
+msgstr "Nieznany błąd ({{code}})"
+
+#: src/helpers/notificationConfig.ts:161
+msgctxt "notification:tweetFetch"
+msgid "Your login session might be expired, please refresh the session."
+msgstr "Sesja logowania mogła wygasnąć — odśwież stronę."
+
+#: src/pages/components/About.tsx:69
+msgctxt "options:about"
+msgid "Changelog"
+msgstr "Dziennik zmian"
+
+#: src/pages/components/About.tsx:57
+msgctxt "options:about"
+msgid "Official website"
+msgstr "Oficjalna strona"
+
+#: src/pages/components/About.tsx:61
+msgctxt "options:about"
+msgid "Privacy policy"
+msgstr "Polityka prywatności"
+
+#: src/pages/components/About.tsx:65
+msgctxt "options:about"
+msgid "Reoprt issues"
+msgstr "Zgłoś błąd"
+
+#: src/pages/components/About.tsx:30
+msgctxt "options:about"
+msgid "Version"
+msgstr "Wersja"
+
+#: src/pages/components/Diagnostics.tsx:60
+msgctxt "options:diagnostics"
+msgid "Are you sure to start diagnostics?"
+msgstr "Czy na pewno chcesz rozpocząć diagnostykę?"
+
+#: src/pages/components/Diagnostics.tsx:114
+msgctxt "options:diagnostics"
+msgid "Conflict Extensions"
+msgstr "Kolidujące rozszerzenia"
+
+#: src/pages/components/Diagnostics.tsx:81
+msgctxt "options:diagnostics"
+msgid "Diagnostic"
+msgstr "Diagnostyka"
+
+#: src/pages/components/Diagnostics.tsx:95
+msgctxt "options:diagnostics"
+msgid "Disable"
+msgstr "Wyłącz"
+
+#: src/pages/components/Diagnostics.tsx:65
+msgctxt "options:diagnostics"
+msgid ""
+"Other extensions will be temporarily disabled during diagnositc, please "
+"ensure your working sessions have been saved."
+msgstr ""
+"Podczas diagnostyki inne rozszerzenia zostaną tymczasowo wyłączone — zapisz "
+"niezapisaną pracę."
+
+#: src/pages/components/Diagnostics.tsx:70
+msgctxt "options:diagnostics"
+msgid ""
+"This diagnostic might take few minutes to done, depends on how many "
+"extensions you installed."
+msgstr ""
+"Diagnostyka może zająć kilka minut, w zależności od liczby zainstalowanych "
+"rozszerzeń."
+
+#: src/pages/components/Diagnostics.tsx:46
+msgctxt "options:diagnostics"
+msgid ""
+"This diagnostic will check your installed extensions that might conflict "
+"with this extension."
+msgstr ""
+"Diagnostyka sprawdzi zainstalowane rozszerzenia, które mogą kolidować z tym "
+"rozszerzeniem."
+
+#: src/pages/components/FeatureOptions.tsx:43
+msgctxt "options:features"
+msgid "Auto-reveal sensitive content"
+msgstr "Automatyczne pokazywanie treści wrażliwych"
+
+#: src/pages/components/FeatureOptions.tsx:61
+msgctxt "options:features"
+msgid "Download the thumbnail when the media is video."
+msgstr "Pobieranie miniatury, gdy medium jest filmem."
+
+#: src/pages/components/FeatureOptions.tsx:60
+msgctxt "options:features"
+msgid "Download video thumbnail"
+msgstr "Pobierz miniaturę wideo"
+
+#: src/pages/components/FeatureOptions.tsx:53
+msgctxt "options:features"
+msgid "Keyboard shortcut"
+msgstr "Skrót klawiszowy"
+
+#: src/pages/components/FeatureOptions.tsx:20
+msgctxt "options:features"
+msgid "Use keyboard shortcut to trigger download."
+msgstr "Użyj skrótu klawiszowego, aby uruchomić pobieranie."
+
+#: src/pages/components/FeatureOptions.tsx:44
+msgctxt "options:features"
+msgid ""
+"When the tweet was flagged as sensitive content, this feature can show the "
+"blured content automatically."
+msgstr ""
+"Gdy tweet jest oznaczony jako treść wrażliwa, ta funkcja może automatycznie "
+"pokazać rozmytą zawartość."
+
+#: src/pages/components/FootBar.tsx:45
+msgctxt "options:footBar:button"
+msgid "Buy me a coffee"
+msgstr "Postaw mi kawę"
+
+#: src/pages/components/FootBar.tsx:34
+msgctxt "options:footBar:button"
+msgid "Rate it"
+msgstr "Oceń"
+
+#: src/pages/components/FootBar.tsx:25
+msgctxt "options:footBar:text"
+msgid "Do you like Media Harvest?"
+msgstr "Podoba Ci się Media Harvest?"
+
+#: src/pages/components/FootBar.tsx:37
+msgctxt "options:footBar:text"
+msgid "or"
+msgstr "lub"
+
+#: src/pages/components/GeneralOptions.tsx:227
+msgctxt "options:general"
+msgid "Ask where to save files."
+msgstr "Pytaj, gdzie zapisać pliki."
+
+#: src/pages/components/GeneralOptions.tsx:275
+msgctxt "options:general"
+msgid "Create sub-directory"
+msgstr "Utwórz podkatalog"
+
+#: src/pages/components/GeneralOptions.tsx:277
+msgctxt "options:general"
+msgid ""
+"Create sub-directory under the default download directory. Sub-directory "
+"can be seperated with \"/\"."
+msgstr ""
+"Utwórz podkatalog w domyślnym katalogu pobierania. Podkatalogi są "
+"oddzielane znakiem \"/\"."
+
+#: src/pages/components/GeneralOptions.tsx:244
+msgctxt "options:general"
+msgid "Filename pattern"
+msgstr "Wzorzec nazwy pliku"
+
+#: src/pages/components/GeneralOptions.tsx:313
+msgctxt "options:general"
+msgid "Group Files"
+msgstr "Grupuj pliki"
+
+#: src/pages/components/GeneralOptions.tsx:314
+msgctxt "options:general"
+msgid "Group files by the selected attribute."
+msgstr "Grupuj pliki według wybranego atrybutu."
+
+#: src/pages/hooks/useFilenameSettingsForm.ts:246
+msgctxt "options:general"
+msgid "Invalid directory name. Cannot contain <>:\"\\|?*"
+msgstr "Nieprawidłowa nazwa katalogu. Nie może zawierać <>:\"\\|?*"
+
+#: src/pages/hooks/useFilenameSettingsForm.ts:287
+msgctxt "options:general"
+msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
+msgstr ""
+"Nieprawidłowy wzorzec. Wzorzec musi zawierać `Tweet ID` + `Serial` lub "
+"`Hash`."
+
+#: src/pages/components/GeneralOptions.tsx:228
+msgctxt "options:general"
+msgid ""
+"Show the file chooser or not when download is triggered. Recommend to "
+"disable this option."
+msgstr ""
+"Wyświetlaj lub nie okno wyboru pliku przy uruchomieniu pobierania. Zalecane "
+"jest wyłączenie tej opcji."
+
+#: src/pages/components/GeneralOptions.tsx:245
+msgctxt "options:general"
+msgid "You can choose what info to be included in the filename."
+msgstr "Możesz wybrać, jakie informacje zostaną uwzględnione w nazwie pliku."
+
+#: src/pages/components/GeneralOptions.tsx:397
+msgctxt "options:general:button"
+msgid "Reset"
+msgstr "Resetuj"
+
+#: src/pages/components/GeneralOptions.tsx:405
+msgctxt "options:general:button"
+msgid "Save"
+msgstr "Zapisz"
+
+#: src/pages/components/GeneralOptions.tsx:322
+#: src/pages/components/GeneralOptions.tsx:55
+msgctxt "options:general:filenameToken"
+msgid "Account"
+msgstr "Konto"
+
+#: src/pages/components/GeneralOptions.tsx:60
+msgctxt "options:general:filenameToken"
+msgid "Account ID"
+msgstr "ID konta"
+
+#: src/pages/components/GeneralOptions.tsx:80
+msgctxt "options:general:filenameToken"
+msgid "Download Date"
+msgstr "Data pobrania"
+
+#: src/pages/components/GeneralOptions.tsx:85
+msgctxt "options:general:filenameToken"
+msgid "Download Datetime"
+msgstr "Data i godzina pobrania"
+
+#: src/pages/components/GeneralOptions.tsx:95
+msgctxt "options:general:filenameToken"
+msgid "Download Timestamp"
+msgstr "Znacznik czasu pobrania"
+
+#: src/pages/components/GeneralOptions.tsx:90
+msgctxt "options:general:filenameToken"
+msgid "Download_Datetime"
+msgstr "Pobranie_DataGodzina"
+
+#: src/pages/components/GeneralOptions.tsx:70
+msgctxt "options:general:filenameToken"
+msgid "Hash"
+msgstr "Hash"
+
+#: src/pages/components/GeneralOptions.tsx:75
+msgctxt "options:general:filenameToken"
+msgid "Serial"
+msgstr "Numer seryjny"
+
+#: src/pages/components/GeneralOptions.tsx:100
+msgctxt "options:general:filenameToken"
+msgid "Tweet Date"
+msgstr "Data tweeta"
+
+#: src/pages/components/GeneralOptions.tsx:105
+msgctxt "options:general:filenameToken"
+msgid "Tweet Datetime"
+msgstr "Data i godzina tweeta"
+
+#: src/pages/components/GeneralOptions.tsx:65
+msgctxt "options:general:filenameToken"
+msgid "Tweet ID"
+msgstr "ID tweeta"
+
+#: src/pages/components/GeneralOptions.tsx:115
+msgctxt "options:general:filenameToken"
+msgid "Tweet Timestamp"
+msgstr "Znacznik czasu tweeta"
+
+#: src/pages/components/GeneralOptions.tsx:110
+msgctxt "options:general:filenameToken"
+msgid "Tweet_Datetime"
+msgstr "Tweet_DataGodzina"
+
+#: src/pages/components/History.tsx:545
+msgctxt "options:history"
+msgid "Are you sure you want to import this history file?"
+msgstr "Czy na pewno chcesz zaimportować ten plik historii?"
+
+#: src/pages/components/History.tsx:527
+msgctxt "options:history"
+msgid ""
+"Cannot access the selected file. Please grant permission to read the file "
+"and try again."
+msgstr ""
+"Nie można uzyskać dostępu do wybranego pliku. Przyznaj uprawnienia do "
+"odczytu pliku i spróbuj ponownie."
+
+#: src/pages/components/History.tsx:359
+#: src/pages/components/History.tsx:364
+msgctxt "options:history"
+msgid "Export"
+msgstr "Eksportuj"
+
+#: src/pages/components/History.tsx:695
+msgctxt "options:history"
+msgid "Failed to export file."
+msgstr "Nie udało się wyeksportować pliku."
+
+#: src/pages/components/History.tsx:558
+msgctxt "options:history"
+msgid "Failed to import file."
+msgstr "Nie udało się zaimportować pliku."
+
+#: src/pages/components/History.tsx:351
+#: src/pages/components/History.tsx:356
+msgctxt "options:history"
+msgid "Import"
+msgstr "Importuj"
+
+#: src/pages/components/History.tsx:555
+msgctxt "options:history"
+msgid "Invalid format."
+msgstr "Nieprawidłowy format."
+
+#: src/pages/components/History.tsx:317
+msgctxt "options:history"
+msgid "Next page"
+msgstr "Następna strona"
+
+#: src/pages/components/History.tsx:307
+msgctxt "options:history"
+msgid "Previous page"
+msgstr "Poprzednia strona"
+
+#: src/pages/components/History.tsx:333
+msgctxt "options:history"
+msgid "Refresh"
+msgstr "Odśwież"
+
+#: src/pages/components/History.tsx:563
+msgctxt "options:history"
+msgid "The history file has been imported successfully."
+msgstr "Plik historii został pomyślnie zaimportowany."
+
+#: src/pages/components/History.tsx:412
+msgctxt "options:history:input:placeholder"
+msgid "Username"
+msgstr "Nazwa użytkownika"
+
+#: src/pages/components/History.tsx:158
+msgctxt "options:history:mediaType"
+msgid "Image"
+msgstr "Obraz"
+
+#: src/pages/components/History.tsx:164
+#: src/pages/components/History.tsx:167
+msgctxt "options:history:mediaType"
+msgid "Mixed"
+msgstr "Mieszany"
+
+#: src/pages/components/History.tsx:161
+msgctxt "options:history:mediaType"
+msgid "Video"
+msgstr "Wideo"
+
+#: src/pages/components/History.tsx:427
+msgctxt "options:history:mediaType:option"
+msgid "All"
+msgstr "Wszystkie"
+
+#: src/pages/components/History.tsx:430
+msgctxt "options:history:mediaType:option"
+msgid "Image"
+msgstr "Obraz"
+
+#: src/pages/components/History.tsx:436
+msgctxt "options:history:mediaType:option"
+msgid "Mixed"
+msgstr "Mieszany"
+
+#: src/pages/components/History.tsx:433
+msgctxt "options:history:mediaType:option"
+msgid "Video"
+msgstr "Wideo"
+
+#: src/pages/components/History.tsx:419
+msgctxt "options:history:select"
+msgid "Select media type"
+msgstr "Wybierz typ mediów"
+
+#: src/pages/components/History.tsx:231
+msgctxt "options:history:table:head"
+msgid "actions"
+msgstr "Akcje"
+
+#: src/pages/components/History.tsx:230
+msgctxt "options:history:table:head"
+msgid "download time"
+msgstr "Czas pobrania"
+
+#: src/pages/components/History.tsx:229
+msgctxt "options:history:table:head"
+msgid "post time"
+msgstr "Czas publikacji"
+
+#: src/pages/components/History.tsx:226
+msgctxt "options:history:table:head"
+msgid "thumbnail"
+msgstr "Miniatura"
+
+#: src/pages/components/History.tsx:228
+msgctxt "options:history:table:head"
+msgid "type"
+msgstr "Typ"
+
+#: src/pages/components/History.tsx:227
+msgctxt "options:history:table:head"
+msgid "user"
+msgstr "Użytkownik"
+
+#: src/pages/components/IntegrationOptions.tsx:20
+msgctxt "options:integrations"
+msgid "Aria2-Explorer"
+msgstr "Aria2-Explorer"
+
+#: src/pages/components/IntegrationOptions.tsx:88
+msgctxt "options:integrations"
+msgid "Dispatch download to Aria2"
+msgstr "Przekaż pobieranie do Aria2"
+
+#: src/pages/components/IntegrationOptions.tsx:76
+msgctxt "options:integrations"
+msgid "Filename Detector"
+msgstr "Detektor nazwy pliku"
+
+#: src/pages/components/IntegrationOptions.tsx:77
+msgctxt "options:integrations"
+msgid ""
+"The detector can notify user when the filename is modified by other "
+"extensions."
+msgstr ""
+"Detektor może powiadamiać użytkownika, gdy nazwa pliku jest zmieniana przez "
+"inne rozszerzenia."
+
+#: src/pages/components/IntegrationOptions.tsx:65
+msgctxt "options:integrations"
+msgid "This integration is not compatible with {{platform}}"
+msgstr "Ta integracja nie jest zgodna z {{platform}}"
+
+#: src/pages/components/IntegrationOptions.tsx:21
+msgctxt "options:integrations"
+msgid "Transfer the download to Aria2 via {{aria2-extension}}."
+msgstr "Przenieś pobieranie do Aria2 przez {{aria2-extension}}."
+
+#: src/pages/app/Options.tsx:158
+#: src/pages/components/SideMenu.tsx:86
+msgctxt "options:sideMenu"
+msgid "About"
+msgstr "O programie"
+
+#: src/pages/app/Options.tsx:167
+#: src/pages/components/SideMenu.tsx:80
+msgctxt "options:sideMenu"
+msgid "Diagnostics"
+msgstr "Diagnostyka"
+
+#: src/pages/app/Options.tsx:116
+#: src/pages/components/SideMenu.tsx:62
+msgctxt "options:sideMenu"
+msgid "Features"
+msgstr "Funkcje"
+
+#: src/pages/app/Options.tsx:105
+#: src/pages/components/SideMenu.tsx:56
+msgctxt "options:sideMenu"
+msgid "General"
+msgstr "Ogólne"
+
+#: src/pages/app/Options.tsx:136
+#: src/pages/components/SideMenu.tsx:74
+msgctxt "options:sideMenu"
+msgid "History"
+msgstr "Historia"
+
+#: src/pages/app/Options.tsx:124
+#: src/pages/components/SideMenu.tsx:68
+msgctxt "options:sideMenu"
+msgid "Integrations"
+msgstr "Integracje"
+
+#: src/pages/components/PopupFeatureBlock.tsx:40
+msgctxt "popup"
+msgid "Auto-reveal sensitive"
+msgstr "Auto-pokazywanie treści wrażliwych"
+
+#: src/pages/app/Popup.tsx:216
+msgctxt "popup"
+msgid "Buy me a coffee!"
+msgstr "Postaw mi kawę!"
+
+#: src/pages/app/Popup.tsx:198
+msgctxt "popup"
+msgid "Changelog"
+msgstr "Dziennik zmian"
+
+#: src/pages/app/Popup.tsx:129
+msgctxt "popup"
+msgid "Rate it"
+msgstr "Oceń"
+
+#: src/pages/app/Popup.tsx:136
+msgctxt "popup"
+msgid "Report issues"
+msgstr "Zgłoś błąd"
+
+#: src/pages/components/PopupFeatureBlock.tsx:45
+msgctxt "popup"
+msgid "Video thumbnail"
+msgstr "Miniatura wideo"
