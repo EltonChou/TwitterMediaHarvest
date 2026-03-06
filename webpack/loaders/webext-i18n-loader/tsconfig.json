@@ -3,6 +3,7 @@
     // project options
     "strict": true,
     "lib": ["ESNext"], // specifies which default set of type definitions to use ("DOM", "ES6", etc)
+    "rootDir": "./src",
     "outDir": "dist", // .js (as well as .d.ts, .js.map, etc.) files will be emitted into this directory.,
     "module": "NodeNext",
     "removeComments": true, // Strips all comments from TypeScript files when converting into JavaScript- you rarely read compiled code so this saves space
