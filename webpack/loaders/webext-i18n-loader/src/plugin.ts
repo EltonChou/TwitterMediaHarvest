@@ -25,6 +25,13 @@ type WebextLocalMessage = {
 
 export interface WebextI18nPluginOptions {
   poDir: string
+  /**
+   * Output directory for emitted locale files.
+   * Each locale will be emitted to `<outDir>/<locale>/messages.json`.
+   *
+   * @default '_locales'
+   */
+  outDir?: string
   rawContexts?: string | RegExp | (string | RegExp)[]
   /**
    * If context is matched in {@link rawContexts},
@@ -52,6 +59,7 @@ export class WebextI18nPlugin implements WebpackPluginInstance {
         additionalProperties: false,
         properties: {
           poDir: { type: 'string' },
+          outDir: { type: 'string' },
           rawContexts: {
             oneOf: [
               {
@@ -156,7 +164,7 @@ export class WebextI18nPlugin implements WebpackPluginInstance {
             )
 
             const outputFile = path.posix.join(
-              '_locales',
+              this.options.outDir ?? '_locales',
               locale,
               'messages.json'
             )

@@ -2,6 +2,7 @@ import { type HashStore } from './hashStore';
 import type { Compiler, WebpackPluginInstance } from 'webpack';
 export interface WebextI18nPluginOptions {
     poDir: string;
+    outDir?: string;
     rawContexts?: string | RegExp | (string | RegExp)[];
     messageIdMaker?: (msgId: string, context?: string) => string;
 }

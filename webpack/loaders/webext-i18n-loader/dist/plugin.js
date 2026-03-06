@@ -30,6 +30,7 @@ class WebextI18nPlugin {
             additionalProperties: false,
             properties: {
                 poDir: { type: 'string' },
+                outDir: { type: 'string' },
                 rawContexts: {
                     oneOf: [
                         {
@@ -87,6 +88,7 @@ class WebextI18nPlugin {
                 stage: webpack_1.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
                 additionalAssets: true,
             }, (_unusedAssets) => __awaiter(this, void 0, void 0, function* () {
+                var _a;
                 logger.log(`Finding po files from ${this.options.poDir}`);
                 const localePoMap = new Map();
                 const poFiles = yield (0, glob_1.glob)(path_1.default.resolve(this.options.poDir, '*.po'), {
@@ -107,7 +109,7 @@ class WebextI18nPlugin {
                         { message: translation.content },
                     ]);
                     const webextTranslations = Object.fromEntries(webextTranslationEntries);
-                    const outputFile = path_1.default.posix.join('_locales', locale, 'messages.json');
+                    const outputFile = path_1.default.posix.join((_a = this.options.outDir) !== null && _a !== void 0 ? _a : '_locales', locale, 'messages.json');
                     logger.info('emitting', outputFile);
                     compilation.emitAsset(outputFile, new RawSource(JSON.stringify(webextTranslations)), {
                         javascriptModule: false,
