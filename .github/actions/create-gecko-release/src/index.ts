@@ -36,7 +36,7 @@ function getInputs(): Inputs {
   }
 }
 
-function validateInputs(inputs: Inputs) {
+export function validateInputs(inputs: Inputs) {
   if (!inputs.endpoint) throw new Error('endpoint is required')
 
   if (!URL.canParse(inputs.endpoint))
@@ -53,7 +53,7 @@ function validateInputs(inputs: Inputs) {
     throw new Error('min-browser-version is not a valid semver')
 }
 
-function postJson(
+export function postJson(
   endpoint: string,
   payload: Record<string, unknown>,
   apiKey: string
@@ -110,4 +110,10 @@ async function run() {
   }
 }
 
-run()
+// Only run when executed directly (not when imported for testing)
+if (
+  process.argv[1] &&
+  (process.argv[1].endsWith('index.js') || process.argv[1].endsWith('index.ts'))
+) {
+  run()
+}
