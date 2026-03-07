@@ -5,7 +5,13 @@ import ts from 'typescript'
 
 test('transformer', async () => {
   const testFile = path.normalize(
-    path.resolve(path.dirname(__filename), '..', 'fixtures', 'i18n.ts')
+    path.resolve(
+      path.dirname(__filename),
+      '..',
+      'integrated_tests',
+      'fixtures',
+      'i18n.ts'
+    )
   )
 
   const content = await fs.readFile(testFile, { encoding: 'utf-8', flag: 'r' })

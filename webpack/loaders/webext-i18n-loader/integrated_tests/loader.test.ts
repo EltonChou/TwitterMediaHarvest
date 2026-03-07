@@ -20,7 +20,15 @@ const compiler = (fixture: string, options: LoaderOptions) => {
               loader: path.resolve(process.cwd(), 'dist', 'index.js'),
               options,
             },
-            { loader: 'ts-loader' },
+            {
+              loader: 'ts-loader',
+              options: {
+                configFile: path.resolve(
+                  path.dirname(__filename),
+                  'tsconfig.json'
+                ),
+              },
+            },
           ],
         },
       ],
@@ -44,7 +52,7 @@ const compiler = (fixture: string, options: LoaderOptions) => {
 
 test('test', async () => {
   const stats = await compiler(
-    path.resolve(path.dirname(__filename), '..', 'fixtures', 'i18n.ts'),
+    path.resolve(path.dirname(__filename), 'fixtures', 'i18n.ts'),
     {
       expressions: ['i18n', /getText/],
     }

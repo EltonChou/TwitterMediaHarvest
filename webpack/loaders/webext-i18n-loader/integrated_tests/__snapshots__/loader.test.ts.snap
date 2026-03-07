@@ -2,7 +2,6 @@
 
 exports[`test 1`] = `
 ""use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 function i18n(msg, context, placeholders) {
     return msg + context || '' + JSON.stringify(placeholders);
 }
