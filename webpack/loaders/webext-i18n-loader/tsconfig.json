@@ -35,6 +35,6 @@
     "src/**/*.spec.ts",
     "src/**/*.test.ts",
     "integrated_tests/**",
-    "fixtures/**"
+    "integrated_tests/fixtures/**"
   ]
 }
