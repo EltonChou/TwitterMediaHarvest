@@ -28156,6 +28156,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.validateInputs = validateInputs;
+exports.postJson = postJson;
 const core = __importStar(__nccwpck_require__(2481));
 const http = __importStar(__nccwpck_require__(3685));
 const https = __importStar(__nccwpck_require__(5687));
@@ -28237,7 +28239,11 @@ async function run() {
         core.setFailed(message);
     }
 }
-run();
+// Only run when executed directly (not when imported for testing)
+if (process.argv[1] &&
+    (process.argv[1].endsWith('index.js') || process.argv[1].endsWith('index.ts'))) {
+    run();
+}
 
 
 /***/ }),
