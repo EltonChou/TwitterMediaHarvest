@@ -48,6 +48,7 @@
     "@faker-js/faker": "^9.3.0",
     "@media-harvest-config/prettier": "workspace:^",
     "@media-harvest/webext-i18n-loader": "workspace:^",
+    "@playwright/test": "^1.58.2",
     "@smithy/types": "^4.0.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -101,6 +102,7 @@
     "lint-staged": "^15.3.0",
     "mini-css-extract-plugin": "^2.9.2",
     "pinst": "^3.0.0",
+    "playwright-bdd": "^8.4.2",
     "prettier": "^3.7.0",
     "prettier-eslint": "^16.3.0",
     "sass": "^1.83.1",
@@ -161,7 +163,10 @@
     "check:translations": "cross-env ./utils/check-translations.mjs",
     "check:changelog": "cross-env ./utils/check-changelog.mjs",
     "check:flags": "cross-env ./utils/check-flags.mjs",
-    "check:all": "yarn check:envfile && yarn locale:extract --check && yarn locale:check && yarn check:changelog && yarn check:translations && yarn check:flags && yarn typecheck"
+    "check:all": "yarn check:envfile && yarn locale:extract --check && yarn locale:check && yarn check:changelog && yarn check:translations && yarn check:flags && yarn typecheck",
+    "test:e2e": "playwright test",
+    "test:e2e:chrome": "playwright test --project=chrome-extension",
+    "test:e2e:ui": "playwright test --ui"
   },
   "repository": {
     "type": "git",

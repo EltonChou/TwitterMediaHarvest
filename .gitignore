@@ -82,6 +82,12 @@ dev.env
 .claude/worktrees/
 .claude/projects/
 
+# Playwright
+playwright-report/
+test-results/
+bdd-gen/
+.bdd-gen/
+
 # yarn related
 
 .yarn/*
