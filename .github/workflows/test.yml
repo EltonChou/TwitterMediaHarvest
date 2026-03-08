@@ -61,9 +61,9 @@ jobs:
           yarn install
           yarn lint
           yarn ci:all
-          yarn check-locales
-          yarn check-translations
-          yarn check-flags
+          yarn locale:check
+          yarn check:translations
+          yarn check:flags
           yarn typecheck
 
   build:
@@ -97,7 +97,7 @@ jobs:
           YARN_ENABLE_IMMUTABLE_INSTALLS: ${{ github.event.pull_request.user.login != 'dependabot[bot]' }}
         run: |
           yarn install
-          yarn check-envfile
+          yarn check:envfile
           yarn build:tools
 
           if [ "${{ matrix.browser }}" = "chrome" ]; then

@@ -132,7 +132,7 @@ jobs:
       - name: Build ${{ matrix.browser }}
         run: |
           yarn install --immutable
-          yarn check-envfile
+          yarn check:envfile
           yarn build:tools
 
           if [ "${{ matrix.browser }}" = "chrome" ]; then
