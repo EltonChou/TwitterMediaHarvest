@@ -8,9 +8,15 @@ import { generateUsageStatistics } from '#utils/test/usageStatistics'
 import { increaseUsageStatistics } from './increaseUsageStatistics'
 
 describe('unit test for handler to increase usage statistics', () => {
-  const downloadRepo = new MockDownloadRepo()
-  const statsRepo = new MockUsageStatisticsRepository()
-  const publisher = new MockEventPublisher()
+  let downloadRepo: MockDownloadRepo
+  let statsRepo: MockUsageStatisticsRepository
+  let publisher: MockEventPublisher
+
+  beforeEach(() => {
+    downloadRepo = new MockDownloadRepo()
+    statsRepo = new MockUsageStatisticsRepository()
+    publisher = new MockEventPublisher()
+  })
 
   it('can increase usage statistics', async () => {
     const downloadItem = generateDownloadItem({ fileSize: 10 })
