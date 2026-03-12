@@ -6,6 +6,7 @@
 import ClientWasSynced from '#domain/events/ClientWasSynced'
 import type { UsageStatistics } from '#domain/valueObjects/usageStatistics'
 import { makeApiUrl } from '#helpers/clientApiUrl'
+import { isProduction } from '#helpers/env'
 import { TimeHelper } from '#helpers/time'
 import { Entity, EntityId } from './base'
 
@@ -19,10 +20,9 @@ type ClientProps = {
 
 export class ClientUUID extends EntityId<string> {}
 
-const SYNC_PERIOD: number =
-  process.env.NODE_ENV === 'production'
-    ? TimeHelper.minute(30)
-    : TimeHelper.minute(10)
+const SYNC_PERIOD: number = isProduction
+  ? TimeHelper.minute(30)
+  : TimeHelper.minute(10)
 
 export class Client
   extends Entity<ClientUUID, ClientProps>

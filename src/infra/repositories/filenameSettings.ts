@@ -9,12 +9,12 @@ import {
   FilenameSetting,
 } from '#domain/valueObjects/filenameSetting'
 import PatternToken from '#enums/patternToken'
+import { isProduction } from '#helpers/env'
 import type { IStorageProxy } from '#libs/storageProxy'
 import type { V4FilenameSettings } from '#schema'
 
 const defaultV4FilenameSettings = new FilenameSetting({
-  directory:
-    process.env.NODE_ENV === 'production' ? 'twitter_media_harvest' : 'mh-dev',
+  directory: isProduction ? 'twitter_media_harvest' : 'mh-dev',
   noSubDirectory: false,
   filenamePattern: [
     PatternToken.Account,
@@ -25,9 +25,7 @@ const defaultV4FilenameSettings = new FilenameSetting({
   fileAggregation: false,
 })
 
-export class V4FilenameSettingsRepository
-  implements ISettingsVORepository<FilenameSetting>
-{
+export class V4FilenameSettingsRepository implements ISettingsVORepository<FilenameSetting> {
   constructor(readonly storage: IStorageProxy<V4FilenameSettings>) {}
 
   async get(): Promise<FilenameSetting> {

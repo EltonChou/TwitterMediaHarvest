@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+import { isProduction } from '#helpers/env'
 import type { InitializationOptions, MontiorUser } from '#monitor'
 import {
   init as SentryInit,
@@ -24,8 +25,8 @@ export const init = (options?: InitializationOptions) => {
   SentryInit({
     dsn: process.env.SENTRY_DSN,
     skipBrowserExtensionCheck: true,
-    debug: process.env.NODE_ENV !== 'production',
-    tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.3 : 0.8,
+    debug: !isProduction,
+    tracesSampleRate: isProduction ? 0.3 : 0.8,
     environment: process.env.NODE_ENV,
     release: __RELEASE_NAME__,
     ignoreErrors: [
