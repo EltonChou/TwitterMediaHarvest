@@ -22,14 +22,6 @@ export const notifyDownloadInterrupted =
     // eslint-disable-next-line no-console
     console.log('Download was interrupted. Reason:', event.reason)
 
-    // TODO: Monitoring agent.
-    // addBreadcrumb({
-    //   category: 'download',
-    //   message: 'Download interupted reason.',
-    //   level: 'info',
-    //   data: error,
-    // })
-
     const { value: downloadRecord, error } = await downloadRecordRepo.getById(
       event.downloadId
     )
