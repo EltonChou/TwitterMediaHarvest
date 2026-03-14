@@ -15,6 +15,16 @@ import {
 } from './messages/base'
 import { runtime, tabs } from 'webextension-polyfill'
 
+/**
+ * A wrapper around `runtime.sendMessage` to send messages to background script.
+ *
+ * `runtime.sendMessage` is a basically a syntactic sugar over
+ * connect() + postMessage() + auto-disconnect.
+ * The convenience wrapper hides the overhead, but it's still there.
+ *
+ * TODO: Use long-lived connection with `runtime.coneect()` and `port.postMessage()`.
+ * Legacy workflow should be fully asynchronous or event-driven.
+ */
 export const sendMessage = async <
   Action extends WebExtAction,
   Payload extends LiteralObject = never,
