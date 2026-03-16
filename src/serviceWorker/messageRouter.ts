@@ -8,6 +8,7 @@ import {
   WebExtMessageErrorResponse,
   WebExtMessageObject,
 } from '#libs/webExtMessage'
+import { isOneShotMessage } from '#libs/webExtMessage/port'
 import Joi from 'joi'
 import type { Runtime } from 'webextension-polyfill'
 
@@ -15,6 +16,7 @@ export interface MessageContext {
   message: unknown
   sender: Runtime.MessageSender
   response: (resp: unknown) => void
+  port?: Runtime.Port
 }
 
 export interface WebExtMessageRouter {
@@ -60,6 +62,35 @@ export class MessageRouter implements WebExtMessageRouter {
       : ctx.response(
           makeErrorResponse('Invalid action' + `(action: ${value.action})`)
         )
+  }
+
+  async handlePortMessage({
+    message,
+    port,
+  }: {
+    message: unknown
+    port: Runtime.Port
+  }): Promise<void> {
+    let innerMessage: unknown
+    let respond: (result: unknown) => void
+
+    if (isOneShotMessage(message)) {
+      const { correlationId, inner } = message
+      innerMessage = inner
+      respond = result => port.postMessage({ correlationId, result })
+    } else {
+      innerMessage = message
+      respond = () => undefined
+    }
+
+    const sender: Runtime.MessageSender = port.sender ?? {}
+
+    return this.handle({
+      message: innerMessage,
+      sender,
+      response: respond,
+      port,
+    })
   }
 
   route(action: WebExtAction, handler: MessageContextHandler): this {
