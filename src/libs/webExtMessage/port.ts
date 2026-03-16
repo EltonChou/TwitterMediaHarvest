@@ -1,3 +1,5 @@
+import { runtime } from 'webextension-polyfill'
+
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,3 +26,15 @@ export const isOneShotMessage = (
   'correlationId' in value &&
   typeof (value as OneShotMessage<unknown>).correlationId === 'string' &&
   'inner' in value
+
+export const getMessagePort = (() => {
+  const cache = new Map<MessagePortName, ReturnType<typeof runtime.connect>>()
+  return (name: MessagePortName) => {
+    const existing = cache.get(name)
+    if (existing) return existing
+    const port = runtime.connect({ name })
+    cache.set(name, port)
+    port.onDisconnect.addListener(() => cache.delete(name))
+    return port
+  }
+})()
