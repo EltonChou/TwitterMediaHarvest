@@ -74,6 +74,14 @@ export class RequestTransactionIdMessage implements WebExtMessage<
     return { action: WebExtAction.RequestTransactionId, payload: this.payload }
   }
 
+  asOneShot() {
+    return {
+      inner: this,
+      correlationId: crypto.randomUUID(),
+      isOneShot: true as const,
+    }
+  }
+
   static validate(message: unknown): Result<RequestTransactionIdMessage> {
     const { value, error } = messageSchema.validate(message)
     if (error) return toErrorResult(error)

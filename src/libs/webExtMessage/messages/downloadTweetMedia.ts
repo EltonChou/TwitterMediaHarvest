@@ -63,4 +63,12 @@ export class DownloadTweetMediaMessage implements WebExtMessage<
       payload: this.payload,
     }
   }
+
+  asOneShot() {
+    return {
+      inner: this,
+      correlationId: crypto.randomUUID(),
+      isOneShot: true as const,
+    }
+  }
 }
