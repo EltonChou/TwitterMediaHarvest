@@ -13,31 +13,65 @@ import {
   WebExtMessagePayloadResponse,
   WebExtMessageResponse,
 } from './messages/base'
+import { MessagePortName, OneShotMessage, getMessagePort } from './port'
 import { runtime, tabs } from 'webextension-polyfill'
 
 /**
- * A wrapper around `runtime.sendMessage` to send messages to background script.
- *
- * `runtime.sendMessage` is a basically a syntactic sugar over
- * connect() + postMessage() + auto-disconnect.
- * The convenience wrapper hides the overhead, but it's still there.
- *
- * TODO: Use long-lived connection with `runtime.coneect()` and `port.postMessage()`.
- * Legacy workflow should be fully asynchronous or event-driven.
+ * Sends a fire-and-forget message to the background script via a long-lived port.
  */
-export const sendMessage = async <
+export function sendMessage<
+  Action extends WebExtAction,
+  Payload extends LiteralObject = never,
+  ResponsePayload extends LiteralObject = never,
+>(message: WebExtMessage<Action, Payload, ResponsePayload>): Promise<void>
+
+/**
+ * Sends a one-shot request via a long-lived port and awaits a typed response.
+ */
+export function sendMessage<
   Action extends WebExtAction,
   Payload extends LiteralObject = never,
   ResponsePayload extends LiteralObject = never,
 >(
-  message: WebExtMessage<Action, Payload, ResponsePayload>
+  message: OneShotMessage<WebExtMessage<Action, Payload, ResponsePayload>>
 ): Promise<
   | (keyof ResponsePayload extends string
       ? WebExtMessagePayloadResponse<ResponsePayload>
       : WebExtMessageResponse)
   | WebExtMessageErrorResponse
-> => {
-  return runtime.sendMessage(message.toObject())
+>
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function sendMessage(message: any): Promise<any> {
+  const port = getMessagePort(MessagePortName.ContentScript)
+
+  if (
+    typeof message === 'object' &&
+    message !== null &&
+    message.isOneShot === true
+  ) {
+    const { correlationId, inner } = message as OneShotMessage<
+      WebExtMessage<WebExtAction>
+    >
+    return new Promise(resolve => {
+      const listener = (msg: unknown) => {
+        if (
+          typeof msg === 'object' &&
+          msg !== null &&
+          'correlationId' in msg &&
+          (msg as Record<string, unknown>).correlationId === correlationId
+        ) {
+          port.onMessage.removeListener(listener)
+          resolve((msg as Record<string, unknown>).result)
+        }
+      }
+      port.onMessage.addListener(listener)
+      port.postMessage(inner.toObject())
+    })
+  }
+
+  port.postMessage((message as WebExtMessage<WebExtAction>).toObject())
+  return Promise.resolve()
 }
 
 export const sendExternalMessage = async <
