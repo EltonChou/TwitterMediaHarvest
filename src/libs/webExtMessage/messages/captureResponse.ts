@@ -87,6 +87,14 @@ export class CaptureResponseMessage implements WebExtMessage<
     return { action: WebExtAction.CaptureResponse, payload: this.payload }
   }
 
+  asOneShot() {
+    return {
+      inner: this,
+      correlationId: crypto.randomUUID(),
+      isOneShot: true as const,
+    }
+  }
+
   static validate(message: unknown): Result<CaptureResponseMessage> {
     const { value, error } = messageSchema.validate(message)
     return error
