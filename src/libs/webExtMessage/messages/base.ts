@@ -57,6 +57,7 @@ export interface WebExtMessage<
   toObject(): keyof Payload extends string
     ? WebExtMessagePayloadObject<Action, Payload>
     : WebExtMessageObject<Action>
+  asOneShot(): import('../port').OneShotMessage<this>
 }
 
 export const enum WebExtExternalAction {
