@@ -58,7 +58,7 @@ const buttonClickHandler = (e: MouseEvent) => {
     return setButtonStatus(ButtonStatus.Error)(button)
   }
   const message = new DownloadTweetMediaMessage(value.mapBy(props => props))
-  sendMessage(message).then(resp =>
+  sendMessage(message.asOneShot()).then(resp =>
     setButtonStatus(responseStatusToButtonStatus(resp.status))(button)
   )
 }
@@ -73,7 +73,7 @@ export const checkButtonStatus = <T extends ButtonElement>(button: T): T => {
   if (error) return button
 
   const message = new CheckDownloadHistoryMessage({ tweetId: value.tweetId })
-  sendMessage(message).then(resp => {
+  sendMessage(message.asOneShot()).then(resp => {
     if (resp.status === 'error') return button
     if (isDownloadingButton(button)) return button
     if (resp.payload.isExist)
