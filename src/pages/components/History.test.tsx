@@ -34,6 +34,27 @@ import React from 'react'
 import { downloads, runtime } from 'webextension-polyfill'
 
 describe('unit test for HistoryTable components', () => {
+  beforeEach(() => {
+    // Restore runtime.connect mock implementation after resetAllMocks clears it
+    ;(runtime.connect as jest.Mock).mockImplementation(
+      ({ name }: { name: string }) => ({
+        name,
+        postMessage: jest.fn(),
+        onDisconnect: {
+          addListener: jest.fn(),
+          removeListener: jest.fn(),
+          hasListener: jest.fn(),
+        },
+        onMessage: {
+          addListener: jest.fn(),
+          removeListener: jest.fn(),
+          hasListener: jest.fn(),
+        },
+        disconnect: jest.fn(),
+      })
+    )
+  })
+
   afterEach(() => {
     jest.resetAllMocks()
     jest.resetAllMocks()
@@ -68,7 +89,7 @@ describe('unit test for HistoryTable components', () => {
         'href',
         'https://x.com/i/web/status/tweet-id'
       )
-      expect(runtime.sendMessage).toHaveBeenCalledTimes(1)
+      expect(runtime.connect).toHaveBeenCalledTimes(1)
 
       unmount()
     })

@@ -6,3 +6,9 @@
 
 export * from './messages'
 export * from './sendMessage'
+export {
+  MessagePortName,
+  getMessagePort,
+  OneShotMessage,
+  isOneShotMessage,
+} from './port'

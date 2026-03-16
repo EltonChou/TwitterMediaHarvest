@@ -23,6 +23,24 @@ Object.assign(global, {
 // Monkey patch for webextension-polyfill
 chrome.runtime.id = 'TEST'
 
+// Polyfill crypto.randomUUID for test environments that don't support it
+if (!globalThis.crypto?.randomUUID) {
+  Object.defineProperty(globalThis, 'crypto', {
+    value: {
+      ...globalThis.crypto,
+      randomUUID: (): `${string}-${string}-${string}-${string}-${string}` => {
+        const hex = () =>
+          Math.floor(Math.random() * 0x10000)
+            .toString(16)
+            .padStart(4, '0')
+        return `${hex()}${hex()}-${hex()}-4${hex().slice(1)}-${(Math.floor(Math.random() * 4) + 8).toString(16)}${hex().slice(1)}-${hex()}${hex()}${hex()}` as `${string}-${string}-${string}-${string}-${string}`
+      },
+    },
+    writable: true,
+    configurable: true,
+  })
+}
+
 process.env.IDENTITY_POOL_ID = 'pool-id'
 process.env.IDENTITY_POOL_REGION = 'region'
 process.env.API_KEY = 'api_key'
