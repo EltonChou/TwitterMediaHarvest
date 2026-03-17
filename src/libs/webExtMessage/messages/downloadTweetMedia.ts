@@ -67,7 +67,6 @@ export class DownloadTweetMediaMessage implements WebExtMessage<
   asOneShot() {
     return {
       inner: this,
-      correlationId: crypto.randomUUID(),
       isOneShot: true as const,
     }
   }

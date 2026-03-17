@@ -8,7 +8,6 @@ import {
   WebExtMessageErrorResponse,
   WebExtMessageObject,
 } from '#libs/webExtMessage'
-import { isOneShotMessage } from '#libs/webExtMessage/port'
 import Joi from 'joi'
 import type { Runtime } from 'webextension-polyfill'
 
@@ -71,24 +70,12 @@ export class MessageRouter implements WebExtMessageRouter {
     message: unknown
     port: Runtime.Port
   }): Promise<void> {
-    let innerMessage: unknown
-    let respond: (result: unknown) => void
-
-    if (isOneShotMessage(message)) {
-      const { correlationId, inner } = message
-      innerMessage = inner
-      respond = result => port.postMessage({ correlationId, result })
-    } else {
-      innerMessage = message
-      respond = () => undefined
-    }
-
     const sender: Runtime.MessageSender = port.sender ?? {}
 
     return this.handle({
-      message: innerMessage,
+      message,
       sender,
-      response: respond,
+      response: () => undefined,
       port,
     })
   }

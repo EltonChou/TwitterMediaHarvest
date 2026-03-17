@@ -100,28 +100,6 @@ describe('MessageRouter.handlePortMessage', () => {
     expect(mockHandler).toHaveBeenCalledTimes(1)
   })
 
-  it('posts { correlationId, result } back for one-shot message', async () => {
-    const mockHandler = jest.fn().mockImplementation(async ctx => {
-      ctx.response({ status: 'ok' })
-    })
-    router.route(WebExtAction.CaptureResponse, mockHandler)
-
-    const port = makePort(MessagePortName.ContentScript)
-    const correlationId = 'test-correlation-id'
-    const oneShotMsg = {
-      isOneShot: true as const,
-      correlationId,
-      inner: { action: WebExtAction.CaptureResponse },
-    }
-
-    await router.handlePortMessage({ message: oneShotMsg, port })
-
-    expect(port.postMessage).toHaveBeenCalledWith({
-      correlationId,
-      result: { status: 'ok' },
-    })
-  })
-
   it('does not call postMessage for fire-and-forget', async () => {
     const mockHandler = jest.fn().mockImplementation(async ctx => {
       ctx.response({ status: 'ok' })

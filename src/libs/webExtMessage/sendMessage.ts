@@ -13,7 +13,12 @@ import {
   WebExtMessagePayloadResponse,
   WebExtMessageResponse,
 } from './messages/base'
-import { MessagePortName, OneShotMessage, getMessagePort } from './port'
+import {
+  MessagePortName,
+  OneShotMessage,
+  getMessagePort,
+  isOneShotMessage,
+} from './port'
 import { runtime, tabs } from 'webextension-polyfill'
 
 /**
@@ -43,33 +48,12 @@ export function sendMessage<
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function sendMessage(message: any): Promise<any> {
-  const port = getMessagePort(MessagePortName.ContentScript)
-
-  if (
-    typeof message === 'object' &&
-    message !== null &&
-    message.isOneShot === true
-  ) {
-    const { correlationId, inner } = message as OneShotMessage<
-      WebExtMessage<WebExtAction>
-    >
-    return new Promise(resolve => {
-      const listener = (msg: unknown) => {
-        if (
-          typeof msg === 'object' &&
-          msg !== null &&
-          'correlationId' in msg &&
-          (msg as Record<string, unknown>).correlationId === correlationId
-        ) {
-          port.onMessage.removeListener(listener)
-          resolve((msg as Record<string, unknown>).result)
-        }
-      }
-      port.onMessage.addListener(listener)
-      port.postMessage(inner.toObject())
-    })
+  if (isOneShotMessage(message)) {
+    const { inner } = message as OneShotMessage<WebExtMessage<WebExtAction>>
+    return runtime.sendMessage(inner.toObject())
   }
 
+  const port = getMessagePort(MessagePortName.ContentScript)
   port.postMessage((message as WebExtMessage<WebExtAction>).toObject())
   return Promise.resolve()
 }

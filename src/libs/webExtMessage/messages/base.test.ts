@@ -7,7 +7,7 @@ import { isOneShotMessage } from '../port'
 import { CaptureResponseMessage, ResponseType } from './captureResponse'
 
 describe('asOneShot()', () => {
-  it('produces a one-shot envelope with isOneShot=true and a correlationId', () => {
+  it('produces a one-shot envelope with isOneShot=true', () => {
     const message = new CaptureResponseMessage({
       type: ResponseType.TweetDetail,
       body: 'test',
@@ -16,24 +16,7 @@ describe('asOneShot()', () => {
     const oneShot = message.asOneShot()
 
     expect(oneShot.isOneShot).toBe(true)
-    expect(typeof oneShot.correlationId).toBe('string')
-    expect(oneShot.correlationId.length).toBeGreaterThan(0)
     expect(oneShot.inner).toBe(message)
-  })
-
-  it('produces unique correlationIds on each call', () => {
-    const message = new CaptureResponseMessage({
-      type: ResponseType.TweetDetail,
-      body: 'test',
-    })
-
-    const ids = Array.from(
-      { length: 10 },
-      () => message.asOneShot().correlationId
-    )
-    const uniqueIds = new Set(ids)
-
-    expect(uniqueIds.size).toBe(10)
   })
 })
 
@@ -66,6 +49,6 @@ describe('isOneShotMessage()', () => {
   })
 
   it('returns false when isOneShot is missing', () => {
-    expect(isOneShotMessage({ correlationId: 'abc', inner: {} })).toBe(false)
+    expect(isOneShotMessage({ inner: {} })).toBe(false)
   })
 })
