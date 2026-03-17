@@ -12,7 +12,6 @@ export const enum MessagePortName {
 
 export type OneShotMessage<M> = {
   inner: M
-  correlationId: string
   isOneShot: true
 }
 
@@ -23,8 +22,6 @@ export const isOneShotMessage = (
   value !== null &&
   'isOneShot' in value &&
   (value as OneShotMessage<unknown>).isOneShot === true &&
-  'correlationId' in value &&
-  typeof (value as OneShotMessage<unknown>).correlationId === 'string' &&
   'inner' in value
 
 export const getMessagePort = (() => {
