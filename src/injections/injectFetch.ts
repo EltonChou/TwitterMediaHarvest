@@ -14,7 +14,7 @@ declare global {
 
 type WebpackLoadFunction = (a: unknown, b: unknown, c: unknown) => void
 type Module = Record<number | string, WebpackLoadFunction>
-type WebPackModuleItem = [[string | number], Module]
+type WebPackModuleItem = [[string | number | unknown], Module]
 type ESModule<T = unknown> = {
   default: T
   __esModule: true
@@ -103,6 +103,7 @@ function arrayPushProxy<T>(arrayPush: Array<T>['push']) {
         thisArg,
         args.map(item => {
           const [[name], module] = item
+          if (typeof name !== 'string' || !isModule(module)) return item
           return typeof name === 'string' && name.includes('ondemand.s')
             ? [[name], moduleProxy(module)]
             : item
@@ -168,6 +169,26 @@ function webpackLoaderFunctionProxy(loaderFunc: WebpackLoadFunction) {
   })
 }
 
+/**
+ * Weak assertion to check if the value is a module object.
+ * This is not a strict check and may produce false positives,
+ * but it is sufficient for our use case since we are only interested in objects that are likely to be modules.
+ *
+ * @param value
+ * @returns value is {@link Module}
+ */
+function isModule(value: unknown): value is Module {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+/**
+ * Weak assertion to check if the value is an ESModule.
+ * This is not a strict check and may produce false positives,
+ * but it is sufficient for our use case since we are only interested in objects that are likely to be ESModules.
+ *
+ * @param value
+ * @returns value is {@link ESModule}
+ */
 function isESModule(value: unknown): value is ESModule {
   return (
     typeof value === 'object' &&
