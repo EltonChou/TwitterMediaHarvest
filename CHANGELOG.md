@@ -7,13 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add `it`, `th`, `pl`, `tr`, `pt_BR` translations.
+
 ### Changed
 
 - Refine fonts for some languages.
 
 ### Fixed
 
-- Fix disable button of `Conflict Extensions` when there is no extension to disable
+- Hotfix for breaking X runtime.
+- Hide `Conflict Extensions` diagnostic in Firefox, since Firefox does not support disabling other extensions.
+- Fix disable button of `Conflict Extensions` when there is no extension to disable.
 - Fix width of side-menu in options page when user is in narrow screen.
 
 ## [4.5.2] - 2025-12-21
