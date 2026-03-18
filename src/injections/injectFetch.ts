@@ -14,7 +14,7 @@ declare global {
 
 type WebpackLoadFunction = (a: unknown, b: unknown, c: unknown) => void
 type Module = Record<number | string, WebpackLoadFunction>
-type WebPackModuleItem = [[string], Module]
+type WebPackModuleItem = [[string | number], Module]
 type ESModule<T = unknown> = {
   default: T
   __esModule: true
@@ -103,7 +103,7 @@ function arrayPushProxy<T>(arrayPush: Array<T>['push']) {
         thisArg,
         args.map(item => {
           const [[name], module] = item
-          return name.includes('ondemand.s')
+          return typeof name === 'string' && name.includes('ondemand.s')
             ? [[name], moduleProxy(module)]
             : item
         })
