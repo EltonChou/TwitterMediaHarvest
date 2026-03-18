@@ -153,9 +153,11 @@ function webpackLoaderFunctionProxy(loaderFunc: WebpackLoadFunction) {
 
       if (
         isESModule(esModule) &&
-        isCallableFunction<() => MakeTransactionId>(esModule.default)
+        isCallableFunction<() => MakeTransactionId>(esModule.default, 0)
       ) {
         const txIdGenerator = esModule.default()
+        if (!isCallableFunction<MakeTransactionId>(txIdGenerator, 2))
+          return returnVal
         generateTransactionId ||= txIdGenerator
         Object.defineProperty(esModule, 'default', {
           configurable: true,
@@ -198,8 +200,14 @@ function isESModule(value: unknown): value is ESModule {
   )
 }
 
-function isCallableFunction<T>(value: unknown): value is T {
-  return typeof value === 'function'
+function isCallableFunction<T extends (...args: never[]) => unknown>(
+  value: unknown,
+  expectedArity?: number
+): value is T {
+  return (
+    typeof value === 'function' &&
+    (expectedArity === undefined || value.length === expectedArity)
+  )
 }
 
 document.addEventListener('mh:tx-id:request', async e => {
