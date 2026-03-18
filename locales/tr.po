@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.3)\n"
-"POT-Creation-Date: 2026-03-19 03:42+0900\n"
+"POT-Creation-Date: 2026-03-19 04:13+0900\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Translators <>\n"
 "Language-Team: Turkish\n"
@@ -312,12 +312,12 @@ msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "Dosyaların kaydedileceği yeri sor."
 
-#: src/pages/components/GeneralOptions.tsx:275
+#: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "Alt dizin oluştur"
 
-#: src/pages/components/GeneralOptions.tsx:277
+#: src/pages/components/GeneralOptions.tsx:279
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
@@ -331,12 +331,12 @@ msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "Dosya adı deseni"
 
-#: src/pages/components/GeneralOptions.tsx:313
+#: src/pages/components/GeneralOptions.tsx:317
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "Dosyaları Grupla"
 
-#: src/pages/components/GeneralOptions.tsx:314
+#: src/pages/components/GeneralOptions.tsx:318
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "Dosyaları seçilen özelliğe göre gruplandır."
@@ -365,17 +365,17 @@ msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "Dosya adına dahil edilecek bilgileri seçebilirsiniz."
 
-#: src/pages/components/GeneralOptions.tsx:397
+#: src/pages/components/GeneralOptions.tsx:401
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "Sıfırla"
 
-#: src/pages/components/GeneralOptions.tsx:405
+#: src/pages/components/GeneralOptions.tsx:409
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "Kaydet"
 
-#: src/pages/components/GeneralOptions.tsx:322
+#: src/pages/components/GeneralOptions.tsx:326
 #: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.3)\n"
-"POT-Creation-Date: 2026-03-19 03:42+0900\n"
+"POT-Creation-Date: 2026-03-19 04:13+0900\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Translators <noreply@example.com>\n"
 "Language-Team: Italian\n"
@@ -316,12 +316,12 @@ msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "Chiedi dove salvare i file."
 
-#: src/pages/components/GeneralOptions.tsx:275
+#: src/pages/components/GeneralOptions.tsx:277
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "Crea sottodirectory"
 
-#: src/pages/components/GeneralOptions.tsx:277
+#: src/pages/components/GeneralOptions.tsx:279
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
@@ -335,12 +335,12 @@ msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "Schema del nome file"
 
-#: src/pages/components/GeneralOptions.tsx:313
+#: src/pages/components/GeneralOptions.tsx:317
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "Raggruppa file"
 
-#: src/pages/components/GeneralOptions.tsx:314
+#: src/pages/components/GeneralOptions.tsx:318
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "Raggruppa i file in base all'attributo selezionato."
@@ -369,17 +369,17 @@ msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "Puoi scegliere quali informazioni includere nel nome del file."
 
-#: src/pages/components/GeneralOptions.tsx:397
+#: src/pages/components/GeneralOptions.tsx:401
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "Ripristina"
 
-#: src/pages/components/GeneralOptions.tsx:405
+#: src/pages/components/GeneralOptions.tsx:409
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "Salva"
 
-#: src/pages/components/GeneralOptions.tsx:322
+#: src/pages/components/GeneralOptions.tsx:326
 #: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"
