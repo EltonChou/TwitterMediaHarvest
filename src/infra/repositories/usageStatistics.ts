@@ -9,9 +9,7 @@ import { UsageStatistics } from '#domain/valueObjects/usageStatistics'
 import type { IStorageProxy } from '#libs/storageProxy'
 import type { V4Statistics } from '#schema'
 
-export class WebExtUsageStatisticsRepository
-  implements IUsageStatisticsRepository
-{
+export class WebExtUsageStatisticsRepository implements IUsageStatisticsRepository {
   constructor(readonly storage: IStorageProxy<V4Statistics>) {}
 
   async get(): Promise<UsageStatistics> {

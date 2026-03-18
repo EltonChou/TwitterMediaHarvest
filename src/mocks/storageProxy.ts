@@ -5,8 +5,7 @@ import type { SyncStorageSchema } from '#libs/webExtStorage/sync/schema'
 
 export class InMemoryStorageProxy<
   T extends Partial<LocalStorageSchema | SyncStorageSchema>,
-> implements IStorageProxy<T>
-{
+> implements IStorageProxy<T> {
   constructor(protected storage: Record<string, unknown> = {}) {}
 
   async setItem(item: Partial<T>): Promise<void> {

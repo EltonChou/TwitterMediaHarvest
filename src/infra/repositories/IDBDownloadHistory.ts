@@ -97,9 +97,7 @@ const calcHashtagDelta = ({
   }
 }
 
-export class IDBDownloadHistoryRepository
-  implements IDownloadHistoryRepository
-{
+export class IDBDownloadHistoryRepository implements IDownloadHistoryRepository {
   constructor(readonly idb: DownloadIDB) {}
 
   async total(): AsyncResult<DownloadHistoryStats> {

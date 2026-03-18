@@ -14,8 +14,7 @@ import type { HttpRequest, HttpResponse } from '@smithy/protocol-http'
 export abstract class BaseCommand<
   Configuration extends object,
   Output extends MetadataBearer,
-> implements Command<Configuration, Output>
-{
+> implements Command<Configuration, Output> {
   readonly path: string
   readonly config: Configuration
   readonly method: HttpMethod

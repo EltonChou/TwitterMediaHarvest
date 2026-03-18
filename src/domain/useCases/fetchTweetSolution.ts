@@ -27,7 +27,9 @@ export type SolutionStatistics<Identify extends string = string> = {
 export interface FetchTweetSolution<
   StatisticIdentity extends string = string,
   Command = FetchTweetSolutionCommand,
-> extends AsyncUseCase<Command, Result<Tweet, FetchTweetSolutionError>>,
+>
+  extends
+    AsyncUseCase<Command, Result<Tweet, FetchTweetSolutionError>>,
     DomainEventSource {
   readonly isTransactionIdConsumer: boolean
   readonly statistics: SolutionStatistics<StatisticIdentity>
@@ -36,9 +38,9 @@ export interface FetchTweetSolution<
 export interface FetchTweetSolutionWithTransactionId<
   StatisticIdentity extends string = string,
 > extends FetchTweetSolution<
-    StatisticIdentity,
-    FetchTweetSolutionWithTransactinIdCommand
-  > {
+  StatisticIdentity,
+  FetchTweetSolutionWithTransactinIdCommand
+> {
   readonly isTransactionIdConsumer: true
 }
 

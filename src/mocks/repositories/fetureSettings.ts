@@ -1,9 +1,7 @@
 import type { ISettingsRepository } from '#domain/repositories/settings'
 import type { FeatureSettings } from '#schema'
 
-export class MockFeatureSettingsRepository
-  implements ISettingsRepository<FeatureSettings>
-{
+export class MockFeatureSettingsRepository implements ISettingsRepository<FeatureSettings> {
   protected settings: FeatureSettings
   constructor() {
     this.settings = {

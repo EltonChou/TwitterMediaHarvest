@@ -52,5 +52,5 @@ export interface Command<
 export interface CacheAbleCommand<
   Input extends LiteralObject,
   Output extends MetadataBearer,
-> extends Command<Input, Output>,
-    CacheAble {}
+>
+  extends Command<Input, Output>, CacheAble {}

@@ -31,8 +31,7 @@ export const enum AuthType {
 export abstract class GraphQLCommand<
   Input extends LiteralObject,
   Output extends MetadataBearer,
-> implements Command<Input, Output>
-{
+> implements Command<Input, Output> {
   readonly bearerToken =
     'AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
 

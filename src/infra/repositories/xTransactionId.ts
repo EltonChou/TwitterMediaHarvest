@@ -14,9 +14,7 @@ type XTransactionIdRepoOptions = {
   reservedCount: number
 }
 
-export class LocalXTransactionIdRepository
-  implements IXTransactionIdRepository
-{
+export class LocalXTransactionIdRepository implements IXTransactionIdRepository {
   constructor(
     readonly storageProxy: IStorageProxy<XTransactionIdCollection>,
     readonly options: XTransactionIdRepoOptions = { reservedCount: 5 }

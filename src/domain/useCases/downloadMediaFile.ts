@@ -13,8 +13,7 @@ export type DownloadMediaFileCommand = {
 }
 
 export interface DownloadMediaFileUseCase
-  extends AsyncUseCase<DownloadMediaFileCommand, void>,
-    DomainEventSource {
+  extends AsyncUseCase<DownloadMediaFileCommand, void>, DomainEventSource {
   isOk: boolean
 }
 

@@ -5,9 +5,7 @@ import {
 } from '#domain/valueObjects/filenameSetting'
 import PatternToken from '#enums/patternToken'
 
-export class MockFilenameSettingRepository
-  implements ISettingsVORepository<FilenameSetting>
-{
+export class MockFilenameSettingRepository implements ISettingsVORepository<FilenameSetting> {
   protected settings: FilenameSetting
   constructor() {
     this.settings = new FilenameSetting({

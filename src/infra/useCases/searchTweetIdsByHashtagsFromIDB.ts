@@ -34,9 +34,7 @@ const arrayHashtagsToSet = (hashtags: Iterable<string>) => new Set(hashtags)
 
 const makeEmptyIdSet = () => new Set<string>()
 
-export class SearchTweetIdsByHashtagsFromIDB
-  implements SearchTweetIdsByHashTags
-{
+export class SearchTweetIdsByHashtagsFromIDB implements SearchTweetIdsByHashTags {
   constructor(readonly downloadIdb: DownloadIDB) {}
 
   async process(command: Query): Promise<Result<IdSet, Error>> {

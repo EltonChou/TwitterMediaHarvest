@@ -4,9 +4,7 @@ import type {
   IDownloadHistoryRepository,
 } from '#domain/repositories/downloadHistory'
 
-export class MockDownloadHistoryRepository
-  implements IDownloadHistoryRepository
-{
+export class MockDownloadHistoryRepository implements IDownloadHistoryRepository {
   async hasTweetId(_tweetId: string): AsyncResult<boolean> {
     throw new Error('Method not implemented.')
   }

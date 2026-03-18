@@ -6,9 +6,9 @@
 import type { IStorageProxy, SchemaKey } from '#libs/storageProxy'
 import type { Storage } from 'webextension-polyfill'
 
-export abstract class WebExtStorageProxy<Schema>
-  implements IStorageProxy<Schema>
-{
+export abstract class WebExtStorageProxy<
+  Schema,
+> implements IStorageProxy<Schema> {
   constructor(readonly storage: Storage.StorageArea) {}
 
   async getItemByKey<Key extends SchemaKey<Schema>>(

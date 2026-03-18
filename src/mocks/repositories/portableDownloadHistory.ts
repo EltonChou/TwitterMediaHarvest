@@ -1,9 +1,7 @@
 import { DownloadHistory } from '#domain/entities/downloadHistory'
 import type { IPortableDownloadHistoryRepository } from '#domain/repositories/portableDownloadHistory'
 
-export class MockPortableDownloadHistoryRepo
-  implements IPortableDownloadHistoryRepository
-{
+export class MockPortableDownloadHistoryRepo implements IPortableDownloadHistoryRepository {
   export(): AsyncResult<Blob>
   export<T>(convertBlob: (blob: Blob) => Promise<T>): AsyncResult<T>
   export<T>(

@@ -122,9 +122,7 @@ type SolutionOptions = {
  * @emits {TweetSolutionQuotaInsufficient}  When remaining quota falls below or equals quota threshold provided in option
  * @see {@link TweetSolutionQuotaInsufficient}
  */
-export class NativeFetchTweetSolution
-  implements FetchTweetSolutionWithTransactionId<StatisticIdentity>
-{
+export class NativeFetchTweetSolution implements FetchTweetSolutionWithTransactionId<StatisticIdentity> {
   readonly isTransactionIdConsumer = true
   private infra: InfraProvider
   private options: SolutionOptions

@@ -36,9 +36,7 @@ type CognitoPoolConfig = {
   identityPoolId: string
 }
 
-export class AWSCredentialRepository
-  implements ICredentialRepository<AWSCredential>
-{
+export class AWSCredentialRepository implements ICredentialRepository<AWSCredential> {
   constructor(
     readonly storageProxy: IStorageProxy<AWSCredentialsItem>,
     private cognitoPoolConfig: CognitoPoolConfig

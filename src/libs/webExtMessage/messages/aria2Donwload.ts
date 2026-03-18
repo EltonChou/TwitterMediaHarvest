@@ -17,14 +17,11 @@ type Aria2DownloadMessagePayload = {
 
 type Aria2DownloadResponsePayload = never
 
-export class Aria2DownloadMessage
-  implements
-    WebExtExternalMessage<
-      WebExtExternalAction.Aria2Download,
-      Aria2DownloadMessagePayload,
-      Aria2DownloadResponsePayload
-    >
-{
+export class Aria2DownloadMessage implements WebExtExternalMessage<
+  WebExtExternalAction.Aria2Download,
+  Aria2DownloadMessagePayload,
+  Aria2DownloadResponsePayload
+> {
   constructor(readonly payload: Aria2DownloadMessagePayload) {}
   toObject(): WebExtMessagePayloadObject<
     WebExtExternalAction,

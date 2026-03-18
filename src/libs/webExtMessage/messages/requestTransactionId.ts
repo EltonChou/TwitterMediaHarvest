@@ -22,14 +22,11 @@ type RequestTransactionIdMessageResponsePayload = {
   transactionId: string
 }
 
-export class RequestTransactionIdMessage
-  implements
-    WebExtMessage<
-      WebExtAction.RequestTransactionId,
-      RequestTransactionIdMessagePayload,
-      RequestTransactionIdMessageResponsePayload
-    >
-{
+export class RequestTransactionIdMessage implements WebExtMessage<
+  WebExtAction.RequestTransactionId,
+  RequestTransactionIdMessagePayload,
+  RequestTransactionIdMessageResponsePayload
+> {
   constructor(readonly payload: RequestTransactionIdMessagePayload) {}
 
   makeResponse(

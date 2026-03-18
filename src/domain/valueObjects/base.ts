@@ -11,9 +11,9 @@ export interface IValueObject<Props extends LiteralObject> {
 
 export type PropsOf<T> = T extends ValueObject<infer P> ? P : never
 
-export abstract class ValueObject<Props extends LiteralObject>
-  implements IValueObject<Props>
-{
+export abstract class ValueObject<
+  Props extends LiteralObject,
+> implements IValueObject<Props> {
   protected props: Props
   constructor(props: Props) {
     this.props = Object.freeze(props)

@@ -31,14 +31,11 @@ const messageSchema: Joi.ObjectSchema<
   payload: Joi.object({ tweetId: Joi.string().required() }).required(),
 })
 
-export class CheckDownloadHistoryMessage
-  implements
-    WebExtMessage<
-      WebExtAction.CheckDownloadHistory,
-      CheckDownloadHistoryMessagePayload,
-      CheckDownloadHistoryResponsePayload
-    >
-{
+export class CheckDownloadHistoryMessage implements WebExtMessage<
+  WebExtAction.CheckDownloadHistory,
+  CheckDownloadHistoryMessagePayload,
+  CheckDownloadHistoryResponsePayload
+> {
   constructor(readonly payload: CheckDownloadHistoryMessagePayload) {}
 
   static validate(message: unknown): Result<CheckDownloadHistoryMessage> {

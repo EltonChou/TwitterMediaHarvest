@@ -14,9 +14,7 @@ import {
 } from '../../mappers/downloadHistory'
 import { toError } from 'fp-ts/lib/Either'
 
-export class IDBPortableDownloadHistoryRepository
-  implements IPortableDownloadHistoryRepository
-{
+export class IDBPortableDownloadHistoryRepository implements IPortableDownloadHistoryRepository {
   constructor(readonly downloadIDB: DownloadIDB) {}
 
   export(): AsyncResult<Blob>

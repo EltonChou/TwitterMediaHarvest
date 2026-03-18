@@ -15,7 +15,8 @@ import type {
 } from '#schema'
 
 export interface LocalStorageSchema
-  extends FeatureSettings,
+  extends
+    FeatureSettings,
     DownloadSettings,
     ClientInfo,
     V4Statistics,

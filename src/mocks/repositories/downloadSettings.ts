@@ -1,9 +1,7 @@
 import type { ISettingsRepository } from '#domain/repositories/settings'
 import type { DownloadSettings } from '#schema'
 
-export class MockDownloadSettingsRepository
-  implements ISettingsRepository<DownloadSettings>
-{
+export class MockDownloadSettingsRepository implements ISettingsRepository<DownloadSettings> {
   protected settings: DownloadSettings
   constructor() {
     this.settings = {

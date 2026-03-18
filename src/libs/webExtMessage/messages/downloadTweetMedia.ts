@@ -31,10 +31,10 @@ const payloadSchema: Joi.ObjectSchema<
   }).required(),
 })
 
-export class DownloadTweetMediaMessage
-  implements
-    WebExtMessage<WebExtAction.DownloadMedia, DownloadTweetMediaMessagePayload>
-{
+export class DownloadTweetMediaMessage implements WebExtMessage<
+  WebExtAction.DownloadMedia,
+  DownloadTweetMediaMessagePayload
+> {
   constructor(readonly payload: DownloadTweetMediaMessagePayload) {}
 
   makeResponse(isOk: true): WebExtMessageResponse

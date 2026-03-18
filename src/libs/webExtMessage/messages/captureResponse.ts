@@ -65,10 +65,10 @@ const messageSchema: Joi.ObjectSchema<
     body: Joi.string().required(),
   }).required(),
 })
-export class CaptureResponseMessage
-  implements
-    WebExtMessage<WebExtAction.CaptureResponse, CaptureResponseMessagePayload>
-{
+export class CaptureResponseMessage implements WebExtMessage<
+  WebExtAction.CaptureResponse,
+  CaptureResponseMessagePayload
+> {
   constructor(readonly payload: CaptureResponseMessagePayload) {}
 
   makeResponse(isOk: true): WebExtMessageResponse

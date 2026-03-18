@@ -7,9 +7,7 @@ import type { Notifier } from '#domain/notifier'
 import type { Notifications } from 'webextension-polyfill'
 import { notifications } from 'webextension-polyfill'
 
-class BrowserNotifier
-  implements Notifier<Notifications.CreateNotificationOptions>
-{
+class BrowserNotifier implements Notifier<Notifications.CreateNotificationOptions> {
   notify(options: Notifications.CreateNotificationOptions): Promise<string>
   notify(
     notificationId: string,

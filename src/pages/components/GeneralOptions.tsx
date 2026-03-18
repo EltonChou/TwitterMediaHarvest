@@ -261,8 +261,10 @@ const FilenameControlFeature = (props: FilenameControlFeatureProps) => (
   </RichFeatureSwitch>
 )
 
-interface DirectoryControlFeatureProps
-  extends Pick<RichFeatureSwithProps, 'message' | 'isOn' | 'handleClick'> {
+interface DirectoryControlFeatureProps extends Pick<
+  RichFeatureSwithProps,
+  'message' | 'isOn' | 'handleClick'
+> {
   directory: string
   setDirectory: (directory: string) => void
   isDisabled: boolean
@@ -302,8 +304,10 @@ const DirectoryControlFeature = (props: DirectoryControlFeatureProps) => (
   </RichFeatureSwitch>
 )
 
-interface FileAggregationFeatureProps
-  extends Pick<RichFeatureSwithProps, 'isOn' | 'handleClick'> {
+interface FileAggregationFeatureProps extends Pick<
+  RichFeatureSwithProps,
+  'isOn' | 'handleClick'
+> {
   isDisabled: boolean
   toggle: () => void
 }

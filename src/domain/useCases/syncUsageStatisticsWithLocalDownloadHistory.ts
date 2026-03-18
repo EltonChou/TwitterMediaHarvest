@@ -9,9 +9,7 @@ import { UsageStatistics } from '#domain/valueObjects/usageStatistics'
 import type { AsyncCommandUseCase } from './base'
 import type { CheckDownloadWasTriggeredBySelf } from './checkDownloadWasTriggeredBySelf'
 
-export class SyncUsageStatisticsWithLocalDownloadHistory
-  implements AsyncCommandUseCase<void>
-{
+export class SyncUsageStatisticsWithLocalDownloadHistory implements AsyncCommandUseCase<void> {
   constructor(
     readonly usageStatisticsRepo: IUsageStatisticsRepository,
     readonly downloadRepository: IDownloadRepository,

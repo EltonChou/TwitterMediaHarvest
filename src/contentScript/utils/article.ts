@@ -110,8 +110,8 @@ const articleHasVideo = (article: HTMLElement): boolean => {
   const videoComponent = getVideoCompoent(article)
   return Boolean(
     videoComponent &&
-      !isVideoInQuotedContent(videoComponent) &&
-      !isBelongsToCard(videoComponent)
+    !isVideoInQuotedContent(videoComponent) &&
+    !isBelongsToCard(videoComponent)
   )
 }
 

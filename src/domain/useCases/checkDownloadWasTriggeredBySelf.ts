@@ -15,9 +15,10 @@ type CheckDownloadWasTriggeredBySelfCommand = {
   allowJSON?: boolean
 }
 
-export class CheckDownloadWasTriggeredBySelf
-  implements UseCase<CheckDownloadWasTriggeredBySelfCommand, boolean>
-{
+export class CheckDownloadWasTriggeredBySelf implements UseCase<
+  CheckDownloadWasTriggeredBySelfCommand,
+  boolean
+> {
   constructor(readonly extensionId: string) {}
 
   private isSameExtension(downloadItem: DownloadItem): boolean {
