@@ -29,6 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: release
     needs: test
+    outputs:
+      version-tag: ${{ steps.version.outputs.target-version-tag }}
 
     steps:
       - uses: actions/checkout@v5
@@ -154,3 +156,14 @@ jobs:
             /repos/${{ github.repository }}/git/refs \
             -f "ref=refs/tags/$VERSION_TAG" \
             -f "sha=$GIT_SHA"
+
+  release:
+    name: Release
+    needs: bump-version
+    uses: ./.github/workflows/release.yml
+    # secrets: inherit passes repository/org-level secrets to the called workflow.
+    # Environment secrets (e.g. 'release') are NOT passed via inherit — they are
+    # resolved per-job in release.yml because each job there declares environment: release.
+    secrets: inherit
+    with:
+      version-tag: ${{ needs.bump-version.outputs.version-tag }}
