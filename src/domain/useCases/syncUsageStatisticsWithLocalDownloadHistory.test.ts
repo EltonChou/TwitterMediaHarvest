@@ -28,17 +28,25 @@ describe('unit test for sync usage statistic with local download history', () =>
     const mockDownloadSearching = jest
       .spyOn(mockDownloadRepo, 'search')
       .mockResolvedValue([
-        generateDownloadItem(),
-        generateDownloadItem(),
-        generateDownloadItem(),
-        generateDownloadItem(),
+        generateDownloadItem({ mime: 'image/jpeg' }),
+        generateDownloadItem({ mime: 'image/jpeg' }),
+        generateDownloadItem({ mime: 'image/jpeg' }),
+        generateDownloadItem({ mime: 'image/jpeg' }),
         generateDownloadItem({
           byExtensionId: EXT_ID,
           fileSize: 3333,
           mime: 'application/json',
         }),
-        generateDownloadItem({ byExtensionId: EXT_ID, fileSize: 1111 }),
-        generateDownloadItem({ byExtensionId: EXT_ID, fileSize: 2222 }),
+        generateDownloadItem({
+          byExtensionId: EXT_ID,
+          fileSize: 1111,
+          mime: 'image/jpeg',
+        }),
+        generateDownloadItem({
+          byExtensionId: EXT_ID,
+          fileSize: 2222,
+          mime: 'image/jpeg',
+        }),
       ])
 
     const useCase = new SyncUsageStatisticsWithLocalDownloadHistory(
