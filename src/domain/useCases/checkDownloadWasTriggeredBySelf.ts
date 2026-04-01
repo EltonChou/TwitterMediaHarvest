@@ -31,7 +31,7 @@ export class CheckDownloadWasTriggeredBySelf implements UseCase<
    */
   process(command: CheckDownloadWasTriggeredBySelfCommand): boolean {
     if (!this.isSameExtension(command.item)) return false
-    if (command.item.url.endsWith('TEST.data'))
+    if (isTestData(command.item))
       return (command.ignoreTestData ?? true) ? false : true
     if (command.allowJSON) return true
 
@@ -41,3 +41,6 @@ export class CheckDownloadWasTriggeredBySelf implements UseCase<
 
 const isJSON = (downloadItem: DownloadItem): boolean =>
   downloadItem?.mime === 'application/json'
+
+const isTestData = (downloadItem: DownloadItem): boolean =>
+  downloadItem.url.endsWith('TEST.data')
