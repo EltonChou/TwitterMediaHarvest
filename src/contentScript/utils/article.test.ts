@@ -21,11 +21,7 @@ import { pipe } from 'fp-ts/lib/function'
 import fs from 'fs/promises'
 import sysPath from 'path'
 
-const setPath = (path: string) =>
-  Object.defineProperty(window, 'location', {
-    value: { pathname: path },
-    writable: true,
-  })
+const setPath = (path: string) => history.replaceState(null, '', path)
 
 describe.each([
   {

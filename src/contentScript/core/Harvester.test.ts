@@ -9,11 +9,7 @@ import fs from 'fs/promises'
 import sysPath from 'path'
 import { runtime } from 'webextension-polyfill'
 
-const setPath = (path: string) =>
-  Object.defineProperty(window, 'location', {
-    value: { pathname: path },
-    writable: true,
-  })
+const setPath = (path: string) => history.replaceState(null, '', path)
 
 jest.mock(
   '#assets/icons/twitter-download.svg',

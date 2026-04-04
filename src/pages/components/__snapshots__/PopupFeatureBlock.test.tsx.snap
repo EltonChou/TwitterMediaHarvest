@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`unit test for PopupFeatureBlock component match snapshot 1`] = `
 <div>
@@ -20,6 +20,7 @@ exports[`unit test for PopupFeatureBlock component match snapshot 1`] = `
         data-testid="feature-switch"
       >
         <input
+          aria-checked="false"
           class="chakra-switch__input"
           id="_r_0_"
           style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
@@ -50,6 +51,7 @@ exports[`unit test for PopupFeatureBlock component match snapshot 1`] = `
         data-testid="feature-switch"
       >
         <input
+          aria-checked="false"
           class="chakra-switch__input"
           id="_r_1_"
           style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"

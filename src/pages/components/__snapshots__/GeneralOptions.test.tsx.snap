@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`unit test for GeneralOptions component can render properly 1`] = `
 <div>
@@ -45,6 +45,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="false"
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
@@ -383,6 +384,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="true"
                   aria-disabled="false"
                   aria-invalid="false"
                   checked=""
@@ -459,7 +461,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                     class="chakra-select__icon"
                     focusable="false"
                     role="presentation"
-                    style="width: 1em; height: 1em; color: currentColor;"
+                    style="width: 1em; height: 1em; color: currentcolor;"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -478,6 +480,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="false"
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
@@ -567,6 +570,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="false"
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
@@ -905,6 +909,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="true"
                   aria-disabled="false"
                   aria-invalid="false"
                   checked=""
@@ -981,7 +986,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                     class="chakra-select__icon"
                     focusable="false"
                     role="presentation"
-                    style="width: 1em; height: 1em; color: currentColor;"
+                    style="width: 1em; height: 1em; color: currentcolor;"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1000,6 +1005,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="false"
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
@@ -1089,6 +1095,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="false"
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
@@ -1427,6 +1434,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="true"
                   aria-disabled="false"
                   aria-invalid="false"
                   checked=""
@@ -1503,7 +1511,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                     class="chakra-select__icon"
                     focusable="false"
                     role="presentation"
-                    style="width: 1em; height: 1em; color: currentColor;"
+                    style="width: 1em; height: 1em; color: currentcolor;"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1522,6 +1530,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="false"
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
@@ -1610,6 +1619,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="false"
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
@@ -1948,6 +1958,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="true"
                   aria-disabled="false"
                   aria-invalid="false"
                   checked=""
@@ -2024,7 +2035,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                     class="chakra-select__icon"
                     focusable="false"
                     role="presentation"
-                    style="width: 1em; height: 1em; color: currentColor;"
+                    style="width: 1em; height: 1em; color: currentcolor;"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -2043,6 +2054,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="false"
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
@@ -2132,6 +2144,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="false"
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
@@ -2470,6 +2483,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="true"
                   aria-disabled="false"
                   aria-invalid="false"
                   checked=""
@@ -2546,7 +2560,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                     class="chakra-select__icon"
                     focusable="false"
                     role="presentation"
-                    style="width: 1em; height: 1em; color: currentColor;"
+                    style="width: 1em; height: 1em; color: currentcolor;"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -2565,6 +2579,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="false"
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
@@ -2654,6 +2669,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="false"
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
@@ -2992,6 +3008,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="true"
                   aria-disabled="false"
                   aria-invalid="false"
                   checked=""
@@ -3068,7 +3085,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                     class="chakra-select__icon"
                     focusable="false"
                     role="presentation"
-                    style="width: 1em; height: 1em; color: currentColor;"
+                    style="width: 1em; height: 1em; color: currentcolor;"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -3087,6 +3104,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="false"
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
@@ -3175,6 +3193,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="false"
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"
@@ -3513,6 +3532,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="true"
                   aria-disabled="false"
                   aria-invalid="false"
                   checked=""
@@ -3589,7 +3609,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                     class="chakra-select__icon"
                     focusable="false"
                     role="presentation"
-                    style="width: 1em; height: 1em; color: currentColor;"
+                    style="width: 1em; height: 1em; color: currentcolor;"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -3608,6 +3628,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                 data-testid="feature-switch"
               >
                 <input
+                  aria-checked="false"
                   aria-disabled="false"
                   aria-invalid="false"
                   class="chakra-switch__input"

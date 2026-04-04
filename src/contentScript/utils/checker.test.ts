@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @jest-environment <rootDir>/jest.environment.ts
  */
 import {
   isBetaTweetDeck,
@@ -18,17 +18,9 @@ const mockExists = elementExists as jest.MockedFunction<typeof elementExists>
 
 jest.mock('select-dom')
 
-const setHost = (host: string) =>
-  Object.defineProperty(window, 'location', {
-    value: { host },
-    writable: true,
-  })
+const setHost = (host: string) => setJSDOMURL(`http://${host}`)
 
-const setPath = (path: string) =>
-  Object.defineProperty(window, 'location', {
-    value: { pathname: path },
-    writable: true,
-  })
+const setPath = (path: string) => history.replaceState(null, '', path)
 
 describe('isStreamLoaded', () => {
   it('should return true if both role="region" and article exist', () => {

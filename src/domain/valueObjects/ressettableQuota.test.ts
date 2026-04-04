@@ -10,7 +10,7 @@ describe('ResettableQuota', () => {
   beforeEach(() => {
     baseDate = new Date('2024-01-01T00:00:00Z')
     jest.useFakeTimers()
-    jest.setSystemTime(baseDate)
+    jest.setSystemTime(baseDate.getTime())
   })
 
   afterEach(() => {
@@ -34,7 +34,7 @@ describe('ResettableQuota', () => {
     const resetAt = new Date('2024-01-02T00:00:00Z')
     const quota = new ResettableQuota({ quota: 100, resetAt })
 
-    jest.setSystemTime(new Date('2024-01-02T00:00:01Z'))
+    jest.setSystemTime(new Date('2024-01-02T00:00:01Z').getTime())
     expect(quota.isReset).toBe(true)
   })
 

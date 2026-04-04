@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`unit test for IntegrationOptions component match chrome snapshot: chrome 1`] = `
 <div>
@@ -45,6 +45,7 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
               data-testid="feature-switch"
             >
               <input
+                aria-checked="true"
                 aria-disabled="false"
                 aria-invalid="false"
                 checked=""
@@ -116,6 +117,7 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
               data-testid="feature-switch"
             >
               <input
+                aria-checked="false"
                 aria-disabled="false"
                 aria-invalid="false"
                 class="chakra-switch__input"
@@ -185,6 +187,7 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
               data-testid="feature-switch"
             >
               <input
+                aria-checked="true"
                 aria-disabled="false"
                 aria-invalid="false"
                 checked=""
@@ -256,6 +259,7 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
               data-testid="feature-switch"
             >
               <input
+                aria-checked="false"
                 aria-disabled="false"
                 aria-invalid="false"
                 class="chakra-switch__input"
@@ -353,6 +357,7 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
               data-testid="feature-switch"
             >
               <input
+                aria-checked="true"
                 aria-describedby="field-_r_9_-helptext"
                 aria-disabled="true"
                 aria-invalid="false"
@@ -391,8 +396,8 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
         class="chakra-form__label css-qf9lcl"
         data-disabled=""
         data-testid="feature-switch-label"
-        for="_r_b_"
-        id="field-_r_c_-label"
+        for="_r_c_"
+        id="field-_r_d_-label"
       >
         <div
           class="chakra-stack css-mz2o5n"
@@ -431,7 +436,7 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
                 <div
                   class="chakra-form__helper-text css-s0rnn6"
                   data-testid="feature-switch-helper-text"
-                  id="field-_r_c_-helptext"
+                  id="field-_r_d_-helptext"
                 >
                   Translated&lt;options:integrations_This integration is not compatible with Firefox&gt;
                 </div>
@@ -447,12 +452,13 @@ exports[`unit test for IntegrationOptions component match firefox snapshot: fire
               data-testid="feature-switch"
             >
               <input
-                aria-describedby="field-_r_c_-helptext"
+                aria-checked="false"
+                aria-describedby="field-_r_d_-helptext"
                 aria-disabled="true"
                 aria-invalid="false"
                 class="chakra-switch__input"
                 disabled=""
-                id="_r_b_"
+                id="_r_c_"
                 style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
                 type="checkbox"
               />

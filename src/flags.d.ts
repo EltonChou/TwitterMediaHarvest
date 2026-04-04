@@ -10,3 +10,5 @@ declare const __CHROMIUM__: boolean
 declare const __SAFARI__: boolean
 declare const __LOGGING__: boolean
 declare const __METRICS__: boolean
+declare const __TEST__: boolean
+declare function setJSDOMURL(url: string): void

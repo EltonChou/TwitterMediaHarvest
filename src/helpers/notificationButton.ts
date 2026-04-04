@@ -6,30 +6,30 @@
 import { getText } from '#libs/i18n'
 
 export class TweetNotificationButton {
-  static viewTweet(): chrome.notifications.ButtonOptions {
-    return {
-      title: getText('View', 'notification:tweet:button'),
+    static viewTweet(): chrome.notifications.NotificationButton {
+        return {
+            title: getText('View', 'notification:tweet:button'),
+        }
     }
-  }
 }
 
 export class DownloadNotificationButton {
-  static retryDownload(): chrome.notifications.ButtonOptions {
-    return {
-      title: getText('Retry', 'notification:tweet:button'),
+    static retryDownload(): chrome.notifications.NotificationButton {
+        return {
+            title: getText('Retry', 'notification:tweet:button'),
+        }
     }
-  }
 }
 
 export class FilenameNotificationButton {
-  static ignore(): chrome.notifications.ButtonOptions {
-    return {
-      title: getText('Ignore', 'notification:filename:button'),
+    static ignore(): chrome.notifications.NotificationButton {
+        return {
+            title: getText('Ignore', 'notification:filename:button'),
+        }
     }
-  }
-  static diagnose(): chrome.notifications.ButtonOptions {
-    return {
-      title: getText('Diagnose', 'notification:filename:button'),
+    static diagnose(): chrome.notifications.NotificationButton {
+        return {
+            title: getText('Diagnose', 'notification:filename:button'),
+        }
     }
-  }
 }
