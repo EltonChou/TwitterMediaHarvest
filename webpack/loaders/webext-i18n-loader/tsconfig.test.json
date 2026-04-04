@@ -3,7 +3,9 @@
     "strict": true,
     "module": "NodeNext",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "types": ["jest"]
   },
   "exclude": ["node_modules/**/*"]
 }
