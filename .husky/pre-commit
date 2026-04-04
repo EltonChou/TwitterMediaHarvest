@@ -1,2 +1,5 @@
 #!/bin/sh
+
+. .husky/common.sh
+
 yarn lint-staged

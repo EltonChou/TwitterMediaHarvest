@@ -125,7 +125,8 @@
     "whatwg-fetch": "^3.6.20"
   },
   "resolutions": {
-    "cliui": "^7.0.0"
+    "cliui": "^7.0.0",
+    "chalk": "^4.0.0"
   },
   "scripts": {
     "postinstall": "husky",
