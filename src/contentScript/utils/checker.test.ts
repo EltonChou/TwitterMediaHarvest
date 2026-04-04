@@ -14,6 +14,8 @@ import {
 } from './checker'
 import { elementExists } from 'select-dom'
 
+declare function setJSDOMURL(url: string): void
+
 const mockExists = elementExists as jest.MockedFunction<typeof elementExists>
 
 jest.mock('select-dom')

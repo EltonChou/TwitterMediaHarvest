@@ -20,6 +20,7 @@ export default tseslint.config([
       parserOptions: {
         ecmaVersion: 2022,
         sourceType: 'module',
+        tsconfigRootDir: import.meta.dirname,
       },
     },
     ignores: ['build/', 'dist/', 'node_modules/'],

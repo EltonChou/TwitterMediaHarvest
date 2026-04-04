@@ -8,6 +8,7 @@ const presetConfig = createJsWithBabelPreset({
 
 const jestConfig: JestConfigWithTsJest = {
   ...presetConfig,
+  roots: ['<rootDir>'],
   coveragePathIgnorePatterns: ['dist/*'],
 }
 
