@@ -7,14 +7,14 @@ import { FeatureSettingsRepository } from '#infra/repositories/featureSettings'
 import { LocalExtensionStorageProxy } from '#infra/storageProxy'
 import { sendMessage } from '#libs/webExtMessage'
 import {
-    CaptureResponseMessage,
-    ResponseType,
+  CaptureResponseMessage,
+  ResponseType,
 } from '#libs/webExtMessage/messages/captureResponse'
 import { RequestTransactionIdMessage } from '#libs/webExtMessage/messages/requestTransactionId'
 import { isErrorResult } from '#utils/result'
 import {
-    TweetDeckBetaKeyboardMonitor,
-    TwitterKeyboardMonitor,
+  TweetDeckBetaKeyboardMonitor,
+  TwitterKeyboardMonitor,
 } from './KeyboardMonitor'
 import './main.sass'
 import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
@@ -30,147 +30,147 @@ import { runtime } from 'webextension-polyfill'
  * @see {@link https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Sharing_objects_with_page_scripts#cloneinto | Firefox docs}
  */
 declare function cloneInto<T>(
-    object: T,
-    targetScope: object,
-    options?: { cloneFunctions?: boolean; wrapReflectors?: boolean }
+  object: T,
+  targetScope: object,
+  options?: { cloneFunctions?: boolean; wrapReflectors?: boolean }
 ): T
 
 export const featureSettingsRepo = new FeatureSettingsRepository(
-    new LocalExtensionStorageProxy()
+  new LocalExtensionStorageProxy()
 )
 
 const useObserver = (revealNsfw: boolean) => {
-    if (isTwitter()) return new TwitterMediaObserver(revealNsfw)
-    if (isBetaTweetDeck()) return new TweetDeckBetaObserver(revealNsfw)
-    return new TwitterMediaObserver(revealNsfw)
+  if (isTwitter()) return new TwitterMediaObserver(revealNsfw)
+  if (isBetaTweetDeck()) return new TweetDeckBetaObserver(revealNsfw)
+  return new TwitterMediaObserver(revealNsfw)
 }
 
 const useKeboardMonitor = () => {
-    if (isTwitter()) return new TwitterKeyboardMonitor()
-    if (isBetaTweetDeck()) return new TweetDeckBetaKeyboardMonitor()
-    return new TwitterKeyboardMonitor()
+  if (isTwitter()) return new TwitterKeyboardMonitor()
+  if (isBetaTweetDeck()) return new TweetDeckBetaKeyboardMonitor()
+  return new TwitterKeyboardMonitor()
 }
 
 const monitorKeyboardByFlag = (() => {
-    let hasMonitored = false
-    return (flag: boolean) => {
-        if (!flag || hasMonitored) return
-        const kbMonitor = useKeboardMonitor()
-        if (!kbMonitor) return
-        hasMonitored = true
-        window.addEventListener('keyup', e => kbMonitor.handleKeyUp(e))
-        window.addEventListener('keydown', e => kbMonitor.handleKeyDown(e))
-    }
+  let hasMonitored = false
+  return (flag: boolean) => {
+    if (!flag || hasMonitored) return
+    const kbMonitor = useKeboardMonitor()
+    if (!kbMonitor) return
+    hasMonitored = true
+    window.addEventListener('keyup', e => kbMonitor.handleKeyUp(e))
+    window.addEventListener('keydown', e => kbMonitor.handleKeyDown(e))
+  }
 })()
 
 featureSettingsRepo
-    .get()
-    .then(feature => {
-        monitorKeyboardByFlag(feature.keyboardShortcut)
-        return feature
-    })
-    .then(feature => {
-        const observer = useObserver(feature.autoRevealNsfw)
-        if (!observer) return
+  .get()
+  .then(feature => {
+    monitorKeyboardByFlag(feature.keyboardShortcut)
+    return feature
+  })
+  .then(feature => {
+    const observer = useObserver(feature.autoRevealNsfw)
+    if (!observer) return
 
-        window.addEventListener(
-            'focus',
-            (() => {
-                let hasFocused = false
-                return () => {
-                    monitorKeyboardByFlag(feature.keyboardShortcut)
-                    observer.initialize()
-                    if (!hasFocused) {
-                        observer.observeRoot()
-                        hasFocused = true
-                    }
-                }
-            })()
-        )
+    window.addEventListener(
+      'focus',
+      (() => {
+        let hasFocused = false
+        return () => {
+          monitorKeyboardByFlag(feature.keyboardShortcut)
+          observer.initialize()
+          if (!hasFocused) {
+            observer.observeRoot()
+            hasFocused = true
+          }
+        }
+      })()
+    )
 
-        observer.observeRoot()
-        return feature
-    })
+    observer.observeRoot()
+    return feature
+  })
 
 type ResponseTypeCriteria = {
-    type: ResponseType
-    endpoint: string
+  type: ResponseType
+  endpoint: string
 }
 
 const responseTypeCriterias: ResponseTypeCriteria[] = [
-    { type: ResponseType.TweetDetail, endpoint: 'TweetDetail' },
-    { type: ResponseType.TweetResultByRestId, endpoint: 'TweetResultByRestId' },
-    { type: ResponseType.UserTweets, endpoint: 'UserTweets' },
-    { type: ResponseType.UserMedia, endpoint: 'UserMedia' },
-    { type: ResponseType.HomeTimeline, endpoint: 'HomeTimeline' },
-    { type: ResponseType.HomeLatestTimeline, endpoint: 'HomeLatestTimeline' },
-    { type: ResponseType.UserArticlesTweets, endpoint: 'UserArticlesTweets' },
-    { type: ResponseType.UserTweetsAndReplies, endpoint: 'UserTweetsAndReplies' },
-    { type: ResponseType.UserHighlightsTweets, endpoint: 'UserHighlightsTweets' },
-    { type: ResponseType.Bookmarks, endpoint: 'Bookmarks' },
-    { type: ResponseType.Likes, endpoint: 'Likes' },
-    {
-        type: ResponseType.CommunitiesExploreTimeline,
-        endpoint: 'CommunitiesExploreTimeline',
-    },
-    {
-        type: ResponseType.ListLatestTweetsTimeline,
-        endpoint: 'ListLatestTweetsTimeline',
-    },
-    {
-        type: ResponseType.SearchTimeline,
-        endpoint: 'SearchTimeline',
-    },
+  { type: ResponseType.TweetDetail, endpoint: 'TweetDetail' },
+  { type: ResponseType.TweetResultByRestId, endpoint: 'TweetResultByRestId' },
+  { type: ResponseType.UserTweets, endpoint: 'UserTweets' },
+  { type: ResponseType.UserMedia, endpoint: 'UserMedia' },
+  { type: ResponseType.HomeTimeline, endpoint: 'HomeTimeline' },
+  { type: ResponseType.HomeLatestTimeline, endpoint: 'HomeLatestTimeline' },
+  { type: ResponseType.UserArticlesTweets, endpoint: 'UserArticlesTweets' },
+  { type: ResponseType.UserTweetsAndReplies, endpoint: 'UserTweetsAndReplies' },
+  { type: ResponseType.UserHighlightsTweets, endpoint: 'UserHighlightsTweets' },
+  { type: ResponseType.Bookmarks, endpoint: 'Bookmarks' },
+  { type: ResponseType.Likes, endpoint: 'Likes' },
+  {
+    type: ResponseType.CommunitiesExploreTimeline,
+    endpoint: 'CommunitiesExploreTimeline',
+  },
+  {
+    type: ResponseType.ListLatestTweetsTimeline,
+    endpoint: 'ListLatestTweetsTimeline',
+  },
+  {
+    type: ResponseType.SearchTimeline,
+    endpoint: 'SearchTimeline',
+  },
 ]
 
 const detectResponseTypeByEndpoint = (path: string): ResponseType => {
-    for (const { type, endpoint } of responseTypeCriterias) {
-        if (path.endsWith(endpoint)) return type
-    }
+  for (const { type, endpoint } of responseTypeCriterias) {
+    if (path.endsWith(endpoint)) return type
+  }
 
-    return ResponseType.Unknown
+  return ResponseType.Unknown
 }
 
 document.addEventListener('mh:media-response', async e => {
-    await sendMessage(
-        new CaptureResponseMessage({
-            type: detectResponseTypeByEndpoint(e.detail.path),
-            body: e.detail.body,
-        })
-    )
+  await sendMessage(
+    new CaptureResponseMessage({
+      type: detectResponseTypeByEndpoint(e.detail.path),
+      body: e.detail.body,
+    })
+  )
 })
 
 runtime.onMessage.addListener((message, _sender, sendResponse) => {
-    const messageResult = RequestTransactionIdMessage.validate(message)
-    if (isErrorResult(messageResult)) return true
+  const messageResult = RequestTransactionIdMessage.validate(message)
+  if (isErrorResult(messageResult)) return true
 
-    const txIdMessage = messageResult.value
-    const uuid = self.crypto.randomUUID()
+  const txIdMessage = messageResult.value
+  const uuid = self.crypto.randomUUID()
 
-    document.addEventListener(
-        'mh:tx-id:response',
-        function responseTxId(ev: CustomEvent<MediaHarvest.TxIdResponseDetail>) {
-            const { uuid: respUUID, value } = ev.detail
-            if (respUUID !== uuid) return
+  document.addEventListener(
+    'mh:tx-id:response',
+    function responseTxId(ev: CustomEvent<MediaHarvest.TxIdResponseDetail>) {
+      const { uuid: respUUID, value } = ev.detail
+      if (respUUID !== uuid) return
 
-            sendResponse(txIdMessage.makeResponse(true, { transactionId: value }))
+      sendResponse(txIdMessage.makeResponse(true, { transactionId: value }))
 
-            document.removeEventListener('mh:tx-id:response', responseTxId)
-        }
-    )
+      document.removeEventListener('mh:tx-id:response', responseTxId)
+    }
+  )
 
-    const { method, path } = txIdMessage.payload
-    document.dispatchEvent(
-        new CustomEvent<MediaHarvest.TxIdRequestDetail>('mh:tx-id:request', {
-            detail: makePageScriptSharedObject({
-                uuid,
-                method,
-                path,
-            }),
-        })
-    )
+  const { method, path } = txIdMessage.payload
+  document.dispatchEvent(
+    new CustomEvent<MediaHarvest.TxIdRequestDetail>('mh:tx-id:request', {
+      detail: makePageScriptSharedObject({
+        uuid,
+        method,
+        path,
+      }),
+    })
+  )
 
-    return true
+  return true
 })
 
 /**
@@ -180,12 +180,12 @@ runtime.onMessage.addListener((message, _sender, sendResponse) => {
  * @see {@link https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Sharing_objects_with_page_scripts#cloneinto | Firefox docs}
  */
 function makePageScriptSharedObject<T>(
-    object: T,
-    options?: { cloneFunctions?: boolean; wrapReflectors?: boolean }
+  object: T,
+  options?: { cloneFunctions?: boolean; wrapReflectors?: boolean }
 ): T {
-    if (__FIREFOX__) {
-        return cloneInto(object, window, options)
-    }
+  if (__FIREFOX__) {
+    return cloneInto(object, window, options)
+  }
 
-    return object
+  return object
 }

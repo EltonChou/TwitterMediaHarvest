@@ -20,7 +20,9 @@ async function checkEnvFile(envFile) {
   try {
     await fs.access(envFilePath)
   } catch (_error) {
-    throw new Error(`Environment file ${envFile} does not exist`)
+    throw new Error(`Environment file ${envFile} does not exist`, {
+      cause: _error,
+    })
   }
 
   try {

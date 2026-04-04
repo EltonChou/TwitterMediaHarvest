@@ -17,7 +17,7 @@ function getPackageInfo() {
       version: packageData.version,
     }
   } catch (_error) {
-    throw new Error('Unable to read package.json')
+    throw new Error('Unable to read package.json', { cause: _error })
   }
 }
 

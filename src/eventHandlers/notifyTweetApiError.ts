@@ -17,8 +17,7 @@ export const notifyTweetApiError =
     const notificationId = makeTweetFetchErrorNotificationId(
       event.tweetInfo.tweetId
     )
-    let notificatonConfig: Notifications.CreateNotificationOptions | undefined =
-      undefined
+    let notificatonConfig: Notifications.CreateNotificationOptions | undefined
 
     switch (event.code) {
       case 429:

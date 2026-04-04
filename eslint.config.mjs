@@ -14,6 +14,8 @@ export default tseslint.config(
       '**/dist/**',
       '**/node_modules/**',
       '**/coverage/**',
+      'webpack/loaders/**',
+      'bdd-gen/**',
     ],
   },
   {
@@ -31,6 +33,7 @@ export default tseslint.config(
       parserOptions: {
         ecmaVersion: 2022,
         sourceType: 'module',
+        tsconfigRootDir: import.meta.dirname,
       },
     },
     plugins: {

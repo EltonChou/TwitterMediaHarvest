@@ -1,5 +1,8 @@
+import type {
+  EnvironmentContext,
+  JestEnvironmentConfig,
+} from '@jest/environment'
 import JSDOMEnvironment from 'jest-environment-jsdom'
-import type { JestEnvironmentConfig, EnvironmentContext } from '@jest/environment'
 
 export default class CustomJSDOMEnvironment extends JSDOMEnvironment {
   constructor(config: JestEnvironmentConfig, context: EnvironmentContext) {
