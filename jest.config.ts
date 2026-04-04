@@ -7,7 +7,7 @@ const tsConfig = ts.readConfigFile('./tsconfig.json', ts.sys.readFile)
 const jestConfig: JestConfigWithTsJest = {
   workerIdleMemoryLimit: '256',
   preset: 'ts-jest/presets/default-esm',
-  testEnvironment: '<rootDir>/jest.environment.ts',
+
   verbose: false,
   testTimeout: 5000,
   testMatch: [
