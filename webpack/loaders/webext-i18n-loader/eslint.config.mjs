@@ -6,6 +6,9 @@ import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config([
+  // Global ignores must be in a standalone object (no other keys).
+  // Placing `ignores` alongside other properties makes it a local filter only.
+  { ignores: ['build/', 'dist/', 'node_modules/'] },
   js.configs.recommended,
   tseslint.configs.recommended,
   {
@@ -23,7 +26,6 @@ export default tseslint.config([
         tsconfigRootDir: import.meta.dirname,
       },
     },
-    ignores: ['build/', 'dist/', 'node_modules/'],
     plugins: {
       '@typescript-eslint': tsPlugin,
     },

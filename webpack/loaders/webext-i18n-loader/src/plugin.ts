@@ -123,11 +123,14 @@ export class WebextI18nPlugin implements WebpackPluginInstance {
       const logger = compilation.getLogger('webext-i18n-plugin')
       // const cache = compilation.getCache(pluginName)
 
+      // Do NOT pass `additionalAssets: true` here.
+      // That flag re-invokes this hook whenever any new asset is added,
+      // causing a self-triggering loop: emitting messages.json counts as a
+      // new asset, which fires the hook again, re-emitting every locale file.
       compilation.hooks.processAssets.tapPromise(
         {
           name: pluginName,
           stage: Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
-          additionalAssets: true,
         },
         async _unusedAssets => {
           logger.log(`Finding po files from ${this.options.poDir}`)

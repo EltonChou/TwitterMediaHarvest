@@ -86,7 +86,6 @@ class WebextI18nPlugin {
             compilation.hooks.processAssets.tapPromise({
                 name: pluginName,
                 stage: webpack_1.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
-                additionalAssets: true,
             }, (_unusedAssets) => __awaiter(this, void 0, void 0, function* () {
                 var _a;
                 logger.log(`Finding po files from ${this.options.poDir}`);
