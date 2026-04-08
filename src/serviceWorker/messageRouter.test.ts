@@ -1,27 +1,8 @@
 import { WebExtAction } from '#libs/webExtMessage'
 import { MessagePortName } from '#libs/webExtMessage/port'
+import { makeMockPort } from '#mocks/port'
 import { getMessageRouter } from './messageRouter'
 import type { Runtime } from 'webextension-polyfill'
-
-const makePort = (
-  name: MessagePortName,
-  sender: Runtime.MessageSender = {}
-): Runtime.Port & { postMessage: jest.Mock } => ({
-  name,
-  sender,
-  disconnect: jest.fn(),
-  postMessage: jest.fn(),
-  onMessage: {
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    hasListener: jest.fn(),
-  },
-  onDisconnect: {
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    hasListener: jest.fn(),
-  },
-})
 
 describe('unit test for message router', () => {
   const router = getMessageRouter()
@@ -90,7 +71,7 @@ describe('MessageRouter.handlePortMessage', () => {
     const mockHandler = jest.fn()
     router.route(WebExtAction.CaptureResponse, mockHandler)
 
-    const port = makePort(MessagePortName.ContentScript)
+    const port = makeMockPort(MessagePortName.ContentScript)
 
     await router.handlePortMessage({
       message: { action: WebExtAction.CaptureResponse },
@@ -106,7 +87,7 @@ describe('MessageRouter.handlePortMessage', () => {
     })
     router.route(WebExtAction.CaptureResponse, mockHandler)
 
-    const port = makePort(MessagePortName.ContentScript)
+    const port = makeMockPort(MessagePortName.ContentScript)
 
     await router.handlePortMessage({
       message: { action: WebExtAction.CaptureResponse },
@@ -124,7 +105,7 @@ describe('MessageRouter.handlePortMessage', () => {
     router.route(WebExtAction.CaptureResponse, mockHandler)
 
     const sender: Runtime.MessageSender = { id: 'test-ext-id' }
-    const port = makePort(MessagePortName.ContentScript, sender)
+    const port = makeMockPort(MessagePortName.ContentScript, sender)
 
     await router.handlePortMessage({
       message: { action: WebExtAction.CaptureResponse },

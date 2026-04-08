@@ -12,6 +12,7 @@ This project follows **Domain-Driven Design (DDD)**:
 - `applicationUseCases/` — application layer, orchestrates domain logic
 - `infra/` — infrastructure implementations (repositories, external services)
 - `contentScript/` / `serviceWorker/` — browser extension entry points
+- `src/mocks/` — shared test mock helpers (e.g. `makeMockPort`, `MockEventPublisher`); import via `#mocks/*` path alias
 
 ## Common Scripts
 

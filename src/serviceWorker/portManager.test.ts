@@ -4,33 +4,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { MessagePortName } from '#libs/webExtMessage/port'
+import { MockPort, makeMockPort } from '#mocks/port'
 import { PortManagerImpl } from './portManager'
-import type { Runtime } from 'webextension-polyfill'
-
-const makePort = (name: MessagePortName): Runtime.Port => {
-  const listeners: (() => void)[] = []
-  return {
-    name,
-    disconnect: jest.fn(),
-    postMessage: jest.fn(),
-    onMessage: {
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
-      hasListener: jest.fn(),
-    },
-    onDisconnect: {
-      addListener: (listener: () => void) => listeners.push(listener),
-      removeListener: jest.fn(),
-      hasListener: jest.fn(),
-      _trigger: () => listeners.forEach(l => l()),
-    },
-  } as unknown as Runtime.Port & { onDisconnect: { _trigger: () => void } }
-}
 
 describe('PortManagerImpl', () => {
   it('registers and retrieves a port', () => {
     const manager = new PortManagerImpl()
-    const port = makePort(MessagePortName.ContentScript)
+    const port = makeMockPort(MessagePortName.ContentScript)
 
     manager.register(port)
 
@@ -45,9 +25,7 @@ describe('PortManagerImpl', () => {
 
   it('removes port from set on disconnect', () => {
     const manager = new PortManagerImpl()
-    const port = makePort(MessagePortName.ContentScript) as Runtime.Port & {
-      onDisconnect: { _trigger: () => void }
-    }
+    const port: MockPort = makeMockPort(MessagePortName.ContentScript)
 
     manager.register(port)
     expect(manager.getPort(MessagePortName.ContentScript)).toBe(port)
@@ -59,8 +37,8 @@ describe('PortManagerImpl', () => {
 
   it('getPorts returns all ports for a name', () => {
     const manager = new PortManagerImpl()
-    const port1 = makePort(MessagePortName.ContentScript)
-    const port2 = makePort(MessagePortName.ContentScript)
+    const port1 = makeMockPort(MessagePortName.ContentScript)
+    const port2 = makeMockPort(MessagePortName.ContentScript)
 
     manager.register(port1)
     manager.register(port2)
@@ -78,12 +56,8 @@ describe('PortManagerImpl', () => {
 
   it('getPort returns undefined after all ports disconnect', () => {
     const manager = new PortManagerImpl()
-    const port1 = makePort(MessagePortName.ContentScript) as Runtime.Port & {
-      onDisconnect: { _trigger: () => void }
-    }
-    const port2 = makePort(MessagePortName.ContentScript) as Runtime.Port & {
-      onDisconnect: { _trigger: () => void }
-    }
+    const port1: MockPort = makeMockPort(MessagePortName.ContentScript)
+    const port2: MockPort = makeMockPort(MessagePortName.ContentScript)
 
     manager.register(port1)
     manager.register(port2)
