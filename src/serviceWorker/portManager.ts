@@ -8,7 +8,6 @@ import type { Runtime } from 'webextension-polyfill'
 
 export interface PortManager {
   register(port: Runtime.Port): void
-  getPort(name: MessagePortName): Runtime.Port | undefined
   getPorts(name: MessagePortName): ReadonlySet<Runtime.Port>
 }
 
@@ -30,12 +29,6 @@ export class PortManagerImpl implements PortManager {
     port.onDisconnect.addListener(() => {
       ports.delete(port)
     })
-  }
-
-  getPort(name: MessagePortName): Runtime.Port | undefined {
-    const ports = this.portMap.get(name)
-    if (!ports || ports.size === 0) return undefined
-    return ports.values().next().value
   }
 
   getPorts(name: MessagePortName): ReadonlySet<Runtime.Port> {
