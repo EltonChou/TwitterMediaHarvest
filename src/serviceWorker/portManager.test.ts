@@ -8,31 +8,16 @@ import { MockPort, makeMockPort } from '#mocks/port'
 import { PortManagerImpl } from './portManager'
 
 describe('PortManagerImpl', () => {
-  it('registers and retrieves a port', () => {
-    const manager = new PortManagerImpl()
-    const port = makeMockPort(MessagePortName.ContentScript)
-
-    manager.register(port)
-
-    expect(manager.getPort(MessagePortName.ContentScript)).toBe(port)
-  })
-
-  it('returns undefined when no ports are registered', () => {
-    const manager = new PortManagerImpl()
-
-    expect(manager.getPort(MessagePortName.ContentScript)).toBeUndefined()
-  })
-
   it('removes port from set on disconnect', () => {
     const manager = new PortManagerImpl()
     const port: MockPort = makeMockPort(MessagePortName.ContentScript)
 
     manager.register(port)
-    expect(manager.getPort(MessagePortName.ContentScript)).toBe(port)
+    expect(manager.getPorts(MessagePortName.ContentScript).size).toBe(1)
 
     port.onDisconnect._trigger()
 
-    expect(manager.getPort(MessagePortName.ContentScript)).toBeUndefined()
+    expect(manager.getPorts(MessagePortName.ContentScript).size).toBe(0)
   })
 
   it('getPorts returns all ports for a name', () => {
@@ -52,19 +37,5 @@ describe('PortManagerImpl', () => {
   it('getPorts returns empty set when nothing is registered', () => {
     const manager = new PortManagerImpl()
     expect(manager.getPorts(MessagePortName.ContentScript).size).toBe(0)
-  })
-
-  it('getPort returns undefined after all ports disconnect', () => {
-    const manager = new PortManagerImpl()
-    const port1: MockPort = makeMockPort(MessagePortName.ContentScript)
-    const port2: MockPort = makeMockPort(MessagePortName.ContentScript)
-
-    manager.register(port1)
-    manager.register(port2)
-
-    port1.onDisconnect._trigger()
-    port2.onDisconnect._trigger()
-
-    expect(manager.getPort(MessagePortName.ContentScript)).toBeUndefined()
   })
 })
