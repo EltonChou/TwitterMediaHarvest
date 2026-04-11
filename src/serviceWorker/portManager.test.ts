@@ -5,11 +5,11 @@
  */
 import { MessagePortName } from '#libs/webExtMessage/port'
 import { MockPort, makeMockPort } from '#mocks/port'
-import { PortManagerImpl } from './portManager'
+import { PortManager } from './portManager'
 
-describe('PortManagerImpl', () => {
+describe('PortManager', () => {
   it('removes port from set on disconnect', () => {
-    const manager = new PortManagerImpl()
+    const manager = new PortManager()
     const port: MockPort = makeMockPort(MessagePortName.ContentScript)
 
     manager.register(port)
@@ -21,7 +21,7 @@ describe('PortManagerImpl', () => {
   })
 
   it('getPorts returns all ports for a name', () => {
-    const manager = new PortManagerImpl()
+    const manager = new PortManager()
     const port1 = makeMockPort(MessagePortName.ContentScript)
     const port2 = makeMockPort(MessagePortName.ContentScript)
 
@@ -35,7 +35,7 @@ describe('PortManagerImpl', () => {
   })
 
   it('getPorts returns empty set when nothing is registered', () => {
-    const manager = new PortManagerImpl()
+    const manager = new PortManager()
     expect(manager.getPorts(MessagePortName.ContentScript).size).toBe(0)
   })
 })
