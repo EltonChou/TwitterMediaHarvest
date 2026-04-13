@@ -35,7 +35,9 @@ jest.mock('./port', () => {
 
   return {
     MessagePortName: { ContentScript: 'content-script' },
-    getMessagePort: jest.fn().mockReturnValue(mockPort),
+    getMessagePort: jest
+      .fn()
+      .mockReturnValue({ port: mockPort, clear: jest.fn() }),
     isOneShotMessage: jest.requireActual('./port').isOneShotMessage,
     _mockPort: mockPort,
   }

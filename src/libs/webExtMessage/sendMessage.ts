@@ -53,7 +53,7 @@ export function sendMessage(message: any): Promise<any> {
     return runtime.sendMessage(inner.toObject())
   }
 
-  const port = getMessagePort(MessagePortName.ContentScript)
+  const { port } = getMessagePort(MessagePortName.ContentScript)
   port.postMessage((message as WebExtMessage<WebExtAction>).toObject())
   return Promise.resolve()
 }

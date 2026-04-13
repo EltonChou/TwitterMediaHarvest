@@ -3,7 +3,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-
 export const enum WebExtAction {
   DownloadMedia = 'download-media',
   CheckDownloadHistory = 'check-download-history',
@@ -25,35 +24,45 @@ export type WebExtMessagePayloadObject<
   payload: Payload
 }
 
-export type WebExtMessageErrorResponse = { status: 'error'; reason: string }
+export type WebExtMessageErrorResponse<
+  Action extends WebExtAction | WebExtExternalAction = never,
+  Extra extends Record<string, unknown> = Record<never, never>,
+> = [Action] extends [never]
+  ? { status: 'error'; reason: string } & Extra
+  : { action: Action; status: 'error'; reason: string } & Extra
 
-export type WebExtMessageResponse = { status: 'ok' }
+export type WebExtMessageResponse<
+  Action extends WebExtAction | WebExtExternalAction = never,
+> = [Action] extends [never]
+  ? { status: 'ok' }
+  : { action: Action; status: 'ok' }
 
 export type WebExtMessagePayloadResponse<
   Payload extends Record<string, unknown> = never,
-> = {
-  status: 'ok'
-  payload: Payload
-}
+  Action extends WebExtAction | WebExtExternalAction = never,
+> = [Action] extends [never]
+  ? { status: 'ok'; payload: Payload }
+  : { action: Action; status: 'ok'; payload: Payload }
 
 export interface ResponsibleMessage<
+  Action extends WebExtAction | WebExtExternalAction,
   ResponsePayload extends LiteralObject = never,
   Response = keyof ResponsePayload extends string
-    ? WebExtMessagePayloadResponse<ResponsePayload>
-    : WebExtMessageResponse,
+    ? WebExtMessagePayloadResponse<ResponsePayload, Action>
+    : WebExtMessageResponse<Action>,
 > {
   makeResponse(
     isOk: true,
     payload: ResponsePayload extends LiteralObject ? ResponsePayload : never
   ): Response
-  makeResponse(isOk: false, reason: string): WebExtMessageErrorResponse
+  makeResponse(isOk: false, reason: string): WebExtMessageErrorResponse<Action>
 }
 
 export interface WebExtMessage<
   Action extends WebExtAction,
   Payload extends Record<string, unknown> = never,
   ResponsePayload extends Record<string, unknown> = never,
-> extends ResponsibleMessage<ResponsePayload> {
+> extends ResponsibleMessage<Action, ResponsePayload> {
   toObject(): keyof Payload extends string
     ? WebExtMessagePayloadObject<Action, Payload>
     : WebExtMessageObject<Action>

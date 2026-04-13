@@ -17,9 +17,24 @@ type CheckDownloadHistoryMessagePayload = {
   tweetId: string
 }
 
-type CheckDownloadHistoryResponsePayload = {
+type CheckDownloadHistoryResponseArg = {
   isExist: boolean
 }
+
+type CheckDownloadHistoryResponsePayload = {
+  tweetId: string
+  isExist: boolean
+}
+
+export type CheckDownloadHistoryResponse =
+  | WebExtMessagePayloadResponse<
+      CheckDownloadHistoryResponsePayload,
+      WebExtAction.CheckDownloadHistory
+    >
+  | WebExtMessageErrorResponse<
+      WebExtAction.CheckDownloadHistory,
+      { tweetId: string }
+    >
 
 const messageSchema: Joi.ObjectSchema<
   WebExtMessagePayloadObject<
@@ -38,6 +53,16 @@ export class CheckDownloadHistoryMessage implements WebExtMessage<
 > {
   constructor(readonly payload: CheckDownloadHistoryMessagePayload) {}
 
+  static isResponse(value: unknown): value is CheckDownloadHistoryResponse {
+    return (
+      typeof value === 'object' &&
+      value !== null &&
+      'action' in value &&
+      (value as { action: unknown }).action ===
+        WebExtAction.CheckDownloadHistory
+    )
+  }
+
   static validate(message: unknown): Result<CheckDownloadHistoryMessage> {
     const { value, error } = messageSchema.validate(message)
     return error
@@ -47,18 +72,46 @@ export class CheckDownloadHistoryMessage implements WebExtMessage<
 
   makeResponse(
     isOk: true,
-    payload: CheckDownloadHistoryResponsePayload
-  ): WebExtMessagePayloadResponse<CheckDownloadHistoryResponsePayload>
-  makeResponse(isOk: false, reason: string): WebExtMessageErrorResponse
+    arg: CheckDownloadHistoryResponseArg
+  ): WebExtMessagePayloadResponse<
+    CheckDownloadHistoryResponsePayload,
+    WebExtAction.CheckDownloadHistory
+  >
   makeResponse(
-    ...args: [true, CheckDownloadHistoryResponsePayload] | [false, string]
+    isOk: false,
+    reason: string
+  ): WebExtMessageErrorResponse<
+    WebExtAction.CheckDownloadHistory,
+    { tweetId: string }
+  >
+  makeResponse(
+    ...args: [true, CheckDownloadHistoryResponseArg] | [false, string]
   ):
-    | WebExtMessagePayloadResponse<CheckDownloadHistoryResponsePayload>
-    | WebExtMessageErrorResponse {
-    const [isOk, payload] = args
+    | WebExtMessagePayloadResponse<
+        CheckDownloadHistoryResponsePayload,
+        WebExtAction.CheckDownloadHistory
+      >
+    | WebExtMessageErrorResponse<
+        WebExtAction.CheckDownloadHistory,
+        { tweetId: string }
+      > {
+    const [isOk, arg] = args
+    const tweetId = this.payload.tweetId
     return isOk
-      ? { status: 'ok', payload: { isExist: payload.isExist } }
-      : { status: 'error', reason: payload }
+      ? {
+          action: WebExtAction.CheckDownloadHistory,
+          status: 'ok',
+          payload: {
+            tweetId,
+            isExist: (arg as CheckDownloadHistoryResponseArg).isExist,
+          },
+        }
+      : {
+          action: WebExtAction.CheckDownloadHistory,
+          status: 'error',
+          reason: arg as string,
+          tweetId,
+        }
   }
 
   toObject(): WebExtMessagePayloadObject<

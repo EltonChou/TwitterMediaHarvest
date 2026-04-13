@@ -9,7 +9,7 @@ import {
   WebExtMessage,
   WebExtMessageErrorResponse,
   WebExtMessagePayloadObject,
-  WebExtMessageResponse,
+  WebExtMessagePayloadResponse,
 } from './base'
 import Joi from 'joi'
 
@@ -17,6 +17,13 @@ type DownloadTweetMediaMessagePayload = {
   tweetId: string
   screenName: string
 }
+
+export type DownloadTweetMediaResponse =
+  | WebExtMessagePayloadResponse<
+      { tweetId: string },
+      WebExtAction.DownloadMedia
+    >
+  | WebExtMessageErrorResponse<WebExtAction.DownloadMedia, { tweetId: string }>
 
 const payloadSchema: Joi.ObjectSchema<
   WebExtMessagePayloadObject<
@@ -37,13 +44,50 @@ export class DownloadTweetMediaMessage implements WebExtMessage<
 > {
   constructor(readonly payload: DownloadTweetMediaMessagePayload) {}
 
-  makeResponse(isOk: true): WebExtMessageResponse
-  makeResponse(isOk: false, reason: string): WebExtMessageErrorResponse
+  makeResponse(
+    isOk: true
+  ): WebExtMessagePayloadResponse<
+    { tweetId: string },
+    WebExtAction.DownloadMedia
+  >
+  makeResponse(
+    isOk: false,
+    reason: string
+  ): WebExtMessageErrorResponse<WebExtAction.DownloadMedia, { tweetId: string }>
   makeResponse(
     ...args: [true] | [false, string]
-  ): WebExtMessageResponse | WebExtMessageErrorResponse {
+  ):
+    | WebExtMessagePayloadResponse<
+        { tweetId: string },
+        WebExtAction.DownloadMedia
+      >
+    | WebExtMessageErrorResponse<
+        WebExtAction.DownloadMedia,
+        { tweetId: string }
+      > {
     const [isOk, reason] = args
-    return isOk ? { status: 'ok' } : { status: 'error', reason: reason }
+    const tweetId = this.payload.tweetId
+    return isOk
+      ? {
+          action: WebExtAction.DownloadMedia,
+          status: 'ok',
+          payload: { tweetId },
+        }
+      : {
+          action: WebExtAction.DownloadMedia,
+          status: 'error',
+          reason: reason,
+          tweetId,
+        }
+  }
+
+  static isResponse(value: unknown): value is DownloadTweetMediaResponse {
+    return (
+      typeof value === 'object' &&
+      value !== null &&
+      'action' in value &&
+      (value as { action: unknown }).action === WebExtAction.DownloadMedia
+    )
   }
 
   static validate(message: unknown): Result<DownloadTweetMediaMessage> {
