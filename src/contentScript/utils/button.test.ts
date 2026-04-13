@@ -6,6 +6,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+import { contentScriptBus } from '#libs/contentScriptBus'
 import { sendMessage } from '#libs/webExtMessage'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import { generateTweetInfo } from '#utils/test/tweetInfo'
@@ -111,7 +112,9 @@ describe('initButtonListeners', () => {
     eventName: 'mh:download:has-downloaded' | 'mh:download:is-failed',
     tweetId: string
   ) =>
-    document.dispatchEvent(new CustomEvent(eventName, { detail: { tweetId } }))
+    contentScriptBus.dispatchEvent(
+      new CustomEvent(eventName, { detail: { tweetId } })
+    )
 
   describe('mh:download:has-downloaded', () => {
     it('sets Downloaded status on a non-downloading button', () => {
