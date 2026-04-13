@@ -8,6 +8,8 @@ import {
   WebExtMessageErrorResponse,
   WebExtMessageObject,
 } from '#libs/webExtMessage'
+import { MessagePortName } from '#libs/webExtMessage/port'
+import { getPortManager } from './portManager'
 import Joi from 'joi'
 import type { Runtime } from 'webextension-polyfill'
 
@@ -20,10 +22,23 @@ export interface MessageContext {
 
 export interface WebExtMessageRouter {
   handle(ctx: MessageContext): void
-  route: (action: WebExtAction, handler: MessageContextHandler) => this
+  route: (
+    action: WebExtAction,
+    handler: MessageContextHandler,
+    options?: RouteOptions
+  ) => this
 }
 
 export type MessageContextHandler = (ctx: MessageContext) => Promise<void>
+
+export type RouteOptions = {
+  broadcast: MessagePortName
+}
+
+type RouteEntry = {
+  handler: MessageContextHandler
+  options?: RouteOptions
+}
 
 const messageSchema: Joi.ObjectSchema<WebExtMessageObject<WebExtAction>> =
   Joi.object({
@@ -38,13 +53,13 @@ export const makeErrorResponse = (
 })
 
 export class MessageRouter implements WebExtMessageRouter {
-  private routeMap: Map<WebExtAction, MessageContextHandler>
+  private routeMap: Map<WebExtAction, RouteEntry>
 
   constructor() {
     this.routeMap = new Map()
   }
 
-  private getHandlerByAction(action: WebExtAction) {
+  private getEntryByAction(action: WebExtAction) {
     return this.routeMap.get(action)
   }
 
@@ -52,16 +67,15 @@ export class MessageRouter implements WebExtMessageRouter {
     const { value, error } = messageSchema.validate(ctx.message)
     if (error) return ctx.response(makeErrorResponse('Invalid message.'))
 
-    // eslint-disable-next-line no-console
     if (__DEV__)
       console.debug('[messageRouter] received message', {
         action: value.action,
         via: ctx.port ? 'port' : 'runtime',
       })
-    const handler = this.getHandlerByAction(value.action)
 
-    if (!handler) {
-      // eslint-disable-next-line no-console
+    const entry = this.getEntryByAction(value.action)
+
+    if (!entry) {
       if (__DEV__)
         console.debug('[messageRouter] no handler for action', {
           action: value.action,
@@ -71,7 +85,20 @@ export class MessageRouter implements WebExtMessageRouter {
       )
     }
 
-    return handler(ctx)
+    const resolvedCtx = entry.options?.broadcast
+      ? {
+          ...ctx,
+          response: (resp: unknown) => {
+            for (const p of getPortManager().getPorts(
+              entry.options!.broadcast
+            )) {
+              p.postMessage(resp)
+            }
+          },
+        }
+      : ctx
+
+    return entry.handler(resolvedCtx)
   }
 
   async handlePortMessage({
@@ -91,8 +118,12 @@ export class MessageRouter implements WebExtMessageRouter {
     })
   }
 
-  route(action: WebExtAction, handler: MessageContextHandler): this {
-    this.routeMap.set(action, handler)
+  route(
+    action: WebExtAction,
+    handler: MessageContextHandler,
+    options?: RouteOptions
+  ): this {
+    this.routeMap.set(action, { handler, options })
     return this
   }
 }
