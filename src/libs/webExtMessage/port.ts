@@ -1,13 +1,12 @@
-import { contentScriptBus } from '#libs/contentScriptBus'
-import { CheckDownloadHistoryMessage } from './messages/checkDownloadHistory'
-import { DownloadTweetMediaMessage } from './messages/downloadTweetMedia'
-import { runtime } from 'webextension-polyfill'
-
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+import { contentScriptBus } from '#libs/contentScriptBus'
+import { CheckDownloadHistoryMessage } from './messages/checkDownloadHistory'
+import { DownloadTweetMediaMessage } from './messages/downloadTweetMedia'
+import { runtime } from 'webextension-polyfill'
 
 export const enum MessagePortName {
   ContentScript = 'content-script',
