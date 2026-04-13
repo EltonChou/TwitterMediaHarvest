@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+import { contentScriptBus } from '#libs/contentScriptBus'
 import {
   CheckDownloadHistoryMessage,
   DownloadTweetMediaMessage,
@@ -78,7 +79,7 @@ const buttonClickHandler = (e: MouseEvent) => {
 }
 
 export const initButtonListeners = (): void => {
-  document.addEventListener('mh:download:has-downloaded', ev => {
+  contentScriptBus.addEventListener('mh:download:has-downloaded', ev => {
     const { tweetId } = ev.detail
     for (const button of getButtons(tweetId)) {
       if (isDownloadingButton(button))
@@ -87,7 +88,7 @@ export const initButtonListeners = (): void => {
     }
   })
 
-  document.addEventListener('mh:download:is-failed', ev => {
+  contentScriptBus.addEventListener('mh:download:is-failed', ev => {
     const { tweetId } = ev.detail
     for (const button of getButtons(tweetId)) {
       setButtonStatus(ButtonStatus.Error)(button)
