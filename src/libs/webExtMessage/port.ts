@@ -1,3 +1,4 @@
+import { contentScriptBus } from '#libs/contentScriptBus'
 import { CheckDownloadHistoryMessage } from './messages/checkDownloadHistory'
 import { DownloadTweetMediaMessage } from './messages/downloadTweetMedia'
 import { runtime } from 'webextension-polyfill'
@@ -63,10 +64,12 @@ const handlePortMessage = (msg: unknown) => {
       msg.status === 'ok'
         ? 'mh:download:has-downloaded'
         : 'mh:download:is-failed'
-    document.dispatchEvent(new CustomEvent(eventName, { detail: { tweetId } }))
+    contentScriptBus.dispatchEvent(
+      new CustomEvent(eventName, { detail: { tweetId } })
+    )
   } else if (CheckDownloadHistoryMessage.isResponse(msg)) {
     if (msg.status !== 'ok' || !msg.payload.isExist) return
-    document.dispatchEvent(
+    contentScriptBus.dispatchEvent(
       new CustomEvent('mh:download:has-downloaded', {
         detail: { tweetId: msg.payload.tweetId },
       })

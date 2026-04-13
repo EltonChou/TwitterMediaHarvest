@@ -6,6 +6,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+import { contentScriptBus } from '#libs/contentScriptBus'
 import { WebExtAction } from './messages/base'
 import { MessagePortName, getMessagePort } from './port'
 import type { Runtime } from 'webextension-polyfill'
@@ -103,7 +104,7 @@ describe('getMessagePort()', () => {
   })
 })
 
-describe('port onMessage → document events', () => {
+describe('port onMessage → contentScriptBus events', () => {
   let port: MockPort
 
   beforeEach(() => {
@@ -119,7 +120,7 @@ describe('port onMessage → document events', () => {
 
   it('dispatches mh:download:has-downloaded when check-download-history responds with isExist=true', () => {
     const listener = jest.fn()
-    document.addEventListener('mh:download:has-downloaded', listener, {
+    contentScriptBus.addEventListener('mh:download:has-downloaded', listener, {
       once: true,
     })
 
@@ -137,7 +138,7 @@ describe('port onMessage → document events', () => {
 
   it('does not dispatch mh:download:has-downloaded when isExist=false', () => {
     const listener = jest.fn()
-    document.addEventListener('mh:download:has-downloaded', listener, {
+    contentScriptBus.addEventListener('mh:download:has-downloaded', listener, {
       once: true,
     })
 
@@ -148,12 +149,12 @@ describe('port onMessage → document events', () => {
     })
 
     expect(listener).not.toHaveBeenCalled()
-    document.removeEventListener('mh:download:has-downloaded', listener)
+    contentScriptBus.removeEventListener('mh:download:has-downloaded', listener)
   })
 
   it('dispatches mh:download:has-downloaded when download-media responds ok', () => {
     const listener = jest.fn()
-    document.addEventListener('mh:download:has-downloaded', listener, {
+    contentScriptBus.addEventListener('mh:download:has-downloaded', listener, {
       once: true,
     })
 
@@ -171,7 +172,9 @@ describe('port onMessage → document events', () => {
 
   it('dispatches mh:download:is-failed when download-media responds with error', () => {
     const listener = jest.fn()
-    document.addEventListener('mh:download:is-failed', listener, { once: true })
+    contentScriptBus.addEventListener('mh:download:is-failed', listener, {
+      once: true,
+    })
 
     port.onMessage._trigger({
       action: WebExtAction.DownloadMedia,
