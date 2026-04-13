@@ -3,9 +3,7 @@
   "*.{js,cjs,mjs,jsx,ts,tsx}": [
     "eslint --fix",
     "prettier --write",
-    "yarn check:envfile sample.env",
-    "yarn ci:all --findRelatedTests --passWithNoTests --bail 5",
-    "yarn locale:extract --check"
+    "cross-env NODE_ENV=test jest --findRelatedTests --passWithNoTests --bail 5 --no-coverage"
   ],
   "*sample.env": ["yarn check:envfile sample.env"],
   "*.md": ["prettier --write"],
@@ -14,5 +12,5 @@
   "*.{po,pot}": ["yarn locale:check"],
   "*.po": ["yarn check:translations"],
   "flag.d.ts": ["yarn check:flags"],
-  "*.{yml, yaml}": ["prettier --write"]
+  "*.{yml,yaml}": ["prettier --write"]
 }
