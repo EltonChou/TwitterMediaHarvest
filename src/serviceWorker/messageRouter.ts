@@ -53,14 +53,25 @@ export class MessageRouter implements WebExtMessageRouter {
     if (error) return ctx.response(makeErrorResponse('Invalid message.'))
 
     // eslint-disable-next-line no-console
-    if (__DEV__) console.debug('Received runtime message: ' + value.action)
+    if (__DEV__)
+      console.debug('[messageRouter] received message', {
+        action: value.action,
+        via: ctx.port ? 'port' : 'runtime',
+      })
     const handler = this.getHandlerByAction(value.action)
 
-    return handler
-      ? handler(ctx)
-      : ctx.response(
-          makeErrorResponse('Invalid action' + `(action: ${value.action})`)
-        )
+    if (!handler) {
+      // eslint-disable-next-line no-console
+      if (__DEV__)
+        console.debug('[messageRouter] no handler for action', {
+          action: value.action,
+        })
+      return ctx.response(
+        makeErrorResponse('Invalid action' + `(action: ${value.action})`)
+      )
+    }
+
+    return handler(ctx)
   }
 
   async handlePortMessage({

@@ -55,7 +55,10 @@ export const getMessagePort = (() => {
   }
 })()
 
+/* eslint-disable no-console */
 const handlePortMessage = (msg: unknown) => {
+  if (__DEV__) console.debug('[port] received message', msg)
+
   if (DownloadTweetMediaMessage.isResponse(msg)) {
     const tweetId = msg.status === 'ok' ? msg.payload.tweetId : msg.tweetId
     if (typeof tweetId !== 'string') return
@@ -63,15 +66,19 @@ const handlePortMessage = (msg: unknown) => {
       msg.status === 'ok'
         ? 'mh:download:has-downloaded'
         : 'mh:download:is-failed'
+    if (__DEV__) console.debug(`[port] dispatching ${eventName}`, { tweetId })
     contentScriptBus.dispatchEvent(
       new CustomEvent(eventName, { detail: { tweetId } })
     )
   } else if (CheckDownloadHistoryMessage.isResponse(msg)) {
     if (msg.status !== 'ok' || !msg.payload.isExist) return
-    contentScriptBus.dispatchEvent(
-      new CustomEvent('mh:download:has-downloaded', {
-        detail: { tweetId: msg.payload.tweetId },
+    const tweetId = msg.payload.tweetId
+    if (__DEV__)
+      console.debug('[port] dispatching mh:download:has-downloaded', {
+        tweetId,
       })
+    contentScriptBus.dispatchEvent(
+      new CustomEvent('mh:download:has-downloaded', { detail: { tweetId } })
     )
   }
 }
