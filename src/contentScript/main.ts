@@ -19,6 +19,7 @@ import {
 import './main.sass'
 import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
+import { initButtonListeners } from './utils/button'
 import { isBetaTweetDeck, isTwitter } from './utils/checker'
 import { runtime } from 'webextension-polyfill'
 
@@ -130,6 +131,8 @@ const detectResponseTypeByEndpoint = (path: string): ResponseType => {
 
   return ResponseType.Unknown
 }
+
+initButtonListeners()
 
 document.addEventListener('mh:media-response', async e => {
   await sendMessage(

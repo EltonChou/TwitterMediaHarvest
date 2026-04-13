@@ -81,9 +81,10 @@ describe('MessageRouter.handlePortMessage', () => {
     expect(mockHandler).toHaveBeenCalledTimes(1)
   })
 
-  it('does not call postMessage for fire-and-forget', async () => {
+  it('posts response back over port when handler calls ctx.response', async () => {
+    const response = { action: WebExtAction.CaptureResponse, status: 'ok' }
     const mockHandler = jest.fn().mockImplementation(async ctx => {
-      ctx.response({ status: 'ok' })
+      ctx.response(response)
     })
     router.route(WebExtAction.CaptureResponse, mockHandler)
 
@@ -94,7 +95,7 @@ describe('MessageRouter.handlePortMessage', () => {
       port,
     })
 
-    expect(port.postMessage).not.toHaveBeenCalled()
+    expect(port.postMessage).toHaveBeenCalledWith(response)
   })
 
   it('uses port.sender as ctx.sender', async () => {

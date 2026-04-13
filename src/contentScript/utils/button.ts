@@ -38,8 +38,25 @@ const setButtonStatus = (status: ButtonStatus) => (button: ButtonElement) => {
 const isDownloadingButton = (button: ButtonElement) =>
   button.classList.contains('downloading')
 
-const responseStatusToButtonStatus = (respStatus: 'ok' | 'error') =>
-  respStatus === 'ok' ? ButtonStatus.Success : ButtonStatus.Error
+export const { registerButton, getButtons, getButtonRegistry } = (() => {
+  const registry = new Map<string, Set<ButtonElement>>()
+  return {
+    registerButton(tweetId: string, button: ButtonElement): void {
+      let buttons = registry.get(tweetId)
+      if (!buttons) {
+        buttons = new Set()
+        registry.set(tweetId, buttons)
+      }
+      buttons.add(button)
+    },
+    getButtons(tweetId: string): ReadonlySet<ButtonElement> {
+      return registry.get(tweetId) ?? new Set()
+    },
+    getButtonRegistry(): ReadonlyMap<string, ReadonlySet<ButtonElement>> {
+      return registry
+    },
+  }
+})()
 
 const buttonClickHandler = (e: MouseEvent) => {
   e.stopImmediatePropagation()
@@ -47,20 +64,35 @@ const buttonClickHandler = (e: MouseEvent) => {
   if (!(target instanceof Element)) return
 
   const button = target.closest<HTMLElement>('.harvester')
-  if (!button) return
-  if (isDownloadingButton(button)) return
+  if (!button || isDownloadingButton(button)) return
 
   setButtonStatus(ButtonStatus.Downloading)(button)
-  const { value, error } = getTweetInfoFromArticleChildElement(button)
+  const { value: tweetInfo, error } =
+    getTweetInfoFromArticleChildElement(button)
   if (error) {
     // eslint-disable-next-line no-console
     console.error(error)
     return setButtonStatus(ButtonStatus.Error)(button)
   }
-  const message = new DownloadTweetMediaMessage(value.mapBy(props => props))
-  sendMessage(message.asOneShot()).then(resp =>
-    setButtonStatus(responseStatusToButtonStatus(resp.status))(button)
-  )
+  sendMessage(new DownloadTweetMediaMessage(tweetInfo.mapBy(props => props)))
+}
+
+export const initButtonListeners = (): void => {
+  document.addEventListener('mh:download:has-downloaded', ev => {
+    const { tweetId } = ev.detail
+    for (const button of getButtons(tweetId)) {
+      if (isDownloadingButton(button))
+        setButtonStatus(ButtonStatus.Success)(button)
+      else setButtonStatus(ButtonStatus.Downloaded)(button)
+    }
+  })
+
+  document.addEventListener('mh:download:is-failed', ev => {
+    const { tweetId } = ev.detail
+    for (const button of getButtons(tweetId)) {
+      setButtonStatus(ButtonStatus.Error)(button)
+    }
+  })
 }
 
 export const makeButtonListener = <T extends ButtonElement>(button: T): T => {
@@ -69,18 +101,12 @@ export const makeButtonListener = <T extends ButtonElement>(button: T): T => {
 }
 
 export const checkButtonStatus = <T extends ButtonElement>(button: T): T => {
-  const { value, error } = getTweetInfoFromArticleChildElement(button)
+  const { value: tweetInfo, error } =
+    getTweetInfoFromArticleChildElement(button)
   if (error) return button
 
-  const message = new CheckDownloadHistoryMessage({ tweetId: value.tweetId })
-  sendMessage(message.asOneShot()).then(resp => {
-    if (resp.status === 'error') return button
-    if (isDownloadingButton(button)) return button
-    if (resp.payload.isExist)
-      return setButtonStatus(ButtonStatus.Downloaded)(button)
-    if (!resp.payload.isExist) return cleanButtonStatus(button)
-    return button
-  })
+  registerButton(tweetInfo.tweetId, button)
+  sendMessage(new CheckDownloadHistoryMessage({ tweetId: tweetInfo.tweetId }))
 
   return button
 }
