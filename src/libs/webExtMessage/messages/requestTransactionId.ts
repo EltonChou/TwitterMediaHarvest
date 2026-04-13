@@ -32,16 +32,26 @@ export class RequestTransactionIdMessage implements WebExtMessage<
   makeResponse(
     isOk: true,
     payload: RequestTransactionIdMessageResponsePayload
-  ): WebExtMessagePayloadResponse<RequestTransactionIdMessageResponsePayload>
-  makeResponse(isOk: false, reason: string): WebExtMessageErrorResponse
+  ): WebExtMessagePayloadResponse<
+    RequestTransactionIdMessageResponsePayload,
+    WebExtAction.RequestTransactionId
+  >
+  makeResponse(
+    isOk: false,
+    reason: string
+  ): WebExtMessageErrorResponse<WebExtAction.RequestTransactionId>
   makeResponse(
     isOk: unknown,
     reason: unknown
   ):
-    | WebExtMessagePayloadResponse<RequestTransactionIdMessageResponsePayload>
-    | WebExtMessageErrorResponse {
+    | WebExtMessagePayloadResponse<
+        RequestTransactionIdMessageResponsePayload,
+        WebExtAction.RequestTransactionId
+      >
+    | WebExtMessageErrorResponse<WebExtAction.RequestTransactionId> {
     if (isOk === true && this.isResponsePayload(reason)) {
       return {
+        action: WebExtAction.RequestTransactionId,
         status: 'ok',
         payload: reason,
       }
@@ -49,6 +59,7 @@ export class RequestTransactionIdMessage implements WebExtMessage<
 
     if (isOk === false && typeof reason === 'string') {
       return {
+        action: WebExtAction.RequestTransactionId,
         status: 'error',
         reason,
       }

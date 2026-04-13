@@ -71,13 +71,24 @@ export class CaptureResponseMessage implements WebExtMessage<
 > {
   constructor(readonly payload: CaptureResponseMessagePayload) {}
 
-  makeResponse(isOk: true): WebExtMessageResponse
-  makeResponse(isOk: false, reason: string): WebExtMessageErrorResponse
+  makeResponse(isOk: true): WebExtMessageResponse<WebExtAction.CaptureResponse>
+  makeResponse(
+    isOk: false,
+    reason: string
+  ): WebExtMessageErrorResponse<WebExtAction.CaptureResponse>
   makeResponse(
     ...args: [true] | [false, string]
-  ): WebExtMessageResponse | WebExtMessageErrorResponse {
+  ):
+    | WebExtMessageResponse<WebExtAction.CaptureResponse>
+    | WebExtMessageErrorResponse<WebExtAction.CaptureResponse> {
     const [isOk, reason] = args
-    return isOk ? { status: 'ok' } : { status: 'error', reason: reason }
+    return isOk
+      ? { action: WebExtAction.CaptureResponse, status: 'ok' }
+      : {
+          action: WebExtAction.CaptureResponse,
+          status: 'error',
+          reason: reason,
+        }
   }
 
   toObject(): WebExtMessagePayloadObject<

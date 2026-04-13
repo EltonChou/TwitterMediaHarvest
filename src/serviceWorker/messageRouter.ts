@@ -75,7 +75,7 @@ export class MessageRouter implements WebExtMessageRouter {
     return this.handle({
       message,
       sender,
-      response: () => undefined,
+      response: resp => port.postMessage(resp),
       port,
     })
   }
