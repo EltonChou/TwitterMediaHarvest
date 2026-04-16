@@ -5,7 +5,15 @@
  */
 import { FeatureSettingsRepository } from '#infra/repositories/featureSettings'
 import { LocalExtensionStorageProxy } from '#infra/storageProxy'
-import { sendMessage } from '#libs/webExtMessage'
+import { contentScriptBus } from '#libs/contentScriptBus'
+import { topicLogger } from '#libs/loggers'
+import {
+  CheckDownloadHistoryMessage,
+  DownloadTweetMediaMessage,
+  MessagePortName,
+  getMessagePort,
+  sendMessage,
+} from '#libs/webExtMessage'
 import {
   CaptureResponseMessage,
   ResponseType,
@@ -142,6 +150,53 @@ document.addEventListener('mh:media-response', async e => {
     })
   )
 })
+
+document.addEventListener(
+  'mh:tx-id:response',
+  function responseTxId(_ev: CustomEvent<MediaHarvest.TxIdResponseDetail>) {
+    // const { path, method, value } = ev.detail
+    // const txMessage = new RequestTransactionIdMessage({path, method})
+    // sendResponse(txIdMessage.makeResponse(true, { transactionId: value }))
+  }
+)
+
+const portLogger = topicLogger('port')
+const { port: mainPort } = getMessagePort(MessagePortName.ContentScript)
+const handlePortMessage = (msg: unknown) => {
+  if (__DEV__) portLogger.debug('received message', msg)
+
+  if (DownloadTweetMediaMessage.isResponse(msg)) {
+    const tweetId = msg.status === 'ok' ? msg.payload.tweetId : msg.tweetId
+    if (typeof tweetId !== 'string') return
+
+    const event = new CustomEvent(
+      msg.status === 'ok'
+        ? 'mh:download:has-downloaded'
+        : 'mh:download:is-failed',
+      { detail: { tweetId } }
+    )
+    if (__DEV__) portLogger.debug(`dispatching ${event.type}`, { tweetId })
+    contentScriptBus.dispatchEvent(event)
+    return
+  }
+
+  if (CheckDownloadHistoryMessage.isResponse(msg)) {
+    if (msg.status !== 'ok' || !msg.payload.isExist) return
+
+    const tweetId = msg.payload.tweetId
+    const event = new CustomEvent('mh:download:has-downloaded', {
+      detail: { tweetId },
+    })
+    if (__DEV__)
+      portLogger.debug(`dispatching ${event.type}`, {
+        tweetId,
+      })
+    contentScriptBus.dispatchEvent(event)
+    return
+  }
+}
+
+mainPort.onMessage.addListener(handlePortMessage)
 
 runtime.onMessage.addListener((message, _sender, sendResponse) => {
   const messageResult = RequestTransactionIdMessage.validate(message)

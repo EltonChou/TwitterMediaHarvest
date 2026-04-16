@@ -3,13 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import { contentScriptBus } from '#libs/contentScriptBus'
-import { topicLogger } from '#libs/loggers'
-import { CheckDownloadHistoryMessage } from './messages/checkDownloadHistory'
-import { DownloadTweetMediaMessage } from './messages/downloadTweetMedia'
 import { runtime } from 'webextension-polyfill'
-
-const logger = topicLogger('port')
 
 export const enum MessagePortName {
   ContentScript = 'content-script',
@@ -54,40 +48,6 @@ export const getMessagePort = (() => {
     const handle: MessagePortHandle = { port, clear }
     cache.set(name, handle)
     port.onDisconnect.addListener(() => cache.delete(name))
-    port.onMessage.addListener(handlePortMessage)
     return handle
   }
 })()
-
-const handlePortMessage = (msg: unknown) => {
-  if (__DEV__) logger.debug('received message', msg)
-
-  if (DownloadTweetMediaMessage.isResponse(msg)) {
-    const tweetId = msg.status === 'ok' ? msg.payload.tweetId : msg.tweetId
-    if (typeof tweetId !== 'string') return
-
-    const eventName =
-      msg.status === 'ok'
-        ? 'mh:download:has-downloaded'
-        : 'mh:download:is-failed'
-    if (__DEV__) logger.debug(`dispatching ${eventName}`, { tweetId })
-    contentScriptBus.dispatchEvent(
-      new CustomEvent(eventName, { detail: { tweetId } })
-    )
-    return
-  }
-
-  if (CheckDownloadHistoryMessage.isResponse(msg)) {
-    if (msg.status !== 'ok' || !msg.payload.isExist) return
-
-    const tweetId = msg.payload.tweetId
-    if (__DEV__)
-      logger.debug('dispatching mh:download:has-downloaded', {
-        tweetId,
-      })
-    contentScriptBus.dispatchEvent(
-      new CustomEvent('mh:download:has-downloaded', { detail: { tweetId } })
-    )
-    return
-  }
-}
