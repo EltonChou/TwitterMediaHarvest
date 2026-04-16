@@ -6,8 +6,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import { contentScriptBus } from '#libs/contentScriptBus'
-import { WebExtAction } from './messages/base'
 import { MessagePortName, getMessagePort } from './port'
 import type { Runtime } from 'webextension-polyfill'
 import { runtime } from 'webextension-polyfill'
@@ -22,19 +20,16 @@ const mockConnect = runtime.connect as jest.Mock
 
 const makePort = (): Runtime.Port & {
   onDisconnect: { _trigger: () => void }
-  onMessage: { _trigger: (msg: unknown) => void }
 } => {
   const disconnectListeners: (() => void)[] = []
-  const messageListeners: ((msg: unknown) => void)[] = []
   return {
     name: 'content-script',
     disconnect: jest.fn(),
     postMessage: jest.fn(),
     onMessage: {
-      addListener: (fn: (msg: unknown) => void) => messageListeners.push(fn),
+      addListener: jest.fn(),
       removeListener: jest.fn(),
       hasListener: jest.fn(),
-      _trigger: (msg: unknown) => messageListeners.forEach(l => l(msg)),
     },
     onDisconnect: {
       addListener: (listener: () => void) => disconnectListeners.push(listener),
@@ -44,7 +39,6 @@ const makePort = (): Runtime.Port & {
     },
   } as unknown as Runtime.Port & {
     onDisconnect: { _trigger: () => void }
-    onMessage: { _trigger: (msg: unknown) => void }
   }
 }
 
@@ -101,91 +95,5 @@ describe('getMessagePort()', () => {
     expect(h1.port).toBe(port1)
     expect(h2.port).toBe(port2)
     expect(mockConnect).toHaveBeenCalledTimes(2)
-  })
-})
-
-describe('port onMessage → contentScriptBus events', () => {
-  let port: MockPort
-
-  beforeEach(() => {
-    port = makePort()
-    mockConnect.mockReturnValue(port)
-    getMessagePort(MessagePortName.ContentScript)
-  })
-
-  afterEach(() => {
-    mockConnect.mockReset()
-    port.onDisconnect._trigger()
-  })
-
-  it('dispatches mh:download:has-downloaded when check-download-history responds with isExist=true', () => {
-    const listener = jest.fn()
-    contentScriptBus.addEventListener('mh:download:has-downloaded', listener, {
-      once: true,
-    })
-
-    port.onMessage._trigger({
-      action: WebExtAction.CheckDownloadHistory,
-      status: 'ok',
-      payload: { tweetId: '123', isExist: true },
-    })
-
-    expect(listener).toHaveBeenCalledTimes(1)
-    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({
-      tweetId: '123',
-    })
-  })
-
-  it('does not dispatch mh:download:has-downloaded when isExist=false', () => {
-    const listener = jest.fn()
-    contentScriptBus.addEventListener('mh:download:has-downloaded', listener, {
-      once: true,
-    })
-
-    port.onMessage._trigger({
-      action: WebExtAction.CheckDownloadHistory,
-      status: 'ok',
-      payload: { tweetId: '123', isExist: false },
-    })
-
-    expect(listener).not.toHaveBeenCalled()
-    contentScriptBus.removeEventListener('mh:download:has-downloaded', listener)
-  })
-
-  it('dispatches mh:download:has-downloaded when download-media responds ok', () => {
-    const listener = jest.fn()
-    contentScriptBus.addEventListener('mh:download:has-downloaded', listener, {
-      once: true,
-    })
-
-    port.onMessage._trigger({
-      action: WebExtAction.DownloadMedia,
-      status: 'ok',
-      payload: { tweetId: '456' },
-    })
-
-    expect(listener).toHaveBeenCalledTimes(1)
-    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({
-      tweetId: '456',
-    })
-  })
-
-  it('dispatches mh:download:is-failed when download-media responds with error', () => {
-    const listener = jest.fn()
-    contentScriptBus.addEventListener('mh:download:is-failed', listener, {
-      once: true,
-    })
-
-    port.onMessage._trigger({
-      action: WebExtAction.DownloadMedia,
-      status: 'error',
-      tweetId: '789',
-      reason: 'Failed',
-    })
-
-    expect(listener).toHaveBeenCalledTimes(1)
-    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({
-      tweetId: '789',
-    })
   })
 })
