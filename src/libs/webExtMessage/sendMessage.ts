@@ -79,7 +79,7 @@ export const sendExternalMessage = async <
     }
   }
 
-  return { reason: 'No target extension', status: 'error' }
+  return { isResponse: true, reason: 'No target extension', status: 'error' }
 }
 
 export const sendTabMessage = (tabId: number) => {

@@ -28,21 +28,34 @@ export type WebExtMessageErrorResponse<
   Action extends WebExtAction | WebExtExternalAction = never,
   Extra extends Record<string, unknown> = Record<never, never>,
 > = [Action] extends [never]
-  ? { status: 'error'; reason: string } & Extra
-  : { action: Action; status: 'error'; reason: string } & Extra
+  ? { isResponse: true; status: 'error'; reason: string } & Extra
+  : {
+      isResponse: true
+      action: Action
+      status: 'error'
+      reason: string
+    } & Extra
 
 export type WebExtMessageResponse<
   Action extends WebExtAction | WebExtExternalAction = never,
 > = [Action] extends [never]
-  ? { status: 'ok' }
-  : { action: Action; status: 'ok' }
+  ? { isResponse: true; status: 'ok' }
+  : { isResponse: true; action: Action; status: 'ok' }
 
 export type WebExtMessagePayloadResponse<
   Payload extends Record<string, unknown> = never,
   Action extends WebExtAction | WebExtExternalAction = never,
 > = [Action] extends [never]
-  ? { status: 'ok'; payload: Payload }
-  : { action: Action; status: 'ok'; payload: Payload }
+  ? { isResponse: true; status: 'ok'; payload: Payload }
+  : { isResponse: true; action: Action; status: 'ok'; payload: Payload }
+
+export const isWebExtResponse = (
+  value: unknown
+): value is { isResponse: true } =>
+  typeof value === 'object' &&
+  value !== null &&
+  'isResponse' in value &&
+  (value as { isResponse: unknown }).isResponse === true
 
 export interface ResponsibleMessage<
   Action extends WebExtAction | WebExtExternalAction,
