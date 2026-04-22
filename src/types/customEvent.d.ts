@@ -6,13 +6,13 @@ declare namespace MediaHarvest {
   }
 
   interface TxIdRequestDetail {
-    uuid: string
     path: string
     method: string
   }
 
   interface TxIdResponseDetail {
-    uuid: string
+    method: string
+    path: string
     value: string
   }
 

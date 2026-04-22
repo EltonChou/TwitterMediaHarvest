@@ -19,7 +19,7 @@ import {
   ResponseType,
 } from '#libs/webExtMessage/messages/captureResponse'
 import { RequestTransactionIdMessage } from '#libs/webExtMessage/messages/requestTransactionId'
-import { isErrorResult } from '#utils/result'
+import { isSuccessResult } from '#utils/result'
 import {
   TweetDeckBetaKeyboardMonitor,
   TwitterKeyboardMonitor,
@@ -29,7 +29,6 @@ import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
 import { initButtonListeners } from './utils/button'
 import { isBetaTweetDeck, isTwitter } from './utils/checker'
-import { runtime } from 'webextension-polyfill'
 
 /**
  * Firefox-specific function to clone objects between privileged and unprivileged contexts
@@ -157,10 +156,11 @@ document.addEventListener('mh:media-response', async e => {
 
 document.addEventListener(
   'mh:tx-id:response',
-  function responseTxId(_ev: CustomEvent<MediaHarvest.TxIdResponseDetail>) {
-    // const { path, method, value } = ev.detail
-    // const txMessage = new RequestTransactionIdMessage({path, method})
-    // sendResponse(txIdMessage.makeResponse(true, { transactionId: value }))
+  function responseTxId(ev: CustomEvent<MediaHarvest.TxIdResponseDetail>) {
+    const { path, method, value } = ev.detail
+    const txMessage = new RequestTransactionIdMessage({ path, method })
+    const { port } = getMessagePort(MessagePortName.ContentScript)
+    port.postMessage(txMessage.makeResponse(true, { transactionId: value }))
   }
 )
 
@@ -198,42 +198,22 @@ const handlePortMessage = (msg: unknown) => {
     contentScriptBus.dispatchEvent(event)
     return
   }
+
+  const txIdRequestResult = RequestTransactionIdMessage.validate(msg)
+  if (isSuccessResult(txIdRequestResult)) {
+    const { method, path } = txIdRequestResult.value.payload
+    document.dispatchEvent(
+      new CustomEvent<MediaHarvest.TxIdRequestDetail>('mh:tx-id:request', {
+        detail: makePageScriptSharedObject({
+          method,
+          path,
+        }),
+      })
+    )
+  }
 }
 
 mainPort.onMessage.addListener(handlePortMessage)
-
-runtime.onMessage.addListener((message, _sender, sendResponse) => {
-  const messageResult = RequestTransactionIdMessage.validate(message)
-  if (isErrorResult(messageResult)) return true
-
-  const txIdMessage = messageResult.value
-  const uuid = self.crypto.randomUUID()
-
-  document.addEventListener(
-    'mh:tx-id:response',
-    function responseTxId(ev: CustomEvent<MediaHarvest.TxIdResponseDetail>) {
-      const { uuid: respUUID, value } = ev.detail
-      if (respUUID !== uuid) return
-
-      sendResponse(txIdMessage.makeResponse(true, { transactionId: value }))
-
-      document.removeEventListener('mh:tx-id:response', responseTxId)
-    }
-  )
-
-  const { method, path } = txIdMessage.payload
-  document.dispatchEvent(
-    new CustomEvent<MediaHarvest.TxIdRequestDetail>('mh:tx-id:request', {
-      detail: makePageScriptSharedObject({
-        uuid,
-        method,
-        path,
-      }),
-    })
-  )
-
-  return true
-})
 
 /**
  * Creates a shared object that can be accessed by page scripts
