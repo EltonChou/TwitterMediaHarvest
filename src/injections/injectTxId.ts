@@ -192,13 +192,14 @@ function isCallableFunction<T extends (...args: never[]) => unknown>(
 document.addEventListener('mh:tx-id:request', async e => {
   if (self.__MEDIAHARVEST__.generateTransactionId === undefined) return
 
-  const { path, method, uuid } = e.detail
+  const { path, method } = e.detail
   document.dispatchEvent(
     new CustomEvent<MediaHarvest.TxIdResponseDetail>(
       MediaHarvestEvent.ResponseTransactionId,
       {
         detail: {
-          uuid,
+          method,
+          path,
           value: await self.__MEDIAHARVEST__.generateTransactionId(
             path,
             method
