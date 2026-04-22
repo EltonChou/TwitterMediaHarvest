@@ -51,6 +51,7 @@ export class RequestTransactionIdMessage implements WebExtMessage<
     | WebExtMessageErrorResponse<WebExtAction.RequestTransactionId> {
     if (isOk === true && this.isResponsePayload(reason)) {
       return {
+        isResponse: true,
         action: WebExtAction.RequestTransactionId,
         status: 'ok',
         payload: reason,
@@ -59,6 +60,7 @@ export class RequestTransactionIdMessage implements WebExtMessage<
 
     if (isOk === false && typeof reason === 'string') {
       return {
+        isResponse: true,
         action: WebExtAction.RequestTransactionId,
         status: 'error',
         reason,

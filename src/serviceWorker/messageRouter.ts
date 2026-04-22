@@ -48,6 +48,7 @@ const messageSchema: Joi.ObjectSchema<WebExtMessageObject<WebExtAction>> =
 export const makeErrorResponse = (
   reason: string
 ): WebExtMessageErrorResponse => ({
+  isResponse: true,
   status: 'error',
   reason,
 })

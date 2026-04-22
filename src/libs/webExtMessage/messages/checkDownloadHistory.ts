@@ -57,6 +57,8 @@ export class CheckDownloadHistoryMessage implements WebExtMessage<
     return (
       typeof value === 'object' &&
       value !== null &&
+      'isResponse' in value &&
+      (value as { isResponse: unknown }).isResponse === true &&
       'action' in value &&
       (value as { action: unknown }).action ===
         WebExtAction.CheckDownloadHistory
@@ -99,6 +101,7 @@ export class CheckDownloadHistoryMessage implements WebExtMessage<
     const tweetId = this.payload.tweetId
     return isOk
       ? {
+          isResponse: true,
           action: WebExtAction.CheckDownloadHistory,
           status: 'ok',
           payload: {
@@ -107,6 +110,7 @@ export class CheckDownloadHistoryMessage implements WebExtMessage<
           },
         }
       : {
+          isResponse: true,
           action: WebExtAction.CheckDownloadHistory,
           status: 'error',
           reason: arg as string,

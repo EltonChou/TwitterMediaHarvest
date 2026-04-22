@@ -85,8 +85,9 @@ export class CaptureResponseMessage implements WebExtMessage<
     | WebExtMessageErrorResponse<WebExtAction.CaptureResponse> {
     const [isOk, reason] = args
     return isOk
-      ? { action: WebExtAction.CaptureResponse, status: 'ok' }
+      ? { isResponse: true, action: WebExtAction.CaptureResponse, status: 'ok' }
       : {
+          isResponse: true,
           action: WebExtAction.CaptureResponse,
           status: 'error',
           reason: reason,

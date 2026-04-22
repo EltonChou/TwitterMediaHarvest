@@ -69,11 +69,13 @@ export class DownloadTweetMediaMessage implements WebExtMessage<
     const tweetId = this.payload.tweetId
     return isOk
       ? {
+          isResponse: true,
           action: WebExtAction.DownloadMedia,
           status: 'ok',
           payload: { tweetId },
         }
       : {
+          isResponse: true,
           action: WebExtAction.DownloadMedia,
           status: 'error',
           reason: reason,
@@ -85,6 +87,8 @@ export class DownloadTweetMediaMessage implements WebExtMessage<
     return (
       typeof value === 'object' &&
       value !== null &&
+      'isResponse' in value &&
+      (value as { isResponse: unknown }).isResponse === true &&
       'action' in value &&
       (value as { action: unknown }).action === WebExtAction.DownloadMedia
     )
