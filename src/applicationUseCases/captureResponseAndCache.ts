@@ -13,6 +13,7 @@ import {
   retrieveTweetFromTweetResult,
   retrieveTweetsFromInstruction,
 } from '#libs/XApi/parsers/tweet'
+import { topicLogger } from '#libs/loggers'
 import { ResponseType } from '#libs/webExtMessage'
 import { isErrorResult, toErrorResult, toSuccessResult } from '#utils/result'
 import Joi from 'joi'
@@ -26,6 +27,8 @@ export interface InfraProvider {
   tweetResponseCache: ICache<TweetWithContent>
 }
 
+const logger = topicLogger('usecase')
+
 export class CaptureResponseAndCache implements AsyncUseCase<
   CaptureResponseAndCacheCommand,
   UnsafeTask
@@ -35,9 +38,7 @@ export class CaptureResponseAndCache implements AsyncUseCase<
   protected cacheTweets(tweet: TweetWithContent | TweetWithContent[]) {
     const isMultiple = Array.isArray(tweet)
 
-    if (__DEV__)
-      // eslint-disable-next-line no-console
-      console.debug(`Cache ${isMultiple ? tweet.length : 1} tweet(s)`)
+    if (__DEV__) logger.debug(`Cache ${isMultiple ? tweet.length : 1} tweet(s)`)
 
     if (isMultiple) return this.infra.tweetResponseCache.saveAll(...tweet)
     return this.infra.tweetResponseCache.save(tweet)
@@ -163,8 +164,7 @@ export class CaptureResponseAndCache implements AsyncUseCase<
     body,
   }: CaptureResponseAndCacheCommand): Promise<UnsafeTask<Error>> {
     let error: UnsafeTask = undefined
-    // eslint-disable-next-line no-console
-    if (__DEV__) console.debug(`Cache tweet response ${type}`)
+    if (__DEV__) logger.debug(`Cache tweet response ${type}`)
 
     switch (type) {
       case ResponseType.TweetDetail:
@@ -206,22 +206,21 @@ export class CaptureResponseAndCache implements AsyncUseCase<
         break
 
       default:
-        // eslint-disable-next-line no-console
-        if (__DEV__) console.debug(`Not implemented for ${type}`)
+        if (__DEV__) logger.debug(`Not implemented for ${type}`)
     }
 
-    /* eslint-disable no-console */
     if (error) {
       if (error instanceof Joi.ValidationError) {
+        /* eslint-disable no-console */
         console.group(`Invalid response body has been captured.`)
         console.warn(`Response type: ${type}`)
         console.warn(body)
         console.groupEnd()
+        /* eslint-enable no-console */
       } else {
-        console.error(error)
+        logger.error(error)
       }
     }
-    /* eslint-enable no-console */
 
     return error
   }
