@@ -15,10 +15,12 @@ import {
   filenameSettingsRepo,
   nativeFetchTweetSolution,
   tweetResponseCache,
+  xTransactionIdCache,
 } from '#provider'
 import captureResponseHandler from './messageHandlers/captureResponse'
 import checkDownloadHistoryHandler from './messageHandlers/checkDownloadHistory'
 import downloadMessageHandler from './messageHandlers/downloadMediaHandler'
+import requestTransactionIdHandler from './messageHandlers/requestTransactionId'
 import { type MessageRouter } from './messageRouter'
 
 const broadcastToContentScript = { broadcast: MessagePortName.ContentScript }
@@ -56,4 +58,8 @@ export const initMessageRouter = (router: MessageRouter): MessageRouter =>
     .route(
       WebExtAction.CaptureResponse,
       captureResponseHandler({ tweetResponseCache })
+    )
+    .route(
+      WebExtAction.RequestTransactionId,
+      requestTransactionIdHandler({ xTransactionIdCache })
     )

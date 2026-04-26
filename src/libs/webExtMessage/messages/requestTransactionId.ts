@@ -18,9 +18,27 @@ type RequestTransactionIdMessagePayload = {
   method: string
 }
 
-type RequestTransactionIdMessageResponsePayload = {
+type RequestTransactionIdResponseArg = {
   transactionId: string
 }
+
+type RequestTransactionIdMessageResponsePayload = {
+  transactionId: string
+  method: string
+  path: string
+}
+
+export type RequestTransactionIdResponse =
+  | WebExtMessagePayloadResponse<
+      RequestTransactionIdMessageResponsePayload,
+      WebExtAction.RequestTransactionId
+    >
+  | WebExtMessageErrorResponse<WebExtAction.RequestTransactionId>
+
+export type RequestTransactionIdOkResponse = WebExtMessagePayloadResponse<
+  RequestTransactionIdMessageResponsePayload,
+  WebExtAction.RequestTransactionId
+>
 
 export class RequestTransactionIdMessage implements WebExtMessage<
   WebExtAction.RequestTransactionId,
@@ -31,53 +49,35 @@ export class RequestTransactionIdMessage implements WebExtMessage<
 
   makeResponse(
     isOk: true,
-    payload: RequestTransactionIdMessageResponsePayload
-  ): WebExtMessagePayloadResponse<
-    RequestTransactionIdMessageResponsePayload,
-    WebExtAction.RequestTransactionId
-  >
+    arg: RequestTransactionIdResponseArg
+  ): RequestTransactionIdOkResponse
   makeResponse(
     isOk: false,
     reason: string
   ): WebExtMessageErrorResponse<WebExtAction.RequestTransactionId>
   makeResponse(
-    isOk: unknown,
-    reason: unknown
-  ):
-    | WebExtMessagePayloadResponse<
-        RequestTransactionIdMessageResponsePayload,
-        WebExtAction.RequestTransactionId
-      >
-    | WebExtMessageErrorResponse<WebExtAction.RequestTransactionId> {
-    if (isOk === true && this.isResponsePayload(reason)) {
-      return {
-        isResponse: true,
-        action: WebExtAction.RequestTransactionId,
-        status: 'ok',
-        payload: reason,
-      }
-    }
-
-    if (isOk === false && typeof reason === 'string') {
-      return {
-        isResponse: true,
-        action: WebExtAction.RequestTransactionId,
-        status: 'error',
-        reason,
-      }
-    }
-
-    throw new Error('Invalid arguments to makeResponse')
-  }
-
-  private isResponsePayload(
-    payload: unknown
-  ): payload is RequestTransactionIdMessageResponsePayload {
-    return (
-      typeof payload === 'object' &&
-      payload !== null &&
-      'transactionId' in payload
-    )
+    ...args: [true, RequestTransactionIdResponseArg] | [false, string]
+  ): RequestTransactionIdResponse {
+    const [isOk, arg] = args
+    const { method, path } = this.payload
+    return isOk
+      ? {
+          isResponse: true,
+          action: WebExtAction.RequestTransactionId,
+          status: 'ok',
+          payload: {
+            transactionId: (arg as RequestTransactionIdResponseArg)
+              .transactionId,
+            method,
+            path,
+          },
+        }
+      : {
+          isResponse: true,
+          action: WebExtAction.RequestTransactionId,
+          status: 'error',
+          reason: arg as string,
+        }
   }
 
   toObject(): WebExtMessagePayloadObject<
@@ -99,6 +99,26 @@ export class RequestTransactionIdMessage implements WebExtMessage<
     if (error) return toErrorResult(error)
     return toSuccessResult(new RequestTransactionIdMessage(value.payload))
   }
+
+  static validateResponse(
+    message: unknown
+  ): Result<RequestTransactionIdResponse> {
+    const { value, error } = responseSchema.validate(message)
+    if (error) return toErrorResult(error)
+    return toSuccessResult(value as RequestTransactionIdResponse)
+  }
+
+  static isResponse(value: unknown): value is RequestTransactionIdResponse {
+    return (
+      typeof value === 'object' &&
+      value !== null &&
+      'isResponse' in value &&
+      (value as { isResponse: unknown }).isResponse === true &&
+      'action' in value &&
+      (value as { action: unknown }).action ===
+        WebExtAction.RequestTransactionId
+    )
+  }
 }
 
 const payloadSchema: Joi.ObjectSchema<RequestTransactionIdMessagePayload> =
@@ -116,3 +136,29 @@ const messageSchema: Joi.ObjectSchema<
   action: Joi.valid(WebExtAction.RequestTransactionId).required(),
   payload: payloadSchema.required(),
 }).unknown(false)
+
+const okResponseSchema: Joi.ObjectSchema<RequestTransactionIdOkResponse> =
+  Joi.object({
+    isResponse: Joi.valid(true).required(),
+    action: Joi.valid(WebExtAction.RequestTransactionId).required(),
+    status: Joi.valid('ok').required(),
+    payload: Joi.object({
+      transactionId: Joi.string().required(),
+      method: Joi.string().required(),
+      path: Joi.string().required(),
+    }).required(),
+  })
+
+const errorResponseSchema: Joi.ObjectSchema<
+  WebExtMessageErrorResponse<WebExtAction.RequestTransactionId>
+> = Joi.object({
+  isResponse: Joi.valid(true).required(),
+  action: Joi.valid(WebExtAction.RequestTransactionId).required(),
+  status: Joi.valid('error').required(),
+  reason: Joi.string().required(),
+})
+
+const responseSchema = Joi.alternatives<RequestTransactionIdResponse>(
+  okResponseSchema,
+  errorResponseSchema
+)
