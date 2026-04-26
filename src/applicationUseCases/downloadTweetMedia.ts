@@ -40,6 +40,7 @@ import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import type { TweetMediaFile } from '#domain/valueObjects/tweetMediaFile'
 import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
 import { setDuration } from '#helpers/time'
+import { topicLogger } from '#libs/loggers'
 import type { DownloadSettings, FeatureSettings } from '#schema'
 import { isErrorResult, isSuccessResult } from '#utils/result'
 import { metrics } from '@sentry/browser'
@@ -64,6 +65,8 @@ export type InfraProvider = {
   eventPublisher: DomainEventPublisher
   solutionProvider: () => FetchTweetSolution
 }
+
+const logger = topicLogger('usecase')
 
 export class DownloadTweetMedia implements AsyncUseCase<
   DownloadTweetMediaCommand,
@@ -124,8 +127,7 @@ export class DownloadTweetMedia implements AsyncUseCase<
     if (!tweet) return false
 
     if (__DEV__)
-      // eslint-disable-next-line no-console
-      console.debug(`Get tweet from injection cache (id: ${tweet.id})`)
+      logger.debug(`Get tweet from injection cache (id: ${tweet.id})`)
 
     const tweetVo =
       tweet instanceof Tweet ? tweet : tweet.mapBy(props => props.tweet)
@@ -189,8 +191,7 @@ export class DownloadTweetMedia implements AsyncUseCase<
       await this.infra.eventPublisher.publish(new TweetParsingFailed(tweetInfo))
     } else {
       // TODO: Handle other errors
-      // eslint-disable-next-line no-console
-      console.error('An unexpected error occurred', error)
+      logger.error('An unexpected error occurred', error)
     }
 
     if (__METRICS__)
@@ -210,8 +211,7 @@ export class DownloadTweetMedia implements AsyncUseCase<
     const saveHistoryError =
       await this.infra.downloadHistoryRepo.save(downloadHistory)
     if (saveHistoryError) {
-      // eslint-disable-next-line no-console
-      console.error(saveHistoryError)
+      logger.error(saveHistoryError)
     }
   }
 
@@ -231,8 +231,7 @@ export class DownloadTweetMedia implements AsyncUseCase<
 
   private async reportSolutionStatistics(statistics: SolutionStatistics) {
     // TODO: report statistics
-    // eslint-disable-next-line no-console
-    if (__DEV__) console.debug('Solution stats\n', JSON.stringify(statistics))
+    if (__DEV__) logger.debug('Solution stats\n', JSON.stringify(statistics))
   }
 }
 

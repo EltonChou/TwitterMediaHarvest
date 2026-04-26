@@ -5,6 +5,7 @@
  */
 import type { IDownloadHistoryRepository } from '#domain/repositories/downloadHistory'
 import type { AsyncUseCase } from '#domain/useCases/base'
+import { topicLogger } from '#libs/loggers'
 import { metrics } from '@sentry/browser'
 
 type CheckMediaTweetHasBeenDownloadedCommand = {
@@ -14,6 +15,8 @@ type CheckMediaTweetHasBeenDownloadedCommand = {
 export type InfraProvider = {
   downloadHistoryRepo: IDownloadHistoryRepository
 }
+
+const logger = topicLogger('usecase')
 
 /**
  * This use case was used to check the media tweet has been downloaded or not,
@@ -35,8 +38,7 @@ export class CheckMediaTweetHasBeenDownloaded implements AsyncUseCase<
       await this.infra.downloadHistoryRepo.hasTweetId(command.tweetId)
 
     if (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
+      logger.error(error)
       return false
     }
     return hasBeenDownloaded

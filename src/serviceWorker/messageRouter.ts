@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+import { topicLogger } from '#libs/loggers'
 import {
   WebExtAction,
   WebExtMessageErrorResponse,
@@ -40,6 +41,8 @@ type RouteEntry = {
   options?: RouteOptions
 }
 
+const logger = topicLogger('messageRouter')
+
 const messageSchema: Joi.ObjectSchema<WebExtMessageObject<WebExtAction>> =
   Joi.object({
     action: Joi.string().required(),
@@ -69,7 +72,7 @@ export class MessageRouter implements WebExtMessageRouter {
     if (error) return ctx.response(makeErrorResponse('Invalid message.'))
 
     if (__DEV__)
-      console.debug('[messageRouter] received message', {
+      logger.debug('received message', {
         action: value.action,
         via: ctx.port ? 'port' : 'runtime',
       })
@@ -78,7 +81,7 @@ export class MessageRouter implements WebExtMessageRouter {
 
     if (!entry) {
       if (__DEV__)
-        console.debug('[messageRouter] no handler for action', {
+        logger.debug('no handler for action', {
           action: value.action,
         })
       return ctx.response(
