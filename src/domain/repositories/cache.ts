@@ -8,15 +8,16 @@
  * The lifecycle of items is managed by the cache system.
  *
  * @template T - The type of items to be cached
+ * @template CacheId - type of id to get the cache
  */
-export interface ICache<T> {
+export interface ICache<T, CacheId = string> {
   /**
    * Retrieves an item from the cache by its ID
    * @param cacheId - Unique identifier for the cached item
    * @returns AsyncResult containing the cached item of type T if found
    */
 
-  get(cacheId: string): AsyncResult<T | undefined>
+  get(cacheId: CacheId): AsyncResult<T | undefined>
   /**
    * Saves a single item to the cache
    * @param item - The item to be cached
