@@ -5,17 +5,21 @@
  */
 import { DomainEventPublisher } from '#domain/eventPublisher'
 import {
+  broadcastBrowserDownloadDispatchFailed,
+  broadcastDownloadFailed,
   checkCompletedDownload,
   cleanDownloadRecord as cleanDownloadRecordHandler,
+  cleanDownloadRecordOnReason,
   ignoreFilenameOverwritten,
   increaseUsageStatistics,
   initClient,
-  notifyDownloadInterrupted,
+  notifyDownloadFailed,
   notifyFilenameIsOverwritten,
   notifyTweetApiError,
   openDiagnosticsPageInNewTab,
   openFailedTweetInNewTab,
   openTweetOfFailedDownloadInNewTab,
+  publishDownloadFailed,
   recordDispatchedDownloadConfiguration,
   retryFailedDownload,
   setMonitorUser,
@@ -31,6 +35,7 @@ import { getEventPublisher } from '#infra/eventPublisher'
 import { BrowserDownloadMediaFile } from '#infra/useCases/browserDownloadMediaFile'
 import LockCriteria from '#libs/locks/enums'
 import { runWithWebLock } from '#libs/locks/nativeWebLock'
+import { MessagePortName } from '#libs/webExtMessage/port'
 import {
   clientRepo,
   downloadRecordRepo,
@@ -42,12 +47,21 @@ import {
   warningSettingsRepo,
 } from '#provider'
 import { getVersion } from '#utils/runtime'
+import { getPortManager } from './portManager'
 import { metrics } from '@sentry/browser'
 import { runtime } from 'webextension-polyfill'
+
+const INTERRUPT_REASONS_TO_IGNORE = ['USER_CANCELED'] as const
 
 const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
   const publisher = eventPublisher ?? getEventPublisher()
   const notifier = getNotifier()
+  const portManager = getPortManager()
+  const broadcastToContentScripts = (message: unknown): void => {
+    for (const port of portManager.getPorts(MessagePortName.ContentScript)) {
+      port.postMessage(message)
+    }
+  }
 
   const cleanDownloadRecord = cleanDownloadRecordHandler(downloadRecordRepo)
   const increaseUsageStats = increaseUsageStatistics(
@@ -88,7 +102,17 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
       cleanDownloadRecord,
     ])
     .register('download:status:interrupted', [
-      notifyDownloadInterrupted(notifier, downloadRecordRepo),
+      publishDownloadFailed(downloadRecordRepo, {
+        ignoredReasons: INTERRUPT_REASONS_TO_IGNORE,
+      }),
+      cleanDownloadRecordOnReason(
+        downloadRecordRepo,
+        INTERRUPT_REASONS_TO_IGNORE
+      ),
+    ])
+    .register('download:status:failed', [
+      notifyDownloadFailed(notifier),
+      broadcastDownloadFailed(broadcastToContentScripts),
     ])
     .register('filename:overwritten', [
       notifyFilenameIsOverwritten(notifier, warningSettingsRepo),
@@ -121,8 +145,8 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
       openFailedTweetInNewTab
     )
     .register('client:synced', setUser)
-    .register('download:status:failed:browser', [
-      // TODO: Handle brower download failed event
+    .register('download:status:dispatch-failed:browser', [
+      broadcastBrowserDownloadDispatchFailed(broadcastToContentScripts),
     ])
     .register('tweetSolution:quota:insufficient', [
       warnInsufficientNativeSolutionQuota(solutionQuotaRepo, notifier),

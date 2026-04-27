@@ -3,8 +3,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+import BrowserDownloadDispatchFailed from '#domain/events/BrowserDownloadDispatchFailed'
 import BrowserDownloadDispatched from '#domain/events/BrowserDownloadDispatched'
-import BrowserDownloadIsFailed from '#domain/events/BrowserDownloadFailed'
 import type {
   DownloadMediaFileCommand,
   DownloadMediaFileUseCase,
@@ -48,7 +48,7 @@ export class BrowserDownloadMediaFile implements DownloadMediaFileUseCase {
 
   /**
    * @fires BrowserDownloadDispatched - When the download operation is dispatched successfully.
-   * @fires BrowserDownloadFailed - When the download operation is failed.
+   * @fires BrowserDownloadDispatchFailed - When the browser refuses to start the download.
    */
   async process(command: DownloadMediaFileCommand): Promise<void> {
     const config =
@@ -62,9 +62,8 @@ export class BrowserDownloadMediaFile implements DownloadMediaFileUseCase {
 
     if (isDownloadFailed(downloadId)) {
       this.#events.push(
-        new BrowserDownloadIsFailed({
+        new BrowserDownloadDispatchFailed({
           reason: (runtime.lastError as Error) ?? 'Failed to download',
-          config: config,
           tweetInfo: this.targetTweet,
         })
       )
