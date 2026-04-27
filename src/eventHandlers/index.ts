@@ -4,16 +4,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+export { broadcastBrowserDownloadDispatchFailed } from './broadcastBrowserDownloadDispatchFailed'
+export { broadcastDownloadFailed } from './broadcastDownloadFailed'
 export { checkCompletedDownload } from './checkCompletedDownload'
 export { cleanDownloadRecord } from './cleanDownloadRecord'
+export { cleanDownloadRecordOnReason } from './cleanDownloadRecordOnReason'
 export { ignoreFilenameOverwritten } from './ignoreFilenameIsOverwritten'
 export { increaseUsageStatistics } from './increaseUsageStatistics'
 export { initClient } from './initClient'
-export { notifyDownloadInterrupted } from './notifyDownloadInterrupted'
+export { notifyDownloadFailed } from './notifyDownloadFailed'
 export { notifyFilenameIsOverwritten } from './notifyFilenameIsOverwritten'
 export { notifyTweetApiError } from './notifyTweetApiError'
 export { openFailedTweetInNewTab } from './openFailedTweetInNewTab'
 export { openTweetOfFailedDownloadInNewTab } from './openTweetOfFailedDownloadInNewTab'
+export { publishDownloadFailed } from './publishDownloadFailed'
 export { recordDispatchedDownloadConfiguration } from './recordDispatchedDownloadConfiguration'
 export { retryFailedDownload } from './retryFailedDownload'
 export { setMonitorUser } from './setMonitorUser'

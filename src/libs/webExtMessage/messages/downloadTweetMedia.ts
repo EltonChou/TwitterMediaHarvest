@@ -83,6 +83,22 @@ export class DownloadTweetMediaMessage implements WebExtMessage<
         }
   }
 
+  static makeErrorResponse(
+    tweetId: string,
+    reason: string
+  ): WebExtMessageErrorResponse<
+    WebExtAction.DownloadMedia,
+    { tweetId: string }
+  > {
+    return {
+      isResponse: true,
+      action: WebExtAction.DownloadMedia,
+      status: 'error',
+      reason,
+      tweetId,
+    }
+  }
+
   static isResponse(value: unknown): value is DownloadTweetMediaResponse {
     return (
       typeof value === 'object' &&

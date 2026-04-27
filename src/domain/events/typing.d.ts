@@ -19,8 +19,9 @@ interface DomainEventMap {
   'runtime:error:internal': InternalErrorEvent
   'download:status:completed': DownloadEvent
   'download:status:interrupted': DownloadInterruptedEvent
+  'download:status:failed': DownloadFailedEvent
   'download:status:dispatched:browser': BrowserDownloadDispatchedEvent
-  'download:status:failed:browser': BrowserDownloadFailedEvent
+  'download:status:dispatch-failed:browser': BrowserDownloadDispatchFailedEvent
   'download:status:dispatched:aria2': IDomainEvent
   'filename:overwritten': FilenameOverwrittenEvent
   'notification:downloadFailed:self:clicked': DownloadFailedNotificationEvent
@@ -62,9 +63,8 @@ interface BrowserDownloadDispatchedEvent extends IDomainEvent {
   readonly downloadConfig: import('#domain/valueObjects/downloadConfig').DownloadConfig
 }
 
-interface BrowserDownloadFailedEvent extends TweetInfoEvent {
+interface BrowserDownloadDispatchFailedEvent extends TweetInfoEvent {
   readonly reason: Error | string
-  readonly downloadConfig: import('#domain/valueObjects/downloadConfig').DownloadConfig
 }
 
 interface DownloadEvent extends IDomainEvent {
@@ -73,6 +73,11 @@ interface DownloadEvent extends IDomainEvent {
 
 interface DownloadInterruptedEvent extends DownloadEvent {
   readonly reason: string
+}
+
+interface DownloadFailedEvent extends DownloadEvent, TweetInfoEvent {
+  readonly reason: Error | string
+  readonly downloadConfig: import('#domain/valueObjects/downloadConfig').DownloadConfig
 }
 
 interface DownloadFailedNotificationEvent extends IDomainEvent {
