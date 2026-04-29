@@ -17,8 +17,8 @@ import handleRuntimeInstalled from './handlers/handleRuntimeInstalled'
 import initEventPublisher from './initEventPublisher'
 import { initMessageRouter } from './initMessageRouter'
 import { getMessageRouter } from './messageRouter'
-import { getPortManager } from './portManager'
-import Browser, { alarms } from 'webextension-polyfill'
+import { getPortRegistry } from './portRegistry'
+import Browser from 'webextension-polyfill'
 
 initMonitor({
   providers: {
@@ -35,10 +35,10 @@ initEventPublisher(eventPublisher)
 const messageRouter = getMessageRouter()
 initMessageRouter(messageRouter)
 
-const portManager = getPortManager()
+const portRegistry = getPortRegistry()
 
 Browser.runtime.onConnect.addListener(port => {
-  portManager.register(port)
+  portRegistry.register(port)
   port.onMessage.addListener((msg: unknown) => {
     messageRouter.handlePortMessage({ message: msg, port })
   })
@@ -67,10 +67,10 @@ Browser.notifications.onButtonClicked.addListener(
   handleNotificationButtonClicked(eventPublisher)
 )
 
-alarms.create(AlarmName.EvictTweetCache, {
+Browser.alarms.create(AlarmName.EvictTweetCache, {
   periodInMinutes: __DEV__ ? 5 : 1440,
 })
-alarms.onAlarm.addListener(async alarm => {
+Browser.alarms.onAlarm.addListener(async alarm => {
   if (alarm.name === AlarmName.EvictTweetCache) {
     /* eslint-disable no-console */
     if (__DEV__) console.time('Evict tweet cache')

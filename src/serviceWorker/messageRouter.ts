@@ -10,7 +10,7 @@ import {
   WebExtMessageObject,
 } from '#libs/webExtMessage'
 import { MessagePortName } from '#libs/webExtMessage/port'
-import { getPortManager } from './portManager'
+import { getPortRegistry } from './portRegistry'
 import Joi from 'joi'
 import type { Runtime } from 'webextension-polyfill'
 
@@ -93,7 +93,7 @@ export class MessageRouter implements WebExtMessageRouter {
       ? {
           ...ctx,
           response: (resp: unknown) => {
-            for (const p of getPortManager().getPorts(
+            for (const p of getPortRegistry().getPorts(
               entry.options!.broadcast
             )) {
               p.postMessage(resp)

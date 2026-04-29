@@ -5,37 +5,37 @@
  */
 import { MessagePortName } from '#libs/webExtMessage/port'
 import { MockPort, makeMockPort } from '#mocks/port'
-import { PortManager } from './portManager'
+import { PortRegistry } from './portRegistry'
 
-describe('PortManager', () => {
+describe('PortRegistry', () => {
   it('removes port from set on disconnect', () => {
-    const manager = new PortManager()
+    const registry = new PortRegistry()
     const port: MockPort = makeMockPort(MessagePortName.ContentScript)
 
-    manager.register(port)
-    expect(manager.getPorts(MessagePortName.ContentScript).size).toBe(1)
+    registry.register(port)
+    expect(registry.getPorts(MessagePortName.ContentScript).size).toBe(1)
 
     port.onDisconnect._trigger()
 
-    expect(manager.getPorts(MessagePortName.ContentScript).size).toBe(0)
+    expect(registry.getPorts(MessagePortName.ContentScript).size).toBe(0)
   })
 
   it('getPorts returns all ports for a name', () => {
-    const manager = new PortManager()
+    const registry = new PortRegistry()
     const port1 = makeMockPort(MessagePortName.ContentScript)
     const port2 = makeMockPort(MessagePortName.ContentScript)
 
-    manager.register(port1)
-    manager.register(port2)
+    registry.register(port1)
+    registry.register(port2)
 
-    const ports = manager.getPorts(MessagePortName.ContentScript)
+    const ports = registry.getPorts(MessagePortName.ContentScript)
     expect(ports.size).toBe(2)
     expect(ports.has(port1)).toBe(true)
     expect(ports.has(port2)).toBe(true)
   })
 
   it('getPorts returns empty set when nothing is registered', () => {
-    const manager = new PortManager()
-    expect(manager.getPorts(MessagePortName.ContentScript).size).toBe(0)
+    const registry = new PortRegistry()
+    expect(registry.getPorts(MessagePortName.ContentScript).size).toBe(0)
   })
 })

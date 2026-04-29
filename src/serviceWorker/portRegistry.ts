@@ -6,12 +6,12 @@
 import { MessagePortName } from '#libs/webExtMessage/port'
 import type { Runtime } from 'webextension-polyfill'
 
-export interface IPortManager {
+export interface IPortRegistry {
   register(port: Runtime.Port): void
   getPorts(name: MessagePortName): ReadonlySet<Runtime.Port>
 }
 
-export class PortManager implements IPortManager {
+export class PortRegistry implements IPortRegistry {
   private portMap: Map<MessagePortName, Set<Runtime.Port>>
 
   constructor() {
@@ -36,7 +36,7 @@ export class PortManager implements IPortManager {
   }
 }
 
-export const getPortManager = (() => {
-  let manager: IPortManager
-  return () => (manager ||= new PortManager())
+export const getPortRegistry = (() => {
+  let registry: IPortRegistry
+  return () => (registry ||= new PortRegistry())
 })()
