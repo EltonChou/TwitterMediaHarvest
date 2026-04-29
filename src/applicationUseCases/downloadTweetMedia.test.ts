@@ -40,7 +40,6 @@ describe('DownloadTweetMedia', () => {
   }
   const mockEventPublisher = new MockEventPublisher()
   const mockNativeFetchTweetSolution = new MockFetchTweetSolution()
-  const mockXTransactionIdProvider = async () => toSuccessResult('')
 
   const downloadTweetMedia = new DownloadTweetMedia({
     downloadHistoryRepo: mockDownloadHistoryRepo,
@@ -110,7 +109,6 @@ describe('DownloadTweetMedia', () => {
       // Act
       const result = await downloadTweetMedia.process({
         tweetInfo: mockTweetInfo,
-        xTransactionIdProvider: mockXTransactionIdProvider,
       })
 
       // Assert
@@ -145,7 +143,6 @@ describe('DownloadTweetMedia', () => {
       // Act
       const result = await downloadTweetMedia.process({
         tweetInfo: mockTweetInfo,
-        xTransactionIdProvider: mockXTransactionIdProvider,
       })
 
       // Assert
@@ -165,7 +162,6 @@ describe('DownloadTweetMedia', () => {
       // Act
       const result = await downloadTweetMedia.process({
         tweetInfo: mockTweetInfo,
-        xTransactionIdProvider: mockXTransactionIdProvider,
       })
 
       // Assert
@@ -185,7 +181,6 @@ describe('DownloadTweetMedia', () => {
       // Act
       const result = await downloadTweetMedia.process({
         tweetInfo: mockTweetInfo,
-        xTransactionIdProvider: mockXTransactionIdProvider,
       })
 
       // Assert
@@ -205,7 +200,6 @@ describe('DownloadTweetMedia', () => {
       // Act
       const result = await downloadTweetMedia.process({
         tweetInfo: mockTweetInfo,
-        xTransactionIdProvider: mockXTransactionIdProvider,
       })
 
       // Assert
@@ -225,7 +219,6 @@ describe('DownloadTweetMedia', () => {
       // Act
       const result = await downloadTweetMedia.process({
         tweetInfo: mockTweetInfo,
-        xTransactionIdProvider: mockXTransactionIdProvider,
       })
 
       // Assert
@@ -249,7 +242,6 @@ describe('DownloadTweetMedia', () => {
       // Act
       const result = await downloadTweetMedia.process({
         tweetInfo: mockTweetInfo,
-        xTransactionIdProvider: mockXTransactionIdProvider,
       })
 
       // Assert
@@ -282,7 +274,6 @@ describe('DownloadTweetMedia', () => {
       jest.spyOn(mockEventPublisher, 'publishAll')
       const result = await downloadTweetMedia.process({
         tweetInfo: mockTweetInfo,
-        xTransactionIdProvider: mockXTransactionIdProvider,
       })
 
       expect(result).toBeTrue()

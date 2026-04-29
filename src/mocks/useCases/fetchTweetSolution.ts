@@ -2,7 +2,6 @@ import type {
   FetchTweetSolution,
   FetchTweetSolutionCommand,
   FetchTweetSolutionError,
-  SolutionStatistics,
 } from '#domain/useCases/fetchTweetSolution'
 import { Tweet } from '#domain/valueObjects/tweet'
 
@@ -11,10 +10,6 @@ export class MockFetchTweetSolution implements FetchTweetSolution {
 
   get events(): IDomainEvent[] {
     return []
-  }
-
-  get statistics(): SolutionStatistics<string> {
-    return {}
   }
 
   process(

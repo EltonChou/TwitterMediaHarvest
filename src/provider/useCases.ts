@@ -9,6 +9,7 @@ import { NativeFetchTweetSolution } from '#infra/useCases/nativeFetchTweetSoluti
 import { SearchDownloadHistoryFromIDB } from '#infra/useCases/searchDownloadHistoryFromIDB'
 import { SearchTweetIdsByHashtagsFromIDB } from '#infra/useCases/searchTweetIdsByHashtagsFromIDB'
 import { downloadIDB } from '#libs/idb/download/db'
+import { xTransactionIdCache } from './caches'
 import { xApiClient } from './client'
 import { solutionQuotaRepo, xTokenRepo } from './repos'
 import { runtime } from 'webextension-polyfill'
@@ -30,6 +31,7 @@ export const nativeFetchTweetSolution = new NativeFetchTweetSolution(
     xApiClient: xApiClient,
     xTokenRepo: xTokenRepo,
     solutionQuotaRepo: solutionQuotaRepo,
+    transactionIdCache: xTransactionIdCache,
   },
   { quotaThreshold: 10, reservedQuota: 10 }
 )

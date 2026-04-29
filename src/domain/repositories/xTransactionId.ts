@@ -4,8 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import type { XTransactionId } from '#domain/valueObjects/xTransactionId'
+import { ICache } from './cache'
 
-export interface IXTransactionIdRepository {
-  get(endpoint: string): AsyncResult<XTransactionId>
-  save(xTransactionId: XTransactionId): Promise<UnsafeTask>
-}
+export type TransactionIdKey = [path: string, method: string]
+export type IXTransactionIdCache = ICache<XTransactionId, TransactionIdKey>

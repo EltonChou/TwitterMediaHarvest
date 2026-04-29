@@ -20,18 +20,13 @@ import type {
   DownloadMediaFileCommand,
   DownloadMediaFileUseCaseBuilder,
 } from '#domain/useCases/downloadMediaFile'
-import type {
-  FetchTweetSolution,
-  SolutionStatistics,
-  TransactionIdProvider,
-} from '#domain/useCases/fetchTweetSolution'
+import type { FetchTweetSolution } from '#domain/useCases/fetchTweetSolution'
 import {
   FetchTweetSolutionError,
   InsufficientQuota,
   NoValidSolutionToken,
   TweetIsNotFound,
   TweetProcessingError,
-  isTransactionIdConsumer,
 } from '#domain/useCases/fetchTweetSolution'
 import { DownloadTarget } from '#domain/valueObjects/downloadTarget'
 import type { FilenameSetting } from '#domain/valueObjects/filenameSetting'
@@ -47,7 +42,6 @@ import { metrics } from '@sentry/browser'
 
 type DownloadTweetMediaCommand = {
   tweetInfo: TweetInfo
-  xTransactionIdProvider?: TransactionIdProvider
 }
 
 export type DownloaderBuilderMap = {
@@ -74,10 +68,7 @@ export class DownloadTweetMedia implements AsyncUseCase<
 > {
   constructor(readonly infra: InfraProvider) {}
 
-  async process({
-    tweetInfo,
-    xTransactionIdProvider,
-  }: DownloadTweetMediaCommand): Promise<boolean> {
+  async process({ tweetInfo }: DownloadTweetMediaCommand): Promise<boolean> {
     if (__METRICS__) metrics.count('usecase.downloadTweetMedia.invoked', 1)
     const isSuccessDownloadFromCache = await this.downloadFromCache(tweetInfo)
     if (isSuccessDownloadFromCache) return this.successDownloadFromCache()
@@ -85,14 +76,9 @@ export class DownloadTweetMedia implements AsyncUseCase<
     if (__METRICS__) metrics.count('usecase.downloadTweetMedia.cacheMiss', 1)
     const solution = this.infra.solutionProvider()
     const solutionDuration = setDuration()
-    const tweetResult = isTransactionIdConsumer(solution)
-      ? await solution.process({
-          tweetId: tweetInfo.tweetId,
-          transactionIdProvider: xTransactionIdProvider,
-        })
-      : await solution.process({
-          tweetId: tweetInfo.tweetId,
-        })
+    const tweetResult = await solution.process({
+      tweetId: tweetInfo.tweetId,
+    })
 
     if (__METRICS__) {
       metrics.count(
@@ -108,7 +94,6 @@ export class DownloadTweetMedia implements AsyncUseCase<
       )
     }
     await this.infra.eventPublisher.publishAll(...solution.events)
-    await this.reportSolutionStatistics(solution.statistics)
 
     return isErrorResult(tweetResult)
       ? this.failDownload(tweetResult.error, tweetInfo)
@@ -227,11 +212,6 @@ export class DownloadTweetMedia implements AsyncUseCase<
       targetTweet: tweetInfo,
       shouldPrompt: askWhereToSave,
     })
-  }
-
-  private async reportSolutionStatistics(statistics: SolutionStatistics) {
-    // TODO: report statistics
-    if (__DEV__) logger.debug('Solution stats\n', JSON.stringify(statistics))
   }
 }
 
