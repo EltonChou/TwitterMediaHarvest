@@ -92,7 +92,17 @@ export class CaptureResponseMessage implements WebExtMessage<
         }
   }
 
+  /**
+   * @deprecated
+   */
   toObject(): WebExtMessagePayloadObject<
+    WebExtAction.CaptureResponse,
+    CaptureResponseMessagePayload
+  > {
+    return this.toJSON()
+  }
+
+  toJSON(): WebExtMessagePayloadObject<
     WebExtAction.CaptureResponse,
     CaptureResponseMessagePayload
   > {
