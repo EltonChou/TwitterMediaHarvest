@@ -16,7 +16,7 @@ import handleRuntimeInstalled from './handlers/handleRuntimeInstalled'
 import initEventPublisher from './initEventPublisher'
 import { initMessageRouter } from './initMessageRouter'
 import { getMessageRouter } from './messageRouter'
-import { getPortManager } from './portManager'
+import { getPortRegistry } from './portRegistry'
 import Browser from 'webextension-polyfill'
 
 initMonitor({
@@ -34,10 +34,10 @@ initEventPublisher(eventPublisher)
 const messageRouter = getMessageRouter()
 initMessageRouter(messageRouter)
 
-const portManager = getPortManager()
+const portRegistry = getPortRegistry()
 
 Browser.runtime.onConnect.addListener(port => {
-  portManager.register(port)
+  portRegistry.register(port)
   port.onMessage.addListener((msg: unknown) => {
     messageRouter.handlePortMessage({ message: msg, port })
   })

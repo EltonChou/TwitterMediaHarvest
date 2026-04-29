@@ -2,7 +2,7 @@ import { WebExtAction } from '#libs/webExtMessage'
 import { MessagePortName } from '#libs/webExtMessage/port'
 import { makeMockPort } from '#mocks/port'
 import { getMessageRouter } from './messageRouter'
-import { getPortManager } from './portManager'
+import { getPortRegistry } from './portRegistry'
 import type { Runtime } from 'webextension-polyfill'
 
 const broadcastToContentScript = { broadcast: MessagePortName.ContentScript }
@@ -67,7 +67,7 @@ describe('unit test for message router', () => {
 
 describe('MessageRouter broadcast actions', () => {
   const router = getMessageRouter()
-  const portManager = getPortManager()
+  const portRegistry = getPortRegistry()
 
   afterEach(() => jest.resetAllMocks())
 
@@ -88,8 +88,8 @@ describe('MessageRouter broadcast actions', () => {
 
     const port1 = makeMockPort(MessagePortName.ContentScript)
     const port2 = makeMockPort(MessagePortName.ContentScript)
-    portManager.register(port1)
-    portManager.register(port2)
+    portRegistry.register(port1)
+    portRegistry.register(port2)
 
     await router.handle({
       message: { action: WebExtAction.DownloadMedia },
@@ -117,7 +117,7 @@ describe('MessageRouter broadcast actions', () => {
     )
 
     const port1 = makeMockPort(MessagePortName.ContentScript)
-    portManager.register(port1)
+    portRegistry.register(port1)
 
     await router.handle({
       message: { action: WebExtAction.CheckDownloadHistory },
@@ -136,7 +136,7 @@ describe('MessageRouter broadcast actions', () => {
     router.route(WebExtAction.CaptureResponse, mockHandler)
 
     const port1 = makeMockPort(MessagePortName.ContentScript)
-    portManager.register(port1)
+    portRegistry.register(port1)
 
     await router.handle({
       message: { action: WebExtAction.CaptureResponse },

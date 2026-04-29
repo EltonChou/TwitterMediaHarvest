@@ -127,11 +127,4 @@ export class DownloadTweetMediaMessage implements WebExtMessage<
       payload: this.payload,
     }
   }
-
-  asOneShot() {
-    return {
-      inner: this,
-      isOneShot: true as const,
-    }
-  }
 }

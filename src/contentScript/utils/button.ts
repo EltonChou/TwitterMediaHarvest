@@ -7,7 +7,8 @@ import { contentScriptBus } from '#libs/contentScriptBus'
 import {
   CheckDownloadHistoryMessage,
   DownloadTweetMediaMessage,
-  sendMessage,
+  MessagePortName,
+  getPortManager,
 } from '#libs/webExtMessage'
 import { getTweetInfoFromArticleChildElement } from './article'
 
@@ -75,7 +76,10 @@ const buttonClickHandler = (e: MouseEvent) => {
     console.error(error)
     return setButtonStatus(ButtonStatus.Error)(button)
   }
-  sendMessage(new DownloadTweetMediaMessage(tweetInfo.mapBy(props => props)))
+  getPortManager().postMessage(
+    MessagePortName.ContentScript,
+    new DownloadTweetMediaMessage(tweetInfo.mapBy(props => props))
+  )
 }
 
 export const initButtonListeners = (): void => {
@@ -107,7 +111,10 @@ export const checkButtonStatus = <T extends ButtonElement>(button: T): T => {
   if (error) return button
 
   registerButton(tweetInfo.tweetId, button)
-  sendMessage(new CheckDownloadHistoryMessage({ tweetId: tweetInfo.tweetId }))
+  getPortManager().postMessage(
+    MessagePortName.ContentScript,
+    new CheckDownloadHistoryMessage({ tweetId: tweetInfo.tweetId })
+  )
 
   return button
 }

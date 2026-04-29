@@ -124,11 +124,4 @@ export class CheckDownloadHistoryMessage implements WebExtMessage<
   > {
     return { action: WebExtAction.CheckDownloadHistory, payload: this.payload }
   }
-
-  asOneShot() {
-    return {
-      inner: this,
-      isOneShot: true as const,
-    }
-  }
 }

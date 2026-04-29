@@ -7,7 +7,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { contentScriptBus } from '#libs/contentScriptBus'
-import { sendMessage } from '#libs/webExtMessage'
+import { getPortManager } from '#libs/webExtMessage'
+import type { IPortManager } from '#libs/webExtMessage/portManager'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import { generateTweetInfo } from '#utils/test/tweetInfo'
 import { getTweetInfoFromArticleChildElement } from './article'
@@ -24,17 +25,26 @@ jest.mock('./article', () => ({
   getTweetInfoFromArticleChildElement: jest.fn(),
 }))
 
+const mockManager: IPortManager = {
+  addMessageListener: jest.fn(),
+  postMessage: jest.fn(),
+  getPort: jest.fn(),
+}
+
 jest.mock('#libs/webExtMessage', () => ({
-  sendMessage: jest.fn(),
   CheckDownloadHistoryMessage: jest.fn().mockImplementation(p => p),
   DownloadTweetMediaMessage: jest.fn().mockImplementation(p => ({
     ...p,
     mapBy: jest.fn().mockReturnValue(p),
   })),
+  MessagePortName: { ContentScript: 'content-script' },
+  getPortManager: jest.fn(),
 }))
 
+jest.mocked(getPortManager).mockReturnValue(mockManager)
+
 const mockGetTweetInfo = jest.mocked(getTweetInfoFromArticleChildElement)
-const mockSendMessage = jest.mocked(sendMessage)
+const mockPostMessage = jest.mocked(mockManager.postMessage)
 
 const makeButton = (...classes: string[]): HTMLElement => {
   const el = document.createElement('div')
@@ -86,7 +96,7 @@ describe('checkButtonStatus', () => {
     const result = checkButtonStatus(button)
 
     expect(result).toBe(button)
-    expect(mockSendMessage).not.toHaveBeenCalled()
+    expect(mockPostMessage).not.toHaveBeenCalled()
   })
 
   it('registers the button and sends CheckDownloadHistoryMessage when tweet info is valid', () => {
@@ -97,7 +107,7 @@ describe('checkButtonStatus', () => {
     checkButtonStatus(button)
 
     expect(getButtonRegistry().get(tweetInfo.tweetId)).toContain(button)
-    expect(mockSendMessage).toHaveBeenCalledTimes(1)
+    expect(mockPostMessage).toHaveBeenCalledTimes(1)
   })
 })
 
@@ -175,7 +185,7 @@ describe('makeButtonListener / buttonClickHandler', () => {
 
     clickButton(button)
 
-    expect(mockSendMessage).not.toHaveBeenCalled()
+    expect(mockPostMessage).not.toHaveBeenCalled()
   })
 
   it('sets Error status and does not send a message when tweet info parse fails', () => {
@@ -186,7 +196,7 @@ describe('makeButtonListener / buttonClickHandler', () => {
     clickButton(button)
 
     expect(button.classList).toContain(ButtonStatus.Error)
-    expect(mockSendMessage).not.toHaveBeenCalled()
+    expect(mockPostMessage).not.toHaveBeenCalled()
   })
 
   it('sets Downloading status and sends DownloadTweetMediaMessage on a valid click', () => {
@@ -198,6 +208,6 @@ describe('makeButtonListener / buttonClickHandler', () => {
     clickButton(button)
 
     expect(button.classList).toContain(ButtonStatus.Downloading)
-    expect(mockSendMessage).toHaveBeenCalledTimes(1)
+    expect(mockPostMessage).toHaveBeenCalledTimes(1)
   })
 })

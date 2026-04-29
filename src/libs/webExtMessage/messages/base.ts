@@ -51,11 +51,21 @@ export type WebExtMessagePayloadResponse<
 
 export const isWebExtResponse = (
   value: unknown
-): value is { isResponse: true } =>
-  typeof value === 'object' &&
-  value !== null &&
-  'isResponse' in value &&
-  (value as { isResponse: unknown }).isResponse === true
+): value is { isResponse: true } => {
+  if (typeof value !== 'object' || value === null) return false
+  if (!('isResponse' in value)) return false
+  const candidate: { isResponse: unknown } = value
+  return candidate.isResponse === true
+}
+
+export const isWebExtMessage = (
+  value: unknown
+): value is WebExtMessage<WebExtAction> => {
+  if (typeof value !== 'object' || value === null) return false
+  if (!('toObject' in value)) return false
+  const candidate: { toObject: unknown } = value
+  return typeof candidate.toObject === 'function'
+}
 
 export interface ResponsibleMessage<
   Action extends WebExtAction | WebExtExternalAction,
@@ -79,7 +89,6 @@ export interface WebExtMessage<
   toObject(): keyof Payload extends string
     ? WebExtMessagePayloadObject<Action, Payload>
     : WebExtMessageObject<Action>
-  asOneShot(): import('../port').OneShotMessage<this>
 }
 
 export const enum WebExtExternalAction {

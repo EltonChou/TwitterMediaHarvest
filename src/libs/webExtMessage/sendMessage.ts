@@ -13,50 +13,25 @@ import {
   WebExtMessagePayloadResponse,
   WebExtMessageResponse,
 } from './messages/base'
-import {
-  MessagePortName,
-  OneShotMessage,
-  getMessagePort,
-  isOneShotMessage,
-} from './port'
 import { runtime, tabs } from 'webextension-polyfill'
 
 /**
- * Sends a fire-and-forget message to the background script via a long-lived port.
+ * Sends a one-shot request via {@link runtime.sendMessage} and awaits a typed
+ * response. For port-based traffic (request or response), use the
+ * `PortManager` instead.
  */
-export function sendMessage<
-  Action extends WebExtAction,
-  Payload extends LiteralObject = never,
-  ResponsePayload extends LiteralObject = never,
->(message: WebExtMessage<Action, Payload, ResponsePayload>): Promise<void>
-
-/**
- * Sends a one-shot request via a long-lived port and awaits a typed response.
- */
-export function sendMessage<
+export const sendMessage = async <
   Action extends WebExtAction,
   Payload extends LiteralObject = never,
   ResponsePayload extends LiteralObject = never,
 >(
-  message: OneShotMessage<WebExtMessage<Action, Payload, ResponsePayload>>
+  message: WebExtMessage<Action, Payload, ResponsePayload>
 ): Promise<
   | (keyof ResponsePayload extends string
       ? WebExtMessagePayloadResponse<ResponsePayload>
       : WebExtMessageResponse)
   | WebExtMessageErrorResponse
->
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function sendMessage(message: any): Promise<any> {
-  if (isOneShotMessage(message)) {
-    const { inner } = message as OneShotMessage<WebExtMessage<WebExtAction>>
-    return runtime.sendMessage(inner.toObject())
-  }
-
-  const { port } = getMessagePort(MessagePortName.ContentScript)
-  port.postMessage((message as WebExtMessage<WebExtAction>).toObject())
-  return Promise.resolve()
-}
+> => runtime.sendMessage(message.toObject())
 
 export const sendExternalMessage = async <
   Action extends WebExtExternalAction,

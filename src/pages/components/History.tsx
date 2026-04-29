@@ -15,7 +15,11 @@ import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import ConflictAction from '#enums/ConflictAction'
 import MediaType from '#enums/mediaType'
 import { getText as i18n } from '#libs/i18n'
-import { DownloadTweetMediaMessage, sendMessage } from '#libs/webExtMessage'
+import {
+  DownloadTweetMediaMessage,
+  MessagePortName,
+  getPortManager,
+} from '#libs/webExtMessage'
 import useDownloadHistory, {
   PortableHistoryFormatError,
 } from '#pages/hooks/useDownloadHistory'
@@ -92,7 +96,8 @@ export const ItemActions = (props: ItemActionsProps) => (
       aria-label="Download"
       icon={<Icon as={BiDownload} />}
       onClick={() => {
-        sendMessage(
+        getPortManager().postMessage(
+          MessagePortName.ContentScript,
           new DownloadTweetMediaMessage({
             screenName: props.screenName,
             tweetId: props.tweetId,

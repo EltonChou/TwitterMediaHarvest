@@ -11,8 +11,7 @@ import {
   CheckDownloadHistoryMessage,
   DownloadTweetMediaMessage,
   MessagePortName,
-  getMessagePort,
-  sendMessage,
+  getPortManager,
 } from '#libs/webExtMessage'
 import {
   CaptureResponseMessage,
@@ -139,10 +138,13 @@ const detectResponseTypeByEndpoint = (path: string): ResponseType => {
   return ResponseType.Unknown
 }
 
+const portManager = getPortManager()
+
 initButtonListeners()
 
-document.addEventListener('mh:media-response', async e => {
-  await sendMessage(
+document.addEventListener('mh:media-response', e => {
+  portManager.postMessage(
+    MessagePortName.ContentScript,
     new CaptureResponseMessage({
       type: detectResponseTypeByEndpoint(e.detail.path),
       body: e.detail.body,
@@ -155,13 +157,14 @@ document.addEventListener(
   function responseTxId(ev: CustomEvent<MediaHarvest.TxIdResponseDetail>) {
     const { path, method, value } = ev.detail
     const txMessage = new RequestTransactionIdMessage({ path, method })
-    const { port } = getMessagePort(MessagePortName.ContentScript)
-    port.postMessage(txMessage.makeResponse(true, { transactionId: value }))
+    portManager.postMessage(
+      MessagePortName.ContentScript,
+      txMessage.makeResponse(true, { transactionId: value })
+    )
   }
 )
 
 const portLogger = topicLogger('port')
-const { port: mainPort } = getMessagePort(MessagePortName.ContentScript)
 const handlePortMessage = (msg: unknown) => {
   if (__DEV__) portLogger.debug('received message', msg)
 
@@ -209,7 +212,7 @@ const handlePortMessage = (msg: unknown) => {
   }
 }
 
-mainPort.onMessage.addListener(handlePortMessage)
+portManager.addMessageListener(MessagePortName.ContentScript, handlePortMessage)
 
 /**
  * Creates a shared object that can be accessed by page scripts

@@ -3,52 +3,54 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import { isOneShotMessage } from '../port'
+import { isWebExtMessage, isWebExtResponse } from './base'
 import { CaptureResponseMessage, ResponseType } from './captureResponse'
 
-describe('asOneShot()', () => {
-  it('produces a one-shot envelope with isOneShot=true', () => {
-    const message = new CaptureResponseMessage({
-      type: ResponseType.TweetDetail,
-      body: 'test',
-    })
+const makeMessage = () =>
+  new CaptureResponseMessage({
+    type: ResponseType.TweetDetail,
+    body: 'test',
+  })
 
-    const oneShot = message.asOneShot()
+describe('isWebExtMessage()', () => {
+  it('returns true for a WebExtMessage instance', () => {
+    expect(isWebExtMessage(makeMessage())).toBe(true)
+  })
 
-    expect(oneShot.isOneShot).toBe(true)
-    expect(oneShot.inner).toBe(message)
+  it('returns false for a plain message object (the toObject() output)', () => {
+    expect(isWebExtMessage(makeMessage().toObject())).toBe(false)
+  })
+
+  it('returns false for a response object', () => {
+    expect(isWebExtMessage(makeMessage().makeResponse(true))).toBe(false)
+  })
+
+  it('returns false for null and primitives', () => {
+    expect(isWebExtMessage(null)).toBe(false)
+    expect(isWebExtMessage('string')).toBe(false)
+    expect(isWebExtMessage(42)).toBe(false)
   })
 })
 
-describe('isOneShotMessage()', () => {
-  it('returns true for a valid one-shot envelope', () => {
-    const message = new CaptureResponseMessage({
-      type: ResponseType.TweetDetail,
-      body: 'test',
-    })
+describe('isWebExtResponse()', () => {
+  it('returns true for a response object', () => {
+    expect(isWebExtResponse(makeMessage().makeResponse(true))).toBe(true)
+    expect(isWebExtResponse(makeMessage().makeResponse(false, 'reason'))).toBe(
+      true
+    )
+  })
 
-    expect(isOneShotMessage(message.asOneShot())).toBe(true)
+  it('returns false for a WebExtMessage instance', () => {
+    expect(isWebExtResponse(makeMessage())).toBe(false)
   })
 
   it('returns false for a plain message object', () => {
-    const message = new CaptureResponseMessage({
-      type: ResponseType.TweetDetail,
-      body: 'test',
-    })
-
-    expect(isOneShotMessage(message.toObject())).toBe(false)
+    expect(isWebExtResponse(makeMessage().toObject())).toBe(false)
   })
 
-  it('returns false for null', () => {
-    expect(isOneShotMessage(null)).toBe(false)
-  })
-
-  it('returns false for non-object', () => {
-    expect(isOneShotMessage('string')).toBe(false)
-    expect(isOneShotMessage(42)).toBe(false)
-  })
-
-  it('returns false when isOneShot is missing', () => {
-    expect(isOneShotMessage({ inner: {} })).toBe(false)
+  it('returns false for null and primitives', () => {
+    expect(isWebExtResponse(null)).toBe(false)
+    expect(isWebExtResponse('string')).toBe(false)
+    expect(isWebExtResponse(42)).toBe(false)
   })
 })

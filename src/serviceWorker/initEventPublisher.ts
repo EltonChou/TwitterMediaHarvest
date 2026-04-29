@@ -47,7 +47,7 @@ import {
   warningSettingsRepo,
 } from '#provider'
 import { getVersion } from '#utils/runtime'
-import { getPortManager } from './portManager'
+import { getPortRegistry } from './portRegistry'
 import { metrics } from '@sentry/browser'
 import { runtime } from 'webextension-polyfill'
 
@@ -56,9 +56,9 @@ const INTERRUPT_REASONS_TO_IGNORE = ['USER_CANCELED'] as const
 const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
   const publisher = eventPublisher ?? getEventPublisher()
   const notifier = getNotifier()
-  const portManager = getPortManager()
+  const portRegistry = getPortRegistry()
   const broadcastToContentScripts = (message: unknown): void => {
-    for (const port of portManager.getPorts(MessagePortName.ContentScript)) {
+    for (const port of portRegistry.getPorts(MessagePortName.ContentScript)) {
       port.postMessage(message)
     }
   }
