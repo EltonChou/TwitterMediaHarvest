@@ -23,7 +23,17 @@ export class Aria2DownloadMessage implements WebExtExternalMessage<
   Aria2DownloadResponsePayload
 > {
   constructor(readonly payload: Aria2DownloadMessagePayload) {}
+  /**
+   * @deprecated
+   */
   toObject(): WebExtMessagePayloadObject<
+    WebExtExternalAction,
+    Aria2DownloadMessagePayload
+  > {
+    return this.toJSON()
+  }
+
+  toJSON(): WebExtMessagePayloadObject<
     WebExtExternalAction,
     Aria2DownloadMessagePayload
   > {

@@ -86,7 +86,13 @@ export interface WebExtMessage<
   Payload extends Record<string, unknown> = never,
   ResponsePayload extends Record<string, unknown> = never,
 > extends ResponsibleMessage<Action, ResponsePayload> {
+  /**
+   * @deprecated
+   */
   toObject(): keyof Payload extends string
+    ? WebExtMessagePayloadObject<Action, Payload>
+    : WebExtMessageObject<Action>
+  toJSON(): keyof Payload extends string
     ? WebExtMessagePayloadObject<Action, Payload>
     : WebExtMessageObject<Action>
 }
@@ -100,5 +106,9 @@ export interface WebExtExternalMessage<
   Payload extends LiteralObject,
   _Response = never,
 > {
+  /**
+   * @deprecated
+   */
   toObject(): WebExtMessagePayloadObject<Action, Payload>
+  toJSON(): WebExtMessagePayloadObject<Action, Payload>
 }

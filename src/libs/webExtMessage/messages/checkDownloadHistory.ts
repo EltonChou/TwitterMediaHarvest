@@ -118,7 +118,17 @@ export class CheckDownloadHistoryMessage implements WebExtMessage<
         }
   }
 
+  /**
+   * @deprecated
+   */
   toObject(): WebExtMessagePayloadObject<
+    WebExtAction.CheckDownloadHistory,
+    CheckDownloadHistoryMessagePayload
+  > {
+    return this.toJSON()
+  }
+
+  toJSON(): WebExtMessagePayloadObject<
     WebExtAction.CheckDownloadHistory,
     CheckDownloadHistoryMessagePayload
   > {

@@ -118,7 +118,17 @@ export class DownloadTweetMediaMessage implements WebExtMessage<
       : toSuccessResult(new DownloadTweetMediaMessage(value.payload))
   }
 
+  /**
+   * @deprecated
+   */
   toObject(): WebExtMessagePayloadObject<
+    WebExtAction.DownloadMedia,
+    DownloadTweetMediaMessagePayload
+  > {
+    return this.toJSON()
+  }
+
+  toJSON(): WebExtMessagePayloadObject<
     WebExtAction.DownloadMedia,
     DownloadTweetMediaMessagePayload
   > {

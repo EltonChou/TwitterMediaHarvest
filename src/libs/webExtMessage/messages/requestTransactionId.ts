@@ -66,8 +66,7 @@ export class RequestTransactionIdMessage implements WebExtMessage<
           action: WebExtAction.RequestTransactionId,
           status: 'ok',
           payload: {
-            transactionId: (arg as RequestTransactionIdResponseArg)
-              .transactionId,
+            transactionId: arg.transactionId,
             method,
             path,
           },
@@ -80,7 +79,17 @@ export class RequestTransactionIdMessage implements WebExtMessage<
         }
   }
 
+  /**
+   * @deprecated
+   */
   toObject(): WebExtMessagePayloadObject<
+    WebExtAction.RequestTransactionId,
+    RequestTransactionIdMessagePayload
+  > {
+    return this.toJSON()
+  }
+
+  toJSON(): WebExtMessagePayloadObject<
     WebExtAction.RequestTransactionId,
     RequestTransactionIdMessagePayload
   > {

@@ -7,7 +7,7 @@ describe('unit test for download tweet media web ext message', () => {
       tweetId: '123',
     })
     const { value, error } = DownloadTweetMediaMessage.validate(
-      message.toObject()
+      message.toJSON()
     )
 
     expect(value).toBeDefined()

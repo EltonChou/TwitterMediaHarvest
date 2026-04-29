@@ -6,7 +6,7 @@ describe('unit test for capture response web ext message', () => {
       type: ResponseType.TweetDetail,
       body: 'test body',
     })
-    const { value, error } = CaptureResponseMessage.validate(message.toObject())
+    const { value, error } = CaptureResponseMessage.validate(message.toJSON())
 
     expect(value).toBeDefined()
     expect(error).toBeUndefined()
