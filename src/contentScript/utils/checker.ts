@@ -37,19 +37,19 @@ const TweetStatusRegEx = /\/.*\/status\/\d+/
  * @returns {boolean}
  */
 export const isComposingTweet = (): boolean =>
-  Boolean(window.location.pathname.match(ComposeTweetRegEx)) ||
-  Boolean(window.location.pathname.match(IntentTweetRegEx))
+  ComposeTweetRegEx.test(window.location.pathname) ||
+  IntentTweetRegEx.test(window.location.pathname)
 
 export const isFunctionablePath = (): boolean =>
   !(
-    Boolean(window.location.pathname.match(TweetListRegEx)) ||
-    Boolean(window.location.pathname.match(RetweetsListRegEx)) ||
-    Boolean(window.location.pathname.match(LikesListRegEx)) ||
+    TweetListRegEx.test(window.location.pathname) ||
+    RetweetsListRegEx.test(window.location.pathname) ||
+    LikesListRegEx.test(window.location.pathname) ||
     isComposingTweet()
   )
 
 export const isInTweetStatus = (): boolean =>
-  Boolean(window.location.pathname.match(TweetStatusRegEx))
+  TweetStatusRegEx.test(window.location.pathname)
 
 export const isBetaTweetDeck = (): boolean =>
   isTweetDeck() && elementExists('#react-root')
