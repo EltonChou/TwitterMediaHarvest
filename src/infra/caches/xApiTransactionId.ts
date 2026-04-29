@@ -3,13 +3,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import type { ICache } from '#domain/repositories/cache'
+import type {
+  IXTransactionIdCache,
+  TransactionIdKey,
+} from '#domain/repositories/xTransactionId'
 import { XTransactionId } from '#domain/valueObjects/xTransactionId'
 import { RequestTransactionIdMessage } from '#libs/webExtMessage/messages/requestTransactionId'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import type { Runtime } from 'webextension-polyfill'
 
-type TransactionIdKey = [path: string, method: string]
 type StoreKey = string
 type Resolver = (item: XTransactionId) => void
 
@@ -47,10 +49,7 @@ const toStoreKey = (method: string, path: string): StoreKey =>
  * (installed at the extension entry level) is responsible for parsing responses
  * and calling `save`.
  */
-export class XTransactionIdCache implements ICache<
-  XTransactionId,
-  TransactionIdKey
-> {
+export class XTransactionIdCache implements IXTransactionIdCache {
   readonly getPort: MessagePortProvider
   protected store: Map<StoreKey, XTransactionId[]>
   protected pending: Map<StoreKey, Resolver[]>
@@ -84,9 +83,7 @@ export class XTransactionIdCache implements ICache<
     const port = this.getPort()
     if (!port) return toErrorResult(new Error('No message port available'))
 
-    port.postMessage(
-      new RequestTransactionIdMessage({ path, method }).toObject()
-    )
+    port.postMessage(new RequestTransactionIdMessage({ path, method }).toJSON())
 
     try {
       const item = await this.waitForItem(key)

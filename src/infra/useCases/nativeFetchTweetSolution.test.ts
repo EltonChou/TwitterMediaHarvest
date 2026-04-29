@@ -3,16 +3,17 @@ import TweetSolutionQuotaChanged from '#domain/events/TweetSolutionQuotaChanged'
 import TweetSolutionQuotaInsufficient from '#domain/events/TweetSolutionQuotaInsufficient'
 import { ISolutionQuotaRepository } from '#domain/repositories/solutionQuota'
 import { ITwitterTokenRepository } from '#domain/repositories/twitterToken'
+import { IXTransactionIdCache } from '#domain/repositories/xTransactionId'
 import {
   InsufficientQuota,
   NoValidSolutionToken,
-  TransactionIdProvider,
   TweetIsNotFound,
 } from '#domain/useCases/fetchTweetSolution'
 import { ResettableQuota } from '#domain/valueObjects/resettableQuota'
 import { TwitterToken } from '#domain/valueObjects/twitterToken'
 import FetchTweetSolutionId from '#enums/FetchTweetSolution'
 import { ApiClient, FetchTweetError } from '#libs/XApi'
+import { MockXTransactionIdCache } from '#mocks/caches/xTransactionIdCache'
 import { MockSolutionQuotaRepository } from '#mocks/repositories/solutionQuota'
 import { MockXTokenRepository } from '#mocks/repositories/xToken'
 import { toErrorResult, toSuccessResult } from '#utils/result'
@@ -26,18 +27,21 @@ describe('NativeFetchTweetSolution', () => {
   let xTokenRepo: ITwitterTokenRepository
   let xApiClient: ApiClient
   let solution: NativeFetchTweetSolution
-  const transactionIdProvider: TransactionIdProvider = async (
-    _path,
-    _medthod
-  ) => toSuccessResult('')
+  let transactionIdCache: IXTransactionIdCache
 
   beforeEach(() => {
     solutionQuotaRepo = jest.mocked(new MockSolutionQuotaRepository())
     xTokenRepo = jest.mocked(new MockXTokenRepository())
     xApiClient = jest.mocked(new ApiClient())
+    transactionIdCache = jest.mocked(new MockXTransactionIdCache())
 
     solution = new NativeFetchTweetSolution(
-      { solutionQuotaRepo, xTokenRepo, xApiClient },
+      {
+        solutionQuotaRepo,
+        xTokenRepo,
+        xApiClient,
+        transactionIdCache,
+      },
       { quotaThreshold: 10, reservedQuota: 20 }
     )
   })
@@ -49,7 +53,6 @@ describe('NativeFetchTweetSolution', () => {
 
       const result = await solution.process({
         tweetId: '123',
-        transactionIdProvider: transactionIdProvider,
       })
 
       expect(result.error).toBeInstanceOf(NoValidSolutionToken)
@@ -69,7 +72,6 @@ describe('NativeFetchTweetSolution', () => {
 
       const result = await solution.process({
         tweetId: '123',
-        transactionIdProvider: transactionIdProvider,
       })
 
       expect(result.error).toBeInstanceOf(InsufficientQuota)
@@ -99,7 +101,6 @@ describe('NativeFetchTweetSolution', () => {
 
       const result = await solution.process({
         tweetId: '123',
-        transactionIdProvider: transactionIdProvider,
       })
 
       expect(result.error).toBeUndefined()
@@ -125,7 +126,6 @@ describe('NativeFetchTweetSolution', () => {
 
       await solution.process({
         tweetId: '123',
-        transactionIdProvider: transactionIdProvider,
       })
 
       expect(solution.events).toContainEqual(
@@ -150,7 +150,6 @@ describe('NativeFetchTweetSolution', () => {
 
       await solution.process({
         tweetId: '123',
-        transactionIdProvider: transactionIdProvider,
       })
 
       expect(solution.events).toContainEqual(
@@ -168,7 +167,6 @@ describe('NativeFetchTweetSolution', () => {
 
       const result = await solution.process({
         tweetId: '123',
-        transactionIdProvider: transactionIdProvider,
       })
 
       expect(result.error).toBeInstanceOf(TweetIsNotFound)

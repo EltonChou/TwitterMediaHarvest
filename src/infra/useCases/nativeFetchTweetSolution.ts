@@ -9,13 +9,11 @@ import TweetSolutionQuotaInsufficient from '#domain/events/TweetSolutionQuotaIns
 import type { Factory } from '#domain/factories/base'
 import type { ISolutionQuotaRepository } from '#domain/repositories/solutionQuota'
 import type { ITwitterTokenRepository } from '#domain/repositories/twitterToken'
+import type { IXTransactionIdCache } from '#domain/repositories/xTransactionId'
 import type {
+  FetchTweetSolution,
+  FetchTweetSolutionCommand,
   FetchTweetSolutionError,
-  FetchTweetSolutionWithTransactinIdCommand,
-  FetchTweetSolutionWithTransactionId,
-  QuotaStatistic,
-  SolutionStatistics,
-  TransactionIdProvider,
 } from '#domain/useCases/fetchTweetSolution'
 import {
   InsufficientQuota,
@@ -33,19 +31,20 @@ import type {
 } from '#libs/XApi'
 import {
   FallbackFetchTweet,
+  FetchTweetError,
   GuestFetchTweetCommand,
   LatestFetchTweetCommand,
   ParseTweetError,
   RestIdFetchTweetCommand,
 } from '#libs/XApi'
-import { FetchTweetError } from '#libs/XApi'
 import type { CommandCache } from '#libs/XApi/commands/types'
-import { isErrorResult, toErrorResult } from '#utils/result'
+import { isSuccessResult, toErrorResult } from '#utils/result'
 
 export interface InfraProvider {
   solutionQuotaRepo: ISolutionQuotaRepository
   xTokenRepo: ITwitterTokenRepository
   xApiClient: XApiClient
+  transactionIdCache: IXTransactionIdCache
 }
 
 interface FetchCommandConstructor {
@@ -82,12 +81,22 @@ type SolutionOptions = {
   quotaThreshold: number
 }
 
+type SolutionStatistics<Identify extends string = string> = {
+  [key in Identify]?: QuotaStatistic
+}
+
+type QuotaStatistic = {
+  remaining?: number | 'omit'
+  resetTime?: Date | 'omit'
+  error?: Error
+}
+
 /**
  * Implementation of FetchTweetSolution that handles fetching tweets using native Twitter/X API.
  * This solution manages different fetch strategies including guest access, general access, and fallback mechanisms.
  * It also handles quota management, caching, and error handling for tweet fetching operations.
  *
- * @implements {FetchTweetSolution<StatisticIdentity>}
+ * @implements {FetchTweetSolution}
  *
  * @example
  * ```typescript
@@ -122,7 +131,7 @@ type SolutionOptions = {
  * @emits {TweetSolutionQuotaInsufficient}  When remaining quota falls below or equals quota threshold provided in option
  * @see {@link TweetSolutionQuotaInsufficient}
  */
-export class NativeFetchTweetSolution implements FetchTweetSolutionWithTransactionId<StatisticIdentity> {
+export class NativeFetchTweetSolution implements FetchTweetSolution {
   readonly isTransactionIdConsumer = true
   private infra: InfraProvider
   private options: SolutionOptions
@@ -178,20 +187,16 @@ export class NativeFetchTweetSolution implements FetchTweetSolutionWithTransacti
       tweetId: string
       csrfToken: string
       statIdentity: StatisticIdentity
-      transactionIdProvider?: TransactionIdProvider
     }) => {
       const command = new CommandConstructor({
         tweetId: config.tweetId,
         csrfToken: config.csrfToken,
         cacheProvider: this.getCacheStorage,
         transactionIdProvider: async (path, method) => {
-          if (config.transactionIdProvider) {
-            const txIdResult = await config.transactionIdProvider(path, method)
-            if (isErrorResult(txIdResult)) return undefined
-            return txIdResult.value
-          }
-
-          return undefined
+          const result = await this.infra.transactionIdCache.get([path, method])
+          return isSuccessResult(result) && result.value !== undefined
+            ? result.value.mapBy(props => props.value)
+            : undefined
         },
       })
 
@@ -207,7 +212,7 @@ export class NativeFetchTweetSolution implements FetchTweetSolutionWithTransacti
   }
 
   async process(
-    command: FetchTweetSolutionWithTransactinIdCommand
+    command: FetchTweetSolutionCommand
   ): Promise<Result<Tweet, FetchTweetSolutionError>> {
     const csrfToken = await this.infra.xTokenRepo.getCsrfToken()
     const guestToken = await this.infra.xTokenRepo.getGuestToken()
@@ -215,7 +220,7 @@ export class NativeFetchTweetSolution implements FetchTweetSolutionWithTransacti
     const guestCsrfToken = guestToken?.value ?? csrfToken?.value
     if (guestCsrfToken) {
       const guestResult = await this.execCommand(
-        guestCsrfToken.match(guestTokenPattern)
+        guestTokenPattern.test(guestCsrfToken)
           ? GuestFetchTweetCommand
           : RestIdFetchTweetCommand
       )({
@@ -260,7 +265,6 @@ export class NativeFetchTweetSolution implements FetchTweetSolutionWithTransacti
         statIdentity: 'general',
         tweetId: command.tweetId,
         csrfToken: csrfToken.value,
-        transactionIdProvider: command.transactionIdProvider,
       })
 
       if (hasValidQuotaValue(generalResult.value)) {

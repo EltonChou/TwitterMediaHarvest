@@ -20,29 +20,10 @@ export type QuotaStatistic = {
   error?: Error
 }
 
-export type SolutionStatistics<Identify extends string = string> = {
-  [key in Identify]?: QuotaStatistic
-}
-
-export interface FetchTweetSolution<
-  StatisticIdentity extends string = string,
-  Command = FetchTweetSolutionCommand,
->
+export interface FetchTweetSolution<Command = FetchTweetSolutionCommand>
   extends
     AsyncUseCase<Command, Result<Tweet, FetchTweetSolutionError>>,
-    DomainEventSource {
-  readonly isTransactionIdConsumer: boolean
-  readonly statistics: SolutionStatistics<StatisticIdentity>
-}
-
-export interface FetchTweetSolutionWithTransactionId<
-  StatisticIdentity extends string = string,
-> extends FetchTweetSolution<
-  StatisticIdentity,
-  FetchTweetSolutionWithTransactinIdCommand
-> {
-  readonly isTransactionIdConsumer: true
-}
+    DomainEventSource {}
 
 export abstract class FetchTweetSolutionError extends Error {
   name = 'FetchTweetSolutionError'
@@ -88,12 +69,6 @@ export class TweetProcessingError extends FetchTweetSolutionError {
 interface IsInternalControl {
   /** When it is true that means the error is raised by internal quota control. */
   readonly isInternalControl: boolean
-}
-
-export function isTransactionIdConsumer<T extends string>(
-  solution: FetchTweetSolution<T>
-): solution is FetchTweetSolutionWithTransactionId<T> {
-  return solution.isTransactionIdConsumer === true
 }
 
 export type TransactionIdProvider = (

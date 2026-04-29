@@ -67,7 +67,7 @@ describe('requestTransactionIdHandler', () => {
     const request = new RequestTransactionIdMessage({
       path: '/api/endpoint',
       method: 'GET',
-    }).toObject()
+    }).toJSON()
 
     const ctx = makeCtx(request)
     await requestTransactionIdHandler(infra)(ctx)
