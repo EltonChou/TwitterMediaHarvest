@@ -7,12 +7,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { MockPort, makeMockPort } from '#mocks/port'
+import { WebExtAction } from './messages/base'
 import {
   CaptureResponseMessage,
   ResponseType,
 } from './messages/captureResponse'
 import { MessagePortName } from './port'
-import { PortManager } from './portManager'
+import { PortManager, PortPayload } from './portManager'
 import { runtime } from 'webextension-polyfill'
 
 jest.mock('webextension-polyfill', () => ({
@@ -27,6 +28,16 @@ afterEach(() => {
 
 const makeRequest = (body: string) =>
   new CaptureResponseMessage({ type: ResponseType.TweetDetail, body })
+
+const makeDedupable = (dedupeId: string, dedupeTtlMs?: number): PortPayload => {
+  const json = { action: WebExtAction.CaptureResponse }
+  return {
+    dedupeId,
+    dedupeTtlMs,
+    toJSON: () => json,
+    toObject: () => json,
+  } as unknown as PortPayload
+}
 
 describe('PortManager', () => {
   it('reuses the same port across calls until disconnect', () => {
@@ -117,5 +128,92 @@ describe('PortManager', () => {
     manager.addMessageListener(MessagePortName.ContentScript, listener)
 
     expect(mockConnect).not.toHaveBeenCalled()
+  })
+
+  describe('dedupable messages', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('drops a duplicate dedupable message within the TTL window', () => {
+      const port = makeMockPort(MessagePortName.ContentScript)
+      mockConnect.mockReturnValue(port)
+      const manager = new PortManager()
+
+      manager.postMessage(MessagePortName.ContentScript, makeDedupable('k1'))
+      manager.postMessage(MessagePortName.ContentScript, makeDedupable('k1'))
+
+      expect(port.postMessage).toHaveBeenCalledTimes(1)
+    })
+
+    it('allows the same dedupeId again after the default TTL elapses', () => {
+      const port = makeMockPort(MessagePortName.ContentScript)
+      mockConnect.mockReturnValue(port)
+      const manager = new PortManager()
+
+      manager.postMessage(MessagePortName.ContentScript, makeDedupable('k1'))
+      jest.advanceTimersByTime(2001)
+      manager.postMessage(MessagePortName.ContentScript, makeDedupable('k1'))
+
+      expect(port.postMessage).toHaveBeenCalledTimes(2)
+    })
+
+    it('honours a per-message dedupeTtlMs override', () => {
+      const port = makeMockPort(MessagePortName.ContentScript)
+      mockConnect.mockReturnValue(port)
+      const manager = new PortManager()
+
+      manager.postMessage(
+        MessagePortName.ContentScript,
+        makeDedupable('k1', 500)
+      )
+      jest.advanceTimersByTime(501)
+      manager.postMessage(
+        MessagePortName.ContentScript,
+        makeDedupable('k1', 500)
+      )
+
+      expect(port.postMessage).toHaveBeenCalledTimes(2)
+    })
+
+    it('does not dedupe different dedupeIds', () => {
+      const port = makeMockPort(MessagePortName.ContentScript)
+      mockConnect.mockReturnValue(port)
+      const manager = new PortManager()
+
+      manager.postMessage(MessagePortName.ContentScript, makeDedupable('k1'))
+      manager.postMessage(MessagePortName.ContentScript, makeDedupable('k2'))
+
+      expect(port.postMessage).toHaveBeenCalledTimes(2)
+    })
+
+    it('does not dedupe messages without a dedupeId', () => {
+      const port = makeMockPort(MessagePortName.ContentScript)
+      mockConnect.mockReturnValue(port)
+      const manager = new PortManager()
+
+      manager.postMessage(MessagePortName.ContentScript, makeRequest('a'))
+      manager.postMessage(MessagePortName.ContentScript, makeRequest('a'))
+
+      expect(port.postMessage).toHaveBeenCalledTimes(2)
+    })
+
+    it('clears dedupe state on disconnect', () => {
+      const port1 = makeMockPort(MessagePortName.ContentScript)
+      const port2 = makeMockPort(MessagePortName.ContentScript)
+      mockConnect.mockReturnValueOnce(port1).mockReturnValueOnce(port2)
+      const manager = new PortManager()
+
+      manager.postMessage(MessagePortName.ContentScript, makeDedupable('k1'))
+      port1.onDisconnect._trigger()
+      manager.postMessage(MessagePortName.ContentScript, makeDedupable('k1'))
+
+      expect(port1.postMessage).toHaveBeenCalledTimes(1)
+      expect(port2.postMessage).toHaveBeenCalledTimes(1)
+    })
   })
 })
