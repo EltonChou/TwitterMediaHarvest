@@ -5,6 +5,7 @@
  */
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import {
+  DedupableMessage,
   WebExtAction,
   WebExtMessage,
   WebExtMessageErrorResponse,
@@ -12,6 +13,8 @@ import {
   WebExtMessagePayloadResponse,
 } from './base'
 import Joi from 'joi'
+
+const DEDUPE_TTL_MS = 300
 
 type CheckDownloadHistoryMessagePayload = {
   tweetId: string
@@ -46,12 +49,22 @@ const messageSchema: Joi.ObjectSchema<
   payload: Joi.object({ tweetId: Joi.string().required() }).required(),
 })
 
-export class CheckDownloadHistoryMessage implements WebExtMessage<
-  WebExtAction.CheckDownloadHistory,
-  CheckDownloadHistoryMessagePayload,
-  CheckDownloadHistoryResponsePayload
-> {
+export class CheckDownloadHistoryMessage
+  implements
+    WebExtMessage<
+      WebExtAction.CheckDownloadHistory,
+      CheckDownloadHistoryMessagePayload,
+      CheckDownloadHistoryResponsePayload
+    >,
+    DedupableMessage
+{
+  readonly dedupeTtlMs = DEDUPE_TTL_MS
+
   constructor(readonly payload: CheckDownloadHistoryMessagePayload) {}
+
+  get dedupeId(): string {
+    return `${WebExtAction.CheckDownloadHistory}:${this.payload.tweetId}`
+  }
 
   static isResponse(value: unknown): value is CheckDownloadHistoryResponse {
     return (

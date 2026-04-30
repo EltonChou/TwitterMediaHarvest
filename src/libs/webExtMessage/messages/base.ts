@@ -97,6 +97,26 @@ export interface WebExtMessage<
     : WebExtMessageObject<Action>
 }
 
+/**
+ * Marker interface for messages that should be deduplicated when posted
+ * through a {@link PortManager}. Messages exposing `dedupeId` are dropped
+ * if an identical id is already in flight on the same port within the TTL
+ * window.
+ */
+export interface DedupableMessage {
+  readonly dedupeId: string
+  readonly dedupeTtlMs?: number
+}
+
+export const isDedupableMessage = (
+  value: unknown
+): value is DedupableMessage => {
+  if (typeof value !== 'object' || value === null) return false
+  if (!('dedupeId' in value)) return false
+  const candidate: { dedupeId: unknown } = value
+  return typeof candidate.dedupeId === 'string'
+}
+
 export const enum WebExtExternalAction {
   Aria2Download = 'aria2-download',
 }
