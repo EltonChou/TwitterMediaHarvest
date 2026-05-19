@@ -38,7 +38,10 @@ const setButtonStatus = (status: ButtonStatus) => (button: ButtonElement) => {
 }
 
 const isDownloadingButton = (button: ButtonElement) =>
-  button.classList.contains('downloading')
+  button.classList.contains(ButtonStatus.Downloading)
+
+const isSuccessButton = (button: ButtonElement) =>
+  button.classList.contains(ButtonStatus.Success)
 
 export const { registerButton, getButtons, getButtonRegistry } = (() => {
   const registry = new Map<string, Set<ButtonElement>>()
@@ -88,6 +91,7 @@ export const initButtonListeners = (): void => {
     for (const button of getButtons(tweetId)) {
       if (isDownloadingButton(button))
         setButtonStatus(ButtonStatus.Success)(button)
+      else if (isSuccessButton(button)) continue
       else setButtonStatus(ButtonStatus.Downloaded)(button)
     }
   })
