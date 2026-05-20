@@ -60,7 +60,9 @@ export const parseTweet = (
     videos: media.videos,
     images: media.images,
     user: user,
-    hashtags: tweetResult.legacy.entities.hashtags.map(hashtag => hashtag.text),
+    hashtags: (tweetResult.legacy.entities?.hashtags ?? []).map(
+      hashtag => hashtag.text
+    ),
   })
 
   return new TweetWithContent({
