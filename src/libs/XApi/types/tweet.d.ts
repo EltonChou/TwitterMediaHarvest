@@ -188,7 +188,7 @@ declare namespace XApi {
   }
 
   interface TweetEntities {
-    hashtags: Hashtag[]
+    hashtags?: Hashtag[]
   }
 
   interface Tweet extends TypeItem {
