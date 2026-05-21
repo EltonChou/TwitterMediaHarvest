@@ -28,7 +28,7 @@ type MakeTransactionId = (path: string, method: string) => Promise<string>
 type WebpackIdentifier = {
   id: string | number
   loaded: boolean
-  exports: ESModule
+  exports: ESModule | unknown
 }
 
 self.__MEDIAHARVEST__ = {
@@ -105,6 +105,7 @@ function esModuleProxy(esModule: Partial<ESModule>) {
 
       return Reflect.defineProperty(target, property, {
         ...attributes,
+        // We are not interesting in other attributes.
         configurable: property === 'default',
       })
     },
@@ -135,13 +136,15 @@ function webpackLoaderFunctionProxy(loaderFunc: WebpackLoadFunction) {
     ) {
       const [_obj, esModule, loader, ...remains] = args
 
-      return Reflect.apply(target, thisArg, [
-        _obj,
-        // esModule will be loaded as esModule after applying
-        esModuleProxy(esModule),
-        loader,
-        ...remains,
-      ])
+      return esModule
+        ? Reflect.apply(target, thisArg, [
+            _obj,
+            // esModule will be loaded as esModule after applying
+            esModuleProxy(esModule),
+            loader,
+            ...remains,
+          ])
+        : Reflect.apply(target, thisArg, args)
     },
   })
 }
@@ -174,6 +177,7 @@ function _isESModule(value: unknown): value is ESModule {
   return (
     typeof value === 'object' &&
     value !== null &&
+    value !== undefined &&
     '__esModule' in value &&
     value.__esModule === true
   )
