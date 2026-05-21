@@ -2530,6 +2530,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@deno/shim-deno-test@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "@deno/shim-deno-test@npm:0.5.0"
+  checksum: 10c0/6d8b0739056468f59a4f0238ffd6eaef8b2aa0aced6f3070c9193c9bdba9f42a29a0a9c0f49f75cf11f6cf122131a3b9d9d6280c33c968d962b61fc037e49669
+  languageName: node
+  linkType: hard
+
+"@deno/shim-deno@npm:~0.18.0":
+  version: 0.18.2
+  resolution: "@deno/shim-deno@npm:0.18.2"
+  dependencies:
+    "@deno/shim-deno-test": "npm:^0.5.0"
+    which: "npm:^4.0.0"
+  checksum: 10c0/4a040c068e1200556f0a4d51dd6d11343a9c37d2e35f89034b114728b298275ff653a0477a7e2335bedbae7b162da05ead3087a884578568e879b9a59d0c2449
+  languageName: node
+  linkType: hard
+
 "@devicefarmer/adbkit-logcat@npm:^2.1.2":
   version: 2.1.3
   resolution: "@devicefarmer/adbkit-logcat@npm:2.1.3"
@@ -9814,13 +9831,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ini@npm:6.0.0":
-  version: 6.0.0
-  resolution: "ini@npm:6.0.0"
-  checksum: 10c0/9a7f55f306e2b25b41ae67c8b526e8f4673f057b70852b9025816ef4f15f07bf1ba35ed68ea4471ff7b31718f7ef1bc50d709f8d03cb012e10a3135eb99c7206
-  languageName: node
-  linkType: hard
-
 "ini@npm:^1.3.4, ini@npm:~1.3.0":
   version: 1.3.8
   resolution: "ini@npm:1.3.8"
@@ -10969,15 +10979,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"keep-a-changelog@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "keep-a-changelog@npm:3.0.2"
+"keep-a-changelog@npm:^2.8.0":
+  version: 2.8.0
+  resolution: "keep-a-changelog@npm:2.8.0"
   dependencies:
-    ini: "npm:6.0.0"
-    semver: "npm:7.7.4"
+    "@deno/shim-deno": "npm:~0.18.0"
   bin:
-    changelog: bin.js
-  checksum: 10c0/5f18199cfae5326a848f713dfc381013b1791a973ba6f7dd1e37d836436ae5c4aa71643d379e8a8bb5cbe327cda01519f93472ba54d3420a10bf8d5561dd9a95
+    changelog: esm/bin.js
+  checksum: 10c0/0a10d0f6b58203f1c6798176c3fdc96aa2f1ef8e3c75c39d62ae7c42102e9bf3ef59a872cb8d6290c833cc21c8d38b531f3404109c3436e84e3172a7d6a52c7f
   languageName: node
   linkType: hard
 
@@ -14434,7 +14443,7 @@ __metadata:
     jest-webextension-mock: "npm:^4.1.1"
     joi: "npm:^18.1.2"
     jwt-decode: "npm:^4.0.0"
-    keep-a-changelog: "npm:^3.0.2"
+    keep-a-changelog: "npm:^2.8.0"
     lint-staged: "npm:^16.4.0"
     mini-css-extract-plugin: "npm:^2.10.2"
     path-browserify: "npm:^1.0.1"
@@ -15217,6 +15226,17 @@ __metadata:
   bin:
     node-which: ./bin/node-which
   checksum: 10c0/66522872a768b60c2a65a57e8ad184e5372f5b6a9ca6d5f033d4b0dc98aff63995655a7503b9c0a2598936f532120e81dd8cc155e2e92ed662a2b9377cc4374f
+  languageName: node
+  linkType: hard
+
+"which@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "which@npm:4.0.0"
+  dependencies:
+    isexe: "npm:^3.1.1"
+  bin:
+    node-which: bin/which.js
+  checksum: 10c0/449fa5c44ed120ccecfe18c433296a4978a7583bf2391c50abce13f76878d2476defde04d0f79db8165bdf432853c1f8389d0485ca6e8ebce3bbcded513d5e6a
   languageName: node
   linkType: hard
 

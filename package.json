@@ -98,7 +98,7 @@
     "jest-extended": "^7.0.0",
     "jest-transformer-svg": "^2.1.0",
     "jest-webextension-mock": "^4.1.1",
-    "keep-a-changelog": "^3.0.2",
+    "keep-a-changelog": "^2.8.0",
     "lint-staged": "^16.4.0",
     "mini-css-extract-plugin": "^2.10.2",
     "pinst": "^3.0.0",
