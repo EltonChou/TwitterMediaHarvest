@@ -162,7 +162,14 @@ jobs:
           name: 'TwitterMediaHarvest ${{ needs.release-metadata.outputs.version-tag }}'
           artifacts: ${{ format('{0}/dist/*.zip,{0}/dist/*.xpi', steps.artifact.outputs.download-path) }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          body: ${{ needs.release-metadata.outputs.changelog }}
+          body: |
+            ${{ needs.release-metadata.outputs.changelog }}
+
+            ---
+
+            > [!IMPORTANT]
+            > **Firefox users:** Download the `.xpi` file from the assets below to install the extension.
+            > Once installed, it updates automatically — you don't need to download it again for future releases.
           tag: ${{ needs.release-metadata.outputs.version-tag }}
 
       - name: Rollback Release
