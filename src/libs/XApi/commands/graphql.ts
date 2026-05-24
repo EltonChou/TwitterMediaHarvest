@@ -79,29 +79,21 @@ export abstract class GraphQLCommand<
   }
 
   protected makeAuthHeaders(csrfToken: string, transactionId?: string) {
-    if (this.authType === AuthType.Guest) {
-      return new Headers([
-        ['x-twitter-active-user', 'yes'],
-        ['x-guest-token', csrfToken],
-      ])
+    const headers = new Headers([['x-twitter-active-user', 'yes']])
+
+    switch (this.authType) {
+      case AuthType.Guest:
+        headers.append('x-guest-token', csrfToken)
+        break
+      case AuthType.Auth:
+        headers.append('x-csrf-token', csrfToken)
+        headers.append('x-guest-token', csrfToken)
+        break
     }
 
-    if (this.authType === AuthType.Auth) {
-      return transactionId
-        ? new Headers([
-            ['x-twitter-active-user', 'yes'],
-            ['x-csrf-token', csrfToken],
-            ['x-guest-token', csrfToken],
-            ['x-client-transaction-id', transactionId],
-          ])
-        : new Headers([
-            ['x-twitter-active-user', 'yes'],
-            ['x-csrf-token', csrfToken],
-            ['x-guest-token', csrfToken],
-          ])
-    }
+    if (transactionId) headers.append('x-client-transaction-id', transactionId)
 
-    return new Headers()
+    return headers
   }
 
   protected makeHeaders(headers: Headers): Headers {
