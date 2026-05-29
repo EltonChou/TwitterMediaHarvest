@@ -8,8 +8,6 @@ import type { PropsOf } from '#domain/valueObjects/base'
 import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetMedia } from '#domain/valueObjects/tweetMedia'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
-import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
-import { TimeHelper } from '#helpers/time'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import Joi from 'joi'
 
@@ -50,6 +48,8 @@ const responseSchema: Joi.ObjectSchema<{
   tweet: tweetPropsSchema.required(),
   content: Joi.string().required(),
 })
+
+const CACHE_TIME = 86400 as const // 24 hours
 
 export class TweetResponseCache implements ICache<TweetWithContent> {
   private cache?: Cache
@@ -103,7 +103,7 @@ export class TweetResponseCache implements ICache<TweetWithContent> {
       const response = new Response(JSON.stringify(item), {
         headers: {
           'Content-Type': 'application/json',
-          'Cache-Control': `max-age=${TimeHelper.hour(24)}`,
+          'Cache-Control': `max-age=${CACHE_TIME}`,
         },
       })
 
