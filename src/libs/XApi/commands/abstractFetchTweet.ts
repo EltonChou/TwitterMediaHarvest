@@ -3,12 +3,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import { Tweet, type TweetProps } from '#domain/valueObjects/tweet'
-import { TweetUser, type TweetUserProps } from '#domain/valueObjects/tweetUser'
-import { getValue, toErrorResult, toSuccessResult } from '#utils/result'
-import { isTimelineTimelineItem, isTimelineTweet } from '../parsers/refinements'
-import { retrieveTweetFromTweetResult } from '../parsers/tweet'
-import { parseMedias } from '../parsers/tweetMedia'
+import { Tweet } from '#domain/valueObjects/tweet'
+import { toErrorResult, toSuccessResult } from '#utils/result'
+import {
+  Instruction,
+  isRestIdTweetBody,
+  isTweetDetailBody,
+  isTweetResult,
+} from '../parsers/refinements'
+import { parseTweet, retrieveTweetsFromInstruction } from '../parsers/tweet'
 import { GraphQLCommand, Query } from './graphql'
 import type {
   CacheAble,
@@ -17,11 +20,8 @@ import type {
   RequestContext,
   ResponseMetadata,
 } from './types'
-import * as A from 'fp-ts/Array'
-import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
-import { flow, pipe } from 'fp-ts/function'
-import Joi, { type ValidationResult } from 'joi'
+import { pipe } from 'fp-ts/function'
 
 export interface FetchTweetCommandInput extends LiteralObject {
   csrfToken: string
@@ -38,21 +38,6 @@ export interface FetchTweetCommandOutput extends MetadataBearer {
   tweetResult: Result<Tweet>
 }
 
-const tweetPartialPropsSchema = Joi.object<
-  Omit<TweetProps, 'user' | 'videos' | 'images'>
->({
-  id: Joi.string().required(),
-  hashtags: Joi.array().items(Joi.string()).required(),
-  createdAt: Joi.date().required().required(),
-})
-
-const tweetUserPropsSchema = Joi.object<TweetUserProps, true>({
-  displayName: Joi.string().required(),
-  screenName: Joi.string().required(),
-  userId: Joi.string().required(),
-  isProtected: Joi.boolean().default(false),
-})
-
 export abstract class FetchTweetCommand
   extends GraphQLCommand<FetchTweetCommandInput, FetchTweetCommandOutput>
   implements CacheAble
@@ -66,51 +51,6 @@ export abstract class FetchTweetCommand
     this.config = config
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  protected getResultFromBody(body: any) {
-    return pipe(
-      body?.data?.threaded_conversation_with_injections_v2?.instructions,
-      O.fromNullable<XApi.TimelineAddEntries[]>,
-      E.fromOption(() => 'Failed to get instructions'),
-      E.chain(
-        flow(
-          A.filter(i => i.type === 'TimelineAddEntries'),
-          A.head,
-          E.fromOption(() => 'Failed to get `TimelineAddEntries` sinstruction')
-        )
-      ),
-      E.chain(instruction =>
-        Array.isArray(instruction.entries)
-          ? E.right(instruction.entries)
-          : E.left('Failed to get entries')
-      ),
-      E.chain(
-        flow(
-          A.filter(e => e.entryId.includes(this.config.tweetId)),
-          A.head,
-          E.fromOption(() => 'Failed to get entry')
-        )
-      ),
-      E.chain(entry =>
-        pipe(
-          entry.content,
-          O.fromPredicate(isTimelineTimelineItem),
-          O.flatMap(content =>
-            pipe(content.itemContent, O.fromPredicate(isTimelineTweet))
-          ),
-          O.flatMap(itemContent =>
-            pipe(
-              retrieveTweetFromTweetResult(itemContent.tweet_results),
-              getValue,
-              O.fromNullable
-            )
-          ),
-          E.fromOption(() => 'Failed to get result')
-        )
-      )
-    )
-  }
-
   protected parseBody(body: unknown): Result<Tweet> {
     if (!body) {
       return hasErrorProperty(body)
@@ -120,78 +60,36 @@ export abstract class FetchTweetCommand
         : toErrorResult(new ParseTweetError('Invalid body'))
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const getTweetResultFromResult = (result: any) =>
-      pipe(
-        result?.tweet?.legacy ?? result?.legacy ?? result,
-        E.fromNullable('Failed to get tweet result')
-      )
+    if (isRestIdTweetBody(body) && isTweetResult(body.data.tweetResult)) {
+      return toSuccessResult(parseTweet(body.data.tweetResult.result).tweet)
+    }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const getTweetPropsFromTweetResult = (tweetResult: any) =>
-      pipe(
-        tweetPartialPropsSchema.validate({
-          id: tweetResult.rest_id ?? tweetResult.id_str,
-          hashtags: parseHashtags(tweetResult?.entities),
-          createdAt: new Date(tweetResult.created_at),
-        }),
-        validationResultToEither
-      )
+    if (isTweetDetailBody(body)) {
+      const [addEntriesInstruction] =
+        body.data.threaded_conversation_with_injections_v2.instructions.filter(
+          Instruction.isTimelineAddEntries
+        )
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const getUserPropsFromResult = (result: any) =>
-      pipe(
-        result?.core?.user_results?.result ??
-          result?.tweet?.core?.user_results?.result,
-        E.fromNullable('Failed to get user result'),
-        E.chain(userResult =>
-          pipe(
-            tweetUserPropsSchema.validate({
-              isProtected: userResult?.legacy?.protected,
-              displayName: userResult?.legacy?.name,
-              screenName: userResult?.legacy?.screen_name,
-              userId: userResult?.rest_id,
-            }),
-            validationResultToEither
+      if (!addEntriesInstruction)
+        return toErrorResult(new ParseTweetError('Invalid instructions'))
+
+      // TODO: Maybe we should let the retriever has an early return mechanism
+      // when it finds target tweet.
+      const [targetTweet] = retrieveTweetsFromInstruction(
+        addEntriesInstruction
+      ).filter(tweet => tweet.rest_id === this.config.tweetId)
+
+      if (!targetTweet)
+        return toErrorResult(
+          new ParseTweetError(
+            `Cannot find target tweet. (tweetId: ${this.config.tweetId})`
           )
         )
-      )
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const parseTweetFromBody = (body: any): Result<Tweet> =>
-      pipe(
-        E.Do,
-        E.bind('result', () => this.getResultFromBody(body)),
-        E.bind('tweetResult', payload =>
-          getTweetResultFromResult(payload.result)
-        ),
-        E.bind('userProps', payload => getUserPropsFromResult(payload.result)),
-        E.bind('medias', payload =>
-          pipe(
-            payload.tweetResult?.extended_entities?.media,
-            E.fromNullable('Failed to get medias.')
-          )
-        ),
-        E.bind('mediaCollection', payload =>
-          E.tryCatch(
-            () => parseMedias(payload.medias),
-            e => E.toError(e).message ?? 'Failed to parse medias'
-          )
-        ),
-        E.bind('partialTweetProps', payload =>
-          getTweetPropsFromTweetResult(payload.tweetResult)
-        ),
-        E.map(payload => ({
-          user: new TweetUser(payload.userProps),
-          ...payload.mediaCollection,
-          ...payload.partialTweetProps,
-        })),
-        E.map(props => new Tweet(props)),
-        E.mapLeft(r => new ParseTweetError(r)),
-        E.match(toErrorResult<Tweet>, toSuccessResult<Tweet>)
-      )
+      return toSuccessResult(parseTweet(targetTweet).tweet)
+    }
 
-    return parseTweetFromBody(body)
+    return toErrorResult(new ParseTweetError('Invalid body'))
   }
 
   protected parseMetadata(response: Response): ResponseMetadata {
@@ -201,7 +99,7 @@ export abstract class FetchTweetCommand
       O.match<string, ResponseMetadata['remainingQuota']>(
         /**
          * If the header is not present, it might be because the request was not successful.
-         * In this case, we return -1 to indicate that the quota is unknown.
+         * In this case, we return `undefined` to indicate that the quota is unknown.
          */
         () => undefined,
         q => Number.parseInt(q, 10)
@@ -288,35 +186,6 @@ export abstract class FetchTweetCommand
     }
   }
 }
-
-type Hashtag = {
-  text: string
-}
-
-const mightBeHashtag = (entity: unknown): entity is Hashtag =>
-  typeof entity === 'object' &&
-  entity !== null &&
-  'text' in entity &&
-  typeof entity.text === 'string'
-
-const hasHashtags = <T extends Record<string, unknown>>(
-  entity: T
-): entity is T & { hashtags: Hashtag[] } => {
-  const hashtags = entity.hashtags
-  return (
-    Array.isArray(hashtags) &&
-    hashtags.length > 0 &&
-    hashtags.every(mightBeHashtag)
-  )
-}
-
-const parseHashtags = (entity: Record<string, unknown>): string[] =>
-  hasHashtags(entity) ? entity.hashtags.map(v => v.text) : []
-
-const validationResultToEither = <T>(
-  result: ValidationResult<T>
-): E.Either<string, T> =>
-  result.error ? E.left(result.error.message) : E.right(result.value)
 
 const hasErrorProperty = (
   body: unknown

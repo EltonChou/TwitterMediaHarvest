@@ -105,3 +105,41 @@ export const isUser = (user: XApi.BaseUser): user is XApi.User => {
   const { error } = baseUserSchema.concat(userSchema).validate(user)
   return error === undefined
 }
+
+const restIdTweetBodySchema: Joi.ObjectSchema<XApi.TweetByRestIdBody> =
+  Joi.object({
+    data: Joi.object({
+      tweetResult: Joi.object()
+        .custom((value, helper) =>
+          isTweetResult(value) ? value : helper.error('any.invalid')
+        )
+        .required(),
+    }).required(),
+  })
+
+export const isRestIdTweetBody = (
+  body: unknown
+): body is XApi.TweetByRestIdBody => {
+  const { error } = restIdTweetBodySchema.validate(body)
+  return error === undefined
+}
+
+const tweetDetailBodySchema: Joi.ObjectSchema<XApi.TweetDetailBody> =
+  Joi.object({
+    data: Joi.object({
+      threaded_conversation_with_injections_v2: Joi.object({
+        instructions: Joi.array().required(),
+      })
+        .required()
+        .unknown(true),
+    })
+      .required()
+      .unknown(true),
+  }).unknown(true)
+
+export const isTweetDetailBody = (
+  body: unknown
+): body is XApi.TweetDetailBody => {
+  const { error } = tweetDetailBodySchema.validate(body)
+  return error === undefined
+}
