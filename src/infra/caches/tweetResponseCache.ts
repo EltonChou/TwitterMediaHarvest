@@ -8,6 +8,7 @@ import type { PropsOf } from '#domain/valueObjects/base'
 import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetMedia } from '#domain/valueObjects/tweetMedia'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
+import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import Joi from 'joi'
 
@@ -100,9 +101,13 @@ export class TweetResponseCache implements ICache<TweetWithContent> {
       const cache = await this.getCache()
       const request = new Request(makeFakeTweetUrl(item.id))
 
-      const response = new Response(JSON.stringify(item), {
+      const payload = JSON.stringify(item)
+      const response = new Response(payload, {
         headers: {
           'Content-Type': 'application/json',
+          'Content-Length': new TextEncoder()
+            .encode(payload)
+            .buffer.byteLength.toString(),
           'Cache-Control': `max-age=${CACHE_TIME}`,
         },
       })
