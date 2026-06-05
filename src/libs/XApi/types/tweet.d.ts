@@ -91,6 +91,22 @@ declare namespace XApi {
     }
   }
 
+  interface DeviceFollowUser {
+    id_str: string
+    name: string
+    screen_name: string
+    protected?: boolean
+  }
+
+  interface NotificationDeviceFollowBody {
+    globalObjects: {
+      users: { [userId: string]: DeviceFollowUser }
+      tweets: {
+        [tweetId: string]: TweetLegacy | MediaTweetLegacy
+      }
+    }
+  }
+
   interface Instruction {
     type: string
   }

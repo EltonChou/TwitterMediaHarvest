@@ -11,6 +11,7 @@ import {
   eagerParseTweet,
   parseTweet,
   retrieveTweetFromTweetResult,
+  retrieveTweetsFromDeviceFollow,
   retrieveTweetsFromInstruction,
 } from '#libs/XApi/parsers/tweet'
 import { ResponseType } from '#libs/webExtMessage'
@@ -158,6 +159,18 @@ export class CaptureResponseAndCache implements AsyncUseCase<
     return this.cacheTweets(mediaTweets)
   }
 
+  protected async processNotificationDeviceFollowResponse(body: string) {
+    const { value, error: schemaError } = validateBody(
+      body,
+      deviceFollowBodySchema
+    )
+    if (schemaError) return schemaError
+
+    const mediaTweets = retrieveTweetsFromDeviceFollow(value)
+
+    return this.cacheTweets(mediaTweets)
+  }
+
   async process({
     type,
     body,
@@ -203,6 +216,10 @@ export class CaptureResponseAndCache implements AsyncUseCase<
 
       case ResponseType.SearchTimeline:
         error = await this.processSearchTimelineResponse(body)
+        break
+
+      case ResponseType.NotificationsDeviceFollow:
+        error = await this.processNotificationDeviceFollowResponse(body)
         break
 
       default:
@@ -358,6 +375,16 @@ const searchTimelineBodySchema: Joi.ObjectSchema<XApi.SearchTimelineBody> =
           .required()
           .unknown(true),
       }),
+    })
+      .required()
+      .unknown(true),
+  }).unknown(true)
+
+const deviceFollowBodySchema: Joi.ObjectSchema<XApi.NotificationDeviceFollowBody> =
+  Joi.object({
+    globalObjects: Joi.object({
+      users: Joi.object().required(),
+      tweets: Joi.object().required(),
     })
       .required()
       .unknown(true),

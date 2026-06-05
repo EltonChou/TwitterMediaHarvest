@@ -475,6 +475,40 @@ describe('CaptureResponseAndCache', () => {
     expect(mockSaveAll).toHaveBeenCalled()
   })
 
+  it('should handle notification device-follow response', async () => {
+    const validResponse = {
+      globalObjects: {
+        users: {
+          '111': {
+            id_str: '111',
+            name: 'name',
+            screen_name: 'screen_name',
+            protected: false,
+          },
+        },
+        tweets: {
+          '222': {
+            id_str: '222',
+            user_id_str: '111',
+            full_text: 'full_text',
+            created_at: 'Fri May 29 09:56:38 +0000 2026',
+            entities: { hashtags: [] },
+            extended_entities: {
+              media: [{ type: 'photo', media_url_https: 'https://x/1.jpg' }],
+            },
+          },
+        },
+      },
+    }
+
+    await useCase.process({
+      type: ResponseType.NotificationsDeviceFollow,
+      body: JSON.stringify(validResponse),
+    })
+
+    expect(mockSaveAll).toHaveBeenCalled()
+  })
+
   it('should skip non-media tweets in rest tweet response', async () => {
     const nonMediaTweet = {
       data: {

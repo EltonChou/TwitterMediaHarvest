@@ -6,7 +6,13 @@
 const Pattern = Object.freeze({
   tweetRelated:
     /^(?:\/i\/api)?\/graphql\/(?<queryId>.+)?\/(?<queryName>TweetDetail|TweetResultByRestId|UserTweets|UserMedia|HomeTimeline|HomeLatestTimeline|UserTweetsAndReplies|UserHighlightsTweets|UserArticlesTweets|Bookmarks|Likes|CommunitiesExploreTimeline|ListLatestTweetsTimeline|SearchTimeline)$/,
+  notificationDeviceFollow:
+    /^(?:\/i\/api)?\/2\/notifications\/device_follow\.json$/,
 })
+
+const matchTweetRelatedPath = (path: string): boolean =>
+  path.match(Pattern.tweetRelated) !== null ||
+  path.match(Pattern.notificationDeviceFollow) !== null
 
 const enum MediaHarvestEvent {
   MediaResponse = 'mh:media-response',
@@ -31,7 +37,7 @@ XMLHttpRequest.prototype.open = new Proxy(XMLHttpRequest.prototype.open, {
     const [method, url] = args
 
     const validUrl = validateUrl(url)
-    if (validUrl && validUrl.pathname.match(Pattern.tweetRelated)) {
+    if (validUrl && matchTweetRelatedPath(validUrl.pathname)) {
       thisArg.addEventListener('load', captureResponse)
       requesetPathWeakMap.set(thisArg, {
         method,

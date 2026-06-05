@@ -28,6 +28,7 @@ export const enum ResponseType {
   CommunitiesExploreTimeline = 'CommunitiesExploreTimeline',
   ListLatestTweetsTimeline = 'ListLatestTweetsTimeline',
   SearchTimeline = 'SearchTimeline',
+  NotificationsDeviceFollow = 'NotificationDeviceFollow',
   Unknown = 0,
 }
 
@@ -59,7 +60,8 @@ const messageSchema: Joi.ObjectSchema<
         ResponseType.CommunitiesExploreTimeline,
         ResponseType.ListLatestTweetsTimeline,
         ResponseType.HomeLatestTimeline,
-        ResponseType.SearchTimeline
+        ResponseType.SearchTimeline,
+        ResponseType.NotificationsDeviceFollow
       )
       .required(),
     body: Joi.string().required(),

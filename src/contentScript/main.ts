@@ -121,6 +121,10 @@ const responseTypeCriterias: ResponseTypeCriteria[] = [
     type: ResponseType.SearchTimeline,
     endpoint: 'SearchTimeline',
   },
+  {
+    type: ResponseType.NotificationsDeviceFollow,
+    endpoint: 'device_follow.json',
+  },
 ]
 
 const detectResponseTypeByEndpoint = (path: string): ResponseType => {

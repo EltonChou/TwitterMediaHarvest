@@ -31,6 +31,18 @@ export const isMediaTweet = (
   return Object.hasOwn(entities, 'media')
 }
 
+export const isMediaTweetLegacy = (
+  tweet: XApi.TweetLegacy
+): tweet is XApi.MediaTweetLegacy => {
+  if (!('extended_entities' in tweet)) return false
+  const extendedEntities = tweet.extended_entities
+  return (
+    typeof extendedEntities === 'object' &&
+    extendedEntities !== null &&
+    Object.hasOwn(extendedEntities, 'media')
+  )
+}
+
 export const isRetweet = (tweet: XApi.TweetLike): tweet is XApi.RetweetTweet =>
   'retweeted_status_result' in tweet.legacy
 
@@ -141,5 +153,22 @@ export const isTweetDetailBody = (
   body: unknown
 ): body is XApi.TweetDetailBody => {
   const { error } = tweetDetailBodySchema.validate(body)
+  return error === undefined
+}
+
+const deviceFollowBodySchema: Joi.ObjectSchema<XApi.NotificationDeviceFollowBody> =
+  Joi.object({
+    globalObjects: Joi.object({
+      users: Joi.object().required(),
+      tweets: Joi.object().required(),
+    })
+      .required()
+      .unknown(true),
+  }).unknown(true)
+
+export const isDeviceFollowBody = (
+  body: unknown
+): body is XApi.NotificationDeviceFollowBody => {
+  const { error } = deviceFollowBodySchema.validate(body)
   return error === undefined
 }

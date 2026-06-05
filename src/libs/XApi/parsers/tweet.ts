@@ -15,6 +15,7 @@ import {
 import {
   Instruction,
   isMediaTweet,
+  isMediaTweetLegacy,
   isRetweet,
   isTimelineTimelineItem,
   isTimelineTimelineModule,
@@ -69,6 +70,51 @@ export const parseTweet = (
     tweet,
     content: tweetResult.legacy.full_text,
   })
+}
+
+export const parseDeviceFollowUser = (user: XApi.DeviceFollowUser): TweetUser =>
+  new TweetUser({
+    displayName: user.name,
+    screenName: user.screen_name,
+    isProtected: Boolean(user.protected),
+    userId: user.id_str,
+  })
+
+export const parseLegacyTweet = (
+  legacy: XApi.MediaTweetLegacy,
+  user: TweetUser
+): TweetWithContent => {
+  const media = parseMedias(legacy.extended_entities.media)
+
+  const tweet = new Tweet({
+    createdAt: new Date(legacy.created_at),
+    id: legacy.id_str,
+    videos: media.videos,
+    images: media.images,
+    user: user,
+    hashtags: (legacy.entities?.hashtags ?? []).map(hashtag => hashtag.text),
+  })
+
+  return new TweetWithContent({
+    tweet,
+    content: legacy.full_text,
+  })
+}
+
+export const retrieveTweetsFromDeviceFollow = (
+  body: XApi.NotificationDeviceFollowBody
+): TweetWithContent[] => {
+  const { tweets, users } = body.globalObjects
+
+  return Object.values(tweets).reduce<TweetWithContent[]>((acc, legacy) => {
+    if (!isMediaTweetLegacy(legacy)) return acc
+
+    const user = users[legacy.user_id_str]
+    if (!user) return acc
+
+    acc.push(parseLegacyTweet(legacy, parseDeviceFollowUser(user)))
+    return acc
+  }, [])
 }
 
 export const eagerParseTweet = (
