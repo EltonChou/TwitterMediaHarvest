@@ -38,6 +38,7 @@ import {
   downloadSettingsRepo,
   nativeFetchTweetSolution,
   solutionQuotaRepo,
+  tweetResponseCache,
   usageStatisticsRepo,
   warningSettingsRepo,
 } from '#provider'
@@ -73,6 +74,11 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
       // !!Reset warning settings to show the filename overwritten notification for v4.5.0
       async () =>
         await warningSettingsRepo.save({ ignoreFilenameOverwritten: false }),
+      /**
+       * FIXME: Not sure when does browser clean the cache. To prevent large
+       * cache to affect cache manipulation, clean the cache at each update.
+       */
+      async () => await tweetResponseCache.clean(),
     ])
     .register('download:status:dispatched:aria2', [
       increaseUsageStats,

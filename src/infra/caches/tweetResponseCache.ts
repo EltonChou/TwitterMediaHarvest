@@ -125,6 +125,35 @@ export class TweetResponseCache implements ICache<TweetWithContent> {
     if (errors.some(error => error))
       return new Error('Failed to cache some tweet response', { cause: errors })
   }
+
+  /**
+   * Try to clean all cache
+   */
+  async clean(): Promise<UnsafeTask> {
+    try {
+      const cache = await this.getCache()
+      const keys = await cache.keys()
+      const result = await Promise.allSettled(
+        keys.map(key => cache.delete(key))
+      )
+
+      const stats = result.reduce(
+        (stat, result) => {
+          return {
+            success: stat.success + (result ? 1 : 0),
+            failed: stat.failed + (result ? 0 : 1),
+          }
+        },
+        { success: 0, failed: 0 }
+      )
+
+      if (__DEV__) console.debug('Cache clean stats:', JSON.stringify(stats))
+
+      return undefined
+    } catch (error) {
+      return error as Error
+    }
+  }
 }
 
 const makeFakeTweetUrl = (tweetId: string) =>

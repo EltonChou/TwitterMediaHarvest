@@ -29,4 +29,8 @@ export interface ICache<T> {
    * @returns Promise resolving to an UnsafeTask representing the batch save operation
    */
   saveAll(...items: T[]): Promise<UnsafeTask>
+  /**
+   * Clean the cache.
+   */
+  clean(): Promise<UnsafeTask>
 }

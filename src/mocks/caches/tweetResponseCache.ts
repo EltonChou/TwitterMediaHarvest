@@ -16,4 +16,8 @@ export class MockTweetResponseCache implements ICache<TweetWithContent> {
   async saveAll(..._items: TweetWithContent[]): Promise<UnsafeTask> {
     return new Error('Method not implemented.')
   }
+
+  async clean(): Promise<UnsafeTask> {
+    return new Error('Method not implemented.')
+  }
 }
