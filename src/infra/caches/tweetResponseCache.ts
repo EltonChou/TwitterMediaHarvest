@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import type { ICache } from '#domain/repositories/cache'
+import { ITweetCache } from '#domain/repositories/tweet'
 import type { PropsOf } from '#domain/valueObjects/base'
 import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetMedia } from '#domain/valueObjects/tweetMedia'
@@ -52,7 +52,7 @@ const responseSchema: Joi.ObjectSchema<{
 
 const CACHE_TIME = 86400 as const // 24 hours
 
-export class TweetResponseCache implements ICache<TweetWithContent> {
+export class TweetResponseCache implements ITweetCache {
   private cache?: Cache
   constructor() {}
 

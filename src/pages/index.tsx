@@ -15,6 +15,7 @@ import {
   portableDownloadRepo,
   searchDownloadHistory,
   searchTweetIdsByHashtags,
+  tweetResponseCache,
   usageStatisticsRepo,
   warningSettingsRepo,
 } from '#provider'
@@ -71,6 +72,7 @@ switch (params.get('tab')) {
             browserDownload={browserDownloadFile}
             downloadRepo={downloadRepo}
             checkDownloadIsOwnBySelf={checkDownloadIsOwnBySelf}
+            tweetResponseCache={tweetResponseCache}
           />
         </ChakraProvider>
       </React.StrictMode>

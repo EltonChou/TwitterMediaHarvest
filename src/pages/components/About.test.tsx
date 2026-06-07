@@ -24,11 +24,28 @@ describe('unit test for About component', () => {
   })
 
   it('can render properly', async () => {
-    const { container, unmount } = render(<About clientRepo={clientRepo} />)
+    const { container, unmount } = render(
+      <About clientRepo={clientRepo} cleanCache={jest.fn()} />
+    )
 
     const links = screen.getAllByTestId('information-link')
 
     expect(links).toHaveLength(5)
+    expect(container).toMatchSnapshot()
+
+    unmount()
+  })
+
+  it('action button can clean cache', async () => {
+    const mockCleanCache = jest.fn(async () => {})
+    const { container, unmount } = render(
+      <About clientRepo={clientRepo} cleanCache={mockCleanCache} />
+    )
+
+    const cleanCacheBtn = screen.getByTestId('clean-cache-btn')
+
+    cleanCacheBtn.click()
+    expect(mockCleanCache).toHaveBeenCalledOnce()
     expect(container).toMatchSnapshot()
 
     unmount()

@@ -8,7 +8,7 @@ import { getText as i18n } from '#libs/i18n'
 import useClient from '#pages/hooks/useClient'
 import ExtLinks from '#pages/links'
 import { getFullVersion, getName } from '#utils/runtime'
-import { Link, Skeleton, Stack, Text } from '@chakra-ui/react'
+import { Button, HStack, Link, Skeleton, Stack, Text } from '@chakra-ui/react'
 import React, { memo } from 'react'
 
 type ExtensionInformationProps = {
@@ -74,14 +74,43 @@ const Links = () => {
   )
 }
 
-type AboutProps = {
-  clientRepo: IClientRepository
+type ActionsProps = {
+  cleanCache: () => Promise<UnsafeTask>
 }
 
-const About = ({ clientRepo }: AboutProps) => {
+const Actions = ({ cleanCache }: ActionsProps) => {
+  return (
+    <HStack>
+      <Button
+        colorScheme="gray"
+        onClick={
+          () =>
+            /* eslint-disable no-console */
+            cleanCache().then(error =>
+              error
+                ? console.error(error)
+                : console.info('Clean tweet cache by user.')
+            )
+          /* eslint-enable no-console */
+        }
+        data-testid="clean-cache-btn"
+      >
+        Clean Cache
+      </Button>
+    </HStack>
+  )
+}
+
+type AboutProps = {
+  clientRepo: IClientRepository
+  cleanCache: ActionsProps['cleanCache']
+}
+
+const About = ({ clientRepo, cleanCache }: AboutProps) => {
   return (
     <Stack p={'1.5rem'} spacing={10}>
       <ExtensionInformation clientRepo={clientRepo} />
+      <Actions cleanCache={cleanCache} />
       <Links />
     </Stack>
   )

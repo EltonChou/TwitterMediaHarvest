@@ -1,5 +1,102 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
+exports[`unit test for About component action button can clean cache 1`] = `
+<div>
+  <div
+    class="chakra-stack css-8osiqh"
+  >
+    <div
+      class="chakra-stack css-8g8ihq"
+    >
+      <p
+        class="chakra-text css-3fuzg5"
+      />
+      <div
+        class="chakra-skeleton css-fotqef"
+      >
+        <p
+          class="chakra-text css-5ft5pb"
+        >
+          xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+        </p>
+      </div>
+      <p
+        class="chakra-text css-qljqz"
+      >
+        Translated&lt;options:about_Version&gt;
+         
+      </p>
+    </div>
+    <div
+      class="chakra-stack css-1igwmid"
+    >
+      <button
+        class="chakra-button css-4xx2wk"
+        data-testid="clean-cache-btn"
+        type="button"
+      >
+        Clean Cache
+      </button>
+    </div>
+    <div
+      class="chakra-stack css-8g8ihq"
+      data-testid="information-links"
+    >
+      <a
+        class="chakra-link css-10iahqc"
+        data-testid="information-link"
+        href="https://github.com/EltonChou/TwitterMediaHarvest"
+        referrerpolicy="no-referrer"
+        rel="noopener"
+        target="_blank"
+      >
+        Translated&lt;options:about_Official website&gt;
+      </a>
+      <a
+        class="chakra-link css-10iahqc"
+        data-testid="information-link"
+        href="https://github.com/EltonChou/TwitterMediaHarvest/blob/main/PRIVACY_POLICY.md"
+        referrerpolicy="no-referrer"
+        rel="noopener"
+        target="_blank"
+      >
+        Translated&lt;options:about_Privacy policy&gt;
+      </a>
+      <a
+        class="chakra-link css-10iahqc"
+        data-testid="information-link"
+        href="https://github.com/EltonChou/TwitterMediaHarvest/issues"
+        referrerpolicy="no-referrer"
+        rel="noopener"
+        target="_blank"
+      >
+        Translated&lt;options:about_Reoprt issues&gt;
+      </a>
+      <a
+        class="chakra-link css-10iahqc"
+        data-testid="information-link"
+        href="https://github.com/EltonChou/TwitterMediaHarvest/blob/main/CHANGELOG.md#undefined"
+        referrerpolicy="no-referrer"
+        rel="noopener"
+        target="_blank"
+      >
+        Translated&lt;options:about_Changelog&gt;
+      </a>
+      <a
+        class="chakra-link css-10iahqc"
+        data-testid="information-link"
+        href="https://github.com/EltonChou/TwitterMediaHarvest"
+        referrerpolicy="no-referrer"
+        rel="noopener"
+        target="_blank"
+      >
+        Github
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`unit test for About component can render properly 1`] = `
 <div>
   <div
@@ -26,6 +123,17 @@ exports[`unit test for About component can render properly 1`] = `
         Translated&lt;options:about_Version&gt;
          
       </p>
+    </div>
+    <div
+      class="chakra-stack css-1igwmid"
+    >
+      <button
+        class="chakra-button css-4xx2wk"
+        data-testid="clean-cache-btn"
+        type="button"
+      >
+        Clean Cache
+      </button>
     </div>
     <div
       class="chakra-stack css-8g8ihq"
