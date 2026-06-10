@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (4.5.4)\n"
-"POT-Creation-Date: 2026-05-21 14:59+0800\n"
+"POT-Creation-Date: 2026-06-10 08:30+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -175,6 +175,11 @@ msgstr ""
 #: src/pages/components/About.tsx:69
 msgctxt "options:about"
 msgid "Changelog"
+msgstr ""
+
+#: src/pages/components/About.tsx:106
+msgctxt "options:about"
+msgid "Clean Cache"
 msgstr ""
 
 #: src/pages/components/About.tsx:57
@@ -571,37 +576,37 @@ msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr ""
 
-#: src/pages/app/Options.tsx:158
+#: src/pages/app/Options.tsx:161
 #: src/pages/components/SideMenu.tsx:86
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr ""
 
-#: src/pages/app/Options.tsx:167
+#: src/pages/app/Options.tsx:173
 #: src/pages/components/SideMenu.tsx:80
 msgctxt "options:sideMenu"
 msgid "Diagnostics"
 msgstr ""
 
-#: src/pages/app/Options.tsx:116
+#: src/pages/app/Options.tsx:119
 #: src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr ""
 
-#: src/pages/app/Options.tsx:105
+#: src/pages/app/Options.tsx:108
 #: src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr ""
 
-#: src/pages/app/Options.tsx:136
+#: src/pages/app/Options.tsx:139
 #: src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr ""
 
-#: src/pages/app/Options.tsx:124
+#: src/pages/app/Options.tsx:127
 #: src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
