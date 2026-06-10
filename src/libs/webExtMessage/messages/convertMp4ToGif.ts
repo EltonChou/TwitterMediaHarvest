@@ -27,7 +27,7 @@ const payloadSchema: Joi.ObjectSchema<
     ConvertMp4ToGifMessagePayload
   >
 > = Joi.object({
-  action: Joi.valid(WebExtAction.ConvertMp4ToGif),
+  action: Joi.valid(WebExtAction.ConvertMp4ToGif).required(),
   payload: Joi.object<ConvertMp4ToGifMessagePayload>({
     url: Joi.string().required(),
   }).required(),

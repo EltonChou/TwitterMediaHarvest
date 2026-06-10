@@ -20,7 +20,8 @@ const isSenderTab = (
 ): sender is Runtime.MessageSender & { tab: Tabs.Tab } =>
   sender.tab !== undefined
 
-const xUrlPattern = /^https:\/\/(www\.)?x\.com\//
+/** Hosts running our content script, mirroring the manifest matches. */
+const xUrlPattern = /^https:\/\/((www|mobile|tweetdeck)\.)?(x|twitter)\.com\//
 
 const isXTab = (url: string | undefined): boolean =>
   typeof url === 'string' && xUrlPattern.test(url)

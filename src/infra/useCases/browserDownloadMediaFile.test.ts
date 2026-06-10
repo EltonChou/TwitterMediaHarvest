@@ -173,10 +173,11 @@ describe('gif download', () => {
 
   it('keeps the service worker alive while conversion is in progress', async () => {
     jest.useFakeTimers()
+    const runtimeApis = runtime as unknown as Record<string, unknown>
+    const originalGetPlatformInfo = runtimeApis.getPlatformInfo
     try {
       const mockGetPlatformInfo = jest.fn().mockResolvedValue({})
-      ;(runtime as unknown as Record<string, unknown>).getPlatformInfo =
-        mockGetPlatformInfo
+      runtimeApis.getPlatformInfo = mockGetPlatformInfo
       jest.spyOn(downloads, 'download').mockResolvedValue(1)
       let finishConversion: (value: unknown) => void = () => undefined
       jest.spyOn(tabs, 'sendMessage').mockReturnValue(
@@ -194,6 +195,7 @@ describe('gif download', () => {
       finishConversion(okConversionResponse)
       await processing
     } finally {
+      runtimeApis.getPlatformInfo = originalGetPlatformInfo
       jest.useRealTimers()
     }
   })

@@ -23,6 +23,17 @@ describe('unit test for convert mp4 to gif web ext message', () => {
     expect(value).toBeUndefined()
   })
 
+  it('can invalidate message without action', () => {
+    const { value, error } = ConvertMp4ToGifMessage.validate({
+      payload: {
+        url: 'https://video.twimg.com/tweet_video/GbS7YUabsAAfjEP.mp4',
+      },
+    })
+
+    expect(error).toBeDefined()
+    expect(value).toBeUndefined()
+  })
+
   it('can make response', () => {
     const message = new ConvertMp4ToGifMessage({
       url: 'https://video.twimg.com/tweet_video/GbS7YUabsAAfjEP.mp4',

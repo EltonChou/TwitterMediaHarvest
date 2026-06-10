@@ -170,7 +170,10 @@ runtime.onMessage.addListener((message: unknown, _sender, sendResponse) => {
 
   if (action === WebExtAction.RequestTransactionId) {
     const messageResult = RequestTransactionIdMessage.validate(message)
-    if (isErrorResult(messageResult)) return true
+    if (isErrorResult(messageResult)) {
+      sendResponse({ status: 'error', reason: messageResult.error.message })
+      return true
+    }
 
     const txIdMessage = messageResult.value
     const uuid = self.crypto.randomUUID()
@@ -212,6 +215,12 @@ runtime.onMessage.addListener((message: unknown, _sender, sendResponse) => {
     return true
   }
 
+  // Mirror the service worker message router by failing fast on unhandled
+  // actions, so the sender does not wait for a response that never comes.
+  sendResponse({
+    status: 'error',
+    reason: 'Invalid action' + `(action: ${String(action)})`,
+  })
   return true
 })
 

@@ -85,6 +85,27 @@ describe('unit test for download media message handler', () => {
     )
   })
 
+  it('should pass the sender tab id when the sender is a twitter tab', async () => {
+    jest
+      .spyOn(mockFetchTweetSolution, 'process')
+      .mockResolvedValueOnce(toSuccessResult(mockTweet))
+    jest.spyOn(mockDownloadHistoryRepo, 'save').mockResolvedValueOnce(undefined)
+    const browserDownloaderBuilder = jest.spyOn(
+      mockDownloaderBuilder,
+      'browser'
+    )
+
+    await makeHandler()(
+      makeContext({
+        tab: { id: 9, url: 'https://mobile.twitter.com/home' } as never,
+      } as Runtime.MessageSender)
+    )
+
+    expect(browserDownloaderBuilder).toHaveBeenCalledWith(
+      expect.objectContaining({ tabId: 9 })
+    )
+  })
+
   it('should not pass a tab id when the sender is not an x tab', async () => {
     jest
       .spyOn(mockFetchTweetSolution, 'process')
