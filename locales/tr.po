@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.4)\n"
-"POT-Creation-Date: 2026-05-21 14:59+0800\n"
+"POT-Creation-Date: 2026-06-10 08:30+0800\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Translators <>\n"
 "Language-Team: Turkish\n"
@@ -187,6 +187,11 @@ msgstr "Oturumunuzun süresi dolmuş olabilir, lütfen oturumu yenileyin."
 msgctxt "options:about"
 msgid "Changelog"
 msgstr "Değişiklik Günlüğü"
+
+#: src/pages/components/About.tsx:106
+msgctxt "options:about"
+msgid "Clean Cache"
+msgstr "Önbelleği temizle"
 
 #: src/pages/components/About.tsx:57
 msgctxt "options:about"
@@ -612,37 +617,37 @@ msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "İndirmeyi {{aria2-extension}} aracılığıyla Aria2'ye aktar."
 
-#: src/pages/app/Options.tsx:158
+#: src/pages/app/Options.tsx:161
 #: src/pages/components/SideMenu.tsx:86
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "Hakkında"
 
-#: src/pages/app/Options.tsx:167
+#: src/pages/app/Options.tsx:173
 #: src/pages/components/SideMenu.tsx:80
 msgctxt "options:sideMenu"
 msgid "Diagnostics"
 msgstr "Tanılama"
 
-#: src/pages/app/Options.tsx:116
+#: src/pages/app/Options.tsx:119
 #: src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "Özellikler"
 
-#: src/pages/app/Options.tsx:105
+#: src/pages/app/Options.tsx:108
 #: src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "Genel"
 
-#: src/pages/app/Options.tsx:136
+#: src/pages/app/Options.tsx:139
 #: src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "Geçmiş"
 
-#: src/pages/app/Options.tsx:124
+#: src/pages/app/Options.tsx:127
 #: src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
