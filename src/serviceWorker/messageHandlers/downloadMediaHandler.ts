@@ -25,7 +25,7 @@ const xUrlPattern = /^https:\/\/(www\.)?x\.com\//
 const isXTab = (url: string | undefined): boolean =>
   typeof url === 'string' && xUrlPattern.test(url)
 
-const isTabTransactionIdProvider = (
+const isXTabWithId = (
   tab: Tabs.Tab
 ): tab is Tabs.Tab & { id: number; url: string } =>
   typeof tab.id === 'number' && isXTab(tab.url)
@@ -53,12 +53,17 @@ const downloadMessageHandler = (
     )
     if (error) return ctx.response(makeErrorResponse(error.message))
 
+    const senderTab =
+      isSenderTab(ctx.sender) && isXTabWithId(ctx.sender.tab)
+        ? ctx.sender.tab
+        : undefined
+
     const isOk = await downloadTweetMedia.process({
       tweetInfo: new TweetInfo(message.payload),
-      xTransactionIdProvider:
-        isSenderTab(ctx.sender) && isTabTransactionIdProvider(ctx.sender.tab)
-          ? tabTransactionIdProvider(ctx.sender.tab.id)
-          : undefined,
+      xTransactionIdProvider: senderTab
+        ? tabTransactionIdProvider(senderTab.id)
+        : undefined,
+      tabId: senderTab?.id,
     })
 
     return ctx.response(

@@ -20,6 +20,7 @@ export interface DownloadMediaFileUseCase
 type BuilderParams = {
   targetTweet: TweetInfo
   shouldPrompt: boolean
+  tabId?: number
 }
 
 export type DownloadMediaFileUseCaseBuilder = (

@@ -37,7 +37,8 @@ export const initMessageRouter = (router: MessageRouter): MessageRouter =>
           browser: params =>
             new BrowserDownloadMediaFile(
               params.targetTweet,
-              params.shouldPrompt
+              params.shouldPrompt,
+              params.tabId
             ),
         },
         tweetCacheRepo: tweetResponseCache,

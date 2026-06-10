@@ -48,7 +48,7 @@ export const parseMedias = (medias: XApi.Media[]): MediaCollection => {
         mediaCollection.videos.push(
           new TweetMedia({
             index: videoIndex,
-            type: 'video',
+            type: media.type === 'animated_gif' ? 'gif' : 'video',
             url: url,
             available: videoAvailable,
           })

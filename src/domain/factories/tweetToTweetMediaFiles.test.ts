@@ -91,6 +91,41 @@ describe('unit test for tweet to tweet media files factory', () => {
     expect(tweetMediaFiles).toStrictEqual(expectedFiles)
   })
 
+  it('maps gif media to a gif file with a gif extension', () => {
+    const tweetUser = generateTweetUser()
+    const tweet = new Tweet({
+      id: '1145141919810',
+      user: tweetUser,
+      createdAt: new Date(2222, 2, 2),
+      hashtags: [],
+      images: [],
+      videos: [
+        new TweetMedia({
+          index: 0,
+          type: 'gif',
+          url: 'https://video.twimg.com/tweet_video/hash.mp4',
+        }),
+      ],
+    })
+
+    const tweetMediaFiles = tweetToTweetMediaFiles(tweet)
+
+    const expectedFiles = [
+      new TweetMediaFile({
+        createdAt: new Date(2222, 2, 2),
+        ext: '.gif',
+        hash: 'hash',
+        serial: 1,
+        source: 'https://video.twimg.com/tweet_video/hash.mp4',
+        tweetId: '1145141919810',
+        tweetUser: tweetUser,
+        type: 'gif',
+      }),
+    ]
+
+    expect(tweetMediaFiles).toStrictEqual(expectedFiles)
+  })
+
   it('skips unavailable media but preserves serial numbers', () => {
     const tweetUser = generateTweetUser()
     const tweet = new Tweet({

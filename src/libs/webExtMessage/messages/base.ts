@@ -9,6 +9,7 @@ export const enum WebExtAction {
   CheckDownloadHistory = 'check-download-history',
   CaptureResponse = 'capture-response',
   RequestTransactionId = 'request-tx-id',
+  ConvertMp4ToGif = 'convert-mp4-to-gif',
 }
 
 export type WebExtMessageObject<

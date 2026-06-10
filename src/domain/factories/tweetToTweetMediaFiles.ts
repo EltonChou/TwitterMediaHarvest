@@ -43,7 +43,7 @@ const mediaFromTweetToTweetMediaFile = (
       type: mediaToTweetMediaType(tweetMedia),
       source: tweetMedia.getVariantUrl('orig'),
       serial: mediaToSerial(tweetMedia),
-      ext: pathInfo.ext,
+      ext: tweetMedia.isGif ? '.gif' : pathInfo.ext,
       hash: pathInfo.name,
     })
   }
@@ -63,6 +63,9 @@ const mediaToTweetMediaType: Factory<
 
       case 'video':
         return 'video'
+
+      case 'gif':
+        return 'gif'
     }
   })
 

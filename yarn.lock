@@ -9342,6 +9342,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gifshot@npm:^0.4.5":
+  version: 0.4.5
+  resolution: "gifshot@npm:0.4.5"
+  checksum: 10c0/d26a44cf733cff16927392234b7620b0893ed3eae286231a1dab3067fce3757c232178399398f5c2aaf642c16c126efe3eb9f65a91109abc32b1fa2c7bdd5bb2
+  languageName: node
+  linkType: hard
+
 "glob-parent@npm:^5.1.2, glob-parent@npm:~5.1.2":
   version: 5.1.2
   resolution: "glob-parent@npm:5.1.2"
@@ -14432,6 +14439,7 @@ __metadata:
     framer-motion: "npm:^12.38.0"
     gettext-extractor: "npm:^4.0.6"
     gettext-parser: "npm:^9.0.2"
+    gifshot: "npm:^0.4.5"
     glob: "npm:^13.0.6"
     globals: "npm:^17.4.0"
     husky: "npm:^9.1.7"

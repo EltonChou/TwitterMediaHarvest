@@ -47,6 +47,7 @@ import { metrics } from '@sentry/browser'
 type DownloadTweetMediaCommand = {
   tweetInfo: TweetInfo
   xTransactionIdProvider?: TransactionIdProvider
+  tabId?: number
 }
 
 export type DownloaderBuilderMap = {
@@ -74,9 +75,13 @@ export class DownloadTweetMedia implements AsyncUseCase<
   async process({
     tweetInfo,
     xTransactionIdProvider,
+    tabId,
   }: DownloadTweetMediaCommand): Promise<boolean> {
     if (__METRICS__) metrics.count('usecase.downloadTweetMedia.invoked', 1)
-    const isSuccessDownloadFromCache = await this.downloadFromCache(tweetInfo)
+    const isSuccessDownloadFromCache = await this.downloadFromCache(
+      tweetInfo,
+      tabId
+    )
     if (isSuccessDownloadFromCache) return this.successDownloadFromCache()
 
     if (__METRICS__) metrics.count('usecase.downloadTweetMedia.cacheMiss', 1)
@@ -109,7 +114,7 @@ export class DownloadTweetMedia implements AsyncUseCase<
 
     return isErrorResult(tweetResult)
       ? this.failDownload(tweetResult.error, tweetInfo)
-      : this.processDownload(tweetInfo, tweetResult.value)
+      : this.processDownload(tweetInfo, tweetResult.value, tabId)
   }
 
   private async successDownloadFromCache(): Promise<boolean> {
@@ -117,7 +122,10 @@ export class DownloadTweetMedia implements AsyncUseCase<
     return true
   }
 
-  private async downloadFromCache(tweetInfo: TweetInfo): Promise<boolean> {
+  private async downloadFromCache(
+    tweetInfo: TweetInfo,
+    tabId?: number
+  ): Promise<boolean> {
     const { value: tweet } = await this.infra.tweetCacheRepo.get(
       tweetInfo.tweetId
     )
@@ -130,13 +138,17 @@ export class DownloadTweetMedia implements AsyncUseCase<
     const tweetVo =
       tweet instanceof Tweet ? tweet : tweet.mapBy(props => props.tweet)
 
-    return this.processDownload(tweetInfo, tweetVo)
+    return this.processDownload(tweetInfo, tweetVo, tabId)
   }
 
-  private async processDownload(tweetInfo: TweetInfo, tweet: Tweet) {
+  private async processDownload(
+    tweetInfo: TweetInfo,
+    tweet: Tweet,
+    tabId?: number
+  ) {
     await this.saveDownloadHistory(tweetToDownloadHistory(tweet))
 
-    const downloader = await this.buildDownloader(tweetInfo)
+    const downloader = await this.buildDownloader(tweetInfo, tabId)
     const downloadCommands = await this.createDownloadCommands(tweet)
 
     await Promise.allSettled(
@@ -215,7 +227,7 @@ export class DownloadTweetMedia implements AsyncUseCase<
     }
   }
 
-  private async buildDownloader(tweetInfo: TweetInfo) {
+  private async buildDownloader(tweetInfo: TweetInfo, tabId?: number) {
     const { enableAria2, askWhereToSave } =
       await this.infra.downloadSettingsRepo.get()
 
@@ -226,6 +238,7 @@ export class DownloadTweetMedia implements AsyncUseCase<
     return buildDownloaderWith({
       targetTweet: tweetInfo,
       shouldPrompt: askWhereToSave,
+      tabId: tabId,
     })
   }
 

@@ -11,6 +11,26 @@ describe('TweetMedia', () => {
     expect(media.isThumbnail).toBe(false)
   })
 
+  it('should identify gif type as both gif and video', () => {
+    const media = TweetMedia.create({
+      type: 'gif',
+      index: 0,
+      url: 'https://video.twimg.com/tweet_video/abc.mp4',
+    })
+    expect(media.isGif).toBe(true)
+    expect(media.isVideo).toBe(true)
+    expect(media.isThumbnail).toBe(false)
+  })
+
+  it('should not identify plain video as gif', () => {
+    const media = TweetMedia.create({
+      type: 'video',
+      index: 0,
+      url: 'https://t.co/video.mp4',
+    })
+    expect(media.isGif).toBe(false)
+  })
+
   it('should identify thumbnail type', () => {
     const media = TweetMedia.create({
       type: 'thumbnail',

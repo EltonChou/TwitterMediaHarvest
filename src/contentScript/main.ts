@@ -6,10 +6,12 @@
 import { FeatureSettingsRepository } from '#infra/repositories/featureSettings'
 import { LocalExtensionStorageProxy } from '#infra/storageProxy'
 import { sendMessage } from '#libs/webExtMessage'
+import { WebExtAction } from '#libs/webExtMessage'
 import {
   CaptureResponseMessage,
   ResponseType,
 } from '#libs/webExtMessage/messages/captureResponse'
+import { ConvertMp4ToGifMessage } from '#libs/webExtMessage/messages/convertMp4ToGif'
 import { RequestTransactionIdMessage } from '#libs/webExtMessage/messages/requestTransactionId'
 import { isErrorResult } from '#utils/result'
 import {
@@ -20,6 +22,7 @@ import './main.sass'
 import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
 import { isBetaTweetDeck, isTwitter } from './utils/checker'
+import gifshot from 'gifshot'
 import { runtime } from 'webextension-polyfill'
 
 /**
@@ -144,35 +147,107 @@ document.addEventListener('mh:media-response', async e => {
   )
 })
 
-runtime.onMessage.addListener((message, _sender, sendResponse) => {
-  const messageResult = RequestTransactionIdMessage.validate(message)
-  if (isErrorResult(messageResult)) return true
+const getMessageAction = (message: unknown): WebExtAction | undefined =>
+  typeof message === 'object' && message !== null && 'action' in message
+    ? (message as { action: WebExtAction }).action
+    : undefined
 
-  const txIdMessage = messageResult.value
-  const uuid = self.crypto.randomUUID()
+/**
+ * Gif sources are mp4 files, so the media has to be converted to gif frames
+ * with DOM elements (video and canvas), which are not available in the
+ * service worker.
+ */
+const convertMp4ToGif = (
+  message: ConvertMp4ToGifMessage,
+  sendResponse: (response: unknown) => void
+) => {
+  const { url } = message.payload
 
-  document.addEventListener(
-    'mh:tx-id:response',
-    function responseTxId(ev: CustomEvent<MediaHarvest.TxIdResponseDetail>) {
-      const { uuid: respUUID, value } = ev.detail
-      if (respUUID !== uuid) return
+  const video = document.createElement('video')
+  video.preload = 'metadata'
+  video.crossOrigin = 'anonymous'
+  video.src = url
 
-      sendResponse(txIdMessage.makeResponse(true, { transactionId: value }))
+  video.addEventListener('loadedmetadata', () => {
+    const interval = 0.1
+    const numFrames = Math.max(
+      5,
+      Math.min(100, Math.ceil((video.duration || 1) / interval))
+    )
 
-      document.removeEventListener('mh:tx-id:response', responseTxId)
+    gifshot.createGIF(
+      {
+        video: [url],
+        gifWidth: video.videoWidth,
+        gifHeight: video.videoHeight,
+        interval,
+        numFrames,
+        numWorkers: 2,
+        sampleInterval: 10,
+      },
+      result =>
+        sendResponse(
+          result.error
+            ? message.makeResponse(
+                false,
+                result.errorMsg || 'Failed to convert to GIF'
+              )
+            : message.makeResponse(true, { dataUrl: result.image })
+        )
+    )
+  })
+
+  video.addEventListener('error', () =>
+    sendResponse(message.makeResponse(false, 'Failed to load video metadata'))
+  )
+}
+
+runtime.onMessage.addListener((message: unknown, _sender, sendResponse) => {
+  const action = getMessageAction(message)
+
+  if (action === WebExtAction.RequestTransactionId) {
+    const messageResult = RequestTransactionIdMessage.validate(message)
+    if (isErrorResult(messageResult)) return true
+
+    const txIdMessage = messageResult.value
+    const uuid = self.crypto.randomUUID()
+
+    document.addEventListener(
+      'mh:tx-id:response',
+      function responseTxId(ev: CustomEvent<MediaHarvest.TxIdResponseDetail>) {
+        const { uuid: respUUID, value } = ev.detail
+        if (respUUID !== uuid) return
+
+        sendResponse(txIdMessage.makeResponse(true, { transactionId: value }))
+
+        document.removeEventListener('mh:tx-id:response', responseTxId)
+      }
+    )
+
+    const { method, path } = txIdMessage.payload
+    document.dispatchEvent(
+      new CustomEvent<MediaHarvest.TxIdRequestDetail>('mh:tx-id:request', {
+        detail: makePageScriptSharedObject({
+          uuid,
+          method,
+          path,
+        }),
+      })
+    )
+
+    return true
+  }
+
+  if (action === WebExtAction.ConvertMp4ToGif) {
+    const messageResult = ConvertMp4ToGifMessage.validate(message)
+    if (isErrorResult(messageResult)) {
+      sendResponse({ status: 'error', reason: messageResult.error.message })
+      return true
     }
-  )
 
-  const { method, path } = txIdMessage.payload
-  document.dispatchEvent(
-    new CustomEvent<MediaHarvest.TxIdRequestDetail>('mh:tx-id:request', {
-      detail: makePageScriptSharedObject({
-        uuid,
-        method,
-        path,
-      }),
-    })
-  )
+    convertMp4ToGif(messageResult.value, sendResponse)
+    return true
+  }
 
   return true
 })

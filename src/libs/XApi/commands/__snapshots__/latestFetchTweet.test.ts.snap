@@ -114,13 +114,13 @@ exports[`unit test for latest fetch tweet command should return a successful res
         {
           "available": true,
           "index": 0,
-          "type": "video",
+          "type": "gif",
           "url": "https://video.twimg.com/tweet_video/GWThuAObQAEwO3_.mp4",
         },
         {
           "available": true,
           "index": 1,
-          "type": "video",
+          "type": "gif",
           "url": "https://video.twimg.com/tweet_video/GWThvdZbQAI2bgw.mp4",
         },
       ],
@@ -160,7 +160,7 @@ exports[`unit test for latest fetch tweet command should return a successful res
         {
           "available": true,
           "index": 0,
-          "type": "video",
+          "type": "gif",
           "url": "https://video.twimg.com/tweet_video/GmFIv_7bcAM-RZa.mp4",
         },
       ],

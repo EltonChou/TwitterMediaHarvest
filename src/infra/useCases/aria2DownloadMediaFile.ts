@@ -28,7 +28,9 @@ export class Aria2DownloadMediaFile implements DownloadMediaFileUseCase {
 
   async process(command: DownloadMediaFileCommand): Promise<void> {
     const payload = command.target.mapBy(props => ({
-      filename: props.filename,
+      // aria2 downloads the source bytes as-is and gif sources are mp4 files,
+      // so the filename has to match the source instead of the gif format.
+      filename: props.filename.replace(/\.gif$/, '.mp4'),
       url: props.url,
     }))
     const message = new Aria2DownloadMessage({
