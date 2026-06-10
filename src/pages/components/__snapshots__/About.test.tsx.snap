@@ -12,12 +12,12 @@ exports[`unit test for About component action button can clean cache 1`] = `
         class="chakra-text css-3fuzg5"
       />
       <div
-        class="chakra-skeleton css-fotqef"
+        class="chakra-skeleton css-ahyunb"
       >
         <p
           class="chakra-text css-5ft5pb"
         >
-          xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+          uuid
         </p>
       </div>
       <p
@@ -35,7 +35,7 @@ exports[`unit test for About component action button can clean cache 1`] = `
         data-testid="clean-cache-btn"
         type="button"
       >
-        Clean Cache
+        Translated&lt;options:about_Clean Cache&gt;
       </button>
     </div>
     <div
@@ -132,7 +132,7 @@ exports[`unit test for About component can render properly 1`] = `
         data-testid="clean-cache-btn"
         type="button"
       >
-        Clean Cache
+        Translated&lt;options:about_Clean Cache&gt;
       </button>
     </div>
     <div

@@ -9,7 +9,7 @@ import useClient from '#pages/hooks/useClient'
 import ExtLinks from '#pages/links'
 import { getFullVersion, getName } from '#utils/runtime'
 import { Button, HStack, Link, Skeleton, Stack, Text } from '@chakra-ui/react'
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 
 type ExtensionInformationProps = {
   clientRepo: IClientRepository
@@ -74,37 +74,51 @@ const Links = () => {
   )
 }
 
-type ActionsProps = {
+type ActionsProps = CleanCacheButtonProps & {}
+
+type CleanCacheButtonProps = {
   cleanCache: () => Promise<UnsafeTask>
+}
+
+const CleanCacheButton = ({ cleanCache }: CleanCacheButtonProps) => {
+  const [isCleaning, setIsCleaning] = useState(false)
+
+  const handleClick = async () => {
+    setIsCleaning(true)
+    try {
+      const error = await cleanCache()
+      /* eslint-disable no-console */
+      if (error) console.error(error)
+      else console.info('Clean tweet cache by user.')
+      /* eslint-enable no-console */
+    } finally {
+      setIsCleaning(false)
+    }
+  }
+
+  return (
+    <Button
+      colorScheme="gray"
+      onClick={handleClick}
+      isLoading={isCleaning}
+      data-testid="clean-cache-btn"
+    >
+      {i18n('Clean Cache', 'options:about')}
+    </Button>
+  )
 }
 
 const Actions = ({ cleanCache }: ActionsProps) => {
   return (
     <HStack>
-      <Button
-        colorScheme="gray"
-        onClick={
-          () =>
-            /* eslint-disable no-console */
-            cleanCache().then(error =>
-              error
-                ? console.error(error)
-                : console.info('Clean tweet cache by user.')
-            )
-          /* eslint-enable no-console */
-        }
-        data-testid="clean-cache-btn"
-      >
-        Clean Cache
-      </Button>
+      <CleanCacheButton cleanCache={cleanCache} />
     </HStack>
   )
 }
 
 type AboutProps = {
   clientRepo: IClientRepository
-  cleanCache: ActionsProps['cleanCache']
-}
+} & ActionsProps
 
 const About = ({ clientRepo, cleanCache }: AboutProps) => {
   return (

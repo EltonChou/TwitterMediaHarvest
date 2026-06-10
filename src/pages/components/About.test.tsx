@@ -5,7 +5,7 @@ import { MockClientRepository } from '#mocks/repositories/client'
 import { toSuccessResult } from '#utils/result'
 import { generateClient } from '#utils/test/client'
 import About from './About'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import 'core-js/stable/structured-clone'
 import React from 'react'
 
@@ -46,7 +46,35 @@ describe('unit test for About component', () => {
 
     cleanCacheBtn.click()
     expect(mockCleanCache).toHaveBeenCalledOnce()
+    await waitFor(() => expect(cleanCacheBtn).not.toBeDisabled())
     expect(container).toMatchSnapshot()
+
+    unmount()
+  })
+
+  it('shows loading state while cleaning cache', async () => {
+    let resolveClean: (value?: UnsafeTask) => void = () => undefined
+    const mockCleanCache = jest.fn(
+      () =>
+        new Promise<UnsafeTask>(resolve => {
+          resolveClean = resolve
+        })
+    )
+    const { unmount } = render(
+      <About clientRepo={clientRepo} cleanCache={mockCleanCache} />
+    )
+
+    const cleanCacheBtn = screen.getByTestId('clean-cache-btn')
+
+    cleanCacheBtn.click()
+
+    // Loading: button disabled while the promise is pending.
+    await waitFor(() => expect(cleanCacheBtn).toBeDisabled())
+
+    resolveClean(undefined)
+
+    // Loading finished: button re-enabled.
+    await waitFor(() => expect(cleanCacheBtn).not.toBeDisabled())
 
     unmount()
   })
