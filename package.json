@@ -23,7 +23,7 @@
     "@smithy/signature-v4": "^5.3.12",
     "fp-ts": "^2.16.11",
     "framer-motion": "^12.38.0",
-    "gifshot": "^0.4.5",
+    "gifenc": "^1.0.3",
     "idb": "^8.0.3",
     "joi": "^18.1.2",
     "jwt-decode": "^4.0.0",

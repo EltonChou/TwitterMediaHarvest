@@ -22,7 +22,7 @@ import './main.sass'
 import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
 import { isBetaTweetDeck, isTwitter } from './utils/checker'
-import gifshot from 'gifshot'
+import { convertMp4UrlToGifDataUrl } from './utils/mp4ToGif'
 import { runtime } from 'webextension-polyfill'
 
 /**
@@ -152,54 +152,17 @@ const getMessageAction = (message: unknown): WebExtAction | undefined =>
     ? (message as { action: WebExtAction }).action
     : undefined
 
-/**
- * Gif sources are mp4 files, so the media has to be converted to gif frames
- * with DOM elements (video and canvas), which are not available in the
- * service worker.
- */
 const convertMp4ToGif = (
   message: ConvertMp4ToGifMessage,
   sendResponse: (response: unknown) => void
 ) => {
-  const { url } = message.payload
-
-  const video = document.createElement('video')
-  video.preload = 'metadata'
-  video.crossOrigin = 'anonymous'
-  video.src = url
-
-  video.addEventListener('loadedmetadata', () => {
-    const interval = 0.1
-    const numFrames = Math.max(
-      5,
-      Math.min(100, Math.ceil((video.duration || 1) / interval))
+  convertMp4UrlToGifDataUrl(message.payload.url)
+    .then(dataUrl => sendResponse(message.makeResponse(true, { dataUrl })))
+    .catch((error: Error) =>
+      sendResponse(
+        message.makeResponse(false, error.message || 'Failed to convert to GIF')
+      )
     )
-
-    gifshot.createGIF(
-      {
-        video: [url],
-        gifWidth: video.videoWidth,
-        gifHeight: video.videoHeight,
-        interval,
-        numFrames,
-        numWorkers: 2,
-        sampleInterval: 10,
-      },
-      result =>
-        sendResponse(
-          result.error
-            ? message.makeResponse(
-                false,
-                result.errorMsg || 'Failed to convert to GIF'
-              )
-            : message.makeResponse(true, { dataUrl: result.image })
-        )
-    )
-  })
-
-  video.addEventListener('error', () =>
-    sendResponse(message.makeResponse(false, 'Failed to load video metadata'))
-  )
 }
 
 runtime.onMessage.addListener((message: unknown, _sender, sendResponse) => {

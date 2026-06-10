@@ -9342,10 +9342,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gifshot@npm:^0.4.5":
-  version: 0.4.5
-  resolution: "gifshot@npm:0.4.5"
-  checksum: 10c0/d26a44cf733cff16927392234b7620b0893ed3eae286231a1dab3067fce3757c232178399398f5c2aaf642c16c126efe3eb9f65a91109abc32b1fa2c7bdd5bb2
+"gifenc@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "gifenc@npm:1.0.3"
+  checksum: 10c0/34fc6b2c66c305fc556cd2f475154ce2ad68384a52ceb8253b901c8c7d9c63f2c0a5d109ceb3cb46e44c2c6155009920a286cf08a621105863aa43468e345229
   languageName: node
   linkType: hard
 
@@ -14439,7 +14439,7 @@ __metadata:
     framer-motion: "npm:^12.38.0"
     gettext-extractor: "npm:^4.0.6"
     gettext-parser: "npm:^9.0.2"
-    gifshot: "npm:^0.4.5"
+    gifenc: "npm:^1.0.3"
     glob: "npm:^13.0.6"
     globals: "npm:^17.4.0"
     husky: "npm:^9.1.7"
