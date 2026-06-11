@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.4)\n"
-"POT-Creation-Date: 2026-06-10 08:30+0800\n"
+"POT-Creation-Date: 2026-06-12 05:24+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -185,32 +185,32 @@ msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "Ваша сессия могла истечь — обновите страницу."
 
-#: src/pages/components/About.tsx:69
+#: src/pages/components/About.tsx:79
 msgctxt "options:about"
 msgid "Changelog"
 msgstr "Журнал изменений"
 
-#: src/pages/components/About.tsx:106
+#: src/pages/components/About.tsx:126
 msgctxt "options:about"
 msgid "Clean Cache"
 msgstr "Очистить кэш"
 
-#: src/pages/components/About.tsx:57
+#: src/pages/components/About.tsx:67
 msgctxt "options:about"
 msgid "Official website"
 msgstr "Официальный сайт"
 
-#: src/pages/components/About.tsx:61
+#: src/pages/components/About.tsx:71
 msgctxt "options:about"
 msgid "Privacy policy"
 msgstr "Политика конфиденциальности"
 
-#: src/pages/components/About.tsx:65
+#: src/pages/components/About.tsx:75
 msgctxt "options:about"
 msgid "Reoprt issues"
 msgstr "Сообщить об ошибке"
 
-#: src/pages/components/About.tsx:30
+#: src/pages/components/About.tsx:40
 msgctxt "options:about"
 msgid "Version"
 msgstr "Версия"

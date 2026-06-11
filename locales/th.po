@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.4)\n"
-"POT-Creation-Date: 2026-06-10 08:30+0800\n"
+"POT-Creation-Date: 2026-06-12 05:24+0800\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Translators <>\n"
 "Language-Team: Thai\n"
@@ -182,32 +182,32 @@ msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "เซสชันการเข้าสู่ระบบอาจหมดอายุ กรุณาเข้าสู่ระบบใหม่"
 
-#: src/pages/components/About.tsx:69
+#: src/pages/components/About.tsx:79
 msgctxt "options:about"
 msgid "Changelog"
 msgstr "บันทึกการเปลี่ยนแปลง"
 
-#: src/pages/components/About.tsx:106
+#: src/pages/components/About.tsx:126
 msgctxt "options:about"
 msgid "Clean Cache"
 msgstr "ล้างแคช"
 
-#: src/pages/components/About.tsx:57
+#: src/pages/components/About.tsx:67
 msgctxt "options:about"
 msgid "Official website"
 msgstr "เว็บไซต์ทางการ"
 
-#: src/pages/components/About.tsx:61
+#: src/pages/components/About.tsx:71
 msgctxt "options:about"
 msgid "Privacy policy"
 msgstr "นโยบายความเป็นส่วนตัว"
 
-#: src/pages/components/About.tsx:65
+#: src/pages/components/About.tsx:75
 msgctxt "options:about"
 msgid "Reoprt issues"
 msgstr "รายงานปัญหา"
 
-#: src/pages/components/About.tsx:30
+#: src/pages/components/About.tsx:40
 msgctxt "options:about"
 msgid "Version"
 msgstr "เวอร์ชัน"

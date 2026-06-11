@@ -52,6 +52,55 @@ describe('unit test for About component', () => {
     unmount()
   })
 
+  it('shows the idle icon before any action', () => {
+    const { unmount } = render(
+      <About clientRepo={clientRepo} cleanCache={jest.fn()} />
+    )
+
+    expect(screen.getByTestId('clean-cache-state-icon')).toHaveAttribute(
+      'data-state',
+      'idle'
+    )
+
+    unmount()
+  })
+
+  it('shows the success icon after cleaning cache', async () => {
+    const mockCleanCache = jest.fn(async () => undefined)
+    const { unmount } = render(
+      <About clientRepo={clientRepo} cleanCache={mockCleanCache} />
+    )
+
+    screen.getByTestId('clean-cache-btn').click()
+
+    await waitFor(() =>
+      expect(screen.getByTestId('clean-cache-state-icon')).toHaveAttribute(
+        'data-state',
+        'success'
+      )
+    )
+
+    unmount()
+  })
+
+  it('shows the failed icon when cleaning cache fails', async () => {
+    const mockCleanCache = jest.fn(async () => new Error('boom'))
+    const { unmount } = render(
+      <About clientRepo={clientRepo} cleanCache={mockCleanCache} />
+    )
+
+    screen.getByTestId('clean-cache-btn').click()
+
+    await waitFor(() =>
+      expect(screen.getByTestId('clean-cache-state-icon')).toHaveAttribute(
+        'data-state',
+        'failed'
+      )
+    )
+
+    unmount()
+  })
+
   it('shows loading state while cleaning cache', async () => {
     let resolveClean: (value?: UnsafeTask) => void = () => undefined
     const mockCleanCache = jest.fn(
