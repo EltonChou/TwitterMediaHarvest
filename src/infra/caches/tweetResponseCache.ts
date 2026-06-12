@@ -139,14 +139,30 @@ export class TweetResponseCache implements ITweetCache {
 
       const stats = result.reduce(
         (stat, result) => {
+          if (__DEV__ && result.status === 'rejected') {
+            const log =
+              // eslint-disable-next-line no-console
+              result.reason instanceof Error ? console.error : console.debug
+
+            log(result.reason)
+          }
+
           return {
-            success: stat.success + (result ? 1 : 0),
-            failed: stat.failed + (result ? 0 : 1),
+            success:
+              stat.success +
+              (result.status === 'fulfilled' && result.value ? 1 : 0),
+            failed:
+              stat.failed +
+              (result.status === 'rejected' ||
+              (result.status === 'fulfilled' && !result.value)
+                ? 0
+                : 1),
           }
         },
         { success: 0, failed: 0 }
       )
 
+      // eslint-disable-next-line no-console
       if (__DEV__) console.debug('Cache clean stats:', JSON.stringify(stats))
 
       return undefined
