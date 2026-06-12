@@ -123,7 +123,10 @@ export class TweetResponseCache implements ITweetCache {
     if (items.length === 0) return
     const errors = await Promise.all(items.map(item => this.save(item)))
     if (errors.some(error => error))
-      return new Error('Failed to cache some tweet response', { cause: errors })
+      return new AggregateError(
+        errors.filter(Boolean),
+        'Failed to cache some tweet response'
+      )
   }
 
   /**
