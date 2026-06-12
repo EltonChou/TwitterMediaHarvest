@@ -155,8 +155,8 @@ export class TweetResponseCache implements ITweetCache {
               stat.failed +
               (result.status === 'rejected' ||
               (result.status === 'fulfilled' && !result.value)
-                ? 0
-                : 1),
+                ? 1
+                : 0),
           }
         },
         { success: 0, failed: 0 }
