@@ -136,11 +136,11 @@ export class TweetResponseCache implements ITweetCache {
     try {
       const cache = await this.getCache()
       const keys = await cache.keys()
-      const result = await Promise.allSettled(
+      const results = await Promise.allSettled(
         keys.map(key => cache.delete(key))
       )
 
-      const stats = result.reduce(
+      const stats = results.reduce(
         (stat, result) => {
           if (__DEV__ && result.status === 'rejected') {
             const log =
