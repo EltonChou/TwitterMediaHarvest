@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import type { ICache } from '#domain/repositories/cache'
+import { ITweetCache } from '#domain/repositories/tweet'
 import type { PropsOf } from '#domain/valueObjects/base'
 import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetMedia } from '#domain/valueObjects/tweetMedia'
@@ -52,7 +52,7 @@ const responseSchema: Joi.ObjectSchema<{
 
 const CACHE_TIME = 86400 as const // 24 hours
 
-export class TweetResponseCache implements ICache<TweetWithContent> {
+export class TweetResponseCache implements ITweetCache {
   private cache?: Cache
   constructor() {}
 
@@ -123,7 +123,55 @@ export class TweetResponseCache implements ICache<TweetWithContent> {
     if (items.length === 0) return
     const errors = await Promise.all(items.map(item => this.save(item)))
     if (errors.some(error => error))
-      return new Error('Failed to cache some tweet response', { cause: errors })
+      return new AggregateError(
+        errors.filter(Boolean),
+        'Failed to cache some tweet response'
+      )
+  }
+
+  /**
+   * Try to clean all cache
+   */
+  async clean(): Promise<UnsafeTask> {
+    try {
+      const cache = await this.getCache()
+      const keys = await cache.keys()
+      const results = await Promise.allSettled(
+        keys.map(key => cache.delete(key))
+      )
+
+      const stats = results.reduce(
+        (stat, result) => {
+          if (__DEV__ && result.status === 'rejected') {
+            const log =
+              // eslint-disable-next-line no-console
+              result.reason instanceof Error ? console.error : console.debug
+
+            log(result.reason)
+          }
+
+          return {
+            success:
+              stat.success +
+              (result.status === 'fulfilled' && result.value ? 1 : 0),
+            failed:
+              stat.failed +
+              (result.status === 'rejected' ||
+              (result.status === 'fulfilled' && !result.value)
+                ? 1
+                : 0),
+          }
+        },
+        { success: 0, failed: 0 }
+      )
+
+      // eslint-disable-next-line no-console
+      if (__DEV__) console.debug('Cache clean stats:', JSON.stringify(stats))
+
+      return undefined
+    } catch (error) {
+      return error as Error
+    }
   }
 }
 

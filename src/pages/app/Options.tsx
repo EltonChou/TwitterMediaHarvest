@@ -8,6 +8,7 @@ import type { IDownloadRepository } from '#domain/repositories/download'
 import type { IDownloadHistoryRepository } from '#domain/repositories/downloadHistory'
 import type { IPortableDownloadHistoryRepository } from '#domain/repositories/portableDownloadHistory'
 import type { ISettingsRepository } from '#domain/repositories/settings'
+import type { ITweetCache } from '#domain/repositories/tweet'
 import type { IWarningSettingsRepo } from '#domain/repositories/warningSettings'
 import type { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadWasTriggeredBySelf'
 import type { DownloadFileUseCase } from '#domain/useCases/downloadFile'
@@ -69,6 +70,7 @@ type RepoProvider = {
   downloadHistoryRepo: IDownloadHistoryRepository
   downloadRepo: IDownloadRepository
   checkDownloadIsOwnBySelf: CheckDownloadWasTriggeredBySelf
+  tweetResponseCache: ITweetCache
 }
 
 type UseCaseProvider = {
@@ -92,6 +94,7 @@ const App = ({
   browserDownload,
   downloadRepo,
   checkDownloadIsOwnBySelf,
+  tweetResponseCache,
 }: InfraProvider) => {
   return (
     <HStack flex={1} spacing={0} overflow={'hidden'}>
@@ -156,7 +159,10 @@ const App = ({
               path="/about"
               element={
                 <Content title={i18n('About', 'options:sideMenu')}>
-                  <About clientRepo={clientRepo} />
+                  <About
+                    clientRepo={clientRepo}
+                    cleanCache={() => tweetResponseCache.clean()}
+                  />
                 </Content>
               }
             />

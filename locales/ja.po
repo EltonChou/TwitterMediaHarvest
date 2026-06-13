@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.4)\n"
-"POT-Creation-Date: 2026-05-21 14:59+0800\n"
+"POT-Creation-Date: 2026-06-12 05:24+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -181,27 +181,32 @@ msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "ログイン状態やツイートの閲覧権限を確認してください。"
 
-#: src/pages/components/About.tsx:69
+#: src/pages/components/About.tsx:79
 msgctxt "options:about"
 msgid "Changelog"
 msgstr "更新履歴"
 
-#: src/pages/components/About.tsx:57
+#: src/pages/components/About.tsx:126
+msgctxt "options:about"
+msgid "Clean Cache"
+msgstr "キャッシュを削除"
+
+#: src/pages/components/About.tsx:67
 msgctxt "options:about"
 msgid "Official website"
 msgstr "公式サイト"
 
-#: src/pages/components/About.tsx:61
+#: src/pages/components/About.tsx:71
 msgctxt "options:about"
 msgid "Privacy policy"
 msgstr "プライバシーポリシー"
 
-#: src/pages/components/About.tsx:65
+#: src/pages/components/About.tsx:75
 msgctxt "options:about"
 msgid "Reoprt issues"
 msgstr "不具合を報告する"
 
-#: src/pages/components/About.tsx:30
+#: src/pages/components/About.tsx:40
 msgctxt "options:about"
 msgid "Version"
 msgstr "バージョン"
@@ -598,37 +603,37 @@ msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "ダウンロードを {{aria2-extension}} 経由して Aria2 に転送。"
 
-#: src/pages/app/Options.tsx:158
+#: src/pages/app/Options.tsx:161
 #: src/pages/components/SideMenu.tsx:86
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "拡張について"
 
-#: src/pages/app/Options.tsx:167
+#: src/pages/app/Options.tsx:173
 #: src/pages/components/SideMenu.tsx:80
 msgctxt "options:sideMenu"
 msgid "Diagnostics"
 msgstr "診断"
 
-#: src/pages/app/Options.tsx:116
+#: src/pages/app/Options.tsx:119
 #: src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "機能"
 
-#: src/pages/app/Options.tsx:105
+#: src/pages/app/Options.tsx:108
 #: src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "一般"
 
-#: src/pages/app/Options.tsx:136
+#: src/pages/app/Options.tsx:139
 #: src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "ダウンロード履歴"
 
-#: src/pages/app/Options.tsx:124
+#: src/pages/app/Options.tsx:127
 #: src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"

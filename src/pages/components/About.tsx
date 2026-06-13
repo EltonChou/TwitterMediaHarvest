@@ -8,8 +8,18 @@ import { getText as i18n } from '#libs/i18n'
 import useClient from '#pages/hooks/useClient'
 import ExtLinks from '#pages/links'
 import { getFullVersion, getName } from '#utils/runtime'
-import { Link, Skeleton, Stack, Text } from '@chakra-ui/react'
-import React, { memo } from 'react'
+import {
+  Button,
+  HStack,
+  Icon,
+  Link,
+  Skeleton,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
+import type { JSX } from 'react'
+import React, { memo, useState } from 'react'
+import { FaBroom, FaCheck, FaXmark } from 'react-icons/fa6'
 
 type ExtensionInformationProps = {
   clientRepo: IClientRepository
@@ -74,14 +84,65 @@ const Links = () => {
   )
 }
 
-type AboutProps = {
-  clientRepo: IClientRepository
+type ActionsProps = {
+  cleanCache: () => Promise<UnsafeTask>
 }
 
-const About = ({ clientRepo }: AboutProps) => {
+type CleanState = 'idle' | 'processing' | 'success' | 'failed'
+
+const cleanStateIcon: Record<Exclude<CleanState, 'processing'>, JSX.Element> = {
+  idle: <Icon as={FaBroom} />,
+  success: <Icon as={FaCheck} color={'brand.green'} />,
+  failed: <Icon as={FaXmark} color={'brand.red'} />,
+}
+
+const CleanCacheButton = ({ cleanCache }: ActionsProps) => {
+  const [state, setState] = useState<CleanState>('idle')
+
+  const handleClick = async () => {
+    setState('processing')
+    const error = await cleanCache()
+    /* eslint-disable no-console */
+    if (error) console.error(error)
+    else console.info('Clean tweet cache by user.')
+    /* eslint-enable no-console */
+    setState(error ? 'failed' : 'success')
+  }
+
+  return (
+    <Button
+      colorScheme="gray"
+      onClick={handleClick}
+      isLoading={state === 'processing'}
+      leftIcon={
+        state === 'processing' ? undefined : (
+          <span data-testid="clean-cache-state-icon" data-state={state}>
+            {cleanStateIcon[state]}
+          </span>
+        )
+      }
+      data-testid="clean-cache-btn"
+    >
+      {i18n('Clean Cache', 'options:about')}
+    </Button>
+  )
+}
+
+const Actions = ({ cleanCache }: ActionsProps) => (
+  <HStack>
+    <CleanCacheButton cleanCache={cleanCache} />
+  </HStack>
+)
+
+type AboutProps = {
+  clientRepo: IClientRepository
+} & ActionsProps
+
+const About = ({ clientRepo, cleanCache }: AboutProps) => {
   return (
     <Stack p={'1.5rem'} spacing={10}>
       <ExtensionInformation clientRepo={clientRepo} />
+      <Actions cleanCache={cleanCache} />
       <Links />
     </Stack>
   )

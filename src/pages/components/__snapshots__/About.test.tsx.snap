@@ -1,5 +1,128 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
+exports[`unit test for About component action button can clean cache 1`] = `
+<div>
+  <div
+    class="chakra-stack css-8osiqh"
+  >
+    <div
+      class="chakra-stack css-8g8ihq"
+    >
+      <p
+        class="chakra-text css-3fuzg5"
+      />
+      <div
+        class="chakra-skeleton css-ahyunb"
+      >
+        <p
+          class="chakra-text css-5ft5pb"
+        >
+          uuid
+        </p>
+      </div>
+      <p
+        class="chakra-text css-qljqz"
+      >
+        Translated&lt;options:about_Version&gt;
+         
+      </p>
+    </div>
+    <div
+      class="chakra-stack css-1igwmid"
+    >
+      <button
+        class="chakra-button css-4xx2wk"
+        data-testid="clean-cache-btn"
+        type="button"
+      >
+        <span
+          class="chakra-button__icon css-1wh2kri"
+        >
+          <span
+            aria-hidden="true"
+            data-state="success"
+            data-testid="clean-cache-state-icon"
+            focusable="false"
+          >
+            <svg
+              class="chakra-icon css-1ate4vr"
+              fill="currentColor"
+              focusable="false"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 448 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"
+              />
+            </svg>
+          </span>
+        </span>
+        Translated&lt;options:about_Clean Cache&gt;
+      </button>
+    </div>
+    <div
+      class="chakra-stack css-8g8ihq"
+      data-testid="information-links"
+    >
+      <a
+        class="chakra-link css-10iahqc"
+        data-testid="information-link"
+        href="https://github.com/EltonChou/TwitterMediaHarvest"
+        referrerpolicy="no-referrer"
+        rel="noopener"
+        target="_blank"
+      >
+        Translated&lt;options:about_Official website&gt;
+      </a>
+      <a
+        class="chakra-link css-10iahqc"
+        data-testid="information-link"
+        href="https://github.com/EltonChou/TwitterMediaHarvest/blob/main/PRIVACY_POLICY.md"
+        referrerpolicy="no-referrer"
+        rel="noopener"
+        target="_blank"
+      >
+        Translated&lt;options:about_Privacy policy&gt;
+      </a>
+      <a
+        class="chakra-link css-10iahqc"
+        data-testid="information-link"
+        href="https://github.com/EltonChou/TwitterMediaHarvest/issues"
+        referrerpolicy="no-referrer"
+        rel="noopener"
+        target="_blank"
+      >
+        Translated&lt;options:about_Reoprt issues&gt;
+      </a>
+      <a
+        class="chakra-link css-10iahqc"
+        data-testid="information-link"
+        href="https://github.com/EltonChou/TwitterMediaHarvest/blob/main/CHANGELOG.md#undefined"
+        referrerpolicy="no-referrer"
+        rel="noopener"
+        target="_blank"
+      >
+        Translated&lt;options:about_Changelog&gt;
+      </a>
+      <a
+        class="chakra-link css-10iahqc"
+        data-testid="information-link"
+        href="https://github.com/EltonChou/TwitterMediaHarvest"
+        referrerpolicy="no-referrer"
+        rel="noopener"
+        target="_blank"
+      >
+        Github
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`unit test for About component can render properly 1`] = `
 <div>
   <div
@@ -26,6 +149,43 @@ exports[`unit test for About component can render properly 1`] = `
         Translated&lt;options:about_Version&gt;
          
       </p>
+    </div>
+    <div
+      class="chakra-stack css-1igwmid"
+    >
+      <button
+        class="chakra-button css-4xx2wk"
+        data-testid="clean-cache-btn"
+        type="button"
+      >
+        <span
+          class="chakra-button__icon css-1wh2kri"
+        >
+          <span
+            aria-hidden="true"
+            data-state="idle"
+            data-testid="clean-cache-state-icon"
+            focusable="false"
+          >
+            <svg
+              class="chakra-icon css-13otjrl"
+              fill="currentColor"
+              focusable="false"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 576 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z"
+              />
+            </svg>
+          </span>
+        </span>
+        Translated&lt;options:about_Clean Cache&gt;
+      </button>
     </div>
     <div
       class="chakra-stack css-8g8ihq"

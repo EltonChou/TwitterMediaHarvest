@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.4)\n"
-"POT-Creation-Date: 2026-05-21 14:59+0800\n"
+"POT-Creation-Date: 2026-06-12 05:24+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -181,27 +181,32 @@ msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "로그인 세션이 만료되었을 수 있습니다. 페이지를 새로고침해주세요."
 
-#: src/pages/components/About.tsx:69
+#: src/pages/components/About.tsx:79
 msgctxt "options:about"
 msgid "Changelog"
 msgstr "변경 기록"
 
-#: src/pages/components/About.tsx:57
+#: src/pages/components/About.tsx:126
+msgctxt "options:about"
+msgid "Clean Cache"
+msgstr "캐시 삭제"
+
+#: src/pages/components/About.tsx:67
 msgctxt "options:about"
 msgid "Official website"
 msgstr "공식 웹사이트"
 
-#: src/pages/components/About.tsx:61
+#: src/pages/components/About.tsx:71
 msgctxt "options:about"
 msgid "Privacy policy"
 msgstr "개인정보 보호정책"
 
-#: src/pages/components/About.tsx:65
+#: src/pages/components/About.tsx:75
 msgctxt "options:about"
 msgid "Reoprt issues"
 msgstr "문제 보고"
 
-#: src/pages/components/About.tsx:30
+#: src/pages/components/About.tsx:40
 msgctxt "options:about"
 msgid "Version"
 msgstr "버전"
@@ -596,37 +601,37 @@ msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
 msgstr "{{aria2-extension}}을(를) 통해 다운로드를 Aria2로 전달합니다."
 
-#: src/pages/app/Options.tsx:158
+#: src/pages/app/Options.tsx:161
 #: src/pages/components/SideMenu.tsx:86
 msgctxt "options:sideMenu"
 msgid "About"
 msgstr "정보"
 
-#: src/pages/app/Options.tsx:167
+#: src/pages/app/Options.tsx:173
 #: src/pages/components/SideMenu.tsx:80
 msgctxt "options:sideMenu"
 msgid "Diagnostics"
 msgstr "진단"
 
-#: src/pages/app/Options.tsx:116
+#: src/pages/app/Options.tsx:119
 #: src/pages/components/SideMenu.tsx:62
 msgctxt "options:sideMenu"
 msgid "Features"
 msgstr "기능"
 
-#: src/pages/app/Options.tsx:105
+#: src/pages/app/Options.tsx:108
 #: src/pages/components/SideMenu.tsx:56
 msgctxt "options:sideMenu"
 msgid "General"
 msgstr "일반"
 
-#: src/pages/app/Options.tsx:136
+#: src/pages/app/Options.tsx:139
 #: src/pages/components/SideMenu.tsx:74
 msgctxt "options:sideMenu"
 msgid "History"
 msgstr "히스토리"
 
-#: src/pages/app/Options.tsx:124
+#: src/pages/app/Options.tsx:127
 #: src/pages/components/SideMenu.tsx:68
 msgctxt "options:sideMenu"
 msgid "Integrations"
