@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - Add notification timeline cache support.
+- Add cache cleaning button in About page. [#325](https://github.com/EltonChou/TwitterMediaHarvest/pull/325)
 
 ## [4.5.4] - 2026-05-21
 
