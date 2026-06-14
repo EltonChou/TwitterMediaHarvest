@@ -56,7 +56,7 @@ const poHeaders = {
 }
 
 const currDigest = createHash('sha256')
-  .update(extractor.getPotString(poHeaders))
+  .update(extractor.getPotString())
   .digest('hex')
 
 const { values } = parseArgs({
