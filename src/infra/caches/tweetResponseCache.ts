@@ -51,13 +51,14 @@ const responseSchema: Joi.ObjectSchema<{
 })
 
 const CACHE_TIME = 86400 as const // 24 hours
+const CACHE_NAME = 'tweet-response' as const
 
 export class TweetResponseCache implements ITweetCache {
   private cache?: Cache
   constructor() {}
 
   protected async getCache() {
-    return (this.cache ??= await caches.open('tweet-response'))
+    return (this.cache ??= await caches.open(CACHE_NAME))
   }
 
   /**
@@ -130,44 +131,13 @@ export class TweetResponseCache implements ITweetCache {
   }
 
   /**
-   * Try to clean all cache
+   * Clean all cache by dropping the whole cache storage and invalidating the
+   * cached handle so it gets reopened lazily on the next access.
    */
   async clean(): Promise<UnsafeTask> {
     try {
-      const cache = await this.getCache()
-      const keys = await cache.keys()
-      const results = await Promise.allSettled(
-        keys.map(key => cache.delete(key))
-      )
-
-      const stats = results.reduce(
-        (stat, result) => {
-          if (__DEV__ && result.status === 'rejected') {
-            const log =
-              // eslint-disable-next-line no-console
-              result.reason instanceof Error ? console.error : console.debug
-
-            log(result.reason)
-          }
-
-          return {
-            success:
-              stat.success +
-              (result.status === 'fulfilled' && result.value ? 1 : 0),
-            failed:
-              stat.failed +
-              (result.status === 'rejected' ||
-              (result.status === 'fulfilled' && !result.value)
-                ? 1
-                : 0),
-          }
-        },
-        { success: 0, failed: 0 }
-      )
-
-      // eslint-disable-next-line no-console
-      if (__DEV__) console.debug('Cache clean stats:', JSON.stringify(stats))
-
+      await caches.delete(CACHE_NAME)
+      this.cache = undefined
       return undefined
     } catch (error) {
       return error as Error
