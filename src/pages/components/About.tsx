@@ -17,6 +17,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
+import { metrics } from '@sentry/browser'
 import type { JSX } from 'react'
 import React, { memo, useState } from 'react'
 import { FaBroom, FaCheck, FaXmark } from 'react-icons/fa6'
@@ -100,12 +101,18 @@ const CleanCacheButton = ({ cleanCache }: ActionsProps) => {
   const [state, setState] = useState<CleanState>('idle')
 
   const handleClick = async () => {
+    if (__METRICS__) metrics.count('page.action.clean_cache.invoked', 1)
     setState('processing')
     const error = await cleanCache()
     /* eslint-disable no-console */
     if (error) console.error(error)
     else console.info('Clean tweet cache by user.')
     /* eslint-enable no-console */
+    if (__METRICS__)
+      metrics.count(
+        `page.action.clean_cache.${error ? 'failed' : 'success'}`,
+        1
+      )
     setState(error ? 'failed' : 'success')
   }
 
