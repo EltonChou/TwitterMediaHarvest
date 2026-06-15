@@ -96,7 +96,7 @@ exports[`unit test for About component action button can clean cache 1`] = `
         rel="noopener"
         target="_blank"
       >
-        Translated&lt;options:about_Reoprt issues&gt;
+        Translated&lt;options:about_Report issues&gt;
       </a>
       <a
         class="chakra-link css-10iahqc"
@@ -219,7 +219,7 @@ exports[`unit test for About component can render properly 1`] = `
         rel="noopener"
         target="_blank"
       >
-        Translated&lt;options:about_Reoprt issues&gt;
+        Translated&lt;options:about_Report issues&gt;
       </a>
       <a
         class="chakra-link css-10iahqc"

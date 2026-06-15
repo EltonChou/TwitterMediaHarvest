@@ -72,7 +72,7 @@ const Links = () => {
         href={ExtLinks.privacy}
       />
       <ExternalLink
-        name={i18n('Reoprt issues', 'options:about')}
+        name={i18n('Report issues', 'options:about')}
         href={ExtLinks.issues}
       />
       <ExternalLink
