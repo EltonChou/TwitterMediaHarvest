@@ -67,9 +67,7 @@ export class TweetResponseCache implements ITweetCache {
   async get(cacheId: string): AsyncResult<TweetWithContent | undefined, Error> {
     try {
       const cache = await this.getCache()
-      const fakeRequest = new Request(makeFakeTweetUrl(cacheId))
-
-      const response = await cache.match(fakeRequest)
+      const response = await cache.match(makeRequest(cacheId))
       if (!response) return toSuccessResult(undefined)
 
       const data = await response.json()
@@ -100,20 +98,11 @@ export class TweetResponseCache implements ITweetCache {
   async save(item: TweetWithContent): Promise<UnsafeTask> {
     try {
       const cache = await this.getCache()
-      const request = new Request(makeFakeTweetUrl(item.id))
 
       const payload = JSON.stringify(item)
-      const response = new Response(payload, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Content-Length': new TextEncoder()
-            .encode(payload)
-            .buffer.byteLength.toString(),
-          'Cache-Control': `max-age=${CACHE_TIME}`,
-        },
-      })
+      const response = makeResponse(payload)
 
-      await cache.put(request, response)
+      await cache.put(makeRequest(item.id), response)
       return undefined
     } catch (error) {
       return error as Error
@@ -145,5 +134,21 @@ export class TweetResponseCache implements ITweetCache {
   }
 }
 
+const makeRequest = (tweetId: string): Request => {
+  return new Request(makeFakeTweetUrl(tweetId))
+}
+
 const makeFakeTweetUrl = (tweetId: string) =>
   `http://mediaharvest.local/tweets/${tweetId}`
+
+const makeResponse = (payload: string) => {
+  return new Response(payload, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': new TextEncoder()
+        .encode(payload)
+        .buffer.byteLength.toString(),
+      'Cache-Control': `max-age=${CACHE_TIME}`,
+    },
+  })
+}
