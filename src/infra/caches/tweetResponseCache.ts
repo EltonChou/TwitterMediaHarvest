@@ -3,7 +3,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import { ITweetCache } from '#domain/repositories/tweet'
+import type { IExpirableCache } from '#domain/repositories/cache'
+import type { ITweetCache } from '#domain/repositories/tweet'
 import type { PropsOf } from '#domain/valueObjects/base'
 import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetMedia } from '#domain/valueObjects/tweetMedia'
@@ -53,7 +54,9 @@ const responseSchema: Joi.ObjectSchema<{
 const CACHE_TIME = 86400 as const // 24 hours
 const CACHE_NAME = 'tweet-response' as const
 
-export class TweetResponseCache implements ITweetCache {
+export class TweetResponseCache
+  implements ITweetCache, IExpirableCache<TweetWithContent>
+{
   private cache?: Cache
   constructor() {}
 
@@ -132,6 +135,27 @@ export class TweetResponseCache implements ITweetCache {
       return error as Error
     }
   }
+
+  async evictExpired(): Promise<UnsafeTask> {
+    try {
+      const cache = await this.getCache()
+      const now = Date.now()
+      const requests = await cache.keys()
+      await Promise.all(
+        requests.map(async request => {
+          const response = await cache.match(request)
+          const cachedAt = Date.parse(response?.headers.get('Date') ?? '')
+          // Evict entries past TTL, and any without a parseable timestamp
+          // (e.g. entries written before this change).
+          if (Number.isNaN(cachedAt) || now - cachedAt > CACHE_TIME * 1000)
+            await cache.delete(request)
+        })
+      )
+      return undefined
+    } catch (error) {
+      return error as Error
+    }
+  }
 }
 
 const makeRequest = (tweetId: string): Request => {
@@ -149,6 +173,7 @@ const makeResponse = (payload: string) => {
         .encode(payload)
         .buffer.byteLength.toString(),
       'Cache-Control': `max-age=${CACHE_TIME}`,
+      Date: new Date().toUTCString(),
     },
   })
 }

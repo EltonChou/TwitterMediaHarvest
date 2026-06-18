@@ -20,4 +20,8 @@ export class MockTweetResponseCache implements ICache<TweetWithContent> {
   async clean(): Promise<UnsafeTask> {
     return new Error('Method not implemented.')
   }
+
+  async evictExpired(): Promise<UnsafeTask> {
+    return new Error('Method not implemented.')
+  }
 }

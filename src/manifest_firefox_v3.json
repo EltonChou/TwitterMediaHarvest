@@ -65,7 +65,8 @@
     "cookies",
     "storage",
     "notifications",
-    "unlimitedStorage"
+    "unlimitedStorage",
+    "alarms"
   ],
   "optional_permissions": ["management"],
   "web_accessible_resources": [

@@ -6,7 +6,7 @@
 import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadWasTriggeredBySelf'
 import { getEventPublisher } from '#infra/eventPublisher'
 import { init as initMonitor } from '#monitor'
-import { clientRepo, downloadRepo } from '#provider'
+import { clientRepo, downloadRepo, tweetResponseCache } from '#provider'
 import { getRuntimeId } from '#utils/runtime'
 import handleDownloadChanged from './handlers/handleDownloadChanged'
 import handleNotificationButtonClicked from './handlers/handleNotificationButtonClicked'
@@ -16,7 +16,9 @@ import handleRuntimeInstalled from './handlers/handleRuntimeInstalled'
 import initEventPublisher from './initEventPublisher'
 import { initMessageRouter } from './initMessageRouter'
 import { getMessageRouter } from './messageRouter'
-import Browser from 'webextension-polyfill'
+import Browser, { alarms } from 'webextension-polyfill'
+
+const EVICT_TWEET_CACHE_ALARM = 'evict-tweet-cache' as const
 
 initMonitor({
   providers: {
@@ -55,3 +57,9 @@ Browser.notifications.onClicked.addListener(
 Browser.notifications.onButtonClicked.addListener(
   handleNotificationButtonClicked(eventPublisher)
 )
+
+alarms.create(EVICT_TWEET_CACHE_ALARM, { periodInMinutes: 1440 })
+alarms.onAlarm.addListener(async alarm => {
+  if (alarm.name === EVICT_TWEET_CACHE_ALARM)
+    await tweetResponseCache.evictExpired()
+})

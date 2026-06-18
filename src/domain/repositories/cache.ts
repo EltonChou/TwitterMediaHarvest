@@ -34,3 +34,13 @@ export interface ICache<T> {
    */
   clean(): Promise<UnsafeTask>
 }
+
+/**
+ * A cache that can evict entries past their TTL.
+ */
+export interface IExpirableCache<T> extends ICache<T> {
+  /**
+   * Evict all entries older than the cache's TTL.
+   */
+  evictExpired(): Promise<UnsafeTask>
+}
