@@ -75,8 +75,7 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
       async () =>
         await warningSettingsRepo.save({ ignoreFilenameOverwritten: false }),
       /**
-       * FIXME: Not sure when does browser clean the cache. To prevent large
-       * cache to affect cache manipulation, clean the cache at each update.
+       * TODO: Remove this handler when cache eviction is confirmed to work.
        */
       async () => await tweetResponseCache.clean(),
     ])
