@@ -57,7 +57,9 @@ Browser.notifications.onButtonClicked.addListener(
   handleNotificationButtonClicked(eventPublisher)
 )
 
-alarms.create(AlarmName.EvictTweetCache, { periodInMinutes: 1440 })
+alarms.create(AlarmName.EvictTweetCache, {
+  periodInMinutes: __DEV__ ? 5 : 1440,
+})
 alarms.onAlarm.addListener(async alarm => {
   if (alarm.name === AlarmName.EvictTweetCache)
     await tweetResponseCache.evictExpired()
