@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.6)\n"
-"POT-Creation-Date: 2026-06-16 05:33+0800\n"
+"POT-Creation-Date: 2026-06-18 15:04+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -641,8 +641,8 @@ msgstr "統合"
 
 #: src/pages/components/PopupFeatureBlock.tsx:40
 msgctxt "popup"
-msgid "Auto-reveal sensitive"
-msgstr "センシティブ内容表示"
+msgid "Auto-Reveal NSFW"
+msgstr "NSFW 自動表示"
 
 #: src/pages/app/Popup.tsx:216
 msgctxt "popup"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.6)\n"
-"POT-Creation-Date: 2026-06-16 05:33+0800\n"
+"POT-Creation-Date: 2026-06-18 15:04+0800\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Team\n"
 "Language-Team: Polish\n"
@@ -663,8 +663,8 @@ msgstr "Integracje"
 
 #: src/pages/components/PopupFeatureBlock.tsx:40
 msgctxt "popup"
-msgid "Auto-reveal sensitive"
-msgstr "Auto-pokazywanie treści wrażliwych"
+msgid "Auto-Reveal NSFW"
+msgstr "Pokazuj wrażliwe"
 
 #: src/pages/app/Popup.tsx:216
 msgctxt "popup"

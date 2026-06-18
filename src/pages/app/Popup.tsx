@@ -228,7 +228,7 @@ export type PopupProps = PopupFeatureBlockProps & StatsProps
 const Popup = (props: PopupProps) => {
   const baseFontSize = useLocaleVariables({
     fallback: '1.5rem',
-    ja: '1rem',
+    ja: '1.2rem',
     zh: '1.2rem',
   })
 
