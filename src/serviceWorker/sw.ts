@@ -4,6 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadWasTriggeredBySelf'
+import AlarmName from '#enums/AlarmName'
 import { getEventPublisher } from '#infra/eventPublisher'
 import { init as initMonitor } from '#monitor'
 import { clientRepo, downloadRepo, tweetResponseCache } from '#provider'
@@ -17,8 +18,6 @@ import initEventPublisher from './initEventPublisher'
 import { initMessageRouter } from './initMessageRouter'
 import { getMessageRouter } from './messageRouter'
 import Browser, { alarms } from 'webextension-polyfill'
-
-const EVICT_TWEET_CACHE_ALARM = 'evict-tweet-cache' as const
 
 initMonitor({
   providers: {
@@ -58,8 +57,8 @@ Browser.notifications.onButtonClicked.addListener(
   handleNotificationButtonClicked(eventPublisher)
 )
 
-alarms.create(EVICT_TWEET_CACHE_ALARM, { periodInMinutes: 1440 })
+alarms.create(AlarmName.EvictTweetCache, { periodInMinutes: 1440 })
 alarms.onAlarm.addListener(async alarm => {
-  if (alarm.name === EVICT_TWEET_CACHE_ALARM)
+  if (alarm.name === AlarmName.EvictTweetCache)
     await tweetResponseCache.evictExpired()
 })
