@@ -167,6 +167,7 @@ const makeFakeTweetUrl = (tweetId: string) =>
 
 const makeResponse = (payload: string) => {
   return new Response(payload, {
+    status: 200,
     headers: {
       'Content-Type': 'application/json',
       'Content-Length': new TextEncoder()
