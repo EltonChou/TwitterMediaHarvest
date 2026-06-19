@@ -15,6 +15,7 @@ const makeInfra = () => ({
     get: jest.fn(),
     save: jest.fn().mockResolvedValue(undefined),
     saveAll: jest.fn().mockResolvedValue(undefined),
+    clean: jest.fn().mockResolvedValue(undefined),
   },
 })
 

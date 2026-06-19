@@ -19,4 +19,8 @@ export class MockXTransactionIdCache implements IXTransactionIdCache {
   async saveAll(..._items: XTransactionId[]): Promise<UnsafeTask> {
     return new Error('Method not implemented.')
   }
+
+  async clean(): Promise<UnsafeTask> {
+    return new Error('Method not implemented.')
+  }
 }

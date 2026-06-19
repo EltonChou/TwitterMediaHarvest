@@ -119,6 +119,10 @@ export class XTransactionIdCache implements IXTransactionIdCache {
       })
   }
 
+  async clean(): Promise<UnsafeTask> {
+    this.store.clear()
+  }
+
   private waitForItem(key: StoreKey): Promise<XTransactionId> {
     return new Promise((resolve, reject) => {
       const waiters = this.pending.get(key) ?? []
