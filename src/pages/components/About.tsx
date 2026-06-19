@@ -5,6 +5,7 @@
  */
 import type { IClientRepository } from '#domain/repositories/client'
 import { getText as i18n } from '#libs/i18n'
+import { topicLogger } from '#libs/loggers'
 import useClient from '#pages/hooks/useClient'
 import ExtLinks from '#pages/links'
 import { getFullVersion, getName } from '#utils/runtime'
@@ -91,6 +92,8 @@ type ActionsProps = {
 
 type CleanState = 'idle' | 'processing' | 'success' | 'failed'
 
+const maintenanceActionLogger = topicLogger('maintenanceAction')
+
 const cleanStateIcon: Record<Exclude<CleanState, 'processing'>, JSX.Element> = {
   idle: <Icon as={FaBroom} />,
   success: <Icon as={FaCheck} color={'brand.green'} />,
@@ -104,10 +107,8 @@ const CleanCacheButton = ({ cleanCache }: ActionsProps) => {
     if (__METRICS__) metrics.count('page.action.clean_cache.invoked', 1)
     setState('processing')
     const error = await cleanCache()
-    /* eslint-disable no-console */
-    if (error) console.error(error)
-    else console.info('Clean tweet cache by user.')
-    /* eslint-enable no-console */
+    if (error) maintenanceActionLogger.error(error)
+    else maintenanceActionLogger.info('Clean tweet cache by user.')
     if (__METRICS__)
       metrics.count(
         `page.action.clean_cache.${error ? 'failed' : 'success'}`,
