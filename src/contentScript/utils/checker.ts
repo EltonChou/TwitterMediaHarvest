@@ -6,7 +6,9 @@
 import { elementExists } from 'select-dom'
 
 export const isStreamLoaded = () =>
-  elementExists('[role="region"]') && elementExists('article')
+  isAnonymousMode()
+    ? elementExists('meta[content="Profile posts"] article')
+    : elementExists('[role="region"]') && elementExists('article')
 
 const getHost = (): string => window.location.host
 
@@ -53,6 +55,8 @@ export const isInTweetStatus = (): boolean =>
 
 export const isBetaTweetDeck = (): boolean =>
   isTweetDeck() && elementExists('#react-root')
+
+export const isAnonymousMode = (): boolean => elementExists('article meta')
 
 export const isBusinessRelatedTweet = (ele: HTMLElement): boolean =>
   elementExists('[data-testid="placementTracking"]', ele) ||
