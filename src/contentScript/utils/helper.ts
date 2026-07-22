@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { isBusinessRelatedTweet } from './checker'
-import { $ } from 'select-dom'
+import { $, $$ } from 'select-dom'
 
 /**
  * Create HTMLElement from html string.
@@ -33,4 +33,30 @@ export const revealNsfw = (article: HTMLElement) => {
     article.dataset['autoReveal'] = 'true'
     revealButton.click()
   }
+}
+
+/**
+ * Find the element matching `selector` whose vertical center is closest to the
+ * viewport's vertical center.
+ *
+ * @param selector A CSS selector to match candidate elements.
+ * @returns The nearest matching element, or `null` if none match.
+ */
+export const getNearestCenterElement = (selector: string) => {
+  const viewportCenter = window.innerHeight / 2
+  let closest: HTMLElement | null = null
+  let closestDistance = Infinity
+
+  $$(selector).forEach(el => {
+    const rect = el.getBoundingClientRect()
+    const elCenter = rect.top + rect.height / 2
+    const distance = Math.abs(elCenter - viewportCenter)
+
+    if (distance < closestDistance) {
+      closestDistance = distance
+      closest = el
+    }
+  })
+
+  return closest
 }

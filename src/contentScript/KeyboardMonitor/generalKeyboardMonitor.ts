@@ -3,7 +3,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import { getClosedTargetArticle } from '../utils/article'
 import { isTwitter } from '../utils/checker'
 import type DownloadKey from './DownloadKey'
 import type { KeyboardMonitor } from './types'
@@ -12,16 +11,20 @@ import { $ } from 'select-dom'
 export abstract class GeneralKeyboardMonitor implements KeyboardMonitor {
   readonly downloadKey: DownloadKey
   private buttonQuery: string
-  protected focusing: EventTarget | HTMLElement | Element | null
+  /**
+   * This element should always be a valid article element
+   */
+  protected focusing: HTMLElement | null
 
   constructor(buttonQuery: string, downloadKey: DownloadKey) {
     this.buttonQuery = buttonQuery
     this.downloadKey = downloadKey
-    this.focusing = document.activeElement
+    this.focusing = null
   }
 
-  #getButton(target: HTMLElement): HTMLElement | undefined {
-    return $<HTMLElement>(this.buttonQuery, target)
+  #getButton(): HTMLElement | undefined {
+    if (!this.focusing) return undefined
+    return $<HTMLElement>(this.buttonQuery, this.focusing)
   }
 
   #isValidTarget(target: unknown): boolean {
@@ -38,7 +41,7 @@ export abstract class GeneralKeyboardMonitor implements KeyboardMonitor {
   handleKeyDown(e: KeyboardEvent): void {
     if (!this.#isValidTarget(e.target) || e.code !== this.downloadKey) return
 
-    if (e.target) this.updateFocusing(e.target)
+    if (e.target && e.target instanceof Element) this.focus(e.target)
   }
 
   handleKeyUp(e: KeyboardEvent): void {
@@ -49,16 +52,13 @@ export abstract class GeneralKeyboardMonitor implements KeyboardMonitor {
     )
       return
 
-    const tweetCanBeHarvested = getClosedTargetArticle(
-      this.focusing as HTMLElement
-    )
-    if (tweetCanBeHarvested) {
-      const harvesterButton = this.#getButton(tweetCanBeHarvested)
+    if (this.focusing) {
+      const harvesterButton = this.#getButton()
       if (harvesterButton) harvesterButton.click()
     }
   }
 
-  abstract updateFocusing(
-    focusTarget: EventTarget | HTMLElement | Element
-  ): void
+  focus(target: HTMLElement | Element): void {
+    if (target instanceof HTMLElement) this.focusing = target
+  }
 }
