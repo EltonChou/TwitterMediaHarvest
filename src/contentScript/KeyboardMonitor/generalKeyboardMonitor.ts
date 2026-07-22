@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import { isTwitter } from '../utils/checker'
+import { isTextInputElement, isTwitter } from '../utils/checker'
 import type DownloadKey from './DownloadKey'
 import type { KeyboardMonitor } from './types'
 import { $ } from 'select-dom'
@@ -29,8 +29,7 @@ export abstract class GeneralKeyboardMonitor implements KeyboardMonitor {
 
   #isValidTarget(target: unknown): boolean {
     if (target instanceof HTMLElement) {
-      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')
-        return false
+      if (isTextInputElement(target)) return false
       if (isTwitter() && 'classList' in target)
         return !target.classList.value.includes('Editor')
       return true
@@ -38,8 +37,12 @@ export abstract class GeneralKeyboardMonitor implements KeyboardMonitor {
     return false
   }
 
+  isDownloadKey(keyCode: string): boolean {
+    return keyCode === this.downloadKey
+  }
+
   handleKeyDown(e: KeyboardEvent): void {
-    if (!this.#isValidTarget(e.target) || e.code !== this.downloadKey) return
+    if (!this.#isValidTarget(e.target) || !this.isDownloadKey(e.code)) return
 
     if (e.target && e.target instanceof Element) this.focus(e.target)
   }
@@ -48,14 +51,12 @@ export abstract class GeneralKeyboardMonitor implements KeyboardMonitor {
     if (
       !this.focusing ||
       !this.#isValidTarget(e.target) ||
-      e.code !== this.downloadKey
+      !this.isDownloadKey(e.code)
     )
       return
 
-    if (this.focusing) {
-      const harvesterButton = this.#getButton()
-      if (harvesterButton) harvesterButton.click()
-    }
+    const harvesterButton = this.#getButton()
+    if (harvesterButton) harvesterButton.click()
   }
 
   focus(target: HTMLElement | Element): void {

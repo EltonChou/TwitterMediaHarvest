@@ -58,5 +58,8 @@ export const isBusinessRelatedTweet = (ele: HTMLElement): boolean =>
   elementExists('[data-testid="placementTracking"]', ele) ||
   Boolean(ele.closest('[data-testid="placementTracking"]'))
 
+export const isTextInputElement = (ele: Element): boolean =>
+  ele.tagName === 'INPUT' || ele.tagName === 'TEXTAREA'
+
 export const isDefined = (...parms: unknown[]): boolean =>
   parms.every(v => v !== undefined)

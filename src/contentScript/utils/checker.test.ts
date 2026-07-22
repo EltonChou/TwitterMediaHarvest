@@ -9,6 +9,7 @@ import {
   isFunctionablePath,
   isInTweetStatus,
   isStreamLoaded,
+  isTextInputElement,
   isTweetDeck,
   isTwitter,
 } from './checker'
@@ -139,6 +140,18 @@ describe('isBusinessRelatedTweet', () => {
     const element = document.createElement('div')
     mockExists.mockReturnValueOnce(false)
     expect(isBusinessRelatedTweet(element)).toBe(false)
+  })
+})
+
+describe('isTextInputElement', () => {
+  it('should return true for INPUT and TEXTAREA elements', () => {
+    expect(isTextInputElement(document.createElement('input'))).toBe(true)
+    expect(isTextInputElement(document.createElement('textarea'))).toBe(true)
+  })
+
+  it('should return false for other elements', () => {
+    expect(isTextInputElement(document.createElement('div'))).toBe(false)
+    expect(isTextInputElement(document.createElement('span'))).toBe(false)
   })
 })
 
