@@ -227,21 +227,23 @@ export class CaptureResponseAndCache implements AsyncUseCase<
         if (__DEV__) console.debug(`Not implemented for ${type}`)
     }
 
-    /* eslint-disable no-console */
-    if (error) {
-      if (error instanceof Joi.ValidationError) {
-        console.group(`Invalid response body has been captured.`)
-        console.warn(`Response type: ${type}`)
-        console.warn(body)
-        console.groupEnd()
-      } else {
-        console.error(error)
-      }
-    }
-    /* eslint-enable no-console */
+    if (error) this.handleError(error, type, body)
 
     return error
   }
+
+  /* eslint-disable no-console */
+  private handleError(error: Error, type: ResponseType, body: string) {
+    if (error instanceof Joi.ValidationError) {
+      console.group(`Invalid response body has been captured.`)
+      console.warn(`Response type: ${type}`)
+      console.warn(body)
+      console.groupEnd()
+    } else {
+      console.error(error)
+    }
+  }
+  /* eslint-enable no-console */
 }
 
 const parseJSON = (body: string) => {

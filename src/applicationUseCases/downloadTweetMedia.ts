@@ -159,9 +159,11 @@ export class DownloadTweetMedia implements AsyncUseCase<
   private async createDownloadCommands(tweet: Tweet) {
     const filenameSetting = await this.infra.filenameSettingRepo.get()
     const { includeVideoThumbnail } = await this.infra.featureSettingsRepo.get()
+    const thumbnaildShouldBeIncluded = (mediaFile: TweetMediaFile) =>
+      includeVideoThumbnail || !mediaFile.isThumbnail
 
     return tweetToAvailableTweetMediaFiles(tweet)
-      .filter(mediaFile => includeVideoThumbnail || !mediaFile.isThumbnail)
+      .filter(thumbnaildShouldBeIncluded)
       .map(tweetMediaFileToDownloadTargetWithFilenameSettting(filenameSetting))
       .map(downloadTargetToDownloadCommand)
   }
