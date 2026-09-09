@@ -10810,9 +10810,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"joi@npm:^18.2.1":
-  version: 18.2.1
-  resolution: "joi@npm:18.2.1"
+"joi@npm:^18.2.5":
+  version: 18.2.5
+  resolution: "joi@npm:18.2.5"
   dependencies:
     "@hapi/address": "npm:^5.1.1"
     "@hapi/formula": "npm:^3.0.2"
@@ -10821,7 +10821,7 @@ __metadata:
     "@hapi/tlds": "npm:^1.1.1"
     "@hapi/topo": "npm:^6.0.2"
     "@standard-schema/spec": "npm:^1.1.0"
-  checksum: 10c0/d74f8b382de107f8bcc376ed3a2206971760176e167c7b69ff5b1dfe47a0de01e4a171f07bf4783f9bd240fb1e75f7b2d514eed175f3326e681c3572c0990ecc
+  checksum: 10c0/3e4b13a21c14aed6b99bf8442c511f0feeed50c49783bcd8d0c08cd56bd90a93acae5dfbb269f14a44f85e329e621f3f770449b570c1a9dd38e1618921e3b698
   languageName: node
   linkType: hard
 
@@ -14524,7 +14524,7 @@ __metadata:
     jest-extended: "npm:^7.0.0"
     jest-transformer-svg: "npm:^2.1.0"
     jest-webextension-mock: "npm:^4.1.1"
-    joi: "npm:^18.2.1"
+    joi: "npm:^18.2.5"
     jwt-decode: "npm:^4.0.0"
     keep-a-changelog: "npm:^2.8.0"
     lint-staged: "npm:^16.4.0"
