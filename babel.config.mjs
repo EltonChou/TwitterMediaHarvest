@@ -3,19 +3,16 @@ export default function (api) {
 
   return {
     presets: [
-      [
-        '@babel/preset-env',
-        {
-          useBuiltIns: 'usage',
-          corejs: { version: '3.39', proposals: true },
-        },
-      ],
+      ['@babel/preset-env'],
       [
         '@babel/preset-react',
         {
           runtime: 'automatic',
         },
       ],
+    ],
+    plugins: [
+      ['polyfill-corejs3', { method: 'usage-global', version: '3.48' }],
     ],
   }
 }

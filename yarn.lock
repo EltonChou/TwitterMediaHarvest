@@ -15573,6 +15573,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:^8.58.0"
     "@typescript-eslint/typescript-estree": "npm:^8.58.0"
     babel-loader: "npm:^10.1.1"
+    babel-plugin-polyfill-corejs3: "npm:^1.0.0"
     browserslist: "npm:^4.28.7"
     chalk: "npm:^5.6.2"
     copy-webpack-plugin: "npm:^14.0.0"
