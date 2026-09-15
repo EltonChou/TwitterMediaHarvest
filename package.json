@@ -45,7 +45,7 @@
     "@babel/preset-react": "^7.28.5",
     "@babel/preset-typescript": "^7.28.5",
     "@eslint/js": "^10.0.1",
-    "@faker-js/faker": "^10.4.0",
+    "@faker-js/faker": "^10.5.0",
     "@media-harvest-config/prettier": "workspace:^",
     "@media-harvest/webext-i18n-loader": "workspace:^",
     "@playwright/test": "^1.59.1",
