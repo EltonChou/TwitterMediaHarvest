@@ -7,7 +7,7 @@
     "node": ">=22"
   },
   "peerDependencies": {
-    "typescript": "^5",
+    "typescript": "^6",
     "webpack": "^5"
   },
   "dependencies": {
@@ -19,8 +19,8 @@
     "webpack": "^5.105.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.6",
-    "@babel/preset-env": "^7.29.2",
+    "@babel/core": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
     "@types/gettext-parser": "^9.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.5.2",
@@ -34,7 +34,7 @@
     "jest": "^30.3.0",
     "memfs": "^4.57.1",
     "prettier": "^3.8.1",
-    "prettier-eslint": "^16.4.2",
+    "prettier-eslint": "^17.1.2",
     "ts-jest": "^29.4.9",
     "ts-loader": "^9.5.7",
     "webpack-cli": "^7.0.2"
