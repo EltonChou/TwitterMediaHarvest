@@ -2,6 +2,7 @@
  * @jest-environment <rootDir>/jest.environment.ts
  */
 import {
+  isAnonymousMode,
   isBetaTweetDeck,
   isBusinessRelatedTweet,
   isComposingTweet,
@@ -24,6 +25,8 @@ const setHost = (host: string) => setJSDOMURL(`http://${host}`)
 
 const setPath = (path: string) => history.replaceState(null, '', path)
 
+beforeEach(() => mockExists.mockReset())
+
 describe('isStreamLoaded', () => {
   it('should return true if both role="region" and article exist', () => {
     mockExists.mockReturnValueOnce(true).mockReturnValueOnce(true)
@@ -31,7 +34,7 @@ describe('isStreamLoaded', () => {
   })
 
   it('should return false if either role="region" or article does not exist', () => {
-    mockExists.mockReturnValueOnce(false)
+    mockExists.mockReturnValue(false)
     expect(isStreamLoaded()).toBe(false)
   })
 })
@@ -139,6 +142,18 @@ describe('isBusinessRelatedTweet', () => {
     const element = document.createElement('div')
     mockExists.mockReturnValueOnce(false)
     expect(isBusinessRelatedTweet(element)).toBe(false)
+  })
+})
+
+describe('isAnonymousMode', () => {
+  it('should return true if an article has a meta child element', () => {
+    mockExists.mockReturnValueOnce(true)
+    expect(isAnonymousMode()).toBe(true)
+  })
+
+  it('should return false if no article has a meta child element', () => {
+    mockExists.mockReturnValueOnce(false)
+    expect(isAnonymousMode()).toBe(false)
   })
 })
 

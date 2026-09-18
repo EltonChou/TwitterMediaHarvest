@@ -37,6 +37,7 @@ export const observeElement = (
     const observer = new MutationObserver(observerCallback)
     observer.observe(observedElement, options)
     setObserverId(observeId)(observedElement)
+    if (__DEV__) console.info(`[MH:ContentScript] Observe (id: ${observeId})`)
     return observer
   }
 
