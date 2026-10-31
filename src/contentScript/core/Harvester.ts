@@ -4,23 +4,33 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import downloadButtonSVG from '#assets/icons/twitter-download.svg'
+import { toErrorResult, toSuccessResult } from '#utils/result'
 import { selectArtcleMode } from '../utils/article'
 import { checkButtonStatus, makeButtonListener } from '../utils/button'
+import { isAnonymousMode } from '../utils/checker'
 import { createElementFromHTML } from '../utils/helper'
 import * as E from 'fp-ts/Either'
 import * as IOE from 'fp-ts/IOEither'
 import { flow, pipe } from 'fp-ts/function'
 import { $ } from 'select-dom'
 
-const removeButtonStatsText = (btnContainer: HTMLElement) =>
-  $(
-    '[data-testid="app-text-transition-container"] > span > span',
-    btnContainer
-  )?.remove()
+const removeButtonStatsText = (btnContainer: HTMLElement) => {
+  if (isAnonymousMode()) {
+    const buttoneElement = $('[aria-label="Reply', btnContainer)
+    buttoneElement?.nextElementSibling?.remove()
+    buttoneElement?.removeAttribute('aria-label')
+  } else {
+    $(
+      '[data-testid="app-text-transition-container"] > span > span',
+      btnContainer
+    )?.remove()
+  }
+}
 
 const bleachButton = <T extends HTMLElement>(sampleButton: T) => {
   const emptyButton = sampleButton.cloneNode(true) as T
   removeButtonStatsText(emptyButton)
+
   return emptyButton
 }
 
@@ -45,14 +55,19 @@ const richIconSibling =
 
 const getActionBar = (article: HTMLElement) =>
   pipe(
-    $('[role="group"][aria-label]', article) ||
-      $('.r-18u37iz[role="group"][id^="id__"]', article),
+    isAnonymousMode()
+      ? $('.\\@container', article) ||
+          $('button[type="button"][aria-label="Reply"]', article)?.parentElement
+            ?.parentElement?.parentElement
+      : $('[role="group"][aria-label]', article) ||
+          $('.r-18u37iz[role="group"][id^="id__"]', article), // FIXME: Rely on magic class name
     E.fromNullable('Failed to get action bar.')
   )
 
 const getSampleButton = (article: HTMLElement) =>
   pipe(
-    $('[data-testid="reply"] > div', article),
+    $('[data-testid="reply"] > div', article) ||
+      $('[aria-label="Reply"]', article)?.closest('div'), // For anonymous mode
     E.fromNullable('Failed to get sample button')
   )
 
@@ -83,7 +98,10 @@ export const makeHarvestButton = (article: HTMLElement) =>
     ),
     IOE.tap(ctx => pipe(ctx.actionBar.appendChild(ctx.button), IOE.of)),
     IOE.tap(ctx => pipe(checkButtonStatus(ctx.button), IOE.of)),
-    IOE.map(() => 'ok')
+    IOE.match(
+      e => toErrorResult(new Error(e)),
+      () => toSuccessResult('ok')
+    )
   )
 
 const wrapButton = (mode: TweetMode) => (button: HTMLElement) =>

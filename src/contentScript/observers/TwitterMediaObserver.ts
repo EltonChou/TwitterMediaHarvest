@@ -5,7 +5,11 @@
  */
 import makeHarvester from '../core'
 import { articleHasMedia } from '../utils/article'
-import { isInTweetStatus, isStreamLoaded } from '../utils/checker'
+import {
+  isAnonymousMode,
+  isInTweetStatus,
+  isStreamLoaded,
+} from '../utils/checker'
 import { revealNsfw } from '../utils/helper'
 import observeElement from './observer'
 import { $, $$ } from 'select-dom'
@@ -23,6 +27,13 @@ const enum Query {
 export default class TwitterMediaObserver implements IHarvestObserver {
   constructor(readonly autoRevealNsfw = false) {}
 
+  observeAll() {
+    this.observeHead()
+    this.observeModal()
+    this.observeStream()
+    this.observeHead()
+  }
+
   observeRoot() {
     const options: MutationObserverInit = {
       childList: true,
@@ -30,16 +41,23 @@ export default class TwitterMediaObserver implements IHarvestObserver {
     }
 
     const rootMutationCallback: MutationCallback = (_, observer) => {
+      if (__DEV__) console.info('root mutation')
+
       this.initialize()
       if (isStreamLoaded()) {
-        this.observeHead()
-        this.observeModal()
-        this.observeStream()
-        this.observeHead()
+        this.observeAll()
         observer.disconnect()
       }
     }
-    observeElement('Root', Query.Root, rootMutationCallback, options)
+
+    const root = isAnonymousMode()
+      ? $('.contents [itemscope] [itemtype$="ProfilePage"]')
+      : $(Query.Root) // For anonymous mode
+    if (root) observeElement('Root', root, rootMutationCallback, options)
+    if (!root) {
+      this.initialize()
+      this.observeAll()
+    }
   }
 
   initialize() {
@@ -75,7 +93,10 @@ export default class TwitterMediaObserver implements IHarvestObserver {
       }
     }
 
-    observeElement('Stream', Query.Stream, mutaionCb)
+    const streamContainer = isAnonymousMode()
+      ? $('article')?.closest('ul')
+      : $(Query.Stream)
+    if (streamContainer) observeElement('Stream', streamContainer, mutaionCb)
   }
 
   observeTimeline() {

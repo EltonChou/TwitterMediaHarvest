@@ -5,7 +5,7 @@
  */
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { toErrorResult, toSuccessResult } from '#utils/result'
-import { isInTweetStatus } from './checker'
+import { isAnonymousMode, isInTweetStatus } from './checker'
 import * as A from 'fp-ts/Array'
 import * as E from 'fp-ts/Either'
 import { fromPredicate as optionFromPredicate } from 'fp-ts/lib/Option'
@@ -131,7 +131,7 @@ export const findButton = (article: HTMLElement): HTMLElement | undefined =>
 export const articleHasMedia = (article: HTMLElement) =>
   article && (articleHasVideo(article) || aricleHasPhoto(article))
 
-export const isArticleCanBeAppend = (article: HTMLElement) =>
+export const canArticleBeAppended = (article: HTMLElement) =>
   !(
     elementExists('.deck-harvester', article) ||
     elementExists('.harvester', article)
@@ -187,11 +187,22 @@ export const getLinksFromArticle = (article: HTMLElement): string[] => {
   const timeEle = $('a > time', article)
   if (timeEle?.parentElement?.tagName === 'A')
     anchorEles.push(timeEle.parentElement)
-  return anchorEles
-    .filter(e => e.hasAttribute('href'))
-    .map(e => e.getAttribute('href'))
-    .filter(isString)
-    .map(path => path.replace(featureRegEx.editedHistoryUrl, ''))
+
+  if (anchorEles.length > 0)
+    return anchorEles
+      .filter(e => e.hasAttribute('href'))
+      .map(e => e.getAttribute('href'))
+      .filter(href => href !== null)
+      .map(path => path.replace(featureRegEx.editedHistoryUrl, ''))
+
+  // Use meta element to parse link of tweet.
+  if (isAnonymousMode()) {
+    const urlMeta = $('meta[itemprop="url"]', article)
+    if (urlMeta)
+      return [urlMeta.content.replace(featureRegEx.editedHistoryUrl, '')]
+  }
+
+  return []
 }
 
 export const getTweetIdFromLink = (link: string) =>
