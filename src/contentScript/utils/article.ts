@@ -58,8 +58,11 @@ export const selectArtcleMode = (article: HTMLElement): TweetMode => {
   return 'stream'
 }
 
-export const isAritcleHasQuotedContent = (article: HTMLElement): boolean =>
+export const isArticleHasQuotedContent = (article: HTMLElement): boolean =>
   $$('time', article).length > 1
+
+export const isArticleQuoted = (article: HTMLElement): boolean =>
+  Boolean(article?.parentElement?.closest('article'))
 
 const makePhotoUrlPattern = (statusHref: string): string => {
   const statusPath = URL.canParse(statusHref)

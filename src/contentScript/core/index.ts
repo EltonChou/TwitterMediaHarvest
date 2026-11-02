@@ -7,12 +7,17 @@ import { getError, isErrorResult } from '#utils/result'
 import {
   canArticleBeAppended,
   findButton,
+  getLinksFromArticle,
+  getTweetIdFromLink,
   isArticlePhotoMode,
+  isArticleQuoted,
+  parseLinks,
   setTargetArticle,
 } from '../utils/article'
 import { checkButtonStatus } from '../utils/button'
 import { isFunctionablePath } from '../utils/checker'
 import { makeHarvestButton } from './Harvester'
+import * as O from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/function'
 
 const makeHarvester = (article: HTMLElement) => {
@@ -25,9 +30,22 @@ const makeHarvester = (article: HTMLElement) => {
     if (button) checkButtonStatus(button)
   }
 
-  if (isFunctionablePath() && canArticleBeAppended(article)) {
+  if (
+    isFunctionablePath() &&
+    canArticleBeAppended(article) &&
+    !isArticleQuoted(article)
+  ) {
     const result = pipe(article, setTargetArticle, makeHarvestButton)()
-    if (__DEV__ && isErrorResult(result)) console.error(getError(result))
+    if (__DEV__ && isErrorResult(result)) {
+      // Only the tweet id is parsed so we still get it when screen name parsing fails.
+      const tweetLink = pipe(
+        article,
+        getLinksFromArticle,
+        parseLinks(getTweetIdFromLink),
+        O.toUndefined
+      )
+      console.error(getError(result), { tweetLink, article })
+    }
   }
 }
 

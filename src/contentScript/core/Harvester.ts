@@ -57,8 +57,7 @@ const getActionBar = (article: HTMLElement) =>
   pipe(
     isAnonymousMode()
       ? $('.\\@container', article) ||
-          $('button[type="button"][aria-label="Reply"]', article)?.parentElement
-            ?.parentElement?.parentElement
+          $('[data-engagement-action="generic"]', article)?.parentElement
       : $('[role="group"][aria-label]', article) ||
           $('.r-18u37iz[role="group"][id^="id__"]', article), // FIXME: Rely on magic class name
     E.fromNullable('Failed to get action bar.')
@@ -67,7 +66,7 @@ const getActionBar = (article: HTMLElement) =>
 const getSampleButton = (article: HTMLElement) =>
   pipe(
     $('[data-testid="reply"] > div', article) ||
-      $('[aria-label="Reply"]', article)?.closest('div'), // For anonymous mode
+      $('[data-engagement-action="share"]', article), // For anonymous mode
     E.fromNullable('Failed to get sample button')
   )
 
