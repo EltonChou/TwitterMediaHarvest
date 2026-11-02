@@ -1,5 +1,5 @@
 {
-  "*.{css,scss,sass}": ["prettier --write"],
+  "*.{css,scss,sass}": ["prettier --write --ignore-unknown"],
   "*.{js,cjs,mjs,jsx,ts,tsx}": [
     "eslint --fix",
     "prettier --write",
