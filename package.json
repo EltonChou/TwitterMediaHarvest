@@ -91,7 +91,7 @@
     "filemanager-webpack-plugin": "^10.0.1",
     "gettext-extractor": "^4.0.6",
     "gettext-parser": "^9.0.2",
-    "glob": "^13.0.6",
+    "glob": "^14.0.2",
     "globals": "^17.4.0",
     "husky": "^9.1.7",
     "jest": "^30.3.0",
