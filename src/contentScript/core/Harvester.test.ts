@@ -1,9 +1,9 @@
 /**
  * @jest-environment jsdom
  */
+import { isSuccessResult } from '#utils/result'
 import { makeHarvestButton } from './Harvester'
 import { screen } from '@testing-library/dom'
-import * as IOE from 'fp-ts/lib/IOEither'
 import { pipe } from 'fp-ts/lib/function'
 import fs from 'fs/promises'
 import sysPath from 'path'
@@ -113,16 +113,9 @@ describe.each([
       .spyOn(runtime, 'sendMessage')
       .mockResolvedValue({ status: 'ok', payload: { isExist: true } })
 
-    const result = pipe(
-      getArticle(),
-      makeHarvestButton,
-      IOE.match(
-        () => 'bad',
-        () => 'ok'
-      )
-    )()
+    const result = pipe(getArticle(), makeHarvestButton)()
 
-    expect(result).toBe('ok')
+    expect(isSuccessResult(result))
 
     const harvesterButton = screen.queryByTestId('harvester-button')
     expect(harvesterButton).toBeInTheDocument()
