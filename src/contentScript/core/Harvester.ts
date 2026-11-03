@@ -56,8 +56,8 @@ const richIconSibling =
 const getActionBar = (article: HTMLElement) =>
   pipe(
     isAnonymousMode()
-      ? $('.\\@container', article) ||
-          $('[data-engagement-action="generic"]', article)?.parentElement
+      ? $('[data-engagement-action="share"]', article)?.parentElement ||
+          $('.\\@container', article)
       : $('[role="group"][aria-label]', article) ||
           $('.r-18u37iz[role="group"][id^="id__"]', article), // FIXME: Rely on magic class name
     E.fromNullable('Failed to get action bar.')

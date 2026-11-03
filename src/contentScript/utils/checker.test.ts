@@ -151,8 +151,13 @@ describe('isAnonymousMode', () => {
     expect(isAnonymousMode()).toBe(true)
   })
 
-  it('should return false if no article has a meta child element', () => {
-    mockExists.mockReturnValueOnce(false)
+  it('should return true if a data-slot element exists', () => {
+    mockExists.mockReturnValueOnce(false).mockReturnValueOnce(true)
+    expect(isAnonymousMode()).toBe(true)
+  })
+
+  it('should return false if neither article meta nor data-slot exists', () => {
+    mockExists.mockReturnValueOnce(false).mockReturnValueOnce(false)
     expect(isAnonymousMode()).toBe(false)
   })
 })

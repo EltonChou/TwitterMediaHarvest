@@ -200,6 +200,9 @@ export const getLinksFromArticle = (article: HTMLElement): string[] => {
 
   // Use meta element to parse link of tweet.
   if (isAnonymousMode()) {
+    const anchorEle = $('a[data-base-ui-tooltip-trigger]', article)
+    if (anchorEle) return [anchorEle.href]
+
     const urlMeta = $('meta[itemprop="url"]', article)
     if (urlMeta)
       return [urlMeta.content.replace(featureRegEx.editedHistoryUrl, '')]

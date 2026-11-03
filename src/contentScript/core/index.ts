@@ -38,13 +38,13 @@ const makeHarvester = (article: HTMLElement) => {
     const result = pipe(article, setTargetArticle, makeHarvestButton)()
     if (__DEV__ && isErrorResult(result)) {
       // Only the tweet id is parsed so we still get it when screen name parsing fails.
-      const tweetLink = pipe(
+      const tweetId = pipe(
         article,
         getLinksFromArticle,
         parseLinks(getTweetIdFromLink),
         O.toUndefined
       )
-      console.error(getError(result), { tweetLink, article })
+      console.error(getError(result), { tweetId, article })
     }
   }
 }

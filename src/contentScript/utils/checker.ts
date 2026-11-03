@@ -56,7 +56,8 @@ export const isInTweetStatus = (): boolean =>
 export const isBetaTweetDeck = (): boolean =>
   isTweetDeck() && elementExists('#react-root')
 
-export const isAnonymousMode = (): boolean => elementExists('article meta')
+export const isAnonymousMode = (): boolean =>
+  elementExists('article meta') || elementExists('[data-slot]')
 
 export const isBusinessRelatedTweet = (ele: HTMLElement): boolean =>
   elementExists('[data-testid="placementTracking"]', ele) ||
