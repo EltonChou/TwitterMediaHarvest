@@ -114,8 +114,26 @@ const adaptManifestForSafari = manifest => {
     version_name: _versionName,
     ...rest
   } = manifest
+  // Safari ignores `world: MAIN`, so a loader adds inject.js to the page
+  // as a script tag (see src/contentScript/safariInjectLoader.ts).
+  const contentScripts = manifest.content_scripts.map(script => {
+    if (script.world !== 'MAIN') return script
+    const { world: _world, ...isolated } = script
+    return { ...isolated, js: ['safari-inject-loader.js'] }
+  })
+  const injectTargets = manifest.content_scripts.find(
+    script => script.world === 'MAIN'
+  )?.matches
+
   return {
     ...rest,
+    content_scripts: contentScripts,
+    web_accessible_resources: [
+      ...manifest.web_accessible_resources,
+      ...(injectTargets
+        ? [{ resources: ['inject.js'], matches: injectTargets }]
+        : []),
+    ],
     permissions: [
       ...manifest.permissions.filter(perm => !unsupported.has(perm)),
       'nativeMessaging',

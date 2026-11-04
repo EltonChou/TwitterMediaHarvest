@@ -32,5 +32,16 @@ run it. In Safari:
    unless the app is signed with your Apple ID team).
 3. Settings → Extensions → enable **Media Harvest** and allow it on x.com.
 
-After changing the TypeScript code, run `yarn build:safari:all:dev` again and
-re-run from Xcode.
+To build from the terminal instead of Xcode (ad-hoc signed, for this Mac only):
+
+```sh
+xcodebuild -project "safari/xcode/Media Harvest/Media Harvest.xcodeproj" \
+  -scheme "Media Harvest" -configuration Debug \
+  -derivedDataPath safari/xcode/DerivedData \
+  CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= build
+open "safari/xcode/DerivedData/Build/Products/Debug/Media Harvest.app"
+```
+
+After changing the TypeScript code, run `yarn build:safari:all:dev` and
+`sh safari/setup.sh` again (the Xcode project lists each file of the build, so
+new files need a regenerated project), then rebuild the app.

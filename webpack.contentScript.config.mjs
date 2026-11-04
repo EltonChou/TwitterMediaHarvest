@@ -15,6 +15,13 @@ export default (env, argv) => {
     entry: {
       main: resolve('./src/contentScript/main.ts'),
       inject: resolve('./src/injections/injectFetch.ts'),
+      ...(env.target === 'safari'
+        ? {
+            'safari-inject-loader': resolve(
+              './src/contentScript/safariInjectLoader.ts'
+            ),
+          }
+        : {}),
     },
     plugins: [new MiniCssExtractPlugin()],
     module: {
