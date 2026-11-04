@@ -36,6 +36,7 @@ import {
   downloadRecordRepo,
   downloadRepo,
   downloadSettingsRepo,
+  isClientApiConfigured,
   nativeFetchTweetSolution,
   solutionQuotaRepo,
   tweetResponseCache,
@@ -59,17 +60,22 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
     runWithWebLock(LockCriteria.ClientSync)
   )(clientRepo)
   const setUser = setMonitorUser(clientRepo)
+  /** Handlers that need the Media Harvest backend; none without one. */
+  const ifClientApi = <T>(...handlers: T[]): T[] =>
+    isClientApiConfigured ? handlers : []
 
   publisher
-    .register('runtime:status:installed', [
-      initClient(clientRepo, runtime.setUninstallURL),
-      showClientInfoInConsole(clientRepo),
-      setUser,
-    ])
+    .register(
+      'runtime:status:installed',
+      ifClientApi(
+        initClient(clientRepo, runtime.setUninstallURL),
+        showClientInfoInConsole(clientRepo),
+        setUser
+      )
+    )
     .register('runtime:status:updated', [
       showUpdateMessageInConsole,
-      showClientInfoInConsole(clientRepo),
-      setUser,
+      ...ifClientApi(showClientInfoInConsole(clientRepo), setUser),
       async () => await nativeFetchTweetSolution.clearCacheStorage(),
       // !!Reset warning settings to show the filename overwritten notification for v4.5.0
       async () =>
@@ -81,7 +87,7 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
     ])
     .register('download:status:dispatched:aria2', [
       increaseUsageStats,
-      syncClientInfoWithLock,
+      ...ifClientApi(syncClientInfoWithLock),
     ])
     .register('download:status:dispatched:browser', [
       recordDispatchedDownloadConfiguration(downloadRecordRepo),
@@ -89,7 +95,7 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
     .register('download:status:completed', [
       checkCompletedDownload(downloadRepo, downloadRecordRepo),
       increaseUsageStats,
-      syncClientInfoWithLock,
+      ...ifClientApi(syncClientInfoWithLock),
       cleanDownloadRecord,
     ])
     .register('download:status:interrupted', [

@@ -26,4 +26,14 @@ export const awsClient = new AwsApiClient({
   },
 })
 
+/**
+ * Whether this build talks to the Media Harvest backend (client registration
+ * and usage sync). Builds made from `sample.env`, such as this fork's Safari
+ * build, have a placeholder host and skip it instead of failing requests.
+ */
+export const isClientApiConfigured = (() => {
+  const host = process.env['API_HOSTNAME']
+  return Boolean(host && host.includes('.') && URL.canParse(`https://${host}`))
+})()
+
 export const xApiClient = new XApiClient({ timeout: 10000 })

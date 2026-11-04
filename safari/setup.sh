@@ -49,6 +49,12 @@ xcrun safari-web-extension-converter "$BUILD" \
 HANDLER="$(find "$PROJECT_DIR" -name SafariWebExtensionHandler.swift -not -path "$ROOT/safari/SafariWebExtensionHandler.swift" | head -n 1)"
 cp "$ROOT/safari/SafariWebExtensionHandler.swift" "$HANDLER"
 
+# Sharp app icons from the SVG logo (the converter upscales the 128px PNG).
+xcrun swift "$ROOT/safari/make-icons.swift" \
+  "$ROOT/src/assets/icons/icon.svg" \
+  "$(find "$PROJECT_DIR" -type d -name AppIcon.appiconset | head -n 1)" \
+  "$(find "$PROJECT_DIR" -path '*/Resources/Icon.png' | head -n 1)"
+
 # The extension needs network access to fetch media and write access to
 # ~/Downloads. Xcode 27 projects (project.xcproj) set the sandbox through
 # build settings; older ones use an .entitlements file.
