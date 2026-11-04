@@ -107,7 +107,8 @@ const aricleHasPhoto = (article: HTMLElement): boolean => {
 const getVideoCompoent = (article: HTMLElement): HTMLElement | undefined =>
   $<HTMLElement>('[data-testid="videoPlayer"]', article) ||
   $<HTMLElement>('[data-testid="playButton"]', article) ||
-  $<HTMLElement>('[data-testid="videoComponent"]', article)
+  $<HTMLElement>('[data-testid="videoComponent"]', article) ||
+  $<HTMLElement>('video', article)
 
 const articleHasVideo = (article: HTMLElement): boolean => {
   const videoComponent = getVideoCompoent(article)
@@ -186,7 +187,7 @@ const featureRegEx = Object.freeze({
 export const getLinksFromArticle = (article: HTMLElement): string[] => {
   const anchorEles = isArticlePhotoMode(article)
     ? $$('[href*="analytics"]', article)
-    : $$('[data-testid="User-Name"] [href]', article)
+    : $$('[data-testid="User-Name"] [href], a[href*="/status/"]', article)
   const timeEle = $('a > time', article)
   if (timeEle?.parentElement?.tagName === 'A')
     anchorEles.push(timeEle.parentElement)

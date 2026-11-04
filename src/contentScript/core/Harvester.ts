@@ -31,6 +31,11 @@ const bleachButton = <T extends HTMLElement>(sampleButton: T) => {
   const emptyButton = sampleButton.cloneNode(true) as T
   removeButtonStatsText(emptyButton)
 
+  // Clean identity/state attributes.
+  emptyButton.removeAttribute('id')
+  emptyButton.removeAttribute('aria-pressed')
+  emptyButton.removeAttribute('data-base-ui-tooltip-trigger')
+
   return emptyButton
 }
 
@@ -59,14 +64,17 @@ const getActionBar = (article: HTMLElement) =>
       ? $('.\\@container', article) ||
           $('[data-engagement-action="generic"]', article)?.parentElement
       : $('[role="group"][aria-label]', article) ||
-          $('.r-18u37iz[role="group"][id^="id__"]', article), // FIXME: Rely on magic class name
+          $('.r-18u37iz[role="group"][id^="id__"]', article) || // FIXME: Rely on magic class name
+          $('[role="group"]', article), // Fallback for bars without aria-label
     E.fromNullable('Failed to get action bar.')
   )
 
 const getSampleButton = (article: HTMLElement) =>
   pipe(
     $('[data-testid="reply"] > div', article) ||
-      $('[data-engagement-action="share"]', article), // For anonymous mode
+      // For anonymous mode introduced in 2026-11
+      $('[data-engagement-action="share"]', article) ||
+      $('[data-engagement-action="reply"] a', article),
     E.fromNullable('Failed to get sample button')
   )
 
