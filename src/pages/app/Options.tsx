@@ -166,7 +166,7 @@ const App = ({
                 </Content>
               }
             />
-            {__FIREFOX__ ? null : (
+            {__FIREFOX__ || __SAFARI__ ? null : (
               <Route
                 path={Path.Diagnostics}
                 element={

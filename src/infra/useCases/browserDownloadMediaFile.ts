@@ -13,8 +13,9 @@ import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import { DownloadTarget } from '#domain/valueObjects/downloadTarget'
 import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import ConflictAction from '#enums/ConflictAction'
+import { downloads } from '#libs/downloads'
 import { downloadConfigToBrowserDownloadOptions } from '#mappers/downloadConfig'
-import { downloads, runtime } from 'webextension-polyfill'
+import { runtime } from 'webextension-polyfill'
 
 export class BrowserDownloadMediaFile implements DownloadMediaFileUseCase {
   #ok: boolean

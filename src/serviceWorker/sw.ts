@@ -6,6 +6,7 @@
 import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadWasTriggeredBySelf'
 import AlarmName from '#enums/AlarmName'
 import { getEventPublisher } from '#infra/eventPublisher'
+import { downloads } from '#libs/downloads'
 import { init as initMonitor } from '#monitor'
 import { clientRepo, downloadRepo, tweetResponseCache } from '#provider'
 import { getRuntimeId } from '#utils/runtime'
@@ -40,22 +41,25 @@ Browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 })
 
 Browser.runtime.onInstalled.addListener(handleRuntimeInstalled(eventPublisher))
-Browser.downloads.onChanged.addListener(
+downloads.onChanged.addListener(
   handleDownloadChanged(
     downloadRepo,
     new CheckDownloadWasTriggeredBySelf(getRuntimeId()),
     eventPublisher
   )
 )
-Browser.notifications.onClosed.addListener(
-  handleNotificationClosed(eventPublisher)
-)
-Browser.notifications.onClicked.addListener(
-  handleNotificationClicked(eventPublisher)
-)
-Browser.notifications.onButtonClicked.addListener(
-  handleNotificationButtonClicked(eventPublisher)
-)
+// Safari has no notifications API; the macOS app shows them instead.
+if (!__SAFARI__) {
+  Browser.notifications.onClosed.addListener(
+    handleNotificationClosed(eventPublisher)
+  )
+  Browser.notifications.onClicked.addListener(
+    handleNotificationClicked(eventPublisher)
+  )
+  Browser.notifications.onButtonClicked.addListener(
+    handleNotificationButtonClicked(eventPublisher)
+  )
+}
 
 alarms.create(AlarmName.EvictTweetCache, {
   periodInMinutes: __DEV__ ? 5 : 1440,

@@ -143,6 +143,8 @@
     "build:chrome:all": "webpack --mode=production --progress --color --env target=chrome --env zip=true",
     "build:edge:all": "webpack --mode=production --progress --color --env target=edge --env zip=true",
     "build:edge:all:dev": "webpack --mode=development --progress --color --env target=edge",
+    "build:safari:all": "webpack --mode=production --progress --color --env target=safari",
+    "build:safari:all:dev": "webpack --mode=development --progress --color --env target=safari",
     "build:firefox:all": "webpack --mode=production --progress --color --env target=firefox --env zip=true",
     "build:firefox:all:dev": "webpack --mode=development --progress --color --env target=firefox",
     "build:firefox:all:self-sign": "webpack --mode=production --progress --color --env target=firefox --env self-sign --env zip=true",

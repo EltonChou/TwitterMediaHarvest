@@ -7,13 +7,14 @@ import type {
   DownloadFileCommand,
   DownloadFileUseCase,
 } from '#domain/useCases/downloadFile'
+import { downloads } from '#libs/downloads'
 import { downloadConfigToBrowserDownloadOptions } from '#mappers/downloadConfig'
 import { toError } from 'fp-ts/lib/Either'
 import Browser from 'webextension-polyfill'
 
 export class BrowserDownloadFile implements DownloadFileUseCase {
   async process(command: DownloadFileCommand): Promise<UnsafeTask> {
-    const downloadId = await Browser.downloads.download(
+    const downloadId = await downloads.download(
       downloadConfigToBrowserDownloadOptions(command.target)
     )
 

@@ -76,12 +76,15 @@ const Nav = ({ closeMenu }: NavProps) => {
         closeMenu={closeMenu}
         testId="nav-item-history"
       />
-      <NavItem
-        name={i18n('Diagnostics', 'options:sideMenu')}
-        target={Path.Diagnostics}
-        closeMenu={closeMenu}
-        testId="nav-item-diagnostics"
-      />
+      {/* The extension conflict check needs the `management` API. */}
+      {__SAFARI__ ? null : (
+        <NavItem
+          name={i18n('Diagnostics', 'options:sideMenu')}
+          target={Path.Diagnostics}
+          closeMenu={closeMenu}
+          testId="nav-item-diagnostics"
+        />
+      )}
       <NavItem
         name={i18n('About', 'options:sideMenu')}
         target={Path.About}

@@ -101,6 +101,29 @@ const appendChromiumMinimumVersion = manifest => {
 }
 
 /**
+ * Safari Web Extensions have no `downloads`, `notifications` or `management`
+ * APIs. Files are saved and notifications are shown by the containing macOS
+ * app instead, which the extension reaches through native messaging.
+ * @param {Record<string, unknown>} manifest
+ * @returns {Record<string, unknown>}
+ */
+const adaptManifestForSafari = manifest => {
+  const unsupported = new Set(['downloads', 'notifications'])
+  const {
+    optional_permissions: _optional,
+    version_name: _versionName,
+    ...rest
+  } = manifest
+  return {
+    ...rest,
+    permissions: [
+      ...manifest.permissions.filter(perm => !unsupported.has(perm)),
+      'nativeMessaging',
+    ],
+  }
+}
+
+/**
  * Webpack configuration function
  * @param {Record<string, boolean | string>} env - Environment variables passed to webpack
  * @param {import('webpack').WebpackOptionsNormalized} argv - Webpack CLI arguments
@@ -116,6 +139,7 @@ export default (env, argv) => {
   const isChrome = BROWSER === 'chrome'
   const isEdge = BROWSER === 'edge'
   const isChromium = isChrome || isEdge
+  const isSafari = BROWSER === 'safari'
 
   return merge(baseConfig(env, argv), {
     name: 'service',
@@ -141,7 +165,7 @@ export default (env, argv) => {
       new CopyPlugin({
         patterns: [
           {
-            from: isChromium ? 'manifest.json' : 'manifest_firefox_v3.json',
+            from: isFirefox ? 'manifest_firefox_v3.json' : 'manifest.json',
             context: 'src',
             to: 'manifest.json',
             transform: content => {
@@ -164,6 +188,10 @@ export default (env, argv) => {
 
               if (isChromium) {
                 manifest = appendChromiumMinimumVersion(manifest)
+              }
+
+              if (isSafari) {
+                manifest = adaptManifestForSafari(manifest)
               }
 
               if (isFirefox) {

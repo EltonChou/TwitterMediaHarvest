@@ -8,7 +8,7 @@ import type {
   DownloadQuery,
   IDownloadRepository,
 } from '#domain/repositories/download'
-import { downloads } from 'webextension-polyfill'
+import { downloads } from '#libs/downloads'
 
 export class BrowserDownloadRepository implements IDownloadRepository {
   async getById(id: number): Promise<DownloadItem | undefined> {

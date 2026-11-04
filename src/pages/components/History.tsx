@@ -14,6 +14,7 @@ import type { SearchTweetIdsByHashTags } from '#domain/useCases/searchTweetIdsBy
 import { DownloadConfig } from '#domain/valueObjects/downloadConfig'
 import ConflictAction from '#enums/ConflictAction'
 import MediaType from '#enums/mediaType'
+import { downloads } from '#libs/downloads'
 import { getText as i18n } from '#libs/i18n'
 import { DownloadTweetMediaMessage, sendMessage } from '#libs/webExtMessage'
 import useDownloadHistory, {
@@ -66,7 +67,6 @@ import {
   BiRefresh,
 } from 'react-icons/bi'
 import { FaFileExport, FaFileImport } from 'react-icons/fa'
-import { downloads } from 'webextension-polyfill'
 import type { Downloads } from 'webextension-polyfill'
 
 type ItemActionsProps = {
