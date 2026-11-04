@@ -65,8 +65,11 @@ text = re.sub(r'"PRODUCT_BUNDLE_IDENTIFIER": "[^"]*"(?=,\s*\n\s*"PRODUCT_NAME": 
 # Grant the extension target network and Downloads access.
 start = text.index('"name": "Media Harvest Extension"')
 head, tail = text[:start], text[start:]
+# The entitlements file adds the app group that background downloads need.
 for key, value in (("ENABLE_OUTGOING_NETWORK_CONNECTIONS", "YES"),
-                   ("ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER", "readwrite")):
+                   ("ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER", "readwrite"),
+                   ("CODE_SIGN_ENTITLEMENTS",
+                    "Media Harvest Extension/Media Harvest Extension.entitlements")):
     if f'"{key}"' not in tail.split('"build-settings": {', 2)[1].split('},', 1)[0]:
         tail = tail.replace('"ENABLE_APP_SANDBOX": "YES",',
                             f'"ENABLE_APP_SANDBOX": "YES",\n        "{key}": "{value}",', 1)
@@ -84,6 +87,25 @@ else
     /usr/libexec/PlistBuddy -c "Add :$key bool true" "$ENTITLEMENTS"
   done
 fi
+
+# Background downloads in an app extension need an app group: a container
+# shared with the app. Team-prefixed groups need no registration on macOS.
+EXT_DIR="$PROJECT_DIR/$APP_NAME/$APP_NAME Extension"
+APP_GROUP='$(DEVELOPMENT_TEAM).'"$BUNDLE_ID"
+cat > "$EXT_DIR/$APP_NAME Extension.entitlements" <<PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>$APP_GROUP</string>
+	</array>
+</dict>
+</plist>
+PLIST
+/usr/libexec/PlistBuddy -c "Delete :MHAppGroup" "$EXT_DIR/Info.plist" >/dev/null 2>&1 || true
+/usr/libexec/PlistBuddy -c "Add :MHAppGroup string $APP_GROUP" "$EXT_DIR/Info.plist"
 
 if [ -z "$TEAM_ID" ]; then
   echo

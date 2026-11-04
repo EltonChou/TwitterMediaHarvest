@@ -2,12 +2,16 @@ import { sendNativeMessage } from './nativeMessage'
 import {
   KEY_PREFIX,
   download,
+  resumePendingDownloads,
   search,
   toDownloadDeltas,
 } from './safariDownloads'
 import { storage } from 'webextension-polyfill'
 
-jest.mock('./nativeMessage')
+jest.mock('./nativeMessage', () => ({
+  ...jest.requireActual('./nativeMessage'),
+  sendNativeMessage: jest.fn(),
+}))
 
 // Overloads confuse jest.mocked, so use a plain mock.
 const mockedSend = sendNativeMessage as unknown as jest.Mock
@@ -100,6 +104,73 @@ describe('safariDownloads', () => {
 
     const items = await search({ limit: 2 })
     expect(items.map(i => i.id)).toEqual([3, 2])
+  })
+})
+
+describe('background downloads in the app', () => {
+  beforeEach(() => jest.useFakeTimers())
+  afterEach(() => jest.useRealTimers())
+
+  const tick = () => jest.advanceTimersByTimeAsync(1000)
+
+  it('polls the app until a long download finishes', async () => {
+    mockedSend
+      .mockResolvedValueOnce({ ok: true, pending: true, token: 'tok' })
+      .mockResolvedValueOnce({ ok: true, pending: true, bytesReceived: 5 })
+      .mockResolvedValueOnce({ ok: true, path: '/d/v.mp4', fileSize: 9e8 })
+
+    const id = await download({
+      url: 'https://video.twimg.com/v.mp4',
+      filename: 'v.mp4',
+    })
+    await tick()
+    expect((await search({ id }))[0]).toMatchObject({
+      state: 'in_progress',
+      nativeToken: 'tok',
+    })
+    await tick()
+    await tick()
+
+    expect(mockedSend).toHaveBeenLastCalledWith({
+      type: 'status',
+      token: 'tok',
+    })
+    const [item] = await search({ id })
+    expect(item).toMatchObject({ state: 'complete', filename: '/d/v.mp4' })
+    expect(item).not.toHaveProperty('nativeToken')
+  })
+
+  it('fails a download the app keeps not recognising', async () => {
+    mockedSend
+      .mockResolvedValueOnce({ ok: true, pending: true, token: 'gone' })
+      .mockResolvedValue({ ok: true, pending: true, unknown: true })
+
+    const id = await download({ url: 'https://x.com/v.mp4', filename: 'v.mp4' })
+    await jest.advanceTimersByTimeAsync(63_000)
+
+    expect((await search({ id }))[0]).toMatchObject({ state: 'interrupted' })
+  })
+
+  it('resumes waiting on downloads after the worker restarts', async () => {
+    store.set(KEY_PREFIX + 7, {
+      id: 7,
+      state: 'in_progress',
+      nativeToken: 'tok7',
+      startTime: new Date().toISOString(),
+    })
+    store.set(KEY_PREFIX + 8, {
+      id: 8,
+      state: 'in_progress',
+      startTime: new Date(Date.now() - 3600_000).toISOString(),
+    })
+    mockedSend.mockResolvedValue({ ok: true, path: '/d/7.mp4', fileSize: 1 })
+
+    const resumed = resumePendingDownloads()
+    await tick()
+    await resumed
+
+    expect(store.get(KEY_PREFIX + 7)).toMatchObject({ state: 'complete' })
+    expect(store.get(KEY_PREFIX + 8)).toMatchObject({ state: 'interrupted' })
   })
 })
 

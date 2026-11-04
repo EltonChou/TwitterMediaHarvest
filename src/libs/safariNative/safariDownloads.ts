@@ -11,12 +11,19 @@
  * extension context (service worker, popup, options page) sees the same
  * records and gets `onChanged` events from `storage.onChanged`.
  */
-import { sendNativeMessage } from './nativeMessage'
+import type { NativeDownloadResponse } from './nativeMessage'
+import { isPending, sendNativeMessage } from './nativeMessage'
 import type { Downloads, Storage } from 'webextension-polyfill'
 import { runtime, storage } from 'webextension-polyfill'
 
 export const KEY_PREFIX = 'safari.download:'
 const MAX_RECORDS = 500
+const POLL_INTERVAL_MS = 1000
+/** How long the app may not recognise a token before the download is failed. */
+const UNKNOWN_TOKEN_GRACE_MS = 60_000
+
+/** A download record, plus the app's token while it downloads in the background. */
+type SafariDownloadItem = Downloads.DownloadItem & { nativeToken?: string }
 
 type DownloadListener = (delta: Downloads.OnChangedDownloadDeltaType) => void
 
@@ -27,8 +34,8 @@ const toKey = (id: number) => KEY_PREFIX + id
  * casts that sit inside call chains in the emitted JS, and babel then fails
  * to parse it.
  */
-const asItem = (value: unknown): Downloads.DownloadItem | undefined =>
-  value as Downloads.DownloadItem | undefined
+const asItem = (value: unknown): SafariDownloadItem | undefined =>
+  value as SafariDownloadItem | undefined
 
 let lastId = 0
 /** Unique and increasing, also across service worker restarts. */
@@ -77,18 +84,18 @@ const makeItem = (
 
 const readItem = async (
   id: number
-): Promise<Downloads.DownloadItem | undefined> => {
+): Promise<SafariDownloadItem | undefined> => {
   const key = toKey(id)
   const record = await storage.local.get(key)
-  return record[key] as Downloads.DownloadItem | undefined
+  return asItem(record[key])
 }
 
-const writeItem = (item: Downloads.DownloadItem) =>
+const writeItem = (item: SafariDownloadItem) =>
   storage.local.set({ [toKey(item.id)]: item })
 
-const readAllItems = async (): Promise<Downloads.DownloadItem[]> => {
+const readAllItems = async (): Promise<SafariDownloadItem[]> => {
   const records = await storage.local.get(null)
-  const items: Downloads.DownloadItem[] = []
+  const items: SafariDownloadItem[] = []
   for (const [key, value] of Object.entries(records)) {
     const item = asItem(value)
     if (key.startsWith(KEY_PREFIX) && item) items.push(item)
@@ -102,8 +109,64 @@ const pruneOldItems = async () => {
   if (stale.length) await storage.local.remove(stale)
 }
 
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+const finish = async (
+  item: SafariDownloadItem,
+  response: Exclude<NativeDownloadResponse, { pending: true }>
+) => {
+  const { nativeToken: _token, ...rest } = item
+  const endTime = new Date().toISOString()
+  await writeItem(
+    response.ok
+      ? {
+          ...rest,
+          state: 'complete',
+          filename: response.path,
+          fileSize: response.fileSize,
+          totalBytes: response.fileSize,
+          bytesReceived: response.fileSize,
+          mime: response.mime ?? item.mime,
+          exists: true,
+          endTime,
+        }
+      : { ...rest, state: 'interrupted', error: 'FILE_FAILED', endTime }
+  )
+}
+
+/** Downloads this context is already waiting on, so none is polled twice. */
+const polling = new Set<number>()
+
+/**
+ * Waits for a background download in the app to finish. Polling stops if
+ * Safari suspends the service worker; `resumePendingDownloads` picks it up
+ * again when the worker starts.
+ */
+const waitForApp = async (item: SafariDownloadItem) => {
+  const token = item.nativeToken
+  if (!token || polling.has(item.id)) return
+  polling.add(item.id)
+  try {
+    let unknownSince: number | undefined
+    for (;;) {
+      await sleep(POLL_INTERVAL_MS)
+      const response = await sendNativeMessage({ type: 'status', token })
+      if (!isPending(response)) return await finish(item, response)
+      if (!response.unknown) {
+        unknownSince = undefined
+        continue
+      }
+      unknownSince ??= Date.now()
+      if (Date.now() - unknownSince > UNKNOWN_TOKEN_GRACE_MS)
+        return await finish(item, { ok: false, error: 'Download was lost.' })
+    }
+  } finally {
+    polling.delete(item.id)
+  }
+}
+
 const saveWithApp = async (
-  item: Downloads.DownloadItem,
+  item: SafariDownloadItem,
   options: Downloads.DownloadOptionsType
 ) => {
   const conflictAction = options.conflictAction ?? 'uniquify'
@@ -123,26 +186,33 @@ const saveWithApp = async (
     ...request,
   })
 
-  const finished: Downloads.DownloadItem = response.ok
-    ? {
-        ...item,
-        state: 'complete',
-        filename: response.path,
-        fileSize: response.fileSize,
-        totalBytes: response.fileSize,
-        bytesReceived: response.fileSize,
-        mime: response.mime ?? item.mime,
-        exists: true,
-        endTime: new Date().toISOString(),
-      }
-    : {
-        ...item,
-        state: 'interrupted',
-        error: 'FILE_FAILED',
-        endTime: new Date().toISOString(),
-      }
+  if (!isPending(response)) return finish(item, response)
+  if (!response.token)
+    return finish(item, { ok: false, error: 'No download token.' })
 
-  await writeItem(finished)
+  const pending = { ...item, nativeToken: response.token }
+  await writeItem(pending)
+  await waitForApp(pending)
+}
+
+const STALE_WITHOUT_TOKEN_MS = 10 * 60_000
+
+/**
+ * Resumes waiting on downloads the app was still running, and fails ones
+ * that never reached the app (the worker stopped before it answered).
+ */
+export const resumePendingDownloads = async () => {
+  const items = await readAllItems()
+  const now = Date.now()
+  await Promise.all(
+    items
+      .filter(item => item.state === 'in_progress')
+      .map(item => {
+        if (item.nativeToken) return waitForApp(item)
+        if (now - Date.parse(item.startTime) > STALE_WITHOUT_TOKEN_MS)
+          return finish(item, { ok: false, error: 'Download was lost.' })
+      })
+  )
 }
 
 export const download = async (

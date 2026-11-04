@@ -7,6 +7,7 @@ import { CheckDownloadWasTriggeredBySelf } from '#domain/useCases/checkDownloadW
 import AlarmName from '#enums/AlarmName'
 import { getEventPublisher } from '#infra/eventPublisher'
 import { downloads } from '#libs/downloads'
+import { resumePendingDownloads } from '#libs/safariNative/safariDownloads'
 import { init as initMonitor } from '#monitor'
 import { clientRepo, downloadRepo, tweetResponseCache } from '#provider'
 import { getRuntimeId } from '#utils/runtime'
@@ -48,6 +49,9 @@ downloads.onChanged.addListener(
     eventPublisher
   )
 )
+// Background downloads in the Safari app outlive this worker; pick them up.
+if (__SAFARI__) void resumePendingDownloads()
+
 // Safari has no notifications API; the macOS app shows them instead.
 if (!__SAFARI__) {
   Browser.notifications.onClosed.addListener(
