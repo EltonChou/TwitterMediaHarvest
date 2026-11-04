@@ -14,7 +14,17 @@ import {
   setUser as setSentryUser,
 } from '@sentry/browser'
 
+/**
+ * Builds made from `sample.env` (such as this fork's Safari build) carry a
+ * placeholder DSN. Sentry would log "Invalid Sentry Dsn" errors for it, so
+ * error reporting is simply left off unless a real DSN is configured.
+ */
+const hasValidDsn = (dsn: string | undefined): dsn is string =>
+  Boolean(dsn && URL.canParse(dsn))
+
 export const init = (options?: InitializationOptions) => {
+  if (!hasValidDsn(process.env.SENTRY_DSN)) return
+
   const integrations = [
     captureConsoleIntegration({ levels: ['error'], handled: true }),
   ]
