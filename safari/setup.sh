@@ -26,6 +26,15 @@ if ! xcrun --find safari-web-extension-converter >/dev/null 2>&1; then
   exit 1
 fi
 
+# Safari rejects ad-hoc signed extensions, so builds need a signing team
+# (a free Personal Team works). Keep the one picked in Xcode across
+# regenerations, or pass TEAM_ID=XXXXXXXXXX.
+OLD_PROJECT="$PROJECT_DIR/$APP_NAME/$APP_NAME.xcodeproj/project.xcproj"
+if [ -z "${TEAM_ID:-}" ] && [ -f "$OLD_PROJECT" ]; then
+  TEAM_ID="$(sed -n 's/.*"DEVELOPMENT_TEAM": "\([A-Z0-9]*\)".*/\1/p' "$OLD_PROJECT" | head -n 1)"
+fi
+TEAM_ID="${TEAM_ID:-}"
+
 xcrun safari-web-extension-converter "$BUILD" \
   --project-location "$PROJECT_DIR" \
   --app-name "$APP_NAME" \
@@ -45,9 +54,9 @@ cp "$ROOT/safari/SafariWebExtensionHandler.swift" "$HANDLER"
 # build settings; older ones use an .entitlements file.
 XCPROJ="$(find "$PROJECT_DIR" -name project.xcproj | head -n 1)"
 if [ -n "$XCPROJ" ]; then
-  python3 - "$XCPROJ" "$BUNDLE_ID" <<'PY'
+  python3 - "$XCPROJ" "$BUNDLE_ID" "$TEAM_ID" <<'PY'
 import re, sys
-path, bundle_id = sys.argv[1], sys.argv[2]
+path, bundle_id, team_id = sys.argv[1], sys.argv[2], sys.argv[3]
 text = open(path).read()
 # The app's bundle id must prefix the extension's, which the converter
 # does not always do.
@@ -61,7 +70,12 @@ for key, value in (("ENABLE_OUTGOING_NETWORK_CONNECTIONS", "YES"),
     if f'"{key}"' not in tail.split('"build-settings": {', 2)[1].split('},', 1)[0]:
         tail = tail.replace('"ENABLE_APP_SANDBOX": "YES",',
                             f'"ENABLE_APP_SANDBOX": "YES",\n        "{key}": "{value}",', 1)
-open(path, "w").write(head + tail)
+text = head + tail
+# Sign both targets with the team, if there is one.
+if team_id and '"DEVELOPMENT_TEAM"' not in text:
+    text = text.replace('"CODE_SIGN_STYLE": "Automatic",',
+                        f'"CODE_SIGN_STYLE": "Automatic",\n        "DEVELOPMENT_TEAM": "{team_id}",')
+open(path, "w").write(text)
 PY
 else
   ENTITLEMENTS="$(find "$PROJECT_DIR" -name '*Extension.entitlements' | head -n 1)"
@@ -69,6 +83,12 @@ else
     /usr/libexec/PlistBuddy -c "Delete :$key" "$ENTITLEMENTS" >/dev/null 2>&1 || true
     /usr/libexec/PlistBuddy -c "Add :$key bool true" "$ENTITLEMENTS"
   done
+fi
+
+if [ -z "$TEAM_ID" ]; then
+  echo
+  echo "No signing team set. Safari will not load an ad-hoc signed build:"
+  echo "pick your team in Xcode (Signing & Capabilities) or rerun with TEAM_ID=..."
 fi
 
 echo

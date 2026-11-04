@@ -24,6 +24,12 @@ yarn build:safari:all:dev
 sh safari/setup.sh           # generates safari/xcode/
 ```
 
+Safari will not load an ad-hoc signed build, so the app must be signed with a
+team. A free Personal Team works: add your Apple ID in Xcode → Settings →
+Accounts, then pick the team for both targets under Signing & Capabilities.
+`setup.sh` keeps that team when it regenerates the project (or pass
+`TEAM_ID=XXXXXXXXXX`).
+
 Then open the generated `.xcodeproj`, choose the **Media Harvest** scheme, and
 run it. In Safari:
 
@@ -32,13 +38,13 @@ run it. In Safari:
    unless the app is signed with your Apple ID team).
 3. Settings → Extensions → enable **Media Harvest** and allow it on x.com.
 
-To build from the terminal instead of Xcode (ad-hoc signed, for this Mac only):
+To build from the terminal instead of Xcode:
 
 ```sh
 xcodebuild -project "safari/xcode/Media Harvest/Media Harvest.xcodeproj" \
   -scheme "Media Harvest" -configuration Debug \
   -derivedDataPath safari/xcode/DerivedData \
-  CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= build
+  -allowProvisioningUpdates build
 open "safari/xcode/DerivedData/Build/Products/Debug/Media Harvest.app"
 ```
 
