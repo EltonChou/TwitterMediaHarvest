@@ -7,8 +7,10 @@ import {
   getLinksFromArticle,
   getScreenNameFromLink,
   getTweetIdFromLink,
+  isArticleHasQuotedContent,
   isArticleInStatus,
   isArticleInStream,
+  isArticleQuoted,
   parseLinks,
   parseTweetInfo,
   selectArtcleMode,
@@ -182,3 +184,42 @@ describe.each([
     })
   }
 )
+
+describe('article with quoted content', () => {
+  const getOuterArticle = () =>
+    document.querySelectorAll<HTMLElement>('article')[0]
+  const getQuotedArticle = () =>
+    document.querySelectorAll<HTMLElement>('article')[1]
+
+  beforeAll(() => {
+    document.body.innerHTML = `
+      <article>
+        <a href="/outer/status/111">outer</a>
+        <article>
+          <a href="/quoted/status/222">quoted</a>
+          <video></video>
+        </article>
+      </article>
+    `
+  })
+
+  it('does not treat the quoted media as its own', () => {
+    expect(articleHasMedia(getOuterArticle())).toBeFalse()
+    expect(articleHasMedia(getQuotedArticle())).toBeTrue()
+  })
+
+  it('keeps the quoted links out of the outer article', () => {
+    expect(getLinksFromArticle(getOuterArticle())).toEqual([
+      '/outer/status/111',
+    ])
+    expect(getLinksFromArticle(getQuotedArticle())).toEqual([
+      '/quoted/status/222',
+    ])
+  })
+
+  it('can detect quoted content', () => {
+    expect(isArticleHasQuotedContent(getOuterArticle())).toBeTrue()
+    expect(isArticleHasQuotedContent(getQuotedArticle())).toBeFalse()
+    expect(isArticleQuoted(getQuotedArticle())).toBeTrue()
+  })
+})

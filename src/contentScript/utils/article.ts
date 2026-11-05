@@ -59,7 +59,7 @@ export const selectArtcleMode = (article: HTMLElement): TweetMode => {
 }
 
 export const isArticleHasQuotedContent = (article: HTMLElement): boolean =>
-  $$('time', article).length > 1
+  $$('article', article).length > 0 || $$('time', article).length > 1
 
 export const isArticleQuoted = (article: HTMLElement): boolean =>
   Boolean(article?.parentElement?.closest('article'))
@@ -83,7 +83,9 @@ const getPhotoElementByUrl =
 const getArticleAnchor = (article: HTMLElement) => {
   const anchorTime = $('a[href*="/status/"] > time', article)
   if (anchorTime) return anchorTime.closest('a')
-  return $('a[href*="/status/"]', article)
+
+  const anchorEles = $$('a[href*="/status/"]', article)
+  return anchorEles.find(anchor => !isInQuotedArticle(article, anchor))
 }
 
 const historyAnchorPattern = /\/history$/
@@ -101,7 +103,7 @@ const aricleHasPhoto = (article: HTMLElement): boolean => {
   // this href is relative path.
   const photoUrl = makePhotoUrlPattern(href)
   const photoEle = getPhotoElementByUrl(photoUrl)(article)
-  return photoEle ? !isPhotoInQuotedContent(photoEle) : false
+  return photoEle ? !isPhotoInQuotedContent(article, photoEle) : false
 }
 
 const getVideoCompoent = (article: HTMLElement): HTMLElement | undefined =>
@@ -114,16 +116,27 @@ const articleHasVideo = (article: HTMLElement): boolean => {
   const videoComponent = getVideoCompoent(article)
   return Boolean(
     videoComponent &&
-    !isVideoInQuotedContent(videoComponent) &&
+    !isVideoInQuotedContent(article, videoComponent) &&
     !isBelongsToCard(videoComponent)
   )
 }
 
 const isBelongsToCard = (ele: HTMLElement): boolean =>
   Boolean(ele?.closest('[data-testid="card.wrapper"]'))
-const isVideoInQuotedContent = (ele: HTMLElement) =>
+
+/**
+ * Quoted content lives in a nested article.
+ */
+const isInQuotedArticle = (article: HTMLElement, ele: Element): boolean => {
+  const owner = ele.closest('article')
+  return Boolean(owner && owner !== article && article.contains(owner))
+}
+
+const isVideoInQuotedContent = (article: HTMLElement, ele: HTMLElement) =>
+  isInQuotedArticle(article, ele) ||
   Boolean(ele?.closest('[role="link"]')?.querySelector('time'))
-const isPhotoInQuotedContent = (ele: HTMLElement) =>
+const isPhotoInQuotedContent = (article: HTMLElement, ele: HTMLElement) =>
+  isInQuotedArticle(article, ele) ||
   Boolean(
     ele?.closest('[id^="id"]:not([aria-labelledby])')?.querySelector('time')
   )
@@ -192,8 +205,13 @@ export const getLinksFromArticle = (article: HTMLElement): string[] => {
   if (timeEle?.parentElement?.tagName === 'A')
     anchorEles.push(timeEle.parentElement)
 
-  if (anchorEles.length > 0)
-    return anchorEles
+  // A quoted article keeps its own links.
+  const ownAnchorEles = anchorEles.filter(
+    anchor => !isInQuotedArticle(article, anchor)
+  )
+
+  if (ownAnchorEles.length > 0)
+    return ownAnchorEles
       .filter(e => e.hasAttribute('href'))
       .map(e => e.getAttribute('href'))
       .filter(href => href !== null)
