@@ -223,3 +223,25 @@ describe('article with quoted content', () => {
     expect(isArticleQuoted(getQuotedArticle())).toBeTrue()
   })
 })
+
+describe('photo mode article with nested articles', () => {
+  const getPhotoArticle = () =>
+    document.querySelectorAll<HTMLElement>('[data-testid="tweet"]')[0]
+
+  beforeAll(() => {
+    document.body.innerHTML = `
+      <div data-testid="tweet">
+        <a href="/someone/status/333/analytics">analytics</a>
+        <article>
+          <a href="/someone/status/333"><time>now</time></a>
+        </article>
+      </div>
+    `
+  })
+
+  it('keeps its own links', () => {
+    expect(getLinksFromArticle(getPhotoArticle())).toContain(
+      '/someone/status/333'
+    )
+  })
+})

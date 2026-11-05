@@ -58,8 +58,10 @@ export const selectArtcleMode = (article: HTMLElement): TweetMode => {
   return 'stream'
 }
 
-export const isArticleHasQuotedContent = (article: HTMLElement): boolean =>
-  $$('article', article).length > 0 || $$('time', article).length > 1
+export const isArticleHasQuotedContent = (article: HTMLElement): boolean => {
+  if (isArticlePhotoMode(article)) return false
+  return $$('article', article).length > 0 || $$('time', article).length > 1
+}
 
 export const isArticleQuoted = (article: HTMLElement): boolean =>
   Boolean(article?.parentElement?.closest('article'))
@@ -128,6 +130,8 @@ const isBelongsToCard = (ele: HTMLElement): boolean =>
  * Quoted content lives in a nested article.
  */
 const isInQuotedArticle = (article: HTMLElement, ele: Element): boolean => {
+  if (isArticlePhotoMode(article)) return false
+
   const owner = ele.closest('article')
   return Boolean(owner && owner !== article && article.contains(owner))
 }
