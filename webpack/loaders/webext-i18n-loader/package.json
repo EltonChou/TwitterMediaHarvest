@@ -31,7 +31,7 @@
     "eslint": "^10.2.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
-    "jest": "^30.3.0",
+    "jest": "^30.5.2",
     "memfs": "^4.57.1",
     "prettier": "^3.8.1",
     "prettier-eslint": "^17.1.2",
