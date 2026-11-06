@@ -119,12 +119,35 @@ const articleHasVideo = (article: HTMLElement): boolean => {
   return Boolean(
     videoComponent &&
     !isVideoInQuotedContent(article, videoComponent) &&
-    !isBelongsToCard(videoComponent)
+    !isBelongsToCard(article, videoComponent)
   )
 }
 
-const isBelongsToCard = (ele: HTMLElement): boolean =>
-  Boolean(ele?.closest('[data-testid="card.wrapper"]'))
+const isExternalLink = (ele: Element): boolean => {
+  if (!(ele instanceof HTMLAnchorElement)) return false
+
+  const href = ele.getAttribute('href')
+  if (!href || !URL.canParse(href)) return false
+
+  const url = URL.parse(href)
+  return Boolean(url && !/(^|\.)(x|twitter)\.com$/i.test(url.hostname))
+}
+
+// Card media is not downloadable.
+const isBelongsToCard = (article: HTMLElement, ele: HTMLElement): boolean => {
+  if (ele.closest('[data-testid="card.wrapper"]')) return true
+
+  const anchor = ele.closest('a')
+  if (anchor && isExternalLink(anchor)) return true
+
+  let node = ele.parentElement
+  while (node && node !== article) {
+    if ($$(':scope > a', node).some(isExternalLink)) return true
+    node = node.parentElement
+  }
+
+  return false
+}
 
 /**
  * Quoted content lives in a nested article.
@@ -210,12 +233,12 @@ export const getLinksFromArticle = (article: HTMLElement): string[] => {
     anchorEles.push(timeEle.parentElement)
 
   // A quoted article keeps its own links.
-  const ownAnchorEles = anchorEles.filter(
+  const unquotedAnchorEles = anchorEles.filter(
     anchor => !isInQuotedArticle(article, anchor)
   )
 
-  if (ownAnchorEles.length > 0)
-    return ownAnchorEles
+  if (unquotedAnchorEles.length > 0)
+    return unquotedAnchorEles
       .filter(e => e.hasAttribute('href'))
       .map(e => e.getAttribute('href'))
       .filter(href => href !== null)

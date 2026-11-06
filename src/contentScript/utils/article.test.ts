@@ -245,3 +245,33 @@ describe('photo mode article with nested articles', () => {
     )
   })
 })
+
+describe('article with a link card', () => {
+  const getArticle = () => document.querySelectorAll<HTMLElement>('article')[0]
+
+  it('does not treat card media as its own', () => {
+    document.body.innerHTML = `
+      <article>
+        <a href="/outer/status/444">outer</a>
+        <div>
+          <div><video></video></div>
+          <a href="https://example.com/card" target="_blank">From example.com</a>
+        </div>
+      </article>
+    `
+
+    expect(articleHasMedia(getArticle())).toBeFalse()
+  })
+
+  it('keeps media next to an external link in the text', () => {
+    document.body.innerHTML = `
+      <article>
+        <a href="/outer/status/555">outer</a>
+        <p><a href="https://example.com/article">read</a></p>
+        <div><div><video></video></div></div>
+      </article>
+    `
+
+    expect(articleHasMedia(getArticle())).toBeTrue()
+  })
+})
