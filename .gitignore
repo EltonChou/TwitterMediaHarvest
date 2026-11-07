@@ -81,6 +81,7 @@ dev.env
 # Claude Code
 .claude/worktrees/
 .claude/projects/
+.claude/instructions/
 
 # Playwright
 playwright-report/
