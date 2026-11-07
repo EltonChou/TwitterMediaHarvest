@@ -65,6 +65,8 @@ $harvest-yellow: rgb(241, 185, 26)
   +download-button-svg
   &.x
     margin-left: unset !important
+    // X's hover colors (`hover:text-brand`, `before:bg-brand/10`) read this variable.
+    --x-fg-brand: #{$harvest-yellow}
   &.status
     min-height: 1.875rem
     // padding-left: 0.85rem
