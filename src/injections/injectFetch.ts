@@ -5,7 +5,7 @@
  */
 const Pattern = Object.freeze({
   tweetRelated:
-    /^(?:\/i\/api)?\/graphql\/(?<queryId>.+)?\/(?<queryName>TweetDetail|TweetResultByRestId|UserTweets|UserMedia|HomeTimeline|HomeLatestTimeline|UserTweetsAndReplies|UserHighlightsTweets|UserArticlesTweets|Bookmarks|Likes|CommunitiesExploreTimeline|ListLatestTweetsTimeline|SearchTimeline|UserOriginalsTimeline|SearchByRawQuery)$/,
+    /^(?:\/i\/api)?\/graphql\/(?<queryId>.+)?\/(?<queryName>TweetDetail|TweetResultByRestId|UserTweets|UserMedia|HomeTimeline|HomeLatestTimeline|UserTweetsAndReplies|UserHighlightsTweets|UserArticlesTweets|Bookmarks|Likes|CommunitiesExploreTimeline|ListLatestTweetsTimeline|SearchTimeline|UserOriginalsTimeline|SearchByRawQuery|UserRepliesTimeline|UserRepostsTimeline|UserVideoTimeline|likesQuery|BookmarkTimeline|tweetNotificationsQuery|ListTimeline)$/,
   notificationDeviceFollow:
     /^(?:\/i\/api)?\/2\/notifications\/device_follow\.json$/,
 })

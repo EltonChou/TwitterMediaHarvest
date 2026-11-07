@@ -1,0 +1,198 @@
+{
+  "data": {
+    "tweet_result_by_rest_id": {
+      "id": "VHdlZXRSZXN1bHRzOjIxMTg2Njc1MDA0MzkzOTY2OTg=",
+      "rest_id": "2118667500439396698",
+      "result": {
+        "__typename": "Tweet",
+        "cashtag_attachments": [],
+        "conversation_muted": false,
+        "core": {
+          "user_results": {
+            "id": "VXNlclJlc3VsdHM6MTY4MDU4MzU1MDYxNjM3MTIwMA==",
+            "rest_id": "1680583550616371200",
+            "result": {
+              "__typename": "User",
+              "avatar": {
+                "image_url": "https://pbs.twimg.com/profile_images/1872630795338436608/8wu6AwwG_normal.jpg"
+              },
+              "core": {
+                "name": "そんなわたし2",
+                "screen_name": "watasisonna_18"
+              },
+              "follow_request_sent": false,
+              "id": "VXNlcjoxNjgwNTgzNTUwNjE2MzcxMjAw",
+              "identity_profile_labels_highlighted_label": {},
+              "is_followed_by": false,
+              "is_following": false,
+              "legacy": {
+                "notifications": false
+              },
+              "location": {
+                "location": ""
+              },
+              "parody_commentary_fan_label": "None",
+              "pinned_items": {
+                "tweet_ids_str": ["2118666826678960304"]
+              },
+              "privacy": {
+                "protected": false
+              },
+              "profile_bio": {
+                "description": "本垢@watasisonna\nましゅまろ➡https://t.co/utSv4Q8Rjt\nfanbox➡https://t.co/pTroQoIfmG\nci-en➡https://t.co/4CifkwS7XO\n🚫AI・無断転載禁止",
+                "entities": {
+                  "description": {
+                    "urls": [
+                      {
+                        "display_url": "marshmallow-qa.com/naqi9pd9age445p",
+                        "expanded_url": "http://marshmallow-qa.com/naqi9pd9age445p",
+                        "indices": [21, 44],
+                        "url": "https://t.co/utSv4Q8Rjt"
+                      },
+                      {
+                        "display_url": "sonnawatasi.fanbox.cc",
+                        "expanded_url": "https://sonnawatasi.fanbox.cc/",
+                        "indices": [52, 75],
+                        "url": "https://t.co/pTroQoIfmG"
+                      },
+                      {
+                        "display_url": "ci-en.dlsite.com/creator/39249",
+                        "expanded_url": "https://ci-en.dlsite.com/creator/39249",
+                        "indices": [82, 105],
+                        "url": "https://t.co/4CifkwS7XO"
+                      }
+                    ],
+                    "user_mentions": [
+                      {
+                        "indices": [2, 14],
+                        "is_unmentioned": false,
+                        "screen_name": "watasisonna"
+                      }
+                    ]
+                  }
+                }
+              },
+              "profile_image_shape": "Circle",
+              "profile_translation": {
+                "translator_type_enum": "None"
+              },
+              "relationship_counts": {
+                "followers": 10978,
+                "following": 0
+              },
+              "relationship_perspectives": {
+                "blocked_by": false,
+                "blocking": false,
+                "dm_blocked_by": false,
+                "dm_blocking": false,
+                "followed_by": false,
+                "following": false,
+                "muting": false
+              },
+              "rest_id": "1680583550616371200",
+              "super_follow_eligible": false,
+              "super_followed_by": false,
+              "super_following": false,
+              "tweet_counts": {
+                "tweets": 326
+              },
+              "verification": {
+                "is_blue_verified": false
+              }
+            }
+          }
+        },
+        "counts": {
+          "bookmark_count": 127,
+          "favorite_count": 324,
+          "quote_count": 0,
+          "reply_count": 0,
+          "retweet_count": 35
+        },
+        "details": {
+          "cashtag_entities": [],
+          "created_at_ms": 1793964669000,
+          "display_text_range": [0, 78],
+          "full_text": "全体公開にしましたので是非！\n\nシュウ姉ちゃんを困らせたい（５ページ）｜そんなわたし｜pixivFANBOX https://t.co/pdJdc6c3Ef https://t.co/GOfYcDQjgF",
+          "hashtag_entities": [],
+          "smarttags": []
+        },
+        "edit_control": {
+          "__typename": "EditControlInitial",
+          "edit_tweet_ids": ["2118667500439396698"],
+          "editable_until_msecs": "1793968269000",
+          "edits_remaining": "5",
+          "is_edit_eligible": true
+        },
+        "grok_analysis_button": true,
+        "grok_annotations": {
+          "is_image_editable_by_grok": true
+        },
+        "grok_translated_post_with_availability": {
+          "is_available": false
+        },
+        "id": "VHdlZXQ6MjExODY2NzUwMDQzOTM5NjY5OA==",
+        "is_translatable": true,
+        "legacy": {
+          "conversation_id_str": "2118667500439396698",
+          "entities": {
+            "media": [
+              {
+                "expanded_url": "https://x.com/watasisonna_18/status/2118667500439396698/photo/1"
+              }
+            ],
+            "urls": [
+              {
+                "expanded_url": "https://sonnawatasi.fanbox.cc/posts/12702886?utm_campaign=post_page\u0026utm_medium=share\u0026utm_source=twitter"
+              }
+            ]
+          },
+          "lang": "ja",
+          "possibly_sensitive": true
+        },
+        "media_entities2": [
+          {
+            "expanded_url": "https://x.com/watasisonna_18/status/2118667500439396698/photo/1",
+            "ext_media_availability": {
+              "status": "Available"
+            },
+            "ext_playlists": [],
+            "features": {},
+            "id_str": "2118667486086463488",
+            "indices": [79, 102],
+            "media_url_https": "https://pbs.twimg.com/media/HWcE2nlagAALWo9.jpg",
+            "original_info": {
+              "height": 630,
+              "width": 1200
+            },
+            "type": "photo"
+          }
+        ],
+        "mention_entities": [],
+        "perspective": {
+          "favorited": false,
+          "retweeted": false
+        },
+        "quick_promote_eligibility": {
+          "eligibility": "IneligibleNotVerified"
+        },
+        "rest_id": "2118667500439396698",
+        "unmention_data": {
+          "id": "VW5tZW50aW9uczoKAAEdZwTd0NrhWg8AAgoAAAAAAA=="
+        },
+        "url_entities": [
+          {
+            "__typename": "UrlsEntity",
+            "display_url": "sonnawatasi.fanbox.cc/posts/12702886…",
+            "expanded_url": "https://sonnawatasi.fanbox.cc/posts/12702886?utm_campaign=post_page\u0026utm_medium=share\u0026utm_source=twitter",
+            "indices": [55, 78],
+            "url": "https://t.co/pdJdc6c3Ef"
+          }
+        ],
+        "views": {
+          "count": "46703"
+        }
+      }
+    }
+  }
+}

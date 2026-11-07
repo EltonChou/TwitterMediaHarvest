@@ -87,13 +87,21 @@ examine the tweet format.
 2. Do not count quoted tweets. The parsers do not cache quoted tweets.
 3. Legacy format: for each retweet with media, count two items.
    `eagerParseTweet` caches the retweet and the original tweet.
+4. New format: for each retweet (`legacy.retweeted_status_results`), count
+   the retweet if it has media. Then count the original tweet if it has
+   media. The retweet often has no media of its own.
+5. New format: count the tweet in a `TweetWithVisibilityResults` (its
+   `tweet` key). Do not count a tweet without `details.created_at_ms` (for
+   example, a `MediaGrid` tweet). The parser rejects it.
 
 ## 5 Procedure A: Capture the Endpoint
 
 1. In `src/injections/injectFetch.ts`, add the query name to the `queryName`
    group of `Pattern.tweetRelated`.
 2. In `src/libs/webExtMessage/messages/captureResponse.ts`, add a value to
-   `enum ResponseType`. Use the query name as the value.
+   `enum ResponseType`. Use the query name as the value. Keep its letter case.
+
+   EXAMPLE: `LikesQuery = 'likesQuery'`.
 
    CAUTION: If the value is not in `.valid(...)`, the message validation fails.
    The cache does not get the tweets.
@@ -111,9 +119,19 @@ examine the tweet format.
 
 1. Save the sample in the `test-data` directory of its format:
    - Legacy format: `src/libs/XApi/parsers/v1/test-data/<QueryName>.json`.
-   - New format: `src/libs/XApi/parsers/v2/test-data/<QueryName>.json`.
+   - New format: `src/libs/XApi/parsers/v2/test-data/<QueryName>.json`. Use
+     the `ResponseType` value as the file name. The test reads
+     `${type}.json`.
+
+   CAUTION: Make sure that the file has one response only. A file with two
+   pasted responses is not valid JSON.
+
+   NOTE: If the sample is large, keep only the entries that the tests need.
+
 2. In `src/applicationUseCases/captureResponseAndCache.test.ts`, add a test
    for the new `ResponseType`. Send the sample body to `process`.
+   - New format: add a row to the `should cache media tweets from new-format`
+     table.
 3. Make sure that the test expects `saveAll` with the number from 4.4.
 4. New format: add parser tests in the test file of the new-format parser
    path (refer to 8.2).
@@ -130,6 +148,28 @@ examine the tweet format.
 Do these steps in `src/applicationUseCases/captureResponseAndCache.ts`, if
 the step does not give a different file.
 
+### 7.1 New Format
+
+1. Add a row to `v2Timelines`. Give the path to the object that has
+   `instructions`.
+   - Profile timeline (`data.user_result_by_screen_name.result.<key>.timeline`):
+     use `profileTimeline('<key>')`.
+   - Other timelines: use `v2Timeline('data', …, 'timeline')`.
+2. Do not add a schema, a body type, a handler, or a `case`. `v2Timeline`
+   makes the schema. The `default` branch of `process` uses the row.
+3. Go to procedure D.
+
+### 7.2 Same Endpoint Name, Two Formats
+
+An endpoint can send the legacy format and the new format with the same name.
+EXAMPLE: `HomeTimeline` and `TweetResultByRestId`.
+
+1. In the `case` of the `ResponseType`, call the new-format handler first.
+2. If the result is a `Joi.ValidationError`, call the legacy handler.
+3. Do not change the legacy handler.
+
+### 7.3 Legacy Format
+
 1. Examine the available `process…Response` methods.
 2. If a method has the same instructions path and the same format, add a
    `case` for the new `ResponseType` to that method. Then go to procedure D.
@@ -137,9 +177,7 @@ the step does not give a different file.
    EXAMPLE: `UserMedia`, `Likes`, and `UserTweets` use
    `processUserTimelineResponse`.
 
-3. Add a body type:
-   - Legacy format: in `src/libs/XApi/types/v1/tweet.d.ts`.
-   - New format: in the type file of the new-format parser path.
+3. Add a body type in `src/libs/XApi/types/v1/tweet.d.ts`.
 
    CAUTION: If an object level does not have `.unknown(true)`, an extra key
    causes a validation error. EXAMPLE: the `id` key in
@@ -148,8 +186,8 @@ the step does not give a different file.
 4. Add a Joi schema for the body. Mark each object level with
    `.required().unknown(true)`.
 5. Mark `instructions` with `Joi.array().required()`.
-6. Add a `process<QueryName>Response` method. Copy an available method for
-   the same format.
+6. Add a `process<QueryName>Response` method. Copy an available legacy
+   method.
 7. In the new method, change the schema and the instructions path.
 8. Add a `case` for the new `ResponseType` in the `switch` of `process`.
 
@@ -166,22 +204,27 @@ the step does not give a different file.
 
 1. Use the new-format parser path. It is in the `v2` subdirectories:
 
-   | File                                      | Contents                                                                       |
-   | ----------------------------------------- | ------------------------------------------------------------------------------ |
-   | `src/libs/XApi/types/v2/tweet.d.ts`       | `namespace XApi.V2`: instructions, entries, `Tweet`, body types.               |
-   | `src/libs/XApi/parsers/v2/refinements.ts` | Type guards. `isTweet` validates the tweet. `isMediaTweet`.                    |
-   | `src/libs/XApi/parsers/v2/tweet.ts`       | `retrieveTweetsFromInstruction`, `retrieveTweetFromTweetResult`, `parseTweet`. |
-   | `src/libs/XApi/parsers/v2/tweet.test.ts`  | Parser tests with the fixtures in `v2/test-data/`.                             |
+   | File                                      | Contents                                                                                                                          |
+   | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+   | `src/libs/XApi/types/v2/tweet.d.ts`       | `namespace XApi.V2`: instructions, entries, `Tweet`, body types.                                                                  |
+   | `src/libs/XApi/parsers/v2/refinements.ts` | Type guards. `isTweet` validates the tweet. `isMediaTweet`.                                                                       |
+   | `src/libs/XApi/parsers/v2/tweet.ts`       | `retrieveTweetsFromInstruction`, `retrieveTweetFromTweetResult` (unwraps visibility results), `withRetweetedTweet`, `parseTweet`. |
+   | `src/libs/XApi/parsers/v2/tweet.test.ts`  | Parser tests with the fixtures in `v2/test-data/`.                                                                                |
 
-2. In `captureResponseAndCache.ts`, use the helper
-   `retriveMediaTweetsFromInstructionsV2`.
-3. Use these shared parts:
+2. In `captureResponseAndCache.ts`, use the helper `parseMediaTweetsV2`. It
+   adds the original tweet of each retweet before it removes tweets without
+   media.
+3. The parser rejects a tweet that does not have the fields that
+   `parseTweet` reads. EXAMPLE: a `MediaGrid` tweet from
+   `UserPhotoTimeline` (no `created_at_ms`, no `privacy`). Do not cache this
+   tweet: an incomplete cache entry replaces a full entry for the same tweet.
+4. Use these shared parts:
    - Domain value objects: `Tweet`, `TweetUser`, `TweetWithContent`.
    - `parseMedias` in `src/libs/XApi/parsers/tweetMedia.ts` and the media
      types in `src/libs/XApi/types/media.d.ts`. The `media_entities2` items
      have the same fields as legacy media items.
    - `#utils/result` helpers, for example `reduceToSuccesses`.
-4. If a new tweet type shows (for example, a retweet), add it to the `v2`
+5. If a new tweet type shows (for example, a tombstone), add it to the `v2`
    files only.
 
 ### 8.3 Different Format

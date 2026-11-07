@@ -29,6 +29,12 @@ export const isTimelineTweet = (
   content: XApi.V2.ItemContent
 ): content is XApi.V2.TimelineTweet => content.__typename === 'TimelineTweet'
 
+export const isTweetWithVisibilityResults = (
+  item: { __typename: string } | undefined
+): item is XApi.V2.TweetWithVisibilityResults =>
+  item?.__typename === 'TweetWithVisibilityResults' &&
+  typeof (item as XApi.V2.TweetWithVisibilityResults).tweet === 'object'
+
 export const isMediaTweet = (tweet: XApi.V2.Tweet): boolean =>
   (tweet.media_entities2?.length ?? 0) > 0
 

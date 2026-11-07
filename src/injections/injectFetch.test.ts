@@ -27,6 +27,28 @@ describe('fetch response capturing', () => {
   afterEach(() => jest.resetAllMocks())
 
   it.each([
+    'UserRepliesTimeline',
+    'UserRepostsTimeline',
+    'UserVideoTimeline',
+    'likesQuery',
+    'BookmarkTimeline',
+    'tweetNotificationsQuery',
+    'ListTimeline',
+    'HomeTimeline',
+    'TweetResultByRestId',
+  ])('should track %s', async queryName => {
+    originalFetch.mockResolvedValue(makeResponse(200, '{}'))
+
+    await fetch(`https://api.x.com/graphql/queryId/${queryName}`)
+    await flushPromises()
+
+    expect(listener).toHaveBeenCalledTimes(1)
+    expect(listener.mock.calls[0][0].detail.path).toBe(
+      `/graphql/queryId/${queryName}`
+    )
+  })
+
+  it.each([
     { inputType: 'string', input: TRACKED_URL },
     { inputType: 'URL', input: new URL(TRACKED_URL) },
     { inputType: 'Request', input: { url: TRACKED_URL } as Request },

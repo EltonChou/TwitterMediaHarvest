@@ -9,28 +9,9 @@
  * Kept apart from the legacy format on purpose: do not adapt one into the other.
  */
 declare namespace XApi.V2 {
-  interface Timeline {
-    timeline: {
-      instructions: Instruction[]
-    }
-  }
-
-  interface UserOriginalsTimelineBody {
+  interface TweetResultByRestIdBody {
     data: {
-      user_result_by_screen_name: {
-        result: {
-          __typename: 'User'
-          profile_user_originals_timeline: Timeline
-        }
-      }
-    }
-  }
-
-  interface SearchByRawQueryBody {
-    data: {
-      search_by_raw_query: {
-        search_timeline: Timeline
-      }
+      tweet_result_by_rest_id: TweetResult
     }
   }
 
@@ -85,6 +66,11 @@ declare namespace XApi.V2 {
     result?: { __typename: string }
   }
 
+  interface TweetWithVisibilityResults {
+    __typename: 'TweetWithVisibilityResults'
+    tweet: { __typename: string }
+  }
+
   interface User {
     __typename: 'User'
     rest_id: string
@@ -109,5 +95,8 @@ declare namespace XApi.V2 {
       hashtag_entities?: { indices: [number, number]; text: string }[]
     }
     media_entities2?: XApi.Media[]
+    legacy?: {
+      retweeted_status_results?: TweetResult
+    }
   }
 }

@@ -130,6 +130,25 @@ const responseTypeCriterias: ResponseTypeCriteria[] = [
     endpoint: 'SearchByRawQuery',
   },
   {
+    type: ResponseType.UserRepliesTimeline,
+    endpoint: 'UserRepliesTimeline',
+  },
+  {
+    type: ResponseType.UserRepostsTimeline,
+    endpoint: 'UserRepostsTimeline',
+  },
+  {
+    type: ResponseType.UserVideoTimeline,
+    endpoint: 'UserVideoTimeline',
+  },
+  { type: ResponseType.LikesQuery, endpoint: 'likesQuery' },
+  { type: ResponseType.BookmarkTimeline, endpoint: 'BookmarkTimeline' },
+  {
+    type: ResponseType.TweetNotificationsQuery,
+    endpoint: 'tweetNotificationsQuery',
+  },
+  { type: ResponseType.ListTimeline, endpoint: 'ListTimeline' },
+  {
     type: ResponseType.NotificationsDeviceFollow,
     endpoint: 'device_follow.json',
   },

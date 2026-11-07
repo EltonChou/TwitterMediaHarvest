@@ -7,6 +7,7 @@ import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
 import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
 import {
+  isSuccessResult,
   reduceToSuccesses,
   toErrorResult,
   toSuccessResult,
@@ -19,6 +20,7 @@ import {
   isTimelineTimelineModule,
   isTimelineTweet,
   isTweet,
+  isTweetWithVisibilityResults,
 } from './refinements'
 
 export const parseTweet = (tweet: XApi.V2.Tweet): TweetWithContent => {
@@ -45,12 +47,14 @@ export const parseTweet = (tweet: XApi.V2.Tweet): TweetWithContent => {
   })
 }
 
-// ponytail: only plain tweets with a `User` author. Retweets, tombstones and
-// visibility results have no new-format sample yet; add them here when one shows.
+// ponytail: tombstones and other result types have no new-format sample yet,
+// so they are rejected here. Add them when one shows.
 export const retrieveTweetFromTweetResult = (
   tweetResult: XApi.V2.TweetResult
 ): Result<XApi.V2.Tweet> => {
-  if (isTweet(tweetResult.result)) return toSuccessResult(tweetResult.result)
+  const { result } = tweetResult
+  const tweet = isTweetWithVisibilityResults(result) ? result.tweet : result
+  if (isTweet(tweet)) return toSuccessResult(tweet)
 
   const msg = `Unsupported tweet result\n${JSON.stringify(tweetResult)}`
 
@@ -59,6 +63,18 @@ export const retrieveTweetFromTweetResult = (
     console.warn(msg)
 
   return toErrorResult(new Error(msg))
+}
+
+/**
+ * Returns the tweet, and the retweeted tweet if it is a retweet.
+ * A retweet often has no media of its own, so expand before filtering by media.
+ */
+export const withRetweetedTweet = (tweet: XApi.V2.Tweet): XApi.V2.Tweet[] => {
+  const retweeted = tweet.legacy?.retweeted_status_results
+  if (!retweeted) return [tweet]
+
+  const result = retrieveTweetFromTweetResult(retweeted)
+  return isSuccessResult(result) ? [tweet, result.value] : [tweet]
 }
 
 const itemContentsOf = (

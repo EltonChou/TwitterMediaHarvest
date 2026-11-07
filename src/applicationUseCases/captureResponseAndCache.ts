@@ -17,7 +17,9 @@ import {
 import { isMediaTweet as isMediaTweetV2 } from '#libs/XApi/parsers/v2/refinements'
 import {
   parseTweet as parseTweetV2,
+  retrieveTweetFromTweetResult as retrieveTweetFromTweetResultV2,
   retrieveTweetsFromInstruction as retrieveTweetsFromInstructionV2,
+  withRetweetedTweet,
 } from '#libs/XApi/parsers/v2/tweet'
 import { ResponseType } from '#libs/webExtMessage'
 import { isErrorResult, toErrorResult, toSuccessResult } from '#utils/result'
@@ -164,33 +166,36 @@ export class CaptureResponseAndCache implements AsyncUseCase<
     return this.cacheTweets(mediaTweets)
   }
 
-  protected async processUserOriginalsTimelineResponse(body: string) {
-    const { value, error: schemaError } = validateBody(
-      body,
-      userOriginalsTimelineBodySchema
-    )
+  protected async processV2TimelineResponse(
+    body: string,
+    { path, schema }: V2Timeline
+  ): Promise<UnsafeTask> {
+    const { value, error: schemaError } = validateBody(body, schema)
     if (schemaError) return schemaError
 
-    const mediaTweets = retriveMediaTweetsFromInstructionsV2(
-      value.data.user_result_by_screen_name.result
-        .profile_user_originals_timeline.timeline.instructions
+    const timeline = path.reduce(
+      (node, key) => node[key] as Record<string, unknown>,
+      value
     )
+    const instructions = timeline.instructions as XApi.V2.Instruction[]
 
-    return this.cacheTweets(mediaTweets)
+    return this.cacheTweets(
+      parseMediaTweetsV2(instructions.flatMap(retrieveTweetsFromInstructionV2))
+    )
   }
 
-  protected async processSearchByRawQueryResponse(body: string) {
-    const { value, error: schemaError } = validateBody(
-      body,
-      searchByRawQueryBodySchema
-    )
+  protected async processRestTweetByIdV2Response(
+    body: string
+  ): Promise<UnsafeTask> {
+    const { value, error: schemaError } = validateBody(body, restBodyV2Schema)
     if (schemaError) return schemaError
 
-    const mediaTweets = retriveMediaTweetsFromInstructionsV2(
-      value.data.search_by_raw_query.search_timeline.timeline.instructions
+    const result = retrieveTweetFromTweetResultV2(
+      value.data.tweet_result_by_rest_id
     )
+    if (isErrorResult(result)) return
 
-    return this.cacheTweets(mediaTweets)
+    return this.cacheTweets(parseMediaTweetsV2([result.value]))
   }
 
   protected async processNotificationDeviceFollowResponse(body: string) {
@@ -218,8 +223,11 @@ export class CaptureResponseAndCache implements AsyncUseCase<
         error = await this.processTweetDetailResponse(body)
         break
 
+      // Same endpoint name serves both formats: try the new one first.
       case ResponseType.TweetResultByRestId:
-        error = await this.processRestTweetByIdResponse(body)
+        error = await this.processRestTweetByIdV2Response(body)
+        if (error instanceof Joi.ValidationError)
+          error = await this.processRestTweetByIdResponse(body)
         break
 
       case ResponseType.UserTweets:
@@ -233,7 +241,9 @@ export class CaptureResponseAndCache implements AsyncUseCase<
 
       case ResponseType.HomeTimeline:
       case ResponseType.HomeLatestTimeline:
-        error = await this.processHomeTimelineResponse(body)
+        error = await this.processV2TimelineResponse(body, homeTimelineV2)
+        if (error instanceof Joi.ValidationError)
+          error = await this.processHomeTimelineResponse(body)
         break
 
       case ResponseType.CommunitiesExploreTimeline:
@@ -252,21 +262,17 @@ export class CaptureResponseAndCache implements AsyncUseCase<
         error = await this.processSearchTimelineResponse(body)
         break
 
-      case ResponseType.UserOriginalsTimeline:
-        error = await this.processUserOriginalsTimelineResponse(body)
-        break
-
-      case ResponseType.SearchByRawQuery:
-        error = await this.processSearchByRawQueryResponse(body)
-        break
-
       case ResponseType.NotificationsDeviceFollow:
         error = await this.processNotificationDeviceFollowResponse(body)
         break
 
-      default:
+      default: {
+        const timeline = v2Timelines[type]
+        if (timeline)
+          error = await this.processV2TimelineResponse(body, timeline)
         // eslint-disable-next-line no-console
-        if (__DEV__) console.debug(`Not implemented for ${type}`)
+        else if (__DEV__) console.debug(`Not implemented for ${type}`)
+      }
     }
 
     if (error) this.handleError(error, type, body)
@@ -424,45 +430,86 @@ const searchTimelineBodySchema: Joi.ObjectSchema<XApi.SearchTimelineBody> =
       .unknown(true),
   }).unknown(true)
 
-const userOriginalsTimelineBodySchema: Joi.ObjectSchema<XApi.V2.UserOriginalsTimelineBody> =
-  Joi.object({
-    data: Joi.object({
-      user_result_by_screen_name: Joi.object({
-        result: Joi.object({
-          __typename: Joi.valid('User').required(),
-          profile_user_originals_timeline: Joi.object({
-            timeline: Joi.object({
-              instructions: Joi.array().required(),
-            })
-              .required()
-              .unknown(true),
-          })
-            .required()
-            .unknown(true),
-        })
-          .required()
-          .unknown(true),
-      })
-        .required()
-        .unknown(true),
-    })
-      .required()
-      .unknown(true),
-  }).unknown(true)
+type V2Timeline = {
+  path: string[]
+  schema: Joi.ObjectSchema<Record<string, unknown>>
+}
 
-const searchByRawQueryBodySchema: Joi.ObjectSchema<XApi.V2.SearchByRawQueryBody> =
+/**
+ * New-format timeline whose `instructions` is at `path`.
+ * Every level of `path` must exist; extra keys are allowed.
+ */
+const v2Timeline = (...path: string[]): V2Timeline => ({
+  path,
+  schema: path.reduceRight<Joi.ObjectSchema>(
+    (inner, key) => Joi.object({ [key]: inner.required() }).unknown(true),
+    Joi.object({ instructions: Joi.array().required() }).unknown(true)
+  ),
+})
+
+const profileTimeline = (timelineKey: string) =>
+  v2Timeline(
+    'data',
+    'user_result_by_screen_name',
+    'result',
+    timelineKey,
+    'timeline'
+  )
+
+const v2Timelines: Partial<Record<ResponseType, V2Timeline>> = {
+  [ResponseType.UserOriginalsTimeline]: profileTimeline(
+    'profile_user_originals_timeline'
+  ),
+  [ResponseType.UserRepliesTimeline]: profileTimeline(
+    'profile_user_replies_timeline'
+  ),
+  [ResponseType.UserRepostsTimeline]: profileTimeline(
+    'profile_user_reposts_timeline'
+  ),
+  [ResponseType.UserVideoTimeline]: profileTimeline(
+    'profile_user_video_timeline'
+  ),
+  [ResponseType.SearchByRawQuery]: v2Timeline(
+    'data',
+    'search_by_raw_query',
+    'search_timeline',
+    'timeline'
+  ),
+  [ResponseType.LikesQuery]: v2Timeline(
+    'data',
+    'user_result_by_rest_id',
+    'result',
+    'favorites_by_time_timeline_v2',
+    'timeline'
+  ),
+  [ResponseType.BookmarkTimeline]: v2Timeline(
+    'data',
+    'bookmark_timeline_v2',
+    'timeline'
+  ),
+  [ResponseType.TweetNotificationsQuery]: v2Timeline(
+    'data',
+    'viewer_v2',
+    'user_results',
+    'result',
+    'tweet_notification_timeline',
+    'timeline'
+  ),
+  [ResponseType.ListTimeline]: v2Timeline(
+    'data',
+    'list_by_rest_id_v2',
+    'tweets_timeline',
+    'timeline'
+  ),
+}
+
+const homeTimelineV2 = v2Timeline('data', 'home_timeline', 'home_timeline_urt')
+
+const restBodyV2Schema: Joi.ObjectSchema<XApi.V2.TweetResultByRestIdBody> =
   Joi.object({
     data: Joi.object({
-      search_by_raw_query: Joi.object({
-        search_timeline: Joi.object({
-          timeline: Joi.object({
-            instructions: Joi.array().required(),
-          })
-            .required()
-            .unknown(true),
-        })
-          .required()
-          .unknown(true),
+      tweet_result_by_rest_id: Joi.object({
+        result: Joi.object().required().unknown(true),
       })
         .required()
         .unknown(true),
@@ -503,11 +550,9 @@ function retriveMediaTweetsFromInstructions(instructions: XApi.Instruction[]) {
     .flat()
 }
 
-function retriveMediaTweetsFromInstructionsV2(
-  instructions: XApi.V2.Instruction[]
-) {
-  return instructions
-    .flatMap(retrieveTweetsFromInstructionV2)
+function parseMediaTweetsV2(tweets: XApi.V2.Tweet[]) {
+  return tweets
+    .flatMap(withRetweetedTweet)
     .filter(isMediaTweetV2)
     .map(parseTweetV2)
 }

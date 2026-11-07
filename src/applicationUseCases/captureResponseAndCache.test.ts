@@ -491,8 +491,17 @@ describe('CaptureResponseAndCache', () => {
   it.each([
     { type: ResponseType.UserOriginalsTimeline, mediaTweetCount: 6 },
     { type: ResponseType.SearchByRawQuery, mediaTweetCount: 19 },
+    { type: ResponseType.UserRepliesTimeline, mediaTweetCount: 5 },
+    { type: ResponseType.UserRepostsTimeline, mediaTweetCount: 33 },
+    { type: ResponseType.UserVideoTimeline, mediaTweetCount: 19 },
+    { type: ResponseType.LikesQuery, mediaTweetCount: 20 },
+    { type: ResponseType.BookmarkTimeline, mediaTweetCount: 15 },
+    { type: ResponseType.TweetNotificationsQuery, mediaTweetCount: 17 },
+    { type: ResponseType.ListTimeline, mediaTweetCount: 7 },
+    { type: ResponseType.HomeTimeline, mediaTweetCount: 34 },
+    { type: ResponseType.TweetResultByRestId, mediaTweetCount: 1 },
   ])(
-    'should cache media tweets from $type response',
+    'should cache media tweets from new-format $type response',
     async ({ type, mediaTweetCount }) => {
       mockSaveAll.mockResolvedValue(undefined)
       const error = await useCase.process({ type, body: readTestData(type) })
@@ -502,6 +511,31 @@ describe('CaptureResponseAndCache', () => {
       expect(mockSaveAll.mock.calls[0]).toHaveLength(mediaTweetCount)
     }
   )
+
+  it('should still cache media tweets from legacy-format home timeline', async () => {
+    const { instructions } = JSON.parse(
+      fs
+        .readFileSync(
+          path.resolve(
+            __dirname,
+            '../libs/XApi/parsers/v1/test-data/UserMedia.json'
+          )
+        )
+        .toString()
+    )
+    mockSaveAll.mockResolvedValue(undefined)
+
+    const error = await useCase.process({
+      type: ResponseType.HomeTimeline,
+      body: JSON.stringify({
+        data: { home: { home_timeline_urt: { instructions } } },
+      }),
+    })
+
+    expect(error).toBeUndefined()
+    expect(mockSaveAll).toHaveBeenCalledTimes(1)
+    expect(mockSaveAll.mock.calls[0].length).toBeGreaterThan(0)
+  })
 
   it('should handle notification device-follow response', async () => {
     const validResponse = {

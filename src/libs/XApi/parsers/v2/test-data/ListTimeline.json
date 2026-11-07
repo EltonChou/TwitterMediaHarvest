@@ -1,0 +1,2369 @@
+{
+  "data": {
+    "list_by_rest_id_v2": {
+      "id": "TGlzdDo5NDgyMTM4Njg0OTY0MjkwNTg=",
+      "tweets_timeline": {
+        "id": "VGltZWxpbmU6CgAhDSi7fVLUIAIA",
+        "timeline": {
+          "id": "ListTweetsProduct-Timeline",
+          "instructions": [
+            {
+              "__typename": "TimelineAddEntries",
+              "entries": [
+                {
+                  "content": {
+                    "__typename": "TimelineTimelineItem",
+                    "client_event_info": {
+                      "component": "suggest_organic_list_tweet",
+                      "details": {
+                        "timelines_details": {
+                          "injection_type": "OrganicListTweet"
+                        }
+                      },
+                      "element": "tweet"
+                    },
+                    "content": {
+                      "__isTimelineTimelineItemContent": "TimelineTweet",
+                      "__typename": "TimelineTweet",
+                      "display_type": "Tweet",
+                      "tweet_results": {
+                        "id": "VHdlZXRSZXN1bHRzOjIxMTg4NzQyMzY5MTE4NDU4MDA=",
+                        "rest_id": "2118874236911845800",
+                        "result": {
+                          "__isTweetResult": "Tweet",
+                          "__typename": "Tweet",
+                          "cashtag_attachments": [],
+                          "conversation_muted": false,
+                          "core": {
+                            "user_results": {
+                              "id": "VXNlclJlc3VsdHM6MTUzNjkxNTE3OTM3MTMxOTI5Ng==",
+                              "result": {
+                                "__typename": "User",
+                                "avatar": {
+                                  "image_url": "https://pbs.twimg.com/profile_images/2072726848174538752/_QA0zeK9_normal.jpg"
+                                },
+                                "core": {
+                                  "name": "Shion",
+                                  "screen_name": "Blue_Bnnuy"
+                                },
+                                "follow_request_sent": false,
+                                "id": "VXNlcjoxNTM2OTE1MTc5MzcxMzE5Mjk2",
+                                "identity_profile_labels_highlighted_label": {},
+                                "is_following": true,
+                                "location": { "location": "Aether" },
+                                "parody_commentary_fan_label": "None",
+                                "pinned_items": {
+                                  "tweet_ids_str": ["2060042718039187481"]
+                                },
+                                "privacy": { "protected": false },
+                                "profile_bio": {
+                                  "description": "Gposer | Sfw/Nsfw🔞 | Sometimes silly | No RP | MDNI | I love Bunnies"
+                                },
+                                "profile_image_shape": "Circle",
+                                "profile_translation": {
+                                  "translator_type_enum": "None"
+                                },
+                                "relationship_counts": {
+                                  "followers": 14700,
+                                  "following": 1995
+                                },
+                                "relationship_perspectives": {
+                                  "blocking": false,
+                                  "followed_by": false,
+                                  "following": true,
+                                  "muting": false
+                                },
+                                "rest_id": "1536915179371319296",
+                                "super_follow_eligible": false,
+                                "super_followed_by": false,
+                                "super_following": false,
+                                "tweet_counts": { "tweets": 8914 },
+                                "verification": { "is_blue_verified": false }
+                              }
+                            }
+                          },
+                          "counts": {
+                            "bookmark_count": 0,
+                            "favorite_count": 0,
+                            "quote_count": 0,
+                            "reply_count": 0,
+                            "retweet_count": 46
+                          },
+                          "details": {
+                            "cashtag_entities": [],
+                            "created_at_ms": 1794013959000,
+                            "display_text_range": [0, 62],
+                            "full_text": "RT @Blue_Bnnuy: Approaching the Target https://t.co/XSnCG1KU1O",
+                            "hashtag_entities": [],
+                            "smarttags": []
+                          },
+                          "edit_control": {
+                            "__typename": "EditControlInitial",
+                            "edit_tweet_ids": ["2118874236911845800"],
+                            "editable_until_msecs": "1794017559516",
+                            "edits_remaining": "5",
+                            "is_edit_eligible": false
+                          },
+                          "grok_analysis_button": true,
+                          "grok_annotations": {},
+                          "grok_translated_post_with_availability": {
+                            "is_available": false
+                          },
+                          "id": "VHdlZXQ6MjExODg3NDIzNjkxMTg0NTgwMA==",
+                          "legacy": {
+                            "conversation_id_str": "2118874236911845800",
+                            "entities": {
+                              "media": [
+                                {
+                                  "expanded_url": "https://x.com/Blue_Bnnuy/status/2118770583383191894/photo/1"
+                                }
+                              ]
+                            },
+                            "lang": "en",
+                            "possibly_sensitive": true,
+                            "retweeted_status_results": {
+                              "id": "VHdlZXRSZXN1bHRzOjIxMTg3NzA1ODMzODMxOTE4OTQ=",
+                              "rest_id": "2118770583383191894",
+                              "result": {
+                                "__typename": "Tweet",
+                                "cashtag_attachments": [],
+                                "conversation_muted": false,
+                                "core": {
+                                  "user_results": {
+                                    "id": "VXNlclJlc3VsdHM6MTUzNjkxNTE3OTM3MTMxOTI5Ng==",
+                                    "result": {
+                                      "__typename": "User",
+                                      "avatar": {
+                                        "image_url": "https://pbs.twimg.com/profile_images/2072726848174538752/_QA0zeK9_normal.jpg"
+                                      },
+                                      "core": {
+                                        "name": "Shion",
+                                        "screen_name": "Blue_Bnnuy"
+                                      },
+                                      "follow_request_sent": false,
+                                      "id": "VXNlcjoxNTM2OTE1MTc5MzcxMzE5Mjk2",
+                                      "identity_profile_labels_highlighted_label": {},
+                                      "is_following": true,
+                                      "location": { "location": "Aether" },
+                                      "parody_commentary_fan_label": "None",
+                                      "pinned_items": {
+                                        "tweet_ids_str": ["2060042718039187481"]
+                                      },
+                                      "privacy": { "protected": false },
+                                      "profile_bio": {
+                                        "description": "Gposer | Sfw/Nsfw🔞 | Sometimes silly | No RP | MDNI | I love Bunnies"
+                                      },
+                                      "profile_image_shape": "Circle",
+                                      "profile_translation": {
+                                        "translator_type_enum": "None"
+                                      },
+                                      "relationship_counts": {
+                                        "followers": 14700,
+                                        "following": 1995
+                                      },
+                                      "relationship_perspectives": {
+                                        "blocking": false,
+                                        "followed_by": false,
+                                        "following": true,
+                                        "muting": false
+                                      },
+                                      "rest_id": "1536915179371319296",
+                                      "super_follow_eligible": false,
+                                      "super_followed_by": false,
+                                      "super_following": false,
+                                      "tweet_counts": { "tweets": 8914 },
+                                      "verification": {
+                                        "is_blue_verified": false
+                                      }
+                                    }
+                                  }
+                                },
+                                "counts": {
+                                  "bookmark_count": 40,
+                                  "favorite_count": 473,
+                                  "quote_count": 0,
+                                  "reply_count": 9,
+                                  "retweet_count": 46
+                                },
+                                "details": {
+                                  "cashtag_entities": [],
+                                  "created_at_ms": 1793989246000,
+                                  "display_text_range": [0, 22],
+                                  "full_text": "Approaching the Target https://t.co/XSnCG1KU1O",
+                                  "hashtag_entities": [],
+                                  "smarttags": []
+                                },
+                                "edit_control": {
+                                  "__typename": "EditControlInitial",
+                                  "edit_tweet_ids": ["2118770583383191894"],
+                                  "editable_until_msecs": "1793992846000",
+                                  "edits_remaining": "5",
+                                  "is_edit_eligible": true
+                                },
+                                "grok_analysis_button": true,
+                                "grok_annotations": {
+                                  "is_image_editable_by_grok": true
+                                },
+                                "grok_translated_post_with_availability": {
+                                  "is_available": false
+                                },
+                                "id": "VHdlZXQ6MjExODc3MDU4MzM4MzE5MTg5NA==",
+                                "legacy": {
+                                  "conversation_id_str": "2118770583383191894",
+                                  "entities": {
+                                    "media": [
+                                      {
+                                        "expanded_url": "https://x.com/Blue_Bnnuy/status/2118770583383191894/photo/1"
+                                      }
+                                    ]
+                                  },
+                                  "lang": "en",
+                                  "possibly_sensitive": true
+                                },
+                                "media_entities2": [
+                                  {
+                                    "allow_download_status": {
+                                      "allow_download": true
+                                    },
+                                    "expanded_url": "https://x.com/Blue_Bnnuy/status/2118770583383191894/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "ext_playlists": [],
+                                    "features": {},
+                                    "id_str": "2118769910163890176",
+                                    "indices": [23, 46],
+                                    "media_url_https": "https://pbs.twimg.com/media/HWdiAfAa4AAGRMh.jpg",
+                                    "original_info": {
+                                      "height": 2160,
+                                      "width": 3840
+                                    },
+                                    "type": "photo"
+                                  }
+                                ],
+                                "mention_entities": [],
+                                "perspective": {
+                                  "favorited": false,
+                                  "retweeted": false
+                                },
+                                "quick_promote_eligibility": {
+                                  "eligibility": "IneligibleNotVerified"
+                                },
+                                "rest_id": "2118770583383191894",
+                                "unmention_data": {
+                                  "id": "VW5tZW50aW9uczoKAAEdZ2KerxoxVg8AAgoAAAAAAA=="
+                                },
+                                "url_entities": [],
+                                "views": { "count": "2814" }
+                              }
+                            }
+                          },
+                          "media_entities2": [
+                            {
+                              "allow_download_status": {
+                                "allow_download": true
+                              },
+                              "expanded_url": "https://x.com/Blue_Bnnuy/status/2118770583383191894/photo/1",
+                              "ext_media_availability": {
+                                "status": "Available"
+                              },
+                              "ext_playlists": [],
+                              "features": {},
+                              "id_str": "2118769910163890176",
+                              "indices": [39, 62],
+                              "media_url_https": "https://pbs.twimg.com/media/HWdiAfAa4AAGRMh.jpg",
+                              "original_info": {
+                                "height": 2160,
+                                "width": 3840
+                              },
+                              "source_status_id_str": "2118770583383191894",
+                              "source_user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTUzNjkxNTE3OTM3MTMxOTI5Ng==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2072726848174538752/_QA0zeK9_normal.jpg"
+                                  },
+                                  "core": {
+                                    "name": "Shion",
+                                    "screen_name": "Blue_Bnnuy"
+                                  },
+                                  "id": "VXNlcjoxNTM2OTE1MTc5MzcxMzE5Mjk2",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "privacy": { "protected": false },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "rest_id": "1536915179371319296",
+                                  "super_followed_by": false,
+                                  "verification": { "is_blue_verified": false }
+                                }
+                              },
+                              "type": "photo"
+                            }
+                          ],
+                          "mention_entities": [
+                            {
+                              "id_str": "1536915179371319296",
+                              "indices": [3, 14],
+                              "screen_name": "Blue_Bnnuy"
+                            }
+                          ],
+                          "perspective": {
+                            "favorited": false,
+                            "retweeted": false
+                          },
+                          "quick_promote_eligibility": {
+                            "eligibility": "IneligibleNotVerified"
+                          },
+                          "rest_id": "2118874236911845800",
+                          "unmention_data": {
+                            "id": "VW5tZW50aW9uczoKAAEdZ8DkZtuBqA8AAgoAAAABFVQ4NnRVUAAA"
+                          },
+                          "url_entities": [],
+                          "views": {}
+                        }
+                      }
+                    }
+                  },
+                  "entry_id": "tweet-2118874236911845800",
+                  "sort_index": "2118874825207316480"
+                },
+                {
+                  "content": {
+                    "__typename": "TimelineTimelineItem",
+                    "client_event_info": {
+                      "component": "suggest_organic_list_tweet",
+                      "details": {
+                        "timelines_details": {
+                          "injection_type": "OrganicListTweet"
+                        }
+                      },
+                      "element": "tweet"
+                    },
+                    "content": {
+                      "__isTimelineTimelineItemContent": "TimelineTweet",
+                      "__typename": "TimelineTweet",
+                      "display_type": "Tweet",
+                      "tweet_results": {
+                        "id": "VHdlZXRSZXN1bHRzOjIxMTg4NzQwMDEzMzQ1ODc0MTI=",
+                        "rest_id": "2118874001334587412",
+                        "result": {
+                          "__isTweetResult": "Tweet",
+                          "__typename": "Tweet",
+                          "cashtag_attachments": [],
+                          "conversation_muted": false,
+                          "core": {
+                            "user_results": {
+                              "id": "VXNlclJlc3VsdHM6MTI2NDk1NDg1MTM3MDI2MjUzMA==",
+                              "result": {
+                                "__typename": "User",
+                                "avatar": {
+                                  "image_url": "https://pbs.twimg.com/profile_images/1851560732690919424/hezjkEov_normal.jpg"
+                                },
+                                "core": {
+                                  "name": "𝓷𝓪𝓫𝓪 🥀",
+                                  "screen_name": "Bluenaba_0"
+                                },
+                                "follow_request_sent": false,
+                                "id": "VXNlcjoxMjY0OTU0ODUxMzcwMjYyNTMw",
+                                "identity_profile_labels_highlighted_label": {},
+                                "is_following": true,
+                                "location": { "location": "𝔃𝓮𝓻𝓸𝓶𝓾𝓼🜸" },
+                                "parody_commentary_fan_label": "None",
+                                "pinned_items": {
+                                  "tweet_ids_str": ["1840881812043698668"]
+                                },
+                                "privacy": { "protected": false },
+                                "profile_bio": {
+                                  "description": "✁✃𝖓𝖆𝖇𝖆𝖙𝖎✁✃⁑前角アウラFS #Front_AURA ⟡ ふろーら ⟡ master🥂 ⁑ #金魚草の恋 店員 ⁑ icon： ✎ღ @UI_CA14 header：✎ღ @dmk_ff14 ⁑ ｽﾀｼﾞｵ：✎ღ #studio_LNC 本館&別館公開中⁑"
+                                },
+                                "profile_image_shape": "Circle",
+                                "profile_translation": {
+                                  "translator_type_enum": "None"
+                                },
+                                "relationship_counts": {
+                                  "followers": 1236,
+                                  "following": 489
+                                },
+                                "relationship_perspectives": {
+                                  "blocking": false,
+                                  "followed_by": false,
+                                  "following": true,
+                                  "muting": false
+                                },
+                                "rest_id": "1264954851370262530",
+                                "super_follow_eligible": false,
+                                "super_followed_by": false,
+                                "super_following": false,
+                                "tweet_counts": { "tweets": 34251 },
+                                "verification": { "is_blue_verified": false }
+                              }
+                            }
+                          },
+                          "counts": {
+                            "bookmark_count": 0,
+                            "favorite_count": 0,
+                            "quote_count": 0,
+                            "reply_count": 0,
+                            "retweet_count": 45
+                          },
+                          "details": {
+                            "cashtag_entities": [],
+                            "created_at_ms": 1794013903000,
+                            "display_text_range": [0, 140],
+                            "full_text": "RT @aquarialicia: 【チャンネル登録者5,555人記念】第3弾 #白銀のワンダラー #FF14 #FFXIV\n\n【応募方法】\n1⃣本ポストをRP\n\n【賞品】\n『フィロス×１orチャイチャホイッスル』を一名様にプレゼント\n\n【応募期間】 ～26年11月14日23時…",
+                            "hashtag_entities": [
+                              {
+                                "indices": [40, 49],
+                                "text": "白銀のワンダラー"
+                              },
+                              { "indices": [50, 55], "text": "FF14" },
+                              { "indices": [56, 62], "text": "FFXIV" }
+                            ],
+                            "smarttags": []
+                          },
+                          "edit_control": {
+                            "__typename": "EditControlInitial",
+                            "edit_tweet_ids": ["2118874001334587412"],
+                            "editable_until_msecs": "1794017503350",
+                            "edits_remaining": "5",
+                            "is_edit_eligible": false
+                          },
+                          "grok_analysis_button": true,
+                          "grok_annotations": {},
+                          "grok_translated_post_with_availability": {
+                            "is_available": false
+                          },
+                          "id": "VHdlZXQ6MjExODg3NDAwMTMzNDU4NzQxMg==",
+                          "legacy": {
+                            "conversation_id_str": "2118874001334587412",
+                            "entities": {},
+                            "lang": "ja",
+                            "quoted_status_permalink": {
+                              "expanded": "https://twitter.com/aquarialicia/status/2117747398638535023"
+                            },
+                            "retweeted_status_results": {
+                              "id": "VHdlZXRSZXN1bHRzOjIxMTg4Njg2MTIxNTcyMTUwMzk=",
+                              "rest_id": "2118868612157215039",
+                              "result": {
+                                "__typename": "Tweet",
+                                "cashtag_attachments": [],
+                                "conversation_muted": false,
+                                "core": {
+                                  "user_results": {
+                                    "id": "VXNlclJlc3VsdHM6NTY0OTgzMjUy",
+                                    "result": {
+                                      "__typename": "User",
+                                      "avatar": {
+                                        "image_url": "https://pbs.twimg.com/profile_images/1890967844663468032/adMkwhzl_normal.jpg"
+                                      },
+                                      "core": {
+                                        "name": "ありしあ@Ridill",
+                                        "screen_name": "aquarialicia"
+                                      },
+                                      "follow_request_sent": false,
+                                      "id": "VXNlcjo1NjQ5ODMyNTI=",
+                                      "identity_profile_labels_highlighted_label": {},
+                                      "is_following": false,
+                                      "location": {
+                                        "location": "Amazonアソシエイト参加"
+                                      },
+                                      "parody_commentary_fan_label": "None",
+                                      "pinned_items": {
+                                        "tweet_ids_str": ["2117747398638535023"]
+                                      },
+                                      "privacy": { "protected": false },
+                                      "professional": {
+                                        "id": "UHJvZmVzc2lvbmFsOjE0NjM3NzQ1MzQyMzA4MTQ3MjE=",
+                                        "rest_id": "1463774534230814721"
+                                      },
+                                      "profile_bio": {
+                                        "description": "Ridill鯖 Alicia Resuka活動中 \n© SQUARE ENIX\n©2023 SQUARE ENIX CO., LTD. All Rights R\n©WFS Developed by WRIGHT FLYER STUDIOS © VISUAL ARTS / Key"
+                                      },
+                                      "profile_image_shape": "Circle",
+                                      "profile_translation": {
+                                        "translator_type_enum": "None"
+                                      },
+                                      "relationship_counts": {
+                                        "followers": 15423,
+                                        "following": 7751
+                                      },
+                                      "relationship_perspectives": {
+                                        "blocking": false,
+                                        "followed_by": false,
+                                        "following": false,
+                                        "muting": false
+                                      },
+                                      "rest_id": "564983252",
+                                      "super_follow_eligible": false,
+                                      "super_followed_by": false,
+                                      "super_following": false,
+                                      "tweet_counts": { "tweets": 155994 },
+                                      "verification": {
+                                        "is_blue_verified": true
+                                      }
+                                    }
+                                  }
+                                },
+                                "counts": {
+                                  "bookmark_count": 2,
+                                  "favorite_count": 19,
+                                  "quote_count": 14,
+                                  "reply_count": 3,
+                                  "retweet_count": 45
+                                },
+                                "details": {
+                                  "cashtag_entities": [],
+                                  "created_at_ms": 1794012618000,
+                                  "display_text_range": [0, 152],
+                                  "full_text": "【チャンネル登録者5,555人記念】第3弾 #白銀のワンダラー #FF14 #FFXIV\n\n【応募方法】\n1⃣本ポストをRP\n\n【賞品】\n『フィロス×１orチャイチャホイッスル』を一名様にプレゼント\n\n【応募期間】 ～26年11月14日23時59分迄\n(お手数ですがRidill迄取りに来ていただきます) https://t.co/opB2o43RDd",
+                                  "hashtag_entities": [
+                                    {
+                                      "indices": [22, 31],
+                                      "text": "白銀のワンダラー"
+                                    },
+                                    { "indices": [32, 37], "text": "FF14" },
+                                    { "indices": [38, 44], "text": "FFXIV" }
+                                  ],
+                                  "smarttags": []
+                                },
+                                "edit_control": {
+                                  "__typename": "EditControlInitial",
+                                  "edit_tweet_ids": ["2118868612157215039"],
+                                  "editable_until_msecs": "1794016218000",
+                                  "edits_remaining": "5",
+                                  "is_edit_eligible": true
+                                },
+                                "grok_analysis_button": true,
+                                "grok_annotations": {},
+                                "grok_translated_post_with_availability": {
+                                  "is_available": false
+                                },
+                                "id": "VHdlZXQ6MjExODg2ODYxMjE1NzIxNTAzOQ==",
+                                "legacy": {
+                                  "conversation_id_str": "2118868612157215039",
+                                  "entities": {
+                                    "media": [
+                                      {
+                                        "expanded_url": "https://x.com/aquarialicia/status/2118868612157215039/photo/1"
+                                      },
+                                      {
+                                        "expanded_url": "https://x.com/aquarialicia/status/2118868612157215039/photo/1"
+                                      }
+                                    ]
+                                  },
+                                  "lang": "ja",
+                                  "possibly_sensitive": false,
+                                  "quoted_status_permalink": {
+                                    "expanded": "https://twitter.com/aquarialicia/status/2117747398638535023"
+                                  }
+                                },
+                                "media_entities2": [
+                                  {
+                                    "allow_download_status": {
+                                      "allow_download": true
+                                    },
+                                    "expanded_url": "https://x.com/aquarialicia/status/2118868612157215039/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "ext_playlists": [],
+                                    "features": {},
+                                    "id_str": "2118868329821884416",
+                                    "indices": [153, 176],
+                                    "media_url_https": "https://pbs.twimg.com/media/HWe7hQzb0AAOeTv.png",
+                                    "original_info": {
+                                      "height": 650,
+                                      "width": 900
+                                    },
+                                    "type": "photo"
+                                  },
+                                  {
+                                    "allow_download_status": {
+                                      "allow_download": true
+                                    },
+                                    "expanded_url": "https://x.com/aquarialicia/status/2118868612157215039/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "ext_playlists": [],
+                                    "features": {},
+                                    "id_str": "2118868517365960704",
+                                    "indices": [153, 176],
+                                    "media_url_https": "https://pbs.twimg.com/media/HWe7sLdbUAAD4UF.png",
+                                    "original_info": {
+                                      "height": 704,
+                                      "width": 713
+                                    },
+                                    "type": "photo"
+                                  }
+                                ],
+                                "mention_entities": [],
+                                "note_tweet": {
+                                  "is_expandable": true,
+                                  "note_tweet_results": {
+                                    "id": "Tm90ZVR3ZWV0UmVzdWx0czoyMTE4ODY4NjEyMDkwMDg1Mzc2",
+                                    "result": {
+                                      "__typename": "NoteTweet",
+                                      "entity_set": {
+                                        "hashtags": [
+                                          {
+                                            "indices": [22, 31],
+                                            "text": "白銀のワンダラー"
+                                          },
+                                          {
+                                            "indices": [32, 37],
+                                            "text": "FF14"
+                                          },
+                                          {
+                                            "indices": [38, 44],
+                                            "text": "FFXIV"
+                                          }
+                                        ],
+                                        "smarttags": [],
+                                        "symbols": [],
+                                        "urls": [],
+                                        "user_mentions": [
+                                          {
+                                            "id_str": "564983252",
+                                            "indices": [182, 195],
+                                            "screen_name": "aquarialicia"
+                                          }
+                                        ]
+                                      },
+                                      "id": "Tm90ZVR3ZWV0OjIxMTg4Njg2MTIwOTAwODUzNzY=",
+                                      "text": "【チャンネル登録者5,555人記念】第3弾 #白銀のワンダラー #FF14 #FFXIV\n\n【応募方法】\n1⃣本ポストをRP\n\n【賞品】\n『フィロス×１orチャイチャホイッスル』を一名様にプレゼント\n\n【応募期間】 ～26年11月14日23時59分迄\n(お手数ですがRidill迄取りに来ていただきます)\n※鍵垢無効(ツールで抽選対象外になるため)\n\n【条件】私(@aquarialicia)フォローしてる方\n私のホーム鯖GaiaDCRidillに取りに来れる方\n賞品の使用用途は自由マケに流してもOK\n受け渡しの際SSを撮らせてもらいます(='ω'=)ｎ\n\n<リアクションボーナス>\n白銀のワンダラーは何を予約しましたか？\n・通常版orデジタルCE版orCE特別装丁版\n回答を書いて引用RPで当選確率UP"
+                                    }
+                                  }
+                                },
+                                "perspective": {
+                                  "favorited": false,
+                                  "retweeted": false
+                                },
+                                "quick_promote_eligibility": {
+                                  "eligibility": "IneligibleNotVerified"
+                                },
+                                "quoted_tweet_results": {
+                                  "__typename": "TweetResults",
+                                  "id": "VHdlZXRSZXN1bHRzOjIxMTc3NDczOTg2Mzg1MzUwMjM=",
+                                  "rest_id": "2117747398638535023",
+                                  "result": {
+                                    "__isTweetResult": "Tweet",
+                                    "__typename": "Tweet",
+                                    "cashtag_attachments": [],
+                                    "core": {
+                                      "user_results": {
+                                        "id": "VXNlclJlc3VsdHM6NTY0OTgzMjUy",
+                                        "result": {
+                                          "__typename": "User",
+                                          "avatar": {
+                                            "image_url": "https://pbs.twimg.com/profile_images/1890967844663468032/adMkwhzl_normal.jpg"
+                                          },
+                                          "core": {
+                                            "name": "ありしあ@Ridill",
+                                            "screen_name": "aquarialicia"
+                                          },
+                                          "id": "VXNlcjo1NjQ5ODMyNTI=",
+                                          "identity_profile_labels_highlighted_label": {},
+                                          "location": {
+                                            "location": "Amazonアソシエイト参加"
+                                          },
+                                          "parody_commentary_fan_label": "None",
+                                          "privacy": { "protected": false },
+                                          "profile_bio": {
+                                            "description": "Ridill鯖 Alicia Resuka活動中 \n© SQUARE ENIX\n©2023 SQUARE ENIX CO., LTD. All Rights R\n©WFS Developed by WRIGHT FLYER STUDIOS © VISUAL ARTS / Key"
+                                          },
+                                          "profile_image_shape": "Circle",
+                                          "profile_translation": {
+                                            "translator_type_enum": "None"
+                                          },
+                                          "relationship_counts": {
+                                            "followers": 15423,
+                                            "following": 7751
+                                          },
+                                          "relationship_perspectives": {
+                                            "followed_by": false,
+                                            "following": false
+                                          },
+                                          "rest_id": "564983252",
+                                          "super_follow_eligible": false,
+                                          "super_followed_by": false,
+                                          "super_following": false,
+                                          "tweet_counts": { "tweets": 155994 },
+                                          "verification": {
+                                            "is_blue_verified": true
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "counts": {
+                                      "favorite_count": 731,
+                                      "quote_count": 23,
+                                      "reply_count": 13,
+                                      "retweet_count": 303
+                                    },
+                                    "details": {
+                                      "cashtag_entities": [],
+                                      "created_at_ms": 1793745300000,
+                                      "display_text_range": [0, 160],
+                                      "full_text": "【FF14「白銀のワンダラー」どれを予約する？】\n#FF14 #白銀のワンダラー\n\n🕕 11/4（水）18:00頃から予約開始\n※Steam版は11/5（木）予定\n🔹 先行プレイが目当て → 通常版（4,950円）\n🔹 オーディンのマウントなども欲しい → CE（6,930円）\n🔹 リーパーのフィギュアなども欲しい → https://t.co/mPJVere4jE",
+                                      "hashtag_entities": [
+                                        { "indices": [25, 30], "text": "FF14" },
+                                        {
+                                          "indices": [31, 40],
+                                          "text": "白銀のワンダラー"
+                                        }
+                                      ],
+                                      "smarttags": []
+                                    },
+                                    "edit_control": {
+                                      "__typename": "EditControlInitial",
+                                      "edit_tweet_ids": ["2117747398638535023"]
+                                    },
+                                    "grok_annotations": {
+                                      "is_image_editable_by_grok": true
+                                    },
+                                    "grok_translated_post_with_availability": {
+                                      "is_available": false
+                                    },
+                                    "id": "VHdlZXQ6MjExNzc0NzM5ODYzODUzNTAyMw==",
+                                    "legacy": {
+                                      "entities": {
+                                        "media": [
+                                          {
+                                            "expanded_url": "https://x.com/aquarialicia/status/2117747398638535023/photo/1"
+                                          }
+                                        ]
+                                      },
+                                      "lang": "ja",
+                                      "possibly_sensitive": false
+                                    },
+                                    "media_entities2": [
+                                      {
+                                        "allow_download_status": {
+                                          "allow_download": true
+                                        },
+                                        "expanded_url": "https://x.com/aquarialicia/status/2117747398638535023/photo/1",
+                                        "ext_media_availability": {
+                                          "status": "Available"
+                                        },
+                                        "ext_playlists": [],
+                                        "id_str": "2117715952578265088",
+                                        "indices": [161, 184],
+                                        "media_url_https": "https://pbs.twimg.com/media/HWOjcFCbAAAraTS.jpg",
+                                        "original_info": {
+                                          "height": 1610,
+                                          "width": 1200
+                                        },
+                                        "type": "photo"
+                                      }
+                                    ],
+                                    "mention_entities": [],
+                                    "note_tweet": {
+                                      "is_expandable": true,
+                                      "note_tweet_results": {
+                                        "id": "Tm90ZVR3ZWV0UmVzdWx0czoyMTE3NzQ3Mzk4NTEyNjQ0MDk2",
+                                        "result": {
+                                          "__typename": "NoteTweet",
+                                          "entity_set": {
+                                            "hashtags": [
+                                              {
+                                                "indices": [25, 30],
+                                                "text": "FF14"
+                                              },
+                                              {
+                                                "indices": [31, 40],
+                                                "text": "白銀のワンダラー"
+                                              }
+                                            ],
+                                            "smarttags": [],
+                                            "symbols": [],
+                                            "urls": [
+                                              {
+                                                "display_url": "jp.finalfantasyxiv.com/evercold/produ…",
+                                                "expanded_url": "https://jp.finalfantasyxiv.com/evercold/product/",
+                                                "indices": [340, 363],
+                                                "url": "https://t.co/Y7SZ7BGWlJ"
+                                              }
+                                            ],
+                                            "user_mentions": []
+                                          },
+                                          "id": "Tm90ZVR3ZWV0OjIxMTc3NDczOTg1MTI2NDQwOTY=",
+                                          "text": "【FF14「白銀のワンダラー」どれを予約する？】\n#FF14 #白銀のワンダラー\n\n🕕 11/4（水）18:00頃から予約開始\n※Steam版は11/5（木）予定\n🔹 先行プレイが目当て → 通常版（4,950円）\n🔹 オーディンのマウントなども欲しい → CE（6,930円）\n🔹 リーパーのフィギュアなども欲しい → Windows／MacはCE特別装丁版。Steam・家庭用機は各機種のCE＋別売BOX\n\n個人的には、先行プレイが目的なら通常版で十分。CEとの差額1,980円は、ゲーム内特典に欲しいものがあるかで決めると迷いにくいです。\n🎮 先行プレイは2027/2/19（金）18:00頃予定\n📅 発売は2/23（火）、Steam版は2/24（水）予定\n公式製品ページ\nhttps://t.co/Y7SZ7BGWlJ"
+                                        }
+                                      }
+                                    },
+                                    "quoted_tweet_results": {
+                                      "id": "VHdlZXRSZXN1bHRzOjIxMTYzOTQ1NDkxNDkxMTQ4NTU=",
+                                      "rest_id": "2116394549149114855",
+                                      "result": {
+                                        "__typename": "Tweet",
+                                        "core": {
+                                          "user_results": {
+                                            "id": "VXNlclJlc3VsdHM6MTYxMjIyNDc0",
+                                            "result": {
+                                              "__typename": "User",
+                                              "core": {
+                                                "screen_name": "FF_XIV_JP"
+                                              },
+                                              "id": "VXNlcjoxNjEyMjI0NzQ=",
+                                              "rest_id": "161222474"
+                                            }
+                                          }
+                                        },
+                                        "edit_control": {
+                                          "__typename": "EditControlInitial",
+                                          "edit_tweet_ids": [
+                                            "2116394549149114855"
+                                          ]
+                                        },
+                                        "id": "VHdlZXQ6MjExNjM5NDU0OTE0OTExNDg1NQ==",
+                                        "legacy": {},
+                                        "rest_id": "2116394549149114855"
+                                      }
+                                    },
+                                    "rest_id": "2117747398638535023",
+                                    "unmention_data": {
+                                      "id": "VW5tZW50aW9uczoKAAEdY8AJ69uBbw8AAgoAAAAAAA=="
+                                    },
+                                    "url_entities": [],
+                                    "views": { "count": "227949" }
+                                  }
+                                },
+                                "rest_id": "2118868612157215039",
+                                "unmention_data": {
+                                  "id": "VW5tZW50aW9uczoKAAEdZ7vGyVsRPw8AAgoAAAAAAA=="
+                                },
+                                "url_entities": [],
+                                "views": { "count": "984" }
+                              }
+                            }
+                          },
+                          "media_entities2": [],
+                          "mention_entities": [
+                            {
+                              "id_str": "564983252",
+                              "indices": [3, 16],
+                              "screen_name": "aquarialicia"
+                            }
+                          ],
+                          "perspective": {
+                            "favorited": false,
+                            "retweeted": false
+                          },
+                          "quick_promote_eligibility": {
+                            "eligibility": "IneligibleNotVerified"
+                          },
+                          "rest_id": "2118874001334587412",
+                          "unmention_data": {
+                            "id": "VW5tZW50aW9uczoKAAEdZ8CtjVvQFA8AAgoAAAABAAAAACGs9dQA"
+                          },
+                          "url_entities": [],
+                          "views": { "count": "3" }
+                        }
+                      }
+                    }
+                  },
+                  "entry_id": "tweet-2118874001334587412",
+                  "sort_index": "2118874825207316479"
+                },
+                {
+                  "content": {
+                    "__typename": "TimelineTimelineItem",
+                    "client_event_info": {
+                      "component": "suggest_organic_list_tweet",
+                      "details": {
+                        "timelines_details": {
+                          "injection_type": "OrganicListTweet"
+                        }
+                      },
+                      "element": "tweet"
+                    },
+                    "content": {
+                      "__isTimelineTimelineItemContent": "TimelineTweet",
+                      "__typename": "TimelineTweet",
+                      "display_type": "Tweet",
+                      "tweet_results": {
+                        "id": "VHdlZXRSZXN1bHRzOjIxMTg4NzM3MjcyNDkzNjczODk=",
+                        "rest_id": "2118873727249367389",
+                        "result": {
+                          "__isTweetResult": "Tweet",
+                          "__typename": "Tweet",
+                          "cashtag_attachments": [],
+                          "conversation_muted": false,
+                          "core": {
+                            "user_results": {
+                              "id": "VXNlclJlc3VsdHM6ODE0NDM4NTk=",
+                              "result": {
+                                "__typename": "User",
+                                "avatar": {
+                                  "image_url": "https://pbs.twimg.com/profile_images/1587726087676518400/CG9EQdue_normal.jpg"
+                                },
+                                "core": {
+                                  "name": "nui/縫亥",
+                                  "screen_name": "nuittter"
+                                },
+                                "follow_request_sent": false,
+                                "id": "VXNlcjo4MTQ0Mzg1OQ==",
+                                "identity_profile_labels_highlighted_label": {},
+                                "is_following": true,
+                                "location": { "location": "ザリガニボール" },
+                                "parody_commentary_fan_label": "None",
+                                "pinned_items": {
+                                  "tweet_ids_str": ["2109594915563028934"]
+                                },
+                                "privacy": { "protected": false },
+                                "profile_bio": {
+                                  "description": "インターネットお絵描きおじさん。飯テロのが多い。FF14でぼちぼちあそんでる。アイコンはきゃぴさん。 AI学習,無断転載等禁止\n👏https://t.co/GCbxLaNgdt"
+                                },
+                                "profile_image_shape": "Circle",
+                                "profile_translation": {
+                                  "translator_type_enum": "None"
+                                },
+                                "relationship_counts": {
+                                  "followers": 2484,
+                                  "following": 1736
+                                },
+                                "relationship_perspectives": {
+                                  "blocking": false,
+                                  "followed_by": false,
+                                  "following": true,
+                                  "muting": false
+                                },
+                                "rest_id": "81443859",
+                                "super_follow_eligible": false,
+                                "super_followed_by": false,
+                                "super_following": false,
+                                "tweet_counts": { "tweets": 79136 },
+                                "verification": { "is_blue_verified": false }
+                              }
+                            }
+                          },
+                          "counts": {
+                            "bookmark_count": 0,
+                            "favorite_count": 0,
+                            "quote_count": 0,
+                            "reply_count": 0,
+                            "retweet_count": 0
+                          },
+                          "details": {
+                            "cashtag_entities": [],
+                            "created_at_ms": 1794013838000,
+                            "display_text_range": [0, 13],
+                            "full_text": "誰かに慈悲を乞うしかない(",
+                            "hashtag_entities": [],
+                            "smarttags": []
+                          },
+                          "edit_control": {
+                            "__typename": "EditControlInitial",
+                            "edit_tweet_ids": ["2118873727249367389"],
+                            "editable_until_msecs": "1794017438000",
+                            "edits_remaining": "5",
+                            "is_edit_eligible": true
+                          },
+                          "grok_analysis_button": true,
+                          "grok_annotations": {},
+                          "grok_translated_post_with_availability": {
+                            "is_available": false
+                          },
+                          "id": "VHdlZXQ6MjExODg3MzcyNzI0OTM2NzM4OQ==",
+                          "legacy": {
+                            "conversation_id_str": "2118873727249367389",
+                            "entities": {},
+                            "lang": "ja"
+                          },
+                          "media_entities2": [],
+                          "mention_entities": [],
+                          "perspective": {
+                            "favorited": false,
+                            "retweeted": false
+                          },
+                          "quick_promote_eligibility": {
+                            "eligibility": "IneligibleNotVerified"
+                          },
+                          "rest_id": "2118873727249367389",
+                          "unmention_data": {
+                            "id": "VW5tZW50aW9uczoKAAEdZ8BtvJtBXQ8AAgoAAAAAAA=="
+                          },
+                          "url_entities": [],
+                          "views": { "count": "24" }
+                        }
+                      }
+                    }
+                  },
+                  "entry_id": "tweet-2118873727249367389",
+                  "sort_index": "2118874825207316478"
+                },
+                {
+                  "content": {
+                    "__typename": "TimelineTimelineItem",
+                    "client_event_info": {
+                      "component": "suggest_organic_list_tweet",
+                      "details": {
+                        "timelines_details": {
+                          "injection_type": "OrganicListTweet"
+                        }
+                      },
+                      "element": "tweet"
+                    },
+                    "content": {
+                      "__isTimelineTimelineItemContent": "TimelineTweet",
+                      "__typename": "TimelineTweet",
+                      "display_type": "Tweet",
+                      "tweet_results": {
+                        "id": "VHdlZXRSZXN1bHRzOjIxMTg4NjU4MzIxMjYzNTM0OTE=",
+                        "rest_id": "2118865832126353491",
+                        "result": {
+                          "__isTweetResult": "Tweet",
+                          "__typename": "Tweet",
+                          "cashtag_attachments": [],
+                          "conversation_muted": false,
+                          "core": {
+                            "user_results": {
+                              "id": "VXNlclJlc3VsdHM6NTk3MzQ2MjM4",
+                              "result": {
+                                "__typename": "User",
+                                "avatar": {
+                                  "image_url": "https://pbs.twimg.com/profile_images/2116889703995854848/4rN3IBai_normal.jpg"
+                                },
+                                "core": {
+                                  "name": "Aegis Shield@バハ鯖 & ハデス鯖【メインサブ同じ名前】",
+                                  "screen_name": "FF14AegisShield"
+                                },
+                                "follow_request_sent": false,
+                                "id": "VXNlcjo1OTczNDYyMzg=",
+                                "identity_profile_labels_highlighted_label": {},
+                                "is_following": true,
+                                "location": {
+                                  "location": "彩の国サイ・タマー"
+                                },
+                                "parody_commentary_fan_label": "None",
+                                "pinned_items": {
+                                  "tweet_ids_str": ["2052963469981622704"]
+                                },
+                                "privacy": { "protected": false },
+                                "profile_bio": {
+                                  "description": "ゲーム用（FF14）のアカウントです。メインGaiaバハ鯖（Aegis Shield：ｲｰｼﾞｽ ｼｰﾙﾄﾞ）、サブManaハデス鯖（同名）【個人宅：GaiaデータセンターBahamut鯖ゴブレット22区35L ★拡張区北へテレポ★】\nBluesky → @ff14-aegisshield.bsky.social"
+                                },
+                                "profile_image_shape": "Circle",
+                                "profile_translation": {
+                                  "translator_type_enum": "None"
+                                },
+                                "relationship_counts": {
+                                  "followers": 1684,
+                                  "following": 2262
+                                },
+                                "relationship_perspectives": {
+                                  "blocking": false,
+                                  "followed_by": true,
+                                  "following": true,
+                                  "muting": false
+                                },
+                                "rest_id": "597346238",
+                                "super_follow_eligible": false,
+                                "super_followed_by": false,
+                                "super_following": false,
+                                "tweet_counts": { "tweets": 76563 },
+                                "verification": { "is_blue_verified": true }
+                              }
+                            }
+                          },
+                          "counts": {
+                            "bookmark_count": 0,
+                            "favorite_count": 0,
+                            "quote_count": 0,
+                            "reply_count": 0,
+                            "retweet_count": 10248
+                          },
+                          "details": {
+                            "cashtag_entities": [],
+                            "created_at_ms": 1794011955000,
+                            "display_text_range": [0, 139],
+                            "full_text": "RT @romo3x12: 何度でもポストします。\n幼女被害者は\nお尻まで裂けてもやめてもらえず、\n失神。ひどい時はショック死。\n筋肉、神経とも損傷してるから排泄も手術なしじゃできなくなる。\n損傷は子宮、卵巣、直腸まで達する。\n精神的に受け入れだけでなく、妊娠もできなくなる。…",
+                            "hashtag_entities": [],
+                            "smarttags": []
+                          },
+                          "edit_control": {
+                            "__typename": "EditControlInitial",
+                            "edit_tweet_ids": ["2118865832126353491"],
+                            "editable_until_msecs": "1794015555659",
+                            "edits_remaining": "5",
+                            "is_edit_eligible": false
+                          },
+                          "grok_analysis_button": true,
+                          "grok_annotations": {},
+                          "grok_translated_post_with_availability": {
+                            "is_available": false
+                          },
+                          "id": "VHdlZXQ6MjExODg2NTgzMjEyNjM1MzQ5MQ==",
+                          "legacy": {
+                            "conversation_id_str": "2118865832126353491",
+                            "entities": {},
+                            "lang": "ja",
+                            "quoted_status_permalink": {
+                              "expanded": "https://twitter.com/singing65937378/status/2118482724029968525"
+                            },
+                            "retweeted_status_results": {
+                              "id": "VHdlZXRSZXN1bHRzOjIxMTg2MDYyOTUwMjQ3MjYyMDM=",
+                              "rest_id": "2118606295024726203",
+                              "result": {
+                                "__typename": "Tweet",
+                                "cashtag_attachments": [],
+                                "conversation_muted": false,
+                                "core": {
+                                  "user_results": {
+                                    "id": "VXNlclJlc3VsdHM6MTMyOTIzOTAx",
+                                    "result": {
+                                      "__typename": "User",
+                                      "avatar": {
+                                        "image_url": "https://pbs.twimg.com/profile_images/1901150890926764033/c4N0_YWA_normal.jpg"
+                                      },
+                                      "core": {
+                                        "name": "みゆきん",
+                                        "screen_name": "romo3x12"
+                                      },
+                                      "follow_request_sent": false,
+                                      "id": "VXNlcjoxMzI5MjM5MDE=",
+                                      "identity_profile_labels_highlighted_label": {},
+                                      "is_following": false,
+                                      "location": { "location": "北関東" },
+                                      "parody_commentary_fan_label": "None",
+                                      "pinned_items": {},
+                                      "privacy": { "protected": false },
+                                      "profile_bio": {
+                                        "description": "印刷会社の非正規社員でした。毒も吐きます。人は赦すべきだけど、ダメな事柄は発信した方がいいと思います。親兄弟に疎まれ、元夫は結婚して手のひら返し、転職先はブラック。多分子供の頃からの影響で繊細ちゃん。ウツと適応障害との診断の精神疾患。ダメダメなクリスチャン。 神様と友人の助けで今日も生きてる。 不必要なDMは無視します"
+                                      },
+                                      "profile_image_shape": "Circle",
+                                      "profile_translation": {
+                                        "translator_type_enum": "None"
+                                      },
+                                      "relationship_counts": {
+                                        "followers": 1522,
+                                        "following": 1504
+                                      },
+                                      "relationship_perspectives": {
+                                        "blocking": false,
+                                        "followed_by": false,
+                                        "following": false,
+                                        "muting": false
+                                      },
+                                      "rest_id": "132923901",
+                                      "super_follow_eligible": false,
+                                      "super_followed_by": false,
+                                      "super_following": false,
+                                      "tweet_counts": { "tweets": 61426 },
+                                      "verification": {
+                                        "is_blue_verified": false
+                                      }
+                                    }
+                                  }
+                                },
+                                "counts": {
+                                  "bookmark_count": 1251,
+                                  "favorite_count": 39239,
+                                  "quote_count": 247,
+                                  "reply_count": 198,
+                                  "retweet_count": 10248
+                                },
+                                "details": {
+                                  "cashtag_entities": [],
+                                  "created_at_ms": 1793950077000,
+                                  "display_text_range": [0, 143],
+                                  "full_text": "何度でもポストします。\n幼女被害者は\nお尻まで裂けてもやめてもらえず、\n失神。ひどい時はショック死。\n筋肉、神経とも損傷してるから排泄も手術なしじゃできなくなる。\n損傷は子宮、卵巣、直腸まで達する。\n精神的に受け入れだけでなく、妊娠もできなくなる。\n\nみんな知ってほしい！\n許せない！！",
+                                  "hashtag_entities": [],
+                                  "smarttags": []
+                                },
+                                "edit_control": {
+                                  "__typename": "EditControlInitial",
+                                  "edit_tweet_ids": ["2118606295024726203"],
+                                  "editable_until_msecs": "1793953677000",
+                                  "edits_remaining": "5",
+                                  "is_edit_eligible": true
+                                },
+                                "grok_analysis_button": true,
+                                "grok_annotations": {
+                                  "is_image_editable_by_grok": false
+                                },
+                                "grok_translated_post_with_availability": {
+                                  "is_available": false
+                                },
+                                "id": "VHdlZXQ6MjExODYwNjI5NTAyNDcyNjIwMw==",
+                                "legacy": {
+                                  "conversation_id_str": "2118606295024726203",
+                                  "entities": {},
+                                  "lang": "ja",
+                                  "quoted_status_permalink": {
+                                    "expanded": "https://twitter.com/singing65937378/status/2118482724029968525"
+                                  }
+                                },
+                                "media_entities2": [],
+                                "mention_entities": [],
+                                "perspective": {
+                                  "favorited": false,
+                                  "retweeted": false
+                                },
+                                "quick_promote_eligibility": {
+                                  "eligibility": "IneligibleNotVerified"
+                                },
+                                "quoted_tweet_results": {
+                                  "__typename": "TweetResults",
+                                  "id": "VHdlZXRSZXN1bHRzOjIxMTg0ODI3MjQwMjk5Njg1MjU=",
+                                  "rest_id": "2118482724029968525",
+                                  "result": {
+                                    "__isTweetResult": "Tweet",
+                                    "__typename": "Tweet",
+                                    "cashtag_attachments": [],
+                                    "core": {
+                                      "user_results": {
+                                        "id": "VXNlclJlc3VsdHM6MTQ5MzM3MzExMzkzMzEzMTc3Nw==",
+                                        "result": {
+                                          "__typename": "User",
+                                          "avatar": {
+                                            "image_url": "https://pbs.twimg.com/profile_images/2063054949085487104/zem8CwI8_normal.jpg"
+                                          },
+                                          "core": {
+                                            "name": "たまゆら",
+                                            "screen_name": "singing65937378"
+                                          },
+                                          "id": "VXNlcjoxNDkzMzczMTEzOTMzMTMxNzc3",
+                                          "identity_profile_labels_highlighted_label": {},
+                                          "location": { "location": "" },
+                                          "parody_commentary_fan_label": "None",
+                                          "privacy": { "protected": false },
+                                          "profile_bio": {
+                                            "description": "美しい日本を守りたい。ブルバ積極フォロー。DMにはお答えしておりません🙇"
+                                          },
+                                          "profile_image_shape": "Circle",
+                                          "profile_translation": {
+                                            "translator_type_enum": "None"
+                                          },
+                                          "relationship_counts": {
+                                            "followers": 8725,
+                                            "following": 8046
+                                          },
+                                          "relationship_perspectives": {
+                                            "followed_by": false,
+                                            "following": false
+                                          },
+                                          "rest_id": "1493373113933131777",
+                                          "super_follow_eligible": false,
+                                          "super_followed_by": false,
+                                          "super_following": false,
+                                          "tweet_counts": { "tweets": 8456 },
+                                          "verification": {
+                                            "is_blue_verified": true
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "counts": {
+                                      "favorite_count": 9138,
+                                      "quote_count": 69,
+                                      "reply_count": 90,
+                                      "retweet_count": 2838
+                                    },
+                                    "details": {
+                                      "cashtag_entities": [],
+                                      "created_at_ms": 1793920615000,
+                                      "display_text_range": [0, 63],
+                                      "full_text": "7歳女児を性暴行して殺害したペルー人。母国でも2人の少女を性暴行していた。\n\n政府は前科も調べずに外国人を入れているのですか？",
+                                      "hashtag_entities": [],
+                                      "smarttags": []
+                                    },
+                                    "edit_control": {
+                                      "__typename": "EditControlInitial",
+                                      "edit_tweet_ids": ["2118482724029968525"]
+                                    },
+                                    "grok_annotations": {
+                                      "is_image_editable_by_grok": false
+                                    },
+                                    "grok_translated_post_with_availability": {
+                                      "is_available": false
+                                    },
+                                    "id": "VHdlZXQ6MjExODQ4MjcyNDAyOTk2ODUyNQ==",
+                                    "legacy": { "entities": {}, "lang": "ja" },
+                                    "media_entities2": [],
+                                    "mention_entities": [],
+                                    "quoted_tweet_results": {
+                                      "id": "VHdlZXRSZXN1bHRzOjIxMTgyMTEwMTUxODM4NTE4ODI=",
+                                      "rest_id": "2118211015183851882",
+                                      "result": {
+                                        "__typename": "Tweet",
+                                        "core": {
+                                          "user_results": {
+                                            "id": "VXNlclJlc3VsdHM6ODQ1MzU4NTQ4NzYyNzI2NDAx",
+                                            "result": {
+                                              "__typename": "User",
+                                              "core": {
+                                                "screen_name": "reiwapost"
+                                              },
+                                              "id": "VXNlcjo4NDUzNTg1NDg3NjI3MjY0MDE=",
+                                              "rest_id": "845358548762726401"
+                                            }
+                                          }
+                                        },
+                                        "edit_control": {
+                                          "__typename": "EditControlInitial",
+                                          "edit_tweet_ids": [
+                                            "2118211015183851882"
+                                          ]
+                                        },
+                                        "id": "VHdlZXQ6MjExODIxMTAxNTE4Mzg1MTg4Mg==",
+                                        "legacy": {},
+                                        "rest_id": "2118211015183851882"
+                                      }
+                                    },
+                                    "rest_id": "2118482724029968525",
+                                    "unmention_data": {
+                                      "id": "VW5tZW50aW9uczoKAAEdZlzQNJuwjQ8AAgoAAAAAAA=="
+                                    },
+                                    "url_entities": [],
+                                    "views": { "count": "1161321" }
+                                  }
+                                },
+                                "rest_id": "2118606295024726203",
+                                "unmention_data": {
+                                  "id": "VW5tZW50aW9uczoKAAEdZs0zUdrwuw8AAgoAAAAAAA=="
+                                },
+                                "url_entities": [],
+                                "views": { "count": "1174627" }
+                              }
+                            }
+                          },
+                          "media_entities2": [],
+                          "mention_entities": [
+                            {
+                              "id_str": "132923901",
+                              "indices": [3, 12],
+                              "screen_name": "romo3x12"
+                            }
+                          ],
+                          "perspective": {
+                            "favorited": false,
+                            "retweeted": false
+                          },
+                          "quick_promote_eligibility": {
+                            "eligibility": "IneligibleNotVerified"
+                          },
+                          "rest_id": "2118865832126353491",
+                          "unmention_data": {
+                            "id": "VW5tZW50aW9uczoKAAEdZ7k/gpqQUw8AAgoAAAABAAAAAAfsQf0A"
+                          },
+                          "url_entities": [],
+                          "views": {}
+                        }
+                      }
+                    }
+                  },
+                  "entry_id": "tweet-2118865832126353491",
+                  "sort_index": "2118874825207316463"
+                },
+                {
+                  "content": {
+                    "__typename": "TimelineTimelineItem",
+                    "client_event_info": {
+                      "component": "suggest_organic_list_tweet",
+                      "details": {
+                        "timelines_details": {
+                          "injection_type": "OrganicListTweet"
+                        }
+                      },
+                      "element": "tweet"
+                    },
+                    "content": {
+                      "__isTimelineTimelineItemContent": "TimelineTweet",
+                      "__typename": "TimelineTweet",
+                      "display_type": "Tweet",
+                      "tweet_results": {
+                        "id": "VHdlZXRSZXN1bHRzOjIxMTg4NjUzNTAyNTExODQxMzQ=",
+                        "rest_id": "2118865350251184134",
+                        "result": {
+                          "__isTweetResult": "TweetWithVisibilityResults",
+                          "__typename": "TweetWithVisibilityResults",
+                          "limited_action_results": {
+                            "limited_actions": [
+                              {
+                                "limited_action_type": "Reply",
+                                "prompt": {
+                                  "__typename": "CtaLimitedActionPrompt",
+                                  "cta_type": "SeeConversation",
+                                  "headline": {
+                                    "entities": [],
+                                    "text": "Who can reply?"
+                                  },
+                                  "subtext": {
+                                    "entities": [],
+                                    "text": "Only some accounts can reply."
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "tweet": {
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTQ0NzUwMTIzMDMzOTU0NzEzOQ==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2114822880341155840/Znnr7Zd2_normal.jpg"
+                                  },
+                                  "core": {
+                                    "name": "れ。",
+                                    "screen_name": "PeleaDoll"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxNDQ3NTAxMjMwMzM5NTQ3MTM5",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": { "location": "customs" },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {},
+                                  "privacy": { "protected": false },
+                                  "profile_bio": {
+                                    "description": "アウラが好き。きまぐれフリーアウラ"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 1055,
+                                    "following": 581
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1447501230339547139",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": { "tweets": 33151 },
+                                  "verification": { "is_blue_verified": false }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 0,
+                              "favorite_count": 33,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 2
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "conversation_control": { "policy": "Community" },
+                              "created_at_ms": 1794011840000,
+                              "display_text_range": [0, 5],
+                              "full_text": "#おはウラ https://t.co/RJ9e92BG22",
+                              "hashtag_entities": [
+                                { "indices": [0, 5], "text": "おはウラ" }
+                              ],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2118865350251184134"],
+                              "editable_until_msecs": "1794015440000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {},
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjExODg2NTM1MDI1MTE4NDEzNA==",
+                            "legacy": {
+                              "conversation_id_str": "2118865350251184134",
+                              "entities": {
+                                "media": [
+                                  {
+                                    "expanded_url": "https://x.com/PeleaDoll/status/2118865350251184134/photo/1"
+                                  }
+                                ]
+                              },
+                              "lang": "qme",
+                              "possibly_sensitive": false
+                            },
+                            "media_entities2": [
+                              {
+                                "expanded_url": "https://x.com/PeleaDoll/status/2118865350251184134/photo/1",
+                                "ext_media_availability": {
+                                  "status": "Available"
+                                },
+                                "ext_playlists": [],
+                                "features": {},
+                                "id_str": "2118865345180205056",
+                                "indices": [6, 29],
+                                "media_url_https": "https://pbs.twimg.com/media/HWe4ziJaAAAK2wY.jpg",
+                                "original_info": {
+                                  "height": 1920,
+                                  "width": 1009
+                                },
+                                "type": "photo"
+                              }
+                            ],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2118865350251184134",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEdZ7jPUJsABg8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": { "count": "212" }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "entry_id": "tweet-2118865350251184134",
+                  "sort_index": "2118874825207316461"
+                },
+                {
+                  "content": {
+                    "__typename": "TimelineTimelineItem",
+                    "client_event_info": {
+                      "component": "suggest_organic_list_tweet",
+                      "details": {
+                        "timelines_details": {
+                          "injection_type": "OrganicListTweet"
+                        }
+                      },
+                      "element": "tweet"
+                    },
+                    "content": {
+                      "__isTimelineTimelineItemContent": "TimelineTweet",
+                      "__typename": "TimelineTweet",
+                      "display_type": "Tweet",
+                      "tweet_results": {
+                        "id": "VHdlZXRSZXN1bHRzOjIxMTg4NjQ5OTU4NDkzMDY0NjI=",
+                        "rest_id": "2118864995849306462",
+                        "result": {
+                          "__isTweetResult": "Tweet",
+                          "__typename": "Tweet",
+                          "cashtag_attachments": [],
+                          "conversation_muted": false,
+                          "core": {
+                            "user_results": {
+                              "id": "VXNlclJlc3VsdHM6OTEyOTkyNDM4MDg3NjcxODA4",
+                              "result": {
+                                "__typename": "User",
+                                "avatar": {
+                                  "image_url": "https://pbs.twimg.com/profile_images/2033920241454223360/04I7i_LX_normal.jpg"
+                                },
+                                "core": {
+                                  "name": "ユズリコ",
+                                  "screen_name": "Yuzuriko_red"
+                                },
+                                "follow_request_sent": false,
+                                "id": "VXNlcjo5MTI5OTI0MzgwODc2NzE4MDg=",
+                                "identity_profile_labels_highlighted_label": {},
+                                "is_following": true,
+                                "location": { "location": "" },
+                                "parody_commentary_fan_label": "None",
+                                "pinned_items": {
+                                  "tweet_ids_str": ["2056890369590341829"]
+                                },
+                                "privacy": { "protected": false },
+                                "profile_bio": {
+                                  "description": "FF14 絵＆SS。\n◆絵 | https://t.co/et9IqH41BO\n◆Bluesky | https://t.co/S7w3DWAqbf"
+                                },
+                                "profile_image_shape": "Circle",
+                                "profile_translation": {
+                                  "translator_type_enum": "None"
+                                },
+                                "relationship_counts": {
+                                  "followers": 5101,
+                                  "following": 78
+                                },
+                                "relationship_perspectives": {
+                                  "blocking": false,
+                                  "followed_by": false,
+                                  "following": true,
+                                  "muting": false
+                                },
+                                "rest_id": "912992438087671808",
+                                "super_follow_eligible": false,
+                                "super_followed_by": false,
+                                "super_following": false,
+                                "tweet_counts": { "tweets": 14202 },
+                                "verification": { "is_blue_verified": false }
+                              }
+                            }
+                          },
+                          "counts": {
+                            "bookmark_count": 0,
+                            "favorite_count": 9,
+                            "quote_count": 0,
+                            "reply_count": 0,
+                            "retweet_count": 0
+                          },
+                          "details": {
+                            "cashtag_entities": [],
+                            "created_at_ms": 1794011756000,
+                            "display_text_range": [0, 8],
+                            "full_text": "猫が猫を愛でる。 https://t.co/1mGrUVOycS",
+                            "hashtag_entities": [],
+                            "smarttags": []
+                          },
+                          "edit_control": {
+                            "__typename": "EditControlInitial",
+                            "edit_tweet_ids": ["2118864995849306462"],
+                            "editable_until_msecs": "1794015356000",
+                            "edits_remaining": "5",
+                            "is_edit_eligible": true
+                          },
+                          "grok_analysis_button": true,
+                          "grok_annotations": {},
+                          "grok_translated_post_with_availability": {
+                            "is_available": false
+                          },
+                          "id": "VHdlZXQ6MjExODg2NDk5NTg0OTMwNjQ2Mg==",
+                          "legacy": {
+                            "conversation_id_str": "2118864995849306462",
+                            "entities": {
+                              "media": [
+                                {
+                                  "expanded_url": "https://x.com/Yuzuriko_red/status/2118864995849306462/photo/1"
+                                }
+                              ]
+                            },
+                            "lang": "ja",
+                            "possibly_sensitive": false
+                          },
+                          "media_entities2": [
+                            {
+                              "allow_download_status": {
+                                "allow_download": true
+                              },
+                              "expanded_url": "https://x.com/Yuzuriko_red/status/2118864995849306462/photo/1",
+                              "ext_media_availability": {
+                                "status": "Available"
+                              },
+                              "ext_playlists": [],
+                              "features": {},
+                              "id_str": "2118864777808371712",
+                              "indices": [9, 32],
+                              "media_url_https": "https://pbs.twimg.com/media/HWe4Sgha4AAKONy.jpg",
+                              "original_info": {
+                                "height": 1009,
+                                "width": 1844
+                              },
+                              "type": "photo"
+                            }
+                          ],
+                          "mention_entities": [],
+                          "perspective": {
+                            "favorited": false,
+                            "retweeted": false
+                          },
+                          "quick_promote_eligibility": {
+                            "eligibility": "IneligibleNotVerified"
+                          },
+                          "rest_id": "2118864995849306462",
+                          "unmention_data": {
+                            "id": "VW5tZW50aW9uczoKAAEdZ7h8zJuBXg8AAgoAAAAAAA=="
+                          },
+                          "url_entities": [],
+                          "views": { "count": "236" }
+                        }
+                      }
+                    }
+                  },
+                  "entry_id": "tweet-2118864995849306462",
+                  "sort_index": "2118874825207316459"
+                },
+                {
+                  "content": {
+                    "__typename": "TimelineTimelineModule",
+                    "client_event_info": {
+                      "component": "suggest_organic_list_tweet"
+                    },
+                    "display_type": "VerticalConversation",
+                    "items": [
+                      {
+                        "entry_id": "list-conversation-2118874825207316504-tweet-2118841956050846098",
+                        "item": {
+                          "__typename": "TimelineTimelineItem",
+                          "client_event_info": {
+                            "component": "suggest_organic_list_tweet",
+                            "details": {
+                              "timelines_details": {
+                                "injection_type": "OrganicListTweet"
+                              }
+                            },
+                            "element": "tweet"
+                          },
+                          "content": {
+                            "__isTimelineTimelineItemContent": "TimelineTweet",
+                            "__typename": "TimelineTweet",
+                            "display_type": "Tweet",
+                            "tweet_results": {
+                              "id": "VHdlZXRSZXN1bHRzOjIxMTg4NDE5NTYwNTA4NDYwOTg=",
+                              "rest_id": "2118841956050846098",
+                              "result": {
+                                "__isTweetResult": "Tweet",
+                                "__typename": "Tweet",
+                                "cashtag_attachments": [],
+                                "conversation_muted": false,
+                                "core": {
+                                  "user_results": {
+                                    "id": "VXNlclJlc3VsdHM6MTU3MzE5OTk2ODA5Mjk1NDYyNA==",
+                                    "result": {
+                                      "__typename": "User",
+                                      "avatar": {
+                                        "image_url": "https://pbs.twimg.com/profile_images/2118838305198579712/SHLgH-uH_normal.jpg"
+                                      },
+                                      "core": {
+                                        "name": "𝕋𝕠𝕞𝕖𝕤",
+                                        "screen_name": "WarriorOfTight"
+                                      },
+                                      "follow_request_sent": false,
+                                      "id": "VXNlcjoxNTczMTk5OTY4MDkyOTU0NjI0",
+                                      "identity_profile_labels_highlighted_label": {},
+                                      "is_following": true,
+                                      "location": { "location": "Mist" },
+                                      "parody_commentary_fan_label": "Parody",
+                                      "pinned_items": {},
+                                      "privacy": { "protected": false },
+                                      "profile_bio": {
+                                        "description": "A large variety of whoevers and whatevers | 18+ NSFW 🔞\n\nCollabs: 🚫\n\nhttps://t.co/BKsoIeBNKb"
+                                      },
+                                      "profile_image_shape": "Circle",
+                                      "profile_translation": {
+                                        "translator_type_enum": "None"
+                                      },
+                                      "relationship_counts": {
+                                        "followers": 5998,
+                                        "following": 550
+                                      },
+                                      "relationship_perspectives": {
+                                        "blocking": false,
+                                        "followed_by": false,
+                                        "following": true,
+                                        "muting": false
+                                      },
+                                      "rest_id": "1573199968092954624",
+                                      "super_follow_eligible": false,
+                                      "super_followed_by": false,
+                                      "super_following": false,
+                                      "tweet_counts": { "tweets": 2103 },
+                                      "verification": {
+                                        "is_blue_verified": false
+                                      }
+                                    }
+                                  }
+                                },
+                                "counts": {
+                                  "bookmark_count": 6,
+                                  "favorite_count": 61,
+                                  "quote_count": 0,
+                                  "reply_count": 1,
+                                  "retweet_count": 4
+                                },
+                                "details": {
+                                  "cashtag_entities": [],
+                                  "created_at_ms": 1794006263000,
+                                  "display_text_range": [0, 83],
+                                  "full_text": "go follow @realErikantha they are pretty cool thank you for coming to my ted talk 😎 https://t.co/jzZsA3uXEA",
+                                  "hashtag_entities": [],
+                                  "smarttags": []
+                                },
+                                "edit_control": {
+                                  "__typename": "EditControlInitial",
+                                  "edit_tweet_ids": ["2118841956050846098"],
+                                  "editable_until_msecs": "1794009863000",
+                                  "edits_remaining": "5",
+                                  "is_edit_eligible": true
+                                },
+                                "grok_analysis_button": true,
+                                "grok_annotations": {
+                                  "is_image_editable_by_grok": false
+                                },
+                                "grok_translated_post_with_availability": {
+                                  "is_available": false
+                                },
+                                "id": "VHdlZXQ6MjExODg0MTk1NjA1MDg0NjA5OA==",
+                                "legacy": {
+                                  "conversation_id_str": "2118841956050846098",
+                                  "entities": {
+                                    "media": [
+                                      {
+                                        "expanded_url": "https://x.com/WarriorOfTight/status/2118841956050846098/photo/1"
+                                      }
+                                    ]
+                                  },
+                                  "lang": "en",
+                                  "possibly_sensitive": false
+                                },
+                                "media_entities2": [
+                                  {
+                                    "allow_download_status": {
+                                      "allow_download": true
+                                    },
+                                    "expanded_url": "https://x.com/WarriorOfTight/status/2118841956050846098/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "ext_playlists": [],
+                                    "features": {},
+                                    "id_str": "2118841912778223616",
+                                    "indices": [84, 107],
+                                    "media_url_https": "https://pbs.twimg.com/media/HWejflpa8AAzAyC.jpg",
+                                    "original_info": {
+                                      "height": 2560,
+                                      "width": 1440
+                                    },
+                                    "sensitive_media_warning": {
+                                      "adult_content": true
+                                    },
+                                    "type": "photo"
+                                  }
+                                ],
+                                "mention_entities": [
+                                  {
+                                    "id_str": "797685385811918848",
+                                    "indices": [10, 24],
+                                    "screen_name": "realErikantha"
+                                  }
+                                ],
+                                "perspective": {
+                                  "favorited": false,
+                                  "retweeted": false
+                                },
+                                "quick_promote_eligibility": {
+                                  "eligibility": "IneligibleNotVerified"
+                                },
+                                "rest_id": "2118841956050846098",
+                                "unmention_data": {
+                                  "id": "VW5tZW50aW9uczoKAAEdZ6OIbZrBkg8AAgoAAAABCxHyoc/XAAAA"
+                                },
+                                "url_entities": [],
+                                "views": { "count": "336" }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "entry_id": "list-conversation-2118874825207316504-tweet-2118862729524257225",
+                        "item": {
+                          "__typename": "TimelineTimelineItem",
+                          "client_event_info": {
+                            "component": "suggest_organic_list_tweet",
+                            "details": {
+                              "timelines_details": {
+                                "injection_type": "OrganicListTweet"
+                              }
+                            },
+                            "element": "tweet"
+                          },
+                          "content": {
+                            "__isTimelineTimelineItemContent": "TimelineTweet",
+                            "__typename": "TimelineTweet",
+                            "display_type": "Tweet",
+                            "tweet_results": {
+                              "id": "VHdlZXRSZXN1bHRzOjIxMTg4NjI3Mjk1MjQyNTcyMjU=",
+                              "rest_id": "2118862729524257225",
+                              "result": {
+                                "__isTweetResult": "Tweet",
+                                "__typename": "Tweet",
+                                "cashtag_attachments": [],
+                                "conversation_muted": false,
+                                "core": {
+                                  "user_results": {
+                                    "id": "VXNlclJlc3VsdHM6Nzk3Njg1Mzg1ODExOTE4ODQ4",
+                                    "result": {
+                                      "__typename": "User",
+                                      "avatar": {
+                                        "image_url": "https://pbs.twimg.com/profile_images/1825664822089764864/RZqm94OF_normal.jpg"
+                                      },
+                                      "core": {
+                                        "name": "Erika",
+                                        "screen_name": "realErikantha"
+                                      },
+                                      "follow_request_sent": false,
+                                      "id": "VXNlcjo3OTc2ODUzODU4MTE5MTg4NDg=",
+                                      "identity_profile_labels_highlighted_label": {},
+                                      "is_following": true,
+                                      "location": {
+                                        "location": "Tomboy Tianlong Dragon"
+                                      },
+                                      "parody_commentary_fan_label": "None",
+                                      "pinned_items": {
+                                        "tweet_ids_str": ["1106705300403425283"]
+                                      },
+                                      "privacy": { "protected": false },
+                                      "profile_bio": {
+                                        "description": "#FFXIV WCIF friendly, can just DM\nPfp by @togekk0 Header by @hideout_hide\nAll thoughts are my own. horny on main\nMostly just Gposes"
+                                      },
+                                      "profile_image_shape": "Circle",
+                                      "profile_translation": {
+                                        "translator_type_enum": "None"
+                                      },
+                                      "relationship_counts": {
+                                        "followers": 837,
+                                        "following": 1694
+                                      },
+                                      "relationship_perspectives": {
+                                        "blocking": false,
+                                        "followed_by": false,
+                                        "following": true,
+                                        "muting": false
+                                      },
+                                      "rest_id": "797685385811918848",
+                                      "super_follow_eligible": false,
+                                      "super_followed_by": false,
+                                      "super_following": false,
+                                      "tweet_counts": { "tweets": 2680 },
+                                      "verification": {
+                                        "is_blue_verified": false
+                                      }
+                                    }
+                                  }
+                                },
+                                "counts": {
+                                  "bookmark_count": 0,
+                                  "favorite_count": 0,
+                                  "quote_count": 0,
+                                  "reply_count": 0,
+                                  "retweet_count": 0
+                                },
+                                "details": {
+                                  "cashtag_entities": [],
+                                  "created_at_ms": 1794011215000,
+                                  "display_text_range": [16, 57],
+                                  "full_text": "@WarriorOfTight Oi no, follow @WarriorOfTight not me lmao",
+                                  "hashtag_entities": [],
+                                  "smarttags": []
+                                },
+                                "edit_control": {
+                                  "__typename": "EditControlInitial",
+                                  "edit_tweet_ids": ["2118862729524257225"],
+                                  "editable_until_msecs": "1794014815000",
+                                  "edits_remaining": "5",
+                                  "is_edit_eligible": false
+                                },
+                                "grok_analysis_button": true,
+                                "grok_annotations": {},
+                                "grok_translated_post_with_availability": {
+                                  "is_available": false
+                                },
+                                "id": "VHdlZXQ6MjExODg2MjcyOTUyNDI1NzIyNQ==",
+                                "legacy": {
+                                  "conversation_id_str": "2118841956050846098",
+                                  "entities": {},
+                                  "lang": "en"
+                                },
+                                "media_entities2": [],
+                                "mention_entities": [
+                                  {
+                                    "id_str": "1573199968092954624",
+                                    "indices": [0, 15],
+                                    "screen_name": "WarriorOfTight"
+                                  },
+                                  {
+                                    "id_str": "1573199968092954624",
+                                    "indices": [30, 45],
+                                    "screen_name": "WarriorOfTight"
+                                  }
+                                ],
+                                "perspective": {
+                                  "favorited": false,
+                                  "retweeted": false
+                                },
+                                "quick_promote_eligibility": {
+                                  "eligibility": "IneligibleNotVerified"
+                                },
+                                "reply_to_results": {
+                                  "__typename": "TweetResults",
+                                  "id": "VHdlZXRSZXN1bHRzOjIxMTg4NDE5NTYwNTA4NDYwOTg=",
+                                  "rest_id": "2118841956050846098"
+                                },
+                                "reply_to_user_results": {
+                                  "id": "VXNlclJlc3VsdHM6MTU3MzE5OTk2ODA5Mjk1NDYyNA==",
+                                  "rest_id": "1573199968092954624",
+                                  "result": {
+                                    "__typename": "User",
+                                    "core": { "screen_name": "WarriorOfTight" },
+                                    "id": "VXNlcjoxNTczMTk5OTY4MDkyOTU0NjI0",
+                                    "rest_id": "1573199968092954624"
+                                  }
+                                },
+                                "rest_id": "2118862729524257225",
+                                "unmention_data": {
+                                  "id": "VW5tZW50aW9uczoKAAEdZ6OIbZrBkg8AAgoAAAACFdUhCSrWIAAV1SEJKtYgAAA="
+                                },
+                                "url_entities": [],
+                                "views": { "count": "1" }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "metadata": {
+                      "conversation_metadata": {
+                        "all_tweet_ids": [
+                          "2118841956050846098",
+                          "2118862729524257225"
+                        ]
+                      }
+                    }
+                  },
+                  "entry_id": "list-conversation-2118874825207316504",
+                  "sort_index": "2118874825207316456"
+                },
+                {
+                  "content": {
+                    "__typename": "TimelineTimelineItem",
+                    "client_event_info": {
+                      "component": "suggest_organic_list_tweet",
+                      "details": {
+                        "timelines_details": {
+                          "injection_type": "OrganicListTweet"
+                        }
+                      },
+                      "element": "tweet"
+                    },
+                    "content": {
+                      "__isTimelineTimelineItemContent": "TimelineTweet",
+                      "__typename": "TimelineTweet",
+                      "display_type": "Tweet",
+                      "tweet_results": {
+                        "id": "VHdlZXRSZXN1bHRzOjIxMTg4NjE2MjU1MzMxMjA4NDM=",
+                        "rest_id": "2118861625533120843",
+                        "result": {
+                          "__isTweetResult": "TweetWithVisibilityResults",
+                          "__typename": "TweetWithVisibilityResults",
+                          "limited_action_results": {
+                            "limited_actions": [
+                              {
+                                "limited_action_type": "Reply",
+                                "prompt": {
+                                  "__typename": "CtaLimitedActionPrompt",
+                                  "cta_type": "SeeConversation",
+                                  "headline": {
+                                    "entities": [],
+                                    "text": "Who can reply?"
+                                  },
+                                  "subtext": {
+                                    "entities": [],
+                                    "text": "Only some accounts can reply."
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "tweet": {
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6ODA5MTA1NzI4NzUzNDQyODE2",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2113756226291113984/6JPai7fl_normal.jpg"
+                                  },
+                                  "core": {
+                                    "name": "𝚈𝚞𝚎𝙹𝚊𝚌𝚔𝚜𝚘𝚗",
+                                    "screen_name": "yuuejackson"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjo4MDkxMDU3Mjg3NTM0NDI4MTY=",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": { "location": "" },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["1838743510817870329"]
+                                  },
+                                  "privacy": { "protected": false },
+                                  "profile_bio": {
+                                    "description": "𝚏𝚏𝚡𝚒𝚟 (𝙲) 𝚂𝚀𝚄𝙰𝚁𝙴 𝙴𝙽𝙸𝚇 ▼ 𝚖𝚎𝚝𝚎𝚘𝚛 ▼ ゆえ 🦋 蟹角 / 黒肌 / 異色▼ SS→ # FFXIVphotoworld # 蟹角メラニズム # 今朝の差分 ▼ 𝚒𝚌𝚘𝚗@nodaybttoday"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 1634,
+                                    "following": 1135
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "809105728753442816",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": { "tweets": 61025 },
+                                  "verification": { "is_blue_verified": false }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 0,
+                              "favorite_count": 0,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 14
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "conversation_control": { "policy": "Community" },
+                              "created_at_ms": 1794010952000,
+                              "display_text_range": [0, 140],
+                              "full_text": "RT @Re_cotetsu20: おはようございます\n土曜日\n今週の依頼も無事達成(≧▽≦)\n今夜は予定が１つ(´艸｀*)\nいつもと違ううちに会えるかも？\nたくさんお祝いしてきます♪\n\n土曜日は元気充電しつつ\nのんびり楽しんでいこいこ✨\n\nティファの服を使ったうちのいつも通り…",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2118861625533120843"],
+                              "editable_until_msecs": "1794014552729",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {},
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjExODg2MTYyNTUzMzEyMDg0Mw==",
+                            "legacy": {
+                              "conversation_id_str": "2118861625533120843",
+                              "entities": {},
+                              "lang": "ja",
+                              "retweeted_status_results": {
+                                "id": "VHdlZXRSZXN1bHRzOjIxMTg4NTI3MzQxNTM4NDI4MzQ=",
+                                "rest_id": "2118852734153842834",
+                                "result": {
+                                  "__typename": "TweetWithVisibilityResults",
+                                  "limited_action_results": {
+                                    "limited_actions": [
+                                      {
+                                        "limited_action_type": "Reply",
+                                        "prompt": {
+                                          "__typename": "CtaLimitedActionPrompt",
+                                          "cta_type": "SeeConversation",
+                                          "headline": {
+                                            "entities": [],
+                                            "text": "Who can reply?"
+                                          },
+                                          "subtext": {
+                                            "entities": [],
+                                            "text": "Only some accounts can reply."
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  "tweet": {
+                                    "__typename": "Tweet",
+                                    "cashtag_attachments": [],
+                                    "conversation_muted": false,
+                                    "core": {
+                                      "user_results": {
+                                        "id": "VXNlclJlc3VsdHM6MTAxNDk1MTI2Ng==",
+                                        "result": {
+                                          "__typename": "User",
+                                          "avatar": {
+                                            "image_url": "https://pbs.twimg.com/profile_images/1874226782892945408/xJwUw7pq_normal.jpg"
+                                          },
+                                          "core": {
+                                            "name": "Kamuroi.K~Anima~天真爛漫☆虎鉄",
+                                            "screen_name": "Re_cotetsu20"
+                                          },
+                                          "follow_request_sent": false,
+                                          "id": "VXNlcjoxMDE0OTUxMjY2",
+                                          "identity_profile_labels_highlighted_label": {},
+                                          "is_following": false,
+                                          "location": { "location": "" },
+                                          "parody_commentary_fan_label": "None",
+                                          "pinned_items": {},
+                                          "privacy": { "protected": false },
+                                          "profile_bio": {
+                                            "description": "X初心者の自由人(≧▽≦)\nFF14 ManaDC Anima所属 Kamuroi.K\nいつでも楽しくエオルゼア満喫中\n黄金のレガシー7.0進行♪\nCafe&Bar NoeLuna店主（ #NoeLuna_14 ）\n© SQUARE ENIX"
+                                          },
+                                          "profile_image_shape": "Circle",
+                                          "profile_translation": {
+                                            "translator_type_enum": "None"
+                                          },
+                                          "relationship_counts": {
+                                            "followers": 2440,
+                                            "following": 2001
+                                          },
+                                          "relationship_perspectives": {
+                                            "blocking": false,
+                                            "followed_by": false,
+                                            "following": false,
+                                            "muting": false
+                                          },
+                                          "rest_id": "1014951266",
+                                          "super_follow_eligible": false,
+                                          "super_followed_by": false,
+                                          "super_following": false,
+                                          "tweet_counts": { "tweets": 91045 },
+                                          "verification": {
+                                            "is_blue_verified": false
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "counts": {
+                                      "bookmark_count": 0,
+                                      "favorite_count": 51,
+                                      "quote_count": 0,
+                                      "reply_count": 1,
+                                      "retweet_count": 14
+                                    },
+                                    "details": {
+                                      "cashtag_entities": [],
+                                      "conversation_control": {
+                                        "policy": "Community"
+                                      },
+                                      "created_at_ms": 1794008832000,
+                                      "display_text_range": [0, 127],
+                                      "full_text": "おはようございます\n土曜日\n今週の依頼も無事達成(≧▽≦)\n今夜は予定が１つ(´艸｀*)\nいつもと違ううちに会えるかも？\nたくさんお祝いしてきます♪\n\n土曜日は元気充電しつつ\nのんびり楽しんでいこいこ✨\n\nティファの服を使ったうちのいつも通りなミラプリ👚 https://t.co/dppqObAYt0",
+                                      "hashtag_entities": [],
+                                      "smarttags": []
+                                    },
+                                    "edit_control": {
+                                      "__typename": "EditControlInitial",
+                                      "edit_tweet_ids": ["2118852734153842834"],
+                                      "editable_until_msecs": "1794012432000",
+                                      "edits_remaining": "5",
+                                      "is_edit_eligible": true
+                                    },
+                                    "grok_analysis_button": true,
+                                    "grok_annotations": {
+                                      "is_image_editable_by_grok": true
+                                    },
+                                    "grok_translated_post_with_availability": {
+                                      "is_available": false
+                                    },
+                                    "id": "VHdlZXQ6MjExODg1MjczNDE1Mzg0MjgzNA==",
+                                    "legacy": {
+                                      "conversation_id_str": "2118852734153842834",
+                                      "entities": {
+                                        "media": [
+                                          {
+                                            "expanded_url": "https://x.com/Re_cotetsu20/status/2118852734153842834/photo/1"
+                                          }
+                                        ]
+                                      },
+                                      "lang": "ja",
+                                      "possibly_sensitive": false
+                                    },
+                                    "media_entities2": [
+                                      {
+                                        "expanded_url": "https://x.com/Re_cotetsu20/status/2118852734153842834/photo/1",
+                                        "ext_media_availability": {
+                                          "status": "Available"
+                                        },
+                                        "ext_playlists": [],
+                                        "features": {},
+                                        "id_str": "2118850198101508096",
+                                        "indices": [128, 151],
+                                        "media_url_https": "https://pbs.twimg.com/media/HWerB24bQAAks6h.jpg",
+                                        "original_info": {
+                                          "height": 1920,
+                                          "width": 1017
+                                        },
+                                        "type": "photo"
+                                      }
+                                    ],
+                                    "mention_entities": [],
+                                    "perspective": {
+                                      "favorited": false,
+                                      "retweeted": false
+                                    },
+                                    "quick_promote_eligibility": {
+                                      "eligibility": "IneligibleNotVerified"
+                                    },
+                                    "rest_id": "2118852734153842834",
+                                    "unmention_data": {
+                                      "id": "VW5tZW50aW9uczoKAAEdZ61V5prgkg8AAgoAAAAAAA=="
+                                    },
+                                    "url_entities": [],
+                                    "views": { "count": "417" }
+                                  }
+                                }
+                              }
+                            },
+                            "media_entities2": [],
+                            "mention_entities": [
+                              {
+                                "id_str": "1014951266",
+                                "indices": [3, 16],
+                                "screen_name": "Re_cotetsu20"
+                              }
+                            ],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2118861625533120843",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEdZ7VsFhvBSw8AAgoAAAABAAAAADx+7WIA"
+                            },
+                            "url_entities": [],
+                            "views": { "count": "5" }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "entry_id": "tweet-2118861625533120843",
+                  "sort_index": "2118874825207316454"
+                },
+                {
+                  "content": {
+                    "__typename": "TimelineTimelineCursor",
+                    "cursor_type": "Top",
+                    "value": "DAABCgABHWfBbWAAJxEKAAIdZ8DkZtuBqAgAAwAAAAEAAA"
+                  },
+                  "entry_id": "cursor-top-2118874825207316481",
+                  "sort_index": "2118874825207316481"
+                },
+                {
+                  "content": {
+                    "__typename": "TimelineTimelineCursor",
+                    "cursor_type": "Bottom",
+                    "value": "DAABCgABHWfBbV___6IKAAIdZ4CwGxuwnwgAAwAAAAIAAA"
+                  },
+                  "entry_id": "cursor-bottom-2118874825207316388",
+                  "sort_index": "2118874825207316388"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

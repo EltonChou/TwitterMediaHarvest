@@ -30,6 +30,13 @@ export const enum ResponseType {
   SearchTimeline = 'SearchTimeline',
   UserOriginalsTimeline = 'UserOriginalsTimeline',
   SearchByRawQuery = 'SearchByRawQuery',
+  UserRepliesTimeline = 'UserRepliesTimeline',
+  UserRepostsTimeline = 'UserRepostsTimeline',
+  UserVideoTimeline = 'UserVideoTimeline',
+  LikesQuery = 'likesQuery',
+  BookmarkTimeline = 'BookmarkTimeline',
+  TweetNotificationsQuery = 'tweetNotificationsQuery',
+  ListTimeline = 'ListTimeline',
   NotificationsDeviceFollow = 'NotificationDeviceFollow',
   Unknown = 0,
 }
@@ -65,6 +72,13 @@ const messageSchema: Joi.ObjectSchema<
         ResponseType.SearchTimeline,
         ResponseType.UserOriginalsTimeline,
         ResponseType.SearchByRawQuery,
+        ResponseType.UserRepliesTimeline,
+        ResponseType.UserRepostsTimeline,
+        ResponseType.UserVideoTimeline,
+        ResponseType.LikesQuery,
+        ResponseType.BookmarkTimeline,
+        ResponseType.TweetNotificationsQuery,
+        ResponseType.ListTimeline,
         ResponseType.NotificationsDeviceFollow
       )
       .required(),
