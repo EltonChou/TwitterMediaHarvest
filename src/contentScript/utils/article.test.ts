@@ -9,11 +9,14 @@ import {
   getTweetIdFromLink,
   isArticleInStatus,
   isArticleInStream,
+  isArticlePhotoMode,
+  isMediaViewerOpenFor,
   isOwnByEmbedded,
   parseLinks,
   parseTweetInfo,
   selectArtcleMode,
 } from './article'
+import { isX } from './checker'
 import { getAllByTestId } from '@testing-library/dom'
 import 'core-js/actual/url/can-parse'
 import * as E from 'fp-ts/Either'
@@ -21,6 +24,11 @@ import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/lib/function'
 import fs from 'fs/promises'
 import sysPath from 'path'
+
+jest.mock('./checker', () => ({
+  ...jest.requireActual('./checker'),
+  isX: jest.fn(() => false),
+}))
 
 const setPath = (path: string) => history.replaceState(null, '', path)
 
@@ -199,4 +207,88 @@ it('can check element is own by embedded tweet or not', () => {
   if (!ele || !owner) throw new Error('HTML is wrongly set')
   expect(isOwnByEmbedded(owner)).toBeFalse()
   expect(isOwnByEmbedded(ele)).toBeTrue()
+})
+
+it.each([
+  `
+  <div aria-label="Media Viewer">
+    <div>
+      <a href="/someone/status/1/analytics"></a>
+    </div>
+    <div>
+      <ul>
+        <li>
+          <div>
+            <article id="target">
+              <a href="/someone/status/1"></a>
+            </article>
+          </div>
+        </li>
+        <li>
+          <div>
+            <article>
+              <a href="/someone/status/2"></a>
+            </article>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  `,
+  `
+  <div aria-label="Media Viewer">
+    <div>
+      <a href="/someone/status/1/analytics"></a>
+    </div>
+    <div>
+      <ul>
+        <li>
+          <div>
+            <article>
+              <a href="/someone/status/2"></a>
+            </article>
+          </div>
+        </li>
+        <li>
+          <div>
+            <article id="target">
+              <a href="/someone/status/1"></a>
+            </article>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  `,
+])('can check media viewer is open for article or not', (html: string) => {
+  document.body.innerHTML = html
+
+  const targetArticle = document.getElementById('target')
+  const anotherArticle =
+    document.querySelector<HTMLElement>('article:not([id])')
+
+  if (!targetArticle) throw new Error('HTML is wrongly set')
+  if (!anotherArticle) throw new Error('HTML is wrongly set')
+
+  expect(isMediaViewerOpenFor(targetArticle)).toBeTrue()
+  expect(isMediaViewerOpenFor(anotherArticle)).toBeFalse()
+})
+
+it('should treat the media viewer bar container as photo mode in X', () => {
+  const mockIsX = isX as jest.MockedFunction<typeof isX>
+  mockIsX.mockReturnValue(true)
+  document.body.innerHTML = `
+  <div aria-label="Media Viewer">
+    <div id="bar">
+      <div role="group"><a href="/someone/status/1/analytics"></a></div>
+    </div>
+  </div>
+  `
+
+  const bar = document.getElementById('bar')
+  if (!bar) throw new Error('HTML is wrongly set')
+
+  expect(isArticlePhotoMode(bar)).toBeTrue()
+  expect(getLinksFromArticle(bar)).toEqual(['/someone/status/1/analytics'])
+  mockIsX.mockReturnValue(false)
 })

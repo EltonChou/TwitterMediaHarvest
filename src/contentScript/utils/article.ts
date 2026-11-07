@@ -45,11 +45,28 @@ export const isArticleInStream = (article: HTMLElement) => {
   )
 }
 
+export const isMediaViewerOpenFor = (article: HTMLElement): boolean => {
+  if (!article) return false
+  const articleAnchor = $('a[href*="/status/"]', article)
+  if (!articleAnchor) return false
+
+  const href = articleAnchor.getAttribute('href')
+  const viewerAnalyticsAnchor = $(
+    `[aria-label="Media Viewer"] a[href^="${href}/"]:not(article a)`
+  )
+
+  return Boolean(viewerAnalyticsAnchor)
+}
+
 /**
+ * In X, a non-article element is the media viewer action bar container.
+ *
  * @param {HTMLElement} article
  */
 export const isArticlePhotoMode = (article: HTMLElement) =>
-  article instanceof HTMLDivElement
+  isX()
+    ? article.tagName !== 'ARTICLE' || isMediaViewerOpenFor(article)
+    : article instanceof HTMLDivElement
 
 /**
  * @param {HTMLElement} article
@@ -112,6 +129,15 @@ const aricleHasPhoto = (article: HTMLElement): boolean => {
   return photoEle ? !isPhotoInQuotedContent(photoEle) : false
 }
 
+const isBelongsToCard = (ele: HTMLElement): boolean =>
+  Boolean(ele?.closest('[data-testid="card.wrapper"]'))
+const isVideoInQuotedContent = (ele: HTMLElement) =>
+  Boolean(ele?.closest('[role="link"]')?.querySelector('time'))
+const isPhotoInQuotedContent = (ele: HTMLElement) =>
+  Boolean(
+    ele?.closest('[id^="id"]:not([aria-labelledby])')?.querySelector('time')
+  )
+
 /**
  * Get first video-like component from specified element.
  */
@@ -133,21 +159,15 @@ const articleHasVideo = (article: HTMLElement): boolean => {
   )
 }
 
-const isBelongsToCard = (ele: HTMLElement): boolean =>
-  Boolean(ele?.closest('[data-testid="card.wrapper"]'))
-const isVideoInQuotedContent = (ele: HTMLElement) =>
-  Boolean(ele?.closest('[role="link"]')?.querySelector('time'))
-const isPhotoInQuotedContent = (ele: HTMLElement) =>
-  Boolean(
-    ele?.closest('[id^="id"]:not([aria-labelledby])')?.querySelector('time')
-  )
+export const articleHasMedia = (article: HTMLElement) => {
+  if (!article) return false
+  if (isArticlePhotoMode(article)) return true
+  return articleHasVideo(article) || aricleHasPhoto(article)
+}
 
 export const findButton = (article: HTMLElement): HTMLElement | undefined =>
   $<HTMLElement>('.deck-harvester', article) ||
   $<HTMLElement>('.harvester', article)
-
-export const articleHasMedia = (article: HTMLElement) =>
-  article && (articleHasVideo(article) || aricleHasPhoto(article))
 
 export const canArticleBeAppended = (article: HTMLElement) =>
   !(

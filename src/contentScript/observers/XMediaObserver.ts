@@ -5,11 +5,7 @@
  */
 import makeHarvester from '../core'
 import { articleHasMedia } from '../utils/article'
-import {
-  isAnonymousMode,
-  isInTweetStatus,
-  isStreamLoaded,
-} from '../utils/checker'
+import { isAnonymousMode, isStreamLoaded } from '../utils/checker'
 import { revealNsfw } from '../utils/helper'
 import observeElement, { isElementObserved } from './observer'
 import { $, $$ } from 'select-dom'
@@ -17,10 +13,28 @@ import { $, $$ } from 'select-dom'
 const enum Query {
   Root = 'main',
   Stream = 'section div[id^="urt:"] > ul',
-  Modal = '[aria-labelledby="modal-header"] > div:first-child',
-  ModalWrapper = '#layers',
-  ModalThread = '[aria-labelledby="modal-header"] [aria-expanded="true"]',
+  MediaViewer = '[aria-label="Media Viewer"]',
+  MediaViewerShare = '[aria-label="Media Viewer"] [data-engagement-action="share"]',
 }
+
+/**
+ * The viewer's own action bar holds the only share button outside the thread
+ * articles. A multi-image tweet adds another group (the carousel) without one.
+ */
+const getMediaViewerBarContainer = () =>
+  $$(Query.MediaViewerShare)
+    .find(share => !share.closest('article'))
+    ?.closest('[role="group"]')?.parentElement
+
+/** Mutations caused by appending our own button. */
+const isOwnMutation = (mutations: MutationRecord[]) =>
+  mutations.every(
+    m =>
+      m.removedNodes.length === 0 &&
+      [...m.addedNodes].every(
+        n => n instanceof HTMLElement && n.classList.contains('harvester')
+      )
+  )
 
 const isStreamObserved = () => {
   const streamEle = $(Query.Stream)
@@ -28,13 +42,24 @@ const isStreamObserved = () => {
 }
 
 export default class XMediaObserver implements IHarvestObserver {
+  private isInitializeScheduled = false
+
   constructor(readonly autoRevealNsfw = false) {}
+
+  /** Run `initialize` once per frame, however many observers ask for it. */
+  scheduleInitialize() {
+    if (this.isInitializeScheduled) return
+    this.isInitializeScheduled = true
+    requestAnimationFrame(() => {
+      this.isInitializeScheduled = false
+      this.initialize()
+    })
+  }
 
   observeAll() {
     this.observeHead()
     this.observeModal()
     this.observeStream()
-    this.observeHead()
   }
 
   observeRoot() {
@@ -43,11 +68,11 @@ export default class XMediaObserver implements IHarvestObserver {
       subtree: true,
     }
 
-    const rootMutationCallback: MutationCallback = (_, _observer) => {
-      if (__DEV__) console.info('root mutation')
-
-      if (isStreamLoaded() || !isStreamObserved()) {
-        this.initialize()
+    // Only a new stream needs a full scan. The stream observer handles its tweets.
+    const rootMutationCallback: MutationCallback = mutations => {
+      if (isOwnMutation(mutations)) return
+      if (isStreamLoaded() && !isStreamObserved()) {
+        this.scheduleInitialize()
         this.observeAll()
       }
     }
@@ -56,8 +81,8 @@ export default class XMediaObserver implements IHarvestObserver {
   }
 
   initialize() {
-    const modal = $(Query.Modal)
-    if (modal && isInTweetStatus()) makeHarvester(modal)
+    const viewerBar = getMediaViewerBarContainer()
+    if (viewerBar) makeHarvester(viewerBar)
 
     const articles = $$('article')
     for (const article of articles) {
@@ -70,7 +95,7 @@ export default class XMediaObserver implements IHarvestObserver {
     const mutaionCb: MutationCallback = mutations => {
       for (const mutation of mutations) {
         for (const addedNode of mutation.addedNodes) {
-          if (!(addedNode instanceof HTMLElement)) return
+          if (!(addedNode instanceof HTMLElement)) continue
 
           const mediaBlocks = $$('li', addedNode)
           mediaBlocks.forEach(
@@ -78,7 +103,7 @@ export default class XMediaObserver implements IHarvestObserver {
           )
 
           const article = $('article', addedNode)
-          if (!article) return
+          if (!article) continue
           if (this.autoRevealNsfw) revealNsfw(article)
           if (articleHasMedia(article)) makeHarvester(article)
         }
@@ -92,39 +117,41 @@ export default class XMediaObserver implements IHarvestObserver {
   }
 
   observeHead() {
+    // Navigation changes the title. Other `head` children (prefetch links) are noise.
     const options: MutationObserverInit = {
       childList: true,
-      subtree: false,
-    }
-
-    const titleMutationCallback: MutationCallback = () => {
-      this.initialize()
-      this.observeRoot()
-    }
-
-    observeElement('Head', 'head', titleMutationCallback, options)
-  }
-
-  observeModal() {
-    const options: MutationObserverInit = {
-      childList: true,
+      characterData: true,
       subtree: true,
     }
 
-    const threadCallback: MutationCallback = (_, observer) => {
-      this.initialize()
-      observer.disconnect()
+    const titleMutationCallback: MutationCallback = () => {
+      this.scheduleInitialize()
+      this.observeRoot()
     }
 
-    const modalMutationCallback: MutationCallback = () => {
-      this.initialize()
-      const modalThread = $(Query.ModalThread)
+    observeElement('Title', 'head > title', titleMutationCallback, options)
+  }
 
-      if (modalThread) {
-        observeElement('Modal Thread', modalThread, threadCallback)
-      }
+  /**
+   * The media viewer is a portal under `body`, outside `main`. Its thread is
+   * virtualized, so articles remount while scrolling.
+   */
+  observeModal() {
+    // ponytail: rescans all articles, coalesced per frame; scope to the viewer if it shows in profiles.
+    const observeViewer = () => {
+      const viewer = $(Query.MediaViewer)
+      if (viewer)
+        observeElement(
+          'Media Viewer',
+          viewer,
+          mutations => {
+            if (!isOwnMutation(mutations)) this.scheduleInitialize()
+          },
+          { childList: true, subtree: true }
+        )
     }
 
-    observeElement('Modal', Query.ModalWrapper, modalMutationCallback, options)
+    observeViewer()
+    observeElement('Body', document.body, observeViewer)
   }
 }
