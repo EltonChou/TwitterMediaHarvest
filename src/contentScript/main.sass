@@ -97,6 +97,12 @@ $harvest-yellow: rgb(241, 185, 26)
     .statusBG, .streamBG
       background: rgba(241, 185, 26, 0.2)
 
+// Narrow action bars (e.g. the media viewer thread) have no room for one more
+// full pill: the counts touch the next icon. A compact pill gives that room back.
+@container post-actions (max-width: 400px)
+  .harvester.x .x-engagement-pill
+    padding-inline: 4px
+
 .photoColor
   color: rgb(255, 255, 255) !important
   // color: rgb(241, 185, 26)
