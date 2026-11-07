@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - Support downloading media while browsing X without logging in. [#352](https://github.com/EltonChou/TwitterMediaHarvest/pull/352)
+- Cache tweets from the profile Originals timeline and the new search results response, so downloads from those pages use the cached tweet data.
 
 ### Fixed
 
