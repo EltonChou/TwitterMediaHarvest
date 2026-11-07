@@ -122,6 +122,14 @@ const responseTypeCriterias: ResponseTypeCriteria[] = [
     endpoint: 'SearchTimeline',
   },
   {
+    type: ResponseType.UserOriginalsTimeline,
+    endpoint: 'UserOriginalsTimeline',
+  },
+  {
+    type: ResponseType.SearchByRawQuery,
+    endpoint: 'SearchByRawQuery',
+  },
+  {
     type: ResponseType.NotificationsDeviceFollow,
     endpoint: 'device_follow.json',
   },
@@ -135,14 +143,25 @@ const detectResponseTypeByEndpoint = (path: string): ResponseType => {
   return ResponseType.Unknown
 }
 
+/* eslint-disable no-console */
 document.addEventListener('mh:media-response', async e => {
-  await sendMessage(
-    new CaptureResponseMessage({
-      type: detectResponseTypeByEndpoint(e.detail.path),
-      body: e.detail.body,
-    })
-  )
+  const { path, body } = e.detail
+  const type = detectResponseTypeByEndpoint(path)
+
+  if (__DEV__) {
+    if (type === ResponseType.Unknown)
+      console.warn(`[MH:ContentScript] Unknown response type for ${path}`)
+    else console.debug(`[MH:ContentScript] Received ${type} response ${path}`)
+  }
+
+  const response = await sendMessage(new CaptureResponseMessage({ type, body }))
+
+  if (__DEV__ && response.status === 'error')
+    console.warn(
+      `[MH:ContentScript] Failed to send ${type} response: ${response.reason}`
+    )
 })
+/* eslint-enable no-console */
 
 runtime.onMessage.addListener((message, _sender, sendResponse) => {
   const messageResult = RequestTransactionIdMessage.validate(message)

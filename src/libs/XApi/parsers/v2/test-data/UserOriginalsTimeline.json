@@ -1,0 +1,3620 @@
+{
+  "data": {
+    "user_result_by_screen_name": {
+      "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+      "result": {
+        "__typename": "User",
+        "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+        "profile_user_originals_timeline": {
+          "id": "VGltZWxpbmU6CgDQGvKCKrzaAAEA",
+          "timeline": {
+            "id": "ProfileOriginalsProduct-Timeline",
+            "instructions": [
+              {
+                "__typename": "TimelinePinEntry",
+                "entry": {
+                  "content": {
+                    "__typename": "TimelineTimelineItem",
+                    "client_event_info": {
+                      "component": "pinned_tweets",
+                      "element": "tweet"
+                    },
+                    "content": {
+                      "__isTimelineTimelineItemContent": "TimelineTweet",
+                      "__typename": "TimelineTweet",
+                      "display_type": "Tweet",
+                      "social_context": {
+                        "__isTimelineSocialContext": "TimelineGeneralContext",
+                        "__typename": "TimelineGeneralContext",
+                        "context_type": "Pin",
+                        "text": "Pinned"
+                      },
+                      "tweet_results": {
+                        "id": "VHdlZXRSZXN1bHRzOjIwMTIyMzk4Mzk1MTM1MDk5OTI=",
+                        "rest_id": "2012239839513509992",
+                        "result": {
+                          "__isTweetResult": "Tweet",
+                          "__typename": "Tweet",
+                          "cashtag_attachments": [],
+                          "conversation_muted": false,
+                          "core": {
+                            "user_results": {
+                              "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                              "result": {
+                                "__typename": "User",
+                                "avatar": {
+                                  "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                },
+                                "core": {
+                                  "name": "🍼",
+                                  "screen_name": "ck_lp4"
+                                },
+                                "follow_request_sent": false,
+                                "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                "identity_profile_labels_highlighted_label": {},
+                                "is_following": true,
+                                "location": {
+                                  "location": ""
+                                },
+                                "parody_commentary_fan_label": "None",
+                                "pinned_items": {
+                                  "tweet_ids_str": ["2012239839513509992"]
+                                },
+                                "privacy": {
+                                  "protected": false
+                                },
+                                "profile_bio": {
+                                  "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                },
+                                "profile_image_shape": "Circle",
+                                "profile_translation": {
+                                  "translator_type_enum": "None"
+                                },
+                                "relationship_counts": {
+                                  "followers": 4965,
+                                  "following": 102
+                                },
+                                "relationship_perspectives": {
+                                  "blocking": false,
+                                  "followed_by": false,
+                                  "following": true,
+                                  "muting": false
+                                },
+                                "rest_id": "1941757509418745857",
+                                "super_follow_eligible": false,
+                                "super_followed_by": false,
+                                "super_following": false,
+                                "tweet_counts": {
+                                  "tweets": 2566
+                                },
+                                "verification": {
+                                  "is_blue_verified": false
+                                }
+                              }
+                            }
+                          },
+                          "counts": {
+                            "bookmark_count": 3,
+                            "favorite_count": 8,
+                            "quote_count": 0,
+                            "reply_count": 24,
+                            "retweet_count": 1
+                          },
+                          "details": {
+                            "cashtag_entities": [],
+                            "created_at_ms": 1768590338000,
+                            "display_text_range": [0, 112],
+                            "full_text": "@xxx \n左右固定￤易绩(梁绩)main\n中文/Eng/日本語\npoipiku：https://t.co/OGoTWG0dWN\n\n感想、リク等気軽に投げて貰えると嬉しいです😊\nhttps://t.co/N8OUqoSTOv",
+                            "hashtag_entities": [],
+                            "smarttags": []
+                          },
+                          "edit_control": {
+                            "__typename": "EditControlInitial",
+                            "edit_tweet_ids": ["2012239839513509992"],
+                            "editable_until_msecs": "1768593938000",
+                            "edits_remaining": "5",
+                            "is_edit_eligible": true
+                          },
+                          "grok_analysis_button": true,
+                          "grok_annotations": {
+                            "is_image_editable_by_grok": true
+                          },
+                          "grok_translated_post_with_availability": {
+                            "is_available": false
+                          },
+                          "id": "VHdlZXQ6MjAxMjIzOTgzOTUxMzUwOTk5Mg==",
+                          "legacy": {
+                            "conversation_id_str": "2012239839513509992",
+                            "entities": {
+                              "urls": [
+                                {
+                                  "expanded_url": "https://x.gd/7WT2e"
+                                },
+                                {
+                                  "expanded_url": "https://odaibako.net/u/ck_lp4"
+                                }
+                              ]
+                            },
+                            "lang": "ja",
+                            "possibly_sensitive": false
+                          },
+                          "media_entities2": [],
+                          "mention_entities": [
+                            {
+                              "id_str": "752290187091152896",
+                              "indices": [0, 4],
+                              "screen_name": "xxx"
+                            }
+                          ],
+                          "perspective": {
+                            "favorited": false,
+                            "retweeted": false
+                          },
+                          "quick_promote_eligibility": {
+                            "eligibility": "IneligibleNotVerified"
+                          },
+                          "reply_to_user_results": {
+                            "id": "VXNlclJlc3VsdHM6NzUyMjkwMTg3MDkxMTUyODk2",
+                            "rest_id": "752290187091152896",
+                            "result": {
+                              "__typename": "UserUnavailable"
+                            }
+                          },
+                          "rest_id": "2012239839513509992",
+                          "unmention_data": {
+                            "id": "VW5tZW50aW9uczoKAAEb7Ol5BReAaA8AAgoAAAABCnCr8HmUkAAA"
+                          },
+                          "url_entities": [
+                            {
+                              "__typename": "UrlsEntity",
+                              "display_url": "x.gd/7WT2e",
+                              "expanded_url": "https://x.gd/7WT2e",
+                              "indices": [41, 64],
+                              "url": "https://t.co/OGoTWG0dWN"
+                            },
+                            {
+                              "__typename": "UrlsEntity",
+                              "display_url": "odaibako.net/u/ck_lp4",
+                              "expanded_url": "https://odaibako.net/u/ck_lp4",
+                              "indices": [89, 112],
+                              "url": "https://t.co/N8OUqoSTOv"
+                            }
+                          ],
+                          "views": {
+                            "count": "49201"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "entry_id": "tweet-2012239839513509992",
+                  "sort_index": "2118827867809775571"
+                }
+              },
+              {
+                "__typename": "TimelineAddEntries",
+                "entries": [
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzk5MTA1MzYxMTcxNDU5MTk=",
+                          "rest_id": "2079910536117145919",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 0,
+                              "favorite_count": 21,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1784724289000,
+                              "display_text_range": [0, 110],
+                              "full_text": "在照顾生活能力为零的绩哥时，小易的家庭主夫技能越来越强，等回过神来，已经彻底坐稳了妻子(？)的位置……这种设定也很香啊\n迟早有一天，面对只顾着工作、根本不回界园的绩哥，小易会忍不住逼问他：“我和工作到底哪个更重要⁉”吧😂",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2079910536117145919"],
+                              "editable_until_msecs": "1784727889000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3OTkxMDUzNjExNzE0NTkxOQ==",
+                            "legacy": {
+                              "conversation_id_str": "2079910536117145919",
+                              "entities": {},
+                              "lang": "zh"
+                            },
+                            "media_entities2": [],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2079910536117145919",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEc3VOc3drRPw8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "1698"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2079910536117145919",
+                    "sort_index": "2118827867809775570"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzk5MDY3MDMyOTUwMTcwODg=",
+                          "rest_id": "2079906703295017088",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 34,
+                              "favorite_count": 410,
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 12
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1784723375000,
+                              "display_text_range": [0, 25],
+                              "full_text": "黍姐の尻尾が絡みついてる(よね⁉)の大変良い…☺️",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2079906703295017088"],
+                              "editable_until_msecs": "1784726975000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3OTkwNjcwMzI5NTAxNzA4OA==",
+                            "legacy": {
+                              "conversation_id_str": "2079906703295017088",
+                              "entities": {},
+                              "lang": "ja",
+                              "quoted_status_permalink": {
+                                "expanded": "https://twitter.com/maromiaaaaa/status/2079883308369072564"
+                              }
+                            },
+                            "media_entities2": [],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "quoted_tweet_results": {
+                              "__typename": "TweetResults",
+                              "id": "VHdlZXRSZXN1bHRzOjIwNzk4ODMzMDgzNjkwNzI1NjQ=",
+                              "rest_id": "2079883308369072564",
+                              "result": {
+                                "__isTweetResult": "Tweet",
+                                "__typename": "Tweet",
+                                "cashtag_attachments": [],
+                                "core": {
+                                  "user_results": {
+                                    "id": "VXNlclJlc3VsdHM6MTc3Njg1MTE5NzI1MDY3NDY4OA==",
+                                    "result": {
+                                      "__typename": "User",
+                                      "avatar": {
+                                        "image_url": "https://pbs.twimg.com/profile_images/2052137983177011200/wbFhMtkD_normal.jpg"
+                                      },
+                                      "core": {
+                                        "name": "酒",
+                                        "screen_name": "maromiaaaaa"
+                                      },
+                                      "id": "VXNlcjoxNzc2ODUxMTk3MjUwNjc0Njg4",
+                                      "identity_profile_labels_highlighted_label": {},
+                                      "location": {
+                                        "location": ""
+                                      },
+                                      "parody_commentary_fan_label": "None",
+                                      "privacy": {
+                                        "protected": false
+                                      },
+                                      "profile_bio": {
+                                        "description": "ペンネは酒求(さかもと)ゆのみです 18↓フォロー非推奨 発言汚めCP厨 アークナイツ中心⚠️大陸情報有り AI学習禁止 FANBOX→https://t.co/jjOzI8CR6T その他リンクは下のリンクから⤵︎ ︎"
+                                      },
+                                      "profile_image_shape": "Circle",
+                                      "profile_translation": {
+                                        "translator_type_enum": "None"
+                                      },
+                                      "relationship_counts": {
+                                        "followers": 15310,
+                                        "following": 60
+                                      },
+                                      "relationship_perspectives": {
+                                        "followed_by": false,
+                                        "following": true
+                                      },
+                                      "rest_id": "1776851197250674688",
+                                      "super_follow_eligible": false,
+                                      "super_followed_by": false,
+                                      "super_following": false,
+                                      "tweet_counts": {
+                                        "tweets": 13311
+                                      },
+                                      "verification": {
+                                        "is_blue_verified": false
+                                      }
+                                    }
+                                  }
+                                },
+                                "counts": {
+                                  "favorite_count": 10614,
+                                  "quote_count": 5,
+                                  "reply_count": 8,
+                                  "retweet_count": 1163
+                                },
+                                "details": {
+                                  "cashtag_entities": [],
+                                  "created_at_ms": 1784717797000,
+                                  "display_text_range": [0, 5],
+                                  "full_text": "夏感謝🌾🍶 https://t.co/cWxjrwQ4KS",
+                                  "hashtag_entities": [],
+                                  "smarttags": []
+                                },
+                                "edit_control": {
+                                  "__typename": "EditControlInitial",
+                                  "edit_tweet_ids": ["2079883308369072564"]
+                                },
+                                "grok_annotations": {
+                                  "is_image_editable_by_grok": true
+                                },
+                                "grok_translated_post_with_availability": {
+                                  "is_available": false
+                                },
+                                "id": "VHdlZXQ6MjA3OTg4MzMwODM2OTA3MjU2NA==",
+                                "legacy": {
+                                  "entities": {
+                                    "media": [
+                                      {
+                                        "expanded_url": "https://x.com/maromiaaaaa/status/2079883308369072564/photo/1"
+                                      }
+                                    ]
+                                  },
+                                  "lang": "ja",
+                                  "possibly_sensitive": false
+                                },
+                                "media_entities2": [
+                                  {
+                                    "allow_download_status": {
+                                      "allow_download": true
+                                    },
+                                    "expanded_url": "https://x.com/maromiaaaaa/status/2079883308369072564/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "ext_playlists": [],
+                                    "id_str": "2079883302924963840",
+                                    "indices": [6, 29],
+                                    "media_url_https": "https://pbs.twimg.com/media/HN062CUb0AAIcra.jpg",
+                                    "original_info": {
+                                      "height": 1879,
+                                      "width": 1711
+                                    },
+                                    "type": "photo"
+                                  }
+                                ],
+                                "mention_entities": [],
+                                "rest_id": "2079883308369072564",
+                                "unmention_data": {
+                                  "id": "VW5tZW50aW9uczoKAAEc3TrZaZpRtA8AAgoAAAAAAA=="
+                                },
+                                "url_entities": [],
+                                "views": {
+                                  "count": "94362"
+                                }
+                              }
+                            },
+                            "rest_id": "2079906703295017088",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEc3VAgd9pwgA8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "9765"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2079906703295017088",
+                    "sort_index": "2118827867809775569"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzk3ODY4NTEzMTgzMzc4MjU=",
+                          "rest_id": "2079786851318337825",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 0,
+                              "favorite_count": 2,
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 0
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1784694800000,
+                              "display_text_range": [0, 87],
+                              "full_text": "From behind, he honestly looks like a woman in a fitted gown😂\nThat waistline is unreal…",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2079786851318337825"],
+                              "editable_until_msecs": "1784698400000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {},
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3OTc4Njg1MTMxODMzNzgyNQ==",
+                            "legacy": {
+                              "conversation_id_str": "2079786851318337825",
+                              "entities": {},
+                              "lang": "en",
+                              "quoted_status_permalink": {
+                                "expanded": "https://twitter.com/dendenggggggg/status/2079773213735997642"
+                              }
+                            },
+                            "media_entities2": [],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "quoted_tweet_results": {
+                              "__typename": "TweetResults",
+                              "id": "VHdlZXRSZXN1bHRzOjIwNzk3NzMyMTM3MzU5OTc2NDI=",
+                              "rest_id": "2079773213735997642",
+                              "result": {
+                                "__isTweetResult": "Tweet",
+                                "__typename": "Tweet",
+                                "cashtag_attachments": [],
+                                "core": {
+                                  "user_results": {
+                                    "id": "VXNlclJlc3VsdHM6MTYwMDMyNjc1NjQ4NDc5NjQxOQ==",
+                                    "result": {
+                                      "__typename": "User",
+                                      "avatar": {
+                                        "image_url": "https://pbs.twimg.com/profile_images/2080050775028531200/q-k550tI_normal.jpg"
+                                      },
+                                      "core": {
+                                        "name": "dendeng",
+                                        "screen_name": "dendenggggggg"
+                                      },
+                                      "id": "VXNlcjoxNjAwMzI2NzU2NDg0Nzk2NDE5",
+                                      "identity_profile_labels_highlighted_label": {},
+                                      "location": {
+                                        "location": ""
+                                      },
+                                      "parody_commentary_fan_label": "None",
+                                      "privacy": {
+                                        "protected": false
+                                      },
+                                      "profile_bio": {
+                                        "description": "🔞 87 🔞 ;\nlazy to coloring;\npersonal acc: @//dengdaengmo ;\nbluesky, vgen : dendenggggggg ; \ndo not reupload or ai training🙏"
+                                      },
+                                      "profile_image_shape": "Circle",
+                                      "profile_translation": {
+                                        "translator_type_enum": "None"
+                                      },
+                                      "relationship_counts": {
+                                        "followers": 380,
+                                        "following": 90
+                                      },
+                                      "relationship_perspectives": {
+                                        "followed_by": false,
+                                        "following": false
+                                      },
+                                      "rest_id": "1600326756484796419",
+                                      "super_follow_eligible": false,
+                                      "super_followed_by": false,
+                                      "super_following": false,
+                                      "tweet_counts": {
+                                        "tweets": 3708
+                                      },
+                                      "verification": {
+                                        "is_blue_verified": false
+                                      }
+                                    }
+                                  }
+                                },
+                                "counts": {
+                                  "favorite_count": 2,
+                                  "quote_count": 1,
+                                  "reply_count": 0,
+                                  "retweet_count": 0
+                                },
+                                "details": {
+                                  "cashtag_entities": [],
+                                  "created_at_ms": 1784691549000,
+                                  "display_text_range": [0, 70],
+                                  "full_text": "How could I didn't notice this....... WHY YOU HAVE VERY SLIM HIPS????? https://t.co/oT10ea5aCJ",
+                                  "hashtag_entities": [],
+                                  "smarttags": []
+                                },
+                                "edit_control": {
+                                  "__typename": "EditControlInitial",
+                                  "edit_tweet_ids": ["2079773213735997642"]
+                                },
+                                "grok_annotations": {},
+                                "grok_translated_post_with_availability": {
+                                  "is_available": false
+                                },
+                                "id": "VHdlZXQ6MjA3OTc3MzIxMzczNTk5NzY0Mg==",
+                                "legacy": {
+                                  "entities": {
+                                    "media": [
+                                      {
+                                        "expanded_url": "https://x.com/dendenggggggg/status/2079773213735997642/photo/1"
+                                      }
+                                    ]
+                                  },
+                                  "lang": "en",
+                                  "possibly_sensitive": false
+                                },
+                                "media_entities2": [
+                                  {
+                                    "expanded_url": "https://x.com/dendenggggggg/status/2079773213735997642/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "ext_playlists": [],
+                                    "id_str": "2079773207549366272",
+                                    "indices": [71, 94],
+                                    "media_url_https": "https://pbs.twimg.com/media/HNzWtpFa0AAoFHb.jpg",
+                                    "original_info": {
+                                      "height": 561,
+                                      "width": 220
+                                    },
+                                    "type": "photo"
+                                  }
+                                ],
+                                "mention_entities": [],
+                                "rest_id": "2079773213735997642",
+                                "unmention_data": {
+                                  "id": "VW5tZW50aW9uczoKAAEc3Na4AhtQyg8AAgoAAAAAAA=="
+                                },
+                                "url_entities": [],
+                                "views": {
+                                  "count": "2207"
+                                }
+                              }
+                            },
+                            "rest_id": "2079786851318337825",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEc3OMfQVuRIQ8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "1776"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2079786851318337825",
+                    "sort_index": "2118827867809775568"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzkxMzA4Mzc3MjQxMjc3MTk=",
+                          "rest_id": "2079130837724127719",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 0,
+                              "favorite_count": 28,
+                              "quote_count": 0,
+                              "reply_count": 31,
+                              "retweet_count": 0
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1784538394000,
+                              "display_text_range": [0, 136],
+                              "full_text": "说到夏天，日本最经典的就是穿浴衣去看烟花吧~\n好想看小易和小绩小时候牵着手逛夏日祭…小易用自己仅有的一点零花钱，买了一枚玩具戒指送给小绩，还对他说：“等我长大以后，再送三哥一枚真正的戒指💍”\n小易以为小绩早就忘了，没想到小绩却一直好好珍藏着，偶尔拿出来看看，还会忍不住笑🤭",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2079130837724127719"],
+                              "editable_until_msecs": "1784541994000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3OTEzMDgzNzcyNDEyNzcxOQ==",
+                            "legacy": {
+                              "conversation_id_str": "2079130837724127719",
+                              "entities": {},
+                              "lang": "zh"
+                            },
+                            "media_entities2": [],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2079130837724127719",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEc2o57MBth5w8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "1987"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2079130837724127719",
+                    "sort_index": "2118827867809775567"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzg4ODQ1MTg5OTY2MTU1MTk=",
+                          "rest_id": "2078884518996615519",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 0,
+                              "favorite_count": 2,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1784479667000,
+                              "display_text_range": [0, 13],
+                              "full_text": "お題箱返信しました🙇‍♀️",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2078884518996615519"],
+                              "editable_until_msecs": "1784483267000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3ODg4NDUxODk5NjYxNTUxOQ==",
+                            "legacy": {
+                              "conversation_id_str": "2078884518996615519",
+                              "entities": {},
+                              "lang": "ja"
+                            },
+                            "media_entities2": [],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2078884518996615519",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEc2a50o9ohXw8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "1427"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2078884518996615519",
+                    "sort_index": "2118827867809775566"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzgwNTc0NTIzMTUzMjQ3OTU=",
+                          "rest_id": "2078057452315324795",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 0,
+                              "favorite_count": 8,
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 0
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1784282479000,
+                              "display_text_range": [0, 74],
+                              "full_text": "I was just getting their wedding gift ready, and they already have a kid…🫣",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2078057452315324795"],
+                              "editable_until_msecs": "1784286079000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3ODA1NzQ1MjMxNTMyNDc5NQ==",
+                            "legacy": {
+                              "conversation_id_str": "2078057452315324795",
+                              "entities": {},
+                              "lang": "en",
+                              "quoted_status_permalink": {
+                                "expanded": "https://twitter.com/dendenggggggg/status/2078051905310486808"
+                              }
+                            },
+                            "media_entities2": [],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "quoted_tweet_results": {
+                              "__typename": "TweetResults",
+                              "id": "VHdlZXRSZXN1bHRzOjIwNzgwNTE5MDUzMTA0ODY4MDg=",
+                              "rest_id": "2078051905310486808",
+                              "result": {
+                                "__isTweetResult": "Tweet",
+                                "__typename": "Tweet",
+                                "cashtag_attachments": [],
+                                "core": {
+                                  "user_results": {
+                                    "id": "VXNlclJlc3VsdHM6MTYwMDMyNjc1NjQ4NDc5NjQxOQ==",
+                                    "result": {
+                                      "__typename": "User",
+                                      "avatar": {
+                                        "image_url": "https://pbs.twimg.com/profile_images/2080050775028531200/q-k550tI_normal.jpg"
+                                      },
+                                      "core": {
+                                        "name": "dendeng",
+                                        "screen_name": "dendenggggggg"
+                                      },
+                                      "id": "VXNlcjoxNjAwMzI2NzU2NDg0Nzk2NDE5",
+                                      "identity_profile_labels_highlighted_label": {},
+                                      "location": {
+                                        "location": ""
+                                      },
+                                      "parody_commentary_fan_label": "None",
+                                      "privacy": {
+                                        "protected": false
+                                      },
+                                      "profile_bio": {
+                                        "description": "🔞 87 🔞 ;\nlazy to coloring;\npersonal acc: @//dengdaengmo ;\nbluesky, vgen : dendenggggggg ; \ndo not reupload or ai training🙏"
+                                      },
+                                      "profile_image_shape": "Circle",
+                                      "profile_translation": {
+                                        "translator_type_enum": "None"
+                                      },
+                                      "relationship_counts": {
+                                        "followers": 380,
+                                        "following": 90
+                                      },
+                                      "relationship_perspectives": {
+                                        "followed_by": false,
+                                        "following": false
+                                      },
+                                      "rest_id": "1600326756484796419",
+                                      "super_follow_eligible": false,
+                                      "super_followed_by": false,
+                                      "super_following": false,
+                                      "tweet_counts": {
+                                        "tweets": 3708
+                                      },
+                                      "verification": {
+                                        "is_blue_verified": false
+                                      }
+                                    }
+                                  }
+                                },
+                                "counts": {
+                                  "favorite_count": 45,
+                                  "quote_count": 3,
+                                  "reply_count": 0,
+                                  "retweet_count": 5
+                                },
+                                "details": {
+                                  "cashtag_entities": [],
+                                  "created_at_ms": 1784281157000,
+                                  "display_text_range": [0, 0],
+                                  "full_text": "https://t.co/1XYICuy9Nm",
+                                  "hashtag_entities": [],
+                                  "smarttags": []
+                                },
+                                "edit_control": {
+                                  "__typename": "EditControlInitial",
+                                  "edit_tweet_ids": ["2078051905310486808"]
+                                },
+                                "grok_annotations": {
+                                  "is_image_editable_by_grok": true
+                                },
+                                "grok_translated_post_with_availability": {
+                                  "is_available": false
+                                },
+                                "id": "VHdlZXQ6MjA3ODA1MTkwNTMxMDQ4NjgwOA==",
+                                "legacy": {
+                                  "entities": {
+                                    "media": [
+                                      {
+                                        "expanded_url": "https://x.com/dendenggggggg/status/2078051905310486808/photo/1"
+                                      }
+                                    ]
+                                  },
+                                  "lang": "zxx",
+                                  "possibly_sensitive": false
+                                },
+                                "media_entities2": [
+                                  {
+                                    "expanded_url": "https://x.com/dendenggggggg/status/2078051905310486808/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "ext_playlists": [],
+                                    "id_str": "2078051898763194369",
+                                    "indices": [0, 23],
+                                    "media_url_https": "https://pbs.twimg.com/media/HNa5MSKbMAEqPXq.jpg",
+                                    "original_info": {
+                                      "height": 1968,
+                                      "width": 2048
+                                    },
+                                    "type": "photo"
+                                  }
+                                ],
+                                "mention_entities": [],
+                                "rest_id": "2078051905310486808",
+                                "unmention_data": {
+                                  "id": "VW5tZW50aW9uczoKAAEc1rkyqNrxGA8AAgoAAAAAAA=="
+                                },
+                                "url_entities": [],
+                                "views": {
+                                  "count": "4282"
+                                }
+                              }
+                            },
+                            "rest_id": "2078057452315324795",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEc1r4+LBuxew8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "2789"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2078057452315324795",
+                    "sort_index": "2118827867809775565"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzgwNTQyNDYyNjQ4MDc4MDQ=",
+                          "rest_id": "2078054246264807804",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 1,
+                              "favorite_count": 12,
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 0
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1784281715000,
+                              "display_text_range": [0, 7],
+                              "full_text": "易績はいいぞ👋",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2078054246264807804"],
+                              "editable_until_msecs": "1784285315000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3ODA1NDI0NjI2NDgwNzgwNA==",
+                            "legacy": {
+                              "conversation_id_str": "2078054246264807804",
+                              "entities": {},
+                              "lang": "ja"
+                            },
+                            "media_entities2": [],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2078054246264807804",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEc1rtTtJshfA8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "2170"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2078054246264807804",
+                    "sort_index": "2118827867809775564"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzc5NTg2ODA1MjAzNTIxNTA=",
+                          "rest_id": "2077958680520352150",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 186,
+                              "favorite_count": 1068,
+                              "quote_count": 13,
+                              "reply_count": 0,
+                              "retweet_count": 126
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1784258930000,
+                              "display_text_range": [0, 137],
+                              "full_text": "ここ本当に大好きなシーンで、ジーは弟の収集癖や収集物を決して茶化さないしそれを「苦労して集めたもの」と形容してくれるのが良いんですよね\nしかもイーがそれらをすべて失ったとして「一から集め直す」ではなく「またジー兄さんにお願いする」って言ってるところも……もう……何……？？？ https://t.co/YpnMZUXh3M",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2077958680520352150"],
+                              "editable_until_msecs": "1784262530000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3Nzk1ODY4MDUyMDM1MjE1MA==",
+                            "legacy": {
+                              "conversation_id_str": "2077958680520352150",
+                              "entities": {
+                                "media": [
+                                  {
+                                    "expanded_url": "https://x.com/ck_lp4/status/2077958680520352150/photo/1"
+                                  }
+                                ]
+                              },
+                              "lang": "ja",
+                              "possibly_sensitive": false
+                            },
+                            "media_entities2": [
+                              {
+                                "expanded_url": "https://x.com/ck_lp4/status/2077958680520352150/photo/1",
+                                "ext_media_availability": {
+                                  "status": "Available"
+                                },
+                                "ext_playlists": [],
+                                "features": {},
+                                "id_str": "2077958343529000961",
+                                "indices": [138, 161],
+                                "media_url_https": "https://pbs.twimg.com/media/HNZkGpwa8AESNvS.jpg",
+                                "original_info": {
+                                  "height": 1195,
+                                  "width": 1807
+                                },
+                                "type": "photo"
+                              }
+                            ],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2077958680520352150",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEc1mRpElrhlg8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "28013"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2077958680520352150",
+                    "sort_index": "2118827867809775563"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzc2OTIxMDI3NTUxOTI5MjY=",
+                          "rest_id": "2077692102755192926",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 76,
+                              "favorite_count": 392,
+                              "quote_count": 2,
+                              "reply_count": 46,
+                              "retweet_count": 31
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1784195373000,
+                              "display_text_range": [0, 122],
+                              "full_text": "想问问中文母语的朋友，小易这里这个「啧，」到底是什么语感啊？\n是不爽？无语？还是那种咂舌一样、有点凶的感觉？我一开始以为是「哎呀 / 真是的」那种……\n结果日文这边从界园之主模式切过来之后，小易语气突然变粗，雄味直接冲出来了，真的心跳加速……😳 https://t.co/KgJcLOTokl",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2077692102755192926"],
+                              "editable_until_msecs": "1784198973000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3NzY5MjEwMjc1NTE5MjkyNg==",
+                            "legacy": {
+                              "conversation_id_str": "2077692102755192926",
+                              "entities": {
+                                "media": [
+                                  {
+                                    "expanded_url": "https://x.com/ck_lp4/status/2077692102755192926/photo/1"
+                                  },
+                                  {
+                                    "expanded_url": "https://x.com/ck_lp4/status/2077692102755192926/photo/1"
+                                  }
+                                ]
+                              },
+                              "lang": "zh",
+                              "possibly_sensitive": false
+                            },
+                            "media_entities2": [
+                              {
+                                "expanded_url": "https://x.com/ck_lp4/status/2077692102755192926/photo/1",
+                                "ext_media_availability": {
+                                  "status": "Available"
+                                },
+                                "ext_playlists": [],
+                                "features": {},
+                                "id_str": "2077689375421587456",
+                                "indices": [123, 146],
+                                "media_url_https": "https://pbs.twimg.com/media/HNVvepebYAAgknT.jpg",
+                                "original_info": {
+                                  "height": 869,
+                                  "width": 1059
+                                },
+                                "type": "photo"
+                              },
+                              {
+                                "expanded_url": "https://x.com/ck_lp4/status/2077692102755192926/photo/1",
+                                "ext_media_availability": {
+                                  "status": "Available"
+                                },
+                                "ext_playlists": [],
+                                "features": {},
+                                "id_str": "2077689390252593152",
+                                "indices": [123, 146],
+                                "media_url_https": "https://pbs.twimg.com/media/HNVvfguakAATQrE.jpg",
+                                "original_info": {
+                                  "height": 869,
+                                  "width": 1059
+                                },
+                                "type": "photo"
+                              }
+                            ],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2077692102755192926",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEc1XH1mVuQXg8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "41002"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2077692102755192926",
+                    "sort_index": "2118827867809775562"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzc2ODcxMzkyNDUxOTUzMjg=",
+                          "rest_id": "2077687139245195328",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 10,
+                              "favorite_count": 66,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 2
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1784194190000,
+                              "display_text_range": [0, 13],
+                              "full_text": "@no_TL 🪷🪡😭🙏🩷💚 https://t.co/oQelktYmFf",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2077687139245195328"],
+                              "editable_until_msecs": "1784197790000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3NzY4NzEzOTI0NTE5NTMyOA==",
+                            "legacy": {
+                              "conversation_id_str": "2077687139245195328",
+                              "entities": {
+                                "media": [
+                                  {
+                                    "expanded_url": "https://x.com/ck_lp4/status/2077687139245195328/photo/1"
+                                  }
+                                ]
+                              },
+                              "lang": "qme",
+                              "possibly_sensitive": false
+                            },
+                            "media_entities2": [
+                              {
+                                "expanded_url": "https://x.com/ck_lp4/status/2077687139245195328/photo/1",
+                                "ext_media_availability": {
+                                  "status": "Available"
+                                },
+                                "ext_playlists": [],
+                                "features": {},
+                                "id_str": "2077687105665581056",
+                                "indices": [14, 37],
+                                "media_url_https": "https://pbs.twimg.com/media/HNVtah-bQAA57v6.jpg",
+                                "original_info": {
+                                  "height": 1001,
+                                  "width": 1781
+                                },
+                                "type": "photo"
+                              }
+                            ],
+                            "mention_entities": [
+                              {
+                                "id_str": "620164720",
+                                "indices": [0, 6],
+                                "screen_name": "no_TL"
+                              }
+                            ],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "reply_to_user_results": {
+                              "id": "VXNlclJlc3VsdHM6NjIwMTY0NzIw",
+                              "rest_id": "620164720",
+                              "result": {
+                                "__typename": "UserUnavailable"
+                              }
+                            },
+                            "rest_id": "2077687139245195328",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEc1W1x8RuAQA8AAgoAAAABAAAAACT29nAA"
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "2160"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2077687139245195328",
+                    "sort_index": "2118827867809775561"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzc2Nzg2OTEwNDAzMjk5MDg=",
+                          "rest_id": "2077678691040329908",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 0,
+                              "favorite_count": 0,
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 0
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1784192176000,
+                              "display_text_range": [0, 15],
+                              "full_text": "ENの更新っていつなんだろう？",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2077678691040329908"],
+                              "editable_until_msecs": "1784195776000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {},
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3NzY3ODY5MTA0MDMyOTkwOA==",
+                            "legacy": {
+                              "conversation_id_str": "2077678691040329908",
+                              "entities": {},
+                              "lang": "ja"
+                            },
+                            "media_entities2": [],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2077678691040329908",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEc1WXC8NuAtA8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "2222"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2077678691040329908",
+                    "sort_index": "2118827867809775560"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzcyNTM1NTg3NjA4NTgwNjA=",
+                          "rest_id": "2077253558760858060",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 20,
+                              "favorite_count": 125,
+                              "quote_count": 0,
+                              "reply_count": 22,
+                              "retweet_count": 33
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1784090816000,
+                              "display_text_range": [0, 23],
+                              "full_text": "@no_TL 这里我能看一辈子…可爱暴击😭😭😭 https://t.co/EG0tKECC1V",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2077253558760858060"],
+                              "editable_until_msecs": "1784094416000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3NzI1MzU1ODc2MDg1ODA2MA==",
+                            "legacy": {
+                              "conversation_id_str": "2077253558760858060",
+                              "entities": {
+                                "media": [
+                                  {
+                                    "expanded_url": "https://x.com/ck_lp4/status/2077253558760858060/video/1"
+                                  }
+                                ]
+                              },
+                              "lang": "zh",
+                              "possibly_sensitive": false
+                            },
+                            "media_entities2": [
+                              {
+                                "additional_media_info": {
+                                  "monetizable": false
+                                },
+                                "expanded_url": "https://x.com/ck_lp4/status/2077253558760858060/video/1",
+                                "ext_media_availability": {
+                                  "status": "Available"
+                                },
+                                "ext_playlists": [],
+                                "id_str": "2077252813139394560",
+                                "indices": [24, 47],
+                                "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/2077252813139394560/img/AI9gA_dAT6Ta2AtA.jpg",
+                                "original_info": {
+                                  "height": 1920,
+                                  "width": 1080
+                                },
+                                "type": "video",
+                                "video_info": {
+                                  "duration_millis": 3866,
+                                  "variants": [
+                                    {
+                                      "content_type": "application/x-mpegURL",
+                                      "url": "https://video.twimg.com/amplify_video/2077252813139394560/pl/h4JXojMll0Jxs8Cm.m3u8?tag=14"
+                                    },
+                                    {
+                                      "bitrate": 632000,
+                                      "content_type": "video/mp4",
+                                      "url": "https://video.twimg.com/amplify_video/2077252813139394560/vid/avc1/320x568/sposTuTEIPOQSFRI.mp4?tag=14"
+                                    },
+                                    {
+                                      "bitrate": 950000,
+                                      "content_type": "video/mp4",
+                                      "url": "https://video.twimg.com/amplify_video/2077252813139394560/vid/avc1/480x852/49yGIywjkYOV4HyE.mp4?tag=14"
+                                    },
+                                    {
+                                      "bitrate": 2176000,
+                                      "content_type": "video/mp4",
+                                      "url": "https://video.twimg.com/amplify_video/2077252813139394560/vid/avc1/720x1280/8UnSry4pVbifufAm.mp4?tag=14"
+                                    }
+                                  ]
+                                }
+                              }
+                            ],
+                            "mention_entities": [
+                              {
+                                "id_str": "620164720",
+                                "indices": [0, 6],
+                                "screen_name": "no_TL"
+                              }
+                            ],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "reply_to_user_results": {
+                              "id": "VXNlclJlc3VsdHM6NjIwMTY0NzIw",
+                              "rest_id": "620164720",
+                              "result": {
+                                "__typename": "UserUnavailable"
+                              }
+                            },
+                            "rest_id": "2077253558760858060",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEc0+MbHlthzA8AAgoAAAABAAAAACT29nAA"
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "3621"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2077253558760858060",
+                    "sort_index": "2118827867809775559"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzY1MDgzMDEzMjg4MzQ4MzE=",
+                          "rest_id": "2076508301328834831",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 0,
+                              "favorite_count": 0,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1783913133000,
+                              "display_text_range": [0, 8],
+                              "full_text": "my mommy",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2076508301328834831"],
+                              "editable_until_msecs": "1783916733000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {},
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3NjUwODMwMTMyODgzNDgzMQ==",
+                            "legacy": {
+                              "conversation_id_str": "2076508301328834831",
+                              "entities": {},
+                              "lang": "en"
+                            },
+                            "media_entities2": [],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2076508301328834831",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEc0T1MWdrhDw8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "1203"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2076508301328834831",
+                    "sort_index": "2118827867809775558"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzUyMDU1ODUzOTA0NzM2NjI=",
+                          "rest_id": "2075205585390473662",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 0,
+                              "favorite_count": 8,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 1
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1783602541000,
+                              "display_text_range": [0, 35],
+                              "full_text": "易绩のでかでかタペストリーも発売してもらう事可能か？(エキサイト翻訳)",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2075205585390473662"],
+                              "editable_until_msecs": "1783606141000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3NTIwNTU4NTM5MDQ3MzY2Mg==",
+                            "legacy": {
+                              "conversation_id_str": "2075205585390473662",
+                              "entities": {},
+                              "lang": "ja"
+                            },
+                            "media_entities2": [],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2075205585390473662",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEczJx8KRsRvg8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "1450"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2075205585390473662",
+                    "sort_index": "2118827867809775557"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzUxNzY1NjA2NDc0NTg5MjY=",
+                          "rest_id": "2075176560647458926",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 37,
+                              "favorite_count": 568,
+                              "quote_count": 11,
+                              "reply_count": 0,
+                              "retweet_count": 98
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1783595621000,
+                              "display_text_range": [0, 21],
+                              "full_text": "本当にありがとうございます…………………… https://t.co/F2uJNQRbBZ",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2075176560647458926"],
+                              "editable_until_msecs": "1783599221000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3NTE3NjU2MDY0NzQ1ODkyNg==",
+                            "legacy": {
+                              "conversation_id_str": "2075176560647458926",
+                              "entities": {
+                                "media": [
+                                  {
+                                    "expanded_url": "https://x.com/ck_lp4/status/2075176560647458926/photo/1"
+                                  }
+                                ]
+                              },
+                              "lang": "ja",
+                              "possibly_sensitive": false
+                            },
+                            "media_entities2": [
+                              {
+                                "expanded_url": "https://x.com/ck_lp4/status/2075176560647458926/photo/1",
+                                "ext_media_availability": {
+                                  "status": "Available"
+                                },
+                                "ext_playlists": [],
+                                "features": {},
+                                "id_str": "2075176516619841536",
+                                "indices": [22, 45],
+                                "media_url_https": "https://pbs.twimg.com/media/HMyCDA9bsAAf5b_.jpg",
+                                "original_info": {
+                                  "height": 593,
+                                  "width": 1348
+                                },
+                                "type": "photo"
+                              }
+                            ],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2075176560647458926",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEczIIWT5vQbg8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "14911"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2075176560647458926",
+                    "sort_index": "2118827867809775556"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzUwODQ3MzA5Mjg4ODIwMzY=",
+                          "rest_id": "2075084730928882036",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 0,
+                              "favorite_count": 2,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1783573727000,
+                              "display_text_range": [0, 5],
+                              "full_text": "可爱🥰💞💞",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2075084730928882036"],
+                              "editable_until_msecs": "1783577327000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {},
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3NTA4NDczMDkyODg4MjAzNg==",
+                            "legacy": {
+                              "conversation_id_str": "2075084730928882036",
+                              "entities": {},
+                              "lang": "zh",
+                              "quoted_status_permalink": {
+                                "expanded": "https://twitter.com/Xdanglei/status/2074404292849696925"
+                              }
+                            },
+                            "media_entities2": [],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "quoted_tweet_results": {
+                              "__typename": "TweetResults",
+                              "id": "VHdlZXRSZXN1bHRzOjIwNzQ0MDQyOTI4NDk2OTY5MjU=",
+                              "rest_id": "2074404292849696925",
+                              "result": {
+                                "__isTweetResult": "Tweet",
+                                "__typename": "Tweet",
+                                "cashtag_attachments": [],
+                                "core": {
+                                  "user_results": {
+                                    "id": "VXNlclJlc3VsdHM6MjA2Nzg2MTU2NzI2NjUyOTI4MA==",
+                                    "result": {
+                                      "__typename": "User",
+                                      "avatar": {
+                                        "image_url": "https://pbs.twimg.com/profile_images/2096469854006231040/HwoT9QJf_normal.jpg"
+                                      },
+                                      "core": {
+                                        "name": "Xdang",
+                                        "screen_name": "Xdanglei"
+                                      },
+                                      "id": "VXNlcjoyMDY3ODYxNTY3MjY2NTI5Mjgw",
+                                      "identity_profile_labels_highlighted_label": {},
+                                      "location": {
+                                        "location": ""
+                                      },
+                                      "parody_commentary_fan_label": "None",
+                                      "privacy": {
+                                        "protected": false
+                                      },
+                                      "profile_bio": {
+                                        "description": "=缘字骨/小荡 怎么称呼都可以\n专心孝产中 龙孝女 其他不在意\n产出纯泄欲画的东西默认有ooc角色理解非常诡异\n请不要搬运到其他平台"
+                                      },
+                                      "profile_image_shape": "Circle",
+                                      "profile_translation": {
+                                        "translator_type_enum": "None"
+                                      },
+                                      "relationship_counts": {
+                                        "followers": 60,
+                                        "following": 38
+                                      },
+                                      "relationship_perspectives": {
+                                        "followed_by": false,
+                                        "following": false
+                                      },
+                                      "rest_id": "2067861567266529280",
+                                      "super_follow_eligible": false,
+                                      "super_followed_by": false,
+                                      "super_following": false,
+                                      "tweet_counts": {
+                                        "tweets": 40
+                                      },
+                                      "verification": {
+                                        "is_blue_verified": false
+                                      }
+                                    }
+                                  }
+                                },
+                                "counts": {
+                                  "favorite_count": 28,
+                                  "quote_count": 1,
+                                  "reply_count": 0,
+                                  "retweet_count": 10
+                                },
+                                "details": {
+                                  "cashtag_entities": [],
+                                  "created_at_ms": 1783411498000,
+                                  "display_text_range": [0, 35],
+                                  "full_text": "生日快乐！！#明日方舟 #绩 #arknight #Arknights https://t.co/s27hXLTBsG",
+                                  "hashtag_entities": [
+                                    {
+                                      "indices": [6, 11],
+                                      "text": "明日方舟"
+                                    },
+                                    {
+                                      "indices": [12, 14],
+                                      "text": "绩"
+                                    },
+                                    {
+                                      "indices": [15, 24],
+                                      "text": "arknight"
+                                    },
+                                    {
+                                      "indices": [25, 35],
+                                      "text": "Arknights"
+                                    }
+                                  ],
+                                  "smarttags": []
+                                },
+                                "edit_control": {
+                                  "__typename": "EditControlInitial",
+                                  "edit_tweet_ids": ["2074404292849696925"]
+                                },
+                                "grok_annotations": {},
+                                "grok_translated_post_with_availability": {
+                                  "is_available": false
+                                },
+                                "id": "VHdlZXQ6MjA3NDQwNDI5Mjg0OTY5NjkyNQ==",
+                                "legacy": {
+                                  "entities": {
+                                    "media": [
+                                      {
+                                        "expanded_url": "https://x.com/Xdanglei/status/2074404292849696925/photo/1"
+                                      }
+                                    ]
+                                  },
+                                  "lang": "zh",
+                                  "possibly_sensitive": false
+                                },
+                                "media_entities2": [
+                                  {
+                                    "allow_download_status": {
+                                      "allow_download": true
+                                    },
+                                    "expanded_url": "https://x.com/Xdanglei/status/2074404292849696925/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "ext_playlists": [],
+                                    "id_str": "2074404280396906496",
+                                    "indices": [36, 59],
+                                    "media_url_https": "https://pbs.twimg.com/media/HMnDs82bgAA4mfM.jpg",
+                                    "original_info": {
+                                      "height": 2048,
+                                      "width": 1344
+                                    },
+                                    "type": "photo"
+                                  }
+                                ],
+                                "mention_entities": [],
+                                "rest_id": "2074404292849696925",
+                                "unmention_data": {
+                                  "id": "VW5tZW50aW9uczoKAAEcycO2s9oAnQ8AAgoAAAAAAA=="
+                                },
+                                "url_entities": [],
+                                "views": {
+                                  "count": "3081"
+                                }
+                              }
+                            },
+                            "rest_id": "2075084730928882036",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEczC6RidphdA8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "1814"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2075084730928882036",
+                    "sort_index": "2118827867809775555"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzQ2OTY5MTM5MDQxMzIxMDc=",
+                          "rest_id": "2074696913904132107",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 2,
+                              "favorite_count": 22,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1783481264000,
+                              "display_text_range": [0, 2],
+                              "full_text": "🙏✨",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2074696913904132107"],
+                              "editable_until_msecs": "1783484864000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3NDY5NjkxMzkwNDEzMjEwNw==",
+                            "legacy": {
+                              "conversation_id_str": "2074696913904132107",
+                              "entities": {},
+                              "lang": "art",
+                              "quoted_status_permalink": {
+                                "expanded": "https://twitter.com/acheng02806053/status/2074506788381303105"
+                              }
+                            },
+                            "media_entities2": [],
+                            "mention_entities": [],
+                            "perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "quoted_tweet_results": {
+                              "__typename": "TweetResults",
+                              "id": "VHdlZXRSZXN1bHRzOjIwNzQ1MDY3ODgzODEzMDMxMDU=",
+                              "rest_id": "2074506788381303105",
+                              "result": {
+                                "__isTweetResult": "Tweet",
+                                "__typename": "Tweet",
+                                "cashtag_attachments": [],
+                                "core": {
+                                  "user_results": {
+                                    "id": "VXNlclJlc3VsdHM6MTQ3MjkyNTU2MDc3MDczMjAzMw==",
+                                    "result": {
+                                      "__typename": "User",
+                                      "avatar": {
+                                        "image_url": "https://pbs.twimg.com/profile_images/1996033937467166720/M3vEFAJe_normal.jpg"
+                                      },
+                                      "core": {
+                                        "name": "✦cen✦",
+                                        "screen_name": "acheng02806053"
+                                      },
+                                      "id": "VXNlcjoxNDcyOTI1NTYwNzcwNzMyMDMz",
+                                      "identity_profile_labels_highlighted_label": {},
+                                      "location": {
+                                        "location": ""
+                                      },
+                                      "parody_commentary_fan_label": "None",
+                                      "privacy": {
+                                        "protected": false
+                                      },
+                                      "profile_bio": {
+                                        "description": "=城 \n🇨🇳Illustrator‖🚫AI  无授权转载‖中文＆Eng（翻译器使用）‖web:Cen3_"
+                                      },
+                                      "profile_image_shape": "Circle",
+                                      "profile_translation": {
+                                        "translator_type_enum": "None"
+                                      },
+                                      "relationship_counts": {
+                                        "followers": 15240,
+                                        "following": 76
+                                      },
+                                      "relationship_perspectives": {
+                                        "followed_by": false,
+                                        "following": true
+                                      },
+                                      "rest_id": "1472925560770732033",
+                                      "super_follow_eligible": false,
+                                      "super_followed_by": false,
+                                      "super_following": false,
+                                      "tweet_counts": {
+                                        "tweets": 132
+                                      },
+                                      "verification": {
+                                        "is_blue_verified": false
+                                      }
+                                    }
+                                  }
+                                },
+                                "counts": {
+                                  "favorite_count": 1643,
+                                  "quote_count": 7,
+                                  "reply_count": 0,
+                                  "retweet_count": 347
+                                },
+                                "details": {
+                                  "cashtag_entities": [],
+                                  "created_at_ms": 1783435935000,
+                                  "display_text_range": [0, 0],
+                                  "full_text": "https://t.co/1p4yVyZ0YS",
+                                  "hashtag_entities": [],
+                                  "smarttags": []
+                                },
+                                "edit_control": {
+                                  "__typename": "EditControlInitial",
+                                  "edit_tweet_ids": ["2074506788381303105"]
+                                },
+                                "grok_annotations": {
+                                  "is_image_editable_by_grok": true
+                                },
+                                "grok_translated_post_with_availability": {
+                                  "is_available": false
+                                },
+                                "id": "VHdlZXQ6MjA3NDUwNjc4ODM4MTMwMzEwNQ==",
+                                "legacy": {
+                                  "entities": {
+                                    "media": [
+                                      {
+                                        "expanded_url": "https://x.com/acheng02806053/status/2074506788381303105/photo/1"
+                                      }
+                                    ]
+                                  },
+                                  "lang": "zxx",
+                                  "possibly_sensitive": false
+                                },
+                                "media_entities2": [
+                                  {
+                                    "allow_download_status": {
+                                      "allow_download": true
+                                    },
+                                    "expanded_url": "https://x.com/acheng02806053/status/2074506788381303105/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "ext_playlists": [],
+                                    "id_str": "2074506772719833088",
+                                    "indices": [0, 23],
+                                    "media_url_https": "https://pbs.twimg.com/media/HMog6ygbkAAdwqO.jpg",
+                                    "original_info": {
+                                      "height": 3541,
+                                      "width": 2508
+                                    },
+                                    "type": "photo"
+                                  }
+                                ],
+                                "mention_entities": [],
+                                "rest_id": "2074506788381303105",
+                                "unmention_data": {
+                                  "id": "VW5tZW50aW9uczoKAAEcyiDuzZqhQQ8AAgoAAAAAAA=="
+                                },
+                                "url_entities": [],
+                                "views": {
+                                  "count": "26244"
+                                }
+                              }
+                            },
+                            "rest_id": "2074696913904132107",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEcys3Z2drgCw8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "2930"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2074696913904132107",
+                    "sort_index": "2118827867809775554"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzQ0ODc1Mjc3MDUzNTA1Mjg=",
+                          "rest_id": "2074487527705350528",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 68,
+                              "favorite_count": 857,
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 106
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1783431343000,
+                              "display_text_range": [0, 44],
+                              "full_text": "小绩生日快乐～🎉\n被弟弟妹妹们围着热热闹闹地庆生的话他一定会像小孩子一样笑得很开心吧☺️ https://t.co/hQjIfSrGgH",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2074487527705350528"],
+                              "editable_until_msecs": "1783434943000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3NDQ4NzUyNzcwNTM1MDUyOA==",
+                            "legacy": {
+                              "conversation_id_str": "2074487527705350528",
+                              "entities": {
+                                "media": [
+                                  {
+                                    "expanded_url": "https://x.com/ck_lp4/status/2074487527705350528/photo/1"
+                                  }
+                                ]
+                              },
+                              "lang": "zh",
+                              "possibly_sensitive": false
+                            },
+                            "media_entities2": [
+                              {
+                                "expanded_url": "https://x.com/ck_lp4/status/2074487527705350528/photo/1",
+                                "ext_media_availability": {
+                                  "status": "Available"
+                                },
+                                "ext_playlists": [],
+                                "features": {},
+                                "id_str": "2074486583999508480",
+                                "indices": [45, 68],
+                                "media_url_https": "https://pbs.twimg.com/media/HMoOjpqasAA-xJ1.jpg",
+                                "original_info": {
+                                  "height": 2392,
+                                  "width": 1500
+                                },
+                                "type": "photo"
+                              }
+                            ],
+                            "mention_entities": [],
+                            "perspective": {
+                              "bookmarked": false,
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2074487527705350528",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEcyg9qU9sRgA8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "14283"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2074487527705350528",
+                    "sort_index": "2118827867809775553"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "client_event_info": {
+                        "component": "organic_tweets",
+                        "element": "tweet"
+                      },
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "Tweet",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNzQwNzY5NzkxMTczMDYwNTE=",
+                          "rest_id": "2074076979117306051",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "cashtag_attachments": [],
+                            "conversation_muted": false,
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6MTk0MTc1NzUwOTQxODc0NTg1Nw==",
+                                "result": {
+                                  "__typename": "User",
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2065376242904584192/B1oS0zRq_normal.png"
+                                  },
+                                  "core": {
+                                    "name": "🍼",
+                                    "screen_name": "ck_lp4"
+                                  },
+                                  "follow_request_sent": false,
+                                  "id": "VXNlcjoxOTQxNzU3NTA5NDE4NzQ1ODU3",
+                                  "identity_profile_labels_highlighted_label": {},
+                                  "is_following": true,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "parody_commentary_fan_label": "None",
+                                  "pinned_items": {
+                                    "tweet_ids_str": ["2012239839513509992"]
+                                  },
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "易绩🪷🪡￤🗝@8y_7j￤CP左右相手完全固定"
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_translation": {
+                                    "translator_type_enum": "None"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4965,
+                                    "following": 102
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1941757509418745857",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tweet_counts": {
+                                    "tweets": 2566
+                                  },
+                                  "verification": {
+                                    "is_blue_verified": false
+                                  }
+                                }
+                              }
+                            },
+                            "counts": {
+                              "bookmark_count": 0,
+                              "favorite_count": 14,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0
+                            },
+                            "details": {
+                              "cashtag_entities": [],
+                              "created_at_ms": 1783333460000,
+                              "display_text_range": [0, 35],
+                              "full_text": "7月7日が绩哥の誕生日で7月8日が小易登場から1年\n最高の日が続くね😊",
+                              "hashtag_entities": [],
+                              "smarttags": []
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2074076979117306051"],
+                              "editable_until_msecs": "1783337060000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_analysis_button": true,
+                            "grok_annotations": {
+                              "is_image_editable_by_grok": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "id": "VHdlZXQ6MjA3NDA3Njk3OTExNzMwNjA1MQ==",
+                            "legacy": {
+                              "conversation_id_str": "2074076979117306051",
+                              "entities": {},
+                              "lang": "ja"
+                            },
+                            "media_entities2": [],
+                            "mention_entities": [],
+                            "perspective": {
+                              "bookmarked": false,
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2074076979117306051",
+                            "unmention_data": {
+                              "id": "VW5tZW50aW9uczoKAAEcyJoGCRowww8AAgoAAAAAAA=="
+                            },
+                            "url_entities": [],
+                            "views": {
+                              "count": "1781"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entry_id": "tweet-2074076979117306051",
+                    "sort_index": "2118827867809775552"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineCursor",
+                      "cursor_type": "Top",
+                      "value": "DAAHCgABHWeWuEEAJuQLAAIAAAATMjA3OTkxMDUzNjExNzE0NTkxOQgAAwAAAAEAAA"
+                    },
+                    "entry_id": "cursor-top-2118827867809775572",
+                    "sort_index": "2118827867809775572"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineCursor",
+                      "cursor_type": "Bottom",
+                      "value": "DAAHCgABHWeWuED__70LAAIAAAATMjA3NDA3Njk3OTExNzMwNjA1MAgAAwAAAAIAAA"
+                    },
+                    "entry_id": "cursor-bottom-2118827867809775551",
+                    "sort_index": "2118827867809775551"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -10,8 +10,8 @@ import {
   isRestIdTweetBody,
   isTweetDetailBody,
   isTweetResult,
-} from '../parsers/refinements'
-import { parseTweet, retrieveTweetsFromInstruction } from '../parsers/tweet'
+} from '../parsers/v1/refinements'
+import { parseTweet, retrieveTweetsFromInstruction } from '../parsers/v1/tweet'
 import { GraphQLCommand, Query } from './graphql'
 import type {
   CacheAble,

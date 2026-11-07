@@ -268,41 +268,4 @@ declare namespace XApi {
       itemContent: TimelineTweet | TimelineItemContent
     }
   }
-
-  interface Mp4Variant {
-    bitrate: number
-    content_type: 'video/mp4'
-    url: string
-  }
-
-  interface MpegUrlVariant {
-    bitrate: 0
-    content_type: 'application/x-mpegURL'
-    url: string
-  }
-
-  type VideoVariant = Mp4Variant | MpegUrlVariant
-
-  interface BaseMedia {
-    type: string
-    media_url_https: string
-    // Optional field indicating external media availability
-    ext_media_availability?: {
-      reason?: string
-      status?: string
-    }
-  }
-
-  interface ImageMedia extends BaseMedia {
-    type: 'photo'
-  }
-
-  interface VideoMedia extends BaseMedia {
-    type: 'video' | 'animated_gif'
-    video_info: {
-      variants: VideoVariant[]
-    }
-  }
-
-  type Media = XApi.ImageMedia | XApi.VideoMedia
 }

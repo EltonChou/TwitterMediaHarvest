@@ -12,6 +12,7 @@ import {
   toErrorResult,
   toSuccessResult,
 } from '#utils/result'
+import { makeEmptyMediaCollection, parseMedias } from '../tweetMedia'
 import {
   Instruction,
   isMediaTweet,
@@ -26,7 +27,6 @@ import {
   isTypeItem,
   isUser,
 } from './refinements'
-import { makeEmptyMediaCollection, parseMedias } from './tweetMedia'
 
 type TweetLikes = Array<XApi.Tweet | XApi.TweetLike>
 

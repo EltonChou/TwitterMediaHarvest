@@ -6,14 +6,19 @@
 import type { ICache } from '#domain/repositories/cache'
 import type { AsyncUseCase } from '#domain/useCases/base'
 import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
-import { isMediaTweet } from '#libs/XApi/parsers/refinements'
+import { isMediaTweet } from '#libs/XApi/parsers/v1/refinements'
 import {
   eagerParseTweet,
   parseTweet,
   retrieveTweetFromTweetResult,
   retrieveTweetsFromDeviceFollow,
   retrieveTweetsFromInstruction,
-} from '#libs/XApi/parsers/tweet'
+} from '#libs/XApi/parsers/v1/tweet'
+import { isMediaTweet as isMediaTweetV2 } from '#libs/XApi/parsers/v2/refinements'
+import {
+  parseTweet as parseTweetV2,
+  retrieveTweetsFromInstruction as retrieveTweetsFromInstructionV2,
+} from '#libs/XApi/parsers/v2/tweet'
 import { ResponseType } from '#libs/webExtMessage'
 import { isErrorResult, toErrorResult, toSuccessResult } from '#utils/result'
 import Joi from 'joi'
@@ -159,6 +164,35 @@ export class CaptureResponseAndCache implements AsyncUseCase<
     return this.cacheTweets(mediaTweets)
   }
 
+  protected async processUserOriginalsTimelineResponse(body: string) {
+    const { value, error: schemaError } = validateBody(
+      body,
+      userOriginalsTimelineBodySchema
+    )
+    if (schemaError) return schemaError
+
+    const mediaTweets = retriveMediaTweetsFromInstructionsV2(
+      value.data.user_result_by_screen_name.result
+        .profile_user_originals_timeline.timeline.instructions
+    )
+
+    return this.cacheTweets(mediaTweets)
+  }
+
+  protected async processSearchByRawQueryResponse(body: string) {
+    const { value, error: schemaError } = validateBody(
+      body,
+      searchByRawQueryBodySchema
+    )
+    if (schemaError) return schemaError
+
+    const mediaTweets = retriveMediaTweetsFromInstructionsV2(
+      value.data.search_by_raw_query.search_timeline.timeline.instructions
+    )
+
+    return this.cacheTweets(mediaTweets)
+  }
+
   protected async processNotificationDeviceFollowResponse(body: string) {
     const { value, error: schemaError } = validateBody(
       body,
@@ -216,6 +250,14 @@ export class CaptureResponseAndCache implements AsyncUseCase<
 
       case ResponseType.SearchTimeline:
         error = await this.processSearchTimelineResponse(body)
+        break
+
+      case ResponseType.UserOriginalsTimeline:
+        error = await this.processUserOriginalsTimelineResponse(body)
+        break
+
+      case ResponseType.SearchByRawQuery:
+        error = await this.processSearchByRawQueryResponse(body)
         break
 
       case ResponseType.NotificationsDeviceFollow:
@@ -382,6 +424,53 @@ const searchTimelineBodySchema: Joi.ObjectSchema<XApi.SearchTimelineBody> =
       .unknown(true),
   }).unknown(true)
 
+const userOriginalsTimelineBodySchema: Joi.ObjectSchema<XApi.V2.UserOriginalsTimelineBody> =
+  Joi.object({
+    data: Joi.object({
+      user_result_by_screen_name: Joi.object({
+        result: Joi.object({
+          __typename: Joi.valid('User').required(),
+          profile_user_originals_timeline: Joi.object({
+            timeline: Joi.object({
+              instructions: Joi.array().required(),
+            })
+              .required()
+              .unknown(true),
+          })
+            .required()
+            .unknown(true),
+        })
+          .required()
+          .unknown(true),
+      })
+        .required()
+        .unknown(true),
+    })
+      .required()
+      .unknown(true),
+  }).unknown(true)
+
+const searchByRawQueryBodySchema: Joi.ObjectSchema<XApi.V2.SearchByRawQueryBody> =
+  Joi.object({
+    data: Joi.object({
+      search_by_raw_query: Joi.object({
+        search_timeline: Joi.object({
+          timeline: Joi.object({
+            instructions: Joi.array().required(),
+          })
+            .required()
+            .unknown(true),
+        })
+          .required()
+          .unknown(true),
+      })
+        .required()
+        .unknown(true),
+    })
+      .required()
+      .unknown(true),
+  }).unknown(true)
+
 const deviceFollowBodySchema: Joi.ObjectSchema<XApi.NotificationDeviceFollowBody> =
   Joi.object({
     globalObjects: Joi.object({
@@ -412,4 +501,13 @@ function retriveMediaTweetsFromInstructions(instructions: XApi.Instruction[]) {
     .filter(isMediaTweet)
     .map(eagerParseTweet)
     .flat()
+}
+
+function retriveMediaTweetsFromInstructionsV2(
+  instructions: XApi.V2.Instruction[]
+) {
+  return instructions
+    .flatMap(retrieveTweetsFromInstructionV2)
+    .filter(isMediaTweetV2)
+    .map(parseTweetV2)
 }

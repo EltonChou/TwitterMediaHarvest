@@ -1,6 +1,19 @@
 import { ResponseType } from '#libs/webExtMessage'
 import { MockTweetResponseCache } from '#mocks/caches/tweetResponseCache'
 import { CaptureResponseAndCache } from './captureResponseAndCache'
+import fs from 'node:fs'
+import path from 'node:path'
+
+const readTestData = (responseName: ResponseType) =>
+  fs
+    .readFileSync(
+      path.resolve(
+        __dirname,
+        '../libs/XApi/parsers/v2/test-data',
+        `${responseName}.json`
+      )
+    )
+    .toString()
 
 describe('CaptureResponseAndCache', () => {
   const mockCache = new MockTweetResponseCache()
@@ -474,6 +487,21 @@ describe('CaptureResponseAndCache', () => {
 
     expect(mockSaveAll).toHaveBeenCalled()
   })
+
+  it.each([
+    { type: ResponseType.UserOriginalsTimeline, mediaTweetCount: 6 },
+    { type: ResponseType.SearchByRawQuery, mediaTweetCount: 19 },
+  ])(
+    'should cache media tweets from $type response',
+    async ({ type, mediaTweetCount }) => {
+      mockSaveAll.mockResolvedValue(undefined)
+      const error = await useCase.process({ type, body: readTestData(type) })
+
+      expect(error).toBeUndefined()
+      expect(mockSaveAll).toHaveBeenCalledTimes(1)
+      expect(mockSaveAll.mock.calls[0]).toHaveLength(mediaTweetCount)
+    }
+  )
 
   it('should handle notification device-follow response', async () => {
     const validResponse = {
