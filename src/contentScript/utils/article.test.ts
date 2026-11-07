@@ -7,8 +7,10 @@ import {
   getLinksFromArticle,
   getScreenNameFromLink,
   getTweetIdFromLink,
+  isArticleHasQuotedContent,
   isArticleInStatus,
   isArticleInStream,
+  isArticleQuoted,
   parseLinks,
   parseTweetInfo,
   selectArtcleMode,
@@ -182,3 +184,94 @@ describe.each([
     })
   }
 )
+
+describe('article with quoted content', () => {
+  const getOuterArticle = () =>
+    document.querySelectorAll<HTMLElement>('article')[0]
+  const getQuotedArticle = () =>
+    document.querySelectorAll<HTMLElement>('article')[1]
+
+  beforeAll(() => {
+    document.body.innerHTML = `
+      <article>
+        <a href="/outer/status/111">outer</a>
+        <article>
+          <a href="/quoted/status/222">quoted</a>
+          <video></video>
+        </article>
+      </article>
+    `
+  })
+
+  it('does not treat the quoted media as its own', () => {
+    expect(articleHasMedia(getOuterArticle())).toBeFalse()
+    expect(articleHasMedia(getQuotedArticle())).toBeTrue()
+  })
+
+  it('keeps the quoted links out of the outer article', () => {
+    expect(getLinksFromArticle(getOuterArticle())).toEqual([
+      '/outer/status/111',
+    ])
+    expect(getLinksFromArticle(getQuotedArticle())).toEqual([
+      '/quoted/status/222',
+    ])
+  })
+
+  it('can detect quoted content', () => {
+    expect(isArticleHasQuotedContent(getOuterArticle())).toBeTrue()
+    expect(isArticleHasQuotedContent(getQuotedArticle())).toBeFalse()
+    expect(isArticleQuoted(getQuotedArticle())).toBeTrue()
+  })
+})
+
+describe('photo mode article with nested articles', () => {
+  const getPhotoArticle = () =>
+    document.querySelectorAll<HTMLElement>('[data-testid="tweet"]')[0]
+
+  beforeAll(() => {
+    document.body.innerHTML = `
+      <div data-testid="tweet">
+        <a href="/someone/status/333/analytics">analytics</a>
+        <article>
+          <a href="/someone/status/333"><time>now</time></a>
+        </article>
+      </div>
+    `
+  })
+
+  it('keeps its own links', () => {
+    expect(getLinksFromArticle(getPhotoArticle())).toContain(
+      '/someone/status/333'
+    )
+  })
+})
+
+describe('article with a link card', () => {
+  const getArticle = () => document.querySelectorAll<HTMLElement>('article')[0]
+
+  it('does not treat card media as its own', () => {
+    document.body.innerHTML = `
+      <article>
+        <a href="/outer/status/444">outer</a>
+        <div>
+          <div><video></video></div>
+          <a href="https://example.com/card" target="_blank">From example.com</a>
+        </div>
+      </article>
+    `
+
+    expect(articleHasMedia(getArticle())).toBeFalse()
+  })
+
+  it('keeps media next to an external link in the text', () => {
+    document.body.innerHTML = `
+      <article>
+        <a href="/outer/status/555">outer</a>
+        <p><a href="https://example.com/article">read</a></p>
+        <div><div><video></video></div></div>
+      </article>
+    `
+
+    expect(articleHasMedia(getArticle())).toBeTrue()
+  })
+})
