@@ -12,9 +12,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Support downloading media while browsing X without logging in. [#352](https://github.com/EltonChou/TwitterMediaHarvest/pull/352)
 - Cache tweets from the profile Originals timeline and the new search results response, so downloads from those pages use the cached tweet data.
 
+### Changed
+
+- Highlight the download button in harvest yellow on hover instead of X's blue.
+
 ### Fixed
 
 - Fix download button placement and tweet link detection when browsing X without logging in.
+- Fix download button not showing on X's new frontend.
+- Fix download button missing in the media viewer, including multi-image tweets, and in the tweets alongside it.
+- Fix screen readers announcing the download button as "Share".
+- Fix like and repost counts crowding the download button in narrow action bars.
 
 ## [4.5.7] - 2026-06-18
 
