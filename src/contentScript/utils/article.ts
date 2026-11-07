@@ -5,7 +5,7 @@
  */
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { toErrorResult, toSuccessResult } from '#utils/result'
-import { isAnonymousMode, isInTweetStatus } from './checker'
+import { isAnonymousMode, isInTweetStatus, isX } from './checker'
 import * as A from 'fp-ts/Array'
 import * as E from 'fp-ts/Either'
 import { fromPredicate as optionFromPredicate } from 'fp-ts/lib/Option'
@@ -20,6 +20,8 @@ import { $, $$, elementExists } from 'select-dom'
  */
 export const isArticleInStatus = (article: HTMLElement) => {
   if (article instanceof HTMLDivElement) return false
+  if (isX())
+    return elementExists('a[aria-current="page"][href*="/status/"]', article)
   const articleClassLength = article.classList.length
   const isMagicLength =
     articleClassLength === 3 ||
@@ -58,11 +60,17 @@ export const selectArtcleMode = (article: HTMLElement): TweetMode => {
   return 'stream'
 }
 
+/** Introduced in 2026-11 */
+export const isOwnByEmbedded = (ele: HTMLElement): boolean =>
+  Boolean(ele.closest('[data-slot="embedded-tweet-frame"]'))
+
 export const isArticleHasQuotedContent = (article: HTMLElement): boolean =>
-  $$('time', article).length > 1
+  $$('time', article).length > 1 ||
+  elementExists('[data-slot="embedded-tweet-frame"]', article)
 
 export const isArticleQuoted = (article: HTMLElement): boolean =>
-  Boolean(article?.parentElement?.closest('article'))
+  Boolean(article?.parentElement?.closest('article')) ||
+  isOwnByEmbedded(article)
 
 const makePhotoUrlPattern = (statusHref: string): string => {
   const statusPath = URL.canParse(statusHref)
@@ -104,15 +112,22 @@ const aricleHasPhoto = (article: HTMLElement): boolean => {
   return photoEle ? !isPhotoInQuotedContent(photoEle) : false
 }
 
-const getVideoCompoent = (article: HTMLElement): HTMLElement | undefined =>
+/**
+ * Get first video-like component from specified element.
+ */
+const getFirstVideoComponentFrom = (
+  article: HTMLElement
+): HTMLElement | undefined =>
   $<HTMLElement>('[data-testid="videoPlayer"]', article) ||
   $<HTMLElement>('[data-testid="playButton"]', article) ||
-  $<HTMLElement>('[data-testid="videoComponent"]', article)
+  $<HTMLElement>('[data-testid="videoComponent"]', article) ||
+  $<HTMLElement>('video', article)
 
 const articleHasVideo = (article: HTMLElement): boolean => {
-  const videoComponent = getVideoCompoent(article)
-  return Boolean(
-    videoComponent &&
+  const videoComponent = getFirstVideoComponentFrom(article)
+  if (!videoComponent) return false
+  return (
+    !isOwnByEmbedded(videoComponent) &&
     !isVideoInQuotedContent(videoComponent) &&
     !isBelongsToCard(videoComponent)
   )
@@ -183,10 +198,26 @@ const featureRegEx = Object.freeze({
   editedHistoryUrl: /(?<=.+)\/history$/,
 })
 
+const getLinksFromPhotoMode = (article: HTMLElement): HTMLElement[] =>
+  $$('[href*="analytics"]', article)
+
+const getLinksFromXArticle = (article: HTMLElement): HTMLElement[] =>
+  isArticleInStatus(article)
+    ? $$('a[aria-current="page"][href*="status"]', article)
+    : article?.parentElement
+      ? $$(':scope > a', article?.parentElement)
+      : []
+
+const getLinksFromTwitterArticle = (article: HTMLElement): HTMLElement[] =>
+  $$('[data-testid="User-Name"] [href]', article)
+
 export const getLinksFromArticle = (article: HTMLElement): string[] => {
   const anchorEles = isArticlePhotoMode(article)
-    ? $$('[href*="analytics"]', article)
-    : $$('[data-testid="User-Name"] [href]', article)
+    ? getLinksFromPhotoMode(article)
+    : isX()
+      ? getLinksFromXArticle(article)
+      : getLinksFromTwitterArticle(article)
+
   const timeEle = $('a > time', article)
   if (timeEle?.parentElement?.tagName === 'A')
     anchorEles.push(timeEle.parentElement)

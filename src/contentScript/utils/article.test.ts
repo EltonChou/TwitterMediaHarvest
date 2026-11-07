@@ -9,6 +9,7 @@ import {
   getTweetIdFromLink,
   isArticleInStatus,
   isArticleInStream,
+  isOwnByEmbedded,
   parseLinks,
   parseTweetInfo,
   selectArtcleMode,
@@ -182,3 +183,20 @@ describe.each([
     })
   }
 )
+
+it('can check element is own by embedded tweet or not', () => {
+  document.body.innerHTML = `
+    <article id="main">
+      <div data-slot="embedded-tweet-frame">
+        <article id="quoted" />
+      </div>
+    </article>
+  `
+
+  const owner = document.getElementById('main')
+  const ele = document.getElementById('quoted')
+
+  if (!ele || !owner) throw new Error('HTML is wrongly set')
+  expect(isOwnByEmbedded(owner)).toBeFalse()
+  expect(isOwnByEmbedded(ele)).toBeTrue()
+})

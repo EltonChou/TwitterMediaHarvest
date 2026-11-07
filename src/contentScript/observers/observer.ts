@@ -32,6 +32,9 @@ export const observeElement = (
   options: MutationObserverInit = { childList: true }
 ): MutationObserver | undefined => {
   const observedElement = element instanceof HTMLElement ? element : $(element)
+  if (__DEV__ && !observedElement) {
+    console.warn(`[MH:ContentScript] Failed to observe "${observeId}".`)
+  }
 
   if (observedElement && !isElementObserved(observedElement)) {
     const observer = new MutationObserver(observerCallback)

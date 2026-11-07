@@ -19,7 +19,8 @@ import {
 import './main.sass'
 import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
-import { isBetaTweetDeck, isTwitter } from './utils/checker'
+import XMediaObserver from './observers/XMediaObserver'
+import { isBetaTweetDeck, isTwitter, isX } from './utils/checker'
 import { runtime } from 'webextension-polyfill'
 
 /**
@@ -40,6 +41,7 @@ export const featureSettingsRepo = new FeatureSettingsRepository(
 )
 
 const useObserver = (revealNsfw: boolean) => {
+  if (isX()) return new XMediaObserver(revealNsfw)
   if (isTwitter()) return new TwitterMediaObserver(revealNsfw)
   if (isBetaTweetDeck()) return new TweetDeckBetaObserver(revealNsfw)
   return new TwitterMediaObserver(revealNsfw)

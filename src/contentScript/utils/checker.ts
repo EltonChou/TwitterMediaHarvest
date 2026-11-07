@@ -5,10 +5,15 @@
  */
 import { elementExists } from 'select-dom'
 
-export const isStreamLoaded = () =>
-  isAnonymousMode()
-    ? elementExists('meta[content="Profile posts"] article')
-    : elementExists('[role="region"]') && elementExists('article')
+export const isStreamLoaded = () => {
+  if (isAnonymousMode()) {
+    return elementExists('meta[content="Profile posts"] article')
+  }
+
+  if (isX()) return elementExists('section div[id^="urt:"]')
+
+  return elementExists('[role="region"]') && elementExists('article')
+}
 
 const getHost = (): string => window.location.host
 
@@ -27,6 +32,11 @@ export const isTwitter = (): boolean => {
   return host === 'x.com' || host === 'mobile.x.com'
 }
 
+/** Check current front end is X (twitter's heritage has gone) */
+export const isX = (): boolean => {
+  return isTwitter() && !elementExists('#react-root')
+}
+
 const ComposeTweetRegEx = /\/compose\/tweet\/?.*/
 const IntentTweetRegEx = /\/intent\/tweet\/?.*/
 const TweetListRegEx = /\/i\/lists\/add_member/
@@ -35,7 +45,7 @@ const LikesListRegEx = /\/\d+\/likes$/
 const TweetStatusRegEx = /\/.*\/status\/\d+/
 
 /**
- * Check user is composing tweet or not.
+ * Check user is composing tweet or not
  * @returns {boolean}
  */
 export const isComposingTweet = (): boolean =>
@@ -57,7 +67,8 @@ export const isBetaTweetDeck = (): boolean =>
   isTweetDeck() && elementExists('#react-root')
 
 export const isAnonymousMode = (): boolean =>
-  elementExists('article meta') || elementExists('[data-slot]')
+  elementExists('article meta') ||
+  elementExists('a[data-interaction="mobile-top-bar-log-in"]')
 
 export const isBusinessRelatedTweet = (ele: HTMLElement): boolean =>
   elementExists('[data-testid="placementTracking"]', ele) ||
