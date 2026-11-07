@@ -27,9 +27,23 @@ const removeButtonStatsText = (btnContainer: HTMLElement) => {
   }
 }
 
-const bleachButton = <T extends HTMLElement>(sampleButton: T) => {
+/** Identity and state of the sample button (e.g. id, menu trigger, expanded). */
+const isStateAttribute = (name: string) =>
+  name === 'id' || name.startsWith('aria-') || name.startsWith('data-')
+
+const removeButtonState = (button: HTMLElement) => {
+  for (const ele of [button, ...button.querySelectorAll('*')])
+    for (const { name } of [...ele.attributes])
+      if (isStateAttribute(name)) ele.removeAttribute(name)
+
+  // The wrapper is the focusable control.
+  button.setAttribute('tabindex', '-1')
+}
+
+export const bleachButton = <T extends HTMLElement>(sampleButton: T) => {
   const emptyButton = sampleButton.cloneNode(true) as T
   removeButtonStatsText(emptyButton)
+  removeButtonState(emptyButton)
 
   return emptyButton
 }

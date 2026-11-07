@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { isSuccessResult } from '#utils/result'
-import { makeHarvestButton } from './Harvester'
+import { bleachButton, makeHarvestButton } from './Harvester'
 import { screen } from '@testing-library/dom'
 import { pipe } from 'fp-ts/lib/function'
 import fs from 'fs/promises'
@@ -120,4 +120,26 @@ describe.each([
     const harvesterButton = screen.queryByTestId('harvester-button')
     expect(harvesterButton).toBeInTheDocument()
   })
+})
+
+it('should remove the identity and state of the sample button', () => {
+  document.body.innerHTML = `
+  <button id="base-ui-1" type="button" tabindex="0" class="btn"
+    data-engagement-action="share" data-slot="xds-menu-trigger"
+    aria-haspopup="menu" aria-expanded="true" aria-label="Share">
+    <span data-popup-open=""><svg aria-hidden="true"></svg></span>
+  </button>
+  `
+  const sample = document.querySelector<HTMLElement>('button')
+  if (!sample) throw new Error('HTML is wrongly set')
+
+  const button = bleachButton(sample)
+  const attributesOf = (ele: Element) =>
+    [ele, ...ele.querySelectorAll('*')].flatMap(e =>
+      [...e.attributes].map(a => a.name)
+    )
+
+  expect(attributesOf(button).sort()).toEqual(['class', 'tabindex', 'type'])
+  expect(button).toHaveAttribute('tabindex', '-1')
+  expect(sample).toHaveAttribute('id', 'base-ui-1')
 })
