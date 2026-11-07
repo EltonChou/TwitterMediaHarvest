@@ -7,7 +7,7 @@ import downloadButtonSVG from '#assets/icons/twitter-download.svg'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import { selectArtcleMode } from '../utils/article'
 import { checkButtonStatus, makeButtonListener } from '../utils/button'
-import { isAnonymousMode } from '../utils/checker'
+import { isAnonymousMode, isX } from '../utils/checker'
 import { createElementFromHTML } from '../utils/helper'
 import * as E from 'fp-ts/Either'
 import * as IOE from 'fp-ts/IOEither'
@@ -107,7 +107,7 @@ const wrapButton = (mode: TweetMode) => (button: HTMLElement) =>
   pipe(
     E.of({
       wrapper: createElementFromHTML(`
-      <div class="harvester ${mode}" data-testid="harvester-button" data-harvest-ref="U2FsdGVkX18434vXoO+1oS21I0YQm8zFX6xy775AvdCpmSEOQHO9ns7wa518zD8t">
+      <div class="harvester ${mode} ${isX() ? 'x' : ''}" data-testid="harvester-button" data-harvest-ref="U2FsdGVkX18434vXoO+1oS21I0YQm8zFX6xy775AvdCpmSEOQHO9ns7wa518zD8t">
         <div aria-haspopup="true" aria-label="Media Harvest" role="button" data-focusable="true" tabindex="0" \
         style="display: flex;justify-content: center;"></div>
       </div>
