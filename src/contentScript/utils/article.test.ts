@@ -31,6 +31,8 @@ jest.mock('./checker', () => ({
 }))
 
 const setPath = (path: string) => history.replaceState(null, '', path)
+const setIsX = (value: boolean) =>
+  (isX as jest.MockedFunction<typeof isX>).mockReturnValue(value)
 
 describe.each([
   {
@@ -301,6 +303,7 @@ it.each([
     expected: false,
   },
 ])('should check $context has media', ({ link, expected }) => {
+  setIsX(true)
   document.body.innerHTML = `
   <article>
     <a href="/someone/status/1"><time></time></a>
@@ -311,6 +314,7 @@ it.each([
   if (!article) throw new Error('HTML is wrongly set')
 
   expect(articleHasMedia(article)).toBe(expected)
+  setIsX(false)
 })
 
 it('should get links from the analytics link of the article in media viewer thread', () => {
@@ -341,6 +345,7 @@ it('should get links from the analytics link of the article in media viewer thre
 })
 
 it('should keep the video of a tweet quoting a card tweet', () => {
+  setIsX(true)
   document.body.innerHTML = `
   <article id="target">
     <a href="/someone/status/1"><time></time></a>
@@ -356,9 +361,11 @@ it('should keep the video of a tweet quoting a card tweet', () => {
   if (!article) throw new Error('HTML is wrongly set')
 
   expect(articleHasMedia(article)).toBeTrue()
+  setIsX(false)
 })
 
 it('should not treat a card tweet with a photo link as having media', () => {
+  setIsX(true)
   document.body.innerHTML = `
   <article id="target">
     <a href="/someone/status/1"><time></time></a>
@@ -372,4 +379,43 @@ it('should not treat a card tweet with a photo link as having media', () => {
   if (!article) throw new Error('HTML is wrongly set')
 
   expect(articleHasMedia(article)).toBeFalse()
+  setIsX(false)
+})
+
+describe('card detection in legacy frontend', () => {
+  const hasMedia = (html: string) => {
+    document.body.innerHTML = `<article id="target">${html}</article>`
+    const article = document.getElementById('target')
+    if (!article) throw new Error('HTML is wrongly set')
+    return articleHasMedia(article)
+  }
+
+  it('should keep the video of a tweet quoting a card tweet', () => {
+    expect(
+      hasMedia(`
+      <a href="/someone/status/1"><time></time></a>
+      <video></video>
+      <div role="link"><div data-testid="card.wrapper"></div></div>
+      `)
+    ).toBeTrue()
+  })
+
+  it('should ignore the video in a card', () => {
+    expect(
+      hasMedia(`
+      <a href="/someone/status/1"><time></time></a>
+      <div data-testid="card.wrapper"><video></video></div>
+      `)
+    ).toBeFalse()
+  })
+
+  it('should keep the video followed by an absolute link', () => {
+    expect(
+      hasMedia(`
+      <a href="/someone/status/1"><time></time></a>
+      <div><video></video></div>
+      <a href="https://example.com" target="_blank"></a>
+      `)
+    ).toBeTrue()
+  })
 })

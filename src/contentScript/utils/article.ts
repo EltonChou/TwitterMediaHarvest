@@ -135,12 +135,14 @@ const aricleHasPhoto = (article: HTMLElement): boolean => {
  * the media; the overlay link on the video comes later. A tweet's own card
  * excludes other media of its own, but a quoted tweet can have its own card.
  */
-const NOT_QUOTED =
-  ':not(article article *, [data-slot="embedded-tweet-frame"] *)'
-const CARD_QUERY = `[data-testid="card.wrapper"]${NOT_QUOTED},div + a[target="_blank"][href^="http"]${NOT_QUOTED}`
+const X_CARD_QUERY =
+  'div + a[target="_blank"][href^="http"]:not(article article *, [data-slot="embedded-tweet-frame"] *)'
 
-const isCardTweet = (article: HTMLElement): boolean =>
-  elementExists(CARD_QUERY, article)
+/** In the legacy frontend, a quoted tweet is a link element, not an article. */
+const LEGACY_CARD_QUERY = '[data-testid="card.wrapper"]:not([role="link"] *)'
+
+const isCardArticle = (article: HTMLElement): boolean =>
+  elementExists(isX() ? X_CARD_QUERY : LEGACY_CARD_QUERY, article)
 
 const isVideoInQuotedContent = (ele: HTMLElement) =>
   Boolean(ele?.closest('[role="link"]')?.querySelector('time'))
@@ -171,7 +173,7 @@ const articleHasVideo = (article: HTMLElement): boolean => {
 export const articleHasMedia = (article: HTMLElement) => {
   if (!article) return false
   if (isArticlePhotoMode(article)) return true
-  if (isCardTweet(article)) return false
+  if (isCardArticle(article)) return false
   return articleHasVideo(article) || aricleHasPhoto(article)
 }
 
