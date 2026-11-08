@@ -129,8 +129,23 @@ const aricleHasPhoto = (article: HTMLElement): boolean => {
   return photoEle ? !isPhotoInQuotedContent(photoEle) : false
 }
 
-const isBelongsToCard = (ele: HTMLElement): boolean =>
-  Boolean(ele?.closest('[data-testid="card.wrapper"]'))
+/** Card link and card media share a container. */
+const hasDirectAnchor = (ele: Element): boolean =>
+  Array.from(ele.children).some(child => child.tagName === 'A')
+
+const isBelongsToCard = (ele: HTMLElement): boolean => {
+  if (ele.closest('[data-testid="card.wrapper"]')) return true
+
+  const article = ele.closest('article')
+  let container = ele.parentElement
+  // Card link sits close to the media, so only a few levels are inspected.
+  for (let depth = 0; container && container !== article && depth < 4; depth++) {
+    if (hasDirectAnchor(container)) return true
+    container = container.parentElement
+  }
+
+  return false
+}
 const isVideoInQuotedContent = (ele: HTMLElement) =>
   Boolean(ele?.closest('[role="link"]')?.querySelector('time'))
 const isPhotoInQuotedContent = (ele: HTMLElement) =>

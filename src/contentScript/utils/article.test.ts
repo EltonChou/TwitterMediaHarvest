@@ -292,3 +292,44 @@ it('should treat the media viewer bar container as photo mode in X', () => {
   expect(getLinksFromArticle(bar)).toEqual(['/someone/status/1/analytics'])
   mockIsX.mockReturnValue(false)
 })
+
+describe('article with link card media', () => {
+  const getArticle = () => document.querySelectorAll<HTMLElement>('article')[0]
+
+  it('does not treat card media as its own', () => {
+    document.body.innerHTML = `
+      <article>
+        <a href="/outer/status/444">outer</a>
+        <div>
+          <div><video></video></div>
+          <a href="https://example.com/card" target="_blank">From example.com</a>
+        </div>
+      </article>
+    `
+
+    expect(articleHasMedia(getArticle())).toBeFalse()
+  })
+
+  it('does not treat card media wrapped in a card wrapper as its own', () => {
+    document.body.innerHTML = `
+      <article>
+        <a href="/outer/status/445">outer</a>
+        <div data-testid="card.wrapper"><video></video></div>
+      </article>
+    `
+
+    expect(articleHasMedia(getArticle())).toBeFalse()
+  })
+
+  it('keeps media next to a link in the text', () => {
+    document.body.innerHTML = `
+      <article>
+        <a href="/outer/status/446">outer</a>
+        <p><a href="https://example.com/article">read</a></p>
+        <div><div><video></video></div></div>
+      </article>
+    `
+
+    expect(articleHasMedia(getArticle())).toBeTrue()
+  })
+})
