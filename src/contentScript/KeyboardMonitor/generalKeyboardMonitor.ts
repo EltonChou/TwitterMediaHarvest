@@ -49,9 +49,11 @@ export abstract class GeneralKeyboardMonitor implements KeyboardMonitor {
     )
       return
 
-    const tweetCanBeHarvested = getClosedTargetArticle(
-      this.focusing as HTMLElement
-    )
+    const focusing = this.focusing as HTMLElement
+    // In X, the focusable tweet element wraps the article.
+    const tweetCanBeHarvested =
+      getClosedTargetArticle(focusing) ??
+      $<HTMLElement>('[data-harvest-article]', focusing)
     if (tweetCanBeHarvested) {
       const harvesterButton = this.#getButton(tweetCanBeHarvested)
       if (harvesterButton) harvesterButton.click()

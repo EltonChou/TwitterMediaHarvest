@@ -69,6 +69,21 @@ describe.each([
       expect(mockButtonClick).toHaveBeenCalledTimes(1)
     })
 
+    it('can trigger download when the focused wrapper holds the article', () => {
+      // In X, the focusable tweet element wraps the article.
+      const wrapper = document.createElement('div')
+      wrapper.tabIndex = 0
+      const article = getArticle()
+      article.replaceWith(wrapper)
+      wrapper.append(article)
+
+      wrapper.focus()
+      pressDownloadKeyOn(wrapper)
+
+      wrapper.replaceWith(article)
+      expect(mockButtonClick).toHaveBeenCalledTimes(1)
+    })
+
     it.each([
       { elementName: 'input', getElement: getInput },
       { elementName: 'textarea', getElement: getTextArea },
