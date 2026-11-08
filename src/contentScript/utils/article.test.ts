@@ -312,3 +312,30 @@ it.each([
 
   expect(articleHasMedia(article)).toBe(expected)
 })
+
+it('should get links from the analytics link of the article in media viewer thread', () => {
+  const mockIsX = isX as jest.MockedFunction<typeof isX>
+  mockIsX.mockReturnValue(true)
+  document.body.innerHTML = `
+  <div aria-label="Media Viewer">
+    <div>
+      <article id="target">
+        <div>
+          <article>
+            <a href="/analytics_fan/status/2"></a>
+            <a href="/analytics_fan/status/2/photo/1"></a>
+          </article>
+        </div>
+        <a href="/someone/status/1"></a>
+        <a href="/someone/status/1/analytics"></a>
+      </article>
+    </div>
+  </div>
+  `
+
+  const article = document.getElementById('target')
+  if (!article) throw new Error('HTML is wrongly set')
+
+  expect(getLinksFromArticle(article)).toEqual(['/someone/status/1/analytics'])
+  mockIsX.mockReturnValue(false)
+})

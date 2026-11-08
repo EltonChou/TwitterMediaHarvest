@@ -235,12 +235,19 @@ const featureRegEx = Object.freeze({
 const getLinksFromPhotoMode = (article: HTMLElement): HTMLElement[] =>
   $$('[href*="analytics"]', article)
 
-const getLinksFromXArticle = (article: HTMLElement): HTMLElement[] =>
-  isArticleInStatus(article)
-    ? $$('a[aria-current="page"][href*="status"]', article)
-    : article?.parentElement
-      ? $$(':scope > a', article?.parentElement)
-      : []
+const getLinksFromXArticle = (article: HTMLElement): HTMLElement[] => {
+  if (isArticleInStatus(article))
+    return $$('a[aria-current="page"][href*="status"]', article)
+
+  const parentLinks = article?.parentElement
+    ? $$(':scope > a', article.parentElement)
+    : []
+  if (parentLinks.length > 0) return parentLinks
+
+  // The media viewer's focused tweet has neither link. Unlike its quoted tweet,
+  // it has an analytics link.
+  return $$('a[href*="/status/"][href$="/analytics"]', article)
+}
 
 const getLinksFromTwitterArticle = (article: HTMLElement): HTMLElement[] =>
   $$('[data-testid="User-Name"] [href]', article)
