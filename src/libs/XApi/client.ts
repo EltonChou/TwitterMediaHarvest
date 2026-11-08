@@ -79,8 +79,12 @@ export class ApiClient implements Client<CommandInputs, CommandOutputs> {
         cachedResponse === undefined &&
         output.$metadata.httpStatusCode === 200
 
+      // A failed cache write must not discard the response we already have.
       if (shouldCache)
-        await command.putIntoCache(request.clone(), clonedResponse)
+        await command
+          .putIntoCache(request.clone(), clonedResponse)
+          // eslint-disable-next-line no-console
+          .catch(error => console.error(error))
 
       if (!isCachedResponse && this.config?.cookieStore) {
         const cookies = response.headers.get('set-cookie')

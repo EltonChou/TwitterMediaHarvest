@@ -102,10 +102,27 @@ export class TweetResponseCache
     try {
       const cache = await this.getCache()
 
-      const payload = JSON.stringify(item)
-      const response = makeResponse(payload)
+      // Chromium's put deletes the existing entry before creating the new one,
+      // so a failed put may lose it (read from source, not observed). Don't
+      // risk a usable hit just to refresh it.
+      // Source: PutImpl, PutDidDeleteEntry and PutDidCreateEntry in
+      // https://chromium.googlesource.com/chromium/src/+/refs/tags/153.0.8010.55/content/browser/cache_storage/cache_storage_cache.cc
+      // Unverified: DeleteImpl and its callbacks were only seen as a summary.
+      const cached = await cache.match(makeRequest(item.id))
+      if (cached && !isExpired(cached, Date.now())) return undefined
 
-      await cache.put(makeRequest(item.id), response)
+      const payload = JSON.stringify(item)
+      const put = () => cache.put(makeRequest(item.id), makeResponse(payload))
+
+      // Chromium's put returns kErrorExists for any OpenOrCreateEntry failure,
+      // so "Entry already exists." may not mean the entry exists.
+      // Source: PutDidCreateEntry in cache_storage_cache.cc (link above).
+      // kErrorExists maps to that message with InvalidAccessError in
+      // https://chromium.googlesource.com/chromium/src/+/refs/tags/153.0.8010.55/third_party/blink/renderer/modules/cache_storage/cache_storage_error.cc
+      // Unverified: why the entry call fails.
+      // ponytail: one blind retry, unproven against the real failure. Never
+      // drop the cache here: downloads rely on its hits.
+      await put().catch(put)
       return undefined
     } catch (error) {
       return error as Error
@@ -144,11 +161,7 @@ export class TweetResponseCache
       await Promise.all(
         requests.map(async request => {
           const response = await cache.match(request)
-          const cachedAt = Date.parse(response?.headers.get('Date') ?? '')
-          // Evict entries past TTL, and any without a parseable timestamp
-          // (e.g. entries written before this change).
-          if (Number.isNaN(cachedAt) || now - cachedAt > CACHE_TIME * 1000)
-            await cache.delete(request)
+          if (!response || isExpired(response, now)) await cache.delete(request)
         })
       )
       return undefined
@@ -156,6 +169,15 @@ export class TweetResponseCache
       return error as Error
     }
   }
+}
+
+/**
+ * Past TTL, or without a parseable timestamp (e.g. entries written before the
+ * `Date` header was added).
+ */
+const isExpired = (response: Response, now: number): boolean => {
+  const cachedAt = Date.parse(response.headers.get('Date') ?? '')
+  return Number.isNaN(cachedAt) || now - cachedAt > CACHE_TIME * 1000
 }
 
 const makeRequest = (tweetId: string): Request => {
