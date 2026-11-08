@@ -23,6 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Fix download button missing in the media viewer, including multi-image tweets, and in the tweets alongside it.
 - Fix screen readers announcing the download button as "Share".
 - Fix like and repost counts crowding the download button in narrow action bars.
+- Fix downloads failing or using extra API requests when a fetched tweet could not be saved to the browser cache.
+- Fix download button appearing on link-card videos, such as ad cards, on X's new frontend.
+- Fix keyboard download shortcut doing nothing on a focused tweet on X's new frontend.
 
 ## [4.5.7] - 2026-06-18
 
