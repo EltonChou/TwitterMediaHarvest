@@ -132,19 +132,16 @@ const aricleHasPhoto = (article: HTMLElement): boolean => {
 /**
  * In X, a card's media wrapper is followed by a link with an absolute URL
  * ("From example.com"), unlike X's own relative links. That link renders with
- * the media; the overlay link on the video comes later.
+ * the media; the overlay link on the video comes later. A tweet's own card
+ * excludes other media of its own, but a quoted tweet can have its own card.
  */
-const isBelongsToCard = (ele: HTMLElement): boolean => {
-  if (ele?.closest('[data-testid="card.wrapper"]')) return true
-  for (
-    let e = ele?.parentElement;
-    e && e.tagName !== 'ARTICLE';
-    e = e.parentElement
-  )
-    if (e.nextElementSibling?.matches('a[target="_blank"][href^="http"]'))
-      return true
-  return false
-}
+const NOT_QUOTED =
+  ':not(article article *, [data-slot="embedded-tweet-frame"] *)'
+const CARD_QUERY = `[data-testid="card.wrapper"]${NOT_QUOTED},div + a[target="_blank"][href^="http"]${NOT_QUOTED}`
+
+const isCardTweet = (article: HTMLElement): boolean =>
+  elementExists(CARD_QUERY, article)
+
 const isVideoInQuotedContent = (ele: HTMLElement) =>
   Boolean(ele?.closest('[role="link"]')?.querySelector('time'))
 const isPhotoInQuotedContent = (ele: HTMLElement) =>
@@ -167,15 +164,14 @@ const articleHasVideo = (article: HTMLElement): boolean => {
   const videoComponent = getFirstVideoComponentFrom(article)
   if (!videoComponent) return false
   return (
-    !isOwnByEmbedded(videoComponent) &&
-    !isVideoInQuotedContent(videoComponent) &&
-    !isBelongsToCard(videoComponent)
+    !isOwnByEmbedded(videoComponent) && !isVideoInQuotedContent(videoComponent)
   )
 }
 
 export const articleHasMedia = (article: HTMLElement) => {
   if (!article) return false
   if (isArticlePhotoMode(article)) return true
+  if (isCardTweet(article)) return false
   return articleHasVideo(article) || aricleHasPhoto(article)
 }
 

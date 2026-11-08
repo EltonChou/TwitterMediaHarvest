@@ -339,3 +339,37 @@ it('should get links from the analytics link of the article in media viewer thre
   expect(getLinksFromArticle(article)).toEqual(['/someone/status/1/analytics'])
   mockIsX.mockReturnValue(false)
 })
+
+it('should keep the video of a tweet quoting a card tweet', () => {
+  document.body.innerHTML = `
+  <article id="target">
+    <a href="/someone/status/1"><time></time></a>
+    <video></video>
+    <div>
+      <article>
+        <div><div></div><a href="https://example.com" target="_blank"></a></div>
+      </article>
+    </div>
+  </article>
+  `
+  const article = document.getElementById('target')
+  if (!article) throw new Error('HTML is wrongly set')
+
+  expect(articleHasMedia(article)).toBeTrue()
+})
+
+it('should not treat a card tweet with a photo link as having media', () => {
+  document.body.innerHTML = `
+  <article id="target">
+    <a href="/someone/status/1"><time></time></a>
+    <div>
+      <div><a href="/someone/status/1/photo/1"></a></div>
+      <a href="https://example.com" target="_blank"></a>
+    </div>
+  </article>
+  `
+  const article = document.getElementById('target')
+  if (!article) throw new Error('HTML is wrongly set')
+
+  expect(articleHasMedia(article)).toBeFalse()
+})

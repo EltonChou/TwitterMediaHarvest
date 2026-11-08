@@ -127,9 +127,9 @@ export default {
 
 ## Transformer Options
 
-| Option        | Type                                     | Required | Description                                                                                                              |
-| ------------- | ---------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `expressions` | `string \| RegExp \| (string\|RegExp)[]` | Yes      | One or more patterns used to identify i18n call expressions. Any call whose expression text matches will be transformed. |
+| Option        | Type                                     | Required | Description                                                                                                                   |
+| ------------- | ---------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `expressions` | `string \| RegExp \| (string\|RegExp)[]` | Yes      | One or more matchers for i18n call expressions. A string must equal the callee text exactly; a `RegExp` is tested against it. |
 
 ```ts
 // Match a single function name
@@ -143,9 +143,9 @@ transformer({ config: { expressions: ['i18n', '_', /^gettext/] } })
 
 Same as transformer options.
 
-| Option        | Type                                     | Required | Description                                                                                                              |
-| ------------- | ---------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `expressions` | `string \| RegExp \| (string\|RegExp)[]` | Yes      | One or more patterns used to identify i18n call expressions. Any call whose expression text matches will be transformed. |
+| Option        | Type                                     | Required | Description                                                                                                                   |
+| ------------- | ---------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `expressions` | `string \| RegExp \| (string\|RegExp)[]` | Yes      | One or more matchers for i18n call expressions. A string must equal the callee text exactly; a `RegExp` is tested against it. |
 
 ## Plugin Options (`WebextI18nPlugin`)
 

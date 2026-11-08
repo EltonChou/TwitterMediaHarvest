@@ -40,9 +40,11 @@ function replaceI18nArguments(expr, ctx) {
     return expr;
 }
 function isI18nCallExpression(expression) {
-    return Array.isArray(expression)
-        ? node => expression.some(expr => node.expression.getText().match(expr) !== null)
-        : node => node.expression.getText().match(expression) !== null;
+    const expressions = [expression].flat();
+    return node => {
+        const callee = node.expression.getText();
+        return expressions.some(expr => typeof expr === 'string' ? callee === expr : callee.match(expr) !== null);
+    };
 }
 const transformer = (options) => ctx => node => {
     const visitChild = node => {

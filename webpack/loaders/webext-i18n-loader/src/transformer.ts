@@ -72,10 +72,15 @@ function replaceI18nArguments(
 function isI18nCallExpression(
   expression: LoaderOptions['expressions']
 ): (node: ts.CallExpression) => boolean {
-  return Array.isArray(expression)
-    ? node =>
-        expression.some(expr => node.expression.getText().match(expr) !== null)
-    : node => node.expression.getText().match(expression) !== null
+  const expressions = [expression].flat()
+
+  return node => {
+    const callee = node.expression.getText()
+    // A string names the function. Use RegExp for pattern matching.
+    return expressions.some(expr =>
+      typeof expr === 'string' ? callee === expr : callee.match(expr) !== null
+    )
+  }
 }
 
 type TransformerOptions = {

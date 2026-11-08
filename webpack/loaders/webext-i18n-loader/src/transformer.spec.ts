@@ -36,3 +36,41 @@ test('transformer', async () => {
 
   expect(outputContent).toMatchSnapshot('transformed')
 })
+
+describe('call expression matching', () => {
+  const transformSource = (
+    source: string,
+    expressions: (string | RegExp)[]
+  ) => {
+    const srcFile = ts.createSourceFile(
+      'temp',
+      source,
+      ts.ScriptTarget.ESNext,
+      true
+    )
+    const [transformed] = ts.transform(srcFile, [
+      transformer({ config: { expressions } }),
+    ]).transformed
+
+    return ts.createPrinter().printFile(transformed as ts.SourceFile)
+  }
+
+  it.each([
+    ['["a_b"].join(",")', '","'],
+    ['foo_bar("keep")', '"keep"'],
+    ['obj.i18n("keep")', '"keep"'],
+    ['i18nLocalize("keep")', '"keep"'],
+  ])('should only match the exact name of string: %s', (source, literal) => {
+    expect(transformSource(source, ['i18n', '_'])).toContain(literal)
+  })
+
+  it('should transform the call with the exact name', () => {
+    expect(transformSource('i18n("msg")', ['i18n'])).not.toContain('"msg"')
+  })
+
+  it('should keep matching by pattern with RegExp', () => {
+    expect(transformSource('gettextFoo("msg")', [/^gettext/])).not.toContain(
+      '"msg"'
+    )
+  })
+})
