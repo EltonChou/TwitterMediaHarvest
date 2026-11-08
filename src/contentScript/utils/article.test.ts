@@ -292,3 +292,23 @@ it('should treat the media viewer bar container as photo mode in X', () => {
   expect(getLinksFromArticle(bar)).toEqual(['/someone/status/1/analytics'])
   mockIsX.mockReturnValue(false)
 })
+
+it.each([
+  { context: 'native video', link: '', expected: true },
+  {
+    context: 'link card video',
+    link: '<a href="https://example.com" target="_blank"></a>',
+    expected: false,
+  },
+])('should check $context has media', ({ link, expected }) => {
+  document.body.innerHTML = `
+  <article>
+    <a href="/someone/status/1"><time></time></a>
+    <div><div><video></video></div>${link}</div>
+  </article>
+  `
+  const article = document.querySelector('article')
+  if (!article) throw new Error('HTML is wrongly set')
+
+  expect(articleHasMedia(article)).toBe(expected)
+})

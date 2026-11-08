@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import makeHarvester from '../core'
-import { articleHasMedia } from '../utils/article'
+import { articleHasMedia, canArticleBeAppended } from '../utils/article'
 import { isAnonymousMode, isStreamLoaded } from '../utils/checker'
 import { revealNsfw } from '../utils/helper'
 import observeElement, { isElementObserved } from './observer'
@@ -68,12 +68,25 @@ export default class XMediaObserver implements IHarvestObserver {
       subtree: true,
     }
 
-    // Only a new stream needs a full scan. The stream observer handles its tweets.
+    // Only a new stream needs a full scan. Otherwise check the touched articles:
+    // media such as videos mounts after its article.
     const rootMutationCallback: MutationCallback = mutations => {
       if (isOwnMutation(mutations)) return
       if (isStreamLoaded() && !isStreamObserved()) {
         this.scheduleInitialize()
         this.observeAll()
+        return
+      }
+
+      const articles = new Set<HTMLElement>()
+      for (const { target } of mutations) {
+        const article = target instanceof Element && target.closest('article')
+        if (article instanceof HTMLElement && canArticleBeAppended(article))
+          articles.add(article)
+      }
+      for (const article of articles) {
+        if (this.autoRevealNsfw) revealNsfw(article)
+        if (articleHasMedia(article)) makeHarvester(article)
       }
     }
 
@@ -102,10 +115,11 @@ export default class XMediaObserver implements IHarvestObserver {
             mediaBlock => this.autoRevealNsfw && revealNsfw(mediaBlock)
           )
 
-          const article = $('article', addedNode)
-          if (!article) continue
-          if (this.autoRevealNsfw) revealNsfw(article)
-          if (articleHasMedia(article)) makeHarvester(article)
+          // A thread item holds several articles.
+          for (const article of $$('article', addedNode)) {
+            if (this.autoRevealNsfw) revealNsfw(article)
+            if (articleHasMedia(article)) makeHarvester(article)
+          }
         }
       }
     }

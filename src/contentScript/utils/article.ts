@@ -129,8 +129,22 @@ const aricleHasPhoto = (article: HTMLElement): boolean => {
   return photoEle ? !isPhotoInQuotedContent(photoEle) : false
 }
 
-const isBelongsToCard = (ele: HTMLElement): boolean =>
-  Boolean(ele?.closest('[data-testid="card.wrapper"]'))
+/**
+ * In X, a card's media wrapper is followed by a link with an absolute URL
+ * ("From example.com"), unlike X's own relative links. That link renders with
+ * the media; the overlay link on the video comes later.
+ */
+const isBelongsToCard = (ele: HTMLElement): boolean => {
+  if (ele?.closest('[data-testid="card.wrapper"]')) return true
+  for (
+    let e = ele?.parentElement;
+    e && e.tagName !== 'ARTICLE';
+    e = e.parentElement
+  )
+    if (e.nextElementSibling?.matches('a[target="_blank"][href^="http"]'))
+      return true
+  return false
+}
 const isVideoInQuotedContent = (ele: HTMLElement) =>
   Boolean(ele?.closest('[role="link"]')?.querySelector('time'))
 const isPhotoInQuotedContent = (ele: HTMLElement) =>
