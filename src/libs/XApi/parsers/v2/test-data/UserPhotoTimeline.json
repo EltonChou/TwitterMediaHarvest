@@ -1,0 +1,294 @@
+{
+  "data": {
+    "user_result_by_screen_name": {
+      "id": "VXNlclJlc3VsdHM6NDQxOTYzOTc=",
+      "result": {
+        "__typename": "User",
+        "id": "VXNlcjo0NDE5NjM5Nw==",
+        "profile_user_photo_timeline": {
+          "id": "VGltZWxpbmU6CgC4AAAAAAKiYi0A",
+          "timeline": {
+            "id": "ProfilePhotoProduct-Timeline",
+            "instructions": [
+              {
+                "__typename": "TimelineAddToModule",
+                "module_entry_id": "profile-photo-grid-0",
+                "module_items": [
+                  {
+                    "entry_id": "profile-photo-grid-0-tweet-2065456782550401072",
+                    "item": {
+                      "__typename": "TimelineTimelineItem",
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "MediaGrid",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNjU0NTY3ODI1NTA0MDEwNzI=",
+                          "rest_id": "2065456782550401072",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6NDQxOTYzOTc=",
+                                "result": {
+                                  "__typename": "User",
+                                  "core": {
+                                    "name": "Elon Musk",
+                                    "screen_name": "elonmusk"
+                                  },
+                                  "id": "VXNlcjo0NDE5NjM5Nw==",
+                                  "identity_profile_labels_highlighted_label": {
+                                    "label": {
+                                      "user_label_type": "BusinessLabel"
+                                    }
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true
+                                  },
+                                  "rest_id": "44196397",
+                                  "super_follow_eligible": true,
+                                  "super_followed_by": false,
+                                  "super_following": false
+                                }
+                              }
+                            },
+                            "counts": {
+                              "favorite_count": 24915,
+                              "quote_count": 273,
+                              "reply_count": 2630,
+                              "retweet_count": 2111
+                            },
+                            "details": {
+                              "full_text": "🔥😂 https://t.co/qWU6sBavTQ"
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2065456782550401072"]
+                            },
+                            "id": "VHdlZXQ6MjA2NTQ1Njc4MjU1MDQwMTA3Mg==",
+                            "legacy": {},
+                            "media_entities2": [
+                              {
+                                "id_str": "2065456779018809344",
+                                "media_url_https": "https://pbs.twimg.com/media/HKn5_0xWsAASCIu.jpg",
+                                "original_info": {
+                                  "height": 1600,
+                                  "width": 1200
+                                },
+                                "type": "photo"
+                              }
+                            ],
+                            "reply_to_results": {
+                              "id": "VHdlZXRSZXN1bHRzOjIwNjU0Mzk1NTg1MDY4NjkxNzg=",
+                              "rest_id": "2065439558506869178"
+                            },
+                            "reply_to_user_results": {
+                              "id": "VXNlclJlc3VsdHM6NDQxOTYzOTc=",
+                              "rest_id": "44196397",
+                              "result": {
+                                "__typename": "User",
+                                "id": "VXNlcjo0NDE5NjM5Nw=="
+                              }
+                            },
+                            "rest_id": "2065456782550401072",
+                            "views": { "count": "2668023" }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entry_id": "profile-photo-grid-0-tweet-2065207067204288559",
+                    "item": {
+                      "__typename": "TimelineTimelineItem",
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "MediaGrid",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNjUyMDcwNjcyMDQyODg1NTk=",
+                          "rest_id": "2065207067204288559",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6NDQxOTYzOTc=",
+                                "result": {
+                                  "__typename": "User",
+                                  "core": {
+                                    "name": "Elon Musk",
+                                    "screen_name": "elonmusk"
+                                  },
+                                  "id": "VXNlcjo0NDE5NjM5Nw==",
+                                  "identity_profile_labels_highlighted_label": {
+                                    "label": {
+                                      "user_label_type": "BusinessLabel"
+                                    }
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true
+                                  },
+                                  "rest_id": "44196397",
+                                  "super_follow_eligible": true,
+                                  "super_followed_by": false,
+                                  "super_following": false
+                                }
+                              }
+                            },
+                            "counts": {
+                              "favorite_count": 2600,
+                              "quote_count": 32,
+                              "reply_count": 468,
+                              "retweet_count": 695
+                            },
+                            "details": {
+                              "full_text": "Claude’s analysis of whether it knew this was just a game or not: https://t.co/h8FjUMVOLT"
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2065207067204288559"]
+                            },
+                            "id": "VHdlZXQ6MjA2NTIwNzA2NzIwNDI4ODU1OQ==",
+                            "legacy": {},
+                            "media_entities2": [
+                              {
+                                "id_str": "2065207059696517120",
+                                "media_url_https": "https://pbs.twimg.com/media/HKkW4PzXAAAuU7X.jpg",
+                                "original_info": {
+                                  "height": 1228,
+                                  "width": 1034
+                                },
+                                "type": "photo"
+                              }
+                            ],
+                            "reply_to_results": {
+                              "id": "VHdlZXRSZXN1bHRzOjIwNjUxMTIzNzQ3MDk3MTkzMjk=",
+                              "rest_id": "2065112374709719329"
+                            },
+                            "reply_to_user_results": {
+                              "id": "VXNlclJlc3VsdHM6NDQxOTYzOTc=",
+                              "rest_id": "44196397",
+                              "result": {
+                                "__typename": "User",
+                                "id": "VXNlcjo0NDE5NjM5Nw=="
+                              }
+                            },
+                            "rest_id": "2065207067204288559",
+                            "views": { "count": "931768" }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entry_id": "profile-photo-grid-0-tweet-2065202249282768915",
+                    "item": {
+                      "__typename": "TimelineTimelineItem",
+                      "content": {
+                        "__isTimelineTimelineItemContent": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "display_type": "MediaGrid",
+                        "tweet_results": {
+                          "id": "VHdlZXRSZXN1bHRzOjIwNjUyMDIyNDkyODI3Njg5MTU=",
+                          "rest_id": "2065202249282768915",
+                          "result": {
+                            "__isTweetResult": "Tweet",
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "id": "VXNlclJlc3VsdHM6NDQxOTYzOTc=",
+                                "result": {
+                                  "__typename": "User",
+                                  "core": {
+                                    "name": "Elon Musk",
+                                    "screen_name": "elonmusk"
+                                  },
+                                  "id": "VXNlcjo0NDE5NjM5Nw==",
+                                  "identity_profile_labels_highlighted_label": {
+                                    "label": {
+                                      "user_label_type": "BusinessLabel"
+                                    }
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true
+                                  },
+                                  "rest_id": "44196397",
+                                  "super_follow_eligible": true,
+                                  "super_followed_by": false,
+                                  "super_following": false
+                                }
+                              }
+                            },
+                            "counts": {
+                              "favorite_count": 72347,
+                              "quote_count": 503,
+                              "reply_count": 5464,
+                              "retweet_count": 6658
+                            },
+                            "details": {
+                              "full_text": "Tesla FSD 14.3.4 rolling out now https://t.co/Lbtx2Yeo6i"
+                            },
+                            "edit_control": {
+                              "__typename": "EditControlInitial",
+                              "edit_tweet_ids": ["2065202249282768915"]
+                            },
+                            "id": "VHdlZXQ6MjA2NTIwMjI0OTI4Mjc2ODkxNQ==",
+                            "legacy": {},
+                            "media_entities2": [
+                              {
+                                "id_str": "2065202245491109888",
+                                "media_url_https": "https://pbs.twimg.com/media/HKkSgBfWMAAjeeM.jpg",
+                                "original_info": {
+                                  "height": 1953,
+                                  "width": 1206
+                                },
+                                "type": "photo"
+                              }
+                            ],
+                            "rest_id": "2065202249282768915",
+                            "views": { "count": "9953944" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "__typename": "TimelineAddEntries",
+                "entries": [
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineCursor",
+                      "cursor_type": "Top",
+                      "value": "DAAHCgABHWfITGCAJwYLAAIAAAATMjA2Njc2MDg5NDE5NDA4MjA4MQgAAwAAAAEAAA"
+                    },
+                    "entry_id": "cursor-top-2118882380063178742",
+                    "sort_index": "2118882380063178742"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineCursor",
+                      "cursor_type": "Bottom",
+                      "value": "DAAHCgABHWfITGB___QLAAIAAAATMjA2MjQyNDE5NDIxOTExNDc0NQgAAwAAAAIAAA"
+                    },
+                    "entry_id": "cursor-bottom-2118882380063178740",
+                    "sort_index": "2118882380063178740"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -494,6 +494,8 @@ describe('CaptureResponseAndCache', () => {
     { type: ResponseType.UserRepliesTimeline, mediaTweetCount: 5 },
     { type: ResponseType.UserRepostsTimeline, mediaTweetCount: 33 },
     { type: ResponseType.UserVideoTimeline, mediaTweetCount: 19 },
+    // MediaGrid items lack created_at_ms: the parser rejects them on purpose.
+    { type: ResponseType.UserPhotoTimeline, mediaTweetCount: 0 },
     { type: ResponseType.LikesQuery, mediaTweetCount: 20 },
     { type: ResponseType.BookmarkTimeline, mediaTweetCount: 15 },
     { type: ResponseType.TweetNotificationsQuery, mediaTweetCount: 17 },
@@ -572,6 +574,26 @@ describe('CaptureResponseAndCache', () => {
     expect(error).toBeUndefined()
     expect(mockSaveAll).toHaveBeenCalledTimes(1)
     expect(mockSaveAll.mock.calls[0].length).toBeGreaterThan(0)
+  })
+
+  it('should cache media tweets from legacy-format UserPhotoTimeline response', async () => {
+    mockSaveAll.mockResolvedValue(undefined)
+
+    const error = await useCase.process({
+      type: ResponseType.UserPhotoTimeline,
+      body: fs
+        .readFileSync(
+          path.resolve(
+            __dirname,
+            '../libs/XApi/parsers/v1/test-data/UserPhotoTimeline.json'
+          )
+        )
+        .toString(),
+    })
+
+    expect(error).toBeUndefined()
+    expect(mockSaveAll).toHaveBeenCalledTimes(1)
+    expect(mockSaveAll.mock.calls[0]).toHaveLength(2)
   })
 
   it('should handle notification device-follow response', async () => {

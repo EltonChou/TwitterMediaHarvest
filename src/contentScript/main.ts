@@ -147,6 +147,7 @@ const responseTypeCriterias: ResponseTypeCriteria[] = [
     type: ResponseType.UserVideoTimeline,
     endpoint: 'UserVideoTimeline',
   },
+  { type: ResponseType.UserPhotoTimeline, endpoint: 'UserPhotoTimeline' },
   { type: ResponseType.LikesQuery, endpoint: 'likesQuery' },
   { type: ResponseType.BookmarkTimeline, endpoint: 'BookmarkTimeline' },
   {

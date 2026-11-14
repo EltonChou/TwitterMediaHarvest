@@ -251,6 +251,7 @@ export class CaptureResponseAndCache implements AsyncUseCase<
       case ResponseType.UserRepliesTimeline:
       case ResponseType.UserRepostsTimeline:
       case ResponseType.UserVideoTimeline:
+      case ResponseType.UserPhotoTimeline:
         error = await this.processV2TimelineResponse(body, v2Timelines[type]!)
         if (error instanceof Joi.ValidationError)
           error = await this.processUserTimelineResponse(body)
@@ -478,6 +479,9 @@ const v2Timelines: Partial<Record<ResponseType, V2Timeline>> = {
   ),
   [ResponseType.UserVideoTimeline]: profileTimeline(
     'profile_user_video_timeline'
+  ),
+  [ResponseType.UserPhotoTimeline]: profileTimeline(
+    'profile_user_photo_timeline'
   ),
   [ResponseType.SearchByRawQuery]: v2Timeline(
     'data',
