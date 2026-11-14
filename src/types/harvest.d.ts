@@ -18,11 +18,6 @@ declare module '*.sass' {
 
 type TweetMode = 'photo' | 'status' | 'stream'
 
-interface IHarvestObserver {
-  observeRoot: () => void
-  initialize: () => void
-}
-
 interface IHarvester {
   appendButton: () => void
 }

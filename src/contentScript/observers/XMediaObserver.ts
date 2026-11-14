@@ -8,6 +8,7 @@ import { articleHasMedia, canArticleBeAppended } from '../utils/article'
 import { isAnonymousMode, isStreamLoaded } from '../utils/checker'
 import { revealNsfw } from '../utils/helper'
 import observeElement, { isElementObserved } from './observer'
+import type { IHarvestObserver, ObserverOptions } from './types'
 import { $, $$ } from 'select-dom'
 
 const enum Query {
@@ -44,7 +45,7 @@ const isStreamObserved = () => {
 export default class XMediaObserver implements IHarvestObserver {
   private isInitializeScheduled = false
 
-  constructor(readonly autoRevealNsfw = false) {}
+  constructor(readonly options: ObserverOptions = { autoRevealNsfw: false }) {}
 
   /** Run `initialize` once per frame, however many observers ask for it. */
   scheduleInitialize() {
@@ -60,6 +61,10 @@ export default class XMediaObserver implements IHarvestObserver {
     this.observeHead()
     this.observeModal()
     this.observeStream()
+  }
+
+  observe() {
+    this.observeRoot()
   }
 
   observeRoot() {
@@ -85,7 +90,7 @@ export default class XMediaObserver implements IHarvestObserver {
           articles.add(article)
       }
       for (const article of articles) {
-        if (this.autoRevealNsfw) revealNsfw(article)
+        if (this.options.autoRevealNsfw) revealNsfw(article)
         if (articleHasMedia(article)) makeHarvester(article)
       }
     }
@@ -99,7 +104,7 @@ export default class XMediaObserver implements IHarvestObserver {
 
     const articles = $$('article')
     for (const article of articles) {
-      if (this.autoRevealNsfw) revealNsfw(article)
+      if (this.options.autoRevealNsfw) revealNsfw(article)
       if (articleHasMedia(article)) makeHarvester(article)
     }
   }
@@ -112,12 +117,12 @@ export default class XMediaObserver implements IHarvestObserver {
 
           const mediaBlocks = $$('li', addedNode)
           mediaBlocks.forEach(
-            mediaBlock => this.autoRevealNsfw && revealNsfw(mediaBlock)
+            mediaBlock => this.options.autoRevealNsfw && revealNsfw(mediaBlock)
           )
 
           // A thread item holds several articles.
           for (const article of $$('article', addedNode)) {
-            if (this.autoRevealNsfw) revealNsfw(article)
+            if (this.options.autoRevealNsfw) revealNsfw(article)
             if (articleHasMedia(article)) makeHarvester(article)
           }
         }

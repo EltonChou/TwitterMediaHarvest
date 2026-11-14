@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+import type { Factory } from '#domain/factories/base'
 import { FeatureSettingsRepository } from '#infra/repositories/featureSettings'
 import { LocalExtensionStorageProxy } from '#infra/storageProxy'
 import { sendMessage } from '#libs/webExtMessage'
@@ -11,6 +12,7 @@ import {
   ResponseType,
 } from '#libs/webExtMessage/messages/captureResponse'
 import { RequestTransactionIdMessage } from '#libs/webExtMessage/messages/requestTransactionId'
+import type { FeatureSettings } from '#schema'
 import { isErrorResult } from '#utils/result'
 import {
   TweetDeckBetaKeyboardMonitor,
@@ -20,6 +22,7 @@ import './main.sass'
 import TweetDeckBetaObserver from './observers/TweetDeckBetaObserver'
 import TwitterMediaObserver from './observers/TwitterMediaObserver'
 import XMediaObserver from './observers/XMediaObserver'
+import type { IHarvestObserver, ObserverOptions } from './observers/types'
 import { isBetaTweetDeck, isTwitter, isX } from './utils/checker'
 import { runtime } from 'webextension-polyfill'
 
@@ -40,11 +43,11 @@ export const featureSettingsRepo = new FeatureSettingsRepository(
   new LocalExtensionStorageProxy()
 )
 
-const useObserver = (revealNsfw: boolean) => {
-  if (isX()) return new XMediaObserver(revealNsfw)
-  if (isTwitter()) return new TwitterMediaObserver(revealNsfw)
-  if (isBetaTweetDeck()) return new TweetDeckBetaObserver(revealNsfw)
-  return new TwitterMediaObserver(revealNsfw)
+const useObserver = (observerOptions: ObserverOptions): IHarvestObserver => {
+  if (isX()) return new XMediaObserver(observerOptions)
+  if (isTwitter()) return new TwitterMediaObserver(observerOptions)
+  if (isBetaTweetDeck()) return new TweetDeckBetaObserver(observerOptions)
+  return new TwitterMediaObserver(observerOptions)
 }
 
 const useKeboardMonitor = () => {
@@ -65,34 +68,35 @@ const monitorKeyboardByFlag = (() => {
   }
 })()
 
-featureSettingsRepo
-  .get()
-  .then(feature => {
-    monitorKeyboardByFlag(feature.keyboardShortcut)
-    return feature
-  })
-  .then(feature => {
-    const observer = useObserver(feature.autoRevealNsfw)
-    if (!observer) return
+const featureToObserverOptions: Factory<FeatureSettings, ObserverOptions> = ({
+  autoRevealNsfw,
+}) => ({
+  autoRevealNsfw: autoRevealNsfw,
+})
 
-    window.addEventListener(
-      'focus',
-      (() => {
-        let hasFocused = false
-        return () => {
-          monitorKeyboardByFlag(feature.keyboardShortcut)
-          observer.initialize()
-          if (!hasFocused) {
-            observer.observeRoot()
-            hasFocused = true
-          }
+featureSettingsRepo.get().then(feature => {
+  monitorKeyboardByFlag(feature.keyboardShortcut)
+  const observer = useObserver(featureToObserverOptions(feature))
+  if (!observer) return
+
+  window.addEventListener(
+    'focus',
+    (() => {
+      let hasFocused = false
+      return () => {
+        monitorKeyboardByFlag(feature.keyboardShortcut)
+        observer.initialize()
+        if (!hasFocused) {
+          observer.observe()
+          hasFocused = true
         }
-      })()
-    )
+      }
+    })()
+  )
 
-    observer.observeRoot()
-    return feature
-  })
+  observer.observe()
+  return feature
+})
 
 type ResponseTypeCriteria = {
   type: ResponseType

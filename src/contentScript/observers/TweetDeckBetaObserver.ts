@@ -8,6 +8,7 @@ import { articleHasMedia } from '../utils/article'
 import { isInTweetStatus } from '../utils/checker'
 import { revealNsfw } from '../utils/helper'
 import observeElement from './observer'
+import type { IHarvestObserver, ObserverOptions } from './types'
 import { $, $$, elementExists } from 'select-dom'
 
 const _isColumnLoaded = () =>
@@ -16,7 +17,7 @@ const _isColumnLoaded = () =>
   )
 
 export default class TweetDeckBetaObserver implements IHarvestObserver {
-  constructor(public autoRevealNsfw: boolean) {}
+  constructor(readonly options: ObserverOptions = { autoRevealNsfw: false }) {}
 
   initialize() {
     const modalQuery = '[aria-labelledby="modal-header"]'
@@ -30,9 +31,13 @@ export default class TweetDeckBetaObserver implements IHarvestObserver {
     }
 
     $$('article').forEach(article => {
-      if (this.autoRevealNsfw) revealNsfw(article)
+      if (this.options.autoRevealNsfw) revealNsfw(article)
       if (articleHasMedia(article)) makeHarvester(article)
     })
+  }
+
+  observe(): void {
+    this.observeRoot()
   }
 
   observeModal() {
@@ -73,7 +78,7 @@ export default class TweetDeckBetaObserver implements IHarvestObserver {
 
           const article = $('article', node)
           if (!article) return
-          if (this.autoRevealNsfw) revealNsfw(article)
+          if (this.options.autoRevealNsfw) revealNsfw(article)
           if (articleHasMedia(article)) makeHarvester(article)
         })
       })

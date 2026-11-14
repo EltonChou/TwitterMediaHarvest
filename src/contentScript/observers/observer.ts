@@ -32,14 +32,15 @@ export const observeElement = (
   options: MutationObserverInit = { childList: true }
 ): MutationObserver | undefined => {
   const observedElement = element instanceof HTMLElement ? element : $(element)
-  if (__DEV__ && !observedElement) {
+  if (__DEV__ && !observedElement)
+    /* eslint-disable-next-line no-console */
     console.warn(`[MH:ContentScript] Failed to observe "${observeId}".`)
-  }
 
   if (observedElement && !isElementObserved(observedElement)) {
     const observer = new MutationObserver(observerCallback)
     observer.observe(observedElement, options)
     setObserverId(observeId)(observedElement)
+    /* eslint-disable-next-line no-console */
     if (__DEV__) console.info(`[MH:ContentScript] Observe (id: ${observeId})`)
     return observer
   }

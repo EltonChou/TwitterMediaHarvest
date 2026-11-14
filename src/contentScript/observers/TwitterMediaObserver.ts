@@ -12,6 +12,7 @@ import {
 } from '../utils/checker'
 import { revealNsfw } from '../utils/helper'
 import observeElement from './observer'
+import type { IHarvestObserver, ObserverOptions } from './types'
 import { $, $$ } from 'select-dom'
 
 const enum Query {
@@ -25,13 +26,17 @@ const enum Query {
 }
 
 export default class TwitterMediaObserver implements IHarvestObserver {
-  constructor(readonly autoRevealNsfw = false) {}
+  constructor(readonly options: ObserverOptions = { autoRevealNsfw: false }) {}
 
   observeAll() {
     this.observeHead()
     this.observeModal()
     this.observeStream()
     this.observeHead()
+  }
+
+  observe() {
+    this.observeRoot()
   }
 
   observeRoot() {
@@ -66,12 +71,12 @@ export default class TwitterMediaObserver implements IHarvestObserver {
 
     const articles = $$('article')
     for (const article of articles) {
-      if (this.autoRevealNsfw) revealNsfw(article)
+      if (this.options.autoRevealNsfw) revealNsfw(article)
       if (articleHasMedia(article)) makeHarvester(article)
     }
 
     const mediaBlocks = $$(Query.MediaBlock)
-    mediaBlocks.forEach(b => this.autoRevealNsfw && revealNsfw(b))
+    mediaBlocks.forEach(b => this.options.autoRevealNsfw && revealNsfw(b))
   }
 
   observeStream() {
@@ -82,12 +87,12 @@ export default class TwitterMediaObserver implements IHarvestObserver {
 
           const mediaBlocks = $$('li', addedNode)
           mediaBlocks.forEach(
-            mediaBlock => this.autoRevealNsfw && revealNsfw(mediaBlock)
+            mediaBlock => this.options.autoRevealNsfw && revealNsfw(mediaBlock)
           )
 
           const article = $('article', addedNode)
           if (!article) return
-          if (this.autoRevealNsfw) revealNsfw(article)
+          if (this.options.autoRevealNsfw) revealNsfw(article)
           if (articleHasMedia(article)) makeHarvester(article)
         }
       }
