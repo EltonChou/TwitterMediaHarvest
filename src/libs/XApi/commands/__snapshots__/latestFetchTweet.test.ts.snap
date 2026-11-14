@@ -52,6 +52,7 @@ exports[`unit test for latest fetch tweet command should return a successful res
   "tweetResult": {
     "error": undefined,
     "value": {
+      "content": "https://t.co/LrQm7VZIXJ",
       "createdAt": 2025-03-15T23:48:27.000Z,
       "hashtags": [],
       "id": "1901057939403608167",
@@ -85,6 +86,7 @@ exports[`unit test for latest fetch tweet command should return a successful res
   "tweetResult": {
     "error": undefined,
     "value": {
+      "content": "#今月描いた絵を晒そう https://t.co/5rstqoztlf",
       "createdAt": 2024-08-31T10:56:18.000Z,
       "hashtags": [
         "今月描いた絵を晒そう",
@@ -139,6 +141,7 @@ exports[`unit test for latest fetch tweet command should return a successful res
   "tweetResult": {
     "error": undefined,
     "value": {
+      "content": "dance! 🦊 https://t.co/c3R5pqrBy5",
       "createdAt": 2025-03-15T12:05:37.000Z,
       "hashtags": [],
       "id": "1900881067713982967",

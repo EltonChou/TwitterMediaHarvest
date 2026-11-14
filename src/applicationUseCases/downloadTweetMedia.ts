@@ -38,7 +38,6 @@ import type { FilenameSetting } from '#domain/valueObjects/filenameSetting'
 import { Tweet } from '#domain/valueObjects/tweet'
 import type { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import type { TweetMediaFile } from '#domain/valueObjects/tweetMediaFile'
-import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
 import { setDuration } from '#helpers/time'
 import type { DownloadSettings, FeatureSettings } from '#schema'
 import { isErrorResult, isSuccessResult } from '#utils/result'
@@ -59,7 +58,7 @@ export type InfraProvider = {
   filenameSettingRepo: ISettingsVORepository<FilenameSetting>
   downloadSettingsRepo: ISettingsRepository<DownloadSettings>
   featureSettingsRepo: ISettingsRepository<FeatureSettings>
-  tweetCacheRepo: ICache<TweetWithContent> | ICache<Tweet>
+  tweetCacheRepo: ICache<Tweet>
   downloaderBuilder: DownloaderBuilderMap
   eventPublisher: DomainEventPublisher
   solutionProvider: () => FetchTweetSolution
@@ -127,10 +126,7 @@ export class DownloadTweetMedia implements AsyncUseCase<
       // eslint-disable-next-line no-console
       console.debug(`Get tweet from injection cache (id: ${tweet.id})`)
 
-    const tweetVo =
-      tweet instanceof Tweet ? tweet : tweet.mapBy(props => props.tweet)
-
-    return this.processDownload(tweetInfo, tweetVo)
+    return this.processDownload(tweetInfo, tweet)
   }
 
   private async processDownload(tweetInfo: TweetInfo, tweet: Tweet) {

@@ -9,7 +9,6 @@ import type { PropsOf } from '#domain/valueObjects/base'
 import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetMedia } from '#domain/valueObjects/tweetMedia'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
-import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import Joi from 'joi'
 
@@ -28,7 +27,6 @@ const userPropsSchema: Joi.ObjectSchema<PropsOf<TweetUser>> = Joi.object({
 })
 
 type TweetSchema = Omit<PropsOf<Tweet>, 'user' | 'images' | 'videos'> & {
-  content: string
   user: PropsOf<TweetUser>
   images: PropsOf<TweetMedia>[]
   videos: PropsOf<TweetMedia>[]
@@ -36,6 +34,7 @@ type TweetSchema = Omit<PropsOf<Tweet>, 'user' | 'images' | 'videos'> & {
 
 const tweetPropsSchema: Joi.ObjectSchema<TweetSchema> = Joi.object({
   createdAt: Joi.date().required(),
+  content: Joi.string().allow('').required(),
   hashtags: Joi.array().items(Joi.string()).required(),
   id: Joi.string().required(),
   images: Joi.array().items(mediaPropsSchema).required(),
@@ -43,20 +42,15 @@ const tweetPropsSchema: Joi.ObjectSchema<TweetSchema> = Joi.object({
   user: userPropsSchema.required(),
 })
 
-const responseSchema: Joi.ObjectSchema<{
-  tweet: TweetSchema
-  content: string
-}> = Joi.object({
-  tweet: tweetPropsSchema.required(),
-  content: Joi.string().required(),
-})
+// ponytail: entries saved before content moved into Tweet are
+// `{ tweet, content }`. Remove once those have expired (CACHE_TIME).
+const flattenLegacy = (data: Record<string, unknown>) =>
+  'tweet' in data ? { ...(data.tweet as object), content: data.content } : data
 
 const CACHE_TIME = 86400 as const // 24 hours
 const CACHE_NAME = 'tweet-response' as const
 
-export class TweetResponseCache
-  implements ITweetCache, IExpirableCache<TweetWithContent>
-{
+export class TweetResponseCache implements ITweetCache, IExpirableCache<Tweet> {
   private cache?: Cache
   constructor() {}
 
@@ -67,7 +61,7 @@ export class TweetResponseCache
   /**
    * @param cacheId tweet id
    */
-  async get(cacheId: string): AsyncResult<TweetWithContent | undefined, Error> {
+  async get(cacheId: string): AsyncResult<Tweet | undefined, Error> {
     try {
       const cache = await this.getCache()
       const response = await cache.match(makeRequest(cacheId))
@@ -75,22 +69,15 @@ export class TweetResponseCache
 
       const data = await response.json()
 
-      const { value, error } = responseSchema.validate(data)
+      const { value, error } = tweetPropsSchema.validate(flattenLegacy(data))
       if (error) return toErrorResult(error)
 
-      const user = TweetUser.create({ ...value.tweet.user })
-
-      const tweet = Tweet.create({
-        ...value.tweet,
-        videos: value.tweet.videos.map(TweetMedia.create),
-        images: value.tweet.images.map(TweetMedia.create),
-        user: user,
-      })
-
       return toSuccessResult(
-        TweetWithContent.create({
-          tweet,
-          content: value.content,
+        Tweet.create({
+          ...value,
+          videos: value.videos.map(TweetMedia.create),
+          images: value.images.map(TweetMedia.create),
+          user: TweetUser.create({ ...value.user }),
         })
       )
     } catch (error) {
@@ -98,7 +85,7 @@ export class TweetResponseCache
     }
   }
 
-  async save(item: TweetWithContent): Promise<UnsafeTask> {
+  async save(item: Tweet): Promise<UnsafeTask> {
     try {
       const cache = await this.getCache()
 
@@ -129,7 +116,7 @@ export class TweetResponseCache
     }
   }
 
-  async saveAll(...items: TweetWithContent[]): Promise<UnsafeTask> {
+  async saveAll(...items: Tweet[]): Promise<UnsafeTask> {
     if (items.length === 0) return
     const errors = await Promise.all(items.map(item => this.save(item)))
     if (errors.some(error => error))

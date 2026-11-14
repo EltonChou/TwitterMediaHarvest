@@ -1,19 +1,17 @@
 import type { ICache } from '#domain/repositories/cache'
-import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
+import type { Tweet } from '#domain/valueObjects/tweet'
 import { toErrorResult } from '#utils/result'
 
-export class MockTweetResponseCache implements ICache<TweetWithContent> {
-  async get(
-    _cacheId: string
-  ): AsyncResult<TweetWithContent | undefined, Error> {
+export class MockTweetResponseCache implements ICache<Tweet> {
+  async get(_cacheId: string): AsyncResult<Tweet | undefined, Error> {
     return toErrorResult(new Error('Method not implemented.'))
   }
 
-  async save(_item: TweetWithContent): Promise<UnsafeTask> {
+  async save(_item: Tweet): Promise<UnsafeTask> {
     return new Error('Method not implemented.')
   }
 
-  async saveAll(..._items: TweetWithContent[]): Promise<UnsafeTask> {
+  async saveAll(..._items: Tweet[]): Promise<UnsafeTask> {
     return new Error('Method not implemented.')
   }
 

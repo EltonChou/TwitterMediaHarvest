@@ -5,7 +5,7 @@
  */
 import type { ICache } from '#domain/repositories/cache'
 import type { AsyncUseCase } from '#domain/useCases/base'
-import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
+import type { Tweet } from '#domain/valueObjects/tweet'
 import { isMediaTweet } from '#libs/XApi/parsers/v1/refinements'
 import {
   eagerParseTweet,
@@ -31,7 +31,7 @@ export interface CaptureResponseAndCacheCommand {
 }
 
 export interface InfraProvider {
-  tweetResponseCache: ICache<TweetWithContent>
+  tweetResponseCache: ICache<Tweet>
 }
 
 export class CaptureResponseAndCache implements AsyncUseCase<
@@ -40,7 +40,7 @@ export class CaptureResponseAndCache implements AsyncUseCase<
 > {
   constructor(readonly infra: InfraProvider) {}
 
-  protected cacheTweets(tweet: TweetWithContent | TweetWithContent[]) {
+  protected cacheTweets(tweet: Tweet | Tweet[]) {
     const isMultiple = Array.isArray(tweet)
 
     if (__DEV__)

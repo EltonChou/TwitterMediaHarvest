@@ -52,6 +52,7 @@ exports[`unit test for latest fetch tweet command should return a successful res
   "tweetResult": {
     "error": undefined,
     "value": {
+      "content": "https://t.co/kGncG7Hs3M",
       "createdAt": 2022-11-02T19:47:39.000Z,
       "hashtags": [],
       "id": "1587894226695884800",

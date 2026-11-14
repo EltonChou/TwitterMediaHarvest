@@ -12,6 +12,7 @@ export type TweetProps = {
   id: string
   createdAt: Date
   hashtags: string[]
+  content: string
 
   user: TweetUser
   images: TweetMedia[]
@@ -28,6 +29,10 @@ export class Tweet extends ValueObject<TweetProps> {
    */
   get isPrivate(): boolean {
     return this.user.isProtected
+  }
+
+  get content(): string {
+    return this.props.content
   }
 
   get user(): TweetUser {

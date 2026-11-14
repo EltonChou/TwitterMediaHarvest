@@ -97,7 +97,7 @@ describe('unit test for new-format tweet parser', () => {
     )
     expect(tweet).toBeDefined()
 
-    const { tweet: parsed, content } = parseTweet(tweet!)
+    const parsed = parseTweet(tweet!)
 
     expect(parsed.id).toBe('2118356235661766739')
     expect(parsed.mapBy(props => props.createdAt)).toEqual(
@@ -117,7 +117,7 @@ describe('unit test for new-format tweet parser', () => {
     })
     expect(parsed.images).toHaveLength(5)
     expect(parsed.videos).toHaveLength(1)
-    expect(content.startsWith('#LoveMeToHurtMe')).toBe(true)
+    expect(parsed.content.startsWith('#LoveMeToHurtMe')).toBe(true)
   })
 
   it('should unwrap a tweet with visibility results', () => {

@@ -11,6 +11,7 @@ describe('unit test for tweet to tweet media files factory', () => {
   it('can make tweet medias from tweet', () => {
     const tweetUser = generateTweetUser()
     const tweet = new Tweet({
+      content: '',
       id: '1145141919810',
       user: tweetUser,
       createdAt: new Date(2222, 2, 2),
@@ -94,6 +95,7 @@ describe('unit test for tweet to tweet media files factory', () => {
   it('skips unavailable media but preserves serial numbers', () => {
     const tweetUser = generateTweetUser()
     const tweet = new Tweet({
+      content: '',
       id: '1145141919810',
       user: tweetUser,
       createdAt: new Date(2222, 2, 2),

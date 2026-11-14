@@ -61,7 +61,7 @@ export abstract class FetchTweetCommand
     }
 
     if (isRestIdTweetBody(body) && isTweetResult(body.data.tweetResult)) {
-      return toSuccessResult(parseTweet(body.data.tweetResult.result).tweet)
+      return toSuccessResult(parseTweet(body.data.tweetResult.result))
     }
 
     if (isTweetDetailBody(body)) {
@@ -86,7 +86,7 @@ export abstract class FetchTweetCommand
           )
         )
 
-      return toSuccessResult(parseTweet(targetTweet).tweet)
+      return toSuccessResult(parseTweet(targetTweet))
     }
 
     return toErrorResult(new ParseTweetError('Invalid body'))

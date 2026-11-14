@@ -11,7 +11,6 @@ import { AggregationToken } from '#domain/valueObjects/filenameSetting'
 import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetInfo } from '#domain/valueObjects/tweetInfo'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
-import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
 import PatternToken from '#enums/patternToken'
 import { MockTweetResponseCache } from '#mocks/caches/tweetResponseCache'
 import { MockEventPublisher } from '#mocks/eventPublisher'
@@ -61,6 +60,7 @@ describe('DownloadTweetMedia', () => {
   })
 
   const mockTweet = new Tweet({
+    content: '',
     id: '123',
     createdAt: new Date(),
     hashtags: ['test'],
@@ -265,11 +265,7 @@ describe('DownloadTweetMedia', () => {
 
       const mockCacheGet = jest
         .spyOn(mockTweetResponseCache, 'get')
-        .mockResolvedValueOnce(
-          toSuccessResult(
-            new TweetWithContent({ tweet: generateTweet(), content: '' })
-          )
-        )
+        .mockResolvedValueOnce(toSuccessResult(generateTweet()))
 
       const mockSolutionProcess = jest.spyOn(
         mockNativeFetchTweetSolution,

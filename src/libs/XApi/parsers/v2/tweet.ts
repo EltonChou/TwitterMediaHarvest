@@ -5,7 +5,6 @@
  */
 import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
-import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
 import {
   isSuccessResult,
   reduceToSuccesses,
@@ -23,27 +22,25 @@ import {
   isTweetWithVisibilityResults,
 } from './refinements'
 
-export const parseTweet = (tweet: XApi.V2.Tweet): TweetWithContent => {
+export const parseTweet = (tweet: XApi.V2.Tweet): Tweet => {
   const media = parseMedias(tweet.media_entities2 ?? [])
   const user = tweet.core.user_results.result
 
-  return new TweetWithContent({
-    tweet: new Tweet({
-      id: tweet.rest_id,
-      createdAt: new Date(tweet.details.created_at_ms),
-      images: media.images,
-      videos: media.videos,
-      user: new TweetUser({
-        displayName: user.core.name,
-        screenName: user.core.screen_name,
-        isProtected: user.privacy.protected,
-        userId: user.rest_id,
-      }),
-      hashtags: (tweet.details.hashtag_entities ?? []).map(
-        hashtag => hashtag.text
-      ),
-    }),
+  return new Tweet({
+    id: tweet.rest_id,
+    createdAt: new Date(tweet.details.created_at_ms),
     content: tweet.details.full_text,
+    images: media.images,
+    videos: media.videos,
+    user: new TweetUser({
+      displayName: user.core.name,
+      screenName: user.core.screen_name,
+      isProtected: user.privacy.protected,
+      userId: user.rest_id,
+    }),
+    hashtags: (tweet.details.hashtag_entities ?? []).map(
+      hashtag => hashtag.text
+    ),
   })
 }
 

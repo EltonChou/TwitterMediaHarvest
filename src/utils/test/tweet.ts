@@ -14,6 +14,7 @@ export const generateTweet = (withMedia: boolean = true) =>
     hashtags: faker.helpers.multiple(() => faker.word.noun()),
     createdAt: new Date(),
     id: faker.string.numeric(),
+    content: faker.lorem.sentence(),
     videos: withMedia
       ? faker.helpers.multiple(() => generateImageTweetMedia(0), {
           count: { max: 4, min: 0 },

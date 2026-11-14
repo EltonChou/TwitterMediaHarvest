@@ -5,7 +5,6 @@
  */
 import { Tweet } from '#domain/valueObjects/tweet'
 import { TweetUser } from '#domain/valueObjects/tweetUser'
-import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
 import {
   isSuccessResult,
   reduceToSuccesses,
@@ -30,9 +29,7 @@ import {
 
 type TweetLikes = Array<XApi.Tweet | XApi.TweetLike>
 
-export const parseTweet = (
-  tweetResult: XApi.TweetLike | XApi.Tweet
-): TweetWithContent => {
+export const parseTweet = (tweetResult: XApi.TweetLike | XApi.Tweet): Tweet => {
   const media = isMediaTweet(tweetResult)
     ? parseMedias(tweetResult.legacy.extended_entities.media)
     : makeEmptyMediaCollection()
@@ -55,8 +52,9 @@ export const parseTweet = (
         }),
   })
 
-  const tweet = new Tweet({
+  return new Tweet({
     createdAt: new Date(tweetResult.legacy.created_at),
+    content: tweetResult.legacy.full_text,
     id: tweetResult.legacy.id_str,
     videos: media.videos,
     images: media.images,
@@ -64,11 +62,6 @@ export const parseTweet = (
     hashtags: (tweetResult.legacy.entities?.hashtags ?? []).map(
       hashtag => hashtag.text
     ),
-  })
-
-  return new TweetWithContent({
-    tweet,
-    content: tweetResult.legacy.full_text,
   })
 }
 
@@ -83,30 +76,26 @@ export const parseDeviceFollowUser = (user: XApi.DeviceFollowUser): TweetUser =>
 export const parseLegacyTweet = (
   legacy: XApi.MediaTweetLegacy,
   user: TweetUser
-): TweetWithContent => {
+): Tweet => {
   const media = parseMedias(legacy.extended_entities.media)
 
-  const tweet = new Tweet({
+  return new Tweet({
     createdAt: new Date(legacy.created_at),
+    content: legacy.full_text,
     id: legacy.id_str,
     videos: media.videos,
     images: media.images,
     user: user,
     hashtags: (legacy.entities?.hashtags ?? []).map(hashtag => hashtag.text),
   })
-
-  return new TweetWithContent({
-    tweet,
-    content: legacy.full_text,
-  })
 }
 
 export const retrieveTweetsFromDeviceFollow = (
   body: XApi.NotificationDeviceFollowBody
-): TweetWithContent[] => {
+): Tweet[] => {
   const { tweets, users } = body.globalObjects
 
-  return Object.values(tweets).reduce<TweetWithContent[]>((acc, legacy) => {
+  return Object.values(tweets).reduce<Tweet[]>((acc, legacy) => {
     if (!isMediaTweetLegacy(legacy)) return acc
 
     const user = users[legacy.user_id_str]
@@ -117,9 +106,7 @@ export const retrieveTweetsFromDeviceFollow = (
   }, [])
 }
 
-export const eagerParseTweet = (
-  tweetResult: XApi.TweetLike
-): TweetWithContent[] => {
+export const eagerParseTweet = (tweetResult: XApi.TweetLike): Tweet[] => {
   const tweets = [parseTweet(tweetResult)]
 
   if (isRetweet(tweetResult)) {

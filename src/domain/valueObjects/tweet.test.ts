@@ -3,6 +3,20 @@ import { Tweet } from './tweet'
 import { TweetMedia } from './tweetMedia'
 
 describe('Tweet value object', () => {
+  it('content returns tweet text', () => {
+    const tweet = new Tweet({
+      id: '1',
+      createdAt: new Date(),
+      hashtags: [],
+      content: 'hello',
+      user: generateTweetUser(),
+      images: [],
+      videos: [],
+    })
+
+    expect(tweet.content).toBe('hello')
+  })
+
   it('medias returns all images and videos', () => {
     const user = generateTweetUser()
     const images = [
@@ -23,6 +37,7 @@ describe('Tweet value object', () => {
     ]
 
     const tweet = new Tweet({
+      content: '',
       id: '1234',
       createdAt: new Date(),
       hashtags: [],
@@ -68,6 +83,7 @@ describe('Tweet value object', () => {
     ]
 
     const tweet = new Tweet({
+      content: '',
       id: '1234',
       createdAt: new Date(),
       hashtags: [],
@@ -101,6 +117,7 @@ describe('Tweet value object', () => {
     ]
 
     const tweet = new Tweet({
+      content: '',
       id: '1234',
       createdAt: new Date(),
       hashtags: [],

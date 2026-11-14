@@ -1,4 +1,4 @@
-import { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
+import { Tweet } from '#domain/valueObjects/tweet'
 import { isMediaTweetLegacy } from './refinements'
 import {
   retrieveTweetsFromDeviceFollow,
@@ -40,11 +40,11 @@ describe('unit test for device-follow (globalObjects) parser', () => {
     'NotificationDeviceFollow'
   ) as XApi.NotificationDeviceFollowBody
 
-  it('should parse media tweets into TweetWithContent', () => {
+  it('should parse media tweets into Tweet', () => {
     const tweets = retrieveTweetsFromDeviceFollow(body)
 
     expect(tweets).toHaveLength(21)
-    expect(tweets.every(tweet => tweet instanceof TweetWithContent)).toBe(true)
+    expect(tweets.every(tweet => tweet instanceof Tweet)).toBe(true)
   })
 
   it('should resolve author from the users map and keep full_text', () => {
@@ -52,16 +52,14 @@ describe('unit test for device-follow (globalObjects) parser', () => {
 
     expect(tweets.every(tweet => tweet.content.length > 0)).toBe(true)
     expect(
-      tweets.every(
-        tweet => tweet.tweet.user.mapBy(p => p.screenName).length > 0
-      )
+      tweets.every(tweet => tweet.user.mapBy(p => p.screenName).length > 0)
     ).toBe(true)
   })
 
   it('should parse video media from a media tweet', () => {
     const tweets = retrieveTweetsFromDeviceFollow(body)
 
-    expect(tweets.some(tweet => tweet.tweet.videos.length > 0)).toBe(true)
+    expect(tweets.some(tweet => tweet.videos.length > 0)).toBe(true)
   })
 
   it.each([

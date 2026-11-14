@@ -3,7 +3,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import type { TweetWithContent } from '#domain/valueObjects/tweetWithContent'
+import type { Tweet } from '#domain/valueObjects/tweet'
+import { generateTweet } from '#utils/test/tweet'
 import { TweetResponseCache } from './tweetResponseCache'
 
 const CACHE_TIME = 86400 // 24 hours, in seconds
@@ -43,7 +44,7 @@ const makeResponseWithDate = (date: string): Response =>
   new Response('{}', { headers: { Date: date } })
 
 describe('TweetResponseCache.save', () => {
-  const item = { id: '1' } as TweetWithContent
+  const item = { id: '1' } as Tweet
   const putError = new Error('Entry already exists.')
 
   it('retries a failed write once with a fresh response', async () => {
@@ -99,6 +100,36 @@ describe('TweetResponseCache.save', () => {
     await expect(cache.save(item)).resolves.toBeUndefined()
 
     expect(await fakeCache.match(request)).not.toBe(stale)
+  })
+})
+
+describe('TweetResponseCache.get', () => {
+  const request = new Request('http://mediaharvest.local/tweets/1')
+  const tweet = generateTweet()
+  const { content, ...tweetProps } = tweet.mapBy(props => props)
+
+  it('reads a tweet saved in the current shape', async () => {
+    const fakeCache = new FakeCache()
+    const cache = new TestableTweetResponseCache(fakeCache)
+    await fakeCache.put(request, new Response(JSON.stringify(tweet)))
+
+    const { value } = await cache.get('1')
+
+    expect(value).toMatchObject(tweet)
+  })
+
+  // Remove once legacy `{ tweet, content }` entries have expired.
+  it('reads a tweet saved in the legacy shape', async () => {
+    const fakeCache = new FakeCache()
+    const cache = new TestableTweetResponseCache(fakeCache)
+    await fakeCache.put(
+      request,
+      new Response(JSON.stringify({ tweet: tweetProps, content }))
+    )
+
+    const { value } = await cache.get('1')
+
+    expect(value).toMatchObject(tweet)
   })
 })
 
