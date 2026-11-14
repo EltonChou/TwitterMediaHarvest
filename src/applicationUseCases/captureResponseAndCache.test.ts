@@ -537,6 +537,43 @@ describe('CaptureResponseAndCache', () => {
     expect(mockSaveAll.mock.calls[0].length).toBeGreaterThan(0)
   })
 
+  it.each([
+    ResponseType.UserOriginalsTimeline,
+    ResponseType.UserRepliesTimeline,
+    ResponseType.UserRepostsTimeline,
+    ResponseType.UserVideoTimeline,
+  ])('should cache media tweets from legacy-format %s response', async type => {
+    const { instructions } = JSON.parse(
+      fs
+        .readFileSync(
+          path.resolve(
+            __dirname,
+            '../libs/XApi/parsers/v1/test-data/UserMedia.json'
+          )
+        )
+        .toString()
+    )
+    mockSaveAll.mockResolvedValue(undefined)
+
+    const error = await useCase.process({
+      type,
+      body: JSON.stringify({
+        data: {
+          user: {
+            result: {
+              __typename: 'User',
+              timeline: { timeline: { instructions } },
+            },
+          },
+        },
+      }),
+    })
+
+    expect(error).toBeUndefined()
+    expect(mockSaveAll).toHaveBeenCalledTimes(1)
+    expect(mockSaveAll.mock.calls[0].length).toBeGreaterThan(0)
+  })
+
   it('should handle notification device-follow response', async () => {
     const validResponse = {
       globalObjects: {

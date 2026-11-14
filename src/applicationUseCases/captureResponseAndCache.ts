@@ -246,6 +246,16 @@ export class CaptureResponseAndCache implements AsyncUseCase<
           error = await this.processHomeTimelineResponse(body)
         break
 
+      // X may serve these profile endpoints in the legacy `data.user` shape.
+      case ResponseType.UserOriginalsTimeline:
+      case ResponseType.UserRepliesTimeline:
+      case ResponseType.UserRepostsTimeline:
+      case ResponseType.UserVideoTimeline:
+        error = await this.processV2TimelineResponse(body, v2Timelines[type]!)
+        if (error instanceof Joi.ValidationError)
+          error = await this.processUserTimelineResponse(body)
+        break
+
       case ResponseType.CommunitiesExploreTimeline:
         error = await this.processCommunitiesExploreTimelineResponse(body)
         break
