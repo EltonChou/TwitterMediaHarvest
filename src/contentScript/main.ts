@@ -230,7 +230,7 @@ runtime.onMessage.addListener((message, _sender, sendResponse) => {
  */
 function makePageScriptSharedObject<T>(
   object: T,
-  options?: { cloneFunctions?: boolean; wrapReflectors?: boolean }
+  options?: Parameters<typeof cloneInto<T>>[2]
 ): T {
   if (__FIREFOX__) {
     return cloneInto(object, window, options)
