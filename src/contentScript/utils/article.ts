@@ -235,7 +235,7 @@ const getLinksFromPhotoMode = (article: HTMLElement): HTMLElement[] =>
 
 const getLinksFromXArticle = (article: HTMLElement): HTMLElement[] => {
   if (isArticleInStatus(article))
-    return $$('a[aria-current="page"][href*="status"]', article)
+    return $$('a[aria-current="page"][href*="/status/"]', article)
 
   const parentLinks = article?.parentElement
     ? $$(':scope > a', article.parentElement)
