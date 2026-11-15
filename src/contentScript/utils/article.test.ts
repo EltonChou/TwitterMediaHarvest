@@ -419,3 +419,46 @@ describe('card detection in legacy frontend', () => {
     ).toBeTrue()
   })
 })
+
+describe('parseTweetInfo cache', () => {
+  const setArticle = (inner: string) => {
+    document.body.innerHTML = `<article>${inner}</article>`
+    return document.querySelector('article') as HTMLElement
+  }
+  const link = (href: string) =>
+    `<div data-testid="User-Name"><a href="${href}"></a></div>`
+
+  beforeEach(() => {
+    setIsX(false)
+    setPath('/alice')
+  })
+
+  it('returns the cached info on repeated calls', () => {
+    const article = setArticle(link('/alice/status/1'))
+    const first = parseTweetInfo(article)
+    const second = parseTweetInfo(article)
+
+    if (!E.isRight(first) || !E.isRight(second)) throw new Error('parse failed')
+    expect(second.right).toBe(first.right)
+  })
+
+  it('does not cache failures', () => {
+    const article = setArticle('')
+    expect(E.isLeft(parseTweetInfo(article))).toBeTrue()
+
+    article.innerHTML = link('/alice/status/1')
+    expect(E.isRight(parseTweetInfo(article))).toBeTrue()
+  })
+
+  it('re-parses after the page path changes', () => {
+    const article = setArticle(link('/alice/status/1'))
+    const first = parseTweetInfo(article)
+
+    article.innerHTML = link('/bob/status/2')
+    setPath('/bob')
+    const second = parseTweetInfo(article)
+
+    if (!E.isRight(first) || !E.isRight(second)) throw new Error('parse failed')
+    expect(second.right.tweetId).toBe('2')
+  })
+})

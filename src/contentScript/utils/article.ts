@@ -187,7 +187,7 @@ export const canArticleBeAppended = (article: HTMLElement) =>
     elementExists('.harvester', article)
   )
 
-export const parseTweetInfo = (article: HTMLElement) =>
+const parseTweetInfoUncached = (article: HTMLElement) =>
   pipe(
     E.Do,
     E.bind('links', () =>
@@ -222,6 +222,29 @@ export const parseTweetInfo = (article: HTMLElement) =>
         })
     )
   )
+
+/**
+ * Guards against burst invocations. Only successes are cached, since an
+ * article may be parsed before it is hydrated. The page path is part of the
+ * key because the result depends on the current page (status vs. stream).
+ */
+const tweetInfoCache = new WeakMap<
+  HTMLElement,
+  { path: string; info: TweetInfo }
+>()
+
+export const parseTweetInfo = (
+  article: HTMLElement
+): E.Either<string, TweetInfo> => {
+  const path = location.pathname
+  const hit = tweetInfoCache.get(article)
+  if (hit?.path === path) return E.right(hit.info)
+
+  const result = parseTweetInfoUncached(article)
+  if (E.isRight(result))
+    tweetInfoCache.set(article, { path, info: result.right })
+  return result
+}
 
 const featureRegEx = Object.freeze({
   id: /(?:status\/)(\d+)/,
