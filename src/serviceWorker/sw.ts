@@ -62,10 +62,11 @@ alarms.create(AlarmName.EvictTweetCache, {
 })
 alarms.onAlarm.addListener(async alarm => {
   if (alarm.name === AlarmName.EvictTweetCache) {
+    const timeInfo = 'Evict tweet cache'
     /* eslint-disable no-console */
-    if (__DEV__) console.time('Evict tweet cache')
+    if (__DEV__) console.time(timeInfo)
     await tweetResponseCache.evictExpired()
-    if (__DEV__) console.timeEnd('Evict tweet cache')
+    if (__DEV__) console.timeEnd(timeInfo)
     /* eslint-enable no-console */
   }
 })
