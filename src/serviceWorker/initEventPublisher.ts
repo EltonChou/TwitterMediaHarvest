@@ -38,7 +38,6 @@ import {
   downloadSettingsRepo,
   nativeFetchTweetSolution,
   solutionQuotaRepo,
-  tweetResponseCache,
   usageStatisticsRepo,
   warningSettingsRepo,
 } from '#provider'
@@ -71,13 +70,8 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
       showClientInfoInConsole(clientRepo),
       setUser,
       async () => await nativeFetchTweetSolution.clearCacheStorage(),
-      // !!Reset warning settings to show the filename overwritten notification for v4.5.0
       async () =>
         await warningSettingsRepo.save({ ignoreFilenameOverwritten: false }),
-      /**
-       * TODO: Remove this handler when cache eviction is confirmed to work.
-       */
-      async () => await tweetResponseCache.clean(),
     ])
     .register('download:status:dispatched:aria2', [
       increaseUsageStats,
