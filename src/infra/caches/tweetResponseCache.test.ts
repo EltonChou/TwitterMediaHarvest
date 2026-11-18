@@ -3,7 +3,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import type { Tweet } from '#domain/valueObjects/tweet'
+import { Tweet } from '#domain/valueObjects/tweet'
+import { TweetMedia } from '#domain/valueObjects/tweetMedia'
 import { generateTweet } from '#utils/test/tweet'
 import { TweetResponseCache } from './tweetResponseCache'
 
@@ -116,6 +117,27 @@ describe('TweetResponseCache.get', () => {
     const { value } = await cache.get('1')
 
     expect(value).toMatchObject(tweet)
+  })
+
+  it('keeps altText of media through save and get', async () => {
+    const fakeCache = new FakeCache()
+    const cache = new TestableTweetResponseCache(fakeCache)
+    const withAlt = Tweet.create({
+      ...tweet.mapBy(p => p),
+      images: [
+        TweetMedia.create({
+          type: 'photo',
+          index: 0,
+          url: 'https://foo.bar/a.png',
+          altText: 'alt',
+        }),
+      ],
+    })
+    await cache.save(withAlt)
+
+    const { value } = await cache.get(withAlt.id)
+
+    expect(value?.mapBy(p => p.images[0].mapBy(m => m.altText))).toBe('alt')
   })
 
   // Remove once legacy `{ tweet, content }` entries have expired.

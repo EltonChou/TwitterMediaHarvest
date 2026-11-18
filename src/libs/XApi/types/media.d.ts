@@ -26,6 +26,8 @@ declare namespace XApi {
   interface BaseMedia {
     type: string
     media_url_https: string
+    // Author-provided alt text; X sends null when absent
+    ext_alt_text?: string | null
     // Optional field indicating external media availability
     ext_media_availability?: {
       reason?: string

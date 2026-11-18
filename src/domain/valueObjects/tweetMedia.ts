@@ -10,6 +10,7 @@ export type TweetMediaProps = {
   index: number
   url: string
   available?: boolean
+  altText?: string
 }
 
 export class TweetMedia extends ValueObject<TweetMediaProps> {

@@ -1,5 +1,81 @@
 import { parseMedias } from './tweetMedia'
 
+describe('parseMedias alt text parsing', () => {
+  const gifVariants = [
+    { bitrate: 0, content_type: 'video/mp4', url: 'https://foo.bar/c.mp4' },
+  ] satisfies XApi.VideoVariant[]
+
+  it.each([
+    [
+      'photo with alt text',
+      {
+        type: 'photo',
+        media_url_https: 'https://foo.bar/a.png',
+        ext_alt_text: 'a photo',
+      },
+      ['a photo'],
+      [],
+    ],
+    [
+      'photo without alt text',
+      { type: 'photo', media_url_https: 'https://foo.bar/b.png' },
+      [undefined],
+      [],
+    ],
+    [
+      'photo with null alt text',
+      {
+        type: 'photo',
+        media_url_https: 'https://foo.bar/b.png',
+        ext_alt_text: null,
+      },
+      [undefined],
+      [],
+    ],
+    [
+      'photo with empty alt text',
+      {
+        type: 'photo',
+        media_url_https: 'https://foo.bar/b.png',
+        ext_alt_text: '',
+      },
+      [undefined],
+      [],
+    ],
+    [
+      'video without alt text',
+      {
+        type: 'video',
+        media_url_https: 'https://foo.bar/v.jpg',
+        video_info: { variants: gifVariants },
+      },
+      [undefined],
+      [undefined],
+    ],
+    [
+      'gif with alt text',
+      {
+        type: 'animated_gif',
+        media_url_https: 'https://foo.bar/c.jpg',
+        ext_alt_text: 'a gif',
+        video_info: { variants: gifVariants },
+      },
+      ['a gif'],
+      ['a gif'],
+    ],
+  ] satisfies [
+    string,
+    XApi.Media,
+    (string | undefined)[],
+    (string | undefined)[],
+  ][])('maps ext_alt_text to altText: %s', (_, media, imageAlts, videoAlts) => {
+    const result = parseMedias([media])
+
+    expect(result.images.map(m => m.mapBy(p => p.altText))).toEqual(imageAlts)
+    expect(result.videos.map(m => m.mapBy(p => p.altText))).toEqual(videoAlts)
+  })
+})
+
 describe('parseMedias availability parsing', () => {
   it('marks media unavailable when ext_media_availability.status === "Unavailable"', () => {
     const medias = [

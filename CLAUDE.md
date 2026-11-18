@@ -9,7 +9,12 @@ Architecture follows **Domain-Driven Design**: `domain/`, `applicationUseCases/`
 
 ## Guidelines
 
-- **TDD**: write tests before or alongside implementation
 - Keep domain logic free of infrastructure concerns
 - Follow existing naming and file structure conventions
 - Use `yarn` — not `npm` or `npx`
+
+### Testing
+
+- **TDD**: write tests before or alongside implementation
+- **Multiple test cases**: use `it.each` / `test.each` (one named row per case),
+  not an array of cases packed into a single test

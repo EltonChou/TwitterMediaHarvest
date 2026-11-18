@@ -32,6 +32,7 @@ export const parseMedias = (medias: XApi.Media[]): MediaCollection => {
         type: media.type === 'photo' ? 'photo' : 'thumbnail',
         url: media.media_url_https,
         available: imageAvailable,
+        ...altTextProp(media),
       })
     )
     increaseImageIdx()
@@ -51,6 +52,7 @@ export const parseMedias = (medias: XApi.Media[]): MediaCollection => {
             type: 'video',
             url: url,
             available: videoAvailable,
+            ...altTextProp(media),
           })
         )
         increaseVideoIndex()
@@ -60,6 +62,10 @@ export const parseMedias = (medias: XApi.Media[]): MediaCollection => {
     return mediaCollection
   }, makeEmptyMediaCollection())
 }
+
+// Spread only when present so props stay unchanged for media without alt text
+const altTextProp = (media: XApi.Media) =>
+  media.ext_alt_text ? { altText: media.ext_alt_text } : {}
 
 const parseBestVideoVariant = (media: XApi.VideoMedia): string | undefined =>
   media.video_info.variants
