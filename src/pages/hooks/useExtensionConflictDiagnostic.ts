@@ -1,11 +1,11 @@
 import { getText as i18n } from '#libs/i18n'
+import useExtPermissions from './useExtPermissions'
 import { metrics } from '@sentry/browser'
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
+import { useCallback, useReducer, useRef, useState } from 'react'
 import {
   Downloads,
   downloads,
   management,
-  permissions,
   runtime,
 } from 'webextension-polyfill'
 
@@ -89,6 +89,7 @@ export function useExtensionConflictDiagnostic(
   /**
    * !IMPORTANT: *DO NOT USE `downloads.onDetermingFilename`*
    */
+  const [grantPermissions, revokePermissions] = useExtPermissions('management')
   const [enabledExts, dispatch] = useReducer(reducer, {})
   const [status, setStatus] = useState<WorkflowStatus>(WorkflowStatus.INIT)
   const [message, setMessage] = useState<string>('')
@@ -178,13 +179,6 @@ export function useExtensionConflictDiagnostic(
     [enabledExts]
   )
 
-  useEffect(() => {
-    // Always remove unused permission on unmount.
-    return () => {
-      permissions.remove({ permissions: ['management'] })
-    }
-  }, [])
-
   /**
    * Grant management permission and start diagnostics.
    * If permission is denied, the process will abort.
@@ -210,8 +204,10 @@ export function useExtensionConflictDiagnostic(
       )
     )
 
+    using permissionStack = new DisposableStack()
+    permissionStack.defer(async () => await revokePermissions())
     // Once permission has been granted, browser will grant it implicitly in future without prompting.
-    const granted = await permissions.request({ permissions: ['management'] })
+    const granted = await grantPermissions()
     if (!granted) {
       setStatus(WorkflowStatus.ERROR)
       setMessage(
@@ -315,7 +311,12 @@ export function useExtensionConflictDiagnostic(
               'hook:useExtensionConflictDiagnostic'
             ))
     )
-  }, [excludeIds, triggerCheckDownloadByExtId])
+  }, [
+    excludeIds,
+    triggerCheckDownloadByExtId,
+    grantPermissions,
+    revokePermissions,
+  ])
 
   // Disable all conflicted extensions
   const disableConflicted = useCallback(async () => {
