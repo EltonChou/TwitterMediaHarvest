@@ -132,9 +132,8 @@ const useDownloadHistory = ({
   )
 
   useEffect(() => {
-    loadLatest({ itemPerPage, query }).then(() => {
-      setLoaded(true)
-    })
+    if (isLoaded) return
+    loadLatest({ itemPerPage, query }).then(() => setLoaded(true))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
