@@ -23,9 +23,8 @@ import type {
   DownloadHistoryHook,
   DownloadHistoryItem,
 } from '#pages/hooks/useDownloadHistory'
-import { isDownloadCompleted } from '#utils/downloadState'
+import useObjectURLRevoker from '#pages/hooks/useObjectURLRevoker'
 import { toErrorResult, toSuccessResult } from '#utils/result'
-import { isObjectUrl } from '#utils/url'
 import { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDownloadHistory'
 import {
   Box,
@@ -48,14 +47,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import React, {
-  ForwardedRef,
-  memo,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-} from 'react'
+import React, { ForwardedRef, memo, useImperativeHandle, useRef } from 'react'
 import {
   BiChevronLeft,
   BiChevronRight,
@@ -66,8 +58,6 @@ import {
   BiRefresh,
 } from 'react-icons/bi'
 import { FaFileExport, FaFileImport } from 'react-icons/fa'
-import { downloads } from 'webextension-polyfill'
-import type { Downloads } from 'webextension-polyfill'
 
 type ItemActionsProps = {
   tweetId: string
@@ -636,6 +626,8 @@ const HistoryTable = ({
   downloadRepo,
   checkDownloadIsOwnBySelf,
 }: HistoryTableProps) => {
+  useObjectURLRevoker(downloadRepo, checkDownloadIsOwnBySelf)
+
   const downloadHistory = useDownloadHistory({
     initItemPerPage: 20,
     searchDownloadHistoryUseCase: new SearchDownloadHistoryUseCase(
@@ -663,31 +655,6 @@ const HistoryTable = ({
     downloadHistory.handler.refresh({ cbs: [scrollTableToTop] })
     searchFormRef.current?.reset()
   }
-
-  const checkHistoryDownload: ListenerOf<Downloads.Static['onChanged']> =
-    useMemo(
-      () =>
-        async ({ id, state }) => {
-          if (!state) return
-          if (!isDownloadCompleted(state)) return
-          const downloadItem = await downloadRepo.getById(id)
-          if (!downloadItem) return
-          const isSelfItem = checkDownloadIsOwnBySelf.process({
-            item: downloadItem,
-            allowJSON: true,
-          })
-
-          if (!isSelfItem) return
-          if (isObjectUrl(downloadItem.url))
-            URL.revokeObjectURL(downloadItem.url)
-        },
-      [downloadRepo, checkDownloadIsOwnBySelf]
-    )
-
-  useEffect(() => {
-    downloads.onChanged.addListener(checkHistoryDownload)
-    return () => downloads.onChanged.removeListener(checkHistoryDownload)
-  }, [checkHistoryDownload])
 
   const exportHistory: PortableHistoryActionBarProps['export'] = async () => {
     const { value: fileUrl, error } = await downloadHistory.handler.export()
