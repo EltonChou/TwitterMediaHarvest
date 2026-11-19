@@ -4,14 +4,33 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import LockCriteria from './enums'
-import { LockContext } from './types'
+import type { WebLockHandle } from './types'
 
-export const runWithWebLock =
-  <T = unknown>(
-    criteria: LockCriteria,
-    options?: LockOptions
-  ): LockContext<T> =>
-  task =>
-    options
-      ? navigator.locks.request(criteria, options, task)
-      : navigator.locks.request(criteria, task)
+/**
+ * Acquire a web lock held until disposed.
+ * Use with `await using` or {@link AsyncDisposableStack#use}.
+ */
+export const acquireWebLock = async (
+  criteria: LockCriteria,
+  options: LockOptions = {}
+): Promise<WebLockHandle> => {
+  const acquired = Promise.withResolvers<Lock | null>()
+  const released = Promise.withResolvers<void>()
+
+  const settled = navigator.locks.request(criteria, options, lock => {
+    acquired.resolve(lock)
+    return released.promise
+  })
+  // Request can reject before the callback runs (e.g. aborted signal).
+  settled.catch(acquired.reject)
+
+  const lock = await acquired.promise
+
+  return {
+    lock,
+    [Symbol.asyncDispose]: async () => {
+      released.resolve()
+      await settled
+    },
+  }
+}

@@ -30,7 +30,7 @@ import { getNotifier } from '#infra/browserNotifier'
 import { getEventPublisher } from '#infra/eventPublisher'
 import { BrowserDownloadMediaFile } from '#infra/useCases/browserDownloadMediaFile'
 import LockCriteria from '#libs/locks/enums'
-import { runWithWebLock } from '#libs/locks/nativeWebLock'
+import { acquireWebLock } from '#libs/locks/nativeWebLock'
 import {
   clientRepo,
   downloadRecordRepo,
@@ -54,8 +54,11 @@ const initEventPublisher = (eventPublisher?: DomainEventPublisher) => {
     usageStatisticsRepo,
     downloadRepo
   )
-  const syncClientInfoWithLock = syncClient(
-    runWithWebLock(LockCriteria.ClientSync)
+  const syncClientInfoWithLock = syncClient(() =>
+    acquireWebLock(LockCriteria.ClientSync, {
+      ifAvailable: true,
+      mode: 'exclusive',
+    })
   )(clientRepo)
   const setUser = setMonitorUser(clientRepo)
 

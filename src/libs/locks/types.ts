@@ -8,6 +8,9 @@ export interface Lock {
   readonly name: string
 }
 
-export interface LockContext<TaskResult> {
-  (task: (lock: Lock | null) => Promise<TaskResult>): Promise<TaskResult>
+export interface WebLockHandle extends AsyncDisposable {
+  /** `null` when `ifAvailable` was set and the lock was held elsewhere. */
+  readonly lock: Lock | null
 }
+
+export type LockAcquirer = () => Promise<WebLockHandle>
