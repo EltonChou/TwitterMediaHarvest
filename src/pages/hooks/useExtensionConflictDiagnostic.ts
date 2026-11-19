@@ -1,3 +1,4 @@
+import ConflictAction from '#enums/ConflictAction'
 import { getText as i18n } from '#libs/i18n'
 import {
   isDownloadCompleted,
@@ -194,7 +195,7 @@ async function runTestDownload(): Promise<ExtensionStatus> {
         filename: CONFLICT_TEST_FILENAME,
         url: runtime.getURL(CONFLICT_TEST_DATA_PATH),
         // A leftover test file would otherwise get a uniquify counter (the default isn't documented).
-        conflictAction: 'overwrite',
+        conflictAction: ConflictAction.Overwrite,
         saveAs: false,
       })
       // The polyfill rejects (with `runtime.lastError`) when the download cannot start.
