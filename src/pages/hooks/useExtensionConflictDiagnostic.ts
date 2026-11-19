@@ -181,6 +181,8 @@ export const makeDownloadCheckingListener =
 /** Downloads the test file and resolves with how the currently enabled extensions treated it. */
 async function runTestDownload(): Promise<ExtensionStatus> {
   using stack = new DisposableStack()
+  // Keep `await`: `stack` is disposed when this function returns, and without it that happens
+  // right away, removing the listener before the download completes (the diagnostic hangs).
   return await new Promise<ExtensionStatus>((resolve, reject) => {
     const listener = makeDownloadCheckingListener({
       onCompatible: () => resolve(ExtensionStatus.COMPATIBLE),

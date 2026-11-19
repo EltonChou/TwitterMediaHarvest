@@ -18,9 +18,9 @@ import {
 
 describe('useExtensionConflictDiagnostic', () => {
   const setEnabled = jest.fn()
-  let notifyDownloadChanged: (
-    delta: Downloads.OnChangedDownloadDeltaType
-  ) => void
+  const changeListeners = new Set<
+    (delta: Downloads.OnChangedDownloadDeltaType) => void
+  >()
 
   /**
    * Fake browser: every extension in `renamers` renames each download while its listener is registered.
@@ -58,11 +58,14 @@ describe('useExtensionConflictDiagnostic', () => {
             filename,
           } as Downloads.DownloadItem,
         ])
+        // Only listeners still registered when the download completes hear about it.
         setTimeout(() =>
-          notifyDownloadChanged({
-            id: 1,
-            state: { previous: 'in_progress', current: 'complete' },
-          })
+          changeListeners.forEach(listener =>
+            listener({
+              id: 1,
+              state: { previous: 'in_progress', current: 'complete' },
+            })
+          )
         )
         return 1
       }
@@ -92,10 +95,8 @@ describe('useExtensionConflictDiagnostic', () => {
     })
     Object.assign(downloads, {
       onChanged: {
-        addListener: jest.fn(listener => {
-          notifyDownloadChanged = listener
-        }),
-        removeListener: jest.fn(),
+        addListener: jest.fn(listener => changeListeners.add(listener)),
+        removeListener: jest.fn(listener => changeListeners.delete(listener)),
       },
     })
   })
@@ -174,6 +175,16 @@ describe('useExtensionConflictDiagnostic', () => {
     await act(() => expect(result.current.diagnose()).rejects.toThrow('boom'))
 
     expect(result.current.status).toBe(WorkflowStatus.ERROR)
+  })
+
+  it('listens for download changes only while a test download runs', async () => {
+    fakeBrowser({ renamers: ['ext-b'], registersOnEnable: true })
+    const { result } = renderHook(() => useExtensionConflictDiagnostic())
+
+    await runDiagnose(result)
+
+    expect(result.current.status).toBe(WorkflowStatus.COMPLETED)
+    expect(changeListeners.size).toBe(0)
   })
 
   it('restores every extension before revoking the management permission', async () => {
