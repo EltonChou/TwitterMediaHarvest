@@ -1,13 +1,21 @@
 import { getText as i18n } from '#libs/i18n'
+import {
+  isDownloadCompleted,
+  isDownloadInterrupted,
+} from '#utils/downloadState'
 import useExtPermissions from './useExtPermissions'
 import { metrics } from '@sentry/browser'
 import { useCallback, useReducer, useRef, useState } from 'react'
 import {
-  Downloads,
+  type Downloads,
   downloads,
   management,
   runtime,
 } from 'webextension-polyfill'
+
+const CONFLICT_TEST_DATA_PATH = 'static/TEST.data'
+/** Downloaded with `conflictAction: 'overwrite'`, so any other final name means interference. */
+const CONFLICT_TEST_FILENAME = 'mh-conflict-test.mhtest'
 
 export enum WorkflowStatus {
   INIT = 'INIT',
@@ -38,7 +46,7 @@ export type DiagnosticsResult = {
   installed: ExtensionKV
   status: WorkflowStatus
   message: string
-  requestDiagnose: () => Promise<void>
+  diagnose: () => Promise<void>
   disableConflicted: () => Promise<void>
   abort: () => void
 }
@@ -74,11 +82,137 @@ function reducer(state: ExtensionKV, action: Action): ExtensionKV {
   }
 }
 
+async function listOtherExtensions(excludeIds: string[]) {
+  const exts = await management.getAll()
+  const filteredExt = exts
+    // Filter out excluded extensions and self
+    .filter(
+      e =>
+        e.type === 'extension' &&
+        e.enabled === true &&
+        !excludeIds.includes(e.id)
+    )
+    .reduce<ExtensionKV>(
+      (extKV, ext) => ({
+        ...extKV,
+        [ext.id]: {
+          name: ext.shortName || ext.name,
+          version: ext.version,
+          icon: ext.icons?.[0]?.url,
+          status: ExtensionStatus.UNKNOWN,
+          enabled: ext.enabled,
+        },
+      }),
+      {}
+    )
+  return filteredExt
+}
+
+async function disableExtension(extId: string) {
+  try {
+    await management.setEnabled(extId, false)
+    return true
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn(`Failed to disable extension (id: ${extId})`)
+    // eslint-disable-next-line no-console
+    console.error(error)
+    return false
+  }
+}
+
+async function enableExtension(extId: string) {
+  try {
+    await management.setEnabled(extId, true)
+    return true
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn(`Failed to enable extension (id: ${extId})`)
+    // eslint-disable-next-line no-console
+    console.error(error)
+    return false
+  }
+}
+
+/**
+ * Judges the conflict-test download once it completes:
+ * filename kept → compatible, renamed → conflicted, interrupted → interrupted.
+ * Then removes the test file. Downloads that are not the test file are left untouched.
+ */
+export const makeDownloadCheckingListener =
+  ({
+    onCompatible,
+    onConflicted,
+    onInterrupted,
+  }: {
+    onCompatible: () => void
+    onConflicted: () => void
+    onInterrupted: () => void
+  }): ListenerOf<Downloads.Static['onChanged']> =>
+  async downloadDelta => {
+    const state = downloadDelta.state
+    if (!state) return
+    if (!isDownloadCompleted(state) && !isDownloadInterrupted(state)) return
+    const [downloadItem] = await downloads.search({
+      id: downloadDelta.id,
+    })
+    if (downloadItem?.url !== runtime.getURL(CONFLICT_TEST_DATA_PATH)) return
+
+    if (isDownloadInterrupted(state)) {
+      onInterrupted()
+      // No file on disk to remove, only the download record.
+      await downloads.erase({ id: downloadItem.id })
+      return
+    }
+
+    // `filename` is an absolute path; compare the basename (either path separator).
+    if (downloadItem.filename.split(/[\\/]/).pop() === CONFLICT_TEST_FILENAME) {
+      onCompatible()
+    } else {
+      onConflicted()
+    }
+
+    // Clean up downloaded test file.
+    await downloads.removeFile(downloadItem.id)
+    await downloads.erase({ id: downloadItem.id })
+  }
+
+/** Downloads the test file and resolves with how the currently enabled extensions treated it. */
+async function runTestDownload(): Promise<ExtensionStatus> {
+  using stack = new DisposableStack()
+  return await new Promise<ExtensionStatus>((resolve, reject) => {
+    const listener = makeDownloadCheckingListener({
+      onCompatible: () => resolve(ExtensionStatus.COMPATIBLE),
+      onConflicted: () => resolve(ExtensionStatus.CONFLICTED),
+      onInterrupted: () => resolve(ExtensionStatus.UNKNOWN),
+    })
+    stack.defer(() => downloads.onChanged.removeListener(listener))
+    downloads.onChanged.addListener(listener)
+
+    downloads
+      .download({
+        filename: CONFLICT_TEST_FILENAME,
+        url: runtime.getURL(CONFLICT_TEST_DATA_PATH),
+        // A leftover test file would otherwise get a uniquify counter (the default isn't documented).
+        conflictAction: 'overwrite',
+        saveAs: false,
+      })
+      // The polyfill rejects (with `runtime.lastError`) when the download cannot start.
+      .catch(reject)
+  })
+}
+
+/**
+ * No API tells when another extension has registered its listeners after being enabled.
+ * ponytail: fixed unmeasured wait; tune it with a test extension that renames every download.
+ */
+const LISTENER_REGISTRATION_DELAY_MS = 1000
+
 /**
  * This hookes provides diagnostics for extension conflicts by checking installed extensions.
  * It will test each enabled extension (except those in excludeIds) by attempting to download a test file.
  * If the download is interfered with (e.g., blocked or modified), the extension is marked as CONFLICTED.
- * *The hook uses the filename of the download item to identify which extension is being tested.*
+ * *Extensions are tested one at a time, so the result of each test download belongs to the extension under test.*
  *
  * @param excludeIds List of extension IDs to exclude from diagnostics (e.g., self ID)
  * @returns
@@ -99,83 +233,15 @@ export function useExtensionConflictDiagnostic(
     abortRef.current = false
   }
 
-  /**
-   * Enable the extension to be tested, then start a download of a test file.
-   * The download filename includes the extension ID to identify which extension is being tested.
-   * The download listener will check if the download completes successfully or is interfered with.
-   * After starting the download, the extension is disabled again to prepare for the next test.
-   */
-  const triggerCheckDownloadByExtId = useCallback(
-    async (extId: string) => {
-      if (__DEV__) {
-        // eslint-disable-next-line no-console
-        console.debug(`Testing extension: ${extId}`)
-      }
-      const filename = extId + '.mhtest'
-
-      let removeTestListener = () => {}
-      const extStatus = await new Promise<ExtensionStatus>(
-        (resolve, reject) => {
-          const checkCompleteDownload: ListenerOf<
-            Downloads.Static['onChanged']
-          > = async downloadDelta => {
-            if (downloadDelta.state?.current !== 'complete') return
-            const [downloadItem] = await downloads.search({
-              id: downloadDelta.id,
-            })
-            if (!downloadItem) return
-
-            if (downloadItem.filename.includes(extId)) {
-              resolve(ExtensionStatus.COMPATIBLE)
-            } else {
-              resolve(ExtensionStatus.CONFLICTED)
-            }
-
-            // Clean up downloaded test file.
-            await downloads.removeFile(downloadItem.id)
-            await downloads.erase({ id: downloadItem.id })
-          }
-
-          removeTestListener = () =>
-            downloads.onChanged.removeListener(checkCompleteDownload)
-          downloads.onChanged.addListener(checkCompleteDownload)
-
-          downloads
-            .download({
-              filename: filename,
-              url: runtime.getURL('static/TEST.data'),
-              saveAs: false,
-            })
-            .then(dlId => {
-              if (dlId) return
-              const errorMsg =
-                runtime.lastError?.message || 'Failed to start download.'
-              setStatus(WorkflowStatus.ERROR)
-              // eslint-disable-next-line no-console
-              console.error('[diagnostic:conflict-extensions]', errorMsg)
-              reject(new Error(errorMsg))
-            })
-        }
-      )
-
-      removeTestListener()
-      // eslint-disable-next-line no-console
-      console.info(
-        extStatus === ExtensionStatus.COMPATIBLE
-          ? '✅ Compatible extension:'
-          : '❌ Conflicted extension:',
-        extId in enabledExts ? `${enabledExts[extId].name} (${extId})` : extId
-      )
-      dispatch({
-        type: 'CHANGE_STATUS',
-        payload: {
-          id: extId,
-          status: extStatus,
-        },
-      })
-
-      return extStatus === ExtensionStatus.CONFLICTED
-    },
+  const listConflictedIds = useCallback(
+    () =>
+      Object.entries(enabledExts).reduce<string[]>(
+        (conflictedIds, [id, ext]) =>
+          ext.status === ExtensionStatus.CONFLICTED
+            ? conflictedIds.concat(id)
+            : conflictedIds,
+        []
+      ),
     [enabledExts]
   )
 
@@ -183,19 +249,40 @@ export function useExtensionConflictDiagnostic(
    * Grant management permission and start diagnostics.
    * If permission is denied, the process will abort.
    * The diagnostics process involves:
-   * 1. Disabling all target extensions.
-   * 2. For each extension, enabling it and attempting to download a test file.
-   * 3. Monitoring the download to see if it completes successfully or is interfered with.
-   * 4. Marking the extension as COMPATIBLE or CONFLICTED based on the download result.
-   * 5. Disabling the extension again before moving to the next one.
-   * 6. Restoring all extensions to their original enabled/disabled state after completion.
+   * 1. Baseline: download a test file with every extension still enabled. Their listeners
+   *    are already registered, so this result is reliable. Filename kept → no conflict, done.
+   * 2. Otherwise disable all target extensions, then for each one: enable it, wait for it to
+   *    register its listeners, download the test file, mark it COMPATIBLE / CONFLICTED / UNKNOWN,
+   *    and disable it again.
+   * 3. Baseline conflicted but no single extension did → the wait was too short (or the conflict
+   *    needs several extensions together): report the conflict as unidentified.
+   * 4. Restore all extensions to their original enabled/disabled state.
    *
    * Note: This process may take some time depending on the number of extensions to check.
    */
-  const requestDiagnose = useCallback(async () => {
+  const diagnose = useCallback(async () => {
     if (__METRICS__) metrics.count('diagnostics.extension_conflict.invoked', 1)
 
-    resetAbort()
+    // Async stack: restore must finish before the management permission is revoked.
+    await using diagnosisStack = new AsyncDisposableStack()
+    diagnosisStack.defer(() => resetAbort())
+
+    const testDownload = () =>
+      runTestDownload().catch((error: unknown) => {
+        setStatus(WorkflowStatus.ERROR)
+        // eslint-disable-next-line no-console
+        console.error('[diagnostic:conflict-extensions]', error)
+        throw error
+      })
+    const complete = (result: string) => {
+      // eslint-disable-next-line no-console
+      console.info('Complete conflict diagnostics.')
+      setStatus(WorkflowStatus.COMPLETED)
+      setMessage(
+        i18n('Scan completed. ', 'hook:useExtensionConflictDiagnostic') + result
+      )
+    }
+
     setStatus(WorkflowStatus.RUNNING)
     setMessage(
       i18n(
@@ -204,8 +291,6 @@ export function useExtensionConflictDiagnostic(
       )
     )
 
-    using permissionStack = new DisposableStack()
-    permissionStack.defer(async () => await revokePermissions())
     // Once permission has been granted, browser will grant it implicitly in future without prompting.
     const granted = await grantPermissions()
     if (!granted) {
@@ -219,135 +304,161 @@ export function useExtensionConflictDiagnostic(
       return
     }
 
-    const exts = await management.getAll()
-    const filteredExt = exts
-      // Filter out excluded extensions and self
-      .filter(
-        e =>
-          e.type === 'extension' &&
-          e.enabled === true &&
-          !excludeIds.includes(e.id)
-      )
-      .reduce<ExtensionKV>(
-        (extKV, ext) => ({
-          ...extKV,
-          [ext.id]: {
-            name: ext.shortName || ext.name,
-            version: ext.version,
-            icon: ext.icons?.[0]?.url,
-            status: ExtensionStatus.UNKNOWN,
-            enabled: ext.enabled,
-          },
-        }),
-        {}
-      )
+    diagnosisStack.defer(async () => {
+      await revokePermissions()
+    })
 
-    /**
-     * !IMPORTANT: Call this to restore original extension states when diagnostics complete.
-     */
-    const restoreExts = async () => {
-      // eslint-disable-next-line no-console
-      if (__DEV__) console.info('Restoring original extension states...')
-      for (const [extId, ext] of Object.entries(filteredExt)) {
-        await management.setEnabled(extId, ext.enabled)
-      }
-    }
-
+    const filteredExt = await listOtherExtensions(excludeIds)
     const extIdsToCheck = Object.keys(filteredExt)
     dispatch({ type: 'SET_EXTENSIONS', payload: filteredExt })
 
     // eslint-disable-next-line no-console
     console.group('Starting conflict diagnostic...')
+    // eslint-disable-next-line no-console
+    diagnosisStack.defer(() => console.groupEnd())
     setMessage(
       i18n('Diagnostic is running...', 'hook:useExtensionConflictDiagnostic')
     )
-    if (__DEV__) {
-      /* eslint-disable no-console */
-      console.info('Disabling all extensions before tests...')
-      /* eslint-enable no-console */
+
+    // eslint-disable-next-line no-console
+    if (__DEV__) console.info('Baseline test with all extensions enabled...')
+    if ((await testDownload()) === ExtensionStatus.COMPATIBLE) {
+      for (const id of extIdsToCheck) {
+        dispatch({
+          type: 'CHANGE_STATUS',
+          payload: { id, status: ExtensionStatus.COMPATIBLE },
+        })
+      }
+      complete(
+        i18n(
+          'No conflicted extensions found.',
+          'hook:useExtensionConflictDiagnostic'
+        )
+      )
+      return
     }
-    await Promise.allSettled(
-      extIdsToCheck.map(extId => management.setEnabled(extId, false))
-    )
+
+    const restoreExtensionState = async () => {
+      // eslint-disable-next-line no-console
+      if (__DEV__) console.info('Restoring original extension states...')
+      for (const [extId, ext] of Object.entries(filteredExt)) {
+        try {
+          await management.setEnabled(extId, ext.enabled)
+        } catch (_) {
+          /* eslint-disable-next-line no-console */
+          console.warn(`Failed to restore extension (id: ${extId})`)
+        }
+      }
+    }
+    diagnosisStack.defer(async () => await restoreExtensionState())
+
+    // eslint-disable-next-line no-console
+    if (__DEV__) console.info('Disabling all extensions before tests...')
+
+    await Promise.all(extIdsToCheck.map(disableExtension))
 
     let conflictedCount = 0
     for (const extId of extIdsToCheck) {
       if (abortRef.current) {
-        /* eslint-disable no-console */
+        // eslint-disable-next-line no-console
         if (__DEV__) console.info('Diagnostics aborted by user.')
         setMessage(
           i18n('Diagnostic is aborted.', 'hook:useExtensionConflictDiagnostic')
         )
         setStatus(WorkflowStatus.ABORTED)
-        restoreExts()
-        console.groupEnd()
         return
-        /* eslint-enable no-console */
       }
-      await management.setEnabled(extId, true)
-      if (await triggerCheckDownloadByExtId(extId)) conflictedCount += 1
-      await management.setEnabled(extId, false)
-    }
 
-    restoreExts()
-    // eslint-disable-next-line no-console
-    console.groupEnd()
+      const enabled = await enableExtension(extId)
+      await new Promise(r => setTimeout(r, LISTENER_REGISTRATION_DELAY_MS))
+      const extStatus = await testDownload()
+      // eslint-disable-next-line no-console
+      console.info(
+        {
+          [ExtensionStatus.COMPATIBLE]: '✅ Compatible extension:',
+          [ExtensionStatus.CONFLICTED]: '❌ Conflicted extension:',
+          [ExtensionStatus.UNKNOWN]: '❔ Test download interrupted:',
+        }[extStatus],
+        `${filteredExt[extId].name} (${extId})`
+      )
+      dispatch({
+        type: 'CHANGE_STATUS',
+        payload: { id: extId, status: extStatus },
+      })
+      if (enabled && extStatus === ExtensionStatus.CONFLICTED) {
+        conflictedCount += 1
+      }
+      await disableExtension(extId)
+    }
 
     //TODO: Collect conflicted extensions information.
 
-    // eslint-disable-next-line no-console
-    console.info('Complete conflict diagnostics.')
-    setStatus(WorkflowStatus.COMPLETED)
-    setMessage(
-      i18n('Scan completed. ', 'hook:useExtensionConflictDiagnostic') +
-        (conflictedCount > 0
-          ? i18n(
-              '{{count}} conflicted extension(s) detected.',
-              'hook:useExtensionConflictDiagnostic',
-              { count: conflictedCount.toString() }
-            )
-          : i18n(
-              'No conflicted extensions found.',
-              'hook:useExtensionConflictDiagnostic'
-            ))
+    if (conflictedCount > 0) {
+      complete(
+        i18n(
+          '{{count}} conflicted extension(s) detected.',
+          'hook:useExtensionConflictDiagnostic',
+          { count: conflictedCount.toString() }
+        )
+      )
+      return
+    }
+
+    // The baseline was interfered with, but no single extension was: per-extension results can't be trusted.
+    dispatch({ type: 'SET_EXTENSIONS', payload: filteredExt })
+    complete(
+      i18n(
+        'A conflict was detected, but the extension causing it could not be identified.',
+        'hook:useExtensionConflictDiagnostic'
+      )
     )
-  }, [
-    excludeIds,
-    triggerCheckDownloadByExtId,
-    grantPermissions,
-    revokePermissions,
-  ])
+  }, [excludeIds, grantPermissions, revokePermissions])
 
   // Disable all conflicted extensions
   const disableConflicted = useCallback(async () => {
+    await using stack = new AsyncDisposableStack()
+    stack.defer(async () => {
+      await revokePermissions()
+    })
+
+    const granted = await grantPermissions()
+    if (!granted) {
+      setStatus(WorkflowStatus.ERROR)
+      setMessage(
+        i18n(
+          'Required permission (management) was not granted.',
+          'hook:useExtensionConflictDiagnostic'
+        )
+      )
+      return
+    }
+
     setMessage(
       i18n(
         'Disabling conflicted extensions...',
         'hook:useExtensionConflictDiagnostic'
       )
     )
-    try {
-      const conflictedIds = Object.entries(enabledExts).reduce<string[]>(
-        (conflictedIds, [id, ext]) =>
-          ext.status === ExtensionStatus.CONFLICTED
-            ? conflictedIds.concat(id)
-            : conflictedIds,
-        []
-      )
-      await Promise.allSettled(
-        conflictedIds.map(async id => {
-          await management.setEnabled(id, false)
-          dispatch({ type: 'DISABLE_EXTENSION', payload: { id } })
-        })
-      )
+
+    const conflictedIds = listConflictedIds()
+    const disableResult = await Promise.all(
+      conflictedIds.map(async id => {
+        const isSuccess = await disableExtension(id)
+        if (isSuccess) dispatch({ type: 'DISABLE_EXTENSION', payload: { id } })
+        return isSuccess
+      })
+    )
+
+    if (disableResult.every(Boolean)) {
+      setStatus(WorkflowStatus.INIT)
       setMessage(
         i18n(
           'All conflicted extensions have been disabled.',
           'hook:useExtensionConflictDiagnostic'
         )
       )
-      setStatus(WorkflowStatus.INIT)
-    } catch (_error) {
+    } else {
+      setStatus(WorkflowStatus.ERROR)
       setMessage(
         i18n(
           'Failed to disable conflicted extensions.',
@@ -355,13 +466,13 @@ export function useExtensionConflictDiagnostic(
         )
       )
     }
-  }, [enabledExts])
+  }, [listConflictedIds, grantPermissions, revokePermissions])
 
   return {
     installed: enabledExts,
     status,
     message,
-    requestDiagnose,
+    diagnose,
     disableConflicted,
     abort: () => {
       if (status !== WorkflowStatus.RUNNING) return

@@ -27,14 +27,8 @@ type DiagnosticItemProps = {
 
 // TODO: Make it generic to support more diagnostics in the future
 const DiagnosticItem = (props: DiagnosticItemProps) => {
-  const {
-    installed,
-    status,
-    message,
-    disableConflicted,
-    requestDiagnose,
-    abort,
-  } = useExtensionConflictDiagnostic([getRuntimeId()])
+  const { installed, status, message, disableConflicted, diagnose, abort } =
+    useExtensionConflictDiagnostic([getRuntimeId()])
 
   return (
     <Stack p={'1.5rem'} spacing={2}>
@@ -75,7 +69,7 @@ const DiagnosticItem = (props: DiagnosticItemProps) => {
               )
                 return
 
-              await requestDiagnose()
+              await diagnose()
             }}
           >
             {i18n('Diagnostic', 'options:diagnostics')}

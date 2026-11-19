@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.8)\n"
-"POT-Creation-Date: 2026-06-18 15:04+0800\n"
+"POT-Creation-Date: 2026-11-19 12:57+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,52 +19,62 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : X (Twitter) — Téléchargeur de médias"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:308
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:398
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "{{count}} conflicted extension(s) detected."
 msgstr "{{count}} extension(s) en conflit détectée(s)."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:343
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:410
+msgctxt "hook:useExtensionConflictDiagnostic"
+msgid ""
+"A conflict was detected, but the extension causing it could not be "
+"identified."
+msgstr ""
+"Un conflit a été détecté, mais l'extension responsable n'a pas pu être "
+"identifiée."
+
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:455
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "All conflicted extensions have been disabled."
 msgstr "Toutes les extensions en conflit ont été désactivées."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:283
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:366
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is aborted."
 msgstr "Le diagnostic a été interrompu."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:266
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:320
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is running..."
 msgstr "Diagnostic en cours..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:323
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:437
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Disabling conflicted extensions..."
 msgstr "Désactivation des extensions en conflit..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:351
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:463
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Failed to disable conflicted extensions."
 msgstr "Impossible de désactiver les extensions en conflit."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:313
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:333
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "No conflicted extensions found."
 msgstr "Aucune extension en conflit trouvée."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:207
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:288
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Requesting management permission..."
 msgstr "Demande d'autorisation de gestion..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:218
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:299
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:428
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Required permission (management) was not granted."
 msgstr "La permission requise (gestion) n'a pas été accordée."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:306
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:282
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Scan completed. "
 msgstr "Analyse terminée."
@@ -215,27 +225,27 @@ msgctxt "options:about"
 msgid "Version"
 msgstr "Version"
 
-#: src/pages/components/Diagnostics.tsx:60
+#: src/pages/components/Diagnostics.tsx:54
 msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
 msgstr "Êtes-vous sûr de vouloir démarrer le diagnostic ?"
 
-#: src/pages/components/Diagnostics.tsx:114
+#: src/pages/components/Diagnostics.tsx:108
 msgctxt "options:diagnostics"
 msgid "Conflict Extensions"
 msgstr "Extensions en conflit"
 
-#: src/pages/components/Diagnostics.tsx:81
+#: src/pages/components/Diagnostics.tsx:75
 msgctxt "options:diagnostics"
 msgid "Diagnostic"
 msgstr "Diagnostic"
 
-#: src/pages/components/Diagnostics.tsx:95
+#: src/pages/components/Diagnostics.tsx:89
 msgctxt "options:diagnostics"
 msgid "Disable"
 msgstr "Désactiver"
 
-#: src/pages/components/Diagnostics.tsx:65
+#: src/pages/components/Diagnostics.tsx:59
 msgctxt "options:diagnostics"
 msgid ""
 "Other extensions will be temporarily disabled during diagnositc, please "
@@ -244,7 +254,7 @@ msgstr ""
 "D'autres extensions seront temporairement désactivées pendant le diagnostic "
 "; assurez-vous d'avoir sauvegardé votre travail."
 
-#: src/pages/components/Diagnostics.tsx:70
+#: src/pages/components/Diagnostics.tsx:64
 msgctxt "options:diagnostics"
 msgid ""
 "This diagnostic might take few minutes to done, depends on how many "
@@ -253,7 +263,7 @@ msgstr ""
 "Ce diagnostic peut prendre quelques minutes, selon le nombre d'extensions "
 "installées."
 
-#: src/pages/components/Diagnostics.tsx:46
+#: src/pages/components/Diagnostics.tsx:40
 msgctxt "options:diagnostics"
 msgid ""
 "This diagnostic will check your installed extensions that might conflict "
@@ -450,12 +460,12 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "Tweet_DateHeure"
 
-#: src/pages/components/History.tsx:545
+#: src/pages/components/History.tsx:535
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "Êtes-vous sûr de vouloir importer ce fichier d'historique ?"
 
-#: src/pages/components/History.tsx:527
+#: src/pages/components/History.tsx:517
 msgctxt "options:history"
 msgid ""
 "Cannot access the selected file. Please grant permission to read the file "
@@ -464,125 +474,125 @@ msgstr ""
 "Impossible d'accéder au fichier sélectionné. Veuillez autoriser la lecture "
 "du fichier et réessayer."
 
-#: src/pages/components/History.tsx:359
-#: src/pages/components/History.tsx:364
+#: src/pages/components/History.tsx:349
+#: src/pages/components/History.tsx:354
 msgctxt "options:history"
 msgid "Export"
 msgstr "Exporter"
 
-#: src/pages/components/History.tsx:695
+#: src/pages/components/History.tsx:662
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "Échec de l'exportation du fichier."
 
-#: src/pages/components/History.tsx:558
+#: src/pages/components/History.tsx:548
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "Échec de l'importation du fichier."
 
-#: src/pages/components/History.tsx:351
-#: src/pages/components/History.tsx:356
+#: src/pages/components/History.tsx:341
+#: src/pages/components/History.tsx:346
 msgctxt "options:history"
 msgid "Import"
 msgstr "Importer"
 
-#: src/pages/components/History.tsx:555
+#: src/pages/components/History.tsx:545
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "Format invalide."
 
-#: src/pages/components/History.tsx:317
+#: src/pages/components/History.tsx:307
 msgctxt "options:history"
 msgid "Next page"
 msgstr "Page suivante"
 
-#: src/pages/components/History.tsx:307
+#: src/pages/components/History.tsx:297
 msgctxt "options:history"
 msgid "Previous page"
 msgstr "Page précédente"
 
-#: src/pages/components/History.tsx:333
+#: src/pages/components/History.tsx:323
 msgctxt "options:history"
 msgid "Refresh"
 msgstr "Actualiser"
 
-#: src/pages/components/History.tsx:563
+#: src/pages/components/History.tsx:553
 msgctxt "options:history"
 msgid "The history file has been imported successfully."
 msgstr "Le fichier d'historique a été importé avec succès."
 
-#: src/pages/components/History.tsx:412
+#: src/pages/components/History.tsx:402
 msgctxt "options:history:input:placeholder"
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: src/pages/components/History.tsx:158
+#: src/pages/components/History.tsx:148
 msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "Image"
 
-#: src/pages/components/History.tsx:164
-#: src/pages/components/History.tsx:167
+#: src/pages/components/History.tsx:154
+#: src/pages/components/History.tsx:157
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "Mixte"
 
-#: src/pages/components/History.tsx:161
+#: src/pages/components/History.tsx:151
 msgctxt "options:history:mediaType"
 msgid "Video"
 msgstr "Vidéo"
 
-#: src/pages/components/History.tsx:427
+#: src/pages/components/History.tsx:417
 msgctxt "options:history:mediaType:option"
 msgid "All"
 msgstr "Tous"
 
-#: src/pages/components/History.tsx:430
+#: src/pages/components/History.tsx:420
 msgctxt "options:history:mediaType:option"
 msgid "Image"
 msgstr "Image"
 
-#: src/pages/components/History.tsx:436
+#: src/pages/components/History.tsx:426
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
 msgstr "Mixte"
 
-#: src/pages/components/History.tsx:433
+#: src/pages/components/History.tsx:423
 msgctxt "options:history:mediaType:option"
 msgid "Video"
 msgstr "Vidéo"
 
-#: src/pages/components/History.tsx:419
+#: src/pages/components/History.tsx:409
 msgctxt "options:history:select"
 msgid "Select media type"
 msgstr "Sélectionner le type de média"
 
-#: src/pages/components/History.tsx:231
+#: src/pages/components/History.tsx:221
 msgctxt "options:history:table:head"
 msgid "actions"
 msgstr "Actions"
 
-#: src/pages/components/History.tsx:230
+#: src/pages/components/History.tsx:220
 msgctxt "options:history:table:head"
 msgid "download time"
 msgstr "Heure du téléchargement"
 
-#: src/pages/components/History.tsx:229
+#: src/pages/components/History.tsx:219
 msgctxt "options:history:table:head"
 msgid "post time"
 msgstr "Heure de publication"
 
-#: src/pages/components/History.tsx:226
+#: src/pages/components/History.tsx:216
 msgctxt "options:history:table:head"
 msgid "thumbnail"
 msgstr "Vignette"
 
-#: src/pages/components/History.tsx:228
+#: src/pages/components/History.tsx:218
 msgctxt "options:history:table:head"
 msgid "type"
 msgstr "Type"
 
-#: src/pages/components/History.tsx:227
+#: src/pages/components/History.tsx:217
 msgctxt "options:history:table:head"
 msgid "user"
 msgstr "Utilisateur"
