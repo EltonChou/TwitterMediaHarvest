@@ -29,24 +29,58 @@ describe('unit test for useExtPermissions hook', () => {
     '$name forwards permissions and result',
     async ({ index, mock, resolved }) => {
       mock.mockResolvedValue(resolved)
-      const { result } = renderHook(() => useExtPermissions(['management']))
+      const { result } = renderHook(() => useExtPermissions('management'))
 
       await expect(result.current[index]()).resolves.toBe(resolved)
       expect(mock).toHaveBeenCalledWith({ permissions: ['management'] })
     }
   )
 
-  it.each<{ name: string; args: Parameters<typeof useExtPermissions> }>([
-    { name: 'array', args: [['management', 'downloads']] },
-    { name: 'variadic strings', args: ['management', 'downloads'] },
-  ])('accepts permissions as $name', async ({ args }) => {
+  it('forwards every permission given', async () => {
     mockRequest.mockResolvedValue(true)
-    const { result } = renderHook(() => useExtPermissions(...args))
+    const { result } = renderHook(() =>
+      useExtPermissions('management', 'downloads')
+    )
 
     await result.current[0]()
 
     expect(mockRequest).toHaveBeenCalledWith({
       permissions: ['management', 'downloads'],
     })
+  })
+
+  it.each<{
+    name: string
+    next: Parameters<typeof useExtPermissions>
+    keepsCallbacks: boolean
+  }>([
+    {
+      name: 'same permissions',
+      next: ['management'],
+      keepsCallbacks: true,
+    },
+    {
+      name: 'different permissions',
+      next: ['downloads'],
+      keepsCallbacks: false,
+    },
+  ])('rerender with $name', async ({ next, keepsCallbacks }) => {
+    mockRequest.mockResolvedValue(true)
+    const { result, rerender } = renderHook(
+      ({ args }) => useExtPermissions(...args),
+      {
+        initialProps: {
+          args: ['management'] as Parameters<typeof useExtPermissions>,
+        },
+      }
+    )
+    const [grant, revoke] = result.current
+
+    rerender({ args: next })
+
+    expect(result.current[0] === grant).toBe(keepsCallbacks)
+    expect(result.current[1] === revoke).toBe(keepsCallbacks)
+    await result.current[0]()
+    expect(mockRequest).toHaveBeenCalledWith({ permissions: next })
   })
 })
