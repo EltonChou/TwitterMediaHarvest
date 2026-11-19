@@ -41,7 +41,7 @@ jobs:
     environment: 'test'
     strategy:
       matrix:
-        node-version: [22.x]
+        node-version: [24.x]
     steps:
       - uses: actions/checkout@v4
 
@@ -73,7 +73,7 @@ jobs:
     environment: 'test'
     strategy:
       matrix:
-        node-version: [22.x]
+        node-version: [24.x]
         browser: [chrome, edge, firefox]
     steps:
       - uses: actions/checkout@v4

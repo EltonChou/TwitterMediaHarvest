@@ -1,5 +1,5 @@
-chrome >= 102
-edge >= 102
-ff >= 111
+chrome >= 111
+edge >= 111
+ff >= 128
 last 3 iOS versions
 last 3 safari versions

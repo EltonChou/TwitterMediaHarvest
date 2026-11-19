@@ -59,7 +59,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4.4.0
         with:
-          node-version: '22.x'
+          node-version: '24.x'
           cache: 'yarn'
           cache-dependency-path: '**/yarn.lock' # Cache all workspaces' yarn.lock
 
