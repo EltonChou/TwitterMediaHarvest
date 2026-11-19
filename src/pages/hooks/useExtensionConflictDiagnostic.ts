@@ -279,7 +279,9 @@ export function useExtensionConflictDiagnostic(
       console.info('Complete conflict diagnostics.')
       setStatus(WorkflowStatus.COMPLETED)
       setMessage(
-        i18n('Scan completed. ', 'hook:useExtensionConflictDiagnostic') + result
+        i18n('Scan completed.', 'hook:useExtensionConflictDiagnostic') +
+          ' ' +
+          result
       )
     }
 
