@@ -89,7 +89,7 @@ const DiagnosticItem = (props: DiagnosticItemProps) => {
           {i18n('Disable', 'options:diagnostics')}
         </Button>
       </HStack>
-      <Stack>
+      <Stack pt={4}>
         {Object.entries(installed).map(([id, info]) => (
           <HStack key={id}>
             <ExtensionStatusIcon status={info.status} />
