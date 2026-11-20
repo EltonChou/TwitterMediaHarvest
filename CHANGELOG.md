@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - Cache tweets from the profile Photos timeline, so downloads from that page use the cached tweet data.
 
+### Fixed
+
+- Fix `Conflict Extensions` diagnostic stopping with an error when a test download cannot start. The extension is now shown as unknown and the scan completes.
+- Fix `Conflict Extensions` diagnostic running forever when the finished test download cannot be checked.
+- Show an error message in `Conflict Extensions` diagnostic when installed extensions cannot be listed, and a "permission was not granted" message when the permission request fails.
+- Fix Simplified Chinese "Diagnostic is running..." message using Traditional Chinese characters.
+
 ## [4.5.8] - 2026-11-08
 
 ### Added
