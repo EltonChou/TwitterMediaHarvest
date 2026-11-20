@@ -45,15 +45,22 @@ export const isArticleInStream = (article: HTMLElement) => {
   )
 }
 
-export const isMediaViewerOpenFor = (article: HTMLElement): boolean => {
+// Assume that the observer has detected media viewer.
+const X_VIEWER_QUERY = '[data-harvest-observe-id="Media Viewer"]'
+/** The legacy frontend shows the media viewer and its thread in a modal. */
+const LEGACY_VIEWER_QUERY = '[aria-labelledby="modal-header"]'
+
+export const isMediaViewerOpenFor = (
+  article: HTMLElement,
+  viewerQuery = X_VIEWER_QUERY
+): boolean => {
   if (!article) return false
   const articleAnchor = $('a[href*="/status/"]', article)
   if (!articleAnchor) return false
 
   const href = articleAnchor.getAttribute('href')
-  // Assume that the observer has detected media viewer.
   const viewerAnalyticsAnchor = $(
-    `[data-harvest-observe-id="Media Viewer"] a[href^="${href}/"]:not(article a)`
+    `${viewerQuery} a[href^="${href}/"]:not(article a)`
   )
 
   return Boolean(viewerAnalyticsAnchor)
@@ -61,13 +68,17 @@ export const isMediaViewerOpenFor = (article: HTMLElement): boolean => {
 
 /**
  * In X, a non-article element is the media viewer action bar container.
+ * In the legacy frontend, it is a div. In both, the viewer's focused tweet in
+ * its thread holds no media of its own.
  *
  * @param {HTMLElement} article
  */
 export const isArticlePhotoMode = (article: HTMLElement) =>
   isX()
     ? article.tagName !== 'ARTICLE' || isMediaViewerOpenFor(article)
-    : article instanceof HTMLDivElement
+    : article instanceof HTMLDivElement ||
+      (Boolean(article.closest(LEGACY_VIEWER_QUERY)) &&
+        isMediaViewerOpenFor(article, LEGACY_VIEWER_QUERY))
 
 /**
  * @param {HTMLElement} article

@@ -295,6 +295,49 @@ it('should treat the media viewer bar container as photo mode in X', () => {
   mockIsX.mockReturnValue(false)
 })
 
+describe('media viewer thread in legacy frontend', () => {
+  beforeEach(() => {
+    document.body.innerHTML = `
+    <article id="background">
+      <a href="/someone/status/1"><time></time></a>
+    </article>
+    <div aria-labelledby="modal-header">
+      <div><a href="/someone/status/1/analytics"></a></div>
+      <div aria-expanded="true">
+        <article id="focused">
+          <a href="/someone/status/1"><time></time></a>
+          <a href="/someone/status/1/analytics"></a>
+        </article>
+        <article id="reply">
+          <a href="/fan/status/2"><time></time></a>
+        </article>
+      </div>
+    </div>
+    `
+  })
+
+  it.each([
+    { context: 'focused tweet', id: 'focused', expected: true },
+    { context: 'reply without media', id: 'reply', expected: false },
+    { context: 'background tweet', id: 'background', expected: false },
+  ])('should check $context is in photo mode', ({ id, expected }) => {
+    const article = document.getElementById(id)
+    if (!article) throw new Error('HTML is wrongly set')
+
+    expect(isArticlePhotoMode(article)).toBe(expected)
+    expect(articleHasMedia(article)).toBe(expected)
+  })
+
+  it('should parse tweet info of the focused tweet', () => {
+    const article = document.getElementById('focused')
+    if (!article) throw new Error('HTML is wrongly set')
+
+    expect(
+      pipe(article, getLinksFromArticle, parseLinks(getTweetIdFromLink))
+    ).toEqual(O.some('1'))
+  })
+})
+
 it.each([
   { context: 'native video', link: '', expected: true },
   {

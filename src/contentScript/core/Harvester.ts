@@ -73,7 +73,7 @@ const getActionBar = (article: HTMLElement) =>
       ? $('[data-engagement-action="share"]', article)?.parentElement
       : $('.\\@container', article) ||
           $('[role="group"][aria-label]', article) ||
-          $('.r-18u37iz[role="group"][id^="id__"]', article),
+          $('[role="group"][id^="id__"]', article),
     E.fromNullable('Failed to get action bar.')
   )
 

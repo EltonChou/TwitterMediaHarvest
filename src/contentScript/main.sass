@@ -80,6 +80,13 @@ $harvest-yellow: rgb(241, 185, 26)
     flex-basis: auto
     margin-left: 12px // it should be `unset` when be in anonymous mode
   &.photo
+    // The viewer's focused tweet in its thread has a narrow bar, as a stream tweet does.
+    article &
+      margin-left: 12px
+      &:hover .photoBG
+        background: rgba(241, 185, 26, 0.1)
+      &:hover:active .photoBG
+        background: rgba(241, 185, 26, 0.2)
     // justify-content: flex-end
     // flex-grow: 0.4
     // padding-left: 0.85rem;
