@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.8)\n"
-"POT-Creation-Date: 2026-11-20 08:19+0800\n"
+"POT-Creation-Date: 2026-11-21 06:34+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,66 +19,66 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : X（Twitter）多媒体下载器"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:432
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:431
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "{{count}} conflicted extension(s) detected."
 msgstr "侦测到 {{count}} 个冲突的扩展。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:455
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:454
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid ""
 "A conflict was detected, but the extension causing it could not be "
 "identified."
 msgstr "检测到冲突，但无法确定是哪个扩展导致的。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:500
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:499
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "All conflicted extensions have been disabled."
 msgstr "所有冲突的扩展已被停用。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:400
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:399
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is aborted."
 msgstr "诊断已中止。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:353
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:352
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is running..."
 msgstr "诊断进行中..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:482
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:481
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Disabling conflicted extensions..."
 msgstr "正在禁用冲突扩展..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:508
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:507
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Failed to disable conflicted extensions."
 msgstr "无法禁用冲突扩展。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:338
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:337
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Failed to list installed extensions."
 msgstr "无法获取已安装的扩展列表。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:367
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:444
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:366
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:443
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "No conflicted extensions found."
 msgstr "未发现冲突扩展。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:311
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:310
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Requesting management permission..."
 msgstr "正在请求管理权限..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:322
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:473
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:321
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:472
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Required permission (management) was not granted."
 msgstr "未授予所需权限（管理）。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:303
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:302
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Scan completed."
 msgstr "扫描已完成。"

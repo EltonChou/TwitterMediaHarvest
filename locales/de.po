@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.8)\n"
-"POT-Creation-Date: 2026-11-20 08:19+0800\n"
+"POT-Creation-Date: 2026-11-21 06:34+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -21,12 +21,12 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest – X (Twitter) Medien-Downloader"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:432
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:431
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "{{count}} conflicted extension(s) detected."
 msgstr "{{count}} konfliktverursachende Erweiterung(en) erkannt."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:455
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:454
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid ""
 "A conflict was detected, but the extension causing it could not be "
@@ -35,54 +35,54 @@ msgstr ""
 "Ein Konflikt wurde erkannt, aber die verursachende Erweiterung konnte nicht "
 "ermittelt werden."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:500
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:499
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "All conflicted extensions have been disabled."
 msgstr "Alle konfliktverursachenden Erweiterungen wurden deaktiviert."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:400
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:399
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is aborted."
 msgstr "Die Diagnose wurde abgebrochen."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:353
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:352
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is running..."
 msgstr "Diagnose läuft..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:482
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:481
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Disabling conflicted extensions..."
 msgstr "Deaktiviere konfliktverursachende Erweiterungen..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:508
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:507
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Failed to disable conflicted extensions."
 msgstr "Konfliktverursachende Erweiterungen konnten nicht deaktiviert werden."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:338
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:337
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Failed to list installed extensions."
 msgstr "Die Liste der installierten Erweiterungen konnte nicht geladen werden."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:367
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:444
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:366
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:443
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "No conflicted extensions found."
 msgstr "Keine konfliktbehafteten Erweiterungen gefunden."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:311
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:310
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Requesting management permission..."
 msgstr "Verwalterrechte werden angefordert..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:322
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:473
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:321
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:472
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Required permission (management) was not granted."
 msgstr "Erforderliche Berechtigung (Verwaltung) wurde nicht erteilt."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:303
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:302
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Scan completed."
 msgstr "Scan abgeschlossen."
