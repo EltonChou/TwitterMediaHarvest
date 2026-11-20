@@ -119,17 +119,13 @@ export abstract class BaseIDB<Schema extends DBSchema, Version extends number> {
           client.close()
         }
       },
-      abortTx: () =>
-        new Promise<void>((resolve, reject) => {
-          try {
-            tx.abort()
-            resolve()
-          } catch (error) {
-            reject(error)
-          } finally {
-            client.close()
-          }
-        }),
+      abortTx: async () => {
+        try {
+          tx.abort()
+        } finally {
+          client.close()
+        }
+      },
     })
   }
 }

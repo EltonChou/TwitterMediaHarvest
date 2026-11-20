@@ -102,13 +102,8 @@ describe('unit test for About component', () => {
   })
 
   it('shows loading state while cleaning cache', async () => {
-    let resolveClean: (value?: UnsafeTask) => void = () => undefined
-    const mockCleanCache = jest.fn(
-      () =>
-        new Promise<UnsafeTask>(resolve => {
-          resolveClean = resolve
-        })
-    )
+    const clean = Promise.withResolvers<UnsafeTask>()
+    const mockCleanCache = jest.fn(() => clean.promise)
     const { unmount } = render(
       <About clientRepo={clientRepo} cleanCache={mockCleanCache} />
     )
@@ -120,7 +115,7 @@ describe('unit test for About component', () => {
     // Loading: button disabled while the promise is pending.
     await waitFor(() => expect(cleanCacheBtn).toBeDisabled())
 
-    resolveClean(undefined)
+    clean.resolve(undefined)
 
     // Loading finished: button re-enabled.
     await waitFor(() => expect(cleanCacheBtn).not.toBeDisabled())
