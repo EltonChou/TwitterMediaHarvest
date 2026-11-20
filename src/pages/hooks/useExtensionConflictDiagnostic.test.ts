@@ -224,6 +224,23 @@ describe('useExtensionConflictDiagnostic', () => {
     }
   )
 
+  it('reports an error when installed extensions cannot be listed', async () => {
+    fakeBrowser({ renamers: [], registersOnEnable: true })
+    ;(chrome.management.getAll as jest.Mock).mockRejectedValueOnce(
+      new Error('unavailable')
+    )
+    const { result } = renderHook(() => useExtensionConflictDiagnostic())
+
+    await runDiagnose(result)
+
+    expect(result.current.status).toBe(WorkflowStatus.ERROR)
+    expect(result.current.message).toContain(
+      'Failed to list installed extensions.'
+    )
+    expect(downloads.download).not.toHaveBeenCalled()
+    expect(permissions.remove).toHaveBeenCalledOnce()
+  })
+
   it('listens for download changes only while a test download runs', async () => {
     fakeBrowser({ renamers: ['ext-b'], registersOnEnable: true })
     const { result } = renderHook(() => useExtensionConflictDiagnostic())
@@ -358,4 +375,52 @@ describe('makeDownloadCheckingListener', () => {
     expect(downloads.removeFile).toHaveBeenCalledTimes(judged ? 1 : 0)
     expect(downloads.erase).toHaveBeenCalledTimes(result === 'ignored' ? 0 : 1)
   })
+
+  it.each<{
+    name: string
+    state: Downloads.StringDelta
+    fail: 'search' | 'removeFile' | 'erase'
+    reported: jest.Mock
+  }>([
+    {
+      // Can't tell whether it was the test download: report no answer instead of hanging.
+      name: 'looking up the download fails',
+      state: completed,
+      fail: 'search',
+      reported: onInterrupted,
+    },
+    {
+      name: 'removing the test file fails',
+      state: completed,
+      fail: 'removeFile',
+      reported: onCompatible,
+    },
+    {
+      name: 'erasing the interrupted record fails',
+      state: interrupted,
+      fail: 'erase',
+      reported: onInterrupted,
+    },
+  ])(
+    'still reports once and resolves when $name',
+    async ({ state, fail, reported }) => {
+      downloads.search = jest.fn().mockResolvedValue([
+        {
+          id: 1,
+          url: testDataUrl,
+          filename: '/dl/mh-conflict-test.mhtest',
+        } as Downloads.DownloadItem,
+      ])
+      jest.mocked(downloads[fail]).mockRejectedValueOnce(new Error(fail))
+
+      await expect(listener({ id: 1, state })).resolves.toBeUndefined()
+
+      expect(reported).toHaveBeenCalledOnce()
+      expect(
+        onCompatible.mock.calls.length +
+          onConflicted.mock.calls.length +
+          onInterrupted.mock.calls.length
+      ).toBe(1)
+    }
+  )
 })

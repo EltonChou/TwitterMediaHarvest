@@ -83,8 +83,18 @@ function reducer(state: ExtensionKV, action: Action): ExtensionKV {
   }
 }
 
+const logError = (error: unknown) =>
+  // eslint-disable-next-line no-console
+  console.error('[diagnostic:conflict-extensions]', error)
+
+/** Resolves `undefined` (after logging) when the extensions cannot be listed. */
 async function listOtherExtensions(excludeIds: string[]) {
-  const exts = await management.getAll()
+  const exts = await management.getAll().catch((error: unknown) => {
+    logError(error)
+    return undefined
+  })
+  if (!exts) return undefined
+
   const filteredExt = exts
     // Filter out excluded extensions and self
     .filter(
@@ -154,15 +164,21 @@ export const makeDownloadCheckingListener =
     const state = downloadDelta.state
     if (!state) return
     if (!isDownloadCompleted(state) && !isDownloadInterrupted(state)) return
-    const [downloadItem] = await downloads.search({
-      id: downloadDelta.id,
-    })
+    const [downloadItem] = await downloads
+      .search({ id: downloadDelta.id })
+      .catch((error: unknown) => {
+        // Can't tell whether this was the test download: report no answer instead of hanging.
+        logError(error)
+        onInterrupted()
+        return []
+      })
     if (downloadItem?.url !== runtime.getURL(CONFLICT_TEST_DATA_PATH)) return
 
+    // Cleanup failures are only logged: the result is already reported.
     if (isDownloadInterrupted(state)) {
       onInterrupted()
       // No file on disk to remove, only the download record.
-      await downloads.erase({ id: downloadItem.id })
+      await downloads.erase({ id: downloadItem.id }).catch(logError)
       return
     }
 
@@ -174,8 +190,8 @@ export const makeDownloadCheckingListener =
     }
 
     // Clean up downloaded test file.
-    await downloads.removeFile(downloadItem.id)
-    await downloads.erase({ id: downloadItem.id })
+    await downloads.removeFile(downloadItem.id).catch(logError)
+    await downloads.erase({ id: downloadItem.id }).catch(logError)
   }
 
 /** Downloads the test file and resolves with how the currently enabled extensions treated it. */
@@ -274,8 +290,7 @@ export function useExtensionConflictDiagnostic(
     // ponytail: no retry; add one if UNKNOWN shows up often.
     const testDownload = () =>
       runTestDownload().catch((error: unknown) => {
-        // eslint-disable-next-line no-console
-        console.error('[diagnostic:conflict-extensions]', error)
+        logError(error)
         return ExtensionStatus.UNKNOWN
       })
     const complete = (result: string) => {
@@ -315,6 +330,16 @@ export function useExtensionConflictDiagnostic(
     })
 
     const filteredExt = await listOtherExtensions(excludeIds)
+    if (!filteredExt) {
+      setStatus(WorkflowStatus.ERROR)
+      setMessage(
+        i18n(
+          'Failed to list installed extensions.',
+          'hook:useExtensionConflictDiagnostic'
+        )
+      )
+      return
+    }
     const extIdsToCheck = Object.keys(filteredExt)
     dispatch({ type: 'SET_EXTENSIONS', payload: filteredExt })
 

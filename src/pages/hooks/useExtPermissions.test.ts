@@ -36,6 +36,19 @@ describe('unit test for useExtPermissions hook', () => {
     }
   )
 
+  it.each([
+    { name: 'grant', index: 0 as const, mock: mockRequest },
+    { name: 'revoke', index: 1 as const, mock: mockRemove },
+  ])(
+    '$name resolves false when the browser rejects',
+    async ({ index, mock }) => {
+      mock.mockRejectedValue(new Error('not allowed'))
+      const { result } = renderHook(() => useExtPermissions('management'))
+
+      await expect(result.current[index]()).resolves.toBeFalse()
+    }
+  )
+
   it('forwards every permission given', async () => {
     mockRequest.mockResolvedValue(true)
     const { result } = renderHook(() =>
