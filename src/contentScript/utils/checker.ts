@@ -6,11 +6,12 @@
 import { elementExists } from 'select-dom'
 
 export const isStreamLoaded = () => {
+  if (isX()) return elementExists('section div[id^="urt:"]')
+
+  // For legacy anonymous mode
   if (isAnonymousMode()) {
     return elementExists('meta[content="Profile posts"] article')
   }
-
-  if (isX()) return elementExists('section div[id^="urt:"]')
 
   return elementExists('[role="region"]') && elementExists('article')
 }
