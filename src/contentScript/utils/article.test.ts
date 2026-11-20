@@ -213,7 +213,7 @@ it('can check element is own by embedded tweet or not', () => {
 
 it.each([
   `
-  <div aria-label="Media Viewer">
+  <div data-harvest-observe-id="Media Viewer">
     <div>
       <a href="/someone/status/1/analytics"></a>
     </div>
@@ -238,7 +238,7 @@ it.each([
   </div>
   `,
   `
-  <div aria-label="Media Viewer">
+  <div data-harvest-observe-id="Media Viewer">
     <div>
       <a href="/someone/status/1/analytics"></a>
     </div>

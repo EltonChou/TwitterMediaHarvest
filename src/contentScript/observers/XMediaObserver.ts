@@ -14,18 +14,21 @@ import { $, $$ } from 'select-dom'
 const enum Query {
   Root = 'main',
   Stream = 'section div[id^="urt:"] > ul',
-  MediaViewer = '[aria-label="Media Viewer"]',
-  MediaViewerShare = '[aria-label="Media Viewer"] [data-engagement-action="share"]',
+  ShareAction = '[data-engagement-action="share"]',
 }
 
 /**
  * The viewer's own action bar holds the only share button outside the thread
  * articles. A multi-image tweet adds another group (the carousel) without one.
  */
-const getMediaViewerBarContainer = () =>
-  $$(Query.MediaViewerShare)
+const getMediaViewerBarContainer = () => {
+  const mediaViewer = getMediaViewer()
+  if (!mediaViewer) return
+
+  return $$(Query.ShareAction, mediaViewer)
     .find(share => !share.closest('article'))
     ?.closest('[role="group"]')?.parentElement
+}
 
 /** Mutations caused by appending our own button. */
 const isOwnMutation = (mutations: MutationRecord[]) =>
@@ -36,6 +39,12 @@ const isOwnMutation = (mutations: MutationRecord[]) =>
         n => n instanceof HTMLElement && n.classList.contains('harvester')
       )
   )
+
+const getMediaViewer = () => {
+  const conversation = $('[data-base-ui-portal] [id^="urt:conversation"]')
+  if (!conversation) return
+  return conversation.closest<HTMLElement>('[role="presentation"]')
+}
 
 const isStreamObserved = () => {
   const streamEle = $(Query.Stream)
@@ -158,7 +167,7 @@ export default class XMediaObserver implements IHarvestObserver {
   observeModal() {
     // ponytail: rescans all articles, coalesced per frame; scope to the viewer if it shows in profiles.
     const observeViewer = () => {
-      const viewer = $(Query.MediaViewer)
+      const viewer = getMediaViewer()
       if (viewer)
         observeElement(
           'Media Viewer',

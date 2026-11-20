@@ -51,8 +51,9 @@ export const isMediaViewerOpenFor = (article: HTMLElement): boolean => {
   if (!articleAnchor) return false
 
   const href = articleAnchor.getAttribute('href')
+  // Assume that the observer has detected media viewer.
   const viewerAnalyticsAnchor = $(
-    `[aria-label="Media Viewer"] a[href^="${href}/"]:not(article a)`
+    `[data-harvest-observe-id="Media Viewer"] a[href^="${href}/"]:not(article a)`
   )
 
   return Boolean(viewerAnalyticsAnchor)
