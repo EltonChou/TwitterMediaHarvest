@@ -1,4 +1,4 @@
-import { TimeHelper, setDuration } from '#helpers/time'
+import { TimeHelper, setDuration, sleep } from '#helpers/time'
 
 describe('TimeHelper unit test', () => {
   it('can make second', () => {
@@ -44,6 +44,18 @@ describe('TimeHelper unit test', () => {
     const elapsed = timer.end()
     expect(elapsed).toBeGreaterThanOrEqual(50)
     expect(elapsed).toBeLessThan(150)
+    jest.useRealTimers()
+  })
+
+  it('can sleep for given milliseconds', async () => {
+    jest.useFakeTimers()
+    const resolved = jest.fn()
+    const p = sleep(100).then(resolved)
+    await jest.advanceTimersByTimeAsync(99)
+    expect(resolved).not.toHaveBeenCalled()
+    await jest.advanceTimersByTimeAsync(1)
+    await p
+    expect(resolved).toHaveBeenCalled()
     jest.useRealTimers()
   })
 })

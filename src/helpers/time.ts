@@ -55,3 +55,6 @@ export const setDuration = () => {
     end: () => TimeHelper.duration(start, performance.now()),
   }
 }
+
+export const sleep = (ms: number) =>
+  new Promise<void>(resolve => setTimeout(resolve, ms))

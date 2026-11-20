@@ -1,4 +1,5 @@
 import ConflictAction from '#enums/ConflictAction'
+import { sleep } from '#helpers/time'
 import { getText as i18n } from '#libs/i18n'
 import {
   isDownloadCompleted,
@@ -402,7 +403,7 @@ export function useExtensionConflictDiagnostic(
       }
 
       const enabled = await enableExtension(extId)
-      await new Promise(r => setTimeout(r, LISTENER_REGISTRATION_DELAY_MS))
+      await sleep(LISTENER_REGISTRATION_DELAY_MS)
       const extStatus = await testDownload()
       // eslint-disable-next-line no-console
       console.info(
