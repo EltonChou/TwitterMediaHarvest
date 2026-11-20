@@ -181,28 +181,28 @@ export const makeDownloadCheckingListener =
 /** Downloads the test file and resolves with how the currently enabled extensions treated it. */
 async function runTestDownload(): Promise<ExtensionStatus> {
   using stack = new DisposableStack()
+  const { promise, resolve } = Promise.withResolvers<ExtensionStatus>()
+
+  const listener = makeDownloadCheckingListener({
+    onCompatible: () => resolve(ExtensionStatus.COMPATIBLE),
+    onConflicted: () => resolve(ExtensionStatus.CONFLICTED),
+    onInterrupted: () => resolve(ExtensionStatus.UNKNOWN),
+  })
+  stack.defer(() => downloads.onChanged.removeListener(listener))
+  downloads.onChanged.addListener(listener)
+
+  // The polyfill rejects (with `runtime.lastError`) when the download cannot start.
+  await downloads.download({
+    filename: CONFLICT_TEST_FILENAME,
+    url: runtime.getURL(CONFLICT_TEST_DATA_PATH),
+    // A leftover test file would otherwise get a uniquify counter (the default isn't documented).
+    conflictAction: ConflictAction.Overwrite,
+    saveAs: false,
+  })
+
   // Keep `await`: `stack` is disposed when this function returns, and without it that happens
   // right away, removing the listener before the download completes (the diagnostic hangs).
-  return await new Promise<ExtensionStatus>((resolve, reject) => {
-    const listener = makeDownloadCheckingListener({
-      onCompatible: () => resolve(ExtensionStatus.COMPATIBLE),
-      onConflicted: () => resolve(ExtensionStatus.CONFLICTED),
-      onInterrupted: () => resolve(ExtensionStatus.UNKNOWN),
-    })
-    stack.defer(() => downloads.onChanged.removeListener(listener))
-    downloads.onChanged.addListener(listener)
-
-    downloads
-      .download({
-        filename: CONFLICT_TEST_FILENAME,
-        url: runtime.getURL(CONFLICT_TEST_DATA_PATH),
-        // A leftover test file would otherwise get a uniquify counter (the default isn't documented).
-        conflictAction: ConflictAction.Overwrite,
-        saveAs: false,
-      })
-      // The polyfill rejects (with `runtime.lastError`) when the download cannot start.
-      .catch(reject)
-  })
+  return await promise
 }
 
 /**
@@ -270,12 +270,13 @@ export function useExtensionConflictDiagnostic(
     await using diagnosisStack = new AsyncDisposableStack()
     diagnosisStack.defer(() => resetAbort())
 
+    // A download that cannot start may be temporary: treat it like an interrupted one and carry on.
+    // ponytail: no retry; add one if UNKNOWN shows up often.
     const testDownload = () =>
       runTestDownload().catch((error: unknown) => {
-        setStatus(WorkflowStatus.ERROR)
         // eslint-disable-next-line no-console
         console.error('[diagnostic:conflict-extensions]', error)
-        throw error
+        return ExtensionStatus.UNKNOWN
       })
     const complete = (result: string) => {
       // eslint-disable-next-line no-console
@@ -327,7 +328,8 @@ export function useExtensionConflictDiagnostic(
 
     // eslint-disable-next-line no-console
     if (__DEV__) console.info('Baseline test with all extensions enabled...')
-    if ((await testDownload()) === ExtensionStatus.COMPATIBLE) {
+    const baselineStatus = await testDownload()
+    if (baselineStatus === ExtensionStatus.COMPATIBLE) {
       for (const id of extIdsToCheck) {
         dispatch({
           type: 'CHANGE_STATUS',
@@ -404,6 +406,17 @@ export function useExtensionConflictDiagnostic(
           '{{count}} conflicted extension(s) detected.',
           'hook:useExtensionConflictDiagnostic',
           { count: conflictedCount.toString() }
+        )
+      )
+      return
+    }
+
+    // The baseline gave no answer (interrupted or failed), so each extension's own result stands.
+    if (baselineStatus === ExtensionStatus.UNKNOWN) {
+      complete(
+        i18n(
+          'No conflicted extensions found.',
+          'hook:useExtensionConflictDiagnostic'
         )
       )
       return

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.8)\n"
-"POT-Creation-Date: 2026-11-19 13:04+0800\n"
+"POT-Creation-Date: 2026-11-20 08:05+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -19,60 +19,61 @@ msgctxt "app"
 msgid "appName"
 msgstr "Media Harvest : X (twitter) 多媒體下載器"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:400
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:405
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "{{count}} conflicted extension(s) detected."
 msgstr "偵測到 {{count}} 個衝突的擴充功能。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:412
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:428
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid ""
 "A conflict was detected, but the extension causing it could not be "
 "identified."
 msgstr "偵測到衝突，但無法確定是哪個擴充功能造成的。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:457
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:473
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "All conflicted extensions have been disabled."
 msgstr "所有衝突的擴充功能已被停用。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:368
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:373
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is aborted."
 msgstr "診斷已中止。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:322
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:326
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Diagnostic is running..."
 msgstr "診斷進行中..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:439
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:455
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Disabling conflicted extensions..."
 msgstr "正在停用衝突的擴充功能..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:465
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:481
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Failed to disable conflicted extensions."
 msgstr "無法停用衝突的擴充功能。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:335
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:340
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:417
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "No conflicted extensions found."
 msgstr "未發現衝突的擴充功能。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:290
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:294
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Requesting management permission..."
 msgstr "正在請求管理權限..."
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:301
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:430
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:305
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:446
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Required permission (management) was not granted."
 msgstr "無法取得所需的權限(管理)。"
 
-#: src/pages/hooks/useExtensionConflictDiagnostic.ts:282
+#: src/pages/hooks/useExtensionConflictDiagnostic.ts:286
 msgctxt "hook:useExtensionConflictDiagnostic"
 msgid "Scan completed."
 msgstr "掃描已完成。"

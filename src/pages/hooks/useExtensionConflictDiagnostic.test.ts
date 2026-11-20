@@ -168,14 +168,61 @@ describe('useExtensionConflictDiagnostic', () => {
     }
   )
 
-  it('fails instead of hanging when the test download cannot start', async () => {
-    downloads.download = jest.fn().mockRejectedValue(new Error('boom'))
-    const { result } = renderHook(() => useExtensionConflictDiagnostic())
+  it.each<{
+    name: string
+    renamers: string[]
+    failingCall: number
+    statuses: Record<string, ExtensionStatus>
+    message: string
+  }>([
+    {
+      name: 'baseline download fails: still tests each extension',
+      renamers: [],
+      failingCall: 1,
+      statuses: {
+        'ext-a': ExtensionStatus.COMPATIBLE,
+        'ext-b': ExtensionStatus.COMPATIBLE,
+      },
+      message: 'No conflicted extensions found.',
+    },
+    {
+      name: "an extension's download fails: marks it unknown and tests the rest",
+      renamers: ['ext-b'],
+      failingCall: 2,
+      statuses: {
+        'ext-a': ExtensionStatus.UNKNOWN,
+        'ext-b': ExtensionStatus.CONFLICTED,
+      },
+      message: 'conflicted extension(s) detected.',
+    },
+  ])(
+    'completes when a test download cannot start ($name)',
+    async ({ renamers, failingCall, statuses, message }) => {
+      fakeBrowser({ renamers, registersOnEnable: true })
+      const download = downloads.download
+      let calls = 0
+      downloads.download = jest.fn(options =>
+        ++calls === failingCall
+          ? Promise.reject(new Error('temporary'))
+          : download(options)
+      )
+      const { result } = renderHook(() => useExtensionConflictDiagnostic())
 
-    await act(() => expect(result.current.diagnose()).rejects.toThrow('boom'))
+      await runDiagnose(result)
 
-    expect(result.current.status).toBe(WorkflowStatus.ERROR)
-  })
+      expect(result.current.status).toBe(WorkflowStatus.COMPLETED)
+      expect(result.current.message).toContain(message)
+      expect(
+        Object.fromEntries(
+          Object.entries(result.current.installed).map(([id, ext]) => [
+            id,
+            ext.status,
+          ])
+        )
+      ).toEqual(statuses)
+      expect(changeListeners.size).toBe(0)
+    }
+  )
 
   it('listens for download changes only while a test download runs', async () => {
     fakeBrowser({ renamers: ['ext-b'], registersOnEnable: true })
