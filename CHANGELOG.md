@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Fix `Conflict Extensions` diagnostic running forever when the finished test download cannot be checked.
 - Show an error message in `Conflict Extensions` diagnostic when installed extensions cannot be listed, and a "permission was not granted" message when the permission request fails.
 - Fix Simplified Chinese "Diagnostic is running..." message using Traditional Chinese characters.
+- Fix download button sometimes not appearing on X's timelines when the page was detected as guest mode.
 
 ## [4.5.8] - 2026-11-08
 
