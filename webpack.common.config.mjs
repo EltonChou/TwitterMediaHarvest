@@ -46,6 +46,9 @@ const config = {
           {
             loader: 'ts-loader',
             options: {
+              // isolatedModules forces preserveConstEnums; turn it off here so tsc inlines const enums in the bundle.
+              // Must stay a full-program build (no transpileOnly) for cross-file inlining.
+              compilerOptions: { isolatedModules: false },
               getCustomTransformers: () => ({
                 before: [
                   i18nTransformer({
