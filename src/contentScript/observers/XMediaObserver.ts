@@ -168,18 +168,30 @@ export default class XMediaObserver implements IHarvestObserver {
     // ponytail: rescans all articles, coalesced per frame; scope to the viewer if it shows in profiles.
     const observeViewer = () => {
       const viewer = getMediaViewer()
-      if (viewer)
-        observeElement(
-          'Media Viewer',
-          viewer,
-          mutations => {
-            if (!isOwnMutation(mutations)) this.scheduleInitialize()
-          },
-          { childList: true, subtree: true }
-        )
+      if (!viewer) return
+      const observer = observeElement(
+        'Media Viewer',
+        viewer,
+        mutations => {
+          if (!isOwnMutation(mutations)) this.scheduleInitialize()
+        },
+        { childList: true, subtree: true }
+      )
+      // Its thread is already in place: no mutation will announce it.
+      if (observer) this.scheduleInitialize()
     }
 
-    observeViewer()
-    observeElement('Body', document.body, observeViewer)
+    // The portal mounts before its thread loads, so watch it until the viewer shows.
+    const observePortals = () => {
+      observeViewer()
+      for (const portal of $$('body > [data-base-ui-portal]'))
+        observeElement('Portal', portal, observeViewer, {
+          childList: true,
+          subtree: true,
+        })
+    }
+
+    observePortals()
+    observeElement('Body', document.body, observePortals)
   }
 }

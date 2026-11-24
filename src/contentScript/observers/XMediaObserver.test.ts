@@ -61,3 +61,25 @@ it('should handle every article in a thread item', async () => {
 
   expect(makeHarvester).toHaveBeenCalledTimes(2)
 })
+
+it('should handle the media viewer when its thread mounts after the portal', async () => {
+  jest.mocked(makeHarvester).mockClear()
+  document.body.innerHTML = ''
+  new XMediaObserver().observeModal()
+
+  // The viewer portal mounts first; the conversation loads later.
+  const portal = document.createElement('div')
+  portal.setAttribute('data-base-ui-portal', '')
+  portal.innerHTML = '<div role="presentation"></div>'
+  document.body.append(portal)
+  await flush()
+
+  portal.firstElementChild!.innerHTML = `
+  <div id="urt:conversation-1"><article>
+    <a href="/someone/status/1"><time></time></a>
+    <a href="/someone/status/1/photo/1"></a>
+  </article></div>`
+  await new Promise(resolve => setTimeout(resolve, 50))
+
+  expect(makeHarvester).toHaveBeenCalledWith(portal.querySelector('article'))
+})
