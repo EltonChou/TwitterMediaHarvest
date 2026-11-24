@@ -345,6 +345,11 @@ it.each([
     link: '<a href="https://example.com" target="_blank"></a>',
     expected: false,
   },
+  {
+    context: 'live broadcast video',
+    link: '<a href="/i/broadcasts/2ybValyRzPnQvQ"></a>',
+    expected: false,
+  },
 ])('should check $context has media', ({ link, expected }) => {
   setIsX(true)
   document.body.innerHTML = `

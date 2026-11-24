@@ -146,9 +146,14 @@ const aricleHasPhoto = (article: HTMLElement): boolean => {
  * ("From example.com"), unlike X's own relative links. That link renders with
  * the media; the overlay link on the video comes later. A tweet's own card
  * excludes other media of its own, but a quoted tweet can have its own card.
+ * A live broadcast (Periscope-hosted video) links to `/i/broadcasts/` instead.
  */
-const X_CARD_QUERY =
-  'div + a[target="_blank"][href^="http"]:not(article article *, [data-slot="embedded-tweet-frame"] *)'
+const X_CARD_QUERY = [
+  'div + a[target="_blank"][href^="http"]',
+  'a[href^="/i/broadcasts/"]',
+]
+  .map(q => `${q}:not(article article *, [data-slot="embedded-tweet-frame"] *)`)
+  .join(', ')
 
 /** In the legacy frontend, a quoted tweet is a link element, not an article. */
 const LEGACY_CARD_QUERY = '[data-testid="card.wrapper"]:not([role="link"] *)'
