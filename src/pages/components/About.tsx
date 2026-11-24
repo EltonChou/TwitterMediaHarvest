@@ -9,6 +9,7 @@ import useClient from '#pages/hooks/useClient'
 import ExtLinks from '#pages/links'
 import { getFullVersion, getName } from '#utils/runtime'
 import {
+  Box,
   Button,
   HStack,
   Icon,
@@ -47,18 +48,21 @@ const ExtensionInformation = ({ clientRepo }: ExtensionInformationProps) => {
 type ExternalLinkProps = {
   name: string
   href: string
+  icon?: React.ElementType
 }
 
-const ExternalLink = memo(({ name, href }: ExternalLinkProps) => (
-  <Link
-    isExternal
-    referrerPolicy="no-referrer"
-    href={href}
-    textTransform={'capitalize'}
-    data-testid="information-link"
-  >
-    {name}
-  </Link>
+const ExternalLink = memo(({ name, href, icon }: ExternalLinkProps) => (
+  <Box>
+    <Link
+      isExternal
+      href={href}
+      textTransform={'capitalize'}
+      data-testid="information-link"
+    >
+      {icon ? <Icon boxSize={'6'} as={icon} /> : <></>}
+      {name}
+    </Link>
+  </Box>
 ))
 
 const Links = () => {
