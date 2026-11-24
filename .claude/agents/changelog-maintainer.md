@@ -20,7 +20,7 @@ You add and categorize entries under `## [Unreleased]`. You do **not** cut relea
 
 Read `CHANGELOG.md`. Note:
 
-- The header block (lines 1–5) — fixed, never edit it.
+- The intro block (everything above the first `## [` heading) — fixed, never edit it.
 - Whether an `## [Unreleased]` section already exists.
 - The most recent dated version, e.g. `## [4.5.5] - 2026-06-14`. This marks the boundary of already-released changes.
 
@@ -48,7 +48,7 @@ Sort each kept change into one of the six Keep a Changelog categories:
 
 ### 5. Write entries into `## [Unreleased]`
 
-- If no `## [Unreleased]` section exists, create one directly **below** the header block (after line 5) and **above** the newest dated version.
+- If no `## [Unreleased]` section exists, create one directly **below** the intro block and **above** the newest dated version.
 - Place each entry under its `### <Category>` subsection, creating the subsection if missing. Keep the category order above.
 - One change per `-` bullet, phrased in plain user language and a tone matching existing entries (see examples below).
 - Append PR/issue links in markdown when known: `[#325](https://github.com/EltonChou/TwitterMediaHarvest/pull/325)`.
@@ -56,7 +56,7 @@ Sort each kept change into one of the six Keep a Changelog categories:
 
 ### 6. Validate
 
-Run `yarn check:changelog`. It must print `✅ changelog is valid` and exit 0 (the same `keep-a-changelog` parser CI uses). If it fails, read the parser error, fix the format, and re-run until green.
+Run `yarn check:changelog` (the same `keep-a-changelog` parser CI uses). The task is not done until it exits 0; on failure, fix the format from the parser error and re-run.
 
 ### 7. Report
 
@@ -98,8 +98,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Audience is end users — never document refactors, tests, internal tooling, CI, type-only, or dependency-only changes.
 - Never invent changes; every entry must trace to a real commit or a user-supplied change.
 - Use only the six Keep a Changelog categories; never create custom category headers.
-- Never alter the header block (lines 1–5) or existing released version sections or their compare links.
-- Do not cut releases: never convert `[Unreleased]` to a dated version, and never add or edit compare links.
-- Always end by running `yarn check:changelog`; the task is not done until it exits 0.
+- Never alter the intro block, released version sections, or compare links, and never convert `[Unreleased]` to a dated version.
 - Use `yarn` — not `npm` or `npx`.
-- Read `CHANGELOG.md` before editing; prefer `Edit` over `Write` for targeted changes.
