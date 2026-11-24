@@ -19,16 +19,16 @@ const enum Query {
 
 /**
  * The viewer's own action bar holds the only share button outside the thread
- * articles. A multi-image tweet adds another group (the carousel) without one.
+ * articles. It shows even when the thread is collapsed.
  */
-const getMediaViewerBarContainer = () => {
-  const mediaViewer = getMediaViewer()
-  if (!mediaViewer) return
+const getMediaViewerShare = () =>
+  $$(`[data-base-ui-portal] ${Query.ShareAction}`).find(
+    share => !share.closest('article')
+  )
 
-  return $$(Query.ShareAction, mediaViewer)
-    .find(share => !share.closest('article'))
-    ?.closest('[role="group"]')?.parentElement
-}
+/** A multi-image tweet adds another group (the carousel) without a share button. */
+const getMediaViewerBarContainer = () =>
+  getMediaViewerShare()?.closest('[role="group"]')?.parentElement
 
 /** Mutations caused by appending our own button. */
 const isOwnMutation = (mutations: MutationRecord[]) =>
@@ -40,11 +40,8 @@ const isOwnMutation = (mutations: MutationRecord[]) =>
       )
   )
 
-const getMediaViewer = () => {
-  const conversation = $('[data-base-ui-portal] [id^="urt:conversation"]')
-  if (!conversation) return
-  return conversation.closest<HTMLElement>('[role="presentation"]')
-}
+const getMediaViewer = () =>
+  getMediaViewerShare()?.closest<HTMLElement>('[role="presentation"]')
 
 const isStreamObserved = () => {
   const streamEle = $(Query.Stream)
