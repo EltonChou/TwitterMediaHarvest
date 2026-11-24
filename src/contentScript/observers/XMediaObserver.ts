@@ -6,7 +6,7 @@
 import makeHarvester from '../core'
 import { articleHasMedia, canArticleBeAppended } from '../utils/article'
 import { isAnonymousMode, isStreamLoaded } from '../utils/checker'
-import { revealNsfw } from '../utils/helper'
+import { revealGridTiles, revealNsfw } from '../utils/helper'
 import observeElement, { isElementObserved } from './observer'
 import type { IHarvestObserver, ObserverOptions } from './types'
 import { $, $$ } from 'select-dom'
@@ -16,6 +16,9 @@ const enum Query {
   Stream = 'section div[id^="urt:"] > ul',
   ShareAction = '[data-engagement-action="share"]',
 }
+
+/** Stream item holding the media tab's grid (`role="list"` of tiles). */
+const GridItem = `${Query.Stream} > li`
 
 /**
  * The viewer's own action bar holds the only share button outside the thread
@@ -90,11 +93,17 @@ export default class XMediaObserver implements IHarvestObserver {
       }
 
       const articles = new Set<HTMLElement>()
+      const grids = new Set<HTMLElement>()
       for (const { target } of mutations) {
-        const article = target instanceof Element && target.closest('article')
+        if (!(target instanceof Element)) continue
+        const article = target.closest('article')
         if (article instanceof HTMLElement && canArticleBeAppended(article))
           articles.add(article)
+        // The media grid grows inside its stream item, which the stream observer can't see.
+        const grid = target.closest<HTMLElement>(GridItem)
+        if (grid) grids.add(grid)
       }
+      if (this.options.autoRevealNsfw) grids.forEach(revealGridTiles)
       for (const article of articles) {
         if (this.options.autoRevealNsfw) revealNsfw(article)
         if (articleHasMedia(article)) makeHarvester(article)
@@ -113,6 +122,8 @@ export default class XMediaObserver implements IHarvestObserver {
       if (this.options.autoRevealNsfw) revealNsfw(article)
       if (articleHasMedia(article)) makeHarvester(article)
     }
+
+    if (this.options.autoRevealNsfw) $$(GridItem).forEach(revealGridTiles)
   }
 
   observeStream() {
