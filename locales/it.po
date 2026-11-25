@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.9)\n"
-"POT-Creation-Date: 2026-11-21 06:34+0800\n"
+"POT-Creation-Date: 2026-11-26 03:57+0800\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Translators <noreply@example.com>\n"
 "Language-Team: Italian\n"
@@ -201,57 +201,57 @@ msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "La tua sessione potrebbe essere scaduta; aggiorna la sessione."
 
-#: src/pages/components/About.tsx:80
+#: src/pages/components/About.tsx:84
 msgctxt "options:about"
 msgid "Changelog"
 msgstr "Registro delle modifiche"
 
-#: src/pages/components/About.tsx:133
+#: src/pages/components/About.tsx:137
 msgctxt "options:about"
 msgid "Clean Cache"
 msgstr "Svuota cache"
 
-#: src/pages/components/About.tsx:68
+#: src/pages/components/About.tsx:72
 msgctxt "options:about"
 msgid "Official website"
 msgstr "Sito ufficiale"
 
-#: src/pages/components/About.tsx:72
+#: src/pages/components/About.tsx:76
 msgctxt "options:about"
 msgid "Privacy policy"
 msgstr "Informativa sulla privacy"
 
-#: src/pages/components/About.tsx:76
+#: src/pages/components/About.tsx:80
 msgctxt "options:about"
 msgid "Report issues"
 msgstr "Segnala problemi"
 
-#: src/pages/components/About.tsx:41
+#: src/pages/components/About.tsx:42
 msgctxt "options:about"
 msgid "Version"
 msgstr "Versione"
 
-#: src/pages/components/Diagnostics.tsx:54
+#: src/pages/components/Diagnostics.tsx:24
 msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
 msgstr "Vuoi davvero avviare la diagnostica?"
 
-#: src/pages/components/Diagnostics.tsx:108
+#: src/pages/components/Diagnostics.tsx:96
 msgctxt "options:diagnostics"
 msgid "Conflict Extensions"
 msgstr "Estensioni in conflitto"
 
-#: src/pages/components/Diagnostics.tsx:75
+#: src/pages/components/Diagnostics.tsx:63
 msgctxt "options:diagnostics"
 msgid "Diagnostic"
 msgstr "Diagnostica"
 
-#: src/pages/components/Diagnostics.tsx:89
+#: src/pages/components/Diagnostics.tsx:77
 msgctxt "options:diagnostics"
 msgid "Disable"
 msgstr "Disabilita"
 
-#: src/pages/components/Diagnostics.tsx:59
+#: src/pages/components/Diagnostics.tsx:26
 msgctxt "options:diagnostics"
 msgid ""
 "Other extensions will be temporarily disabled during diagnositc, please "
@@ -260,7 +260,7 @@ msgstr ""
 "Le altre estensioni verranno temporaneamente disabilitate durante la "
 "diagnostica; assicurati di salvare il tuo lavoro."
 
-#: src/pages/components/Diagnostics.tsx:64
+#: src/pages/components/Diagnostics.tsx:31
 msgctxt "options:diagnostics"
 msgid ""
 "This diagnostic might take few minutes to done, depends on how many "
@@ -269,7 +269,7 @@ msgstr ""
 "Questa diagnostica potrebbe richiedere alcuni minuti, a seconda del numero "
 "di estensioni installate."
 
-#: src/pages/components/Diagnostics.tsx:40
+#: src/pages/components/Diagnostics.tsx:48
 msgctxt "options:diagnostics"
 msgid ""
 "This diagnostic will check your installed extensions that might conflict "

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.9)\n"
-"POT-Creation-Date: 2026-11-21 06:34+0800\n"
+"POT-Creation-Date: 2026-11-26 03:57+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -195,71 +195,71 @@ msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "你的登錄資訊可能已經過期，請重新整理頁面。"
 
-#: src/pages/components/About.tsx:80
+#: src/pages/components/About.tsx:84
 msgctxt "options:about"
 msgid "Changelog"
 msgstr "更新日誌"
 
-#: src/pages/components/About.tsx:133
+#: src/pages/components/About.tsx:137
 msgctxt "options:about"
 msgid "Clean Cache"
 msgstr "清除快取"
 
-#: src/pages/components/About.tsx:68
+#: src/pages/components/About.tsx:72
 msgctxt "options:about"
 msgid "Official website"
 msgstr "官方網站"
 
-#: src/pages/components/About.tsx:72
+#: src/pages/components/About.tsx:76
 msgctxt "options:about"
 msgid "Privacy policy"
 msgstr "隱私權政策"
 
-#: src/pages/components/About.tsx:76
+#: src/pages/components/About.tsx:80
 msgctxt "options:about"
 msgid "Report issues"
 msgstr "回報錯誤"
 
-#: src/pages/components/About.tsx:41
+#: src/pages/components/About.tsx:42
 msgctxt "options:about"
 msgid "Version"
 msgstr "版本"
 
-#: src/pages/components/Diagnostics.tsx:54
+#: src/pages/components/Diagnostics.tsx:24
 msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
 msgstr "確定要執行檢測嗎?"
 
-#: src/pages/components/Diagnostics.tsx:108
+#: src/pages/components/Diagnostics.tsx:96
 msgctxt "options:diagnostics"
 msgid "Conflict Extensions"
 msgstr "擴充功能衝突"
 
-#: src/pages/components/Diagnostics.tsx:75
+#: src/pages/components/Diagnostics.tsx:63
 msgctxt "options:diagnostics"
 msgid "Diagnostic"
 msgstr "檢測"
 
-#: src/pages/components/Diagnostics.tsx:89
+#: src/pages/components/Diagnostics.tsx:77
 msgctxt "options:diagnostics"
 msgid "Disable"
 msgstr "停用"
 
-#: src/pages/components/Diagnostics.tsx:59
+#: src/pages/components/Diagnostics.tsx:26
 msgctxt "options:diagnostics"
 msgid ""
 "Other extensions will be temporarily disabled during diagnositc, please "
 "ensure your working sessions have been saved."
 msgstr "於檢測期間其他擴充功能會被暫時關閉，請確定已經儲存工作進度。"
 
-#: src/pages/components/Diagnostics.tsx:64
+#: src/pages/components/Diagnostics.tsx:31
 msgctxt "options:diagnostics"
 msgid ""
 "This diagnostic might take few minutes to done, depends on how many "
 "extensions you installed."
 msgstr "檢測可能會花費數分鐘，取決於安裝的擴充功能數量。"
 
-#: src/pages/components/Diagnostics.tsx:40
+#: src/pages/components/Diagnostics.tsx:48
 msgctxt "options:diagnostics"
 msgid ""
 "This diagnostic will check your installed extensions that might conflict "

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.9)\n"
-"POT-Creation-Date: 2026-11-21 06:34+0800\n"
+"POT-Creation-Date: 2026-11-26 03:57+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -195,71 +195,71 @@ msgctxt "notification:tweetFetch"
 msgid "Your login session might be expired, please refresh the session."
 msgstr "ログイン状態やツイートの閲覧権限を確認してください。"
 
-#: src/pages/components/About.tsx:80
+#: src/pages/components/About.tsx:84
 msgctxt "options:about"
 msgid "Changelog"
 msgstr "更新履歴"
 
-#: src/pages/components/About.tsx:133
+#: src/pages/components/About.tsx:137
 msgctxt "options:about"
 msgid "Clean Cache"
 msgstr "キャッシュを削除"
 
-#: src/pages/components/About.tsx:68
+#: src/pages/components/About.tsx:72
 msgctxt "options:about"
 msgid "Official website"
 msgstr "公式サイト"
 
-#: src/pages/components/About.tsx:72
+#: src/pages/components/About.tsx:76
 msgctxt "options:about"
 msgid "Privacy policy"
 msgstr "プライバシーポリシー"
 
-#: src/pages/components/About.tsx:76
+#: src/pages/components/About.tsx:80
 msgctxt "options:about"
 msgid "Report issues"
 msgstr "不具合を報告する"
 
-#: src/pages/components/About.tsx:41
+#: src/pages/components/About.tsx:42
 msgctxt "options:about"
 msgid "Version"
 msgstr "バージョン"
 
-#: src/pages/components/Diagnostics.tsx:54
+#: src/pages/components/Diagnostics.tsx:24
 msgctxt "options:diagnostics"
 msgid "Are you sure to start diagnostics?"
 msgstr "診断を開始してもよろしいですか？"
 
-#: src/pages/components/Diagnostics.tsx:108
+#: src/pages/components/Diagnostics.tsx:96
 msgctxt "options:diagnostics"
 msgid "Conflict Extensions"
 msgstr "拡張機能競合"
 
-#: src/pages/components/Diagnostics.tsx:75
+#: src/pages/components/Diagnostics.tsx:63
 msgctxt "options:diagnostics"
 msgid "Diagnostic"
 msgstr "診断"
 
-#: src/pages/components/Diagnostics.tsx:89
+#: src/pages/components/Diagnostics.tsx:77
 msgctxt "options:diagnostics"
 msgid "Disable"
 msgstr "無効化"
 
-#: src/pages/components/Diagnostics.tsx:59
+#: src/pages/components/Diagnostics.tsx:26
 msgctxt "options:diagnostics"
 msgid ""
 "Other extensions will be temporarily disabled during diagnositc, please "
 "ensure your working sessions have been saved."
 msgstr "診断中は他の拡張機能は一時的に無効化されます。作業中のセッションは必ず保存してください。"
 
-#: src/pages/components/Diagnostics.tsx:64
+#: src/pages/components/Diagnostics.tsx:31
 msgctxt "options:diagnostics"
 msgid ""
 "This diagnostic might take few minutes to done, depends on how many "
 "extensions you installed."
 msgstr "この診断には、インストールされている拡張機能の数に応じて、数分かかる場合があります。"
 
-#: src/pages/components/Diagnostics.tsx:40
+#: src/pages/components/Diagnostics.tsx:48
 msgctxt "options:diagnostics"
 msgid ""
 "This diagnostic will check your installed extensions that might conflict "
