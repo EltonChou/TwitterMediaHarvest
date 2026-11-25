@@ -74,7 +74,12 @@ if (existsSync(DIGEST_FILENAME)) {
   console.info('Prev digest\t' + prevDigest)
   console.info('Curr digest\t' + currDigest + '\n')
 
-  if (isCheckMode) process.exitCode = currDigest === prevDigest ? 0 : 1
+  if (isCheckMode && currDigest !== prevDigest) {
+    console.error(
+      'Template is out of date. Run `yarn locale:extract && yarn locale:update-translations`.'
+    )
+    process.exitCode = 1
+  }
 
   if (!isCheckMode) {
     if (currDigest !== prevDigest) {

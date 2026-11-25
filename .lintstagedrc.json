@@ -5,6 +5,7 @@
     "prettier --write",
     "cross-env NODE_ENV=test jest --findRelatedTests --passWithNoTests --bail 5 --no-coverage"
   ],
+  "src/**/*.{js,jsx,ts,tsx}": ["yarn locale:extract --check"],
   "*sample.env": ["yarn check:envfile sample.env"],
   "*.md": ["prettier --write"],
   "*.json": ["prettier --write"],
