@@ -1,8 +1,8 @@
 ![TwitterMediaHarvest](./assets/open-graph.png)
 
-[![Media Harvest : Twitter Media Downloader](https://img.shields.io/chrome-web-store/v/hpcgabhdlnapolkkjpejieegfpehfdok?color=00acee&style=for-the-badge)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok)
-[![Media Harvest : Twitter Media Downloader](https://img.shields.io/chrome-web-store/users/hpcgabhdlnapolkkjpejieegfpehfdok?style=for-the-badge&color=007bc2)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok)
-[![Chrome web store rating](https://img.shields.io/chrome-web-store/stars/hpcgabhdlnapolkkjpejieegfpehfdok?style=for-the-badge)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok)
+[![Media Harvest : Twitter Media Downloader](https://img.shields.io/chrome-web-store/v/hpcgabhdlnapolkkjpejieegfpehfdok?color=00acee&style=for-the-badge)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok?utm_source=readme&utm_medium=docs&utm_content=badge)
+[![Media Harvest : Twitter Media Downloader](https://img.shields.io/chrome-web-store/users/hpcgabhdlnapolkkjpejieegfpehfdok?style=for-the-badge&color=007bc2)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok?utm_source=readme&utm_medium=docs&utm_content=badge)
+[![Chrome web store rating](https://img.shields.io/chrome-web-store/stars/hpcgabhdlnapolkkjpejieegfpehfdok?style=for-the-badge)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok?utm_source=readme&utm_medium=docs&utm_content=badge)
 
 [![Edge add-on version](https://img.shields.io/badge/dynamic/json?label=edge%20add-on&prefix=v&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fmmijhjnobkeodfgoobnlmnpjllmlibkb&style=for-the-badge&color=00acee)](https://microsoftedge.microsoft.com/addons/detail/media-harvest-twitter-m/mmijhjnobkeodfgoobnlmnpjllmlibkb)
 [![Edge add-on users](https://img.shields.io/badge/dynamic/json?label=users&query=%24.activeInstallCount&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fmmijhjnobkeodfgoobnlmnpjllmlibkb&style=for-the-badge&color=007bc2)](https://microsoftedge.microsoft.com/addons/detail/media-harvest-twitter-m/mmijhjnobkeodfgoobnlmnpjllmlibkb)
@@ -27,7 +27,7 @@ No sign-in required. No third-party services. Works directly in your browser.
 
 ## Install
 
-[![Chrome web store](assets/chrome-badge.jpg)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok)
+[![Chrome web store](assets/chrome-badge.jpg)](https://chrome.google.com/webstore/detail/media-harvest-twitter-med/hpcgabhdlnapolkkjpejieegfpehfdok?utm_source=readme&utm_medium=docs&utm_content=install-btn)
 
 [![Microsoft store](assets/microsoft-badge.png)](https://microsoftedge.microsoft.com/addons/detail/media-harvest-twitter-m/mmijhjnobkeodfgoobnlmnpjllmlibkb)
 
@@ -35,7 +35,7 @@ No sign-in required. No third-party services. Works directly in your browser.
 
 ## Support the project
 
-[![Support me on ko-fi](assets/ko-fi-badge.png)](https://ko-fi.com/eltonhy)
+[![Support me on ko-fi](assets/ko-fi-badge.png)](https://ko-fi.com/eltonhy?utm_source=readme&utm_medium=docs&utm_content=support)
 
 ## Contributing
 
