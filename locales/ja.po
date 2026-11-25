@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 06:26+0800\n"
+"POT-Creation-Date: 2026-11-26 07:24+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -298,22 +298,22 @@ msgid ""
 "blured content automatically."
 msgstr "ツイートをセンシティブな内容として設定されている際、センシティブ内容を自動的に表示します。"
 
-#: src/pages/components/FootBar.tsx:57
+#: src/pages/components/FootBar.tsx:58
 msgctxt "options:footBar:button"
 msgid "Buy me a coffee"
-msgstr "コーヒーをおごって"
+msgstr "抹茶を一杯おごって"
 
-#: src/pages/components/FootBar.tsx:38
+#: src/pages/components/FootBar.tsx:39
 msgctxt "options:footBar:button"
 msgid "Rate it"
 msgstr "評価する"
 
-#: src/pages/components/FootBar.tsx:25
+#: src/pages/components/FootBar.tsx:26
 msgctxt "options:footBar:text"
 msgid "Do you like Media Harvest?"
 msgstr "Media Harvest を気に入っていますか？"
 
-#: src/pages/components/FootBar.tsx:41
+#: src/pages/components/FootBar.tsx:42
 msgctxt "options:footBar:text"
 msgid "or"
 msgstr "それとも"
@@ -658,22 +658,22 @@ msgctxt "popup"
 msgid "Auto-Reveal NSFW"
 msgstr "NSFW 自動表示"
 
-#: src/pages/app/Popup.tsx:220
+#: src/pages/app/Popup.tsx:222
 msgctxt "popup"
 msgid "Buy me a coffee!"
-msgstr "コーヒーおごって！"
+msgstr "抹茶一杯おごって！"
 
-#: src/pages/app/Popup.tsx:202
+#: src/pages/app/Popup.tsx:204
 msgctxt "popup"
 msgid "Changelog"
 msgstr "更新履歴"
 
-#: src/pages/app/Popup.tsx:133
+#: src/pages/app/Popup.tsx:134
 msgctxt "popup"
 msgid "Rate it"
 msgstr "評価する"
 
-#: src/pages/app/Popup.tsx:140
+#: src/pages/app/Popup.tsx:141
 msgctxt "popup"
 msgid "Report issues"
 msgstr "不具合を報告する"

@@ -8,6 +8,7 @@ import { getText as i18n } from '#libs/i18n'
 import PopupFeatureBlock, {
   type PopupFeatureBlockProps,
 } from '#pages/components/PopupFeatureBlock'
+import useDrinkIcon from '#pages/hooks/useDrinkIcon'
 import useLocaleVariables from '#pages/hooks/useLocaleVariables'
 import useStatsStore from '#pages/hooks/useStatsStore'
 import Links, { UtmContent, UtmSource, withUtm } from '#pages/links'
@@ -30,7 +31,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { BiCoffeeTogo, BiFile } from 'react-icons/bi'
+import { BiFile } from 'react-icons/bi'
 import { FaGithub } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import type { IconType } from 'react-icons/lib'
@@ -180,6 +181,7 @@ const versionName = 'v' + getFullVersion()
 const Footer = () => {
   const [info, setInfo] = useState(versionName)
   const resetInfo = useCallback(() => setInfo(versionName), [])
+  const drinkIcon = useDrinkIcon()
 
   return (
     <Flex
@@ -215,7 +217,7 @@ const Footer = () => {
         testId="footer-action-github"
       />
       <FooterActionButton
-        icon={BiCoffeeTogo}
+        icon={drinkIcon}
         label="Donate"
         info={i18n('Buy me a coffee!', 'popup')}
         link={withUtm(Links.koFi, UtmSource.Popup, UtmContent.SupportButton)}

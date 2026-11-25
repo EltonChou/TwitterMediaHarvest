@@ -63,3 +63,12 @@ This avoids unnecessary file changes (e.g. timestamp-only diffs) on every run.
 2. Update the headers inside the file.
 3. Translate the `msgstr` fields.
 4. Run `yarn locale:check` to verify completeness.
+
+## Previewing a locale
+
+Opens the built Chrome extension (options page + popup) in the given UI language, without changing the browser or system language.
+
+```sh
+yarn build:chrome:all:dev
+yarn preview:locale ja   # any folder name in build/chrome/_locales, e.g. zh_TW, pt_BR
+```

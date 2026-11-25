@@ -4,13 +4,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { getText as i18n } from '#libs/i18n'
+import useDrinkIcon from '#pages/hooks/useDrinkIcon'
 import Links, { UtmContent, UtmSource, withUtm } from '#pages/links'
 import { StarIcon } from '@chakra-ui/icons'
 import { Box, Button, HStack, Link, Text } from '@chakra-ui/react'
 import React from 'react'
-import { BiCoffeeTogo } from 'react-icons/bi'
 
 const FootBar = () => {
+  const DrinkIcon = useDrinkIcon()
   return (
     <Box
       position={'sticky'}
@@ -51,7 +52,7 @@ const FootBar = () => {
           <Button
             colorScheme={'brand.pink'}
             color={'white'}
-            rightIcon={<BiCoffeeTogo />}
+            rightIcon={<DrinkIcon />}
             data-testid="coffee-button"
           >
             {i18n('Buy me a coffee', 'options:footBar:button')}

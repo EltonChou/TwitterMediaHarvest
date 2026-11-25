@@ -6,7 +6,20 @@
 import { useState } from 'react'
 import { i18n } from 'webextension-polyfill'
 
-export type SupportLocale = 'en' | 'ja' | 'zh'
+export type SupportLocale =
+  | 'de'
+  | 'en'
+  | 'es'
+  | 'fr'
+  | 'it'
+  | 'ja'
+  | 'ko'
+  | 'pl'
+  | 'pt'
+  | 'ru'
+  | 'th'
+  | 'tr'
+  | 'zh'
 
 export type LocaleVariableInit<T> = { fallback: T } & Partial<
   Record<SupportLocale, T>
