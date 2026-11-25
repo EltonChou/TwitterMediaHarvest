@@ -4,7 +4,7 @@
 import { MockFeatureSettingsRepository } from '#mocks/repositories/fetureSettings'
 import { MockUsageStatisticsRepository } from '#mocks/repositories/usageStatistics'
 import { CHANGE_CRITERIAS } from '#pages/hooks/useStatsStore'
-import Links from '#pages/links'
+import Links, { withUtm } from '#pages/links'
 import Popup from './Popup'
 import { faker } from '@faker-js/faker'
 import { act, render, screen, waitFor } from '@testing-library/react'
@@ -45,7 +45,7 @@ describe('unit test for Popup app component', () => {
     // Check reaction link.
     expect(screen.getByTestId('reaction-rate')).toHaveAttribute(
       'href',
-      Links.store
+      withUtm(Links.store, 'popup', 'rate-btn')
     )
     expect(screen.getByTestId('reaction-report')).toHaveAttribute(
       'href',
@@ -73,7 +73,7 @@ describe('unit test for Popup app component', () => {
     })
     expect(tabs.create).toHaveBeenLastCalledWith({
       active: true,
-      url: Links.koFi,
+      url: withUtm(Links.koFi, 'popup', 'support-btn'),
     })
     expect(screen.getByTestId('footer-info')).toHaveTextContent(
       new RegExp('coffee', 'i')

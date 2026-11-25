@@ -28,6 +28,19 @@ const getAria2ExplorerLink = () => {
   }
 }
 
+/** Tag owned destinations (store, Ko-fi) for GA attribution; extension pages send no useful referrer. */
+export const withUtm = (
+  url: string,
+  source: 'popup' | 'options',
+  content: string
+) => {
+  const u = new URL(url)
+  u.searchParams.set('utm_source', source)
+  u.searchParams.set('utm_medium', 'extension')
+  u.searchParams.set('utm_content', content)
+  return u.href
+}
+
 const Links = {
   github: 'https://github.com/EltonChou/TwitterMediaHarvest',
   koFi: 'https://ko-fi.com/eltonhy',

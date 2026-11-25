@@ -132,7 +132,7 @@ exports[`unit test for Popup app component can render properly 1`] = `
         <a
           class="chakra-link css-0"
           data-testid="reaction-rate"
-          href="https://chrome.google.com/webstore/detail/hpcgabhdlnapolkkjpejieegfpehfdok"
+          href="https://chrome.google.com/webstore/detail/hpcgabhdlnapolkkjpejieegfpehfdok?utm_source=popup&utm_medium=extension&utm_content=rate-btn"
           target="_blank"
         >
           <div

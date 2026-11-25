@@ -15,7 +15,7 @@ exports[`unit test for FootBar component can render properly 1`] = `
       </p>
       <a
         class="chakra-link css-163zzif"
-        href="https://chrome.google.com/webstore/detail/hpcgabhdlnapolkkjpejieegfpehfdok"
+        href="https://chrome.google.com/webstore/detail/hpcgabhdlnapolkkjpejieegfpehfdok?utm_source=options&utm_medium=extension&utm_content=rate-btn"
         rel="noopener"
         target="_blank"
       >
@@ -49,7 +49,7 @@ exports[`unit test for FootBar component can render properly 1`] = `
       </p>
       <a
         class="chakra-link css-163zzif"
-        href="https://ko-fi.com/eltonhy"
+        href="https://ko-fi.com/eltonhy?utm_source=options&utm_medium=extension&utm_content=support-btn"
         rel="noopener"
         target="_blank"
       >
