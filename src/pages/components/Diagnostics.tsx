@@ -10,20 +10,28 @@ import { Button, HStack, Icon, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
 import { FaCheck, FaQuestion, FaXmark } from 'react-icons/fa6'
 
-const ExtensionStatusIcon = ({ status }: { status: ExtensionStatus }) => {
-  switch (status) {
-    case ExtensionStatus.COMPATIBLE:
-      return <Icon as={FaCheck} color={'brand.green'} />
-    case ExtensionStatus.CONFLICTED:
-      return <Icon as={FaXmark} color={'brand.red'} />
-    default:
-      return <Icon as={FaQuestion} color={'gray.500'} />
-  }
+const ExtensionStatusIcon = {
+  [ExtensionStatus.COMPATIBLE]: <Icon as={FaCheck} color={'brand.green'} />,
+  [ExtensionStatus.CONFLICTED]: <Icon as={FaXmark} color={'brand.red'} />,
+  [ExtensionStatus.UNKNOWN]: <Icon as={FaQuestion} color={'gray.500'} />,
 }
 
 type DiagnosticItemProps = {
   name: string
 }
+
+const confirmPrompt =
+  i18n('Are you sure to start diagnostics?', 'options:diagnostics') +
+  '\n' +
+  i18n(
+    'Other extensions will be temporarily disabled during diagnositc, please ensure your working sessions have been saved.',
+    'options:diagnostics'
+  ) +
+  '\n' +
+  i18n(
+    'This diagnostic might take few minutes to done, depends on how many extensions you installed.',
+    'options:diagnostics'
+  )
 
 // TODO: Make it generic to support more diagnostics in the future
 const DiagnosticItem = (props: DiagnosticItemProps) => {
@@ -44,32 +52,12 @@ const DiagnosticItem = (props: DiagnosticItemProps) => {
       </Text>
       <Text>{message}</Text>
       <HStack>
-        {status === WorkflowStatus.RUNNING ? (
+        {WorkflowStatus.RUNNING === status ? (
           <Button onClick={abort}>Abort</Button>
         ) : (
           <Button
             onClick={async () => {
-              if (
-                !confirm(
-                  i18n(
-                    'Are you sure to start diagnostics?',
-                    'options:diagnostics'
-                  ) +
-                    '\n' +
-                    i18n(
-                      'Other extensions will be temporarily disabled during diagnositc, please ensure your working sessions have been saved.',
-                      'options:diagnostics'
-                    ) +
-                    '\n' +
-                    i18n(
-                      'This diagnostic might take few minutes to done, depends on how many extensions you installed.',
-                      'options:diagnostics'
-                    )
-                )
-              )
-                return
-
-              await diagnose()
+              if (confirm(confirmPrompt)) await diagnose()
             }}
           >
             {i18n('Diagnostic', 'options:diagnostics')}
@@ -79,10 +67,10 @@ const DiagnosticItem = (props: DiagnosticItemProps) => {
           onClick={disableConflicted}
           isDisabled={
             !(
-              status === WorkflowStatus.COMPLETED &&
-              Object.entries(installed).some(
-                ([_, info]) => info.status === ExtensionStatus.CONFLICTED
-              )
+              WorkflowStatus.COMPLETED === status &&
+              Object.entries(installed)
+                .map(([_, { status }]) => status)
+                .some(status => ExtensionStatus.CONFLICTED === status)
             )
           }
         >
@@ -90,10 +78,10 @@ const DiagnosticItem = (props: DiagnosticItemProps) => {
         </Button>
       </HStack>
       <Stack pt={4}>
-        {Object.entries(installed).map(([id, info]) => (
+        {Object.entries(installed).map(([id, { status, name }]) => (
           <HStack key={id}>
-            <ExtensionStatusIcon status={info.status} />
-            <p>{info.name}</p>
+            {ExtensionStatusIcon[status]}
+            <p>{name}</p>
           </HStack>
         ))}
       </Stack>
