@@ -3,9 +3,11 @@
  */
 import useDrinkIcon from './useDrinkIcon'
 import { renderHook } from '@testing-library/react'
-import { BiBeer, BiCoffee, BiCoffeeTogo, BiWine } from 'react-icons/bi'
+import { BiCoffee, BiCoffeeTogo, BiWine } from 'react-icons/bi'
+import { FaMugHot } from 'react-icons/fa'
 import { LuCupSoda } from 'react-icons/lu'
-import { TbBottle, TbBubbleTea, TbGlassFull, TbTeapot } from 'react-icons/tb'
+import { RiBeerFill } from 'react-icons/ri'
+import { TbBottle, TbBubbleTea, TbGlassFull } from 'react-icons/tb'
 import { i18n } from 'webextension-polyfill'
 
 describe('useDrinkIcon', () => {
@@ -13,16 +15,16 @@ describe('useDrinkIcon', () => {
 
   it.each([
     { uiLang: 'en-US', icon: BiCoffeeTogo },
-    { uiLang: 'de', icon: BiBeer },
-    { uiLang: 'es', icon: BiBeer },
+    { uiLang: 'de', icon: RiBeerFill },
+    { uiLang: 'es', icon: RiBeerFill },
     { uiLang: 'fr', icon: BiWine },
     { uiLang: 'it', icon: BiCoffee },
     { uiLang: 'pt-BR', icon: BiCoffee },
     { uiLang: 'ja', icon: BiCoffeeTogo },
     { uiLang: 'ko', icon: TbBottle },
     { uiLang: 'pl', icon: TbGlassFull },
-    { uiLang: 'ru', icon: TbTeapot },
-    { uiLang: 'tr', icon: TbTeapot },
+    { uiLang: 'ru', icon: FaMugHot },
+    { uiLang: 'tr', icon: FaMugHot },
     { uiLang: 'th', icon: LuCupSoda },
     { uiLang: 'zh-CN', icon: TbBubbleTea },
     { uiLang: 'zh-TW', icon: TbBubbleTea },
