@@ -5,8 +5,6 @@
 import DownloadKey from './DownloadKey'
 import { TweetDeckBetaKeyboardMonitor } from './tweetDeckKeyboardMonitor'
 import { TwitterKeyboardMonitor } from './twitterKeyboardMonitor'
-import fs from 'fs/promises'
-import path from 'path'
 
 describe.each([
   {
@@ -44,11 +42,16 @@ describe.each([
       ele.dispatchEvent(keyUpEvent)
     }
 
-    beforeAll(async () => {
+    beforeAll(() => {
       const keyboardMonitor = new KeyboardMonitor()
-      const filePath = path.resolve(__dirname, 'testCases', 'article.html')
-      const content = await fs.readFile(filePath, 'utf8')
-      document.body.innerHTML = content
+      document.body.innerHTML = `
+      <article id="article" data-harvest-article>
+        <button id="button" class="harvester"></button>
+        <div id="editor" class="Some-Editor"></div>
+      </article>
+      <input id="input" />
+      <textarea id="textArea"></textarea>
+      `
 
       document.addEventListener('keydown', e =>
         keyboardMonitor.handleKeyDown(e)

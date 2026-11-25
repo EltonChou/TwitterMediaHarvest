@@ -22,8 +22,6 @@ import 'core-js/actual/url/can-parse'
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/lib/function'
-import fs from 'fs/promises'
-import sysPath from 'path'
 
 jest.mock('./checker', () => ({
   ...jest.requireActual('./checker'),
@@ -34,16 +32,22 @@ const setPath = (path: string) => history.replaceState(null, '', path)
 const setIsX = (value: boolean) =>
   (isX as jest.MockedFunction<typeof isX>).mockReturnValue(value)
 
+/** `isArticleInStream` and `isArticleInStatus` read the class count. */
+const classes = (count: number) =>
+  Array.from({ length: count }, (_, i) => `c${i}`).join(' ')
+
 describe.each([
   {
     context: 'timeline',
-    filePath: sysPath.resolve(
-      __dirname,
-      '..',
-      'testCases',
-      'tweet',
-      'timeline.html'
-    ),
+    html: `
+    <article data-testid="tweet" class="${classes(9)}">
+      <div data-testid="User-Name">
+        <a href="/birdman46049238"></a>
+        <a href="/birdman46049238/status/1852311426666537322"><time></time></a>
+      </div>
+      <video></video>
+    </article>
+    `,
     path: '/birdman46049238',
     statusPath: '/birdman46049238/status/1852311426666537322',
     screenName: 'birdman46049238',
@@ -52,13 +56,12 @@ describe.each([
   },
   {
     context: 'modal',
-    filePath: sysPath.resolve(
-      __dirname,
-      '..',
-      'testCases',
-      'tweet',
-      'modal.html'
-    ),
+    html: `
+    <div data-testid="tweet">
+      <a href="/birdman46049238/status/1852311426666537322"><time></time></a>
+      <a href="/birdman46049238/status/1852311426666537322/analytics"></a>
+    </div>
+    `,
     path: '/birdman46049238/status/1852311426666537322/video/1',
     statusPath: '/birdman46049238/status/1852311426666537322',
     screenName: 'birdman46049238',
@@ -67,13 +70,13 @@ describe.each([
   },
   {
     context: 'status',
-    filePath: sysPath.resolve(
-      __dirname,
-      '..',
-      'testCases',
-      'tweet',
-      'status.html'
-    ),
+    html: `
+    <article data-testid="tweet" class="${classes(6)}">
+      <div data-testid="User-Name"><a href="/birdman46049238"></a></div>
+      <a href="/birdman46049238/status/1852311426666537322"><time></time></a>
+      <video></video>
+    </article>
+    `,
     path: '/birdman46049238/status/1852311426666537322',
     statusPath: '/birdman46049238/status/1852311426666537322',
     screenName: 'birdman46049238',
@@ -82,13 +85,13 @@ describe.each([
   },
   {
     context: 'edited-status',
-    filePath: sysPath.resolve(
-      __dirname,
-      '..',
-      'testCases',
-      'tweet',
-      'edited-status.html'
-    ),
+    html: `
+    <article data-testid="tweet" class="${classes(6)}">
+      <div data-testid="User-Name"><a href="/seigura"></a></div>
+      <a href="/seigura/status/1842037500065546723/history"><time></time></a>
+      <a href="/seigura/status/1842037500065546723/photo/1"></a>
+    </article>
+    `,
     path: '/seigura/status/1842037500065546723',
     statusPath: '/seigura/status/1842037500065546723',
     screenName: 'seigura',
@@ -97,13 +100,12 @@ describe.each([
   },
   {
     context: 'edited-modal',
-    filePath: sysPath.resolve(
-      __dirname,
-      '..',
-      'testCases',
-      'tweet',
-      'edited-modal.html'
-    ),
+    html: `
+    <div data-testid="tweet">
+      <a href="/seigura/status/1842037500065546723/history"><time></time></a>
+      <a href="/seigura/status/1842037500065546723/analytics"></a>
+    </div>
+    `,
     path: '/seigura/status/1842037500065546723/photo/3',
     statusPath: '/seigura/status/1842037500065546723',
     screenName: 'seigura',
@@ -112,14 +114,15 @@ describe.each([
   },
   {
     context: 'edited-timeline',
-    filePath: sysPath.resolve(
-      __dirname,
-      '..',
-      'testCases',
-      'tweet',
-
-      'edited-timeline.html'
-    ),
+    html: `
+    <article data-testid="tweet" class="${classes(9)}">
+      <div data-testid="User-Name">
+        <a href="/seigura"></a>
+        <a href="/seigura/status/1842037500065546723"><time></time></a>
+      </div>
+      <a href="/seigura/status/1842037500065546723/photo/1"></a>
+    </article>
+    `,
     path: '/seigura',
     statusPath: '/seigura/status/1842037500065546723',
     screenName: 'seigura',
@@ -128,12 +131,11 @@ describe.each([
   },
 ])(
   'unit test for Harvester in $context',
-  ({ filePath, path, statusPath, screenName, tweetId, mode }) => {
+  ({ html, path, statusPath, screenName, tweetId, mode }) => {
     const getArticle = () => getAllByTestId(document.body, 'tweet')[0]
 
-    beforeAll(async () => {
-      const content = await fs.readFile(filePath, 'utf-8')
-      document.body.innerHTML = content
+    beforeAll(() => {
+      document.body.innerHTML = html
       setPath(path)
     })
 

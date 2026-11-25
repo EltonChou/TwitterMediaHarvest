@@ -5,8 +5,6 @@ import { isSuccessResult } from '#utils/result'
 import { bleachButton, makeHarvestButton } from './Harvester'
 import { screen } from '@testing-library/dom'
 import { pipe } from 'fp-ts/lib/function'
-import fs from 'fs/promises'
-import sysPath from 'path'
 import { runtime } from 'webextension-polyfill'
 
 const setPath = (path: string) => history.replaceState(null, '', path)
@@ -25,89 +23,47 @@ jest.mock(
 `
 )
 
+/** `isArticleInStream` and `isArticleInStatus` read the class count. */
+const classes = (count: number) =>
+  Array.from({ length: count }, (_, i) => `c${i}`).join(' ')
+
+const actionBar = `
+  <div role="group" aria-label="actions">
+    <div data-testid="reply"><div><svg></svg></div></div>
+  </div>
+`
+
+// ponytail: edited variants differ only in links, which button making ignores
 describe.each([
   {
     context: 'timeline',
-    filePath: sysPath.resolve(
-      __dirname,
-      '..',
-      'testCases',
-      'tweet',
-      'timeline.html'
-    ),
+    html: `<article data-testid="tweet" class="${classes(9)}">${actionBar}</article>`,
     path: '/birdman46049238',
   },
   {
     context: 'modal',
-    filePath: sysPath.resolve(
-      __dirname,
-      '..',
-      'testCases',
-      'tweet',
-      'modal.html'
-    ),
+    html: `<div data-testid="tweet">${actionBar}</div>`,
     path: '/birdman46049238/status/1852311426666537322/video/1',
   },
   {
     context: 'status',
-    filePath: sysPath.resolve(
-      __dirname,
-      '..',
-      'testCases',
-      'tweet',
-      'status.html'
-    ),
+    html: `<article data-testid="tweet" class="${classes(6)}">${actionBar}</article>`,
     path: '/birdman46049238/status/1852311426666537322',
   },
-  {
-    context: 'edited-status',
-    filePath: sysPath.resolve(
-      __dirname,
-      '..',
-      'testCases',
-      'tweet',
-      'edited-status.html'
-    ),
-    path: '/seigura/status/1842037500065546723',
-  },
-  {
-    context: 'edited-modal',
-    filePath: sysPath.resolve(
-      __dirname,
-      '..',
-      'testCases',
-      'tweet',
-      'edited-modal.html'
-    ),
-    path: '/seigura/status/1842037500065546723/photo/3',
-  },
-  {
-    context: 'edited-timeline',
-    filePath: sysPath.resolve(
-      __dirname,
-      '..',
-      'testCases',
-      'tweet',
-
-      'edited-timeline.html'
-    ),
-    path: '/seigura',
-  },
-])('unit test for Harvester', ({ filePath, path, context }) => {
+])('unit test for Harvester in $context', ({ html, path }) => {
   const getArticle = () => screen.getAllByTestId('tweet')[0]
 
-  beforeAll(async () => {
-    const content = await fs.readFile(filePath, 'utf-8')
-    document.body.innerHTML = content
+  beforeAll(() => {
+    document.body.innerHTML = html
     setPath(path)
   })
 
-  afterAll(async () => {
+  afterAll(() => {
     document.body.innerHTML = ''
     setPath('/')
   })
 
-  it(`can make harvest button ion context: ${context}`, () => {
+  it('can make harvest button', () => {
     // makeHarvestButton will calls `runtime.sendMessage` to check button status
     jest
       .spyOn(runtime, 'sendMessage')
@@ -115,7 +71,7 @@ describe.each([
 
     const result = pipe(getArticle(), makeHarvestButton)()
 
-    expect(isSuccessResult(result))
+    expect(isSuccessResult(result)).toBeTrue()
 
     const harvesterButton = screen.queryByTestId('harvester-button')
     expect(harvesterButton).toBeInTheDocument()
