@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 03:57+0800\n"
+"POT-Creation-Date: 2026-11-26 06:23+0800\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Translators <>\n"
 "Language-Team: Thai\n"
@@ -303,12 +303,12 @@ msgstr ""
 "เมื่อทวีตถูกตั้งค่าเป็นเนื้อหาละเอียดอ่อน "
 "ฟีเจอร์นี้จะแสดงเนื้อหาที่ซ่อนอยู่โดยอัตโนมัติ"
 
-#: src/pages/components/FootBar.tsx:45
+#: src/pages/components/FootBar.tsx:57
 msgctxt "options:footBar:button"
 msgid "Buy me a coffee"
 msgstr "ซื้อกาแฟให้ฉัน"
 
-#: src/pages/components/FootBar.tsx:34
+#: src/pages/components/FootBar.tsx:38
 msgctxt "options:footBar:button"
 msgid "Rate it"
 msgstr "ให้คะแนน"
@@ -318,7 +318,7 @@ msgctxt "options:footBar:text"
 msgid "Do you like Media Harvest?"
 msgstr "คุณชอบ Media Harvest ไหม?"
 
-#: src/pages/components/FootBar.tsx:37
+#: src/pages/components/FootBar.tsx:41
 msgctxt "options:footBar:text"
 msgid "or"
 msgstr "หรือ"
@@ -663,22 +663,22 @@ msgctxt "popup"
 msgid "Auto-Reveal NSFW"
 msgstr "แสดง 18+ ออโต้"
 
-#: src/pages/app/Popup.tsx:216
+#: src/pages/app/Popup.tsx:220
 msgctxt "popup"
 msgid "Buy me a coffee!"
 msgstr "ซื้อกาแฟให้ฉัน!"
 
-#: src/pages/app/Popup.tsx:198
+#: src/pages/app/Popup.tsx:202
 msgctxt "popup"
 msgid "Changelog"
 msgstr "บันทึกการเปลี่ยนแปลง"
 
-#: src/pages/app/Popup.tsx:129
+#: src/pages/app/Popup.tsx:133
 msgctxt "popup"
 msgid "Rate it"
 msgstr "ให้คะแนน"
 
-#: src/pages/app/Popup.tsx:136
+#: src/pages/app/Popup.tsx:140
 msgctxt "popup"
 msgid "Report issues"
 msgstr "รายงานปัญหา"

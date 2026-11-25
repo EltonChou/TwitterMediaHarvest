@@ -28,11 +28,21 @@ const getAria2ExplorerLink = () => {
   }
 }
 
+export const enum UtmSource {
+  Popup = 'popup',
+  Options = 'options',
+}
+
+export const enum UtmContent {
+  RateButton = 'rate-btn',
+  SupportButton = 'support-btn',
+}
+
 /** Tag owned destinations (store, Ko-fi) for GA attribution; extension pages send no useful referrer. */
 export const withUtm = (
   url: string,
-  source: 'popup' | 'options',
-  content: string
+  source: UtmSource,
+  content: UtmContent
 ) => {
   const u = new URL(url)
   u.searchParams.set('utm_source', source)

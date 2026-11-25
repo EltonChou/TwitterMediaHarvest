@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 06:21+0800\n"
+"POT-Creation-Date: 2026-11-26 06:23+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -279,7 +279,7 @@ msgctxt "options:features"
 msgid "When the tweet was flagged as sensitive content, this feature can show the blured content automatically."
 msgstr ""
 
-#: src/pages/components/FootBar.tsx:53
+#: src/pages/components/FootBar.tsx:57
 msgctxt "options:footBar:button"
 msgid "Buy me a coffee"
 msgstr ""

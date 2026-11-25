@@ -1,4 +1,4 @@
-import { withUtm } from './links'
+import { UtmContent, UtmSource, withUtm } from './links'
 
 describe('withUtm', () => {
   it.each([
@@ -21,6 +21,8 @@ describe('withUtm', () => {
         'https://foo.bar/a?utm_source=popup&utm_medium=extension&utm_content=support-btn#v1',
     },
   ])('appends utm params to $name', ({ url, expected }) => {
-    expect(withUtm(url, 'popup', 'support-btn')).toBe(expected)
+    expect(withUtm(url, UtmSource.Popup, UtmContent.SupportButton)).toBe(
+      expected
+    )
   })
 })

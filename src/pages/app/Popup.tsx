@@ -10,7 +10,7 @@ import PopupFeatureBlock, {
 } from '#pages/components/PopupFeatureBlock'
 import useLocaleVariables from '#pages/hooks/useLocaleVariables'
 import useStatsStore from '#pages/hooks/useStatsStore'
-import Links, { withUtm } from '#pages/links'
+import Links, { UtmContent, UtmSource, withUtm } from '#pages/links'
 import { createStatsStore } from '#pages/stores/StatsStore'
 import type { TestableComponent } from '#pages/types/props'
 import { V4Statistics } from '#schema'
@@ -125,7 +125,7 @@ const ReactionsBlock = () => {
   return (
     <Stack spacing={2} fontSize={'0.8em'}>
       <Link
-        href={withUtm(Links.store, 'popup', 'rate-btn')}
+        href={withUtm(Links.store, UtmSource.Popup, UtmContent.RateButton)}
         target="_blank"
         data-testid="reaction-rate"
       >
@@ -218,7 +218,7 @@ const Footer = () => {
         icon={BiCoffeeTogo}
         label="Donate"
         info={i18n('Buy me a coffee!', 'popup')}
-        link={withUtm(Links.koFi, 'popup', 'support-btn')}
+        link={withUtm(Links.koFi, UtmSource.Popup, UtmContent.SupportButton)}
         setInfo={setInfo}
         infoReseter={resetInfo}
         testId="footer-action-kofi"

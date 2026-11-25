@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 03:57+0800\n"
+"POT-Creation-Date: 2026-11-26 06:23+0800\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Translators <noreply@example.com>\n"
 "Language-Team: Italian\n"
@@ -312,12 +312,12 @@ msgstr ""
 "Se il tweet è contrassegnato come contenuto sensibile, questa funzione può "
 "mostrare il contenuto sfocato automaticamente."
 
-#: src/pages/components/FootBar.tsx:45
+#: src/pages/components/FootBar.tsx:57
 msgctxt "options:footBar:button"
 msgid "Buy me a coffee"
 msgstr "Offrimi un caffè"
 
-#: src/pages/components/FootBar.tsx:34
+#: src/pages/components/FootBar.tsx:38
 msgctxt "options:footBar:button"
 msgid "Rate it"
 msgstr "Valuta"
@@ -327,7 +327,7 @@ msgctxt "options:footBar:text"
 msgid "Do you like Media Harvest?"
 msgstr "Ti piace Media Harvest?"
 
-#: src/pages/components/FootBar.tsx:37
+#: src/pages/components/FootBar.tsx:41
 msgctxt "options:footBar:text"
 msgid "or"
 msgstr "o"
@@ -678,22 +678,22 @@ msgctxt "popup"
 msgid "Auto-Reveal NSFW"
 msgstr "Mostra auto sensibili"
 
-#: src/pages/app/Popup.tsx:216
+#: src/pages/app/Popup.tsx:220
 msgctxt "popup"
 msgid "Buy me a coffee!"
 msgstr "Offrimi un caffè!"
 
-#: src/pages/app/Popup.tsx:198
+#: src/pages/app/Popup.tsx:202
 msgctxt "popup"
 msgid "Changelog"
 msgstr "Registro delle modifiche"
 
-#: src/pages/app/Popup.tsx:129
+#: src/pages/app/Popup.tsx:133
 msgctxt "popup"
 msgid "Rate it"
 msgstr "Valuta"
 
-#: src/pages/app/Popup.tsx:136
+#: src/pages/app/Popup.tsx:140
 msgctxt "popup"
 msgid "Report issues"
 msgstr "Segnala problemi"

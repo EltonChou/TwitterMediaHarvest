@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { getText as i18n } from '#libs/i18n'
-import Links, { withUtm } from '#pages/links'
+import Links, { UtmContent, UtmSource, withUtm } from '#pages/links'
 import { StarIcon } from '@chakra-ui/icons'
 import { Box, Button, HStack, Link, Text } from '@chakra-ui/react'
 import React from 'react'
@@ -25,7 +25,7 @@ const FootBar = () => {
           {i18n('Do you like Media Harvest?', 'options:footBar:text')}
         </Text>
         <Link
-          href={withUtm(Links.store, 'options', 'rate-btn')}
+          href={withUtm(Links.store, UtmSource.Options, UtmContent.RateButton)}
           _hover={{ textDecoration: 'none' }}
           isExternal
         >
@@ -40,7 +40,11 @@ const FootBar = () => {
         </Link>
         <Text>{i18n('or', 'options:footBar:text')}</Text>
         <Link
-          href={withUtm(Links.koFi, 'options', 'support-btn')}
+          href={withUtm(
+            Links.koFi,
+            UtmSource.Options,
+            UtmContent.SupportButton
+          )}
           _hover={{ textDecoration: 'none' }}
           isExternal
         >
