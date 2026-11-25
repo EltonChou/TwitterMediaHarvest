@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 06:23+0800\n"
+"POT-Creation-Date: 2026-11-26 06:26+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -588,24 +588,24 @@ msgctxt "options:integrations"
 msgid "Aria2-Explorer"
 msgstr "Aria2-Explorer"
 
-#: src/pages/components/IntegrationOptions.tsx:88
+#: src/pages/components/IntegrationOptions.tsx:92
 msgctxt "options:integrations"
 msgid "Dispatch download to Aria2"
 msgstr "傳送下載任務到 Aria2"
 
-#: src/pages/components/IntegrationOptions.tsx:76
+#: src/pages/components/IntegrationOptions.tsx:80
 msgctxt "options:integrations"
 msgid "Filename Detector"
 msgstr "檔案名稱偵測"
 
-#: src/pages/components/IntegrationOptions.tsx:77
+#: src/pages/components/IntegrationOptions.tsx:81
 msgctxt "options:integrations"
 msgid ""
 "The detector can notify user when the filename is modified by other "
 "extensions."
 msgstr "當檔案名稱可能被其他擴充功能修改時發出警告通知。"
 
-#: src/pages/components/IntegrationOptions.tsx:65
+#: src/pages/components/IntegrationOptions.tsx:69
 msgctxt "options:integrations"
 msgid "This integration is not compatible with {{platform}}"
 msgstr "{{platform}} 瀏覽器不支援此項功能"

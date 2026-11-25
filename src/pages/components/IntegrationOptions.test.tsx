@@ -37,4 +37,27 @@ describe('unit test for IntegrationOptions component', () => {
 
     unmount()
   })
+
+  it.each(['chrome', 'edge'])(
+    'tags aria2 explorer link as media-harvest traffic on %s',
+    target => {
+      Object.assign(global, { __BROWSER__: target })
+
+      const { container, unmount } = render(
+        <IntegrationOptions
+          downloadSettingsRepo={downloadSettingsRepo}
+          warningSettingsRepo={warningSettingsRepo}
+        />
+      )
+
+      const href = queryByTestId(container, 'aria2-ext-link')?.getAttribute(
+        'href'
+      )
+      expect(new URL(href!).search).toBe(
+        '?utm_source=media-harvest&utm_medium=extension&utm_content=integration-link'
+      )
+
+      unmount()
+    }
+  )
 })

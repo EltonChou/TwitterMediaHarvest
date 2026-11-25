@@ -100,7 +100,7 @@ exports[`unit test for IntegrationOptions component match chrome snapshot: chrom
               <a
                 class="chakra-link css-p03q1r"
                 data-testid="aria2-ext-link"
-                href="https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn"
+                href="https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn?utm_source=media-harvest&utm_medium=extension&utm_content=integration-link"
                 target="_blank"
               >
                 Translated&lt;options:integrations_Aria2-Explorer&gt;
@@ -242,7 +242,7 @@ exports[`unit test for IntegrationOptions component match edge snapshot: edge 1`
               <a
                 class="chakra-link css-p03q1r"
                 data-testid="aria2-ext-link"
-                href="https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn"
+                href="https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn?utm_source=media-harvest&utm_medium=extension&utm_content=integration-link"
                 target="_blank"
               >
                 Translated&lt;options:integrations_Aria2-Explorer&gt;

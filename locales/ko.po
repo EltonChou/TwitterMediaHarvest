@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 06:23+0800\n"
+"POT-Creation-Date: 2026-11-26 06:26+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -588,24 +588,24 @@ msgctxt "options:integrations"
 msgid "Aria2-Explorer"
 msgstr "Aria2-Explorer"
 
-#: src/pages/components/IntegrationOptions.tsx:88
+#: src/pages/components/IntegrationOptions.tsx:92
 msgctxt "options:integrations"
 msgid "Dispatch download to Aria2"
 msgstr "다운로드를 Aria2로 전달"
 
-#: src/pages/components/IntegrationOptions.tsx:76
+#: src/pages/components/IntegrationOptions.tsx:80
 msgctxt "options:integrations"
 msgid "Filename Detector"
 msgstr "파일명 감지기"
 
-#: src/pages/components/IntegrationOptions.tsx:77
+#: src/pages/components/IntegrationOptions.tsx:81
 msgctxt "options:integrations"
 msgid ""
 "The detector can notify user when the filename is modified by other "
 "extensions."
 msgstr "감지기는 파일명이 다른 확장 프로그램에 의해 수정될 때 사용자에게 알릴 수 있습니다."
 
-#: src/pages/components/IntegrationOptions.tsx:65
+#: src/pages/components/IntegrationOptions.tsx:69
 msgctxt "options:integrations"
 msgid "This integration is not compatible with {{platform}}"
 msgstr "이 통합은 {{platform}}과(와) 호환되지 않습니다"

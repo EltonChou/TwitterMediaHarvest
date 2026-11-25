@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 06:23+0800\n"
+"POT-Creation-Date: 2026-11-26 06:26+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -563,22 +563,22 @@ msgctxt "options:integrations"
 msgid "Aria2-Explorer"
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:88
+#: src/pages/components/IntegrationOptions.tsx:92
 msgctxt "options:integrations"
 msgid "Dispatch download to Aria2"
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:76
+#: src/pages/components/IntegrationOptions.tsx:80
 msgctxt "options:integrations"
 msgid "Filename Detector"
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:77
+#: src/pages/components/IntegrationOptions.tsx:81
 msgctxt "options:integrations"
 msgid "The detector can notify user when the filename is modified by other extensions."
 msgstr ""
 
-#: src/pages/components/IntegrationOptions.tsx:65
+#: src/pages/components/IntegrationOptions.tsx:69
 msgctxt "options:integrations"
 msgid "This integration is not compatible with {{platform}}"
 msgstr ""

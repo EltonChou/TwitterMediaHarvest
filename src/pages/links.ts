@@ -31,11 +31,14 @@ const getAria2ExplorerLink = () => {
 export const enum UtmSource {
   Popup = 'popup',
   Options = 'options',
+  /** For third-party destinations: tells them the traffic came from us. */
+  MediaHarvest = 'media-harvest',
 }
 
 export const enum UtmContent {
   RateButton = 'rate-btn',
   SupportButton = 'support-btn',
+  IntegrationLink = 'integration-link',
 }
 
 /** Tag owned destinations (store, Ko-fi) for GA attribution; extension pages send no useful referrer. */

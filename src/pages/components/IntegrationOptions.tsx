@@ -8,7 +8,7 @@ import type { IWarningSettingsRepo } from '#domain/repositories/warningSettings'
 import { getText as i18n } from '#libs/i18n'
 import useDownloadSettings from '#pages/hooks/useDownloadSettings'
 import useWarningSettings from '#pages/hooks/useWarningSettings'
-import Links from '#pages/links'
+import Links, { UtmContent, UtmSource, withUtm } from '#pages/links'
 import { testIdProps } from '#pages/utils'
 import type { DownloadSettings } from '#schema'
 import type { HelperMessage } from './controls/featureControls'
@@ -31,7 +31,11 @@ const Aria2Description = () => {
     <>
       {prefix}
       <Link
-        href={Links.aria2Explorer}
+        href={withUtm(
+          Links.aria2Explorer,
+          UtmSource.MediaHarvest,
+          UtmContent.IntegrationLink
+        )}
         target="_blank"
         color={'blue.400'}
         {...testIdProps('aria2-ext-link')}

@@ -22,7 +22,7 @@ No sign-in required. No third-party services. Works directly in your browser.
 - Customize filename format for downloaded files
 - Download history to track what you've saved
 - Auto-reveal sensitive content (optional)
-- Integrates with [Aria2 Explorer](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn) for advanced download management
+- Integrates with [Aria2 Explorer](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn?utm_source=media-harvest&utm_medium=docs&utm_content=integration-link) for advanced download management
 - Does not rely on any third-party services
 
 ## Install

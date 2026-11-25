@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 06:23+0800\n"
+"POT-Creation-Date: 2026-11-26 06:26+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -608,17 +608,17 @@ msgctxt "options:integrations"
 msgid "Aria2-Explorer"
 msgstr "Aria2-Explorer"
 
-#: src/pages/components/IntegrationOptions.tsx:88
+#: src/pages/components/IntegrationOptions.tsx:92
 msgctxt "options:integrations"
 msgid "Dispatch download to Aria2"
 msgstr "Transférer le téléchargement vers Aria2"
 
-#: src/pages/components/IntegrationOptions.tsx:76
+#: src/pages/components/IntegrationOptions.tsx:80
 msgctxt "options:integrations"
 msgid "Filename Detector"
 msgstr "Détecteur de nom de fichier"
 
-#: src/pages/components/IntegrationOptions.tsx:77
+#: src/pages/components/IntegrationOptions.tsx:81
 msgctxt "options:integrations"
 msgid ""
 "The detector can notify user when the filename is modified by other "
@@ -627,7 +627,7 @@ msgstr ""
 "Le détecteur peut avertir l'utilisateur lorsque le nom de fichier est "
 "modifié par d'autres extensions."
 
-#: src/pages/components/IntegrationOptions.tsx:65
+#: src/pages/components/IntegrationOptions.tsx:69
 msgctxt "options:integrations"
 msgid "This integration is not compatible with {{platform}}"
 msgstr "Cette intégration n'est pas compatible avec {{platform}}"
