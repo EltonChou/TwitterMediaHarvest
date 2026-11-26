@@ -278,6 +278,58 @@ it.each([
   expect(isMediaViewerOpenFor(anotherArticle)).toBeFalse()
 })
 
+describe('media viewer without its action bar', () => {
+  afterEach(() => setPath('/'))
+
+  it.each([
+    {
+      name: 'photo url in portal',
+      path: '/someone/status/1/photo/1',
+      inPortal: true,
+      expected: true,
+    },
+    {
+      name: 'video url in portal',
+      path: '/someone/status/1/video/1',
+      inPortal: true,
+      expected: true,
+    },
+    {
+      name: 'other tweet url',
+      path: '/someone/status/2/photo/1',
+      inPortal: true,
+      expected: false,
+    },
+    {
+      name: 'status url',
+      path: '/someone/status/1',
+      inPortal: true,
+      expected: false,
+    },
+    {
+      name: 'article behind viewer',
+      path: '/someone/status/1/photo/1',
+      inPortal: false,
+      expected: false,
+    },
+  ])(
+    'should detect viewer by url when its action bar is gone: $name',
+    ({ path, inPortal, expected }) => {
+      setPath(path)
+      const article =
+        '<article id="target"><a href="/someone/status/1/analytics"></a></article>'
+      document.body.innerHTML = inPortal
+        ? `<div data-base-ui-portal><div data-harvest-observe-id="Media Viewer">${article}</div></div>`
+        : `<main>${article}</main>`
+
+      const target = document.getElementById('target')
+      if (!target) throw new Error('HTML is wrongly set')
+
+      expect(isMediaViewerOpenFor(target)).toBe(expected)
+    }
+  )
+})
+
 it('should treat the media viewer bar container as photo mode in X', () => {
   const mockIsX = isX as jest.MockedFunction<typeof isX>
   mockIsX.mockReturnValue(true)

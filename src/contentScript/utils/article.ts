@@ -63,7 +63,22 @@ export const isMediaViewerOpenFor = (
     `${viewerQuery} a[href^="${href}/"]:not(article a)`
   )
 
-  return Boolean(viewerAnalyticsAnchor)
+  return (
+    Boolean(viewerAnalyticsAnchor) ||
+    (viewerQuery === X_VIEWER_QUERY && isViewerUrlFor(article, href))
+  )
+}
+
+/**
+ * The viewer's action bar unmounts when its media fails to load, but the URL
+ * still names the media. Articles behind the viewer live in `main`, not a portal.
+ */
+const isViewerUrlFor = (article: HTMLElement, href: string | null) => {
+  const status = href?.match(/\/\w+\/status\/\d+/)?.[0]
+  return (
+    Boolean(status && article.closest('[data-base-ui-portal]')) &&
+    new RegExp(`^${status}/(photo|video)/\\d+`).test(location.pathname)
+  )
 }
 
 /**
