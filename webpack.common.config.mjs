@@ -48,7 +48,8 @@ const config = {
             options: {
               // isolatedModules forces preserveConstEnums; turn it off here so tsc inlines const enums in the bundle.
               // Must stay a full-program build (no transpileOnly) for cross-file inlining.
-              compilerOptions: { isolatedModules: false },
+              // jsx: preserve hands JSX to babel so React Compiler can detect components.
+              compilerOptions: { isolatedModules: false, jsx: 'preserve' },
               getCustomTransformers: () => ({
                 before: [
                   i18nTransformer({

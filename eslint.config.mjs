@@ -60,8 +60,7 @@ export default tseslint.config(
           allowSeparatedGroups: true,
         },
       ],
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
+      ...reactHookPlugin.configs['recommended-latest'].rules,
       // ponytail: syntactic only; misses React.useState and `[x, _]`.
       'no-restricted-syntax': [
         'error',

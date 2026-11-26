@@ -12,6 +12,7 @@ export default function (api) {
       ],
     ],
     plugins: [
+      'babel-plugin-react-compiler', // must run first
       ['polyfill-corejs3', { method: 'usage-global', version: '3.48' }],
     ],
   }
