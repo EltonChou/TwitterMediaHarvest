@@ -98,76 +98,38 @@ featureSettingsRepo.get().then(feature => {
   return feature
 })
 
-type ResponseTypeCriteria = {
-  type: ResponseType
-  endpoint: string
-}
+const responseTypeByEndpoint = new Map<string, ResponseType>([
+  ['TweetDetail', ResponseType.TweetDetail],
+  ['TweetResultByRestId', ResponseType.TweetResultByRestId],
+  ['UserTweets', ResponseType.UserTweets],
+  ['UserMedia', ResponseType.UserMedia],
+  ['HomeTimeline', ResponseType.HomeTimeline],
+  ['HomeLatestTimeline', ResponseType.HomeLatestTimeline],
+  ['UserArticlesTweets', ResponseType.UserArticlesTweets],
+  ['UserTweetsAndReplies', ResponseType.UserTweetsAndReplies],
+  ['UserHighlightsTweets', ResponseType.UserHighlightsTweets],
+  ['Bookmarks', ResponseType.Bookmarks],
+  ['Likes', ResponseType.Likes],
+  ['CommunitiesExploreTimeline', ResponseType.CommunitiesExploreTimeline],
+  ['ListLatestTweetsTimeline', ResponseType.ListLatestTweetsTimeline],
+  ['SearchTimeline', ResponseType.SearchTimeline],
+  ['UserOriginalsTimeline', ResponseType.UserOriginalsTimeline],
+  ['SearchByRawQuery', ResponseType.SearchByRawQuery],
+  ['UserRepliesTimeline', ResponseType.UserRepliesTimeline],
+  ['UserRepostsTimeline', ResponseType.UserRepostsTimeline],
+  ['UserVideoTimeline', ResponseType.UserVideoTimeline],
+  ['UserPhotoTimeline', ResponseType.UserPhotoTimeline],
+  ['likesQuery', ResponseType.LikesQuery],
+  ['BookmarkTimeline', ResponseType.BookmarkTimeline],
+  ['tweetNotificationsQuery', ResponseType.TweetNotificationsQuery],
+  ['ListTimeline', ResponseType.ListTimeline],
+  ['device_follow.json', ResponseType.NotificationsDeviceFollow],
+])
 
-const responseTypeCriterias: ResponseTypeCriteria[] = [
-  { type: ResponseType.TweetDetail, endpoint: 'TweetDetail' },
-  { type: ResponseType.TweetResultByRestId, endpoint: 'TweetResultByRestId' },
-  { type: ResponseType.UserTweets, endpoint: 'UserTweets' },
-  { type: ResponseType.UserMedia, endpoint: 'UserMedia' },
-  { type: ResponseType.HomeTimeline, endpoint: 'HomeTimeline' },
-  { type: ResponseType.HomeLatestTimeline, endpoint: 'HomeLatestTimeline' },
-  { type: ResponseType.UserArticlesTweets, endpoint: 'UserArticlesTweets' },
-  { type: ResponseType.UserTweetsAndReplies, endpoint: 'UserTweetsAndReplies' },
-  { type: ResponseType.UserHighlightsTweets, endpoint: 'UserHighlightsTweets' },
-  { type: ResponseType.Bookmarks, endpoint: 'Bookmarks' },
-  { type: ResponseType.Likes, endpoint: 'Likes' },
-  {
-    type: ResponseType.CommunitiesExploreTimeline,
-    endpoint: 'CommunitiesExploreTimeline',
-  },
-  {
-    type: ResponseType.ListLatestTweetsTimeline,
-    endpoint: 'ListLatestTweetsTimeline',
-  },
-  {
-    type: ResponseType.SearchTimeline,
-    endpoint: 'SearchTimeline',
-  },
-  {
-    type: ResponseType.UserOriginalsTimeline,
-    endpoint: 'UserOriginalsTimeline',
-  },
-  {
-    type: ResponseType.SearchByRawQuery,
-    endpoint: 'SearchByRawQuery',
-  },
-  {
-    type: ResponseType.UserRepliesTimeline,
-    endpoint: 'UserRepliesTimeline',
-  },
-  {
-    type: ResponseType.UserRepostsTimeline,
-    endpoint: 'UserRepostsTimeline',
-  },
-  {
-    type: ResponseType.UserVideoTimeline,
-    endpoint: 'UserVideoTimeline',
-  },
-  { type: ResponseType.UserPhotoTimeline, endpoint: 'UserPhotoTimeline' },
-  { type: ResponseType.LikesQuery, endpoint: 'likesQuery' },
-  { type: ResponseType.BookmarkTimeline, endpoint: 'BookmarkTimeline' },
-  {
-    type: ResponseType.TweetNotificationsQuery,
-    endpoint: 'tweetNotificationsQuery',
-  },
-  { type: ResponseType.ListTimeline, endpoint: 'ListTimeline' },
-  {
-    type: ResponseType.NotificationsDeviceFollow,
-    endpoint: 'device_follow.json',
-  },
-]
-
-const detectResponseTypeByEndpoint = (path: string): ResponseType => {
-  for (const { type, endpoint } of responseTypeCriterias) {
-    if (path.endsWith(endpoint)) return type
-  }
-
-  return ResponseType.Unknown
-}
+// path is URL.pathname, so the endpoint is always its last segment
+const detectResponseTypeByEndpoint = (path: string): ResponseType =>
+  responseTypeByEndpoint.get(path.slice(path.lastIndexOf('/') + 1)) ??
+  ResponseType.Unknown
 
 /* eslint-disable no-console */
 document.addEventListener('mh:media-response', async e => {
