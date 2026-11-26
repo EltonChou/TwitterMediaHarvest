@@ -9,12 +9,15 @@ import type { AggregationToken } from '#domain/valueObjects/filenameSetting'
 import type PatternToken from '#enums/patternToken'
 import { getText as i18n } from '#libs/i18n'
 import type { HelperMessage } from '#pages/components/controls/featureControls'
-import type {
-  InitPayloadAction,
-  PayloadAction,
-  PureAction,
-} from '#pages/types/reducerAction'
-import { useCallback, useEffect, useReducer, useState } from 'react'
+import { createSettingsStore } from '#pages/stores/SettingsStore'
+import type { PayloadAction, PureAction } from '#pages/types/reducerAction'
+import {
+  useCallback,
+  useMemo,
+  useReducer,
+  useState,
+  useSyncExternalStore,
+} from 'react'
 
 type DirectorySetAction = PayloadAction<'setDirectory', string>
 
@@ -35,7 +38,6 @@ type FilenameSettingsPureAction = PureAction<
 type FilenameSettingsAction =
   | FilenameSettingsPureAction
   | PayloadAction<'reset', FilenameSetting>
-  | InitPayloadAction<FilenameSetting>
   | DirectorySetAction
   | FilenamePatternSetAction
   | AggregationTokenSetAction
@@ -47,27 +49,28 @@ type FormStatusAction = PureAction<
   | 'filenamePatternIsValid'
   | 'formIsChanged'
   | 'formIsNotChanged'
-  | 'init'
 >
 
-type FormStatus = {
+type EditStatus = {
   dataIsChanged: boolean
   directoryIsValid: boolean
   filenamePatternIsValid: boolean
+}
+
+type FormStatus = EditStatus & {
   isLoaded: boolean
 }
 
-const defaultFormStatus: FormStatus = {
+const defaultEditStatus: EditStatus = {
   dataIsChanged: false,
   directoryIsValid: true,
   filenamePatternIsValid: true,
-  isLoaded: false,
 }
 
 function formStatusReducer(
-  formStatus: FormStatus,
+  formStatus: EditStatus,
   action: FormStatusAction
-): FormStatus {
+): EditStatus {
   switch (action.type) {
     case 'directoryIsInvalid':
       return {
@@ -104,12 +107,6 @@ function formStatusReducer(
         ...formStatus,
         dataIsChanged: false,
       }
-
-    case 'init':
-      return {
-        ...formStatus,
-        isLoaded: true,
-      }
   }
 }
 
@@ -143,15 +140,12 @@ function settingReducer(
     case 'setAggregationToken':
       return new FilenameSetting({ ...settingProps, groupBy: action.payload })
 
-    case 'init':
-      return action.payload
-
     case 'reset':
       return action.payload
   }
 }
 
-const isValidFormStatus = (status: FormStatus) =>
+const isValidFormStatus = (status: EditStatus) =>
   status.directoryIsValid && status.filenamePatternIsValid
 
 type FormMessage = {
@@ -190,13 +184,36 @@ const useFilenameSettingsForm = (
   message: FormMessage
   handler: FormHandler
 } => {
-  const [filenameSettings, settingsDispatch] = useReducer(
-    settingReducer,
-    filenameSettingsRepo.getDefault()
+  const store = useMemo(
+    () =>
+      createSettingsStore({
+        get: () => filenameSettingsRepo.get(),
+        getDefault: () => filenameSettingsRepo.getDefault(),
+        keys: new Set(
+          filenameSettingsRepo.getDefault().mapBy(props => Object.keys(props))
+        ),
+      }),
+    [filenameSettingsRepo]
   )
+  const storedSettings = useSyncExternalStore(
+    store.subscribe,
+    store.getSnapShot
+  )
+  const isLoaded = useSyncExternalStore(store.subscribe, store.getIsLoaded)
+  // Unsaved edits. While it exists, it wins over the stored settings,
+  // so a late load or a change from elsewhere cannot clobber the user's edits.
+  const [draft, setDraft] = useState<FilenameSetting | null>(null)
+  const filenameSettings = draft ?? storedSettings
+
+  const settingsDispatch = useCallback(
+    (action: FilenameSettingsAction) =>
+      setDraft(draft => settingReducer(draft ?? storedSettings, action)),
+    [storedSettings]
+  )
+
   const [formStatus, formStatusDispatch] = useReducer(
     formStatusReducer,
-    defaultFormStatus
+    defaultEditStatus
   )
   const [directoryMessage, setDirectoryMessage] = useState<
     undefined | HelperMessage
@@ -205,13 +222,6 @@ const useFilenameSettingsForm = (
     undefined | HelperMessage
   >(undefined)
 
-  useEffect(() => {
-    filenameSettingsRepo.get().then(settings => {
-      settingsDispatch({ type: 'init', payload: settings })
-      formStatusDispatch({ type: 'init' })
-    })
-  }, [filenameSettingsRepo])
-
   const submit = useCallback(async () => {
     if (
       !isValidFormStatus(formStatus) ||
@@ -219,8 +229,11 @@ const useFilenameSettingsForm = (
     )
       return
     await filenameSettingsRepo.save(filenameSettings)
+    // Reload before dropping the draft so the saved value is shown right away.
+    await store.triggerChange()
+    setDraft(null)
     formStatusDispatch({ type: 'formIsNotChanged' })
-  }, [filenameSettingsRepo, filenameSettings, formStatus])
+  }, [filenameSettingsRepo, filenameSettings, formStatus, store])
 
   const reset = useCallback(() => {
     settingsDispatch({
@@ -228,34 +241,38 @@ const useFilenameSettingsForm = (
       payload: filenameSettingsRepo.getDefault(),
     })
     formStatusDispatch({ type: 'formIsChanged' })
-  }, [filenameSettingsRepo])
+  }, [filenameSettingsRepo, settingsDispatch])
 
-  const setDirectory = useCallback((directory: string) => {
-    const invalidDirectoryReason = FilenameSetting.validateDirectory(directory)
-    const isValidDirectory = invalidDirectoryReason === undefined
+  const setDirectory = useCallback(
+    (directory: string) => {
+      const invalidDirectoryReason =
+        FilenameSetting.validateDirectory(directory)
+      const isValidDirectory = invalidDirectoryReason === undefined
 
-    formStatusDispatch({ type: 'formIsChanged' })
-    formStatusDispatch({
-      type: isValidDirectory ? 'directoryIsValid' : 'directoryIsInvalid',
-    })
-    setDirectoryMessage(
-      isValidDirectory
-        ? undefined
-        : {
-            type: 'error',
-            content: i18n(
-              'Invalid directory name. Cannot contain <>:"\\|?*',
-              'options:general'
-            ),
-          }
-    )
-    settingsDispatch({ type: 'setDirectory', payload: directory })
-  }, [])
+      formStatusDispatch({ type: 'formIsChanged' })
+      formStatusDispatch({
+        type: isValidDirectory ? 'directoryIsValid' : 'directoryIsInvalid',
+      })
+      setDirectoryMessage(
+        isValidDirectory
+          ? undefined
+          : {
+              type: 'error',
+              content: i18n(
+                'Invalid directory name. Cannot contain <>:"\\|?*',
+                'options:general'
+              ),
+            }
+      )
+      settingsDispatch({ type: 'setDirectory', payload: directory })
+    },
+    [settingsDispatch]
+  )
 
   const toggleSubDirectory = useCallback(() => {
     formStatusDispatch({ type: 'formIsChanged' })
     settingsDispatch({ type: 'toggleDirectory' })
-  }, [])
+  }, [settingsDispatch])
 
   const changePatternTokenState = useCallback(
     (state: PatternTokenState) => (token: PatternToken) => {
@@ -293,14 +310,16 @@ const useFilenameSettingsForm = (
 
       formStatusDispatch({ type: 'formIsChanged' })
     },
-    [filenameSettings]
+    [filenameSettings, settingsDispatch]
   )
   /**
    * @see {@link FormHandler#sortPatternToken} for implementation details
    */
   const sortPatternToken = useCallback(
     (sourceIndex: number, destinationIndex: number) => {
-      const newPattern = filenameSettings.mapBy(props => props.filenamePattern)
+      const newPattern = [
+        ...filenameSettings.mapBy(props => props.filenamePattern),
+      ]
       const [target] = newPattern.splice(sourceIndex, 1)
       if (target === undefined) return
 
@@ -311,7 +330,7 @@ const useFilenameSettingsForm = (
         payload: newPattern,
       })
     },
-    [filenameSettings]
+    [filenameSettings, settingsDispatch]
   )
 
   const setAggregationToken = useCallback(
@@ -322,7 +341,7 @@ const useFilenameSettingsForm = (
       })
       formStatusDispatch({ type: 'formIsChanged' })
     },
-    []
+    [settingsDispatch]
   )
 
   const toggleAggregationToken = useCallback(() => {
@@ -330,11 +349,11 @@ const useFilenameSettingsForm = (
       type: 'toggleFileAggregation',
     })
     formStatusDispatch({ type: 'formIsChanged' })
-  }, [])
+  }, [settingsDispatch])
 
   return {
     filenameSetting: filenameSettings,
-    status: formStatus,
+    status: { ...formStatus, isLoaded },
     message: { directory: directoryMessage, filenamePattern: patternMessage },
     handler: {
       submit,

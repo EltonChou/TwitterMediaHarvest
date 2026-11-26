@@ -4,27 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import type { ISettingsRepository } from '#domain/repositories/settings'
-import type { InitPayloadAction, PureAction } from '#pages/types/reducerAction'
 import type { DownloadSettings } from '#schema'
-import { useEffect, useReducer } from 'react'
-
-function reducer(
-  settings: DownloadSettings,
-  action:
-    | PureAction<'toggleAria2' | 'toggleAggressive' | 'toggleAskWhere'>
-    | InitPayloadAction<DownloadSettings>
-): DownloadSettings {
-  switch (action.type) {
-    case 'toggleAggressive':
-      return { ...settings, aggressiveMode: !settings.aggressiveMode }
-    case 'toggleAria2':
-      return { ...settings, enableAria2: !settings.enableAria2 }
-    case 'toggleAskWhere':
-      return { ...settings, askWhereToSave: !settings.askWhereToSave }
-    case 'init':
-      return action.payload
-  }
-}
+import useSettingsStore from './useSettingsStore'
 
 type Toggler = Record<keyof DownloadSettings, () => Promise<void>>
 
@@ -35,43 +16,26 @@ const useDownloadSettings = (
   toggler: Toggler
   canAskSaveLocation: boolean
 } => {
-  const [downloadSettings, dispatch] = useReducer(
-    reducer,
-    downloadSettingsRepo.getDefault()
-  )
+  const downloadSettings = useSettingsStore(downloadSettingsRepo)
 
-  useEffect(() => {
-    downloadSettingsRepo.get().then(settings => {
-      dispatch({
-        type: 'init',
-        payload: settings,
-      })
-    })
-  }, [downloadSettingsRepo])
-
-  const toggleAria2 = async () => {
+  const toggleAria2 = () => {
     if (downloadSettings.enableAria2 === false) {
       /* TODO: Test aria2 connection */
     }
-    await downloadSettingsRepo.save({
+    return downloadSettingsRepo.save({
       enableAria2: !downloadSettings.enableAria2,
     })
-    dispatch({ type: 'toggleAria2' })
   }
 
-  const toggleAggressive = async () => {
-    await downloadSettingsRepo.save({
+  const toggleAggressive = () =>
+    downloadSettingsRepo.save({
       aggressiveMode: !downloadSettings.aggressiveMode,
     })
-    dispatch({ type: 'toggleAggressive' })
-  }
 
-  const toggleAskWhereToSave = async () => {
-    await downloadSettingsRepo.save({
+  const toggleAskWhereToSave = () =>
+    downloadSettingsRepo.save({
       askWhereToSave: !downloadSettings.askWhereToSave,
     })
-    dispatch({ type: 'toggleAskWhere' })
-  }
 
   return {
     settings: downloadSettings,

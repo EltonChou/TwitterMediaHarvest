@@ -7,6 +7,7 @@ import {
 } from '#domain/valueObjects/filenameSetting'
 import PatternToken from '#enums/patternToken'
 import { MockFilenameSettingRepository } from '#mocks/repositories/filenameSetting'
+import { emitStorageChange } from '#mocks/storageOnChanged'
 import useFilenameSettingsForm from './useFilenameSettingsForm'
 import { faker } from '@faker-js/faker/locale/en'
 import {
@@ -28,6 +29,109 @@ describe('unit test for useFilenameSettingForm hook', () => {
   afterEach(() => {
     jest.resetAllMocks()
     cleanup()
+  })
+
+  describe('loading', () => {
+    const deferredGet = (repo: MockFilenameSettingRepository) => {
+      let resolve: (setting: FilenameSetting) => void = () => undefined
+      jest
+        .spyOn(repo, 'get')
+        .mockReturnValueOnce(new Promise(r => (resolve = r)))
+      return (setting: FilenameSetting) => resolve(setting)
+    }
+
+    it('should not be loaded until the settings are loaded', async () => {
+      const filenameSettingRepo = new MockFilenameSettingRepository()
+      const resolveGet = deferredGet(filenameSettingRepo)
+      const { result, unmount } = renderHook(() =>
+        useFilenameSettingsForm(filenameSettingRepo)
+      )
+
+      expect(result.current.status.isLoaded).toBeFalse()
+
+      const stored = new FilenameSetting({
+        ...filenameSettingRepo.getDefault().mapBy(props => props),
+        directory: 'stored',
+      })
+      await act(async () => resolveGet(stored))
+
+      expect(result.current.status.isLoaded).toBeTrue()
+      expect(
+        result.current.filenameSetting.mapBy(props => props.directory)
+      ).toBe('stored')
+
+      unmount()
+    })
+
+    it('should keep edits made before the settings are loaded', async () => {
+      const filenameSettingRepo = new MockFilenameSettingRepository()
+      const resolveGet = deferredGet(filenameSettingRepo)
+      const { result, unmount } = renderHook(() =>
+        useFilenameSettingsForm(filenameSettingRepo)
+      )
+
+      act(() => result.current.handler.setDirectory('edited'))
+      await act(async () =>
+        resolveGet(
+          new FilenameSetting({
+            ...filenameSettingRepo.getDefault().mapBy(props => props),
+            directory: 'stored',
+          })
+        )
+      )
+
+      expect(
+        result.current.filenameSetting.mapBy(props => props.directory)
+      ).toBe('edited')
+      expect(result.current.status.dataIsChanged).toBeTrue()
+
+      unmount()
+    })
+
+    it('should follow storage changes when there is no unsaved edit', async () => {
+      const filenameSettingRepo = new MockFilenameSettingRepository()
+      const spyGet = jest.spyOn(filenameSettingRepo, 'get')
+      const { result, unmount } = renderHook(() =>
+        useFilenameSettingsForm(filenameSettingRepo)
+      )
+      await waitFor(() => expect(result.current.status.isLoaded).toBeTrue())
+
+      spyGet.mockResolvedValue(
+        new FilenameSetting({
+          ...filenameSettingRepo.getDefault().mapBy(props => props),
+          directory: 'from-elsewhere',
+        })
+      )
+      act(() =>
+        emitStorageChange({ directory: { newValue: 'from-elsewhere' } }, 'sync')
+      )
+
+      await waitFor(() =>
+        expect(
+          result.current.filenameSetting.mapBy(props => props.directory)
+        ).toBe('from-elsewhere')
+      )
+
+      unmount()
+    })
+
+    it('should show the saved settings after submitting', async () => {
+      const filenameSettingRepo = new MockFilenameSettingRepository()
+      const { result, unmount } = renderHook(() =>
+        useFilenameSettingsForm(filenameSettingRepo)
+      )
+      await waitFor(() => expect(result.current.status.isLoaded).toBeTrue())
+
+      act(() => result.current.handler.setDirectory('submitted'))
+      await act(() => result.current.handler.submit())
+
+      expect(result.current.status.dataIsChanged).toBeFalse()
+      expect(
+        result.current.filenameSetting.mapBy(props => props.directory)
+      ).toBe('submitted')
+
+      unmount()
+    })
   })
 
   describe('submit', () => {

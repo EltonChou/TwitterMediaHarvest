@@ -2,53 +2,49 @@
  * @jest-environment jsdom
  */
 import { MockDownloadSettingsRepository } from '#mocks/repositories/downloadSettings'
+import { emitStorageChange } from '#mocks/storageOnChanged'
+import type { DownloadSettings } from '#schema'
 import useDownloadSettings from './useDownloadSettings'
 import { act, renderHook, waitFor } from '@testing-library/react'
 
-describe('unit test for useFeatureSettings hook', () => {
-  const downloadSettingsRepo = new MockDownloadSettingsRepository()
-
-  afterAll(() => {
-    jest.resetAllMocks()
+describe('unit test for useDownloadSettings hook', () => {
+  afterEach(() => {
     jest.restoreAllMocks()
   })
 
-  it('can toggle feature settings', async () => {
+  it.each<{ name: string; key: keyof DownloadSettings }>([
+    { name: 'aria2', key: 'enableAria2' },
+    { name: 'aggressive mode', key: 'aggressiveMode' },
+    { name: 'ask where to save', key: 'askWhereToSave' },
+  ])('can toggle $name', async ({ key }) => {
+    const downloadSettingsRepo = new MockDownloadSettingsRepository()
+    const spyGet = jest.spyOn(downloadSettingsRepo, 'get')
+    const spySave = jest.spyOn(downloadSettingsRepo, 'save')
     const { result, unmount } = renderHook(() =>
       useDownloadSettings(downloadSettingsRepo)
     )
-    const { settings: originalSettings, toggler } = result.current
-
-    waitFor(() =>
-      expect(originalSettings).toStrictEqual(downloadSettingsRepo.getDefault())
-    )
+    await waitFor(() => expect(spyGet).toHaveBeenCalled())
+    const original = result.current.settings[key]
 
     await act(async () => {
-      await toggler.aggressiveMode()
-      await toggler.askWhereToSave()
-      await toggler.enableAria2()
+      await result.current.toggler[key]()
+      emitStorageChange({ [key]: { newValue: !original, oldValue: original } })
     })
 
-    const { settings } = result.current
-    expect(settings.aggressiveMode).toBe(!originalSettings.aggressiveMode)
-    expect(settings.askWhereToSave).toBe(!originalSettings.askWhereToSave)
-    expect(settings.enableAria2).toBe(!originalSettings.enableAria2)
+    expect(spySave).toHaveBeenCalledWith({ [key]: !original })
+    await waitFor(() => expect(result.current.settings[key]).toBe(!original))
 
     unmount()
   })
 
   it.each([
-    { buildTarget: 'chrome', isEnableAria2: true, canAsk: false },
-    { buildTarget: 'chrome', isEnableAria2: false, canAsk: false },
-    { buildTarget: 'firefox', isEnableAria2: true, canAsk: false },
-    { buildTarget: 'firefox', isEnableAria2: false, canAsk: true },
-    { buildTarget: 'edge', isEnableAria2: true, canAsk: false },
-    { buildTarget: 'edge', isEnableAria2: false, canAsk: false },
+    { isEnableAria2: true, canAsk: false },
+    { isEnableAria2: false, canAsk: true },
   ])(
-    'canAskSaveLocation should be `$canAsk` when build target is $buildTarget and enableAria2 is `$isEnableAria2`',
-    ({ buildTarget, canAsk, isEnableAria2 }) => {
-      Object.assign(global, { __BROWSER__: buildTarget })
-      jest.spyOn(downloadSettingsRepo, 'get').mockResolvedValue({
+    'canAskSaveLocation should be `$canAsk` when enableAria2 is `$isEnableAria2`',
+    async ({ canAsk, isEnableAria2 }) => {
+      const downloadSettingsRepo = new MockDownloadSettingsRepository()
+      const spyGet = jest.spyOn(downloadSettingsRepo, 'get').mockResolvedValue({
         aggressiveMode: true,
         askWhereToSave: true,
         enableAria2: isEnableAria2,
@@ -56,9 +52,11 @@ describe('unit test for useFeatureSettings hook', () => {
       const { result, unmount } = renderHook(() =>
         useDownloadSettings(downloadSettingsRepo)
       )
-      const { canAskSaveLocation } = result.current
 
-      waitFor(() => expect(canAskSaveLocation).toBe(canAsk))
+      await waitFor(() => expect(spyGet).toHaveBeenCalled())
+      await waitFor(() =>
+        expect(result.current.canAskSaveLocation).toBe(canAsk)
+      )
 
       unmount()
     }

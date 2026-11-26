@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-27 05:38+0800\n"
+"POT-Creation-Date: 2026-11-27 05:55+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -350,12 +350,12 @@ msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "선택한 속성에 따라 파일을 그룹화합니다."
 
-#: src/pages/hooks/useFilenameSettingsForm.ts:246
+#: src/pages/hooks/useFilenameSettingsForm.ts:261
 msgctxt "options:general"
 msgid "Invalid directory name. Cannot contain <>:\"\\|?*"
 msgstr "유효하지 않은 디렉토리 이름입니다. <>:\"\\|?* 문자를 포함할 수 없습니다."
 
-#: src/pages/hooks/useFilenameSettingsForm.ts:287
+#: src/pages/hooks/useFilenameSettingsForm.ts:304
 msgctxt "options:general"
 msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "유효하지 않은 패턴입니다. 패턴은 `Tweet ID` + `Serial` 또는 `Hash`를 포함해야 합니다."

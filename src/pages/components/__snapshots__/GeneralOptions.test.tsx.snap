@@ -1970,7 +1970,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
                 dir="ltr"
                 id="field-_r_d_"
                 placeholder="twitter_media_harvest"
-                value="downloada-valid-dir"
+                value="a-valid-dir"
               />
             </div>
             <div
@@ -3562,7 +3562,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
                 dir="ltr"
                 id="field-_r_l_"
                 placeholder="twitter_media_harvest"
-                value="downloada-valid-dira-valid-dir"
+                value="a-valid-dir"
               />
             </div>
             <div

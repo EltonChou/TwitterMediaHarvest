@@ -12,5 +12,3 @@ export type PayloadAction<T, PT> = {
   type: T
   payload: PT
 }
-
-export type InitPayloadAction<T> = PayloadAction<'init', T>

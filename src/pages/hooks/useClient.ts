@@ -12,10 +12,15 @@ const useClient = (clientInfoRepo: IClientRepository) => {
   const [client, setClient] = useState<Client>()
 
   useEffect(() => {
+    let ignore = false
     clientInfoRepo.get().then(result => {
+      if (ignore) return
       if (result.value) setClient(result.value)
       setLoaded(true)
     })
+    return () => {
+      ignore = true
+    }
   }, [clientInfoRepo])
 
   return {

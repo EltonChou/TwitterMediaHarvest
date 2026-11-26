@@ -4,36 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import type { ISettingsRepository } from '#domain/repositories/settings'
-import type { InitPayloadAction, PureAction } from '#pages/types/reducerAction'
 import type { FeatureSettings } from '#schema'
-import { useCallback, useEffect, useReducer } from 'react'
-
-function reducer(
-  settings: FeatureSettings,
-  action:
-    | PureAction<'toggleNsfw' | 'toggleThumbnail' | 'toggleKeyboardShortcut'>
-    | InitPayloadAction<FeatureSettings>
-): FeatureSettings {
-  switch (action.type) {
-    case 'toggleNsfw':
-      return { ...settings, autoRevealNsfw: !settings.autoRevealNsfw }
-
-    case 'toggleThumbnail':
-      return {
-        ...settings,
-        includeVideoThumbnail: !settings.includeVideoThumbnail,
-      }
-
-    case 'toggleKeyboardShortcut':
-      return {
-        ...settings,
-        keyboardShortcut: !settings.keyboardShortcut,
-      }
-
-    case 'init':
-      return action.payload
-  }
-}
+import useSettingsStore from './useSettingsStore'
+import { useCallback } from 'react'
 
 type Toggler = Record<
   'nsfw' | 'thumbnail' | 'keyboardShortcut',
@@ -43,40 +16,31 @@ type Toggler = Record<
 const useFeatureSettings = (
   featureSettingsRepo: ISettingsRepository<FeatureSettings>
 ): [FeatureSettings, Toggler] => {
-  const [featureSettings, dispatch] = useReducer(
-    reducer,
-    featureSettingsRepo.getDefault()
+  const featureSettings = useSettingsStore(featureSettingsRepo)
+
+  const toggleRevealNsfw = useCallback(
+    () =>
+      featureSettingsRepo.save({
+        autoRevealNsfw: !featureSettings.autoRevealNsfw,
+      }),
+    [featureSettings.autoRevealNsfw, featureSettingsRepo]
   )
 
-  useEffect(() => {
-    featureSettingsRepo.get().then(settings => {
-      dispatch({
-        type: 'init',
-        payload: settings,
-      })
-    })
-  }, [featureSettingsRepo])
+  const toggleThumbnail = useCallback(
+    () =>
+      featureSettingsRepo.save({
+        includeVideoThumbnail: !featureSettings.includeVideoThumbnail,
+      }),
+    [featureSettings.includeVideoThumbnail, featureSettingsRepo]
+  )
 
-  const toggleRevealNsfw = useCallback(async () => {
-    await featureSettingsRepo.save({
-      autoRevealNsfw: !featureSettings.autoRevealNsfw,
-    })
-    dispatch({ type: 'toggleNsfw' })
-  }, [featureSettings.autoRevealNsfw, featureSettingsRepo])
-
-  const toggleThumbnail = useCallback(async () => {
-    await featureSettingsRepo.save({
-      includeVideoThumbnail: !featureSettings.includeVideoThumbnail,
-    })
-    dispatch({ type: 'toggleThumbnail' })
-  }, [featureSettings.includeVideoThumbnail, featureSettingsRepo])
-
-  const toggleKeyboardShortcut = useCallback(async () => {
-    await featureSettingsRepo.save({
-      keyboardShortcut: !featureSettings.keyboardShortcut,
-    })
-    dispatch({ type: 'toggleKeyboardShortcut' })
-  }, [featureSettings.keyboardShortcut, featureSettingsRepo])
+  const toggleKeyboardShortcut = useCallback(
+    () =>
+      featureSettingsRepo.save({
+        keyboardShortcut: !featureSettings.keyboardShortcut,
+      }),
+    [featureSettings.keyboardShortcut, featureSettingsRepo]
+  )
 
   return [
     featureSettings,

@@ -2,35 +2,41 @@
  * @jest-environment jsdom
  */
 import { MockFeatureSettingsRepository } from '#mocks/repositories/fetureSettings'
+import { emitStorageChange } from '#mocks/storageOnChanged'
+import type { FeatureSettings } from '#schema'
 import useFeatureSettings from './useFeatureSettings'
-import { renderHook } from '@testing-library/react'
-import { act } from 'react'
+import { act, renderHook, waitFor } from '@testing-library/react'
 
 describe('unit test for useFeatureSettings hook', () => {
-  const featureSettingsRepo = new MockFeatureSettingsRepository()
-
-  afterAll(() => {
-    jest.resetAllMocks()
+  afterEach(() => {
     jest.restoreAllMocks()
   })
 
-  it('can toggle feature settings', async () => {
-    const { result } = renderHook(() => useFeatureSettings(featureSettingsRepo))
-    const [originalSettings, toggler] = result.current
-
-    expect(originalSettings).toStrictEqual(featureSettingsRepo.getDefault())
+  it.each<{
+    name: 'nsfw' | 'thumbnail' | 'keyboardShortcut'
+    key: keyof FeatureSettings
+  }>([
+    { name: 'nsfw', key: 'autoRevealNsfw' },
+    { name: 'thumbnail', key: 'includeVideoThumbnail' },
+    { name: 'keyboardShortcut', key: 'keyboardShortcut' },
+  ])('can toggle $name', async ({ name, key }) => {
+    const featureSettingsRepo = new MockFeatureSettingsRepository()
+    const spyGet = jest.spyOn(featureSettingsRepo, 'get')
+    const spySave = jest.spyOn(featureSettingsRepo, 'save')
+    const { result, unmount } = renderHook(() =>
+      useFeatureSettings(featureSettingsRepo)
+    )
+    await waitFor(() => expect(spyGet).toHaveBeenCalled())
+    const original = result.current[0][key]
 
     await act(async () => {
-      await toggler.nsfw()
-      await toggler.keyboardShortcut()
-      await toggler.thumbnail()
+      await result.current[1][name]()
+      emitStorageChange({ [key]: { newValue: !original, oldValue: original } })
     })
 
-    const [settings] = result.current
-    expect(settings.autoRevealNsfw).toBe(!originalSettings.autoRevealNsfw)
-    expect(settings.keyboardShortcut).toBe(!originalSettings.keyboardShortcut)
-    expect(settings.includeVideoThumbnail).toBe(
-      !originalSettings.includeVideoThumbnail
-    )
+    expect(spySave).toHaveBeenCalledWith({ [key]: !original })
+    await waitFor(() => expect(result.current[0][key]).toBe(!original))
+
+    unmount()
   })
 })

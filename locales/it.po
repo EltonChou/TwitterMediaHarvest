@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-27 05:38+0800\n"
+"POT-Creation-Date: 2026-11-27 05:55+0800\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Translators <noreply@example.com>\n"
 "Language-Team: Italian\n"
@@ -366,12 +366,12 @@ msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "Raggruppa i file in base all'attributo selezionato."
 
-#: src/pages/hooks/useFilenameSettingsForm.ts:246
+#: src/pages/hooks/useFilenameSettingsForm.ts:261
 msgctxt "options:general"
 msgid "Invalid directory name. Cannot contain <>:\"\\|?*"
 msgstr "Nome directory non valido. Non può contenere <>:\"\\|?*"
 
-#: src/pages/hooks/useFilenameSettingsForm.ts:287
+#: src/pages/hooks/useFilenameSettingsForm.ts:304
 msgctxt "options:general"
 msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "Schema non valido. Lo schema deve includere `Tweet ID` + `Serial` o `Hash`."
