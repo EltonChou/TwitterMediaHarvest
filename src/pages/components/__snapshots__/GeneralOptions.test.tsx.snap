@@ -369,7 +369,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
               <p
                 class="chakra-text css-qljqz"
               >
-                Create sub-directory under the default download directory. Sub-directory can be seperated with "/".
+                Create sub-directory under the default download directory. Sub-directory can be separated with "/".
               </p>
                
               <input
@@ -900,7 +900,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
               <p
                 class="chakra-text css-qljqz"
               >
-                Create sub-directory under the default download directory. Sub-directory can be seperated with "/".
+                Create sub-directory under the default download directory. Sub-directory can be separated with "/".
               </p>
                
               <input
@@ -1431,7 +1431,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
               <p
                 class="chakra-text css-qljqz"
               >
-                Create sub-directory under the default download directory. Sub-directory can be seperated with "/".
+                Create sub-directory under the default download directory. Sub-directory can be separated with "/".
               </p>
                
               <input
@@ -1961,7 +1961,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
               <p
                 class="chakra-text css-qljqz"
               >
-                Create sub-directory under the default download directory. Sub-directory can be seperated with "/".
+                Create sub-directory under the default download directory. Sub-directory can be separated with "/".
               </p>
                
               <input
@@ -2492,7 +2492,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
               <p
                 class="chakra-text css-qljqz"
               >
-                Create sub-directory under the default download directory. Sub-directory can be seperated with "/".
+                Create sub-directory under the default download directory. Sub-directory can be separated with "/".
               </p>
                
               <input
@@ -3023,7 +3023,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
               <p
                 class="chakra-text css-qljqz"
               >
-                Create sub-directory under the default download directory. Sub-directory can be seperated with "/".
+                Create sub-directory under the default download directory. Sub-directory can be separated with "/".
               </p>
                
               <input
@@ -3553,7 +3553,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
               <p
                 class="chakra-text css-qljqz"
               >
-                Create sub-directory under the default download directory. Sub-directory can be seperated with "/".
+                Create sub-directory under the default download directory. Sub-directory can be separated with "/".
               </p>
                
               <input

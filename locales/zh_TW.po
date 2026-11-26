@@ -248,15 +248,15 @@ msgstr "停用"
 #: src/pages/components/Diagnostics.tsx:26
 msgctxt "options:diagnostics"
 msgid ""
-"Other extensions will be temporarily disabled during diagnositc, please "
+"Other extensions will be temporarily disabled during diagnostic, please "
 "ensure your working sessions have been saved."
 msgstr "於檢測期間其他擴充功能會被暫時關閉，請確定已經儲存工作進度。"
 
 #: src/pages/components/Diagnostics.tsx:31
 msgctxt "options:diagnostics"
 msgid ""
-"This diagnostic might take few minutes to done, depends on how many "
-"extensions you installed."
+"This diagnostic might take a few minutes to finish, depending on how many "
+"extensions you have installed."
 msgstr "檢測可能會花費數分鐘，取決於安裝的擴充功能數量。"
 
 #: src/pages/components/Diagnostics.tsx:48
@@ -295,7 +295,7 @@ msgstr "使用鍵盤快捷鍵來觸發下載。"
 msgctxt "options:features"
 msgid ""
 "When the tweet was flagged as sensitive content, this feature can show the "
-"blured content automatically."
+"blurred content automatically."
 msgstr "當推特內容被標註為敏感內容時，自動顯示內容。"
 
 #: src/pages/components/FootBar.tsx:58
@@ -332,7 +332,7 @@ msgstr "新增子資料夾"
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
-"can be seperated with \"/\"."
+"can be separated with \"/\"."
 msgstr "在預設下載資料夾中新增一個子資料夾。使用 \"/\" 區分多個子資料夾。"
 
 #: src/pages/components/GeneralOptions.tsx:246

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 08:22+0800\n"
+"POT-Creation-Date: 2026-11-26 08:40+0800\n"
 
 msgctxt "app"
 msgid "appDesc"
@@ -236,12 +236,12 @@ msgstr ""
 
 #: src/pages/components/Diagnostics.tsx:26
 msgctxt "options:diagnostics"
-msgid "Other extensions will be temporarily disabled during diagnositc, please ensure your working sessions have been saved."
+msgid "Other extensions will be temporarily disabled during diagnostic, please ensure your working sessions have been saved."
 msgstr ""
 
 #: src/pages/components/Diagnostics.tsx:31
 msgctxt "options:diagnostics"
-msgid "This diagnostic might take few minutes to done, depends on how many extensions you installed."
+msgid "This diagnostic might take a few minutes to finish, depending on how many extensions you have installed."
 msgstr ""
 
 #: src/pages/components/Diagnostics.tsx:48
@@ -276,7 +276,7 @@ msgstr ""
 
 #: src/pages/components/FeatureOptions.tsx:44
 msgctxt "options:features"
-msgid "When the tweet was flagged as sensitive content, this feature can show the blured content automatically."
+msgid "When the tweet was flagged as sensitive content, this feature can show the blurred content automatically."
 msgstr ""
 
 #: src/pages/components/FootBar.tsx:58
@@ -311,7 +311,7 @@ msgstr ""
 
 #: src/pages/components/GeneralOptions.tsx:282
 msgctxt "options:general"
-msgid "Create sub-directory under the default download directory. Sub-directory can be seperated with \"/\"."
+msgid "Create sub-directory under the default download directory. Sub-directory can be separated with \"/\"."
 msgstr ""
 
 #: src/pages/components/GeneralOptions.tsx:247

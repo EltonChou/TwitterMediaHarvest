@@ -280,7 +280,7 @@ const DirectoryControlFeature = (props: DirectoryControlFeatureProps) => (
     name={i18n('Create sub-directory', 'options:general')}
     message={props.message}
     desc={i18n(
-      'Create sub-directory under the default download directory. Sub-directory can be seperated with "/".',
+      'Create sub-directory under the default download directory. Sub-directory can be separated with "/".',
       'options:general'
     )}
     isOn={props.isOn}

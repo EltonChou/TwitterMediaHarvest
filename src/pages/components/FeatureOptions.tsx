@@ -42,7 +42,7 @@ const FeatureOptions = ({ featureSettingsRepo }: FeatureOptionsProps) => {
       <RichFeatureSwitch
         name={i18n('Auto-reveal sensitive content', 'options:features')}
         desc={i18n(
-          'When the tweet was flagged as sensitive content, this feature can show the blured content automatically.',
+          'When the tweet was flagged as sensitive content, this feature can show the blurred content automatically.',
           'options:features'
         )}
         isOn={featureSettings.autoRevealNsfw}

@@ -248,15 +248,15 @@ msgstr "비활성화"
 #: src/pages/components/Diagnostics.tsx:26
 msgctxt "options:diagnostics"
 msgid ""
-"Other extensions will be temporarily disabled during diagnositc, please "
+"Other extensions will be temporarily disabled during diagnostic, please "
 "ensure your working sessions have been saved."
 msgstr "진단 중에 다른 확장 프로그램이 임시로 비활성화됩니다. 작업 중인 세션을 저장해주세요."
 
 #: src/pages/components/Diagnostics.tsx:31
 msgctxt "options:diagnostics"
 msgid ""
-"This diagnostic might take few minutes to done, depends on how many "
-"extensions you installed."
+"This diagnostic might take a few minutes to finish, depending on how many "
+"extensions you have installed."
 msgstr "이 진단은 설치한 확장 프로그램의 수에 따라 몇 분이 걸릴 수 있습니다."
 
 #: src/pages/components/Diagnostics.tsx:48
@@ -295,7 +295,7 @@ msgstr "키보드 단축키를 사용하여 다운로드를 트리거합니다."
 msgctxt "options:features"
 msgid ""
 "When the tweet was flagged as sensitive content, this feature can show the "
-"blured content automatically."
+"blurred content automatically."
 msgstr "트윗이 민감한 콘텐츠로 표시되었을 때 이 기능은 흐린 콘텐츠를 자동으로 표시할 수 있습니다."
 
 #: src/pages/components/FootBar.tsx:58
@@ -332,7 +332,7 @@ msgstr "하위 디렉토리 생성"
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
-"can be seperated with \"/\"."
+"can be separated with \"/\"."
 msgstr "기본 다운로드 디렉토리 아래에 하위 디렉토리를 생성합니다. 하위 디렉토리는 \"/\"로 구분할 수 있습니다."
 
 #: src/pages/components/GeneralOptions.tsx:246

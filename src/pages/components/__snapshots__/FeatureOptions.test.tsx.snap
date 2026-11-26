@@ -32,7 +32,7 @@ exports[`unit test for FeatureOptions component can render properly 1`] = `
             <p
               class="chakra-text css-qljqz"
             >
-              Translated&lt;options:features_When the tweet was flagged as sensitive content, this feature can show the blured content automatically.&gt;
+              Translated&lt;options:features_When the tweet was flagged as sensitive content, this feature can show the blurred content automatically.&gt;
             </p>
              
           </div>

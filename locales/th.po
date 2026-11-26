@@ -249,7 +249,7 @@ msgstr "ปิดใช้งาน"
 #: src/pages/components/Diagnostics.tsx:26
 msgctxt "options:diagnostics"
 msgid ""
-"Other extensions will be temporarily disabled during diagnositc, please "
+"Other extensions will be temporarily disabled during diagnostic, please "
 "ensure your working sessions have been saved."
 msgstr ""
 "ส่วนขยายอื่นจะถูกปิดใช้งานชั่วคราวระหว่างการวินิจฉัย "
@@ -258,8 +258,8 @@ msgstr ""
 #: src/pages/components/Diagnostics.tsx:31
 msgctxt "options:diagnostics"
 msgid ""
-"This diagnostic might take few minutes to done, depends on how many "
-"extensions you installed."
+"This diagnostic might take a few minutes to finish, depending on how many "
+"extensions you have installed."
 msgstr "การวินิจฉัยนี้อาจใช้เวลาสักครู่ ขึ้นอยู่กับจำนวนส่วนขยายที่ติดตั้ง"
 
 #: src/pages/components/Diagnostics.tsx:48
@@ -298,7 +298,7 @@ msgstr "ใช้แป้นพิมพ์ลัดเพื่อเริ่
 msgctxt "options:features"
 msgid ""
 "When the tweet was flagged as sensitive content, this feature can show the "
-"blured content automatically."
+"blurred content automatically."
 msgstr ""
 "เมื่อทวีตถูกตั้งค่าเป็นเนื้อหาละเอียดอ่อน "
 "ฟีเจอร์นี้จะแสดงเนื้อหาที่ซ่อนอยู่โดยอัตโนมัติ"
@@ -337,7 +337,7 @@ msgstr "สร้างโฟลเดอร์ย่อย"
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
-"can be seperated with \"/\"."
+"can be separated with \"/\"."
 msgstr "สร้างโฟลเดอร์ย่อยภายใต้โฟลเดอร์ดาวน์โหลดเริ่มต้น คั่นด้วย \"/\""
 
 #: src/pages/components/GeneralOptions.tsx:246

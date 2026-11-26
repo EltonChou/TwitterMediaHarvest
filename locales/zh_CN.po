@@ -248,15 +248,15 @@ msgstr "禁用"
 #: src/pages/components/Diagnostics.tsx:26
 msgctxt "options:diagnostics"
 msgid ""
-"Other extensions will be temporarily disabled during diagnositc, please "
+"Other extensions will be temporarily disabled during diagnostic, please "
 "ensure your working sessions have been saved."
 msgstr "检测期间其他扩展会被暂时禁用，请确保已保存工作。"
 
 #: src/pages/components/Diagnostics.tsx:31
 msgctxt "options:diagnostics"
 msgid ""
-"This diagnostic might take few minutes to done, depends on how many "
-"extensions you installed."
+"This diagnostic might take a few minutes to finish, depending on how many "
+"extensions you have installed."
 msgstr "该检测可能需要几分钟，具体取决于已安装的扩展数量。"
 
 #: src/pages/components/Diagnostics.tsx:48
@@ -295,7 +295,7 @@ msgstr "使用键盘快捷键触发下载。"
 msgctxt "options:features"
 msgid ""
 "When the tweet was flagged as sensitive content, this feature can show the "
-"blured content automatically."
+"blurred content automatically."
 msgstr "当推文被标记为敏感内容时，自动显示内容。"
 
 #: src/pages/components/FootBar.tsx:58
@@ -332,7 +332,7 @@ msgstr "创建子文件夹"
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
-"can be seperated with \"/\"."
+"can be separated with \"/\"."
 msgstr "在默认下载目录下创建子文件夹。使用 \"/\" 分隔多个子目录。"
 
 #: src/pages/components/GeneralOptions.tsx:246

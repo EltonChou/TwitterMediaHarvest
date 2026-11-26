@@ -248,15 +248,15 @@ msgstr "無効化"
 #: src/pages/components/Diagnostics.tsx:26
 msgctxt "options:diagnostics"
 msgid ""
-"Other extensions will be temporarily disabled during diagnositc, please "
+"Other extensions will be temporarily disabled during diagnostic, please "
 "ensure your working sessions have been saved."
 msgstr "診断中は他の拡張機能は一時的に無効化されます。作業中のセッションは必ず保存してください。"
 
 #: src/pages/components/Diagnostics.tsx:31
 msgctxt "options:diagnostics"
 msgid ""
-"This diagnostic might take few minutes to done, depends on how many "
-"extensions you installed."
+"This diagnostic might take a few minutes to finish, depending on how many "
+"extensions you have installed."
 msgstr "この診断には、インストールされている拡張機能の数に応じて、数分かかる場合があります。"
 
 #: src/pages/components/Diagnostics.tsx:48
@@ -295,7 +295,7 @@ msgstr "キーボードショートカットキーを利用してメディアを
 msgctxt "options:features"
 msgid ""
 "When the tweet was flagged as sensitive content, this feature can show the "
-"blured content automatically."
+"blurred content automatically."
 msgstr "ツイートをセンシティブな内容として設定されている際、センシティブ内容を自動的に表示します。"
 
 #: src/pages/components/FootBar.tsx:58
@@ -332,7 +332,7 @@ msgstr "サブディレクトリの作成"
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
-"can be seperated with \"/\"."
+"can be separated with \"/\"."
 msgstr "デフォルトのダウンロードディレクトリの下にサブディレクトリを作成します。「/」で階層を区切れます。"
 
 #: src/pages/components/GeneralOptions.tsx:246

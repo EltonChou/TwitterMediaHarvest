@@ -24,12 +24,12 @@ const confirmPrompt =
   i18n('Are you sure to start diagnostics?', 'options:diagnostics') +
   '\n' +
   i18n(
-    'Other extensions will be temporarily disabled during diagnositc, please ensure your working sessions have been saved.',
+    'Other extensions will be temporarily disabled during diagnostic, please ensure your working sessions have been saved.',
     'options:diagnostics'
   ) +
   '\n' +
   i18n(
-    'This diagnostic might take few minutes to done, depends on how many extensions you installed.',
+    'This diagnostic might take a few minutes to finish, depending on how many extensions you have installed.',
     'options:diagnostics'
   )
 
