@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 07:24+0800\n"
+"POT-Creation-Date: 2026-11-26 08:17+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -318,34 +318,34 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "또는"
 
-#: src/pages/components/GeneralOptions.tsx:227
+#: src/pages/components/GeneralOptions.tsx:229
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "파일을 저장할 위치를 묻습니다."
 
-#: src/pages/components/GeneralOptions.tsx:277
+#: src/pages/components/GeneralOptions.tsx:279
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "하위 디렉토리 생성"
 
-#: src/pages/components/GeneralOptions.tsx:279
+#: src/pages/components/GeneralOptions.tsx:281
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
 "can be seperated with \"/\"."
 msgstr "기본 다운로드 디렉토리 아래에 하위 디렉토리를 생성합니다. 하위 디렉토리는 \"/\"로 구분할 수 있습니다."
 
-#: src/pages/components/GeneralOptions.tsx:244
+#: src/pages/components/GeneralOptions.tsx:246
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "파일명 패턴"
 
-#: src/pages/components/GeneralOptions.tsx:317
+#: src/pages/components/GeneralOptions.tsx:320
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "파일 그룹화"
 
-#: src/pages/components/GeneralOptions.tsx:318
+#: src/pages/components/GeneralOptions.tsx:321
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "선택한 속성에 따라 파일을 그룹화합니다."
@@ -360,29 +360,29 @@ msgctxt "options:general"
 msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "유효하지 않은 패턴입니다. 패턴은 `Tweet ID` + `Serial` 또는 `Hash`를 포함해야 합니다."
 
-#: src/pages/components/GeneralOptions.tsx:228
+#: src/pages/components/GeneralOptions.tsx:230
 msgctxt "options:general"
 msgid ""
 "Show the file chooser or not when download is triggered. Recommend to "
 "disable this option."
 msgstr "다운로드가 트리거될 때 파일 선택기를 표시할지 여부입니다. 이 옵션을 비활성화하는 것을 권장합니다."
 
-#: src/pages/components/GeneralOptions.tsx:245
+#: src/pages/components/GeneralOptions.tsx:247
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "파일명에 포함할 정보를 선택할 수 있습니다."
 
-#: src/pages/components/GeneralOptions.tsx:401
+#: src/pages/components/GeneralOptions.tsx:404
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "초기화"
 
-#: src/pages/components/GeneralOptions.tsx:409
+#: src/pages/components/GeneralOptions.tsx:412
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "저장"
 
-#: src/pages/components/GeneralOptions.tsx:326
+#: src/pages/components/GeneralOptions.tsx:329
 #: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"
@@ -448,46 +448,46 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "트윗_날짜_시간"
 
-#: src/pages/components/History.tsx:535
+#: src/pages/components/History.tsx:547
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "이 히스토리 파일을 가져오시겠습니까?"
 
-#: src/pages/components/History.tsx:517
+#: src/pages/components/History.tsx:529
 msgctxt "options:history"
 msgid ""
 "Cannot access the selected file. Please grant permission to read the file "
 "and try again."
 msgstr "선택한 파일에 액세스할 수 없습니다. 파일을 읽을 수 있는 권한을 부여한 후 다시 시도해주세요."
 
-#: src/pages/components/History.tsx:349
-#: src/pages/components/History.tsx:354
+#: src/pages/components/History.tsx:361
+#: src/pages/components/History.tsx:366
 msgctxt "options:history"
 msgid "Export"
 msgstr "내보내기"
 
-#: src/pages/components/History.tsx:662
+#: src/pages/components/History.tsx:674
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "파일 내보내기에 실패했습니다."
 
-#: src/pages/components/History.tsx:548
+#: src/pages/components/History.tsx:560
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "파일 가져오기에 실패했습니다."
 
-#: src/pages/components/History.tsx:341
-#: src/pages/components/History.tsx:346
+#: src/pages/components/History.tsx:353
+#: src/pages/components/History.tsx:358
 msgctxt "options:history"
 msgid "Import"
 msgstr "가져오기"
 
-#: src/pages/components/History.tsx:545
+#: src/pages/components/History.tsx:557
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "유효하지 않은 형식입니다."
 
-#: src/pages/components/History.tsx:307
+#: src/pages/components/History.tsx:313
 msgctxt "options:history"
 msgid "Next page"
 msgstr "다음 페이지"
@@ -497,17 +497,17 @@ msgctxt "options:history"
 msgid "Previous page"
 msgstr "이전 페이지"
 
-#: src/pages/components/History.tsx:323
+#: src/pages/components/History.tsx:335
 msgctxt "options:history"
 msgid "Refresh"
 msgstr "새로고침"
 
-#: src/pages/components/History.tsx:553
+#: src/pages/components/History.tsx:565
 msgctxt "options:history"
 msgid "The history file has been imported successfully."
 msgstr "히스토리 파일을 성공적으로 가져왔습니다."
 
-#: src/pages/components/History.tsx:402
+#: src/pages/components/History.tsx:414
 msgctxt "options:history:input:placeholder"
 msgid "Username"
 msgstr "사용자명"
@@ -528,27 +528,27 @@ msgctxt "options:history:mediaType"
 msgid "Video"
 msgstr "비디오"
 
-#: src/pages/components/History.tsx:417
+#: src/pages/components/History.tsx:429
 msgctxt "options:history:mediaType:option"
 msgid "All"
 msgstr "모두"
 
-#: src/pages/components/History.tsx:420
+#: src/pages/components/History.tsx:432
 msgctxt "options:history:mediaType:option"
 msgid "Image"
 msgstr "이미지"
 
-#: src/pages/components/History.tsx:426
+#: src/pages/components/History.tsx:438
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
 msgstr "혼합"
 
-#: src/pages/components/History.tsx:423
+#: src/pages/components/History.tsx:435
 msgctxt "options:history:mediaType:option"
 msgid "Video"
 msgstr "비디오"
 
-#: src/pages/components/History.tsx:409
+#: src/pages/components/History.tsx:421
 msgctxt "options:history:select"
 msgid "Select media type"
 msgstr "미디어 유형 선택"

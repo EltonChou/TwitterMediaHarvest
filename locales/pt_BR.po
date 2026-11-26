@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 07:24+0800\n"
+"POT-Creation-Date: 2026-11-26 08:17+0800\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Contributors <>\n"
 "Language-Team: Portuguese (Brazil) <>\n"
@@ -332,17 +332,17 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "ou"
 
-#: src/pages/components/GeneralOptions.tsx:227
+#: src/pages/components/GeneralOptions.tsx:229
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "Perguntar onde salvar os arquivos."
 
-#: src/pages/components/GeneralOptions.tsx:277
+#: src/pages/components/GeneralOptions.tsx:279
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "Criar subdiretório"
 
-#: src/pages/components/GeneralOptions.tsx:279
+#: src/pages/components/GeneralOptions.tsx:281
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
@@ -351,17 +351,17 @@ msgstr ""
 "Criar subdiretório dentro do diretório de download padrão. Os subdiretórios "
 "podem ser separados com \"/\"."
 
-#: src/pages/components/GeneralOptions.tsx:244
+#: src/pages/components/GeneralOptions.tsx:246
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "Padrão de nome de arquivo"
 
-#: src/pages/components/GeneralOptions.tsx:317
+#: src/pages/components/GeneralOptions.tsx:320
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "Agrupar arquivos"
 
-#: src/pages/components/GeneralOptions.tsx:318
+#: src/pages/components/GeneralOptions.tsx:321
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "Agrupar arquivos pelo atributo selecionado."
@@ -376,7 +376,7 @@ msgctxt "options:general"
 msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "Padrão inválido. O padrão deve incluir `Tweet ID` + `Serial` ou `Hash`."
 
-#: src/pages/components/GeneralOptions.tsx:228
+#: src/pages/components/GeneralOptions.tsx:230
 msgctxt "options:general"
 msgid ""
 "Show the file chooser or not when download is triggered. Recommend to "
@@ -385,22 +385,22 @@ msgstr ""
 "Exibir ou não o seletor de arquivos ao iniciar o download. Recomenda-se "
 "desativar esta opção."
 
-#: src/pages/components/GeneralOptions.tsx:245
+#: src/pages/components/GeneralOptions.tsx:247
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "Você pode escolher quais informações incluir no nome do arquivo."
 
-#: src/pages/components/GeneralOptions.tsx:401
+#: src/pages/components/GeneralOptions.tsx:404
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "Redefinir"
 
-#: src/pages/components/GeneralOptions.tsx:409
+#: src/pages/components/GeneralOptions.tsx:412
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "Salvar"
 
-#: src/pages/components/GeneralOptions.tsx:326
+#: src/pages/components/GeneralOptions.tsx:329
 #: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"
@@ -466,12 +466,12 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "Tweet_DataHora"
 
-#: src/pages/components/History.tsx:535
+#: src/pages/components/History.tsx:547
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "Tem certeza que deseja importar este arquivo de histórico?"
 
-#: src/pages/components/History.tsx:517
+#: src/pages/components/History.tsx:529
 msgctxt "options:history"
 msgid ""
 "Cannot access the selected file. Please grant permission to read the file "
@@ -480,34 +480,34 @@ msgstr ""
 "Não foi possível acessar o arquivo selecionado. Conceda permissão de "
 "leitura e tente novamente."
 
-#: src/pages/components/History.tsx:349
-#: src/pages/components/History.tsx:354
+#: src/pages/components/History.tsx:361
+#: src/pages/components/History.tsx:366
 msgctxt "options:history"
 msgid "Export"
 msgstr "Exportar"
 
-#: src/pages/components/History.tsx:662
+#: src/pages/components/History.tsx:674
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "Falha ao exportar o arquivo."
 
-#: src/pages/components/History.tsx:548
+#: src/pages/components/History.tsx:560
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "Falha ao importar o arquivo."
 
-#: src/pages/components/History.tsx:341
-#: src/pages/components/History.tsx:346
+#: src/pages/components/History.tsx:353
+#: src/pages/components/History.tsx:358
 msgctxt "options:history"
 msgid "Import"
 msgstr "Importar"
 
-#: src/pages/components/History.tsx:545
+#: src/pages/components/History.tsx:557
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "Formato inválido."
 
-#: src/pages/components/History.tsx:307
+#: src/pages/components/History.tsx:313
 msgctxt "options:history"
 msgid "Next page"
 msgstr "Próxima página"
@@ -517,17 +517,17 @@ msgctxt "options:history"
 msgid "Previous page"
 msgstr "Página anterior"
 
-#: src/pages/components/History.tsx:323
+#: src/pages/components/History.tsx:335
 msgctxt "options:history"
 msgid "Refresh"
 msgstr "Atualizar"
 
-#: src/pages/components/History.tsx:553
+#: src/pages/components/History.tsx:565
 msgctxt "options:history"
 msgid "The history file has been imported successfully."
 msgstr "O arquivo de histórico foi importado com sucesso."
 
-#: src/pages/components/History.tsx:402
+#: src/pages/components/History.tsx:414
 msgctxt "options:history:input:placeholder"
 msgid "Username"
 msgstr "Nome de usuário"
@@ -548,27 +548,27 @@ msgctxt "options:history:mediaType"
 msgid "Video"
 msgstr "Vídeo"
 
-#: src/pages/components/History.tsx:417
+#: src/pages/components/History.tsx:429
 msgctxt "options:history:mediaType:option"
 msgid "All"
 msgstr "Todos"
 
-#: src/pages/components/History.tsx:420
+#: src/pages/components/History.tsx:432
 msgctxt "options:history:mediaType:option"
 msgid "Image"
 msgstr "Imagem"
 
-#: src/pages/components/History.tsx:426
+#: src/pages/components/History.tsx:438
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
 msgstr "Misto"
 
-#: src/pages/components/History.tsx:423
+#: src/pages/components/History.tsx:435
 msgctxt "options:history:mediaType:option"
 msgid "Video"
 msgstr "Vídeo"
 
-#: src/pages/components/History.tsx:409
+#: src/pages/components/History.tsx:421
 msgctxt "options:history:select"
 msgid "Select media type"
 msgstr "Selecionar tipo de mídia"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 07:24+0800\n"
+"POT-Creation-Date: 2026-11-26 08:17+0800\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Translators <>\n"
 "Language-Team: Turkish\n"
@@ -326,17 +326,17 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "veya"
 
-#: src/pages/components/GeneralOptions.tsx:227
+#: src/pages/components/GeneralOptions.tsx:229
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "Dosyaların kaydedileceği yeri sor."
 
-#: src/pages/components/GeneralOptions.tsx:277
+#: src/pages/components/GeneralOptions.tsx:279
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "Alt dizin oluştur"
 
-#: src/pages/components/GeneralOptions.tsx:279
+#: src/pages/components/GeneralOptions.tsx:281
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
@@ -345,17 +345,17 @@ msgstr ""
 "Varsayılan indirme dizininin altında alt dizin oluştur. Alt dizinler \"/\" "
 "ile ayrılabilir."
 
-#: src/pages/components/GeneralOptions.tsx:244
+#: src/pages/components/GeneralOptions.tsx:246
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "Dosya adı deseni"
 
-#: src/pages/components/GeneralOptions.tsx:317
+#: src/pages/components/GeneralOptions.tsx:320
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "Dosyaları Grupla"
 
-#: src/pages/components/GeneralOptions.tsx:318
+#: src/pages/components/GeneralOptions.tsx:321
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "Dosyaları seçilen özelliğe göre gruplandır."
@@ -370,7 +370,7 @@ msgctxt "options:general"
 msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "Geçersiz desen. Desen `Tweet ID` + `Seri No` veya `Hash` içermelidir."
 
-#: src/pages/components/GeneralOptions.tsx:228
+#: src/pages/components/GeneralOptions.tsx:230
 msgctxt "options:general"
 msgid ""
 "Show the file chooser or not when download is triggered. Recommend to "
@@ -379,22 +379,22 @@ msgstr ""
 "İndirme başlatıldığında dosya seçiciyi göster veya gizle. Bu seçeneği devre "
 "dışı bırakmanız önerilir."
 
-#: src/pages/components/GeneralOptions.tsx:245
+#: src/pages/components/GeneralOptions.tsx:247
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "Dosya adına dahil edilecek bilgileri seçebilirsiniz."
 
-#: src/pages/components/GeneralOptions.tsx:401
+#: src/pages/components/GeneralOptions.tsx:404
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "Sıfırla"
 
-#: src/pages/components/GeneralOptions.tsx:409
+#: src/pages/components/GeneralOptions.tsx:412
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "Kaydet"
 
-#: src/pages/components/GeneralOptions.tsx:326
+#: src/pages/components/GeneralOptions.tsx:329
 #: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"
@@ -460,12 +460,12 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "Tweet_TarihiSaati"
 
-#: src/pages/components/History.tsx:535
+#: src/pages/components/History.tsx:547
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "Bu geçmiş dosyasını içe aktarmak istediğinizden emin misiniz?"
 
-#: src/pages/components/History.tsx:517
+#: src/pages/components/History.tsx:529
 msgctxt "options:history"
 msgid ""
 "Cannot access the selected file. Please grant permission to read the file "
@@ -474,34 +474,34 @@ msgstr ""
 "Seçilen dosyaya erişilemiyor. Lütfen dosyayı okuma iznini verin ve tekrar "
 "deneyin."
 
-#: src/pages/components/History.tsx:349
-#: src/pages/components/History.tsx:354
+#: src/pages/components/History.tsx:361
+#: src/pages/components/History.tsx:366
 msgctxt "options:history"
 msgid "Export"
 msgstr "Dışa Aktar"
 
-#: src/pages/components/History.tsx:662
+#: src/pages/components/History.tsx:674
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "Dosya dışa aktarılamadı."
 
-#: src/pages/components/History.tsx:548
+#: src/pages/components/History.tsx:560
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "Dosya içe aktarılamadı."
 
-#: src/pages/components/History.tsx:341
-#: src/pages/components/History.tsx:346
+#: src/pages/components/History.tsx:353
+#: src/pages/components/History.tsx:358
 msgctxt "options:history"
 msgid "Import"
 msgstr "İçe Aktar"
 
-#: src/pages/components/History.tsx:545
+#: src/pages/components/History.tsx:557
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "Geçersiz biçim."
 
-#: src/pages/components/History.tsx:307
+#: src/pages/components/History.tsx:313
 msgctxt "options:history"
 msgid "Next page"
 msgstr "Sonraki sayfa"
@@ -511,17 +511,17 @@ msgctxt "options:history"
 msgid "Previous page"
 msgstr "Önceki sayfa"
 
-#: src/pages/components/History.tsx:323
+#: src/pages/components/History.tsx:335
 msgctxt "options:history"
 msgid "Refresh"
 msgstr "Yenile"
 
-#: src/pages/components/History.tsx:553
+#: src/pages/components/History.tsx:565
 msgctxt "options:history"
 msgid "The history file has been imported successfully."
 msgstr "Geçmiş dosyası başarıyla içe aktarıldı."
 
-#: src/pages/components/History.tsx:402
+#: src/pages/components/History.tsx:414
 msgctxt "options:history:input:placeholder"
 msgid "Username"
 msgstr "Kullanıcı adı"
@@ -542,27 +542,27 @@ msgctxt "options:history:mediaType"
 msgid "Video"
 msgstr "Video"
 
-#: src/pages/components/History.tsx:417
+#: src/pages/components/History.tsx:429
 msgctxt "options:history:mediaType:option"
 msgid "All"
 msgstr "Tümü"
 
-#: src/pages/components/History.tsx:420
+#: src/pages/components/History.tsx:432
 msgctxt "options:history:mediaType:option"
 msgid "Image"
 msgstr "Resim"
 
-#: src/pages/components/History.tsx:426
+#: src/pages/components/History.tsx:438
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
 msgstr "Karma"
 
-#: src/pages/components/History.tsx:423
+#: src/pages/components/History.tsx:435
 msgctxt "options:history:mediaType:option"
 msgid "Video"
 msgstr "Video"
 
-#: src/pages/components/History.tsx:409
+#: src/pages/components/History.tsx:421
 msgctxt "options:history:select"
 msgid "Select media type"
 msgstr "Medya türü seç"

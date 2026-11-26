@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 07:24+0800\n"
+"POT-Creation-Date: 2026-11-26 08:17+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -336,17 +336,17 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "oder"
 
-#: src/pages/components/GeneralOptions.tsx:227
+#: src/pages/components/GeneralOptions.tsx:229
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "Fragen, wo Dateien gespeichert werden sollen."
 
-#: src/pages/components/GeneralOptions.tsx:277
+#: src/pages/components/GeneralOptions.tsx:279
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "Unterordner erstellen"
 
-#: src/pages/components/GeneralOptions.tsx:279
+#: src/pages/components/GeneralOptions.tsx:281
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
@@ -355,17 +355,17 @@ msgstr ""
 "Unterordner im Standard-Downloadverzeichnis erstellen. Unterordner können "
 "mit '/' getrennt werden."
 
-#: src/pages/components/GeneralOptions.tsx:244
+#: src/pages/components/GeneralOptions.tsx:246
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "Dateinamensmuster"
 
-#: src/pages/components/GeneralOptions.tsx:317
+#: src/pages/components/GeneralOptions.tsx:320
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "Dateien gruppieren"
 
-#: src/pages/components/GeneralOptions.tsx:318
+#: src/pages/components/GeneralOptions.tsx:321
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "Dateien nach dem ausgewählten Attribut gruppieren."
@@ -382,7 +382,7 @@ msgstr ""
 "Ungültiges Muster. Das Muster muss `Tweet ID` + `Serial` oder `Hash` "
 "enthalten."
 
-#: src/pages/components/GeneralOptions.tsx:228
+#: src/pages/components/GeneralOptions.tsx:230
 msgctxt "options:general"
 msgid ""
 "Show the file chooser or not when download is triggered. Recommend to "
@@ -391,24 +391,24 @@ msgstr ""
 "Beim Auslösen des Downloads den Dateiauswahl-Dialog anzeigen oder nicht. Es "
 "wird empfohlen, diese Option zu deaktivieren."
 
-#: src/pages/components/GeneralOptions.tsx:245
+#: src/pages/components/GeneralOptions.tsx:247
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr ""
 "Sie können auswählen, welche Informationen im Dateinamen enthalten sein "
 "sollen."
 
-#: src/pages/components/GeneralOptions.tsx:401
+#: src/pages/components/GeneralOptions.tsx:404
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: src/pages/components/GeneralOptions.tsx:409
+#: src/pages/components/GeneralOptions.tsx:412
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "Speichern"
 
-#: src/pages/components/GeneralOptions.tsx:326
+#: src/pages/components/GeneralOptions.tsx:329
 #: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"
@@ -474,12 +474,12 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "Tweet_DatumZeit"
 
-#: src/pages/components/History.tsx:535
+#: src/pages/components/History.tsx:547
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "Sind Sie sicher, dass Sie diese Verlaufsdatei importieren möchten?"
 
-#: src/pages/components/History.tsx:517
+#: src/pages/components/History.tsx:529
 msgctxt "options:history"
 msgid ""
 "Cannot access the selected file. Please grant permission to read the file "
@@ -488,34 +488,34 @@ msgstr ""
 "Auf die ausgewählte Datei kann nicht zugegriffen werden. Bitte erteilen Sie "
 "Lesezugriff und versuchen Sie es erneut."
 
-#: src/pages/components/History.tsx:349
-#: src/pages/components/History.tsx:354
+#: src/pages/components/History.tsx:361
+#: src/pages/components/History.tsx:366
 msgctxt "options:history"
 msgid "Export"
 msgstr "Exportieren"
 
-#: src/pages/components/History.tsx:662
+#: src/pages/components/History.tsx:674
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "Export der Datei fehlgeschlagen."
 
-#: src/pages/components/History.tsx:548
+#: src/pages/components/History.tsx:560
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "Import der Datei fehlgeschlagen."
 
-#: src/pages/components/History.tsx:341
-#: src/pages/components/History.tsx:346
+#: src/pages/components/History.tsx:353
+#: src/pages/components/History.tsx:358
 msgctxt "options:history"
 msgid "Import"
 msgstr "Importieren"
 
-#: src/pages/components/History.tsx:545
+#: src/pages/components/History.tsx:557
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "Ungültiges Format."
 
-#: src/pages/components/History.tsx:307
+#: src/pages/components/History.tsx:313
 msgctxt "options:history"
 msgid "Next page"
 msgstr "Nächste Seite"
@@ -525,17 +525,17 @@ msgctxt "options:history"
 msgid "Previous page"
 msgstr "Vorherige Seite"
 
-#: src/pages/components/History.tsx:323
+#: src/pages/components/History.tsx:335
 msgctxt "options:history"
 msgid "Refresh"
 msgstr "Aktualisieren"
 
-#: src/pages/components/History.tsx:553
+#: src/pages/components/History.tsx:565
 msgctxt "options:history"
 msgid "The history file has been imported successfully."
 msgstr "Die Verlaufsdatei wurde erfolgreich importiert."
 
-#: src/pages/components/History.tsx:402
+#: src/pages/components/History.tsx:414
 msgctxt "options:history:input:placeholder"
 msgid "Username"
 msgstr "Benutzername"
@@ -556,27 +556,27 @@ msgctxt "options:history:mediaType"
 msgid "Video"
 msgstr "Video"
 
-#: src/pages/components/History.tsx:417
+#: src/pages/components/History.tsx:429
 msgctxt "options:history:mediaType:option"
 msgid "All"
 msgstr "Alle"
 
-#: src/pages/components/History.tsx:420
+#: src/pages/components/History.tsx:432
 msgctxt "options:history:mediaType:option"
 msgid "Image"
 msgstr "Bild"
 
-#: src/pages/components/History.tsx:426
+#: src/pages/components/History.tsx:438
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
 msgstr "Gemischt"
 
-#: src/pages/components/History.tsx:423
+#: src/pages/components/History.tsx:435
 msgctxt "options:history:mediaType:option"
 msgid "Video"
 msgstr "Video"
 
-#: src/pages/components/History.tsx:409
+#: src/pages/components/History.tsx:421
 msgctxt "options:history:select"
 msgid "Select media type"
 msgstr "Medientyp auswählen"
@@ -643,13 +643,13 @@ msgstr "Diese Integration ist nicht mit {{platform}} kompatibel"
 #: src/pages/components/IntegrationOptions.tsx:21
 msgctxt "options:integrations"
 msgid "Transfer the download to Aria2 via {{aria2-extension}}."
-msgstr "Übertrage den Download an Aria2 über {{aria2-extension}}."
+msgstr "Download über {{aria2-extension}} an Aria2 übertragen."
 
 #: src/pages/app/Options.tsx:161
 #: src/pages/components/SideMenu.tsx:86
 msgctxt "options:sideMenu"
 msgid "About"
-msgstr "Über"
+msgstr "Info"
 
 #: src/pages/app/Options.tsx:173
 #: src/pages/components/SideMenu.tsx:80
