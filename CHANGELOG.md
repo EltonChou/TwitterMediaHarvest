@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - Arabic translation, with the options page and popup laid out right-to-left.
+- Indonesian, Vietnamese and European Portuguese translations. Portugal previously fell back to English.
 
 ### Changed
 
