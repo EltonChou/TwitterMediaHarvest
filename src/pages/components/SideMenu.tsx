@@ -138,11 +138,11 @@ const SideMenu = () => {
         direction="column"
         width={menuWidth}
         bg="brand.bg"
-        left={useBreakpointValue({
+        insetStart={useBreakpointValue({
           base: isActive ? '0px' : `-${menuWidth}`,
           lg: '0px',
         })}
-        borderRight={useBreakpointValue({
+        borderEnd={useBreakpointValue({
           base: 'unset',
           lg: '1px solid gray',
         })}
@@ -151,7 +151,7 @@ const SideMenu = () => {
         height={'full'}
         zIndex={'modal'}
         style={{
-          transition: 'left 200ms',
+          transition: 'inset-inline-start 200ms',
         }}
         overflowX={'hidden'}
         overflowY={'auto'}

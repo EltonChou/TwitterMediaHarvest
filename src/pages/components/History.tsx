@@ -134,7 +134,7 @@ const ItemUser = memo((props: ItemUserProps) => {
     <Box>
       <Text>{props.name}</Text>
       <Text mt={'1'}>
-        <Link href={userUrl} target="_blank">
+        <Link href={userUrl} target="_blank" dir="ltr">
           {'@' + props.account}
         </Link>
       </Text>
@@ -295,17 +295,29 @@ export const PageNavigator = (props: PageNavigatorProps) => (
   <HStack>
     <IconButton
       aria-label={i18n('Previous page', 'options:history')}
-      icon={<Icon boxSize={8} as={BiChevronLeft} />}
+      icon={
+        <Icon
+          boxSize={8}
+          as={BiChevronLeft}
+          _rtl={{ transform: 'scaleX(-1)' }}
+        />
+      }
       onClick={props.prevPage}
       background={'transparent'}
       data-testid="table-nav-prevPage"
     />
     <Box minW={'8ch'} textAlign={'center'}>
-      <Text>{`${props.currentPage} / ${props.totalPages}`}</Text>
+      <Text dir="ltr">{`${props.currentPage} / ${props.totalPages}`}</Text>
     </Box>
     <IconButton
       aria-label={i18n('Next page', 'options:history')}
-      icon={<Icon boxSize={8} as={BiChevronRight} />}
+      icon={
+        <Icon
+          boxSize={8}
+          as={BiChevronRight}
+          _rtl={{ transform: 'scaleX(-1)' }}
+        />
+      }
       onClick={props.nextPage}
       background={'transparent'}
       data-testid="table-nav-nextPage"

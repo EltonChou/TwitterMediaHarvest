@@ -99,10 +99,15 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
               <div
                 class="css-l4dkwv"
               >
-                tweetUser-1145141919810-02.jpg
+                <bdi
+                  dir="ltr"
+                >
+                  tweetUser-1145141919810-02.jpg
+                </bdi>
               </div>
               <div
-                class="css-98ydye"
+                class="css-lecq8k"
+                dir="ltr"
               >
                 <span
                   aria-describedby="DndDescribedBy-2"
@@ -370,6 +375,7 @@ exports[`unit test for GeneralOptions component can render properly 1`] = `
               <input
                 class="chakra-input css-0"
                 data-testid="subDirectory-input"
+                dir="ltr"
                 id="field-_r_5_"
                 placeholder="twitter_media_harvest"
                 value="download"
@@ -624,10 +630,15 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
               <div
                 class="css-l4dkwv"
               >
-                tweetUser-1145141919810-02.jpg
+                <bdi
+                  dir="ltr"
+                >
+                  tweetUser-1145141919810-02.jpg
+                </bdi>
               </div>
               <div
-                class="css-98ydye"
+                class="css-lecq8k"
+                dir="ltr"
               >
                 <span
                   aria-describedby="DndDescribedBy-3"
@@ -895,6 +906,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
               <input
                 class="chakra-input css-0"
                 data-testid="subDirectory-input"
+                dir="ltr"
                 id="field-_r_d_"
                 placeholder="twitter_media_harvest"
                 value="download"
@@ -1149,10 +1161,15 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
               <div
                 class="css-l4dkwv"
               >
-                tweetUser-1145141919810-02.jpg
+                <bdi
+                  dir="ltr"
+                >
+                  tweetUser-1145141919810-02.jpg
+                </bdi>
               </div>
               <div
-                class="css-98ydye"
+                class="css-lecq8k"
+                dir="ltr"
               >
                 <span
                   aria-describedby="DndDescribedBy-3"
@@ -1420,6 +1437,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
               <input
                 class="chakra-input css-0"
                 data-testid="subDirectory-input"
+                dir="ltr"
                 id="field-_r_d_"
                 placeholder="twitter_media_harvest"
                 value="download"
@@ -1673,10 +1691,15 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
               <div
                 class="css-l4dkwv"
               >
-                tweetUser-1145141919810-02.jpg
+                <bdi
+                  dir="ltr"
+                >
+                  tweetUser-1145141919810-02.jpg
+                </bdi>
               </div>
               <div
-                class="css-98ydye"
+                class="css-lecq8k"
+                dir="ltr"
               >
                 <span
                   aria-describedby="DndDescribedBy-3"
@@ -1944,6 +1967,7 @@ exports[`unit test for GeneralOptions component test user behavior in chrome the
               <input
                 class="chakra-input css-0"
                 data-testid="subDirectory-input"
+                dir="ltr"
                 id="field-_r_d_"
                 placeholder="twitter_media_harvest"
                 value="downloada-valid-dir"
@@ -2198,10 +2222,15 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
               <div
                 class="css-l4dkwv"
               >
-                tweetUser-1145141919810-02.jpg
+                <bdi
+                  dir="ltr"
+                >
+                  tweetUser-1145141919810-02.jpg
+                </bdi>
               </div>
               <div
-                class="css-98ydye"
+                class="css-lecq8k"
+                dir="ltr"
               >
                 <span
                   aria-describedby="DndDescribedBy-4"
@@ -2469,6 +2498,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
               <input
                 class="chakra-input css-0"
                 data-testid="subDirectory-input"
+                dir="ltr"
                 id="field-_r_l_"
                 placeholder="twitter_media_harvest"
                 value="download"
@@ -2723,10 +2753,15 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
               <div
                 class="css-l4dkwv"
               >
-                tweetUser-1145141919810-02.jpg
+                <bdi
+                  dir="ltr"
+                >
+                  tweetUser-1145141919810-02.jpg
+                </bdi>
               </div>
               <div
-                class="css-98ydye"
+                class="css-lecq8k"
+                dir="ltr"
               >
                 <span
                   aria-describedby="DndDescribedBy-4"
@@ -2994,6 +3029,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
               <input
                 class="chakra-input css-0"
                 data-testid="subDirectory-input"
+                dir="ltr"
                 id="field-_r_l_"
                 placeholder="twitter_media_harvest"
                 value="download"
@@ -3247,10 +3283,15 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
               <div
                 class="css-l4dkwv"
               >
-                tweetUser-1145141919810-02.jpg
+                <bdi
+                  dir="ltr"
+                >
+                  tweetUser-1145141919810-02.jpg
+                </bdi>
               </div>
               <div
-                class="css-98ydye"
+                class="css-lecq8k"
+                dir="ltr"
               >
                 <span
                   aria-describedby="DndDescribedBy-4"
@@ -3518,6 +3559,7 @@ exports[`unit test for GeneralOptions component test user behavior in firefox th
               <input
                 class="chakra-input css-0"
                 data-testid="subDirectory-input"
+                dir="ltr"
                 id="field-_r_l_"
                 placeholder="twitter_media_harvest"
                 value="downloada-valid-dira-valid-dir"
@@ -3678,10 +3720,15 @@ exports[`unit test for TokenPanel component can drag & drop sortable token 1`] =
   <div
     class="css-l4dkwv"
   >
-    preview filename
+    <bdi
+      dir="ltr"
+    >
+      preview filename
+    </bdi>
   </div>
   <div
-    class="css-98ydye"
+    class="css-lecq8k"
+    dir="ltr"
   >
     <span
       aria-describedby="DndDescribedBy-0"
@@ -3860,10 +3907,15 @@ exports[`unit test for TokenPanel component can toggle token: after-enable 1`] =
   <div
     class="css-l4dkwv"
   >
-    preview filename
+    <bdi
+      dir="ltr"
+    >
+      preview filename
+    </bdi>
   </div>
   <div
-    class="css-98ydye"
+    class="css-lecq8k"
+    dir="ltr"
   >
     <span
       aria-describedby="DndDescribedBy-1"
@@ -4042,10 +4094,15 @@ exports[`unit test for TokenPanel component can toggle token: before-toggle 1`] 
   <div
     class="css-l4dkwv"
   >
-    preview filename
+    <bdi
+      dir="ltr"
+    >
+      preview filename
+    </bdi>
   </div>
   <div
-    class="css-98ydye"
+    class="css-lecq8k"
+    dir="ltr"
   >
     <span
       aria-describedby="DndDescribedBy-1"
@@ -4224,10 +4281,15 @@ exports[`unit test for TokenPanel component can toggle token: before-toggle 2`] 
   <div
     class="css-l4dkwv"
   >
-    preview filename
+    <bdi
+      dir="ltr"
+    >
+      preview filename
+    </bdi>
   </div>
   <div
-    class="css-98ydye"
+    class="css-lecq8k"
+    dir="ltr"
   >
     <span
       aria-describedby="DndDescribedBy-1"

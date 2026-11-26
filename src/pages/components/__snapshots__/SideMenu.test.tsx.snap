@@ -35,8 +35,8 @@ exports[`unit test for SideMenu component can navigate 1`] = `
     />
   </div>
   <div
-    class="css-1tgiw7e"
-    style="transition: left 200ms;"
+    class="css-1yeph1v"
+    style="transition: inset-inline-start 200ms;"
   >
     <div
       class="css-2y8fku"

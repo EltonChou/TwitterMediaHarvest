@@ -133,7 +133,7 @@ export const TokenPanel = memo(
     return (
       <>
         <Flex minH={'1.5em'} fontSize="1.2em">
-          {previewFilename}
+          <bdi dir="ltr">{previewFilename}</bdi>
         </Flex>
 
         <DndContext
@@ -154,8 +154,11 @@ export const TokenPanel = memo(
               )
           }}
         >
+          {/* Tokens keep the filename's left-to-right order in RTL locales. */}
           <Flex
+            dir="ltr"
             justifyContent={'flex-start'}
+            _rtl={{ justifyContent: 'flex-end' }}
             gap={2}
             flexWrap={'wrap'}
             marginBottom={'0.5rem'}
@@ -286,6 +289,7 @@ const DirectoryControlFeature = (props: DirectoryControlFeatureProps) => (
     testId="suDirectory-feature-switch"
   >
     <Input
+      dir="ltr"
       placeholder={'twitter_media_harvest'}
       focusBorderColor={
         props.isDataModified
