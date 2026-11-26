@@ -35,6 +35,8 @@ const useDrinkIcon = () =>
     tr: FaMugHot,
     th: LuCupSoda,
     zh: TbBubbleTea,
+    id: BiCoffee,
+    vi: BiCoffee,
   })
 
 export default useDrinkIcon

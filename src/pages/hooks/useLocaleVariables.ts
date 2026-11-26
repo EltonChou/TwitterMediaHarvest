@@ -12,6 +12,7 @@ export type SupportLocale =
   | 'en'
   | 'es'
   | 'fr'
+  | 'id'
   | 'it'
   | 'ja'
   | 'ko'
@@ -20,6 +21,7 @@ export type SupportLocale =
   | 'ru'
   | 'th'
   | 'tr'
+  | 'vi'
   | 'zh'
 
 export type LocaleVariableInit<T> = { fallback: T } & Partial<
