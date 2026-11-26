@@ -62,6 +62,15 @@ export default tseslint.config(
       ],
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
+      // ponytail: syntactic only; misses React.useState and `[x, _]`.
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector:
+            'VariableDeclarator[id.type="ArrayPattern"][id.elements.length=1][init.callee.name="useState"]',
+          message: 'useState without setter: use useRef or a constant.',
+        },
+      ],
       '@typescript-eslint/no-unused-vars': [
         'error',
         {

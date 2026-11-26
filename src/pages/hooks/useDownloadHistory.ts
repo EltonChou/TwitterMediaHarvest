@@ -22,7 +22,7 @@ import { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDo
 import { v5PortableDownloadHistoryToDownloadHistories } from '../../mappers/portableDownloadHistory'
 import { toError } from 'fp-ts/lib/Either'
 import Joi from 'joi'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import semver from 'semver'
 
 export type DownloadHistoryItem = DownloadHistoryInfo
@@ -92,14 +92,14 @@ const useDownloadHistory = ({
   downloadHistoryRepo,
 }: UseDownloadHistoryProps): DownloadHistoryHook => {
   const [items, setItems] = useState<DownloadHistoryInfo[]>([])
-  const [query, setQuery] = useState<SearchQuery>(DEFAULT_QUERY)
+  const queryRef = useRef<SearchQuery>(DEFAULT_QUERY)
   const [pageInfo, setPageInfo] = useState<PageInfo>({
     prev: null,
     current: 1,
     next: null,
     total: 1,
   })
-  const [itemPerPage, setItemPerPage] = useState(initItemPerPage)
+  const itemPerPageRef = useRef(initItemPerPage)
   const [isLoaded, setLoaded] = useState(false)
   const [total, setTotal] = useState(0)
 
@@ -133,7 +133,10 @@ const useDownloadHistory = ({
 
   useEffect(() => {
     if (isLoaded) return
-    loadLatest({ itemPerPage, query }).then(() => setLoaded(true))
+    loadLatest({
+      itemPerPage: itemPerPageRef.current,
+      query: queryRef.current,
+    }).then(() => setLoaded(true))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -142,9 +145,9 @@ const useDownloadHistory = ({
       if (pageInfo.prev === null) return
       searchDownloadHistoryUseCase
         .process({
-          filter: query.filter,
-          hashtags: query.hashtags,
-          itemPerPage: itemPerPage,
+          filter: queryRef.current.filter,
+          hashtags: queryRef.current.hashtags,
+          itemPerPage: itemPerPageRef.current,
           page: pageInfo.prev,
         })
         .then(setResultByResponse)
@@ -152,14 +155,7 @@ const useDownloadHistory = ({
           if (options) options.cbs.forEach(cb => cb())
         })
     },
-    [
-      itemPerPage,
-      pageInfo.prev,
-      query.filter,
-      query.hashtags,
-      searchDownloadHistoryUseCase,
-      setResultByResponse,
-    ]
+    [pageInfo.prev, searchDownloadHistoryUseCase, setResultByResponse]
   )
 
   const nextPage: DownloadHistoryHook['pageHandler']['nextPage'] = useCallback(
@@ -167,9 +163,9 @@ const useDownloadHistory = ({
       if (pageInfo.next === null) return
       searchDownloadHistoryUseCase
         .process({
-          filter: query.filter,
-          hashtags: query.hashtags,
-          itemPerPage: itemPerPage,
+          filter: queryRef.current.filter,
+          hashtags: queryRef.current.hashtags,
+          itemPerPage: itemPerPageRef.current,
           page: pageInfo.next,
         })
         .then(setResultByResponse)
@@ -177,14 +173,7 @@ const useDownloadHistory = ({
           if (options) options.cbs.forEach(cb => cb())
         })
     },
-    [
-      itemPerPage,
-      pageInfo.next,
-      query.filter,
-      query.hashtags,
-      searchDownloadHistoryUseCase,
-      setResultByResponse,
-    ]
+    [pageInfo.next, searchDownloadHistoryUseCase, setResultByResponse]
   )
 
   const specifyPage: DownloadHistoryHook['pageHandler']['specifyPage'] =
@@ -192,9 +181,9 @@ const useDownloadHistory = ({
       (page, options) => {
         searchDownloadHistoryUseCase
           .process({
-            filter: query.filter,
-            hashtags: query.hashtags,
-            itemPerPage: itemPerPage,
+            filter: queryRef.current.filter,
+            hashtags: queryRef.current.hashtags,
+            itemPerPage: itemPerPageRef.current,
             page: page,
           })
           .then(setResultByResponse)
@@ -202,23 +191,17 @@ const useDownloadHistory = ({
             if (options) options.cbs.forEach(cb => cb())
           })
       },
-      [
-        itemPerPage,
-        query.filter,
-        query.hashtags,
-        searchDownloadHistoryUseCase,
-        setResultByResponse,
-      ]
+      [searchDownloadHistoryUseCase, setResultByResponse]
     )
 
   const setItemCount: DownloadHistoryHook['pageHandler']['setItemPerPage'] =
     useCallback(
       (count, options) => {
-        setItemPerPage(count)
+        itemPerPageRef.current = count
         searchDownloadHistoryUseCase
           .process({
-            filter: query.filter,
-            hashtags: query.hashtags,
+            filter: queryRef.current.filter,
+            hashtags: queryRef.current.hashtags,
             itemPerPage: count,
             page: pageInfo.current,
           })
@@ -227,13 +210,7 @@ const useDownloadHistory = ({
             if (options) options.cbs.forEach(cb => cb())
           })
       },
-      [
-        pageInfo,
-        query.filter,
-        query.hashtags,
-        searchDownloadHistoryUseCase,
-        setResultByResponse,
-      ]
+      [pageInfo, searchDownloadHistoryUseCase, setResultByResponse]
     )
 
   return {
@@ -256,18 +233,21 @@ const useDownloadHistory = ({
       deleteItemById: async id => downloadHistoryRepo.removeByTweetId(id),
       search: useCallback(
         query => {
-          setQuery(query)
-          loadLatest({ itemPerPage, query })
+          queryRef.current = query
+          loadLatest({ itemPerPage: itemPerPageRef.current, query })
         },
-        [itemPerPage, loadLatest]
+        [loadLatest]
       ),
       refresh: useCallback(
         options => {
-          loadLatest({ itemPerPage, query: DEFAULT_QUERY }).then(() => {
+          loadLatest({
+            itemPerPage: itemPerPageRef.current,
+            query: DEFAULT_QUERY,
+          }).then(() => {
             if (options) options.cbs.forEach(cb => cb())
           })
         },
-        [itemPerPage, loadLatest]
+        [loadLatest]
       ),
       import: useCallback<DownloadHistoryHook['handler']['import']>(
         async data => {
