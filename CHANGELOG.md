@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 
 - The "Buy me a coffee" button now offers a drink that fits your language, such as beer in German, matcha in Japanese and bubble tea in Chinese, with a matching icon.
+- Require Chrome or Edge 120 or later. Older versions will no longer receive updates.
 
 ### Fixed
 
