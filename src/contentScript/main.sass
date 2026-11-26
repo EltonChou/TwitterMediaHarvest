@@ -62,10 +62,10 @@ $harvest-yellow: rgb(241, 185, 26)
   -webkit-box-direction: normal
   -webkit-box-orient: horizontal
   flex-direction: row
-  margin-left: 3em
+  margin-inline-start: 3em
   +download-button-svg
   &.x
-    margin-left: unset !important
+    margin-inline-start: unset !important
     // X's hover colors (`hover:text-brand`, `before:bg-brand/10`) read this variable.
     --x-fg-brand: #{$harvest-yellow}
   &.status
@@ -78,11 +78,11 @@ $harvest-yellow: rgb(241, 185, 26)
     -webkit-box-flex: 1
     flex-grow: 0
     flex-basis: auto
-    margin-left: 12px // it should be `unset` when be in anonymous mode
+    margin-inline-start: 12px // it should be `unset` when be in anonymous mode
   &.photo
     // The viewer's focused tweet in its thread has a narrow bar, as a stream tweet does.
     article &
-      margin-left: 12px
+      margin-inline-start: 12px
       &:hover .photoBG
         background: rgba(241, 185, 26, 0.1)
       &:hover:active .photoBG
