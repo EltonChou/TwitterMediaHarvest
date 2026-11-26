@@ -581,11 +581,11 @@ interface LegacyUploadComponent {
   click: HTMLInputElement['click']
 }
 
-const LegacyUploadHistory = (props: UploadHistoryProps) => {
+const LegacyUploadHistory = ({ importFunc, ref }: UploadHistoryProps) => {
   const uploadFileRef = useRef<HTMLInputElement>(null)
 
   useImperativeHandle<LegacyUploadComponent, LegacyUploadComponent>(
-    props.ref,
+    ref,
     () => ({
       click() {
         uploadFileRef.current?.click()
@@ -606,7 +606,7 @@ const LegacyUploadHistory = (props: UploadHistoryProps) => {
     if (!isConfirmed) return
 
     const content = await file.arrayBuffer()
-    const error = await props.importFunc(content)
+    const error = await importFunc(content)
     alertImportResult(error)
 
     resetUploadFile()

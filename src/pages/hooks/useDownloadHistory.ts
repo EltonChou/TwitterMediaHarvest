@@ -154,13 +154,15 @@ const useDownloadHistory = ({
       [load]
     )
 
+  // Local alias: lint treats `.current` as a ref read.
+  const currentPage = pageInfo.current
   const setItemCount: DownloadHistoryHook['pageHandler']['setItemPerPage'] =
     useCallback(
       (count, options) => {
         itemPerPageRef.current = count
-        load(pageInfo.current, options)
+        load(currentPage, options)
       },
-      [load, pageInfo]
+      [load, currentPage]
     )
 
   return {

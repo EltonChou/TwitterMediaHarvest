@@ -3,7 +3,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import { useRef } from 'react'
 import { i18n } from 'webextension-polyfill'
 
 export type SupportLocale =
@@ -32,7 +31,7 @@ const useLocaleVariables = <T>(
   initVariables: LocaleVariableInit<T>,
   initLocale?: string
 ) => {
-  const locale = useRef(initLocale || i18n.getUILanguage()).current
+  const locale = initLocale || i18n.getUILanguage()
   return Object.entries(initVariables).reduce(
     (prev, [k, v]) => (locale.startsWith(k) ? v : prev),
     initVariables.fallback

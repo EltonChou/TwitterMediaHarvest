@@ -7,11 +7,11 @@ import { getText as i18n } from '#libs/i18n'
 import useDrinkIcon from '#pages/hooks/useDrinkIcon'
 import Links, { UtmContent, UtmSource, withUtm } from '#pages/links'
 import { StarIcon } from '@chakra-ui/icons'
-import { Box, Button, HStack, Link, Text } from '@chakra-ui/react'
+import { Box, Button, HStack, Icon, Link, Text } from '@chakra-ui/react'
 import React from 'react'
 
 const FootBar = () => {
-  const DrinkIcon = useDrinkIcon()
+  const drinkIcon = useDrinkIcon()
   return (
     <Box
       position={'sticky'}
@@ -52,7 +52,7 @@ const FootBar = () => {
           <Button
             colorScheme={'brand.pink'}
             color={'white'}
-            rightIcon={<DrinkIcon />}
+            rightIcon={<Icon as={drinkIcon} />}
             data-testid="coffee-button"
           >
             {i18n('Buy me a coffee', 'options:footBar:button')}
