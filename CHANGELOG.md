@@ -7,9 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Arabic translation, with the options page and popup laid out right-to-left.
+
 ### Changed
 
 - The "Buy me a coffee" button now offers a drink that fits your language, such as beer in German, matcha in Japanese and bubble tea in Chinese, with a matching icon.
+
+### Fixed
+
+- Fix download button spacing on the wrong side when X is set to a right-to-left language, such as Arabic or Hebrew.
+- Fix the invalid directory name message showing in Japanese for English users.
+- Fix mistranslations and leftover English in Traditional Chinese, Simplified Chinese, Japanese, German, Thai, Polish, Italian and Spanish.
 
 ## [4.5.10] - 2026-11-25
 
