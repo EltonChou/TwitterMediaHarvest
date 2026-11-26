@@ -250,4 +250,4 @@ export class SolutionQuotaWarningNotificationConfig {
 const buildNotificationButtons = (
   buttons: [number, chrome.notifications.NotificationButton][]
 ): chrome.notifications.NotificationButton[] =>
-  buttons.sort((a, b) => a[0] - b[0]).map(([, button]) => button)
+  buttons.toSorted((a, b) => a[0] - b[0]).map(([, button]) => button)
