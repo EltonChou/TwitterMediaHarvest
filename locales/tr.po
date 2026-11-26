@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 08:17+0800\n"
+"POT-Creation-Date: 2026-11-26 08:40+0800\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Translators <>\n"
 "Language-Team: Turkish\n"
@@ -326,17 +326,17 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "veya"
 
-#: src/pages/components/GeneralOptions.tsx:229
+#: src/pages/components/GeneralOptions.tsx:230
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "Dosyaların kaydedileceği yeri sor."
 
-#: src/pages/components/GeneralOptions.tsx:279
+#: src/pages/components/GeneralOptions.tsx:280
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "Alt dizin oluştur"
 
-#: src/pages/components/GeneralOptions.tsx:281
+#: src/pages/components/GeneralOptions.tsx:282
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
@@ -345,17 +345,17 @@ msgstr ""
 "Varsayılan indirme dizininin altında alt dizin oluştur. Alt dizinler \"/\" "
 "ile ayrılabilir."
 
-#: src/pages/components/GeneralOptions.tsx:246
+#: src/pages/components/GeneralOptions.tsx:247
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "Dosya adı deseni"
 
-#: src/pages/components/GeneralOptions.tsx:320
+#: src/pages/components/GeneralOptions.tsx:321
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "Dosyaları Grupla"
 
-#: src/pages/components/GeneralOptions.tsx:321
+#: src/pages/components/GeneralOptions.tsx:322
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "Dosyaları seçilen özelliğe göre gruplandır."
@@ -370,7 +370,7 @@ msgctxt "options:general"
 msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "Geçersiz desen. Desen `Tweet ID` + `Seri No` veya `Hash` içermelidir."
 
-#: src/pages/components/GeneralOptions.tsx:230
+#: src/pages/components/GeneralOptions.tsx:231
 msgctxt "options:general"
 msgid ""
 "Show the file chooser or not when download is triggered. Recommend to "
@@ -379,22 +379,22 @@ msgstr ""
 "İndirme başlatıldığında dosya seçiciyi göster veya gizle. Bu seçeneği devre "
 "dışı bırakmanız önerilir."
 
-#: src/pages/components/GeneralOptions.tsx:247
+#: src/pages/components/GeneralOptions.tsx:248
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "Dosya adına dahil edilecek bilgileri seçebilirsiniz."
 
-#: src/pages/components/GeneralOptions.tsx:404
+#: src/pages/components/GeneralOptions.tsx:405
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "Sıfırla"
 
-#: src/pages/components/GeneralOptions.tsx:412
+#: src/pages/components/GeneralOptions.tsx:413
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "Kaydet"
 
-#: src/pages/components/GeneralOptions.tsx:329
+#: src/pages/components/GeneralOptions.tsx:330
 #: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"

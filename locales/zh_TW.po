@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 08:17+0800\n"
+"POT-Creation-Date: 2026-11-26 08:40+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -318,34 +318,34 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "或"
 
-#: src/pages/components/GeneralOptions.tsx:229
+#: src/pages/components/GeneralOptions.tsx:230
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "詢問檔案存放位置。"
 
-#: src/pages/components/GeneralOptions.tsx:279
+#: src/pages/components/GeneralOptions.tsx:280
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "新增子資料夾"
 
-#: src/pages/components/GeneralOptions.tsx:281
+#: src/pages/components/GeneralOptions.tsx:282
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
 "can be separated with \"/\"."
 msgstr "在預設下載資料夾中新增一個子資料夾。使用 \"/\" 區分多個子資料夾。"
 
-#: src/pages/components/GeneralOptions.tsx:246
+#: src/pages/components/GeneralOptions.tsx:247
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "檔案名稱樣式"
 
-#: src/pages/components/GeneralOptions.tsx:320
+#: src/pages/components/GeneralOptions.tsx:321
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "群組檔案"
 
-#: src/pages/components/GeneralOptions.tsx:321
+#: src/pages/components/GeneralOptions.tsx:322
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "使用選擇的屬性群組檔案。"
@@ -360,29 +360,29 @@ msgctxt "options:general"
 msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "無效的樣式。 必須包含 `推特 ID` + `序列號` 或 `雜湊值`。"
 
-#: src/pages/components/GeneralOptions.tsx:230
+#: src/pages/components/GeneralOptions.tsx:231
 msgctxt "options:general"
 msgid ""
 "Show the file chooser or not when download is triggered. Recommend to "
 "disable this option."
 msgstr "每次下載都詢問檔案存放位置。 推薦關閉此設定。"
 
-#: src/pages/components/GeneralOptions.tsx:247
+#: src/pages/components/GeneralOptions.tsx:248
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "選擇需要哪些資訊包含在檔案名稱。"
 
-#: src/pages/components/GeneralOptions.tsx:404
+#: src/pages/components/GeneralOptions.tsx:405
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "重設"
 
-#: src/pages/components/GeneralOptions.tsx:412
+#: src/pages/components/GeneralOptions.tsx:413
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "儲存"
 
-#: src/pages/components/GeneralOptions.tsx:329
+#: src/pages/components/GeneralOptions.tsx:330
 #: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"

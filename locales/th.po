@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 08:17+0800\n"
+"POT-Creation-Date: 2026-11-26 08:40+0800\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Translators <>\n"
 "Language-Team: Thai\n"
@@ -323,34 +323,34 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "หรือ"
 
-#: src/pages/components/GeneralOptions.tsx:229
+#: src/pages/components/GeneralOptions.tsx:230
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "ถามตำแหน่งบันทึกไฟล์"
 
-#: src/pages/components/GeneralOptions.tsx:279
+#: src/pages/components/GeneralOptions.tsx:280
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "สร้างโฟลเดอร์ย่อย"
 
-#: src/pages/components/GeneralOptions.tsx:281
+#: src/pages/components/GeneralOptions.tsx:282
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
 "can be separated with \"/\"."
 msgstr "สร้างโฟลเดอร์ย่อยภายใต้โฟลเดอร์ดาวน์โหลดเริ่มต้น คั่นด้วย \"/\""
 
-#: src/pages/components/GeneralOptions.tsx:246
+#: src/pages/components/GeneralOptions.tsx:247
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "รูปแบบชื่อไฟล์"
 
-#: src/pages/components/GeneralOptions.tsx:320
+#: src/pages/components/GeneralOptions.tsx:321
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "จัดกลุ่มไฟล์"
 
-#: src/pages/components/GeneralOptions.tsx:321
+#: src/pages/components/GeneralOptions.tsx:322
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "จัดกลุ่มไฟล์ตามแอตทริบิวต์ที่เลือก"
@@ -365,7 +365,7 @@ msgctxt "options:general"
 msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "รูปแบบไม่ถูกต้อง ต้องมี `Tweet ID` + `Serial` หรือ `Hash`"
 
-#: src/pages/components/GeneralOptions.tsx:230
+#: src/pages/components/GeneralOptions.tsx:231
 msgctxt "options:general"
 msgid ""
 "Show the file chooser or not when download is triggered. Recommend to "
@@ -374,22 +374,22 @@ msgstr ""
 "แสดงหน้าต่างเลือกตำแหน่งบันทึกหรือไม่เมื่อเริ่มดาวน์โหลด\n"
 "แนะนำ: ปิดใช้งาน"
 
-#: src/pages/components/GeneralOptions.tsx:247
+#: src/pages/components/GeneralOptions.tsx:248
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "เลือกข้อมูลที่จะรวมในชื่อไฟล์"
 
-#: src/pages/components/GeneralOptions.tsx:404
+#: src/pages/components/GeneralOptions.tsx:405
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "รีเซ็ต"
 
-#: src/pages/components/GeneralOptions.tsx:412
+#: src/pages/components/GeneralOptions.tsx:413
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "บันทึก"
 
-#: src/pages/components/GeneralOptions.tsx:329
+#: src/pages/components/GeneralOptions.tsx:330
 #: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"

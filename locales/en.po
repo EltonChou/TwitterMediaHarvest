@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 08:17+0800\n"
+"POT-Creation-Date: 2026-11-26 08:40+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Elton Chou <plscd748@gmail.com>\n"
 "Language-Team: \n"
@@ -330,17 +330,17 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "or"
 
-#: src/pages/components/GeneralOptions.tsx:229
+#: src/pages/components/GeneralOptions.tsx:230
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "Ask where to save files."
 
-#: src/pages/components/GeneralOptions.tsx:279
+#: src/pages/components/GeneralOptions.tsx:280
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "Create sub-directory"
 
-#: src/pages/components/GeneralOptions.tsx:281
+#: src/pages/components/GeneralOptions.tsx:282
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
@@ -349,17 +349,17 @@ msgstr ""
 "Create sub-directory under the default download directory. Sub-directory "
 "can be separated with \"/\"."
 
-#: src/pages/components/GeneralOptions.tsx:246
+#: src/pages/components/GeneralOptions.tsx:247
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "Filename pattern"
 
-#: src/pages/components/GeneralOptions.tsx:320
+#: src/pages/components/GeneralOptions.tsx:321
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "Group Files"
 
-#: src/pages/components/GeneralOptions.tsx:321
+#: src/pages/components/GeneralOptions.tsx:322
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "Group files by the selected attribute."
@@ -374,7 +374,7 @@ msgctxt "options:general"
 msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 
-#: src/pages/components/GeneralOptions.tsx:230
+#: src/pages/components/GeneralOptions.tsx:231
 msgctxt "options:general"
 msgid ""
 "Show the file chooser or not when download is triggered. Recommend to "
@@ -383,22 +383,22 @@ msgstr ""
 "Show the file chooser or not when download is triggered. Recommend to "
 "disable this option."
 
-#: src/pages/components/GeneralOptions.tsx:247
+#: src/pages/components/GeneralOptions.tsx:248
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "You can choose what info to be included in the filename."
 
-#: src/pages/components/GeneralOptions.tsx:404
+#: src/pages/components/GeneralOptions.tsx:405
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "Reset"
 
-#: src/pages/components/GeneralOptions.tsx:412
+#: src/pages/components/GeneralOptions.tsx:413
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "Save"
 
-#: src/pages/components/GeneralOptions.tsx:329
+#: src/pages/components/GeneralOptions.tsx:330
 #: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"

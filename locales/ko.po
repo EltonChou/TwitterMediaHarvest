@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 08:17+0800\n"
+"POT-Creation-Date: 2026-11-26 08:40+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -318,34 +318,34 @@ msgctxt "options:footBar:text"
 msgid "or"
 msgstr "또는"
 
-#: src/pages/components/GeneralOptions.tsx:229
+#: src/pages/components/GeneralOptions.tsx:230
 msgctxt "options:general"
 msgid "Ask where to save files."
 msgstr "파일을 저장할 위치를 묻습니다."
 
-#: src/pages/components/GeneralOptions.tsx:279
+#: src/pages/components/GeneralOptions.tsx:280
 msgctxt "options:general"
 msgid "Create sub-directory"
 msgstr "하위 디렉토리 생성"
 
-#: src/pages/components/GeneralOptions.tsx:281
+#: src/pages/components/GeneralOptions.tsx:282
 msgctxt "options:general"
 msgid ""
 "Create sub-directory under the default download directory. Sub-directory "
 "can be separated with \"/\"."
 msgstr "기본 다운로드 디렉토리 아래에 하위 디렉토리를 생성합니다. 하위 디렉토리는 \"/\"로 구분할 수 있습니다."
 
-#: src/pages/components/GeneralOptions.tsx:246
+#: src/pages/components/GeneralOptions.tsx:247
 msgctxt "options:general"
 msgid "Filename pattern"
 msgstr "파일명 패턴"
 
-#: src/pages/components/GeneralOptions.tsx:320
+#: src/pages/components/GeneralOptions.tsx:321
 msgctxt "options:general"
 msgid "Group Files"
 msgstr "파일 그룹화"
 
-#: src/pages/components/GeneralOptions.tsx:321
+#: src/pages/components/GeneralOptions.tsx:322
 msgctxt "options:general"
 msgid "Group files by the selected attribute."
 msgstr "선택한 속성에 따라 파일을 그룹화합니다."
@@ -360,29 +360,29 @@ msgctxt "options:general"
 msgid "Invalid pattern. The pattern must include `Tweet ID` + `Serial` or `Hash`."
 msgstr "유효하지 않은 패턴입니다. 패턴은 `Tweet ID` + `Serial` 또는 `Hash`를 포함해야 합니다."
 
-#: src/pages/components/GeneralOptions.tsx:230
+#: src/pages/components/GeneralOptions.tsx:231
 msgctxt "options:general"
 msgid ""
 "Show the file chooser or not when download is triggered. Recommend to "
 "disable this option."
 msgstr "다운로드가 트리거될 때 파일 선택기를 표시할지 여부입니다. 이 옵션을 비활성화하는 것을 권장합니다."
 
-#: src/pages/components/GeneralOptions.tsx:247
+#: src/pages/components/GeneralOptions.tsx:248
 msgctxt "options:general"
 msgid "You can choose what info to be included in the filename."
 msgstr "파일명에 포함할 정보를 선택할 수 있습니다."
 
-#: src/pages/components/GeneralOptions.tsx:404
+#: src/pages/components/GeneralOptions.tsx:405
 msgctxt "options:general:button"
 msgid "Reset"
 msgstr "초기화"
 
-#: src/pages/components/GeneralOptions.tsx:412
+#: src/pages/components/GeneralOptions.tsx:413
 msgctxt "options:general:button"
 msgid "Save"
 msgstr "저장"
 
-#: src/pages/components/GeneralOptions.tsx:329
+#: src/pages/components/GeneralOptions.tsx:330
 #: src/pages/components/GeneralOptions.tsx:55
 msgctxt "options:general:filenameToken"
 msgid "Account"
