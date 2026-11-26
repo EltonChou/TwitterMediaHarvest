@@ -22,13 +22,18 @@ import {
 import Options from './app/Options'
 import Popup from './app/Popup'
 import './main.sass'
-import theme from './themes'
+import baseTheme from './themes'
+import { getTextDirection } from './utils'
 import { ChakraProvider } from '@chakra-ui/react'
 import React from 'react'
 import * as ReactDOMClient from 'react-dom/client'
 import Browser from 'webextension-polyfill'
 
-document.documentElement.setAttribute('lang', Browser.i18n.getUILanguage())
+const uiLanguage = Browser.i18n.getUILanguage()
+const direction = getTextDirection(uiLanguage)
+document.documentElement.setAttribute('lang', uiLanguage)
+document.documentElement.setAttribute('dir', direction)
+const theme = { ...baseTheme, direction }
 
 // Create a root.
 const rootEle = document.getElementById('root')
