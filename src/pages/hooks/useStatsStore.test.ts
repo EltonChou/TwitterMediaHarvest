@@ -16,15 +16,14 @@ describe('unit test for useStatsStore hook', () => {
     const statsStore = createStatsStore({ getStats })
 
     const { result } = renderHook(() => useStatsStore(statsStore))
-    const [originalStats, { triggerChange }] = result.current
+    const originalStats = result.current
 
     getStats.mockResolvedValue(
       new UsageStatistics({ downloadCount: 10, trafficUsage: 100 })
     )
 
-    await act(triggerChange)
+    await act(statsStore.triggerChange)
 
-    const [stats] = result.current
-    expect(stats.isGreaterThan(originalStats))
+    expect(result.current.isGreaterThan(originalStats)).toBeTrue()
   })
 })

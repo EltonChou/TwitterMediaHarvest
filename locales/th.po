@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 08:40+0800\n"
+"POT-Creation-Date: 2026-11-27 05:19+0800\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Translators <>\n"
 "Language-Team: Thai\n"
@@ -663,22 +663,22 @@ msgctxt "popup"
 msgid "Auto-Reveal NSFW"
 msgstr "แสดง 18+ ออโต้"
 
-#: src/pages/app/Popup.tsx:222
+#: src/pages/app/Popup.tsx:204
 msgctxt "popup"
 msgid "Buy me a coffee!"
 msgstr "เลี้ยงชาไทยสักแก้ว!"
 
-#: src/pages/app/Popup.tsx:204
+#: src/pages/app/Popup.tsx:186
 msgctxt "popup"
 msgid "Changelog"
 msgstr "บันทึกการเปลี่ยนแปลง"
 
-#: src/pages/app/Popup.tsx:134
+#: src/pages/app/Popup.tsx:116
 msgctxt "popup"
 msgid "Rate it"
 msgstr "ให้คะแนน"
 
-#: src/pages/app/Popup.tsx:141
+#: src/pages/app/Popup.tsx:123
 msgctxt "popup"
 msgid "Report issues"
 msgstr "รายงานปัญหา"

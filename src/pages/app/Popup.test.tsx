@@ -3,8 +3,8 @@
  */
 import { MockFeatureSettingsRepository } from '#mocks/repositories/fetureSettings'
 import { MockUsageStatisticsRepository } from '#mocks/repositories/usageStatistics'
-import { CHANGE_CRITERIAS } from '#pages/hooks/useStatsStore'
 import Links, { UtmContent, UtmSource, withUtm } from '#pages/links'
+import { CHANGE_CRITERIAS } from '#pages/stores/StatsStore'
 import Popup from './Popup'
 import { faker } from '@faker-js/faker'
 import { act, render, screen, waitFor } from '@testing-library/react'
@@ -95,10 +95,15 @@ describe('unit test for Popup app component', () => {
 
     await act(async () => {
       storageChangeListeners.forEach(listener =>
-        listener(faker.helpers.arrayElement([...CHANGE_CRITERIAS.keys()]), {
-          newValue: 1,
-          oldValue: 0,
-        })
+        listener(
+          {
+            [faker.helpers.arrayElement([...CHANGE_CRITERIAS])]: {
+              newValue: 1,
+              oldValue: 0,
+            },
+          },
+          'local'
+        )
       )
     })
 

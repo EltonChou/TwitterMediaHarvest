@@ -4,10 +4,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { UsageStatistics } from '#domain/valueObjects/usageStatistics'
+import type { V4Statistics } from '#schema'
 import type { IExternalStore } from './base'
+import { type Storage, storage } from 'webextension-polyfill'
 
 export interface StatsStore extends IExternalStore<UsageStatistics> {
-  init: () => void
   triggerChange: () => Promise<void>
 }
 
@@ -15,35 +16,48 @@ export type CreateStoreParams = {
   getStats: () => Promise<UsageStatistics>
 }
 
-export const createStatsStore = (() => {
-  let instance: StatsStore
+export const CHANGE_CRITERIAS: ReadonlySet<string> = new Set<
+  keyof V4Statistics
+>(['downloadCount', 'trafficUsage'])
 
+export const createStatsStore = ({
+  getStats,
+}: CreateStoreParams): StatsStore => {
   let stats = new UsageStatistics({ downloadCount: 0, trafficUsage: 0 })
   const listeners = new Set<() => void>()
 
   const notifyListeners = () => listeners.forEach(onChange => onChange())
 
-  return ({ getStats }: CreateStoreParams) => {
-    if (!instance) {
-      const updateStats = () =>
-        getStats().then(newStats => {
-          stats = newStats
-        })
+  const updateStats = () =>
+    getStats().then(newStats => {
+      stats = newStats
+    })
 
-      const triggerChange = () => updateStats().then(notifyListeners)
+  const triggerChange = () => updateStats().then(notifyListeners)
 
-      instance = {
-        getSnapShot: () => stats,
-        init: triggerChange,
-        triggerChange,
-        subscribe: (onStoreChange: () => void) => {
-          listeners.add(onStoreChange)
-
-          return () => listeners.delete(onStoreChange)
-        },
-      }
-    }
-
-    return instance
+  const onStorageChanged: ListenerOf<Storage.Static['onChanged']> = (
+    changes,
+    _areaName
+  ) => {
+    if (Object.keys(changes).some(key => CHANGE_CRITERIAS.has(key)))
+      triggerChange()
   }
-})()
+
+  return {
+    getSnapShot: () => stats,
+    triggerChange,
+    subscribe: (onStoreChange: () => void) => {
+      if (listeners.size === 0) {
+        storage.onChanged.addListener(onStorageChanged)
+        triggerChange()
+      }
+      listeners.add(onStoreChange)
+
+      return () => {
+        listeners.delete(onStoreChange)
+        if (listeners.size === 0)
+          storage.onChanged.removeListener(onStorageChanged)
+      }
+    },
+  }
+}

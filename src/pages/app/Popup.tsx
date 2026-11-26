@@ -14,7 +14,6 @@ import useStatsStore from '#pages/hooks/useStatsStore'
 import Links, { UtmContent, UtmSource, withUtm } from '#pages/links'
 import { createStatsStore } from '#pages/stores/StatsStore'
 import type { TestableComponent } from '#pages/types/props'
-import { V4Statistics } from '#schema'
 import { getFullVersion } from '#utils/runtime'
 import {
   Box,
@@ -30,7 +29,7 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { BiFile } from 'react-icons/bi'
 import { FaGithub } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
@@ -39,7 +38,7 @@ import {
   MdOutlineSentimentDissatisfied,
   MdOutlineSentimentSatisfied,
 } from 'react-icons/md'
-import { type Storage, runtime, storage, tabs } from 'webextension-polyfill'
+import { runtime, tabs } from 'webextension-polyfill'
 
 const NavBar = () => {
   return (
@@ -69,29 +68,12 @@ export type StatsProps = {
   usageStatisticsRepo: IUsageStatisticsRepository
 }
 
-const isStatisticsKey = (key: string): key is keyof V4Statistics => true
-
-const Stats = (props: StatsProps) => {
-  const [stats, { criterias, triggerChange }] = useStatsStore(
-    createStatsStore({ getStats: async () => props.usageStatisticsRepo.get() })
+const Stats = ({ usageStatisticsRepo }: StatsProps) => {
+  const statsStore = useMemo(
+    () => createStatsStore({ getStats: () => usageStatisticsRepo.get() }),
+    [usageStatisticsRepo]
   )
-
-  useEffect(() => {
-    const statsListener: ListenerOf<Storage.Static['onChanged']> = (
-      changes,
-      _areaName
-    ) => {
-      if (
-        Object.keys(changes).some(
-          storageKey => isStatisticsKey(storageKey) && criterias.has(storageKey)
-        )
-      )
-        triggerChange()
-    }
-
-    storage.onChanged.addListener(statsListener)
-    return () => storage.onChanged.removeListener(statsListener)
-  }, [criterias, triggerChange])
+  const stats = useStatsStore(statsStore)
 
   return (
     <Box>

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-26 08:40+0800\n"
+"POT-Creation-Date: 2026-11-27 05:19+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -668,22 +668,22 @@ msgctxt "popup"
 msgid "Auto-Reveal NSFW"
 msgstr "إظهار المحتوى الحساس تلقائيًا"
 
-#: src/pages/app/Popup.tsx:222
+#: src/pages/app/Popup.tsx:204
 msgctxt "popup"
 msgid "Buy me a coffee!"
 msgstr "اشترِ لي فنجان قهوة!"
 
-#: src/pages/app/Popup.tsx:204
+#: src/pages/app/Popup.tsx:186
 msgctxt "popup"
 msgid "Changelog"
 msgstr "سجل التغييرات"
 
-#: src/pages/app/Popup.tsx:134
+#: src/pages/app/Popup.tsx:116
 msgctxt "popup"
 msgid "Rate it"
 msgstr "قيّمها"
 
-#: src/pages/app/Popup.tsx:141
+#: src/pages/app/Popup.tsx:123
 msgctxt "popup"
 msgid "Report issues"
 msgstr "الإبلاغ عن مشكلة"
