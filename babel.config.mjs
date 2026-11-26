@@ -1,5 +1,5 @@
 export default function (api) {
-  api.cache(true)
+  const isDev = api.env('development')
 
   return {
     presets: [
@@ -8,6 +8,7 @@ export default function (api) {
         '@babel/preset-react',
         {
           runtime: 'automatic',
+          development: isDev,
         },
       ],
     ],

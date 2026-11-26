@@ -75,6 +75,8 @@ const config = {
  */
 export default (env, argv) => {
   const isProduction = isProductionMode(argv)
+  // babel.config picks dev/prod JSX runtime from this.
+  process.env.BABEL_ENV ??= isProduction ? 'production' : 'development'
   const isSelfSign = env['self-sign'] ?? false
   const BROWSER = env.target
   const BROWSER_DIR = isSelfSign ? BROWSER + '-signed' : BROWSER
