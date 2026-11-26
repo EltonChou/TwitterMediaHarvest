@@ -21,6 +21,7 @@ Alcohol is allowed, except where local law or the majority religion would object
 | pl     | Kompot               | Wódka, piwo         | Alcohol advertising restricted (spirits banned); vodka is a stereotype         | Kompot    |
 | th     | ชาไทย                | เบียร์, สาโท        | Alcoholic Beverage Control Act 2008 bans alcohol advertising; Buddhist precept | ชาไทย     |
 | tr     | Çay, Türk kahvesi    | Rakı                | Muslim-majority; alcohol promotion restricted                                  | Çay       |
+| ar     | قهوة عربية, شاي      | —                   | Muslim-majority; alcohol banned or restricted in most Arabic-speaking states   | قهوة      |
 
 Legal notes are a rough check, not legal advice.
 

@@ -26,6 +26,7 @@ describe('useDrinkIcon', () => {
     { uiLang: 'ru', icon: FaMugHot },
     { uiLang: 'tr', icon: FaMugHot },
     { uiLang: 'th', icon: LuCupSoda },
+    { uiLang: 'ar', icon: BiCoffee },
     { uiLang: 'zh-CN', icon: TbBubbleTea },
     { uiLang: 'zh-TW', icon: TbBubbleTea },
     { uiLang: 'nl', icon: BiCoffeeTogo },

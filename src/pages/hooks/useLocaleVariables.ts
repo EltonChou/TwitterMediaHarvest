@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { i18n } from 'webextension-polyfill'
 
 export type SupportLocale =
+  | 'ar'
   | 'de'
   | 'en'
   | 'es'

@@ -23,6 +23,7 @@ import { TbBottle, TbBubbleTea, TbGlassFull } from 'react-icons/tb'
 const useDrinkIcon = () =>
   useLocaleVariables<IconType>({
     fallback: BiCoffeeTogo,
+    ar: BiCoffee,
     de: RiBeerFill,
     es: RiBeerFill,
     fr: BiWine,
