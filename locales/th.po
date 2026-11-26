@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-27 05:19+0800\n"
+"POT-Creation-Date: 2026-11-27 05:38+0800\n"
 "PO-Revision-Date: 2026-03-07 00:00+0000\n"
 "Last-Translator: Media Harvest Translators <>\n"
 "Language-Team: Thai\n"
@@ -455,137 +455,137 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "วันเวลา_ทวีต"
 
-#: src/pages/components/History.tsx:547
+#: src/pages/components/History.tsx:553
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "ต้องการนำเข้าไฟล์ประวัตินี้หรือไม่?"
 
-#: src/pages/components/History.tsx:529
+#: src/pages/components/History.tsx:535
 msgctxt "options:history"
 msgid ""
 "Cannot access the selected file. Please grant permission to read the file "
 "and try again."
 msgstr "ไม่สามารถเข้าถึงไฟล์ที่เลือกได้ กรุณาอนุญาตการอ่านไฟล์แล้วลองอีกครั้ง"
 
-#: src/pages/components/History.tsx:361
-#: src/pages/components/History.tsx:366
+#: src/pages/components/History.tsx:367
+#: src/pages/components/History.tsx:372
 msgctxt "options:history"
 msgid "Export"
 msgstr "ส่งออก"
 
-#: src/pages/components/History.tsx:674
+#: src/pages/components/History.tsx:685
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "ส่งออกไฟล์ไม่สำเร็จ"
 
-#: src/pages/components/History.tsx:560
+#: src/pages/components/History.tsx:566
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "นำเข้าไฟล์ไม่สำเร็จ"
 
-#: src/pages/components/History.tsx:353
-#: src/pages/components/History.tsx:358
+#: src/pages/components/History.tsx:359
+#: src/pages/components/History.tsx:364
 msgctxt "options:history"
 msgid "Import"
 msgstr "นำเข้า"
 
-#: src/pages/components/History.tsx:557
+#: src/pages/components/History.tsx:563
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "รูปแบบไม่ถูกต้อง"
 
-#: src/pages/components/History.tsx:313
+#: src/pages/components/History.tsx:319
 msgctxt "options:history"
 msgid "Next page"
 msgstr "หน้าถัดไป"
 
-#: src/pages/components/History.tsx:297
+#: src/pages/components/History.tsx:303
 msgctxt "options:history"
 msgid "Previous page"
 msgstr "หน้าก่อนหน้า"
 
-#: src/pages/components/History.tsx:335
+#: src/pages/components/History.tsx:341
 msgctxt "options:history"
 msgid "Refresh"
 msgstr "รีเฟรช"
 
-#: src/pages/components/History.tsx:565
+#: src/pages/components/History.tsx:571
 msgctxt "options:history"
 msgid "The history file has been imported successfully."
 msgstr "นำเข้าไฟล์ประวัติสำเร็จแล้ว"
 
-#: src/pages/components/History.tsx:414
+#: src/pages/components/History.tsx:420
 msgctxt "options:history:input:placeholder"
 msgid "Username"
 msgstr "ชื่อผู้ใช้"
 
-#: src/pages/components/History.tsx:148
+#: src/pages/components/History.tsx:154
 msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "รูปภาพ"
 
-#: src/pages/components/History.tsx:154
-#: src/pages/components/History.tsx:157
+#: src/pages/components/History.tsx:160
+#: src/pages/components/History.tsx:163
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "รูปภาพ + วิดีโอ"
 
-#: src/pages/components/History.tsx:151
+#: src/pages/components/History.tsx:157
 msgctxt "options:history:mediaType"
 msgid "Video"
 msgstr "วิดีโอ"
 
-#: src/pages/components/History.tsx:429
+#: src/pages/components/History.tsx:435
 msgctxt "options:history:mediaType:option"
 msgid "All"
 msgstr "ทั้งหมด"
 
-#: src/pages/components/History.tsx:432
+#: src/pages/components/History.tsx:438
 msgctxt "options:history:mediaType:option"
 msgid "Image"
 msgstr "รูปภาพ"
 
-#: src/pages/components/History.tsx:438
+#: src/pages/components/History.tsx:444
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
 msgstr "รูปภาพ + วิดีโอ"
 
-#: src/pages/components/History.tsx:435
+#: src/pages/components/History.tsx:441
 msgctxt "options:history:mediaType:option"
 msgid "Video"
 msgstr "วิดีโอ"
 
-#: src/pages/components/History.tsx:421
+#: src/pages/components/History.tsx:427
 msgctxt "options:history:select"
 msgid "Select media type"
 msgstr "เลือกประเภทสื่อ"
 
-#: src/pages/components/History.tsx:221
+#: src/pages/components/History.tsx:227
 msgctxt "options:history:table:head"
 msgid "actions"
 msgstr "การกระทำ"
 
-#: src/pages/components/History.tsx:220
+#: src/pages/components/History.tsx:226
 msgctxt "options:history:table:head"
 msgid "download time"
 msgstr "เวลาดาวน์โหลด"
 
-#: src/pages/components/History.tsx:219
+#: src/pages/components/History.tsx:225
 msgctxt "options:history:table:head"
 msgid "post time"
 msgstr "เวลาโพสต์"
 
-#: src/pages/components/History.tsx:216
+#: src/pages/components/History.tsx:222
 msgctxt "options:history:table:head"
 msgid "thumbnail"
 msgstr "ภาพขนาดย่อ"
 
-#: src/pages/components/History.tsx:218
+#: src/pages/components/History.tsx:224
 msgctxt "options:history:table:head"
 msgid "type"
 msgstr "ประเภท"
 
-#: src/pages/components/History.tsx:217
+#: src/pages/components/History.tsx:223
 msgctxt "options:history:table:head"
 msgid "user"
 msgstr "ผู้ใช้"

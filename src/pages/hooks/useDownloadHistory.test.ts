@@ -8,6 +8,10 @@ import { MockSearchDownloadHistory } from '#mocks/useCases/searchDownloadHistory
 import { MockSearchTweetIdsByHashTags } from '#mocks/useCases/searchTweetIdsByHashtags'
 import { toErrorResult, toSuccessResult } from '#utils/result'
 import { generatePortableV5DownloadHistory } from '#utils/test/v5PortableDownloadHistory'
+import type {
+  DownloadHistoryQueryResponse,
+  SearchDownloadHistoryUseCase,
+} from '../../applicationUseCases/searchDownloadHistory'
 import useDownloadHistory from './useDownloadHistory'
 import { faker } from '@faker-js/faker'
 import { act, renderHook, waitFor } from '@testing-library/react'
@@ -23,6 +27,177 @@ describe('unit test for useDownloadHistory hook', () => {
   afterEach(() => {
     jest.resetAllMocks()
     jest.restoreAllMocks()
+  })
+
+  const makeResponse = (
+    matchedCount: number,
+    current = 1
+  ): DownloadHistoryQueryResponse => ({
+    $metadata: {
+      itemPerPage: 20,
+      matchedCount,
+      page: { current, next: null, prev: null, total: 10 },
+    },
+    result: { items: [], error: undefined },
+  })
+
+  const deferred = () => {
+    let resolve!: (resp: DownloadHistoryQueryResponse) => void
+    const promise = new Promise<DownloadHistoryQueryResponse>(r => {
+      resolve = r
+    })
+    return { promise, resolve }
+  }
+
+  const renderWithUseCase = (useCase: SearchDownloadHistoryUseCase) =>
+    renderHook(
+      ({ searchDownloadHistoryUseCase }) =>
+        useDownloadHistory({
+          searchDownloadHistoryUseCase,
+          initItemPerPage: 20,
+          portableDownloadHistoryRepo: mockPortableDownloadHistoryRepo,
+          downloadHistoryRepo: mockDownloadHistoryRepo,
+        }),
+      { initialProps: { searchDownloadHistoryUseCase: useCase } }
+    )
+
+  describe('unit test for request ordering', () => {
+    it('should apply only the latest page when responses arrive out of order', async () => {
+      const mockSearch = jest
+        .spyOn(mockSearchDownloadHistoryUseCase, 'process')
+        .mockResolvedValue(makeResponse(5))
+      const { result } = renderWithUseCase(mockSearchDownloadHistoryUseCase)
+      await waitFor(() => expect(result.current.info.isLoaded).toBeTrue())
+
+      const slow = deferred()
+      mockSearch
+        .mockReturnValueOnce(slow.promise)
+        .mockResolvedValueOnce(makeResponse(5, 3))
+      const slowCallback = jest.fn()
+      const fastCallback = jest.fn()
+
+      act(() =>
+        result.current.pageHandler.specifyPage(2, { cbs: [slowCallback] })
+      )
+      act(() =>
+        result.current.pageHandler.specifyPage(3, { cbs: [fastCallback] })
+      )
+      await waitFor(() => expect(result.current.info.currentPage).toBe(3))
+
+      await act(async () => slow.resolve(makeResponse(5, 2)))
+
+      expect(result.current.info.currentPage).toBe(3)
+      expect(fastCallback).toHaveBeenCalled()
+      expect(slowCallback).not.toHaveBeenCalled()
+    })
+
+    it('should drop the initial load when a search finishes first', async () => {
+      const initial = deferred()
+      jest
+        .spyOn(mockSearchDownloadHistoryUseCase, 'process')
+        .mockReturnValueOnce(initial.promise)
+        .mockResolvedValueOnce(makeResponse(7))
+      const { result } = renderWithUseCase(mockSearchDownloadHistoryUseCase)
+
+      act(() =>
+        result.current.handler.search({
+          filter: { userName: 'kappa', mediaType: '*' },
+          hashtags: [],
+        })
+      )
+      await waitFor(() => expect(result.current.info.total).toBe(7))
+      expect(result.current.info.isLoaded).toBeTrue()
+
+      await act(async () => initial.resolve(makeResponse(1)))
+
+      expect(result.current.info.total).toBe(7)
+    })
+
+    it('should reset the query on refresh for later page requests', async () => {
+      const mockSearch = jest
+        .spyOn(mockSearchDownloadHistoryUseCase, 'process')
+        .mockResolvedValue(makeResponse(5))
+      const { result } = renderWithUseCase(mockSearchDownloadHistoryUseCase)
+      await waitFor(() => expect(result.current.info.isLoaded).toBeTrue())
+
+      act(() =>
+        result.current.handler.search({
+          filter: { userName: 'kappa', mediaType: '*' },
+          hashtags: [],
+        })
+      )
+      act(() => result.current.handler.refresh())
+      act(() => result.current.pageHandler.specifyPage(2))
+
+      await waitFor(() =>
+        expect(mockSearch).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            page: 2,
+            filter: { userName: '*', mediaType: '*' },
+          })
+        )
+      )
+    })
+  })
+
+  describe('unit test for initial load', () => {
+    it('should load the first page on mount', async () => {
+      const mockSearch = jest
+        .spyOn(mockSearchDownloadHistoryUseCase, 'process')
+        .mockResolvedValue(makeResponse(5))
+
+      const { result } = renderWithUseCase(mockSearchDownloadHistoryUseCase)
+
+      await waitFor(() => expect(result.current.info.isLoaded).toBeTrue())
+      expect(result.current.info.total).toBe(5)
+      expect(mockSearch).toHaveBeenCalledExactlyOnceWith(
+        expect.objectContaining({ page: 1, itemPerPage: 20 })
+      )
+    })
+
+    it('should not reload when rerendered with the same use case', async () => {
+      const mockSearch = jest
+        .spyOn(mockSearchDownloadHistoryUseCase, 'process')
+        .mockResolvedValue(makeResponse(5))
+
+      const { result, rerender } = renderWithUseCase(
+        mockSearchDownloadHistoryUseCase
+      )
+      await waitFor(() => expect(result.current.info.isLoaded).toBeTrue())
+
+      rerender({
+        searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
+      })
+
+      expect(mockSearch).toHaveBeenCalledTimes(1)
+    })
+
+    it('should ignore a stale result after the use case changes', async () => {
+      const staleUseCase = new MockSearchDownloadHistoryUseCase(
+        new MockSearchDownloadHistory(),
+        new MockSearchTweetIdsByHashTags()
+      )
+      let resolveStale!: (resp: DownloadHistoryQueryResponse) => void
+      jest.spyOn(staleUseCase, 'process').mockReturnValue(
+        new Promise(resolve => {
+          resolveStale = resolve
+        })
+      )
+      jest
+        .spyOn(mockSearchDownloadHistoryUseCase, 'process')
+        .mockResolvedValue(makeResponse(2))
+
+      const { result, rerender } = renderWithUseCase(staleUseCase)
+      rerender({
+        searchDownloadHistoryUseCase: mockSearchDownloadHistoryUseCase,
+      })
+
+      await waitFor(() => expect(result.current.info.total).toBe(2))
+
+      await act(async () => resolveStale(makeResponse(1)))
+
+      expect(result.current.info.total).toBe(2)
+    })
   })
 
   describe('unit test for handler', () => {

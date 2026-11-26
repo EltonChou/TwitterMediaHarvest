@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: twitter-media-harvest (4.5.10)\n"
-"POT-Creation-Date: 2026-11-27 05:19+0800\n"
+"POT-Creation-Date: 2026-11-27 05:38+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -448,137 +448,137 @@ msgctxt "options:general:filenameToken"
 msgid "Tweet_Datetime"
 msgstr "推文_日期时间"
 
-#: src/pages/components/History.tsx:547
+#: src/pages/components/History.tsx:553
 msgctxt "options:history"
 msgid "Are you sure you want to import this history file?"
 msgstr "确定要导入此历史文件吗？"
 
-#: src/pages/components/History.tsx:529
+#: src/pages/components/History.tsx:535
 msgctxt "options:history"
 msgid ""
 "Cannot access the selected file. Please grant permission to read the file "
 "and try again."
 msgstr "无法读取所选文件。请授权读取权限后重试。"
 
-#: src/pages/components/History.tsx:361
-#: src/pages/components/History.tsx:366
+#: src/pages/components/History.tsx:367
+#: src/pages/components/History.tsx:372
 msgctxt "options:history"
 msgid "Export"
 msgstr "导出"
 
-#: src/pages/components/History.tsx:674
+#: src/pages/components/History.tsx:685
 msgctxt "options:history"
 msgid "Failed to export file."
 msgstr "导出失败。"
 
-#: src/pages/components/History.tsx:560
+#: src/pages/components/History.tsx:566
 msgctxt "options:history"
 msgid "Failed to import file."
 msgstr "导入失败。"
 
-#: src/pages/components/History.tsx:353
-#: src/pages/components/History.tsx:358
+#: src/pages/components/History.tsx:359
+#: src/pages/components/History.tsx:364
 msgctxt "options:history"
 msgid "Import"
 msgstr "导入"
 
-#: src/pages/components/History.tsx:557
+#: src/pages/components/History.tsx:563
 msgctxt "options:history"
 msgid "Invalid format."
 msgstr "格式不正确。"
 
-#: src/pages/components/History.tsx:313
+#: src/pages/components/History.tsx:319
 msgctxt "options:history"
 msgid "Next page"
 msgstr "下一页"
 
-#: src/pages/components/History.tsx:297
+#: src/pages/components/History.tsx:303
 msgctxt "options:history"
 msgid "Previous page"
 msgstr "上一页"
 
-#: src/pages/components/History.tsx:335
+#: src/pages/components/History.tsx:341
 msgctxt "options:history"
 msgid "Refresh"
 msgstr "刷新"
 
-#: src/pages/components/History.tsx:565
+#: src/pages/components/History.tsx:571
 msgctxt "options:history"
 msgid "The history file has been imported successfully."
 msgstr "历史记录导入成功。"
 
-#: src/pages/components/History.tsx:414
+#: src/pages/components/History.tsx:420
 msgctxt "options:history:input:placeholder"
 msgid "Username"
 msgstr "用户名"
 
-#: src/pages/components/History.tsx:148
+#: src/pages/components/History.tsx:154
 msgctxt "options:history:mediaType"
 msgid "Image"
 msgstr "图片"
 
-#: src/pages/components/History.tsx:154
-#: src/pages/components/History.tsx:157
+#: src/pages/components/History.tsx:160
+#: src/pages/components/History.tsx:163
 msgctxt "options:history:mediaType"
 msgid "Mixed"
 msgstr "混合"
 
-#: src/pages/components/History.tsx:151
+#: src/pages/components/History.tsx:157
 msgctxt "options:history:mediaType"
 msgid "Video"
 msgstr "视频"
 
-#: src/pages/components/History.tsx:429
+#: src/pages/components/History.tsx:435
 msgctxt "options:history:mediaType:option"
 msgid "All"
 msgstr "全部"
 
-#: src/pages/components/History.tsx:432
+#: src/pages/components/History.tsx:438
 msgctxt "options:history:mediaType:option"
 msgid "Image"
 msgstr "图片"
 
-#: src/pages/components/History.tsx:438
+#: src/pages/components/History.tsx:444
 msgctxt "options:history:mediaType:option"
 msgid "Mixed"
 msgstr "混合"
 
-#: src/pages/components/History.tsx:435
+#: src/pages/components/History.tsx:441
 msgctxt "options:history:mediaType:option"
 msgid "Video"
 msgstr "视频"
 
-#: src/pages/components/History.tsx:421
+#: src/pages/components/History.tsx:427
 msgctxt "options:history:select"
 msgid "Select media type"
 msgstr "选择媒体类型"
 
-#: src/pages/components/History.tsx:221
+#: src/pages/components/History.tsx:227
 msgctxt "options:history:table:head"
 msgid "actions"
 msgstr "操作"
 
-#: src/pages/components/History.tsx:220
+#: src/pages/components/History.tsx:226
 msgctxt "options:history:table:head"
 msgid "download time"
 msgstr "下载时间"
 
-#: src/pages/components/History.tsx:219
+#: src/pages/components/History.tsx:225
 msgctxt "options:history:table:head"
 msgid "post time"
 msgstr "发布时间"
 
-#: src/pages/components/History.tsx:216
+#: src/pages/components/History.tsx:222
 msgctxt "options:history:table:head"
 msgid "thumbnail"
 msgstr "缩略图"
 
-#: src/pages/components/History.tsx:218
+#: src/pages/components/History.tsx:224
 msgctxt "options:history:table:head"
 msgid "type"
 msgstr "类型"
 
-#: src/pages/components/History.tsx:217
+#: src/pages/components/History.tsx:223
 msgctxt "options:history:table:head"
 msgid "user"
 msgstr "用户"

@@ -47,7 +47,13 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import React, { ForwardedRef, memo, useImperativeHandle, useRef } from 'react'
+import React, {
+  ForwardedRef,
+  memo,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+} from 'react'
 import {
   BiChevronLeft,
   BiChevronRight,
@@ -640,12 +646,17 @@ const HistoryTable = ({
 }: HistoryTableProps) => {
   useObjectURLRevoker(downloadRepo, checkDownloadIsOwnBySelf)
 
+  const searchDownloadHistoryUseCase = useMemo(
+    () =>
+      new SearchDownloadHistoryUseCase(
+        searchDownloadHistory,
+        searchTweetIdsByHashtags
+      ),
+    [searchDownloadHistory, searchTweetIdsByHashtags]
+  )
   const downloadHistory = useDownloadHistory({
     initItemPerPage: 20,
-    searchDownloadHistoryUseCase: new SearchDownloadHistoryUseCase(
-      searchDownloadHistory,
-      searchTweetIdsByHashtags
-    ),
+    searchDownloadHistoryUseCase,
     portableDownloadHistoryRepo: portableDownloadHistoryRepo,
     downloadHistoryRepo: downloadHistoryRepo,
   })

@@ -15,7 +15,6 @@ import { toErrorResult, toSuccessResult } from '#utils/result'
 import type { ObjectUrl } from '#utils/url'
 import type {
   DownloadHistoryInfo,
-  DownloadHistoryQueryResponse,
   Query,
 } from '../../applicationUseCases/searchDownloadHistory'
 import { SearchDownloadHistoryUseCase } from '../../applicationUseCases/searchDownloadHistory'
@@ -103,114 +102,65 @@ const useDownloadHistory = ({
   const [isLoaded, setLoaded] = useState(false)
   const [total, setTotal] = useState(0)
 
-  const setResultByResponse = useCallback(
-    (resp: DownloadHistoryQueryResponse) => {
+  const latestRequestRef = useRef(0)
+
+  /**
+   * Load a page with the current query and page size.
+   * Only the latest request updates state, so out-of-order responses are dropped.
+   */
+  const load = useCallback(
+    async (page: number, options?: WithCallbacks) => {
+      const requestId = ++latestRequestRef.current
+      const resp = await searchDownloadHistoryUseCase.process({
+        ...queryRef.current,
+        itemPerPage: itemPerPageRef.current,
+        page,
+      })
+      if (requestId !== latestRequestRef.current) return
+
       setItems(resp.result.items)
       setTotal(resp.$metadata.matchedCount)
       setPageInfo(resp.$metadata.page)
+      setLoaded(true)
+      options?.cbs.forEach(cb => cb())
     },
-    []
+    [searchDownloadHistoryUseCase]
   )
 
-  const loadLatest = useCallback(
-    async ({
-      itemPerPage,
-      query,
-    }: {
-      itemPerPage: number
-      query: SearchQuery
-    }) => {
-      const resp = await searchDownloadHistoryUseCase.process({
-        ...query,
-        itemPerPage: itemPerPage,
-        page: 1,
-      })
-
-      return setResultByResponse(resp)
-    },
-    [setResultByResponse, searchDownloadHistoryUseCase]
-  )
-
+  // No cleanup needed: a newer load supersedes this one via `latestRequestRef`.
   useEffect(() => {
-    if (isLoaded) return
-    loadLatest({
-      itemPerPage: itemPerPageRef.current,
-      query: queryRef.current,
-    }).then(() => setLoaded(true))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    load(1)
+  }, [load])
 
   const prevPage: DownloadHistoryHook['pageHandler']['prevPage'] = useCallback(
     options => {
-      if (pageInfo.prev === null) return
-      searchDownloadHistoryUseCase
-        .process({
-          filter: queryRef.current.filter,
-          hashtags: queryRef.current.hashtags,
-          itemPerPage: itemPerPageRef.current,
-          page: pageInfo.prev,
-        })
-        .then(setResultByResponse)
-        .then(() => {
-          if (options) options.cbs.forEach(cb => cb())
-        })
+      if (pageInfo.prev !== null) load(pageInfo.prev, options)
     },
-    [pageInfo.prev, searchDownloadHistoryUseCase, setResultByResponse]
+    [load, pageInfo.prev]
   )
 
   const nextPage: DownloadHistoryHook['pageHandler']['nextPage'] = useCallback(
     options => {
-      if (pageInfo.next === null) return
-      searchDownloadHistoryUseCase
-        .process({
-          filter: queryRef.current.filter,
-          hashtags: queryRef.current.hashtags,
-          itemPerPage: itemPerPageRef.current,
-          page: pageInfo.next,
-        })
-        .then(setResultByResponse)
-        .then(() => {
-          if (options) options.cbs.forEach(cb => cb())
-        })
+      if (pageInfo.next !== null) load(pageInfo.next, options)
     },
-    [pageInfo.next, searchDownloadHistoryUseCase, setResultByResponse]
+    [load, pageInfo.next]
   )
 
   const specifyPage: DownloadHistoryHook['pageHandler']['specifyPage'] =
     useCallback(
       (page, options) => {
-        searchDownloadHistoryUseCase
-          .process({
-            filter: queryRef.current.filter,
-            hashtags: queryRef.current.hashtags,
-            itemPerPage: itemPerPageRef.current,
-            page: page,
-          })
-          .then(setResultByResponse)
-          .then(() => {
-            if (options) options.cbs.forEach(cb => cb())
-          })
+        load(page, options)
       },
-      [searchDownloadHistoryUseCase, setResultByResponse]
+      [load]
     )
 
   const setItemCount: DownloadHistoryHook['pageHandler']['setItemPerPage'] =
     useCallback(
       (count, options) => {
         itemPerPageRef.current = count
-        searchDownloadHistoryUseCase
-          .process({
-            filter: queryRef.current.filter,
-            hashtags: queryRef.current.hashtags,
-            itemPerPage: count,
-            page: pageInfo.current,
-          })
-          .then(setResultByResponse)
-          .then(() => {
-            if (options) options.cbs.forEach(cb => cb())
-          })
+        load(pageInfo.current, options)
       },
-      [pageInfo, searchDownloadHistoryUseCase, setResultByResponse]
+      [load, pageInfo]
     )
 
   return {
@@ -234,20 +184,16 @@ const useDownloadHistory = ({
       search: useCallback(
         query => {
           queryRef.current = query
-          loadLatest({ itemPerPage: itemPerPageRef.current, query })
+          load(1)
         },
-        [loadLatest]
+        [load]
       ),
       refresh: useCallback(
         options => {
-          loadLatest({
-            itemPerPage: itemPerPageRef.current,
-            query: DEFAULT_QUERY,
-          }).then(() => {
-            if (options) options.cbs.forEach(cb => cb())
-          })
+          queryRef.current = DEFAULT_QUERY
+          load(1, options)
         },
-        [loadLatest]
+        [load]
       ),
       import: useCallback<DownloadHistoryHook['handler']['import']>(
         async data => {
