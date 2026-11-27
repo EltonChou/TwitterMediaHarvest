@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Fix download button spacing on the wrong side when X is set to a right-to-left language, such as Arabic or Hebrew.
 - Fix the invalid directory name message showing in Japanese for English users.
 - Fix mistranslations and leftover English in Traditional Chinese, Simplified Chinese, Japanese, German, Thai, Polish, Italian and Spanish.
+- Fix downloads failing for tweets that limit who can reply.
+- Fix tweets on a tweet's own page not being cached, so downloads from that page use the cached tweet data again.
 
 ## [4.5.10] - 2026-11-25
 
