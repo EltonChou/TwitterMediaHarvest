@@ -123,7 +123,9 @@ const restIdTweetBodySchema: Joi.ObjectSchema<XApi.TweetByRestIdBody> =
     data: Joi.object({
       tweetResult: Joi.object()
         .custom((value, helper) =>
-          isTweetResult(value) ? value : helper.error('any.invalid')
+          isTweetResult(value) || isTweetVisibilityResults(value)
+            ? value
+            : helper.error('any.invalid')
         )
         .required(),
     }).required(),

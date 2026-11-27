@@ -280,5 +280,181 @@
         }
       }
     }
+  },
+  "visibility-results": {
+    "data": {
+      "tweetResult": {
+        "result": {
+          "__typename": "TweetWithVisibilityResults",
+          "limitedActionResults": {
+            "limited_actions": [
+              {
+                "action": "Reply",
+                "prompt": {
+                  "__typename": "CtaLimitedActionPrompt",
+                  "cta_type": "SeeConversation",
+                  "headline": {
+                    "entities": [],
+                    "text": "Who can reply?"
+                  },
+                  "subtext": {
+                    "entities": [],
+                    "text": "Only some accounts can reply."
+                  }
+                }
+              }
+            ]
+          },
+          "tweet": {
+            "core": {
+              "user_results": {
+                "result": {
+                  "__typename": "User",
+                  "avatar": {
+                    "image_url": "https://pbs.twimg.com/profile_images/2081437302279278592/soOVkcj7_normal.jpg"
+                  },
+                  "core": {
+                    "created_at": "Thu Nov 14 10:04:42 +0000 2024",
+                    "name": "Doppel🍓",
+                    "screen_name": "dopperu_ben2"
+                  },
+                  "id": "VXNlcjoxODU3MDAxNjU4MjIxMjQwMzIw",
+                  "is_blue_verified": false,
+                  "legacy": {
+                    "default_profile": true,
+                    "followers_count": 37541,
+                    "media_count": 567,
+                    "statuses_count": 997
+                  },
+                  "privacy": {
+                    "protected": false
+                  },
+                  "rest_id": "1857001658221240320",
+                  "verification": {
+                    "verified": false
+                  }
+                }
+              }
+            },
+            "edit_control": {
+              "edit_tweet_ids": ["2111733544150258175"],
+              "editable_until_msecs": "1792315085000",
+              "edits_remaining": "5",
+              "is_edit_eligible": true
+            },
+            "is_translatable": true,
+            "legacy": {
+              "bookmark_count": 291,
+              "conversation_id_str": "2111733544150258175",
+              "created_at": "Sun Oct 18 08:18:05 +0000 2026",
+              "display_text_range": [0, 11],
+              "entities": {
+                "media": [
+                  {
+                    "display_url": "pic.x.com/2w5aSxB9rF",
+                    "expanded_url": "https://x.com/dopperu_ben2/status/2111733544150258175/photo/1",
+                    "ext_media_availability": {
+                      "status": "Available"
+                    },
+                    "id_str": "2111733535132528640",
+                    "indices": [12, 35],
+                    "media_key": "3_2111733535132528640",
+                    "media_url_https": "https://pbs.twimg.com/media/HU5idjXasAAjW19.jpg",
+                    "original_info": {
+                      "height": 1614,
+                      "width": 2388
+                    },
+                    "sizes": {
+                      "large": {
+                        "h": 1384,
+                        "resize": "fit",
+                        "w": 2048
+                      },
+                      "medium": {
+                        "h": 811,
+                        "resize": "fit",
+                        "w": 1200
+                      },
+                      "small": {
+                        "h": 460,
+                        "resize": "fit",
+                        "w": 680
+                      },
+                      "thumb": {
+                        "h": 150,
+                        "resize": "crop",
+                        "w": 150
+                      }
+                    },
+                    "type": "photo",
+                    "url": "https://t.co/2w5aSxB9rF"
+                  }
+                ]
+              },
+              "extended_entities": {
+                "media": [
+                  {
+                    "display_url": "pic.x.com/2w5aSxB9rF",
+                    "expanded_url": "https://x.com/dopperu_ben2/status/2111733544150258175/photo/1",
+                    "ext_media_availability": {
+                      "status": "Available"
+                    },
+                    "id_str": "2111733535132528640",
+                    "indices": [12, 35],
+                    "media_key": "3_2111733535132528640",
+                    "media_url_https": "https://pbs.twimg.com/media/HU5idjXasAAjW19.jpg",
+                    "original_info": {
+                      "height": 1614,
+                      "width": 2388
+                    },
+                    "sizes": {
+                      "large": {
+                        "h": 1384,
+                        "resize": "fit",
+                        "w": 2048
+                      },
+                      "medium": {
+                        "h": 811,
+                        "resize": "fit",
+                        "w": 1200
+                      },
+                      "small": {
+                        "h": 460,
+                        "resize": "fit",
+                        "w": 680
+                      },
+                      "thumb": {
+                        "h": 150,
+                        "resize": "crop",
+                        "w": 150
+                      }
+                    },
+                    "type": "photo",
+                    "url": "https://t.co/2w5aSxB9rF"
+                  }
+                ]
+              },
+              "favorite_count": 3277,
+              "favorited": false,
+              "full_text": "对不起但我太想画同框了 https://t.co/2w5aSxB9rF",
+              "id_str": "2111733544150258175",
+              "is_quote_status": false,
+              "lang": "zh",
+              "possibly_sensitive": false,
+              "quote_count": 16,
+              "reply_count": 0,
+              "retweet_count": 352,
+              "retweeted": false,
+              "user_id_str": "1857001658221240320"
+            },
+            "rest_id": "2111733544150258175",
+            "views": {
+              "count": "28164",
+              "state": "EnabledWithCount"
+            }
+          }
+        }
+      }
+    }
   }
 }

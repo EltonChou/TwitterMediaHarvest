@@ -220,7 +220,9 @@ export class CaptureResponseAndCache implements AsyncUseCase<
 
     switch (type) {
       case ResponseType.TweetDetail:
-        error = await this.processTweetDetailResponse(body)
+        error = await this.processV2TimelineResponse(body, tweetDetailV2)
+        if (error instanceof Joi.ValidationError)
+          error = await this.processTweetDetailResponse(body)
         break
 
       // Same endpoint name serves both formats: try the new one first.
@@ -449,12 +451,20 @@ type V2Timeline = {
 /**
  * New-format timeline whose `instructions` is at `path`.
  * Every level of `path` must exist; extra keys are allowed.
+ * New-format instructions carry `__typename` (legacy ones carry `type`),
+ * which tells the formats apart when they share a path (e.g. TweetDetail).
  */
 const v2Timeline = (...path: string[]): V2Timeline => ({
   path,
   schema: path.reduceRight<Joi.ObjectSchema>(
     (inner, key) => Joi.object({ [key]: inner.required() }).unknown(true),
-    Joi.object({ instructions: Joi.array().required() }).unknown(true)
+    Joi.object({
+      instructions: Joi.array()
+        .items(
+          Joi.object({ __typename: Joi.string().required() }).unknown(true)
+        )
+        .required(),
+    }).unknown(true)
   ),
 })
 
@@ -518,6 +528,11 @@ const v2Timelines: Partial<Record<ResponseType, V2Timeline>> = {
 }
 
 const homeTimelineV2 = v2Timeline('data', 'home_timeline', 'home_timeline_urt')
+
+const tweetDetailV2 = v2Timeline(
+  'data',
+  'threaded_conversation_with_injections_v2'
+)
 
 const restBodyV2Schema: Joi.ObjectSchema<XApi.V2.TweetResultByRestIdBody> =
   Joi.object({

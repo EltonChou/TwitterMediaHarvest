@@ -75,3 +75,37 @@ exports[`unit test for latest fetch tweet command should return a successful res
   },
 }
 `;
+
+exports[`unit test for latest fetch tweet command should return a successful result when the visibility-results response is ok 1`] = `
+{
+  "$metadata": {
+    "httpStatusCode": 200,
+    "quotaResetTime": 1970-08-07T14:54:48.000Z,
+    "remainingQuota": 100,
+  },
+  "tweetResult": {
+    "error": undefined,
+    "value": {
+      "content": "对不起但我太想画同框了 https://t.co/2w5aSxB9rF",
+      "createdAt": 2026-10-18T08:18:05.000Z,
+      "hashtags": [],
+      "id": "2111733544150258175",
+      "images": [
+        {
+          "available": true,
+          "index": 0,
+          "type": "photo",
+          "url": "https://pbs.twimg.com/media/HU5idjXasAAjW19.jpg",
+        },
+      ],
+      "user": {
+        "displayName": "Doppel🍓",
+        "isProtected": false,
+        "screenName": "dopperu_ben2",
+        "userId": "1857001658221240320",
+      },
+      "videos": [],
+    },
+  },
+}
+`;

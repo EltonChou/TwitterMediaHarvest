@@ -502,6 +502,7 @@ describe('CaptureResponseAndCache', () => {
     { type: ResponseType.ListTimeline, mediaTweetCount: 7 },
     { type: ResponseType.HomeTimeline, mediaTweetCount: 34 },
     { type: ResponseType.TweetResultByRestId, mediaTweetCount: 1 },
+    { type: ResponseType.TweetDetail, mediaTweetCount: 1 },
   ])(
     'should cache media tweets from new-format $type response',
     async ({ type, mediaTweetCount }) => {

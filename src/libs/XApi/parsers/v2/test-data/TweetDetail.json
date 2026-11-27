@@ -1,0 +1,141 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "id": "RankedRepliesProduct-Timeline",
+      "instructions": [
+        { "__typename": "TimelineClearCache" },
+        {
+          "__typename": "TimelineAddEntries",
+          "entries": [
+            {
+              "content": {
+                "__typename": "TimelineTimelineItem",
+                "client_event_info": {
+                  "component": "tweet",
+                  "element": "tweet"
+                },
+                "content": {
+                  "__isTimelineTimelineItemContent": "TimelineTweet",
+                  "__typename": "TimelineTweet",
+                  "display_type": "Tweet",
+                  "tweet_results": {
+                    "id": "VHdlZXRSZXN1bHRzOjIxMTE3MzM1NDQxNTAyNTgxNzU=",
+                    "rest_id": "2111733544150258175",
+                    "result": {
+                      "__isTweetResult": "TweetWithVisibilityResults",
+                      "__typename": "TweetWithVisibilityResults",
+                      "limited_action_results": {
+                        "limited_actions": [
+                          {
+                            "limited_action_type": "Reply",
+                            "prompt": {
+                              "__typename": "CtaLimitedActionPrompt",
+                              "cta_type": "SeeConversation",
+                              "headline": {
+                                "entities": [],
+                                "text": "Who can reply?"
+                              },
+                              "subtext": {
+                                "entities": [],
+                                "text": "Only some accounts can reply."
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "tweet": {
+                        "__typename": "Tweet",
+                        "core": {
+                          "user_results": {
+                            "id": "VXNlclJlc3VsdHM6MTg1NzAwMTY1ODIyMTI0MDMyMA==",
+                            "result": {
+                              "__typename": "User",
+                              "avatar": {
+                                "image_url": "https://pbs.twimg.com/profile_images/2081437302279278592/soOVkcj7_normal.jpg"
+                              },
+                              "core": {
+                                "name": "Doppel🍓",
+                                "screen_name": "dopperu_ben2"
+                              },
+                              "id": "VXNlcjoxODU3MDAxNjU4MjIxMjQwMzIw",
+                              "privacy": { "protected": false },
+                              "rest_id": "1857001658221240320",
+                              "verification": { "is_blue_verified": false }
+                            }
+                          }
+                        },
+                        "counts": {
+                          "bookmark_count": 291,
+                          "favorite_count": 3277,
+                          "quote_count": 16,
+                          "reply_count": 0,
+                          "retweet_count": 352
+                        },
+                        "details": {
+                          "conversation_control": { "policy": "Community" },
+                          "created_at_ms": 1792311485000,
+                          "display_text_range": [0, 11],
+                          "full_text": "对不起但我太想画同框了 https://t.co/2w5aSxB9rF",
+                          "hashtag_entities": [],
+                          "smarttags": []
+                        },
+                        "edit_control": {
+                          "__isEditControl": "EditControlInitial",
+                          "__typename": "EditControlInitial",
+                          "edit_tweet_ids": ["2111733544150258175"]
+                        },
+                        "id": "VHdlZXQ6MjExMTczMzU0NDE1MDI1ODE3NQ==",
+                        "legacy": {
+                          "conversation_id_str": "2111733544150258175",
+                          "entities": {
+                            "media": [
+                              {
+                                "expanded_url": "https://x.com/dopperu_ben2/status/2111733544150258175/photo/1"
+                              }
+                            ]
+                          },
+                          "lang": "zh",
+                          "possibly_sensitive": false
+                        },
+                        "media_entities2": [
+                          {
+                            "__typename": "ApiMediaEntity",
+                            "expanded_url": "https://x.com/dopperu_ben2/status/2111733544150258175/photo/1",
+                            "ext_media_availability": { "status": "Available" },
+                            "ext_playlists": [],
+                            "features": {},
+                            "id_str": "2111733535132528640",
+                            "indices": [12, 35],
+                            "media_url_https": "https://pbs.twimg.com/media/HU5idjXasAAjW19.jpg",
+                            "original_info": { "height": 1614, "width": 2388 },
+                            "type": "photo"
+                          }
+                        ],
+                        "rest_id": "2111733544150258175",
+                        "url_entities": [],
+                        "views": { "count": "28170" }
+                      }
+                    }
+                  }
+                }
+              },
+              "entry_id": "tweet-2111733544150258175",
+              "sort_index": "2126343753688940544"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineCursor",
+                "cursor_type": "Bottom",
+                "value": "DAAKCgABHYJKYMz___0LAAIAAAAoRW1QQzZ3QUFBZlEvZ0dKTjB2R3AvQUFBQUFFZFRtSjRUMXBSL3c9PQgAAwAAAAILAAQAAAAGQm90dG9tAAA"
+              },
+              "entry_id": "cursor-bottom-2126343753688940543",
+              "sort_index": "2126343753688940543"
+            }
+          ]
+        },
+        { "__typename": "TimelineTerminateTimeline", "direction": "Top" },
+        { "__typename": "TimelineTerminateTimeline", "direction": "Bottom" }
+      ]
+    }
+  }
+}

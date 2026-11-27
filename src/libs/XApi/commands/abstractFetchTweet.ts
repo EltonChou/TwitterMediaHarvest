@@ -9,9 +9,12 @@ import {
   Instruction,
   isRestIdTweetBody,
   isTweetDetailBody,
-  isTweetResult,
 } from '../parsers/v1/refinements'
-import { parseTweet, retrieveTweetsFromInstruction } from '../parsers/v1/tweet'
+import {
+  parseTweet,
+  retrieveTweetFromTweetResult,
+  retrieveTweetsFromInstruction,
+} from '../parsers/v1/tweet'
 import { GraphQLCommand, Query } from './graphql'
 import type {
   CacheAble,
@@ -60,8 +63,13 @@ export abstract class FetchTweetCommand
         : toErrorResult(new ParseTweetError('Invalid body'))
     }
 
-    if (isRestIdTweetBody(body) && isTweetResult(body.data.tweetResult)) {
-      return toSuccessResult(parseTweet(body.data.tweetResult.result))
+    if (isRestIdTweetBody(body)) {
+      const tweet = retrieveTweetFromTweetResult(body.data.tweetResult)
+      return tweet.value
+        ? toSuccessResult(parseTweet(tweet.value))
+        : toErrorResult(
+            new ParseTweetError('Invalid body', { cause: tweet.error })
+          )
     }
 
     if (isTweetDetailBody(body)) {

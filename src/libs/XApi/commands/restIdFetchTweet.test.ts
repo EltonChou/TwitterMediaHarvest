@@ -67,6 +67,10 @@ describe('unit test for latest fetch tweet command', () => {
 
   it.each([
     { tweetId: '1587894226695884800', responseType: 'image' },
+    {
+      tweetId: '2111733544150258175',
+      responseType: 'visibility-results',
+    },
     // { tweetId: '1900881067713982967', responseType: 'video' },
     // { tweetId: '1829835601941823508', responseType: 'tagged-video' },
   ])(
