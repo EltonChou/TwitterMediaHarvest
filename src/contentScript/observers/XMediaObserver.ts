@@ -43,8 +43,11 @@ const isOwnMutation = (mutations: MutationRecord[]) =>
       )
   )
 
+/** Failed media unmounts the viewer's action bar; its thread still shows. */
 const getMediaViewer = () =>
-  getMediaViewerShare()?.closest<HTMLElement>('[role="presentation"]')
+  (
+    getMediaViewerShare() ?? $('[data-base-ui-portal] article')
+  )?.closest<HTMLElement>('[role="presentation"]')
 
 const isStreamObserved = () => {
   const streamEle = $(Query.Stream)

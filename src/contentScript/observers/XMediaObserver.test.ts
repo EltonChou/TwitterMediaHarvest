@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { sleep } from '#helpers/time'
 import makeHarvester from '../core'
 import XMediaObserver from './XMediaObserver'
 
@@ -10,7 +11,7 @@ jest.mock('../utils/checker', () => ({
   isX: jest.fn(() => true),
 }))
 
-const flush = () => new Promise(resolve => setTimeout(resolve, 0))
+const flush = () => sleep(0)
 
 it('should check an article again when its video mounts later', async () => {
   document.body.innerHTML = `
@@ -81,7 +82,7 @@ it('should handle the media viewer bar when its thread is collapsed', async () =
   new XMediaObserver().observeModal()
 
   mountViewerPortal(viewerBar)
-  await new Promise(resolve => setTimeout(resolve, 50))
+  await sleep(50)
 
   expect(makeHarvester).toHaveBeenCalledWith(
     document.getElementById('viewer-bar')
@@ -105,7 +106,30 @@ it('should handle the media viewer when its thread mounts after the portal', asy
     <a href="/someone/status/1/photo/1"></a>
   </article></div>`
   )
-  await new Promise(resolve => setTimeout(resolve, 50))
+  await sleep(50)
+
+  expect(makeHarvester).toHaveBeenCalledWith(portal.querySelector('article'))
+})
+
+it('should handle the media viewer thread when its media fails to load', async () => {
+  jest.mocked(makeHarvester).mockClear()
+  document.body.innerHTML = ''
+  history.pushState(null, '', '/someone/status/1/photo/1')
+  new XMediaObserver().observeModal()
+
+  // Failed media unmounts the viewer's action bar.
+  const portal = mountViewerPortal('<button>Retry</button>')
+  await flush()
+
+  portal.firstElementChild!.insertAdjacentHTML(
+    'beforeend',
+    `
+  <div id="urt:conversation-1"><article>
+    <a href="/someone/status/1/analytics"></a>
+  </article></div>`
+  )
+  await sleep(50)
+  history.pushState(null, '', '/')
 
   expect(makeHarvester).toHaveBeenCalledWith(portal.querySelector('article'))
 })
